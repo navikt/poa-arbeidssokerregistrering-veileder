@@ -28,15 +28,15 @@ spec:
     memory: "256Mi"
   env:
     - name: SELF_URL
-      value: https://arbeid.intern.dev.nav.no/arbeid/registrering
+      value: https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no
     - name: DEKORATOR_URL
       value: https://dekoratoren.ekstern.dev.nav.no/
     - name: DEKORATOR_ENV
       value: dev
     - name: NEXT_PUBLIC_SELF_URL
-      value: https://arbeid.intern.dev.nav.no/arbeid/registrering
+      value: https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no
     - name: NEXT_PUBLIC_START_URL
-      value: https://arbeid.intern.dev.nav.no/arbeid/registrering/start
+      value: https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no/start
     - name: NEXT_PUBLIC_AMPLITUDE_API_KEY
       value: 9845ded64c69cd068651cd0d968e0796
     - name: NEXT_PUBLIC_AMPLITUDE_ENDPOINT

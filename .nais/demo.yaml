@@ -28,15 +28,15 @@ spec:
     memory: "256Mi"
   env:
     - name: SELF_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no
     - name: DEKORATOR_URL
       value: https://dekoratoren.ekstern.dev.nav.no/
     - name: DEKORATOR_ENV
       value: dev
     - name: NEXT_PUBLIC_SELF_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no
     - name: NEXT_PUBLIC_START_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering/start
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/start
     - name: NEXT_PUBLIC_AMPLITUDE_API_KEY
       value: 9845ded64c69cd068651cd0d968e0796
     - name: NEXT_PUBLIC_AMPLITUDE_ENDPOINT
@@ -54,25 +54,25 @@ spec:
     - name: PAM_JANZZ_URL
       value: https://arbeidsplassen.nav.no/pam-janzz/rest
     - name: START_REGISTRERING_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering/api/mocks/startregistrering
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/startregistrering
     - name: FULLFOR_REGISTRERING_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering/api/mocks/fullforregistrering
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/fullforregistrering
     - name: FULLFOR_REGISTRERING_SYKMELDT_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering/api/mocks/fullforregistreringsykmeldt
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/fullforregistreringsykmeldt
     - name: REAKTIVERING_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering/api/mocks/reaktivering
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/reaktivering
     - name: SISTE_ARBEIDSFORHOLD_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering/api/mocks/sistearbeidsforhold
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/sistearbeidsforhold
     - name: OPPRETT_OPPGAVE_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering/api/mocks/oppgave
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/oppgave
     - name: KONTAKTINFORMASJON_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering/api/mocks/kontaktinformasjon
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/kontaktinformasjon
     - name: FEATURE_TOGGLE_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering/api/mocks/features
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/features
     - name: NODE_ENV
       value: development
     - name: HENT_PROFILERING_URL
-      value: https://arbeid.ekstern.dev.nav.no/arbeid/registrering/api/mocks/profilering
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/profilering
   ingresses:
     - https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no
   accessPolicy:
