@@ -1,0 +1,50 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 896px;
+}
+
+.merOppfolging {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 896px;
+}
+
+.forrigeLenke {
+    align-self: flex-start;
+}
+
+.panel {
+    background-color: var(--a-gray-50);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.taCenter {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.w10 {
+    width: 10rem;
+}
+
+.mw10 {
+    min-width: 10rem;
+}
+
+.mw20 {
+    min-width: 20rem;
+}
+
+.spaceEvenly {
+    display: flex;
+    justify-content: space-evenly;
+}
