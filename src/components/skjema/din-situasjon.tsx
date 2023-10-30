@@ -1,16 +1,12 @@
 import { Heading, Panel } from '@navikt/ds-react';
-import { preload } from 'swr';
 
 import useSprak from '../../hooks/useSprak';
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { SkjemaKomponentProps } from './skjema-felleskomponenter';
 import { DinSituasjon as Jobbsituasjon, hentTekst, SporsmalId } from '../../model/sporsmal';
-import { fetcher } from '../../lib/api-utils';
 
 import styles from '../../styles/skjema.module.css';
 
-const DinSituasjon = (props: SkjemaKomponentProps<Jobbsituasjon>) => {
-    const { onChange, valgt, visFeilmelding } = props;
+const DinSituasjon = () => {
     const sprak = useSprak();
     const tekst = (key: string) => hentTekst(sprak, key);
 
@@ -33,9 +29,6 @@ const DinSituasjon = (props: SkjemaKomponentProps<Jobbsituasjon>) => {
         { tekst: tekst(Jobbsituasjon.VIL_FORTSETTE_I_JOBB), value: Jobbsituasjon.VIL_FORTSETTE_I_JOBB },
     ];
 
-    // initialiser / cache data for rask tilgang i <SisteJobb>
-    preload('api/sistearbeidsforhold/', fetcher);
-
     return (
         <Panel className={styles.panel} border={true}>
             <form>
@@ -45,9 +38,6 @@ const DinSituasjon = (props: SkjemaKomponentProps<Jobbsituasjon>) => {
                 <RadioGruppe
                     legend={tekst(SporsmalId.dinSituasjon)}
                     valg={valg}
-                    onSelect={(val) => onChange(val)}
-                    valgt={valgt}
-                    visFeilmelding={visFeilmelding!}
                 />
             </form>
         </Panel>

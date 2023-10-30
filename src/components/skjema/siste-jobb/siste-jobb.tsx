@@ -1,12 +1,9 @@
 import { BodyLong, Button, Heading, Panel, ReadMore } from '@navikt/ds-react';
 import lagHentTekstForSprak, { Tekster } from '../../../lib/lag-hent-tekst-for-sprak';
 import useSprak from '../../../hooks/useSprak';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import StillingsSok from './stillings-sok';
-import { SkjemaKomponentProps } from '../skjema-felleskomponenter';
 import { SisteJobb } from '../../../model/skjema';
-import useSWR from 'swr';
-import { fetcher } from '../../../lib/api-utils';
 import styles from '../../../styles/skjema.module.css';
 
 const TEKSTER: Tekster<string> = {
@@ -27,30 +24,12 @@ const annenStilling: SisteJobb = {
     styrk08: '-1',
 };
 
-const SisteJobb = (props: SkjemaKomponentProps<SisteJobb> & { children?: JSX.Element; visSisteJobb: boolean }) => {
-    const { onChange, visSisteJobb } = props;
+const SisteJobb = (props: { children?: JSX.Element }) => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const [visStillingsSok, settVisStillingsSok] = useState<boolean>(false);
     const onCloseStillingssok = (value?: any) => {
-        if (value) {
-            onChange(value);
-        }
         settVisStillingsSok(false);
     };
-
-    const { data: sisteArbeidsforhold, error } = useSWR('api/sistearbeidsforhold/', fetcher);
-
-    useEffect(() => {
-        if (sisteArbeidsforhold && !props.valgt) {
-            onChange(sisteArbeidsforhold);
-        }
-    }, [onChange, props.valgt, sisteArbeidsforhold]);
-
-    useEffect(() => {
-        if (error && !props.valgt) {
-            onChange(annenStilling);
-        }
-    }, [error, onChange, props.valgt]);
 
     return (
         <Panel className={`${styles.panel} mbm`} border={true}>
@@ -63,8 +42,7 @@ const SisteJobb = (props: SkjemaKomponentProps<SisteJobb> & { children?: JSX.Ele
 
                 {props.children}
 
-                {visSisteJobb && (
-                    <div className="mbs">
+                <div className="mbs">
                         <Heading spacing size={'small'} level="2">
                             {tekst('stilling')}
                         </Heading>
@@ -72,14 +50,12 @@ const SisteJobb = (props: SkjemaKomponentProps<SisteJobb> & { children?: JSX.Ele
                             <StillingsSok onClose={onCloseStillingssok} />
                         ) : (
                             <div>
-                                {props.valgt?.label}
                                 <Button variant="tertiary" className="mls" onClick={() => settVisStillingsSok(true)}>
                                     Endre
                                 </Button>
                             </div>
                         )}
-                    </div>
-                )}
+                </div>
 
                 <ReadMore header={tekst('brukesTilTittel')}>
                     <div style={{ maxWidth: '34rem' }}>{tekst('brukesTilInnhold')}</div>
