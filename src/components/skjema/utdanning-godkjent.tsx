@@ -3,13 +3,11 @@ import { Heading, Panel } from '@navikt/ds-react';
 import useSprak from '../../hooks/useSprak';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { SkjemaKomponentProps } from './skjema-felleskomponenter';
 import { hentTekst, SporsmalId, UtdanningGodkjentValg } from '../../model/sporsmal';
 
 import styles from '../../styles/skjema.module.css';
 
-const UtdanningGodkjent = (props: SkjemaKomponentProps<UtdanningGodkjentValg>) => {
-    const { onChange, valgt, visFeilmelding } = props;
+const UtdanningGodkjent = () => {
     const sprak = useSprak();
     const tekst = (key: string) => hentTekst(sprak, key);
 
@@ -29,9 +27,6 @@ const UtdanningGodkjent = (props: SkjemaKomponentProps<UtdanningGodkjentValg>) =
                 <RadioGruppe
                     legend={tekst(SporsmalId.utdanningGodkjent)}
                     valg={valg}
-                    onSelect={(val) => onChange(val)}
-                    valgt={valgt}
-                    visFeilmelding={visFeilmelding}
                 />
             </form>
         </Panel>
