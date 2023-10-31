@@ -11,8 +11,9 @@ import styles from '../../styles/skjema.module.css';
 
 const DinSituasjon = () => {
     const sprak = useSprak();
-    const { setRegistrering } = useRegistrering()
+    const { registrering, setRegistrering } = useRegistrering()
     const tekst = (key: string) => hentTekst(sprak, key);
+    const visFeilmelding = !Object.keys(registrering).includes('dinSituasjon')
 
     const valg = [
         { tekst: tekst(Jobbsituasjon.MISTET_JOBBEN), value: Jobbsituasjon.MISTET_JOBBEN },
@@ -43,6 +44,7 @@ const DinSituasjon = () => {
                     legend={tekst(SporsmalId.dinSituasjon)}
                     valg={valg}
                     onSelect={(val) => setRegistrering({dinSituasjon: val})}
+                    visFeilmelding={visFeilmelding}
                 />
             </form>
         </Panel>

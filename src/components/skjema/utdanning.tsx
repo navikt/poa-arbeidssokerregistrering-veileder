@@ -9,9 +9,10 @@ import { hentTekst, SporsmalId, Utdanningsnivaa } from '../../model/sporsmal';
 import styles from '../../styles/skjema.module.css';
 
 const Utdanning = () => {
-    const { setRegistrering } = useRegistrering()
+    const { registrering, setRegistrering } = useRegistrering()
     const sprak = useSprak();
     const tekst = (key: string) => hentTekst(sprak, key);
+    const visFeilmelding = !Object.keys(registrering).includes('utdanning')
 
     const valg = [
         { tekst: tekst(Utdanningsnivaa.INGEN_UTDANNING), value: Utdanningsnivaa.INGEN_UTDANNING },
@@ -41,6 +42,7 @@ const Utdanning = () => {
                     legend={tekst(SporsmalId.utdanning)}
                     valg={valg}
                     onSelect={(val) => setRegistrering({utdanning: val})}
+                    visFeilmelding={visFeilmelding}
                 />
             </form>
         </Panel>

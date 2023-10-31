@@ -10,10 +10,11 @@ import styles from '../../styles/skjema.module.css';
 
 const BestattUtdanning = () => {
     const sprak = useSprak();
-    const { setRegistrering } = useRegistrering()
+    const { registrering, setRegistrering } = useRegistrering()
     const tekst = (key: string) => hentTekst(sprak, key);
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
+    const visFeilmelding = !Object.keys(registrering).includes('utdanningBestatt')
 
     return (
         <Panel className={styles.panel} border={true}>
@@ -25,6 +26,7 @@ const BestattUtdanning = () => {
                     legend={tekst(SporsmalId.utdanningBestatt)}
                     valg={valg}
                     onSelect={(val) => setRegistrering({utdanningBestatt: val})}
+                    visFeilmelding={visFeilmelding}
                 />
             </form>
         </Panel>

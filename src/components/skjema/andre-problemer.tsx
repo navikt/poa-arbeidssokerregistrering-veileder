@@ -19,11 +19,13 @@ const TEKSTER: Tekster<string> = {
 };
 
 const AndreProblemer = () => {
-    const { setRegistrering } = useRegistrering()
+    const { registrering, setRegistrering } = useRegistrering()
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
 
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
+
+    const visFeilmelding = !Object.keys(registrering).includes('andreForhold')
 
     return (
         <>
@@ -37,6 +39,7 @@ const AndreProblemer = () => {
                         beskrivelse={tekst('ingress')}
                         valg={valg}
                         onSelect={(val) => setRegistrering({andreForhold: val})}
+                        visFeilmelding={visFeilmelding}
                     />
                 </form>
             </Panel>

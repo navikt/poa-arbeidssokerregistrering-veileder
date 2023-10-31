@@ -19,10 +19,11 @@ const TEKSTER: Tekster<string> = {
 
 const Helseproblemer = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
-    const { setRegistrering } = useRegistrering()
+    const { registrering, setRegistrering } = useRegistrering()
 
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
+    const visFeilmelding = !Object.keys(registrering).includes('helseHinder')
 
     return (
         <>
@@ -35,6 +36,7 @@ const Helseproblemer = () => {
                         legend={tekst('tittel')}
                         valg={valg}
                         onSelect={(val) => setRegistrering({helseHinder: val})}
+                        visFeilmelding={visFeilmelding}
                     />
                 </form>
             </Panel>
