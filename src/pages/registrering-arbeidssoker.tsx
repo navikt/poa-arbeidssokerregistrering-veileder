@@ -1,5 +1,6 @@
 import { Heading } from "@navikt/ds-react"
 
+import { RegistreringProvider } from "../contexts/registrering-context"
 import DinSituasjon from "../components/skjema/din-situasjon"
 import SisteJobb from "../components/skjema/siste-jobb/siste-jobb"
 import UtdanningsNiva from "../components/skjema/utdanning"
@@ -16,13 +17,15 @@ export default function RegistreringArbeidssoker() {
         <Heading size="medium" level="1" className="mb-2">
           Arbeidssøkerregistrering
         </Heading>
-        <DinSituasjon />
-        <SisteJobb />
-        <UtdanningsNiva />
-        <UtdanningGodkjent />
-        <UtdanningBestatt />
-        <Helseproblemer />
-        <AndreProblemer />
+        <RegistreringProvider>
+          <DinSituasjon />
+          <SisteJobb />
+          <UtdanningsNiva />
+          <UtdanningGodkjent />
+          <UtdanningBestatt />
+          <Helseproblemer />
+          <AndreProblemer />
+        </RegistreringProvider>
       </main>
     </section>
   )
