@@ -20,13 +20,17 @@
     "@navikt/next-auth-wonderwall": "1.5.0",
     "@navikt/next-logger": "1.19.0",
     "amplitude-js": "8.21.9",
+    "jsonwebtoken": "9.0.2",
     "lodash": "4.17.21",
     "next": "13.5.6",
+    "node-jose": "2.2.0",
+    "openid-client": "5.6.1",
     "pino": "8.16.1",
     "react": "18.2.0",
     "react-autosuggest": "10.1.0",
     "react-dom": "18.2.0",
-    "swr": "2.2.4"
+    "swr": "2.2.4",
+    "ulid": "2.3.0"
   },
   "devDependencies": {
     "@types/node": "20.8.9",

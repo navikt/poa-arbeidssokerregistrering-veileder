@@ -1,11 +1,5 @@
-import getConfig from 'next/config';
-
-const { basePath } = getConfig().publicRuntimeConfig;
-
-const getUrl = (path: string) => `${basePath}/${path}`;
-
 export const fetcher = async (path: string, opts?: RequestInit & { onError?: (response: any) => void }) => {
-    const response = await fetch(getUrl(path), {
+    const response = await fetch(path, {
         ...opts,
         credentials: 'include',
     });
