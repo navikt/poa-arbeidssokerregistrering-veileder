@@ -1,6 +1,7 @@
 import { Heading, Panel } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
+import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
 import { hentTekst, SporsmalId, Utdanningsnivaa } from '../../model/sporsmal';
@@ -8,6 +9,7 @@ import { hentTekst, SporsmalId, Utdanningsnivaa } from '../../model/sporsmal';
 import styles from '../../styles/skjema.module.css';
 
 const Utdanning = () => {
+    const { setRegistrering } = useRegistrering()
     const sprak = useSprak();
     const tekst = (key: string) => hentTekst(sprak, key);
 
@@ -38,6 +40,7 @@ const Utdanning = () => {
                 <RadioGruppe
                     legend={tekst(SporsmalId.utdanning)}
                     valg={valg}
+                    onSelect={(val) => setRegistrering({utdanning: val})}
                 />
             </form>
         </Panel>

@@ -15,7 +15,7 @@ function RegistreringProvider({ children }: { children: ReactNode }) {
 
     const contextValue = {
         registrering,
-        setRegistrering: (data) => setRegistrering({...registrering, data})
+        setRegistrering: (data) => setRegistrering({...registrering, ...data})
     };
 
     return <RegistreringContext.Provider value={contextValue}>{children}</RegistreringContext.Provider>

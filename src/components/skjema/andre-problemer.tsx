@@ -1,6 +1,7 @@
 import { Heading, Panel } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
+import { useRegistrering } from '../../contexts/registrering-context';
 
 import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
@@ -18,6 +19,7 @@ const TEKSTER: Tekster<string> = {
 };
 
 const AndreProblemer = () => {
+    const { setRegistrering } = useRegistrering()
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
 
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
@@ -34,6 +36,7 @@ const AndreProblemer = () => {
                         legend={tekst('tittel')}
                         beskrivelse={tekst('ingress')}
                         valg={valg}
+                        onSelect={(val) => setRegistrering({andreForhold: val})}
                     />
                 </form>
             </Panel>
