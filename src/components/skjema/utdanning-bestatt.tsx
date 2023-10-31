@@ -10,11 +10,11 @@ import styles from '../../styles/skjema.module.css';
 
 const BestattUtdanning = () => {
     const sprak = useSprak();
-    const { registrering, setRegistrering } = useRegistrering()
+    const { registrering, doValidate, setRegistrering } = useRegistrering()
     const tekst = (key: string) => hentTekst(sprak, key);
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
-    const visFeilmelding = !Object.keys(registrering).includes('utdanningBestatt')
+    const visFeilmelding = doValidate ? !Object.keys(registrering).includes('utdanningBestatt') : false
 
     return (
         <Panel className={styles.panel} border={true}>

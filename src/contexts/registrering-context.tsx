@@ -4,7 +4,9 @@ import { isEqual } from 'lodash'
 interface RegistreringContextType {
     registrering: any;
     isValid: boolean;
-    setRegistrering: (data:any) => void;
+    doValidate: boolean;
+    setRegistrering: (data: any) => void;
+    setDoValidate: (data: boolean) => void;
 }
 
 const pakrevdeSvar = ['andreForhold', 'dinSituasjon', 'helseHinder', 'utdanningBestatt', 'utdanningGodkjent', 'utdanning']
@@ -12,16 +14,21 @@ const pakrevdeSvar = ['andreForhold', 'dinSituasjon', 'helseHinder', 'utdanningB
 const RegistreringContext = createContext<RegistreringContextType>({
     registrering: {},
     isValid: true,
+    doValidate: false,
     setRegistrering: () => {},
+    setDoValidate: () => false
 });
 
 function RegistreringProvider({ children }: { children: ReactNode }) {
     const [registrering, setRegistrering] = useState({});
     const [isValid, setIsValid] = useState(true)
+    const [doValidate, setDoValidate] = useState(false)
 
     const contextValue = {
         registrering,
         isValid,
+        doValidate,
+        setDoValidate,
         setRegistrering: (data) => setRegistrering({...registrering, ...data})
     };
 

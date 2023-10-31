@@ -11,9 +11,9 @@ import styles from '../../styles/skjema.module.css';
 
 const DinSituasjon = () => {
     const sprak = useSprak();
-    const { registrering, setRegistrering } = useRegistrering()
+    const { registrering, doValidate, setRegistrering } = useRegistrering()
     const tekst = (key: string) => hentTekst(sprak, key);
-    const visFeilmelding = !Object.keys(registrering).includes('dinSituasjon')
+    const visFeilmelding = doValidate ? !Object.keys(registrering).includes('dinSituasjon') : false
 
     const valg = [
         { tekst: tekst(Jobbsituasjon.MISTET_JOBBEN), value: Jobbsituasjon.MISTET_JOBBEN },

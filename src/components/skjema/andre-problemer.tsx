@@ -19,13 +19,13 @@ const TEKSTER: Tekster<string> = {
 };
 
 const AndreProblemer = () => {
-    const { registrering, setRegistrering } = useRegistrering()
+    const { registrering, doValidate, setRegistrering } = useRegistrering()
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
 
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
 
-    const visFeilmelding = !Object.keys(registrering).includes('andreForhold')
+    const visFeilmelding = doValidate ? !Object.keys(registrering).includes('andreForhold') : false
 
     return (
         <>

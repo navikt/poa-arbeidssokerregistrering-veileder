@@ -1,4 +1,4 @@
-import { Heading, Radio, RadioGroup } from '@navikt/ds-react';
+import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
 
@@ -18,10 +18,10 @@ interface RadioGruppeProps {
 
 const TEKSTER: Tekster<string> = {
     nb: {
-        advarsel: 'Du må svare på spørsmålet før du kan gå videre.',
+        advarsel: 'Du må svare på spørsmålet før du kan registrere arbeidssøkeren.',
     },
     en: {
-        advarsel: 'You will need to answer before you can continue.',
+        advarsel: 'You will need to answer before you can register the job seeker.',
     },
 };
 
