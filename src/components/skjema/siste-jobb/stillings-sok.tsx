@@ -23,7 +23,7 @@ const StillingsSok = (props: StillingsSokProps) => {
 
     const onSuggestionsFetchRequested = useCallback(
         debounce(async ({ value }: { value: string }) => {
-            const url = `${basePath}/api/yrke-med-styrk/?yrke=${value}`;
+            const url = `/api/yrke-med-styrk/?yrke=${value}`;
             const response = await fetch(url);
             const json = await response.json();
             const typeaheadYrkeList = json.typeaheadYrkeList;

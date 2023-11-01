@@ -1,9 +1,17 @@
 import { BodyLong, Button, Heading, Panel, ReadMore } from '@navikt/ds-react';
-import lagHentTekstForSprak, { Tekster } from '../../../lib/lag-hent-tekst-for-sprak';
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
+
 import useSprak from '../../../hooks/useSprak';
-import { useState } from 'react';
+import { useRegistrering } from '../../../contexts/registrering-context';
+
+import lagHentTekstForSprak, { Tekster } from '../../../lib/lag-hent-tekst-for-sprak';
 import StillingsSok from './stillings-sok';
+import SisteStilling from './siste-stilling';
 import { SisteJobb } from '../../../model/skjema';
+import { DinSituasjon, SisteStillingValg, SporsmalId } from '../../../model/sporsmal';
+import { fetcher } from '../../../lib/api-utils';
+
 import styles from '../../../styles/skjema.module.css';
 
 const TEKSTER: Tekster<string> = {
@@ -24,12 +32,39 @@ const annenStilling: SisteJobb = {
     styrk08: '-1',
 };
 
-const SisteJobb = (props: { children?: JSX.Element }) => {
+const SisteJobb = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
+    const { registrering, setRegistrering } = useRegistrering()
     const [visStillingsSok, settVisStillingsSok] = useState<boolean>(false);
     const onCloseStillingssok = (value?: any) => {
+        if (value) {
+            setRegistrering({[SporsmalId.sisteJobb]: value});
+        }
         settVisStillingsSok(false);
     };
+
+    const { data: sisteArbeidsforhold, error } = useSWR('api/sistearbeidsforhold/', fetcher);
+
+    const visSisteJobb = registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB
+    const visSisteStilling = registrering.dinSituasjon
+            ? [
+                  DinSituasjon.AKKURAT_FULLFORT_UTDANNING,
+                  DinSituasjon.JOBB_OVER_2_AAR,
+                  DinSituasjon.USIKKER_JOBBSITUASJON,
+              ].includes(registrering.dinSituasjon)
+            : false;
+
+    useEffect(() => {
+        if (sisteArbeidsforhold && !registrering.sisteJobb) {
+            setRegistrering({[SporsmalId.sisteJobb]: sisteArbeidsforhold});
+        }
+    }, [registrering, sisteArbeidsforhold]);
+
+    useEffect(() => {
+        if (error && !registrering.sisteJobb) {
+            setRegistrering({[SporsmalId.sisteJobb]: annenStilling});
+        }
+    }, [error, registrering]);
 
     return (
         <Panel className={`${styles.panel} mbm`} border={true}>
@@ -40,9 +75,13 @@ const SisteJobb = (props: { children?: JSX.Element }) => {
                 <BodyLong>{tekst('registrert')}</BodyLong>
                 <BodyLong className="mbm">{tekst('feilOpplysninger')}</BodyLong>
 
-                {props.children}
+                {visSisteStilling && (<SisteStilling
+                    onChange={(value) => setRegistrering({[SporsmalId.sisteJobb]: value})}
+                    valgt={registrering.sisteStilling}
+                />)}
 
-                <div className="mbs">
+                {visSisteJobb && (
+                    <div className="mbs">
                         <Heading spacing size={'small'} level="2">
                             {tekst('stilling')}
                         </Heading>
@@ -50,12 +89,14 @@ const SisteJobb = (props: { children?: JSX.Element }) => {
                             <StillingsSok onClose={onCloseStillingssok} />
                         ) : (
                             <div>
+                                {registrering.sisteJobb?.label}
                                 <Button variant="tertiary" className="mls" onClick={() => settVisStillingsSok(true)}>
                                     Endre
                                 </Button>
                             </div>
                         )}
-                </div>
+                    </div>
+                )}
 
                 <ReadMore header={tekst('brukesTilTittel')}>
                     <div style={{ maxWidth: '34rem' }}>{tekst('brukesTilInnhold')}</div>
