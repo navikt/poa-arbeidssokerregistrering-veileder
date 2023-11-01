@@ -75,6 +75,8 @@ spec:
       value: https://paw-unleash-api.nav.cloud.nais.io/api
     - name: ARBEIDSSOKER_PERIODER_URL
       value: http://veilarbregistrering/veilarbregistrering/api/arbeidssoker/perioder/niva3
+    - name: NEXT_PUBLIC_ASSET_PREFIX
+      value: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
   envFrom:
     - secret: poa-arbeidssokerregistrering-for-veileder-unleash-api-token
   ingresses:
