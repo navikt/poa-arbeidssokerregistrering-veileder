@@ -11,6 +11,7 @@ import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-spra
 import { hentRegistreringFeiletUrl } from '../../lib/hent-registrering-feilet-url';
 import { FullforRegistreringResponse } from '../../model/registrering';
 import { OppgaveRegistreringstype } from '../../model/feilsituasjonTyper';
+import byggRegistrerArbeidssokerPayload from '../../lib/bygg-registrer-arbeidssoker-payload'
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -22,7 +23,7 @@ const TEKSTER: Tekster<string> = {
     },
 };
 
-export const RegistrerKnapp = () => {
+export const RegistrerArbeidssokerKnapp = () => {
     const router = useRouter();
     const [isDisabled, setIsDisabled] = useState(false)
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
@@ -32,7 +33,7 @@ export const RegistrerKnapp = () => {
       setIsDisabled(true)
       setDoValidate(true)
       if (isValid) {
-        const body = registrering
+        const body = byggRegistrerArbeidssokerPayload(registrering)
         const response: FullforRegistreringResponse = await api(
           '/api/fullforregistrering/',
           {

@@ -9,8 +9,7 @@ import UtdanningGodkjent from "../components/skjema/utdanning-godkjent"
 import UtdanningBestatt from "../components/skjema/utdanning-bestatt"
 import Helseproblemer from "../components/skjema/helseproblemer"
 import AndreProblemer from "../components/skjema/andre-problemer"
-import { RegistrerKnapp } from "../components/skjema/registrer-knapp"
-
+import { RegistrerArbeidssokerKnapp } from "../components/skjema/registrer-arbeidssoker-knapp"
 
 export default function RegistreringArbeidssoker() {
   return (
@@ -27,7 +26,7 @@ export default function RegistreringArbeidssoker() {
           <UtdanningBestatt />
           <Helseproblemer />
           <AndreProblemer />
-          <RegistrerKnapp />
+          <RegistrerArbeidssokerKnapp />
         </RegistreringProvider>
       </main>
     </section>
