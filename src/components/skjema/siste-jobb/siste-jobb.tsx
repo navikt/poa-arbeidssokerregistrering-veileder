@@ -17,9 +17,9 @@ import styles from '../../../styles/skjema.module.css';
 const TEKSTER: Tekster<string> = {
     nb: {
         tittel: 'Hva er din siste jobb?',
-        registrert: 'Følgende informasjon er registrert i Aa-registeret om din siste stilling.',
+        registrert: 'Følgende informasjon er registrert i Aa-registeret om siste stilling.',
         feilOpplysninger: 'Hvis opplysningen er feil, kan du endre under.',
-        brukesTilTittel: 'Hva bruker vi informasjonen om din siste stilling til?',
+        brukesTilTittel: 'Hva bruker vi informasjonen om siste stilling til?',
         brukesTilInnhold:
             'Vi bruker opplysningene til å lage offentlig statistikk om arbeidsmarkedet. Hvis opplysningene er feil, kan du endre dem. Da får NAV riktigere statistikk. Vær oppmerksom på at opplysningene er hentet fra Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret). Endrer du opplysninger hos NAV, blir de bare lagret hos oss. I Aa-registeret er det kun arbeidsgivere som kan endre.',
         stilling: 'Stilling',
@@ -72,9 +72,7 @@ const SisteJobb = () => {
                 <Heading spacing size={'medium'} level="1">
                     {tekst('tittel')}
                 </Heading>
-                <BodyLong>{tekst('registrert')}</BodyLong>
-                <BodyLong className="mbm">{tekst('feilOpplysninger')}</BodyLong>
-
+                
                 {visSisteStilling && (<SisteStilling
                     onChange={(value) => setRegistrering({[SporsmalId.sisteJobb]: value})}
                     valgt={registrering.sisteStilling}
@@ -85,6 +83,9 @@ const SisteJobb = () => {
                         <Heading spacing size={'small'} level="2">
                             {tekst('stilling')}
                         </Heading>
+                        <BodyLong>{tekst('registrert')}</BodyLong>
+                        <BodyLong className="mbm">{tekst('feilOpplysninger')}</BodyLong>
+
                         {visStillingsSok ? (
                             <StillingsSok onClose={onCloseStillingssok} />
                         ) : (
