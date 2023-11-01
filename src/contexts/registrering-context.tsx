@@ -12,13 +12,18 @@ interface RegistreringContextType {
     setDoValidate: (data: boolean) => void;
 }
 
-const pakrevdeSvar = [
+const pakrevdeSvarUnntattStilling = [
     SporsmalId.andreForhold,
     SporsmalId.dinSituasjon,
     SporsmalId.helseHinder,
     SporsmalId.utdanningBestatt,
     SporsmalId.utdanningGodkjent,
     SporsmalId.utdanning
+]
+
+const muligeStillingsSvar = [
+    SporsmalId.sisteJobb,
+    SporsmalId.sisteStilling
 ]
 
 const RegistreringContext = createContext<RegistreringContextType>({
@@ -43,8 +48,10 @@ function RegistreringProvider({ children }: { children: ReactNode }) {
     };
 
     useEffect(() => {
-        const altOk = isEqual(Object.keys(registrering).sort(), pakrevdeSvar.sort())
-        setIsValid(altOk)
+        const altOkUnntattStilling = isEqual(Object.keys(registrering).filter(key => pakrevdeSvarUnntattStilling.includes(key as SporsmalId)).sort(), pakrevdeSvarUnntattStilling.sort())
+        const stillingOK = Object.keys(registrering).filter(key => muligeStillingsSvar.includes(key as SporsmalId)).length > 0
+        const altOK = altOkUnntattStilling && stillingOK
+        setIsValid(altOK)
     }, [registrering])
 
     return <RegistreringContext.Provider value={contextValue}>{children}</RegistreringContext.Provider>
