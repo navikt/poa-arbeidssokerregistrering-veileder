@@ -1,3 +1,13 @@
+import {
+    DinSituasjon,
+    FremtidigSituasjon,
+    JaEllerNei,
+    SisteStillingValg,
+    SporsmalId,
+    TilbakeIArbeid,
+    UtdanningGodkjentValg,
+    Utdanningsnivaa,
+} from './sporsmal';
 import { ErrorTypes } from './error';
 
 export enum RegistreringType {
@@ -42,6 +52,23 @@ export enum Brukergruppe {
     SITUASJONSBESTEMT = 'Situasjonsbestemt',
     BEHOV_FOR_ARBEIDSEVNEVURDERING = 'Behov for arbeidsevnevurdering',
     IKKE_VURDERT = 'Ikke vurdert',
+}
+
+export type SisteJobb = {
+    label: string;
+    konseptId: Number;
+    styrk08: string;
+};
+
+export interface RegistreringState {
+    [SporsmalId.dinSituasjon]?: DinSituasjon;
+    [SporsmalId.utdanning]?: Utdanningsnivaa;
+    [SporsmalId.utdanningGodkjent]?: UtdanningGodkjentValg;
+    [SporsmalId.utdanningBestatt]?: JaEllerNei;
+    [SporsmalId.andreForhold]?: JaEllerNei;
+    [SporsmalId.sisteStilling]?: SisteStillingValg;
+    [SporsmalId.sisteJobb]?: SisteJobb;
+    [SporsmalId.helseHinder]?: JaEllerNei;
 }
 
 export interface FullforRegistreringResponse {

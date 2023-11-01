@@ -5,7 +5,7 @@ import { useRegistrering } from '../../contexts/registrering-context';
 
 import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { JaEllerNei } from '../../model/sporsmal';
+import { JaEllerNei, SporsmalId } from '../../model/sporsmal';
 
 import styles from '../../styles/skjema.module.css';
 
@@ -35,7 +35,7 @@ const Helseproblemer = () => {
                     <RadioGruppe
                         legend={tekst('tittel')}
                         valg={valg}
-                        onSelect={(val) => setRegistrering({helseHinder: val})}
+                        onSelect={(val) => setRegistrering({[SporsmalId.helseHinder]: val})}
                         visFeilmelding={visFeilmelding}
                     />
                 </form>

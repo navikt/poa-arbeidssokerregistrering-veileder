@@ -43,7 +43,7 @@ const DinSituasjon = () => {
                 <RadioGruppe
                     legend={tekst(SporsmalId.dinSituasjon)}
                     valg={valg}
-                    onSelect={(val) => setRegistrering({dinSituasjon: val})}
+                    onSelect={(val) => setRegistrering({[SporsmalId.dinSituasjon]: val})}
                     visFeilmelding={visFeilmelding}
                 />
             </form>

@@ -41,7 +41,7 @@ const Utdanning = () => {
                 <RadioGruppe
                     legend={tekst(SporsmalId.utdanning)}
                     valg={valg}
-                    onSelect={(val) => setRegistrering({utdanning: val})}
+                    onSelect={(val) => setRegistrering({[SporsmalId.utdanningGodkjent]: val})}
                     visFeilmelding={visFeilmelding}
                 />
             </form>

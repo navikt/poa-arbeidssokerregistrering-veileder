@@ -30,7 +30,7 @@ const UtdanningGodkjent = () => {
                 <RadioGruppe
                     legend={tekst(SporsmalId.utdanningGodkjent)}
                     valg={valg}
-                    onSelect={(val) => setRegistrering({utdanningGodkjent: val})}
+                    onSelect={(val) => setRegistrering({[SporsmalId.utdanningGodkjent]: val})}
                     visFeilmelding={visFeilmelding}
                 />
             </form>

@@ -1,18 +1,28 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { isEqual } from 'lodash'
 
+import { RegistreringState } from '../model/registrering';
+import { SporsmalId } from '../model/sporsmal';
+
 interface RegistreringContextType {
-    registrering: any;
+    registrering: RegistreringState;
     isValid: boolean;
     doValidate: boolean;
     setRegistrering: (data: any) => void;
     setDoValidate: (data: boolean) => void;
 }
 
-const pakrevdeSvar = ['andreForhold', 'dinSituasjon', 'helseHinder', 'utdanningBestatt', 'utdanningGodkjent', 'utdanning']
+const pakrevdeSvar = [
+    SporsmalId.andreForhold,
+    SporsmalId.dinSituasjon,
+    SporsmalId.helseHinder,
+    SporsmalId.utdanningBestatt,
+    SporsmalId.utdanningGodkjent,
+    SporsmalId.utdanning
+]
 
 const RegistreringContext = createContext<RegistreringContextType>({
-    registrering: {},
+    registrering: {} as RegistreringState,
     isValid: true,
     doValidate: false,
     setRegistrering: () => {},
@@ -20,7 +30,7 @@ const RegistreringContext = createContext<RegistreringContextType>({
 });
 
 function RegistreringProvider({ children }: { children: ReactNode }) {
-    const [registrering, setRegistrering] = useState({});
+    const [registrering, setRegistrering] = useState({} as RegistreringState);
     const [isValid, setIsValid] = useState(true)
     const [doValidate, setDoValidate] = useState(false)
 
