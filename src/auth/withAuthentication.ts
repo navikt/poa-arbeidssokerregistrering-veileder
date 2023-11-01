@@ -1,6 +1,6 @@
-import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next';
-import { validateIdportenToken } from '@navikt/next-auth-wonderwall';
-import { logger } from '@navikt/next-logger';
+import {GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse} from 'next';
+import {validateAzureToken} from '@navikt/next-auth-wonderwall';
+import {logger} from '@navikt/next-logger';
 
 type PageHandler = (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<unknown>>;
 type ApiHandler = (req: NextApiRequest, res: NextApiResponse) => Promise<unknown> | unknown;
@@ -33,7 +33,7 @@ export function withAuthenticatedPage(handler: PageHandler = async () => ({ prop
             };
         }
 
-        const validationResult = await validateIdportenToken(bearerToken);
+        const validationResult = await validateAzureToken(bearerToken);
         if (validationResult !== 'valid') {
             logger.error(
                 new Error(
@@ -60,7 +60,7 @@ export function withAuthenticatedApi(handler: ApiHandler): ApiHandler {
         }
 
         const bearerToken: string | null | undefined = req.headers['authorization'];
-        const validatedToken = bearerToken ? await validateIdportenToken(bearerToken) : null;
+        const validatedToken = bearerToken ? await validateAzureToken(bearerToken) : null;
         if (!bearerToken || validatedToken !== 'valid') {
             if (validatedToken && validatedToken !== 'valid') {
                 logger.error(`Invalid JWT token found (cause: ${validatedToken.message} for API ${req.url}`);
