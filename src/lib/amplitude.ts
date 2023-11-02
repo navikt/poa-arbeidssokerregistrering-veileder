@@ -108,31 +108,31 @@ export function logAmplitudeEvent(eventName: string, data: EventData) {
 }
 
 export function loggStoppsituasjon(data: StoppsituasjonData) {
-    const eventData = data || {};
+    const eventData = data || {} as EventData;
     logAmplitudeEvent('arbeidssokerregistrering.stoppsituasjoner', eventData);
 }
 
 export function loggAktivitet(data: AktivitetData) {
-    const eventData = data || {};
+    const eventData = data || {} as EventData;
     logAmplitudeEvent('arbeidssokerregistrering.aktiviteter', eventData);
 }
 
 export function loggFeedback(data: FeedbackData) {
-    const eventData = data || {};
+    const eventData = data || {} as EventData;
     logAmplitudeEvent('arbeidssokerregistrering.feedback', eventData);
 }
 
 export function loggFlyt(data: FlytData) {
-    const eventData = data || {};
+    const eventData = data || {} as EventData;
     logAmplitudeEvent('arbeidssokerregistrering.flyt', eventData);
 }
 
 export function loggBesvarelse(data: BesvarelseData) {
-    const eventData = data || {};
+    const eventData = data || {} as EventData;
     logAmplitudeEvent('arbeidssokerregistrering.besvarelser', eventData);
 }
 
 export function loggEksperiment(data: EksperimentData) {
-    const eventData = data || {};
+    const eventData = data || {} as EventData;
     logAmplitudeEvent('arbeidssokerregistrering.eksperimenter', eventData);
 }
