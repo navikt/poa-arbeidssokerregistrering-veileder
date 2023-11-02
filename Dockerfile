@@ -1,4 +1,4 @@
-FROM gcr.io/distroless/nodejs:20 as runtime
+FROM gcr.io/distroless/nodejs:20-debian12 as runtime
 
 WORKDIR /app
 
