@@ -7,7 +7,7 @@ on:
       - dev/*
 
 jobs:
-  test-and-build:
+  test-and-build-cdn-docker:
     name: Run tests, build, push assets to CDN and publish Docker image
     runs-on: ubuntu-latest
     permissions:
@@ -44,7 +44,7 @@ jobs:
 #          source: ./.next/static
 #          destination: arbeidssokerregistrering-for-veileder/_next
 
-      - name: Push docker image to GAR
+      - name: docker-build-push
         uses: nais/docker-build-push@v0
         id: docker-build-push
         with:
@@ -52,7 +52,7 @@ jobs:
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
     outputs:
-      image: ${{ steps.test-and-build.outputs.image }}
+      image: ${{ steps.docker-build-push.outputs.image }}
 
   deploy-dev:
     name: Deploy to dev
@@ -68,7 +68,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .nais/dev-gcp/nais.yaml
-          VAR: image=${{ needs.test-and-build.outputs.image }}
+          VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
 
   apply-apitoken-unleash:
     name: Legger til ApiToken for Unleash
