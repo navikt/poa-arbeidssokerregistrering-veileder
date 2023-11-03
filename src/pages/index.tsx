@@ -9,6 +9,7 @@ export default function Home() {
         </Heading>
         <div className="flex justify-between">
           <Link href="/registrering-arbeidssoker">Registrere arbeidssøker</Link>
+          <Link href="/registrering-reaktivering">Reaktiver arbeidssøker</Link>
           <Link href="/registrering-mer-sykmeldtoppfolging">Registrere for mer sykmeldtoppfølging</Link>
         </div>
       </main>
