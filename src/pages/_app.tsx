@@ -1,6 +1,59 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import { useEffect } from 'react';
+import NextApp, { AppContext, AppProps } from 'next/app';
+import Head from 'next/head';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import useSprak from '../hooks/useSprak';
+
+import { AmplitudeProvider } from '../contexts/amplitude-context';
+import { FeatureToggleProvider } from '../contexts/featuretoggle-context';
+import { ErrorProvider } from '../contexts/error-context';
+import { GlobalFeilmelding } from '../components/feilmeldinger/feilmeldinger';
+import lagHentTekstForSprak, { Tekster } from '../lib/lag-hent-tekst-for-sprak';
+import { ConfigProvider } from '../contexts/config-context';
+import { initFaro } from '../faro/initFaro';
+
+import '../styles/globals.css';
+
+const TEKSTER: Tekster<string> = {
+    nb: {
+        metaTittel: 'Arbeidssøkerregistrering',
+        metaDescription: 'Skjema for arbeidssøkerregistrering',
+    },
+    en: {
+        metaTittel: 'Job seeker registration',
+        metaDescription: 'Register as job seeker',
+    },
+};
+
+function MyApp({ Component, pageProps, router }: AppProps) {
+    const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
+
+    useEffect(() => {
+        initFaro();
+    }, []);
+
+    return (
+        <main lang="nb" id="maincontent" role="main" tabIndex={-1}>
+            <Head>
+                <title>{tekst('metaTittel')}</title>
+                <meta name="description" content={tekst('metaDescription')} />
+            </Head>
+            <ConfigProvider>
+                <FeatureToggleProvider>
+                    <AmplitudeProvider>
+                        <ErrorProvider>
+                            <GlobalFeilmelding />
+                            <Component {...pageProps} />
+                        </ErrorProvider>
+                    </AmplitudeProvider>
+                </FeatureToggleProvider>
+            </ConfigProvider>
+        </main>
+    );
 }
+
+MyApp.getInitialProps = async function getInitialProps(context: AppContext) {
+    return NextApp.getInitialProps(context);
+};
+
+export default MyApp;
