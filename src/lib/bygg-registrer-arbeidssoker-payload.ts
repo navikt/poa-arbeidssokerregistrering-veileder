@@ -8,7 +8,7 @@ import {
   UtdanningGodkjentValg,
   Utdanningsnivaa,
 } from '../model/sporsmal';
-import { Side, SisteJobb, SkjemaState } from '../model/skjema';
+import { SisteJobb } from '../model/skjema';
 import { RegistreringState } from '../model/registrering';
 
 export const aldriJobbet: SisteJobb = {
