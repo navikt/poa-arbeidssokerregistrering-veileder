@@ -78,7 +78,7 @@ spec:
     - name: NEXT_PUBLIC_ASSET_PREFIX
       value: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
   envFrom:
-    - secret: poa-arbeidssokerregistrering-for-veileder-unleash-api-token
+    - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
     - https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no
   idporten:
