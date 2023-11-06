@@ -81,11 +81,11 @@ spec:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
     - https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no
-  idporten:
-    enabled: true
+  azure:
+    application:
+      enabled: true
     sidecar:
       enabled: true
-      level: Level4
   tokenx:
     enabled: true
   accessPolicy:
