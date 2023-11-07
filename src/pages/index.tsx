@@ -3,6 +3,7 @@ import { Heading, Link, BodyShort } from '@navikt/ds-react';
 import { useParamsFromContext, ContextParams } from '../contexts/params-from-context';
 
 import RedirectTilVedlikehold from '../components/redirect-til-vedlikehold';
+import { withAuthenticatedPage } from '../auth/withAuthentication';
 
 export default function Home() {
     const { fnr, enhetsId } = useParamsFromContext() as ContextParams;
@@ -27,3 +28,5 @@ export default function Home() {
         </>
     );
 }
+
+export const getServerSideProps = withAuthenticatedPage();
