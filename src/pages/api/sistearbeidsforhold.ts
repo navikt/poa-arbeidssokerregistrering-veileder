@@ -9,9 +9,10 @@ const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const sisteArbeidsforhold = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     const callId = nanoid();
     const headers = brukerMock ? getHeaders('token', callId) : getHeaders(getTokenFromRequest(req), callId);
+    const { fnr } = req.query;
     try {
         logger.info(`Starter kall callId: ${callId} mot ${url}`);
-        const { styrk } = await fetch(url, {
+        const { styrk } = await fetch(`${url}?fnr=${fnr}`, {
             headers,
         }).then((res) => res.json());
         logger.info(`Kall med callId: ${callId} mot ${url} ferdig`);

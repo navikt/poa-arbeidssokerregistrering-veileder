@@ -13,6 +13,7 @@ import { DinSituasjon, SisteStillingValg, SporsmalId } from '../../../model/spor
 import { fetcher } from '../../../lib/api-utils';
 
 import styles from '../../../styles/skjema.module.css';
+import { useParamsFromContext } from '../../../contexts/params-from-context';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -34,35 +35,36 @@ const annenStilling: SisteJobb = {
 
 const SisteJobb = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
-    const { registrering, setRegistrering } = useRegistrering()
+    const { registrering, setRegistrering } = useRegistrering();
     const [visStillingsSok, settVisStillingsSok] = useState<boolean>(false);
+    const { fnr } = useParamsFromContext();
     const onCloseStillingssok = (value?: any) => {
         if (value) {
-            setRegistrering({[SporsmalId.sisteJobb]: value});
+            setRegistrering({ [SporsmalId.sisteJobb]: value });
         }
         settVisStillingsSok(false);
     };
 
-    const { data: sisteArbeidsforhold, error } = useSWR('api/sistearbeidsforhold/', fetcher);
+    const { data: sisteArbeidsforhold, error } = useSWR(`api/sistearbeidsforhold?fnr=${fnr}`, fetcher);
 
-    const visSisteJobb = registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB
+    const visSisteJobb = registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB;
     const visSisteStilling = registrering.dinSituasjon
-            ? [
-                  DinSituasjon.AKKURAT_FULLFORT_UTDANNING,
-                  DinSituasjon.JOBB_OVER_2_AAR,
-                  DinSituasjon.USIKKER_JOBBSITUASJON,
-              ].includes(registrering.dinSituasjon)
-            : false;
+        ? [
+              DinSituasjon.AKKURAT_FULLFORT_UTDANNING,
+              DinSituasjon.JOBB_OVER_2_AAR,
+              DinSituasjon.USIKKER_JOBBSITUASJON,
+          ].includes(registrering.dinSituasjon)
+        : false;
 
     useEffect(() => {
         if (sisteArbeidsforhold && !registrering.sisteJobb) {
-            setRegistrering({[SporsmalId.sisteJobb]: sisteArbeidsforhold});
+            setRegistrering({ [SporsmalId.sisteJobb]: sisteArbeidsforhold });
         }
     }, [registrering, sisteArbeidsforhold]);
 
     useEffect(() => {
         if (error && !registrering.sisteJobb) {
-            setRegistrering({[SporsmalId.sisteJobb]: annenStilling});
+            setRegistrering({ [SporsmalId.sisteJobb]: annenStilling });
         }
     }, [error, registrering]);
 
@@ -72,11 +74,13 @@ const SisteJobb = () => {
                 <Heading spacing size={'medium'} level="1">
                     {tekst('tittel')}
                 </Heading>
-                
-                {visSisteStilling && (<SisteStilling
-                    onChange={(value) => setRegistrering({[SporsmalId.sisteJobb]: value})}
-                    valgt={registrering.sisteStilling}
-                />)}
+
+                {visSisteStilling && (
+                    <SisteStilling
+                        onChange={(value) => setRegistrering({ [SporsmalId.sisteJobb]: value })}
+                        valgt={registrering.sisteStilling}
+                    />
+                )}
 
                 {visSisteJobb && (
                     <div className="mbs">

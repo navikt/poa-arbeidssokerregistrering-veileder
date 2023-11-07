@@ -5,7 +5,7 @@ export type ContextParams = {
     enhetsId?: string;
 };
 
-const ParamsFromContext = createContext({});
+const ParamsFromContext = createContext<ContextParams>({});
 
 function ParamsFromContextProvider({ children }) {
     const [params, setParams] = useState<ContextParams>({} as ContextParams);
