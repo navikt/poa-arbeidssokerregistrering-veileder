@@ -1,11 +1,11 @@
 import { Heading, Link, BodyShort } from '@navikt/ds-react';
 
-import { useParamsFromUrl, UrlParams } from '../contexts/params-from-url-context';
+import { useParamsFromContext, ContextParams } from '../contexts/params-from-context';
 
 import RedirectTilVedlikehold from '../components/redirect-til-vedlikehold';
 
 export default function Home() {
-    const { fnr, enhetsId } = useParamsFromUrl() as UrlParams;
+    const { fnr, enhetsId } = useParamsFromContext() as ContextParams;
 
     return (
         <>

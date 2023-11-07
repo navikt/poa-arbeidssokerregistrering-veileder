@@ -10,7 +10,7 @@ import { ErrorProvider } from '../contexts/error-context';
 import { GlobalFeilmelding } from '../components/feilmeldinger/feilmeldinger';
 import lagHentTekstForSprak, { Tekster } from '../lib/lag-hent-tekst-for-sprak';
 import { ConfigProvider } from '../contexts/config-context';
-import { ParamsFromUrlProvider } from '../contexts/params-from-url-context';
+import { ParamsFromContextProvider } from '../contexts/params-from-context';
 import { initFaro } from '../faro/initFaro';
 
 import '../styles/globals.css';
@@ -44,10 +44,10 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                     <FeatureToggleProvider>
                         <AmplitudeProvider>
                             <ErrorProvider>
-                                <ParamsFromUrlProvider>
+                                <ParamsFromContextProvider>
                                     <GlobalFeilmelding />
                                     <Component {...pageProps} />
-                                </ParamsFromUrlProvider>
+                                </ParamsFromContextProvider>
                             </ErrorProvider>
                         </AmplitudeProvider>
                     </FeatureToggleProvider>
