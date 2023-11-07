@@ -8,9 +8,15 @@ const url = `${process.env.SISTE_ARBEIDSFORHOLD_URL}`;
 const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const sisteArbeidsforhold = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     const callId = nanoid();
-    const headers = brukerMock ? getHeaders('token', callId) : getHeaders(getTokenFromRequest(req), callId);
-    const { fnr } = req.query;
+
     try {
+        const headers = brukerMock ? getHeaders('token', callId) : getHeaders(getTokenFromRequest(req), callId);
+        const { fnr } = req.query;
+
+        if (!fnr) {
+            return res.status(400).send('mangler fnr');
+        }
+
         logger.info(`Starter kall callId: ${callId} mot ${url}`);
         const { styrk } = await fetch(`${url}?fnr=${fnr}`, {
             headers,
