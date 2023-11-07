@@ -6,7 +6,7 @@ import { TokenSet } from 'openid-client';
 
 export const getHeaders = (token: string, callId: string) => {
     return {
-        'Nav-Consumer-Id': 'poa-arbeidssokerregistrering',
+        'Nav-Consumer-Id': 'arbeidssokerregistrering-for-veileder',
         'Nav-Call-Id': callId,
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -15,7 +15,7 @@ export const getHeaders = (token: string, callId: string) => {
 
 export const lagApiPostHandlerMedAuthHeaders: (
     url: string,
-    errorHandler?: (response: Response) => void
+    errorHandler?: (response: Response) => void,
 ) => NextApiHandler = (url: string, errorHandler) => async (req, res) => {
     if (req.method === 'POST') {
         return lagApiHandlerMedAuthHeaders(url, errorHandler)(req, res);
@@ -47,16 +47,9 @@ const exchangeIDPortenToken = async (idPortenToken: string): Promise<TokenSet> =
     return (await getTokenDings()).exchangeIDPortenToken(idPortenToken, VEILARBREGISTRERING_CLIENT_ID);
 };
 
-const getTokenFromRequest = (req: NextApiRequest) => {
+export const getTokenFromRequest = (req: NextApiRequest) => {
     const bearerToken = req.headers['authorization'];
     return bearerToken?.replace('Bearer ', '');
-};
-
-const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
-
-export const getVeilarbregistreringToken = async (req: NextApiRequest) => {
-    const tokenSet = await exchangeIDPortenToken(getTokenFromRequest(req)!);
-    return tokenSet.access_token!;
 };
 
 const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Response) => void) => NextApiHandler =
@@ -73,9 +66,7 @@ const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Respo
             const response = await fetch(url, {
                 method: req.method,
                 body,
-                headers: brukerMock
-                    ? getHeaders('token', callId)
-                    : getHeaders(await getVeilarbregistreringToken(req), callId),
+                headers: getHeaders(getTokenFromRequest(req), callId),
             }).then(async (apiResponse) => {
                 logger.info(`Kall callId: ${callId} mot ${url} er ferdig`);
                 const contentType = apiResponse.headers.get('content-type');
@@ -98,7 +89,7 @@ const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Respo
 
                 if (!contentType || !contentType.includes('application/json')) {
                     throw new TypeError(
-                        `Fikk ikke JSON fra ${url} (callId ${callId}). Body: ${await apiResponse.text()}.`
+                        `Fikk ikke JSON fra ${url} (callId ${callId}). Body: ${await apiResponse.text()}.`,
                     );
                 }
 
