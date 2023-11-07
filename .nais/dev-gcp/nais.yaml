@@ -84,7 +84,7 @@ spec:
   azure:
     application:
       enabled: true
-      allowAllUser: true
+      allowAllUsers: true
     sidecar:
       enabled: true
   tokenx:
