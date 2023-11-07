@@ -10,6 +10,7 @@ import { ErrorProvider } from '../contexts/error-context';
 import { GlobalFeilmelding } from '../components/feilmeldinger/feilmeldinger';
 import lagHentTekstForSprak, { Tekster } from '../lib/lag-hent-tekst-for-sprak';
 import { ConfigProvider } from '../contexts/config-context';
+import { ParamsFromUrlProvider } from '../contexts/params-from-url-context';
 import { initFaro } from '../faro/initFaro';
 
 import '../styles/globals.css';
@@ -33,24 +34,26 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     }, []);
 
     return (
-      <section className="flex flex-col items-center p-8">
-        <main className="flex flex-col max-w-4xl w-full" lang="nb" id="maincontent" role="main" tabIndex={-1}>
-            <Head>
-                <title>{tekst('metaTittel')}</title>
-                <meta name="description" content={tekst('metaDescription')} />
-            </Head>
-            <ConfigProvider>
-                <FeatureToggleProvider>
-                    <AmplitudeProvider>
-                        <ErrorProvider>
-                            <GlobalFeilmelding />
-                            <Component {...pageProps} />
-                        </ErrorProvider>
-                    </AmplitudeProvider>
-                </FeatureToggleProvider>
-            </ConfigProvider>
-        </main>
-      </section>
+        <section className="flex flex-col items-center p-8">
+            <main className="flex flex-col max-w-4xl w-full" lang="nb" id="maincontent" role="main" tabIndex={-1}>
+                <Head>
+                    <title>{tekst('metaTittel')}</title>
+                    <meta name="description" content={tekst('metaDescription')} />
+                </Head>
+                <ConfigProvider>
+                    <FeatureToggleProvider>
+                        <AmplitudeProvider>
+                            <ErrorProvider>
+                                <ParamsFromUrlProvider>
+                                    <GlobalFeilmelding />
+                                    <Component {...pageProps} />
+                                </ParamsFromUrlProvider>
+                            </ErrorProvider>
+                        </AmplitudeProvider>
+                    </FeatureToggleProvider>
+                </ConfigProvider>
+            </main>
+        </section>
     );
 }
 
