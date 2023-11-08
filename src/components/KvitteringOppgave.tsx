@@ -1,7 +1,5 @@
 import lagHentTekstForSprak, { Tekster } from '../lib/lag-hent-tekst-for-sprak';
 import useSprak from '../hooks/useSprak';
-import { formaterDato } from '../lib/date-utils';
-import virkedager from '@alheimsins/virkedager';
 import { Alert, AlertProps, BodyLong, GuidePanel, Heading } from '@navikt/ds-react';
 import { Kontaktinformasjon } from './kontaktinformasjon';
 
@@ -39,7 +37,7 @@ export const KvitteringOppgaveOpprettet = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
 
     const idag = new Date();
-    const toVirkedagerFraNaa = formaterDato(virkedager(idag, 2));
+    const toVirkedagerFraNaa = 'formaterDato(virkedager(idag, 2));';
 
     const alertProps: AlertProps = { variant: 'success', children: tekst('alertMottatt') };
     const tittel = tekst('viktig');
