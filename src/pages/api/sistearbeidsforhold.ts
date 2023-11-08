@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { nanoid } from 'nanoid';
-import { getHeaders, getTokenFromRequest } from '../../lib/next-api-handler';
+import { getHeaders, getTokenFromRequest, getVeilarbregistreringToken } from '../../lib/next-api-handler';
 import { withAuthenticatedApi } from '../../auth/withAuthentication';
 import { logger } from '@navikt/next-logger';
 
@@ -10,14 +10,14 @@ const sisteArbeidsforhold = async (req: NextApiRequest, res: NextApiResponse<any
     const callId = nanoid();
 
     try {
-        const headers = brukerMock ? getHeaders('token', callId) : getHeaders(getTokenFromRequest(req), callId);
         const { fnr } = req.query;
-
         if (!fnr) {
             return res.status(400).send('mangler fnr');
         }
 
-        logger.info(headers, 'Headers');
+        const headers = brukerMock
+            ? getHeaders('token', callId)
+            : getHeaders(await getVeilarbregistreringToken(req), callId);
         logger.info(`Starter kall callId: ${callId} mot ${url}`);
         const { styrk } = await fetch(`${url}?fnr=${fnr}`, {
             headers,

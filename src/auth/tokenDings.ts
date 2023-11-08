@@ -5,10 +5,10 @@ import { ulid } from 'ulid';
 import { logger } from '@navikt/next-logger';
 
 export interface ExchangeToken {
-    (idPortenToken: string, targetApp: string): Promise<TokenSet>;
+    (token: string, targetApp: string): Promise<TokenSet>;
 }
 
-export interface Auth {
+export interface TokenXAuth {
     exchangeIDPortenToken: ExchangeToken;
 }
 
@@ -35,11 +35,11 @@ async function createClientAssertion(options: TokenDingsOptions): Promise<string
             nbf: now,
         },
         key.toPEM(true),
-        { algorithm: 'RS256' }
+        { algorithm: 'RS256' },
     );
 }
 
-const createTokenDings = async (options: TokenDingsOptions): Promise<Auth> => {
+const createTokenDings = async (options: TokenDingsOptions): Promise<TokenXAuth> => {
     const { tokenXWellKnownUrl, tokenXClientId } = options;
     const tokenXIssuer = await Issuer.discover(tokenXWellKnownUrl);
     const tokenXClient = new tokenXIssuer.Client({

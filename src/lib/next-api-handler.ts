@@ -1,8 +1,7 @@
 import { NextApiHandler, NextApiRequest } from 'next';
 import { nanoid } from 'nanoid';
-import createTokenDings, { Auth } from '../auth/tokenDings';
 import { logger } from '@navikt/next-logger';
-import { TokenSet } from 'openid-client';
+import createOboTokenDings, { OboAuth } from '../auth/oboTokenDings';
 
 export const getHeaders = (token: string, callId: string) => {
     return {
@@ -28,30 +27,28 @@ export interface ApiError extends Error {
     status?: number;
 }
 
-let _tokenDings: Auth | undefined;
-const getTokenDings = async (): Promise<Auth> => {
-    if (!_tokenDings) {
-        _tokenDings = await createTokenDings({
-            tokenXWellKnownUrl: process.env.TOKEN_X_WELL_KNOWN_URL!,
-            tokenXClientId: process.env.TOKEN_X_CLIENT_ID!,
-            tokenXTokenEndpoint: process.env.TOKEN_X_TOKEN_ENDPOINT!,
-            tokenXPrivateJwk: process.env.TOKEN_X_PRIVATE_JWK!,
-        });
+let _oboTokenDings: OboAuth | undefined;
+const getOboTokenDings = async (): Promise<OboAuth> => {
+    if (!_oboTokenDings) {
+        _oboTokenDings = await createOboTokenDings();
     }
 
-    return _tokenDings;
+    return _oboTokenDings;
 };
 
 const VEILARBREGISTRERING_CLIENT_ID = `${process.env.NAIS_CLUSTER_NAME}:paw:veilarbregistrering`;
-const exchangeIDPortenToken = async (idPortenToken: string): Promise<TokenSet> => {
-    return (await getTokenDings()).exchangeIDPortenToken(idPortenToken, VEILARBREGISTRERING_CLIENT_ID);
+export const getVeilarbregistreringToken = async (req: NextApiRequest) => {
+    const tokenSet = await (
+        await getOboTokenDings()
+    ).getOboToken(getTokenFromRequest(req)!, VEILARBREGISTRERING_CLIENT_ID);
+    return tokenSet.access_token!;
 };
-
 export const getTokenFromRequest = (req: NextApiRequest) => {
     const bearerToken = req.headers['authorization'];
     return bearerToken?.replace('Bearer ', '');
 };
 
+const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Response) => void) => NextApiHandler =
     (url: string, errorHandler) => async (req, res) => {
         const callId = nanoid();
@@ -66,7 +63,9 @@ const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Respo
             const response = await fetch(url, {
                 method: req.method,
                 body,
-                headers: getHeaders(getTokenFromRequest(req), callId),
+                headers: brukerMock
+                    ? getHeaders('token', callId)
+                    : getHeaders(await getVeilarbregistreringToken(req), callId),
             }).then(async (apiResponse) => {
                 logger.info(`Kall callId: ${callId} mot ${url} er ferdig`);
                 const contentType = apiResponse.headers.get('content-type');
