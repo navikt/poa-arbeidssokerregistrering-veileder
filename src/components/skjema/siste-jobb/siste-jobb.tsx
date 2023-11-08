@@ -45,7 +45,7 @@ const SisteJobb = () => {
         settVisStillingsSok(false);
     };
 
-    const { data: sisteArbeidsforhold, error } = useSWR(`api/sistearbeidsforhold?fnr=${fnr}`, fetcher);
+    const { data: sisteArbeidsforhold, error } = useSWR(`api/sistearbeidsforhold?fnr=${fnr || ''}`, fetcher);
 
     const visSisteJobb = registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB;
     const visSisteStilling = registrering.dinSituasjon
