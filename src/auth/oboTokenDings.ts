@@ -5,6 +5,14 @@ export interface ExchangeToken {
     (token: string, targetApp: string): Promise<TokenSet>;
 }
 
+export interface JWKS {
+    keys: [
+        {
+            kty: 'oct';
+        },
+    ];
+}
+
 const assert = <T extends any>(value: T | undefined | null, msg?: string): T => {
     if (!value) {
         throw new Error(msg || 'Value is missing');
@@ -28,6 +36,17 @@ export interface OboAuth {
     getOboToken: ExchangeToken;
 }
 
+export const createJWKS = (jwkJson: string): JWKS => {
+    const jwk = JSON.parse(jwkJson);
+
+    // UnhandledPromiseRejectionWarning: JWKInvalid: `x5c` member at index 0 is not a valid base64-encoded DER PKIX certificate
+    delete jwk.x5c;
+
+    return {
+        keys: [jwk],
+    };
+};
+
 const createOboTokenDings = async (): Promise<OboAuth> => {
     const { clientId, discoveryUrl, privateJwk } = getAzureAdOptions();
     const issuer = await Issuer.discover(discoveryUrl);
@@ -38,7 +57,7 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
             token_endpoint_auth_signing_alg: 'RS256',
             response_types: ['code'],
         },
-        JSON.parse(privateJwk),
+        createJWKS(privateJwk),
     );
 
     return {
