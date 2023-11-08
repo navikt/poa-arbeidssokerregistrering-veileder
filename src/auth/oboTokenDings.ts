@@ -21,6 +21,10 @@ const assert = <T extends any>(value: T | undefined | null, msg?: string): T => 
     return value;
 };
 
+const createNbf = (): number => {
+    return Math.floor(Date.now() / 1000);
+};
+
 const getAzureAdOptions = () => {
     const clientId = assert(process.env.AZURE_APP_CLIENT_ID, 'AZURE_APP_CLIENT_ID is missing');
     const discoveryUrl = assert(process.env.AZURE_APP_WELL_KNOWN_URL, 'AZURE_APP_WELL_KNOWN_URL is missing');
@@ -63,16 +67,24 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
     return {
         async getOboToken(accessToken, scope) {
             try {
-                return client.grant({
-                    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-                    client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-                    requested_token_use: 'on_behalf_of',
-                    scope,
-                    assertion: accessToken,
-                    subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
-                    subject_token: accessToken,
-                    audience: scope,
-                });
+                return client.grant(
+                    {
+                        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+                        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+                        requested_token_use: 'on_behalf_of',
+                        scope,
+                        assertion: accessToken,
+                        subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
+                        subject_token: accessToken,
+                        audience: scope,
+                    },
+                    {
+                        clientAssertionPayload: {
+                            aud: client.issuer.metadata.token_endpoint,
+                            nbf: createNbf(),
+                        },
+                    },
+                );
             } catch (err: unknown) {
                 logger.error(err, `Feil ved generering av OBO-token: ${err}`);
                 return Promise.reject(err);
