@@ -17,6 +17,7 @@ const sisteArbeidsforhold = async (req: NextApiRequest, res: NextApiResponse<any
             return res.status(400).send('mangler fnr');
         }
 
+        logger.info(headers, 'Headers');
         logger.info(`Starter kall callId: ${callId} mot ${url}`);
         const { styrk } = await fetch(`${url}?fnr=${fnr}`, {
             headers,
