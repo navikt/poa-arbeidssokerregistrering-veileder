@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BodyLong, GuidePanel, Heading, Link } from '@navikt/ds-react';
+import { BodyLong, Heading, Link, Alert } from '@navikt/ds-react';
 
 import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
 import useSprak from '../../hooks/useSprak';
@@ -38,7 +38,7 @@ function AlleredeRegistrert() {
     const { dialogUrl } = useConfig() as Config;
 
     return (
-        <GuidePanel poster>
+        <Alert variant="warning">
             <Heading spacing size="large" level="1">
                 {tekst('overskrift')}
             </Heading>
@@ -46,7 +46,7 @@ function AlleredeRegistrert() {
             <BodyLong>
                 <Link href={dialogUrl}>{tekst('sendMelding')}</Link> {tekst('ringOss')} <b>{tekst('telefonNummer')}</b>
             </BodyLong>
-        </GuidePanel>
+        </Alert>
     );
 }
 

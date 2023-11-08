@@ -7,18 +7,12 @@ import useSprak from '../hooks/useSprak';
 
 const TEKSTER: Tekster<string> = {
     nb: {
-        heading: 'Vedlikehold pågår',
-        vedlikehold: 'Arbeidssøkerregistreringen er ikke tilgjengelig på grunn av vedlikehold.',
+        heading: 'Registreringen er ikke tilgjengelig grunnet vedlikehold',
+        vedlikehold:
+            'Hvis en person skal registrere seg for å søke om dagpenger anbefaler vi at dagpengesøknaden fylles inn nå slik at personen ikke risikerer å miste dager med dagpenger. En kan tidligst få dagpenger fra den dagen man søker fra.',
         provIgjen: 'Vennligst prøv igjen litt senere.',
         dagpenger:
-            'Hvis du skal søke om dagpenger kan du sende inn søknaden nå, og registrere deg som arbeidssøker etterpå.',
-    },
-    en: {
-        heading: 'Maintenance',
-        vedlikehold: 'Due to maintenance you can not register as a jobseeker at the moment.',
-        provIgjen: 'Please try again later.',
-        dagpenger:
-            'If you are applying for unemployment benefits, you can submit the application now, and register as a jobseeker afterwards.',
+            'Hvis en person skal registrere seg for å søke om dagpenger anbefaler vi at dagpengesøknaden fylles inn nå slik at personen ikke risikerer å miste dager med dagpenger. En kan tidligst få dagpenger fra den dagen man søker fra.',
     },
 };
 
@@ -33,14 +27,13 @@ function Vedlikehold() {
 
     return (
         <>
-            <Heading level="1" size="large" spacing>
-                {tekst('heading')}
-            </Heading>
-            <GuidePanel poster>
-                <BodyLong>{tekst('vedlikehold')}</BodyLong>
+            <Alert variant="error">
+                <Heading level="1" size="large" spacing>
+                    {tekst('heading')}
+                </Heading>
                 <BodyLong spacing>{tekst('provIgjen')}</BodyLong>
-                <Alert variant="info">{tekst('dagpenger')}</Alert>
-            </GuidePanel>
+                <BodyLong spacing>{tekst('dagpenger')}</BodyLong>
+            </Alert>
         </>
     );
 }
