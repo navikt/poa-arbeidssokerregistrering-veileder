@@ -1,28 +1,30 @@
-import { useEffect, useState } from 'react';
-import { BodyLong, Button, GuidePanel, Heading } from '@navikt/ds-react';
+import { useEffect } from 'react';
+import { BodyLong, Heading, Alert, Link } from '@navikt/ds-react';
 
 import lagHentTekstForSprak, { Tekster } from '../../../lib/lag-hent-tekst-for-sprak';
 import useSprak from '../../../hooks/useSprak';
 import { loggStoppsituasjon } from '../../../lib/amplitude';
-import { Opprettelsesfeil } from '../../../components/KvitteringOppgave';
 
 import { FeilmeldingGenerell } from '../../../components/feilmeldinger/feilmeldinger';
 import { Feiltype, OppgaveRegistreringstype } from '../../../model/feilsituasjonTyper';
 import { withAuthenticatedPage } from '../../../auth/withAuthentication';
 
 interface Feilsituasjon {
-    oppgaveRegistreringstype?: OppgaveRegistreringstype;
     feiltype?: Feiltype;
 }
 
 const TEKSTER: Tekster<string> = {
     nb: {
         heading: 'Personen kan ikke registreres som arbeidssøker',
-        utvandretBody1: 'Personen står registrert som utvandret i våre systemer.',
-        manglerArbeidstillatelseBody1: 'Vi finner ikke godkjent oppholdstillatelse.',
-        servicerutineUtvandret: 'Dette gjør at du ikke kan registrere deg som arbeidssøker på nett.',
-        servicerutineOpphold:
-            'Det du må gjøre videre er beskrevet i servicerutine for registrering av arbeids- og oppholdstillatelse.',
+        utvandretBeskrivelse: 'Personen står registrert som utvandret i våre systemer.',
+        manglerArbeidstillatelseBeskrivelse: 'Vi finner ikke godkjent oppholdstillatelse.',
+        servicerutineIntro: 'Det du må gjøre videre er beskrevet i ',
+        servicerutineLenkeUtvandret:
+            'https://navno.sharepoint.com/sites/fag-og-ytelser-regelverk-og-rutiner/SitePages/Registrering-av-arbeids--og-oppholdstillatelse.aspx?web=1',
+        servicerutineLenkeTekstUtvandret: 'servicerutine for registrering av arbeids- og oppholdstillatelse',
+        servicerutineLenkeArbeidstillatelse:
+            'https://navno.sharepoint.com/sites/fag-og-ytelser-regelverk-og-rutiner/SitePages/Registrering-av-arbeids--og-oppholdstillatelse.aspx?web=1',
+        servicerutineLenkeTekstArbeidstillatelse: 'servicerutine for registrering av arbeids- og oppholdstillatelse',
     },
     en: {
         //TODO: Oversetting
@@ -31,8 +33,6 @@ const TEKSTER: Tekster<string> = {
 
 const KontaktVeileder = (props: Feilsituasjon) => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
-    const [responseMottatt, settResponseMottatt] = useState<boolean>(false);
-    const [feil, settFeil] = useState<Opprettelsesfeil | undefined>(undefined);
 
     useEffect(() => {
         loggStoppsituasjon({
@@ -46,15 +46,36 @@ const KontaktVeileder = (props: Feilsituasjon) => {
 
     return (
         <>
-            <GuidePanel poster>
+            <Alert variant="warning">
                 <Heading size="medium" spacing={true} level="1">
                     {tekst('heading')}
                 </Heading>
                 <BodyLong>
-                    {tekst(props.feiltype === Feiltype.UTVANDRET ? 'utvandretBody1' : 'manglerArbeidstillatelseBody1')}
+                    {tekst(
+                        props.feiltype === Feiltype.UTVANDRET
+                            ? 'utvandretBeskrivelse'
+                            : 'manglerArbeidstillatelseBeskrivelse',
+                    )}
                 </BodyLong>
-                <BodyLong spacing>{tekst('body2')}</BodyLong>
-            </GuidePanel>
+                <BodyLong spacing className="mt-4">
+                    {tekst('servicerutineIntro')}{' '}
+                    <Link
+                        inlineText
+                        href={tekst(
+                            props.feiltype === Feiltype.UTVANDRET
+                                ? 'servicerutineLenkeUtvandret'
+                                : 'servicerutineLenkeArbeidstillatelse',
+                        )}
+                    >
+                        {tekst(
+                            props.feiltype === Feiltype.UTVANDRET
+                                ? 'servicerutineLenkeTekstUtvandret'
+                                : 'servicerutineLenkeTekstArbeidstillatelse',
+                        )}
+                    </Link>
+                    .
+                </BodyLong>
+            </Alert>
         </>
     );
 };
