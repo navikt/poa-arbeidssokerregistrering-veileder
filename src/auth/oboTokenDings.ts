@@ -1,5 +1,4 @@
 import { Issuer, TokenSet } from 'openid-client';
-import { JWK } from 'node-jose';
 import { logger } from '@navikt/next-logger';
 
 export interface ExchangeToken {
@@ -39,7 +38,7 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
             token_endpoint_auth_signing_alg: 'RS256',
             response_types: ['code'],
         },
-        JWK.asKey(privateJwk),
+        JSON.parse(privateJwk),
     );
 
     return {
