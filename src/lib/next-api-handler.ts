@@ -37,10 +37,9 @@ const getOboTokenDings = async (): Promise<OboAuth> => {
 };
 
 const VEILARBREGISTRERING_CLIENT_ID = `${process.env.NAIS_CLUSTER_NAME}:paw:veilarbregistrering`;
+const VEILARBREGISTRERING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.veilarbregistrering/.default`;
 export const getVeilarbregistreringToken = async (req: NextApiRequest) => {
-    const tokenSet = await (
-        await getOboTokenDings()
-    ).getOboToken(getTokenFromRequest(req)!, VEILARBREGISTRERING_CLIENT_ID);
+    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBREGISTRERING_SCOPE);
     return tokenSet.access_token!;
 };
 export const getTokenFromRequest = (req: NextApiRequest) => {
