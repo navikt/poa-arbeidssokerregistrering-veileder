@@ -35,6 +35,8 @@ export const RegistrerArbeidssokerKnapp = () => {
         setIsDisabled(true);
         setDoValidate(true);
         if (isValid) {
+            setDoValidate(false);
+            setIsDisabled(true);
             const body = byggRegistrerArbeidssokerPayload(registrering);
             const registreringUrl = `/api/fullforregistrering?fnr=${fnr}&enhetId=${enhetId}`;
             const response: FullforRegistreringResponse = await api(registreringUrl, {
