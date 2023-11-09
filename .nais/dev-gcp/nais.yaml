@@ -76,7 +76,9 @@ spec:
     - name: MODIACONTEXTHOLDER_URL
       value: https://modiacontextholder-q1.dev-fss-pub.nais.io/modiacontextholder/api/context
     - name: MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID
-      value: "dev-fss.personoversikt.modiacontextholder-q1"
+      value: dev-fss.personoversikt.modiacontextholder-q1
+    - name: INTERNARBEIDSFLATEDEKORATOR_URL
+      value: https://internarbeidsflatedecorator-q1.dev-fss-pub.nais.io
     - name: NEXT_PUBLIC_ASSET_PREFIX
       value: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
   envFrom:
@@ -97,6 +99,7 @@ spec:
         - host: arbeidsplassen.nav.no
         - host: paw-unleash-api.nav.cloud.nais.io
         - host: modiacontextholder-q1.dev-fss-pub.nais.io
+        - host: internarbeidsflatedecorator-q1.dev-fss-pub.nais.io
       rules:
         - application: veilarbregistrering
         - application: modiacontextholder-q1
