@@ -39,7 +39,7 @@ const getOboTokenDings = async (): Promise<OboAuth> => {
 };
 
 const VEILARBREGISTRERING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.veilarbregistrering/.default`;
-const MODIACONTEXTHOLDER_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.personoversikt.modiacontextholder/.default`;
+const MODIACONTEXTHOLDER_SCOPE = `api://${process.env.MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID}/.default`;
 
 export const getVeilarbregistreringToken = async (req: NextApiRequest) => {
     const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBREGISTRERING_SCOPE);
