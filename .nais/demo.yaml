@@ -71,6 +71,9 @@ spec:
       value: development
     - name: HENT_PROFILERING_URL
       value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/profilering
+    - name: MODIACONTEXTHOLDER_URL
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/modiacontextholder
+
   ingresses:
     - https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no
   accessPolicy:
