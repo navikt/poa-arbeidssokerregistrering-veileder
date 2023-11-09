@@ -17,9 +17,9 @@ export const lagApiPostHandlerMedAuthHeaders: (
     errorHandler?: (response: Response) => void,
 ) => NextApiHandler = (url: string, errorHandler) => async (req, res) => {
     if (req.method === 'POST') {
-        const { fnr } = req.query;
-        // legger til fnr som query dersom dette finnes
-        const postUrl = fnr ? `${url}?fnr=${fnr}` : url;
+        const { fnr, enhetId } = req.query;
+        // legger til fnr og enhetId som query dersom dette finnes
+        const postUrl = fnr ? `${url}?fnr=${fnr}&enhetId=${enhetId}` : url;
         return lagApiHandlerMedAuthHeaders(postUrl, errorHandler)(req, res);
     } else {
         res.status(405).end();

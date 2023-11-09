@@ -29,14 +29,14 @@ export const RegistrerArbeidssokerKnapp = () => {
     const [isDisabled, setIsDisabled] = useState(false);
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { setDoValidate, doValidate, isValid, registrering } = useRegistrering();
-    const { fnr } = useParamsFromContext();
+    const { fnr, enhetId } = useParamsFromContext();
 
     async function registrerArbeidssoker() {
         setIsDisabled(true);
         setDoValidate(true);
         if (isValid) {
             const body = byggRegistrerArbeidssokerPayload(registrering);
-            const registreringUrl = `/api/fullforregistrering?fnr=${fnr}`;
+            const registreringUrl = `/api/fullforregistrering?fnr=${fnr}&enhetId=${enhetId}`;
             const response: FullforRegistreringResponse = await api(registreringUrl, {
                 method: 'post',
                 body: JSON.stringify(body),
