@@ -9,7 +9,7 @@ import { Config } from '../model/config';
 import DemoPanel from '../components/demo-panel';
 
 export default function Home() {
-    const { fnr, enhetsId } = useParamsFromContext() as ContextParams;
+    const { fnr, enhetId } = useParamsFromContext() as ContextParams;
     const { enableMock } = useConfig() as Config;
     const brukerMock = enableMock === 'enabled';
 
@@ -22,15 +22,15 @@ export default function Home() {
                         Arbeidssøkerregistrering for veileder
                     </Heading>
                     <BodyShort>Fnr: {fnr}</BodyShort>
-                    <BodyShort>EnhetsId: {enhetsId}</BodyShort>
+                    <BodyShort>EnhetId: {enhetId}</BodyShort>
                     <div className="flex justify-between">
-                        <Link href={`/registrering-arbeidssoker?fnr=${fnr}&enhetsId=${enhetsId}`}>
+                        <Link href={`/registrering-arbeidssoker?fnr=${fnr}&enhetId=${enhetId}`}>
                             Registrere arbeidssøker
                         </Link>
-                        <Link href={`/registrering-reaktivering?fnr=${fnr}&enhetsId=${enhetsId}`}>
+                        <Link href={`/registrering-reaktivering?fnr=${fnr}&enhetId=${enhetId}`}>
                             Reaktiver arbeidssøker
                         </Link>
-                        <Link href={`/registrering-mer-sykmeldtoppfolging?fnr=${fnr}&enhetsId=${enhetsId}`}>
+                        <Link href={`/registrering-mer-sykmeldtoppfolging?fnr=${fnr}&enhetId=${enhetId}`}>
                             Registrere for mer sykmeldtoppfølging
                         </Link>
                     </div>

@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 export type ContextParams = {
     fnr?: string;
-    enhetsId?: string;
+    enhetId?: string;
 };
 
 const ParamsFromContext = createContext<ContextParams>({});
