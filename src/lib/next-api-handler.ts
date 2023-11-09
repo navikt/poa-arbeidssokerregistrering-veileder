@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import { logger } from '@navikt/next-logger';
 
 import createOboTokenDings, { OboAuth } from '../auth/oboTokenDings';
+import queryToString from './query-to-string';
 
 export const getHeaders = (token: string, callId: string) => {
     return {
@@ -18,10 +19,7 @@ export const lagApiPostHandlerMedAuthHeaders: (
     errorHandler?: (response: Response) => void,
 ) => NextApiHandler = (url: string, errorHandler) => async (req, res) => {
     if (req.method === 'POST') {
-        const { fnr, enhetId } = req.query;
-        // legger til fnr og enhetId som query dersom dette finnes
-        const postUrl = fnr ? `${url}?fnr=${fnr}&enhetId=${enhetId}` : url;
-        return lagApiHandlerMedAuthHeaders(postUrl, errorHandler)(req, res);
+        return lagApiHandlerMedAuthHeaders(url, errorHandler)(req, res);
     } else {
         res.status(405).end();
     }
@@ -67,10 +65,10 @@ const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Respo
         if (req.method === 'POST') {
             body = req.body;
         }
-
         try {
             logger.info(`Starter kall callId: ${callId} mot ${url}`);
-            const response = await fetch(url, {
+            const urlMedQuery = `${url}${queryToString(req.query)}`;
+            const response = await fetch(urlMedQuery, {
                 method: req.method,
                 body,
                 headers: brukerMock
