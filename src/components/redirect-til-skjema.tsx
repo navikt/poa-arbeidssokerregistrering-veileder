@@ -20,7 +20,12 @@ function hentNesteSideUrl(data: StartregistreringResponse) {
         case RegistreringType.REAKTIVERING: {
             return '/registrering-reaktivering';
         }
-
+        case RegistreringType.SPERRET: {
+            return '/veiledning/sperret';
+        }
+        case RegistreringType.ALLEREDE_REGISTRERT: {
+            return '/veiledning/allerede-registrert';
+        }
         default:
             return '/';
     }
