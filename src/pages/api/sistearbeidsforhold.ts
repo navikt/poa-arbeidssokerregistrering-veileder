@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { nanoid } from 'nanoid';
-import { getHeaders, getTokenFromRequest, getVeilarbregistreringToken } from '../../lib/next-api-handler';
+import { getHeaders, getVeilarbregistreringToken } from '../../lib/next-api-handler';
 import { withAuthenticatedApi } from '../../auth/withAuthentication';
 import { logger } from '@navikt/next-logger';
 
