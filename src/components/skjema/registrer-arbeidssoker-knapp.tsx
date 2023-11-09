@@ -50,7 +50,7 @@ export const RegistrerArbeidssokerKnapp = () => {
                 return router.push(hentRegistreringFeiletUrl(feiltype, OppgaveRegistreringstype.REGISTRERING));
             }
 
-            return router.push('/kvittering');
+            return router.push('/kvittering-arbeidssoker');
         }
     }
 

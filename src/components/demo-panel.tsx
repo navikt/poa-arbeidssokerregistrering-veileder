@@ -34,8 +34,8 @@ function DemoPanel({ brukerMock }: Props) {
                                 </NextLink>
                             </p>
                             <p>
-                                <NextLink href="/kvittering/" passHref locale={false}>
-                                    <Button variant="secondary">Kvittering</Button>
+                                <NextLink href="/kvittering-arbeidssoker/" passHref locale={false}>
+                                    <Button variant="secondary">Kvittering registrert arbeidssøker</Button>
                                 </NextLink>
                             </p>
                             <Heading level="4" size="medium">
