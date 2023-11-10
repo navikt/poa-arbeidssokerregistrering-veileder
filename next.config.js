@@ -7,7 +7,7 @@ const nextConfig = {
         return [
             {
                 source: '/internarbeidsflatedecorator/:path*',
-                destination: `${decoraturUrl}/:path*`,
+                destination: `${decoraturUrl}/internarbeidsflatedecorator/:path*`,
             },
         ];
     },
