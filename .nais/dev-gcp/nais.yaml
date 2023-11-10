@@ -81,6 +81,8 @@ spec:
       value: https://internarbeidsflatedecorator-q1.dev-fss-pub.nais.io
     - name: NEXT_PUBLIC_ASSET_PREFIX
       value: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
+    - name: DECORATOR_URL
+      value: https://internarbeidsflatedecorator-q1.intern.dev.nav.no
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:

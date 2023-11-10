@@ -39,6 +39,7 @@ jobs:
         env:
           NODE_ENV: production
           NEXT_PUBLIC_ASSET_PREFIX: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
+          DECORATOR_URL: https://internarbeidsflatedecorator-q1.intern.dev.nav.no
 
       - name: Upload static files to NAV CDN
         uses: navikt/frontend/actions/cdn-upload/v1@main
