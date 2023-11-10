@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Heading, Link, BodyShort } from '@navikt/ds-react';
 
 import { useParamsFromContext, ContextParams } from '../contexts/params-from-context';
@@ -14,14 +13,6 @@ export default function Home() {
     const { fnr, enhetId } = useParamsFromContext() as ContextParams;
     const { enableMock } = useConfig() as Config;
     const brukerMock = enableMock === 'enabled';
-
-    const hentContext = async () => {
-        const data = await fetch('/api/hent-modia-context/').then((res) => res.json());
-        console.log(data);
-    };
-    useEffect(() => {
-        hentContext();
-    }, []);
 
     return (
         <>

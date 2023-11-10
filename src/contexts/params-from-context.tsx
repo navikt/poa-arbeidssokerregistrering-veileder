@@ -10,9 +10,17 @@ const ParamsFromContext = createContext<ContextParams>({});
 function ParamsFromContextProvider({ children }) {
     const [params, setParams] = useState<ContextParams>({} as ContextParams);
 
+    const hentContextFraModia = async () => {
+        const contextFraModia = await fetch('/api/hent-modia-context/').then((res) => res.json());
+        const { aktivBruker, aktivEnhet } = contextFraModia;
+        setParams({
+            fnr: aktivBruker,
+            enhetId: aktivEnhet,
+        });
+    };
+
     useEffect(() => {
-        const params = Object.fromEntries(new URLSearchParams(window.location.search));
-        setParams(params);
+        hentContextFraModia();
     }, []);
 
     return <ParamsFromContext.Provider value={params}>{children}</ParamsFromContext.Provider>;
