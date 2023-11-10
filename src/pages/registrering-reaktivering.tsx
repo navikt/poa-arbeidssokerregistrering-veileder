@@ -37,7 +37,7 @@ export default function RegistreringReaktivering() {
                 </Button>
                 {error && (
                     <Alert className={'mt-4'} variant={'error'}>
-                        Noe gikk dessverre galt ({error.message})
+                        Noe gikk dessverre galt! {error.message}
                     </Alert>
                 )}
                 {success && (
