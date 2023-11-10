@@ -1,15 +1,23 @@
+import { useState } from 'react';
 import { Alert, Button, Heading } from '@navikt/ds-react';
-import { withAuthenticatedPage } from '../auth/withAuthentication';
-import { useEffect, useState } from 'react';
+
 import { useParamsFromContext } from '../contexts/params-from-context';
+import { useConfig } from '../contexts/config-context';
+
+import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { fetcher as api } from '../lib/api-utils';
-import { logger } from '@navikt/next-logger';
+import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
+import { Config } from '../model/config';
+import DemoPanel from '../components/demo-panel';
 
 export default function RegistreringReaktivering() {
     const { fnr, enhetId } = useParamsFromContext();
+    const { enableMock } = useConfig() as Config;
     const [isPending, setIsPending] = useState<boolean>(false);
     const [error, setError] = useState<any>();
     const [success, setSuccess] = useState<boolean>(false);
+    const brukerMock = enableMock === 'enabled';
+
     async function onReaktiverArbeidssoker() {
         try {
             setIsPending(true);
@@ -29,6 +37,7 @@ export default function RegistreringReaktivering() {
     return (
         <section className="flex flex-col items-center p-8">
             <main className="flex flex-col max-w-4xl w-full" tabIndex={-1} id="maincontent">
+                <ManglerPersonEllerEnhet />
                 <Heading size="medium" level="1">
                     Reaktiver arbeidssøker
                 </Heading>
@@ -46,6 +55,7 @@ export default function RegistreringReaktivering() {
                     </Alert>
                 )}
             </main>
+            <DemoPanel brukerMock={brukerMock} />
         </section>
     );
 }
