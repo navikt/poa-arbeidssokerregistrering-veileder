@@ -83,6 +83,16 @@ spec:
       value: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
     - name: DECORATOR_URL
       value: https://internarbeidsflatedecorator-q1.intern.dev.nav.no
+    - name: JSON_CONFIG
+      value: >
+        {
+          "redirects": [
+            {
+              "fromPath": "/internarbeidsflatedecorator/*",
+              "toUrl": "https://internarbeidsflatedecorator-q1.intern.dev.nav.no",
+              "preserveFromPath": true
+            }
+        }
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
