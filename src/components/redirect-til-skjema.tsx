@@ -62,7 +62,7 @@ function RedirectTilSkjema() {
 
     useEffect(() => {
         if (registreringsData) {
-            router.push(`${hentNesteSideUrl(registreringsData)}?fnr=${fnr}&enhetId=${enhetId}`);
+            router.push(`${hentNesteSideUrl(registreringsData)}`);
         }
     }, [enhetId, fnr, registreringsData, router]);
 

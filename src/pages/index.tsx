@@ -28,15 +28,9 @@ export default function Home() {
                     <BodyShort>Fnr: {fnr}</BodyShort>
                     <BodyShort>EnhetId: {enhetId}</BodyShort>
                     <div className="flex justify-between">
-                        <Link href={`/registrering-arbeidssoker?fnr=${fnr}&enhetId=${enhetId}`}>
-                            Registrere arbeidssøker
-                        </Link>
-                        <Link href={`/registrering-reaktivering?fnr=${fnr}&enhetId=${enhetId}`}>
-                            Reaktiver arbeidssøker
-                        </Link>
-                        <Link href={`/registrering-mer-sykmeldtoppfolging?fnr=${fnr}&enhetId=${enhetId}`}>
-                            Registrere for mer sykmeldtoppfølging
-                        </Link>
+                        <Link href={`/registrering-arbeidssoker`}>Registrere arbeidssøker</Link>
+                        <Link href={`/registrering-reaktivering`}>Reaktiver arbeidssøker</Link>
+                        <Link href={`/registrering-mer-sykmeldtoppfolging`}>Registrere for mer sykmeldtoppfølging</Link>
                     </div>
                 </main>
                 <DemoPanel brukerMock={brukerMock} />
