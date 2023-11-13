@@ -4,7 +4,7 @@ Arbeidssøkerregistrering frontend for veileder.
 
 ## Demo
 
-[https://arbeidsokerregistrering-for-veileder.ekstern.dev.nav.no](https://arbeidsokerregistrering-for-veileder.ekstern.dev.nav.no)
+[https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/](https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/)
 
 # Utvikling
 
