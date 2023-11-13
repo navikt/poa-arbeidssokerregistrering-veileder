@@ -72,6 +72,22 @@ jobs:
           CLUSTER: dev-gcp
           RESOURCE: .nais/dev-gcp/nais.yaml
           VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
+  
+  deploy-demo:
+    name: Deploy to demo
+    needs: [test-and-build-cdn-docker]
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: .nais/demo.yaml
+          VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
 
   apply-apitoken-unleash:
     name: Legger til ApiToken for Unleash
