@@ -13,11 +13,9 @@ function ParamsFromContextProvider({ children }) {
     const hentContextFraModia = async () => {
         const contextFraModia = await fetch('/api/hent-modia-context/').then((res) => res.json());
         const { aktivBruker, aktivEnhet } = contextFraModia;
-        const params = Object.fromEntries(new URLSearchParams(window.location.search));
-        const fallbackFnr = params.fnr;
 
         setParams({
-            fnr: aktivBruker || fallbackFnr,
+            fnr: aktivBruker,
             enhetId: aktivEnhet,
         });
     };

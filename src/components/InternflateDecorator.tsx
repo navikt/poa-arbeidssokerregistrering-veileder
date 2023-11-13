@@ -1,19 +1,42 @@
 import NAVSPA from '@navikt/navspa';
 import { useParamsFromContext } from '../contexts/params-from-context';
+import { ComponentType } from 'react';
+import { DecoratorConfig } from '../model/internflate-decorator';
 
-interface InternflateDecoratorProps {
-    fnr: string;
-    enhetId: string;
-}
-const Decorator = NAVSPA.importer<InternflateDecoratorProps>('internarbeidsflatefs');
+const Decorator: ComponentType<DecoratorConfig> = NAVSPA.importer('internarbeidsflatefs');
 const InternflateDecorator = () => {
     const { fnr, enhetId } = useParamsFromContext();
+    const onFnrChanged = (fnr) => {
+        console.log('onFnrChanged', fnr);
+    };
 
-    if (!fnr) {
-        return null;
-    }
+    const onEnhetChanged = (enhet) => {
+        console.log('onEnhetChanged', enhet);
+    };
 
-    return <Decorator fnr={fnr ?? null} enhetId={enhetId} />;
+    const props = {
+        appname: 'Arbeidssøkerregistrering veileder',
+        toggles: {
+            visVeileder: true,
+        },
+        fnr: {
+            display: 'SOKEFELT',
+            value: fnr,
+            skipModal: false,
+            ignoreWsEvents: false,
+            onChange: onFnrChanged,
+        },
+        enhet: {
+            display: 'ENHET',
+            value: enhetId,
+            skipModal: true,
+            ignoreWsEvents: true,
+            onChange: onEnhetChanged,
+        },
+        useProxy: false,
+    };
+
+    return <Decorator {...props} />;
 };
 
 export default InternflateDecorator;
