@@ -1,5 +1,5 @@
 import {
-    DinSituasjon,
+    FremtidigSituasjon,
     JaEllerNei,
     SisteStillingValg,
     SporsmalId,
@@ -58,8 +58,8 @@ export type SisteJobb = {
     styrk08: string;
 };
 
-export interface RegistreringState {
-    [SporsmalId.dinSituasjon]?: DinSituasjon;
+export interface MerSykmeldtoppfolgingState {
+    [SporsmalId.fremtidigSituasjon]?: FremtidigSituasjon;
     [SporsmalId.utdanning]?: Utdanningsnivaa;
     [SporsmalId.utdanningGodkjent]?: UtdanningGodkjentValg;
     [SporsmalId.utdanningBestatt]?: JaEllerNei;

@@ -1,19 +1,21 @@
 import { Heading, Panel } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
+import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
-import { SkjemaKomponentProps } from './skjema-felleskomponenter';
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
 import { FremtidigSituasjon, hentTekst, SporsmalId } from '../../model/sporsmal';
 
 import styles from '../../styles/skjema.module.css';
 
-const SykmeldtFremtidigSituasjon = (props: SkjemaKomponentProps<FremtidigSituasjon>) => {
+const SykmeldtFremtidigSituasjon = () => {
     const sprak = useSprak();
     const tekst = (key: string) => hentTekst(sprak, key);
-    const { onChange, valgt, visFeilmelding } = props;
+    const { registrering, doValidate, setRegistrering } = useSykmeldtoppfolging();
+    const visFeilmelding = doValidate ? !Object.keys(registrering).includes('fremtidigSituasjon') : false;
 
     const lagValg = (valg: FremtidigSituasjon) => ({ tekst: tekst(valg), value: valg });
+
     const valg = [
         lagValg(FremtidigSituasjon.SAMME_ARBEIDSGIVER),
         lagValg(FremtidigSituasjon.SAMME_ARBEIDSGIVER_NY_STILLING),
@@ -31,8 +33,7 @@ const SykmeldtFremtidigSituasjon = (props: SkjemaKomponentProps<FremtidigSituasj
                 <RadioGruppe
                     legend={tekst(SporsmalId.fremtidigSituasjon)}
                     valg={valg}
-                    onSelect={(val) => onChange(val)}
-                    valgt={valgt}
+                    onSelect={(val) => setRegistrering({ [SporsmalId.fremtidigSituasjon]: val })}
                     visFeilmelding={visFeilmelding}
                 />
             </form>
