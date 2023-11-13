@@ -33,7 +33,7 @@ const InternflateDecorator = () => {
             ignoreWsEvents: true,
             onChange: onEnhetChanged,
         },
-        useProxy: true,
+        useProxy: false,
     };
 
     return <Decorator {...props} />;
