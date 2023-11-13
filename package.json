@@ -20,7 +20,7 @@
         "@navikt/ds-react": "5.10.0",
         "@navikt/ds-tailwind": "5.10.0",
         "@navikt/ds-tokens": "5.10.0",
-        "@navikt/navspa": "https://github.com/navikt/navspa/archive/refs/tags/v6.0.1.tar.gz",
+        "@navikt/navspa": "6.0.1",
         "@navikt/next-auth-wonderwall": "1.5.0",
         "@navikt/next-logger": "1.21.0",
         "@unleash/nextjs": "1.3.0",

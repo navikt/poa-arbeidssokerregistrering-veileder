@@ -1,6 +1,6 @@
 # poa-arbeidssokerregistrering-veileder
 
-Arbeidssøkerregistrering frontend for veileder
+Arbeidssøkerregistrering frontend for veileder.
 
 ## Demo
 

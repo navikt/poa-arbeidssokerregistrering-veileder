@@ -14,6 +14,7 @@ import { ParamsFromContextProvider } from '../contexts/params-from-context';
 import { initFaro } from '../faro/initFaro';
 
 import '../styles/globals.css';
+import InternflateDecorator from '../components/InternflateDecorator';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -34,26 +35,33 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     }, []);
 
     return (
-        <section className="flex flex-col items-center p-8">
-            <main className="flex flex-col max-w-4xl w-full" lang="nb" id="maincontent" role="main" tabIndex={-1}>
-                <Head>
-                    <title>{tekst('metaTittel')}</title>
-                    <meta name="description" content={tekst('metaDescription')} />
-                </Head>
-                <ConfigProvider>
-                    <FeatureToggleProvider>
-                        <AmplitudeProvider>
-                            <ErrorProvider>
-                                <ParamsFromContextProvider>
+        <ConfigProvider>
+            <FeatureToggleProvider>
+                <AmplitudeProvider>
+                    <ErrorProvider>
+                        <ParamsFromContextProvider>
+                            <InternflateDecorator />
+                            <section className="flex flex-col items-center p-8">
+                                <main
+                                    className="flex flex-col max-w-4xl w-full"
+                                    lang="nb"
+                                    id="maincontent"
+                                    role="main"
+                                    tabIndex={-1}
+                                >
+                                    <Head>
+                                        <title>{tekst('metaTittel')}</title>
+                                        <meta name="description" content={tekst('metaDescription')} />
+                                    </Head>
                                     <GlobalFeilmelding />
                                     <Component {...pageProps} />
-                                </ParamsFromContextProvider>
-                            </ErrorProvider>
-                        </AmplitudeProvider>
-                    </FeatureToggleProvider>
-                </ConfigProvider>
-            </main>
-        </section>
+                                </main>
+                            </section>
+                        </ParamsFromContextProvider>
+                    </ErrorProvider>
+                </AmplitudeProvider>
+            </FeatureToggleProvider>
+        </ConfigProvider>
     );
 }
 
