@@ -12,7 +12,7 @@ import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-spra
 import { hentRegistreringFeiletUrl } from '../../lib/hent-registrering-feilet-url';
 import { FullforRegistreringResponse } from '../../model/registrering';
 import { OppgaveRegistreringstype } from '../../model/feilsituasjonTyper';
-import byggRegistrerArbeidssokerPayload from '../../lib/bygg-registrer-arbeidssoker-payload';
+import byggFullforRegistreringForMerSykmeldtoppfolgingPayload from '../../lib/bygg-registrer-for-mer-sykmeldtoppfolging-payload';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -34,12 +34,13 @@ export const RegistrerForMerSykmeldtoppfolgingKnapp = () => {
         if (isValid) {
             setDoValidate(false);
             setIsDisabled(true);
-            const body = byggRegistrerArbeidssokerPayload(registrering);
-            const registreringUrl = `/api/fullforregistrering?fnr=${fnr}&enhetId=${enhetId}`;
+            const body = byggFullforRegistreringForMerSykmeldtoppfolgingPayload(registrering);
+            const registreringUrl = `/api/fullforregistreringsykmeldt?fnr=${fnr}&enhetId=${enhetId}`;
             const response: FullforRegistreringResponse = await api(registreringUrl, {
                 method: 'post',
                 body: JSON.stringify(body),
             });
+
             const feiltype = response.type;
 
             if (feiltype) {
