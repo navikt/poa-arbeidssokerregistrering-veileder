@@ -5,7 +5,7 @@ import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context
 
 import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { JaEllerNei, SporsmalId } from '../../model/sporsmal';
+import { JaEllerNei, SporsmalId, FremtidigSituasjon } from '../../model/sporsmal';
 
 import styles from '../../styles/skjema.module.css';
 
@@ -26,6 +26,16 @@ const AndreProblemer = () => {
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
 
     const visFeilmelding = doValidate ? !Object.keys(registrering).includes('andreForhold') : false;
+
+    const { fremtidigSituasjon } = registrering;
+
+    if (
+        ![FremtidigSituasjon.NY_ARBEIDSGIVER, FremtidigSituasjon.USIKKER].includes(
+            fremtidigSituasjon as FremtidigSituasjon,
+        )
+    ) {
+        return null;
+    }
 
     return (
         <>

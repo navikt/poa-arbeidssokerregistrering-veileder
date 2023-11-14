@@ -4,7 +4,7 @@ import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, JaEllerNei, SporsmalId } from '../../model/sporsmal';
+import { hentTekst, JaEllerNei, SporsmalId, FremtidigSituasjon } from '../../model/sporsmal';
 
 import styles from '../../styles/skjema.module.css';
 
@@ -15,6 +15,15 @@ const UtdanningBestatt = () => {
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
     const visFeilmelding = doValidate ? !Object.keys(registrering).includes('utdanningBestatt') : false;
+    const { fremtidigSituasjon } = registrering;
+
+    if (
+        ![FremtidigSituasjon.NY_ARBEIDSGIVER, FremtidigSituasjon.USIKKER].includes(
+            fremtidigSituasjon as FremtidigSituasjon,
+        )
+    ) {
+        return null;
+    }
 
     return (
         <Panel className={styles.panel} border={true}>

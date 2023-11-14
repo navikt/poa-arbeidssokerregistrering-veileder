@@ -4,7 +4,7 @@ import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, SporsmalId, Utdanningsnivaa } from '../../model/sporsmal';
+import { hentTekst, SporsmalId, Utdanningsnivaa, FremtidigSituasjon } from '../../model/sporsmal';
 
 import styles from '../../styles/skjema.module.css';
 
@@ -31,6 +31,16 @@ const Utdanning = () => {
             value: Utdanningsnivaa.HOYERE_UTDANNING_5_ELLER_MER,
         },
     ];
+
+    const { fremtidigSituasjon } = registrering;
+
+    if (
+        ![FremtidigSituasjon.NY_ARBEIDSGIVER, FremtidigSituasjon.USIKKER].includes(
+            fremtidigSituasjon as FremtidigSituasjon,
+        )
+    ) {
+        return null;
+    }
 
     return (
         <Panel className={styles.panel} border={true}>

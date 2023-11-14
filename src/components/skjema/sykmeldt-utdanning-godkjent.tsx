@@ -4,7 +4,7 @@ import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, SporsmalId, UtdanningGodkjentValg } from '../../model/sporsmal';
+import { hentTekst, SporsmalId, UtdanningGodkjentValg, FremtidigSituasjon } from '../../model/sporsmal';
 
 import styles from '../../styles/skjema.module.css';
 
@@ -20,6 +20,16 @@ const UtdanningGodkjent = () => {
         lagValg(UtdanningGodkjentValg.NEI),
         lagValg(UtdanningGodkjentValg.VET_IKKE),
     ];
+
+    const { fremtidigSituasjon } = registrering;
+
+    if (
+        ![FremtidigSituasjon.NY_ARBEIDSGIVER, FremtidigSituasjon.USIKKER].includes(
+            fremtidigSituasjon as FremtidigSituasjon,
+        )
+    ) {
+        return null;
+    }
 
     return (
         <Panel className={styles.panel} border={true}>

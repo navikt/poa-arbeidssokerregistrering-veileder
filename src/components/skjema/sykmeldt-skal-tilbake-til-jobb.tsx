@@ -1,9 +1,10 @@
-import { Alert, BodyLong, Button, GuidePanel, Heading, Panel } from '@navikt/ds-react';
-import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
+import { Alert, BodyLong, GuidePanel, Heading } from '@navikt/ds-react';
+
 import useSprak from '../../hooks/useSprak';
-import styles from '../../styles/skjema.module.css';
-import { useRouter } from 'next/router';
-import { SkjemaSide } from '../../model/skjema';
+import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
+
+import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
+import { TilbakeIArbeid } from '../../model/sporsmal';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -18,10 +19,15 @@ const TEKSTER: Tekster<string> = {
         uenig: 'Uenig, jeg trenger mer veiledning',
     },
 };
-const SkalTilbakeTilJobb = (props: any) => {
+const SkalTilbakeTilJobb = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
-    const router = useRouter();
-    const navigerTilSide = (side: string) => router.push(side);
+    const { registrering } = useSykmeldtoppfolging();
+
+    const { tilbakeIArbeid } = registrering;
+
+    if (![TilbakeIArbeid.JA_FULL_STILLING].includes(tilbakeIArbeid as TilbakeIArbeid)) {
+        return null;
+    }
 
     return (
         <div>
@@ -44,20 +50,6 @@ const SkalTilbakeTilJobb = (props: any) => {
             <Heading level="1" size="small" className="mbm text-center">
                 {tekst('enigTittel')}
             </Heading>
-
-            <section className="flex-center flex-wrap">
-                <Button
-                    variant="secondary"
-                    className="mrs mbs"
-                    style={{ flex: '1' }}
-                    onClick={() => navigerTilSide(`/sykmeldt/${SkjemaSide.Oppsummering}`)}
-                >
-                    {tekst('uenig')}
-                </Button>
-                <Button variant="secondary" className="mbs" style={{ flex: '1' }} onClick={() => navigerTilSide('/')}>
-                    {tekst('enig')}
-                </Button>
-            </section>
         </div>
     );
 };

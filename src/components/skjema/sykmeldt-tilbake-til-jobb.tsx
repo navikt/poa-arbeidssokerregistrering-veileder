@@ -4,7 +4,7 @@ import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, SporsmalId, TilbakeIArbeid } from '../../model/sporsmal';
+import { hentTekst, SporsmalId, TilbakeIArbeid, FremtidigSituasjon } from '../../model/sporsmal';
 
 import styles from '../../styles/skjema.module.css';
 
@@ -22,6 +22,16 @@ const TilbakeTilJobb = () => {
         lagValg(TilbakeIArbeid.USIKKER),
         lagValg(TilbakeIArbeid.NEI),
     ];
+
+    const { fremtidigSituasjon } = registrering;
+
+    if (
+        ![FremtidigSituasjon.SAMME_ARBEIDSGIVER, FremtidigSituasjon.SAMME_ARBEIDSGIVER_NY_STILLING].includes(
+            fremtidigSituasjon as FremtidigSituasjon,
+        )
+    ) {
+        return null;
+    }
 
     return (
         <Panel className={styles.panel} border={true}>
