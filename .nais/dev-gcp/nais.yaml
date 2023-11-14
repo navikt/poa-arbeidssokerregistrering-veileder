@@ -74,7 +74,7 @@ spec:
     - name: ARBEIDSSOKER_PERIODER_URL
       value: http://veilarbregistrering/veilarbregistrering/api/arbeidssoker/perioder/niva3
     - name: MODIACONTEXTHOLDER_URL
-      value: https://modiacontextholder-q1.dev-fss-pub.nais.io/modiacontextholder/api/context/
+      value: https://modiacontextholder-q1.dev.intern.nav.no
     - name: MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID
       value: dev-fss.personoversikt.modiacontextholder-q1
     - name: INTERNARBEIDSFLATEDEKORATOR_URL

@@ -3,6 +3,14 @@
 const isProd = process.env.NODE_ENV === 'production';
 const decoraturUrl = process.env.DECORATOR_URL;
 const nextConfig = {
+    async rewrites() {
+        return [
+            {
+                source: '/modiacontextholder/:path*',
+                destination: '/api/modiacontextholder/:path*',
+            },
+        ];
+    },
     async redirects() {
         return [
             {
