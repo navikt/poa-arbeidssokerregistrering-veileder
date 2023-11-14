@@ -62,6 +62,7 @@ export type SisteJobb = {
 export interface MerSykmeldtoppfolgingState {
     [SporsmalId.fremtidigSituasjon]?: FremtidigSituasjon;
     [SporsmalId.tilbakeIArbeid]?: TilbakeIArbeid;
+    [SporsmalId.utdanning]?: Utdanningsnivaa;
     [SporsmalId.utdanningGodkjent]?: UtdanningGodkjentValg;
     [SporsmalId.utdanningBestatt]?: JaEllerNei;
     [SporsmalId.andreForhold]?: JaEllerNei;
