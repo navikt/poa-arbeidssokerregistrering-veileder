@@ -9,9 +9,9 @@ import { withAuthenticatedPage } from '../auth/withAuthentication';
 
 const TEKSTER: Tekster<string> = {
     nb: {
-        header: 'Personen er registrert for mer sykmeldtoppfølging',
+        header: 'Personen er reaktivert som arbeidssøker',
         dagpenger:
-            'Hvis personen skal søke om økonomisk støtte etter at retten til sykepenger tar slutt, må du informere om at det gjøres i en egen søknad.',
+            'Hvis personen har mottatt dagpenger før vedkommende falt ut må du informere om at dagpengene er stoppet og at det må søkes om gjenopptak.',
     },
 };
 

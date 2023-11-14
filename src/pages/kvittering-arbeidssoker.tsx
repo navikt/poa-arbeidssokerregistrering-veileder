@@ -9,7 +9,7 @@ import { withAuthenticatedPage } from '../auth/withAuthentication';
 
 const TEKSTER: Tekster<string> = {
     nb: {
-        header: 'Personen er nå registrert som arbeidssøker',
+        header: 'Personen er registrert som arbeidssøker',
         dagpenger:
             'Hvis personen har registrert seg for å søke dagpenger må du informere om at en tidligst kan få dagpenger fra den dagen en sender inn søknaden.',
     },
