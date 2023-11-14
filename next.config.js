@@ -6,12 +6,8 @@ const nextConfig = {
     async rewrites() {
         return [
             {
-                source: '/modiacontextholder/api/context/:path',
-                destination: '/api/modiacontextholder/context/:path',
-            },
-            {
-                source: '/modiacontextholder/api/:path',
-                destination: '/api/modiacontextholder/:path',
+                source: '/modiacontextholder/api/:path*',
+                destination: '/api/modiacontextholder/:path*',
             },
         ];
     },
