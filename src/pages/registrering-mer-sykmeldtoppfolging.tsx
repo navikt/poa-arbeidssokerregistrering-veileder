@@ -8,6 +8,7 @@ import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-
 import { Config } from '../model/config';
 import DemoPanel from '../components/demo-panel';
 import SykmeldtFremtidigSituasjon from '../components/skjema/sykmeldt-fremtidig-situasjon';
+import TilbakeTilJobb from '../components/skjema/sykmeldt-tilbake-til-jobb';
 
 export default function RegistreringMerSykmeldtOppfolging() {
     const { enableMock } = useConfig() as Config;
@@ -22,6 +23,7 @@ export default function RegistreringMerSykmeldtOppfolging() {
                 </Heading>
                 <SykmeldtoppfolgingProvider>
                     <SykmeldtFremtidigSituasjon />
+                    <TilbakeTilJobb />
                 </SykmeldtoppfolgingProvider>
             </main>
             <DemoPanel brukerMock={brukerMock} />

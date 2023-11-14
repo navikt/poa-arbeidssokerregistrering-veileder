@@ -1,19 +1,21 @@
 import { Heading, Panel } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
+import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
-import { SkjemaKomponentProps } from './skjema-felleskomponenter';
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
 import { hentTekst, SporsmalId, TilbakeIArbeid } from '../../model/sporsmal';
 
 import styles from '../../styles/skjema.module.css';
 
-const TilbakeTilJobb = (props: SkjemaKomponentProps<TilbakeIArbeid>) => {
+const TilbakeTilJobb = () => {
     const sprak = useSprak();
     const tekst = (key: string) => hentTekst(sprak, key);
-    const { onChange, valgt, visFeilmelding } = props;
+    const { registrering, doValidate, setRegistrering } = useSykmeldtoppfolging();
+    const visFeilmelding = doValidate ? !Object.keys(registrering).includes('tilbakeIArbeid') : false;
 
     const lagValg = (valg: TilbakeIArbeid) => ({ tekst: tekst(valg), value: valg });
+
     const valg = [
         lagValg(TilbakeIArbeid.JA_FULL_STILLING),
         lagValg(TilbakeIArbeid.JA_REDUSERT_STILLING),
@@ -30,8 +32,7 @@ const TilbakeTilJobb = (props: SkjemaKomponentProps<TilbakeIArbeid>) => {
                 <RadioGruppe
                     legend={tekst(SporsmalId.tilbakeIArbeid)}
                     valg={valg}
-                    onSelect={(val) => onChange(val)}
-                    valgt={valgt}
+                    onSelect={(val) => setRegistrering({ [SporsmalId.tilbakeIArbeid]: val })}
                     visFeilmelding={visFeilmelding}
                 />
             </form>

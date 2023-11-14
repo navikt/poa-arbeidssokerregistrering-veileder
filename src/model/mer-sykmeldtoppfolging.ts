@@ -3,6 +3,7 @@ import {
     JaEllerNei,
     SisteStillingValg,
     SporsmalId,
+    TilbakeIArbeid,
     UtdanningGodkjentValg,
     Utdanningsnivaa,
 } from './sporsmal';
@@ -60,7 +61,7 @@ export type SisteJobb = {
 
 export interface MerSykmeldtoppfolgingState {
     [SporsmalId.fremtidigSituasjon]?: FremtidigSituasjon;
-    [SporsmalId.utdanning]?: Utdanningsnivaa;
+    [SporsmalId.tilbakeIArbeid]?: TilbakeIArbeid;
     [SporsmalId.utdanningGodkjent]?: UtdanningGodkjentValg;
     [SporsmalId.utdanningBestatt]?: JaEllerNei;
     [SporsmalId.andreForhold]?: JaEllerNei;

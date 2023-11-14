@@ -14,7 +14,7 @@ interface SykmeldtoppfolgingContextType {
 
 const pakrevdeSvarUnntattStilling = [
     SporsmalId.fremtidigSituasjon,
-    SporsmalId.dinSituasjon,
+    SporsmalId.tilbakeIArbeid,
     SporsmalId.helseHinder,
     SporsmalId.utdanningBestatt,
     SporsmalId.utdanningGodkjent,
