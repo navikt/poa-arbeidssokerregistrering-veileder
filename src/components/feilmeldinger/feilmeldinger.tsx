@@ -9,7 +9,7 @@ import { loggStoppsituasjon } from '../../lib/amplitude';
 
 const TEKSTER: Tekster<string> = {
     nb: {
-        feilISystemene: 'På grunn av feil i systemene våre kan du ikke registrere deg akkurat nå.',
+        feilISystemene: 'På grunn av feil i systemene får du ikke registrert denne personen nå.',
         provIgjen: 'Vennligst prøv igjen litt senere.',
         kontaktBrukerstotte: 'Kontakt teknisk brukerstøtte dersom problemene vedvarer.',
     },
@@ -25,18 +25,14 @@ const FeilmeldingGenerell = () => {
     }, []);
 
     return (
-        <>
-            <Heading size="medium" spacing level="1">
+        <Alert variant={'error'}>
+            <Heading size="small" level="1">
                 Beklager, teknisk feil
             </Heading>
-            <Alert variant={'error'}>
-                <BodyLong spacing>{tekst('feilISystemene')}</BodyLong>
-                <BodyLong spacing>{tekst('provIgjen')}</BodyLong>
-                <BodyLong>
-                    <Link href="https://www.nav.no/kontaktoss">{tekst('kontaktBrukerstotte')}</Link>
-                </BodyLong>
-            </Alert>
-        </>
+            <BodyLong>{tekst('feilISystemene')}</BodyLong>
+            <BodyLong>{tekst('provIgjen')}</BodyLong>
+            <BodyLong>{tekst('kontaktBrukerstotte')}</BodyLong>
+        </Alert>
     );
 };
 

@@ -26,9 +26,6 @@ const TEKSTER: Tekster<string> = {
             'https://navno.sharepoint.com/sites/fag-og-ytelser-regelverk-og-rutiner/SitePages/Registrering-av-arbeids--og-oppholdstillatelse.aspx?web=1',
         servicerutineLenkeTekstArbeidstillatelse: 'servicerutine for registrering av arbeids- og oppholdstillatelse',
     },
-    en: {
-        //TODO: Oversetting
-    },
 };
 
 const KontaktVeileder = (props: Feilsituasjon) => {

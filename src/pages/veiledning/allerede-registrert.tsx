@@ -11,18 +11,8 @@ import { withAuthenticatedPage } from '../../auth/withAuthentication';
 
 const TEKSTER: Tekster<string> = {
     nb: {
-        overskrift: 'Vi må hjelpe deg videre i andre kanaler',
-        innledning: 'For at du skal få registrert deg som arbeidssøker må vi hjelpe deg videre.',
-        sendMelding: 'Send melding til veilederen din',
-        ringOss: 'eller ring oss på',
-        telefonNummer: '55 55 33 33',
-    },
-    en: {
-        overskrift: 'We will need to help you through other channels',
-        innledning: 'You will need some assistance to register as a job seeker',
-        sendMelding: 'Send a message to your counselor',
-        ringOss: 'or call',
-        telefonNummer: '55 55 33 33',
+        overskrift: 'Personen er allerede registrert',
+        melding: 'Personen er allerede registrert som arbeidssøker i Arena',
     },
 };
 
@@ -39,13 +29,10 @@ function AlleredeRegistrert() {
 
     return (
         <Alert variant="warning">
-            <Heading spacing size="large" level="1">
+            <Heading spacing size="small" level="1">
                 {tekst('overskrift')}
             </Heading>
-            <BodyLong>{tekst('innledning')}</BodyLong>
-            <BodyLong>
-                <Link href={dialogUrl}>{tekst('sendMelding')}</Link> {tekst('ringOss')} <b>{tekst('telefonNummer')}</b>
-            </BodyLong>
+            <BodyLong>{tekst('melding')}.</BodyLong>
         </Alert>
     );
 }
