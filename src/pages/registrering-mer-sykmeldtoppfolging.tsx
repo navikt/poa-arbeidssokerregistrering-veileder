@@ -12,6 +12,7 @@ import TilbakeTilJobb from '../components/skjema/sykmeldt-tilbake-til-jobb';
 import Utdanning from '../components/skjema/sykmeldt-utdanning';
 import UtdanningGodkjent from '../components/skjema/sykmeldt-utdanning-godkjent';
 import UtdanningBestatt from '../components/skjema/sykmeldt-utdanning-bestatt';
+import AndreProblemer from '../components/skjema/sykmeldt-andre-problemer';
 
 export default function RegistreringMerSykmeldtOppfolging() {
     const { enableMock } = useConfig() as Config;
@@ -30,6 +31,7 @@ export default function RegistreringMerSykmeldtOppfolging() {
                     <Utdanning />
                     <UtdanningGodkjent />
                     <UtdanningBestatt />
+                    <AndreProblemer />
                 </SykmeldtoppfolgingProvider>
             </main>
             <DemoPanel brukerMock={brukerMock} />

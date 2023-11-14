@@ -1,7 +1,6 @@
 import {
     FremtidigSituasjon,
     JaEllerNei,
-    SisteStillingValg,
     SporsmalId,
     TilbakeIArbeid,
     UtdanningGodkjentValg,
@@ -66,9 +65,6 @@ export interface MerSykmeldtoppfolgingState {
     [SporsmalId.utdanningGodkjent]?: UtdanningGodkjentValg;
     [SporsmalId.utdanningBestatt]?: JaEllerNei;
     [SporsmalId.andreForhold]?: JaEllerNei;
-    [SporsmalId.sisteStilling]?: SisteStillingValg;
-    [SporsmalId.sisteJobb]?: SisteJobb;
-    [SporsmalId.helseHinder]?: JaEllerNei;
 }
 
 export interface FullforRegistreringResponse {
