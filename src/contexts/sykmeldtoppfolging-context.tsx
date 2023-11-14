@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 import { isEqual } from 'lodash';
 
 import { MerSykmeldtoppfolgingState } from '../model/mer-sykmeldtoppfolging';
-import { SporsmalId } from '../model/sporsmal';
+import { SporsmalId, FremtidigSituasjon } from '../model/sporsmal';
 
 interface SykmeldtoppfolgingContextType {
     registrering: MerSykmeldtoppfolgingState;
@@ -12,16 +12,23 @@ interface SykmeldtoppfolgingContextType {
     setDoValidate: (data: boolean) => void;
 }
 
-const pakrevdeSvarUnntattStilling = [
-    SporsmalId.fremtidigSituasjon,
-    SporsmalId.tilbakeIArbeid,
-    SporsmalId.helseHinder,
-    SporsmalId.utdanningBestatt,
-    SporsmalId.utdanningGodkjent,
-    SporsmalId.utdanning,
-];
-
-const muligeStillingsSvar = [SporsmalId.sisteJobb, SporsmalId.sisteStilling];
+function genererPakrevdeSvar(svar: FremtidigSituasjon) {
+    let pakrevdeSvar = [SporsmalId.fremtidigSituasjon];
+    if ([FremtidigSituasjon.NY_ARBEIDSGIVER, FremtidigSituasjon.USIKKER].includes(svar)) {
+        pakrevdeSvar.push(
+            ...[
+                SporsmalId.andreForhold,
+                SporsmalId.utdanning,
+                SporsmalId.utdanningBestatt,
+                SporsmalId.utdanningGodkjent,
+            ],
+        );
+    }
+    if ([FremtidigSituasjon.SAMME_ARBEIDSGIVER, FremtidigSituasjon.SAMME_ARBEIDSGIVER_NY_STILLING].includes(svar)) {
+        pakrevdeSvar.push(SporsmalId.tilbakeIArbeid);
+    }
+    return pakrevdeSvar;
+}
 
 const SykmeldtoppfolgingContext = createContext<SykmeldtoppfolgingContextType>({
     registrering: {} as MerSykmeldtoppfolgingState,
@@ -45,16 +52,14 @@ function SykmeldtoppfolgingProvider({ children }: { children: ReactNode }) {
     };
 
     useEffect(() => {
-        const altOkUnntattStilling = isEqual(
+        const pakrevdeSvar = genererPakrevdeSvar(registrering?.fremtidigSituasjon);
+        const altOk = isEqual(
             Object.keys(registrering)
-                .filter((key) => pakrevdeSvarUnntattStilling.includes(key as SporsmalId))
+                .filter((key) => pakrevdeSvar.includes(key as SporsmalId))
                 .sort(),
-            pakrevdeSvarUnntattStilling.sort(),
+            pakrevdeSvar.sort(),
         );
-        const stillingOK =
-            Object.keys(registrering).filter((key) => muligeStillingsSvar.includes(key as SporsmalId)).length > 0;
-        const altOK = altOkUnntattStilling && stillingOK;
-        setIsValid(altOK);
+        setIsValid(altOk);
     }, [registrering]);
 
     return <SykmeldtoppfolgingContext.Provider value={contextValue}>{children}</SykmeldtoppfolgingContext.Provider>;

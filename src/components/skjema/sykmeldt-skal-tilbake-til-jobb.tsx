@@ -4,7 +4,7 @@ import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
 import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
-import { TilbakeIArbeid } from '../../model/sporsmal';
+import { FremtidigSituasjon, TilbakeIArbeid } from '../../model/sporsmal';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -16,9 +16,16 @@ const SkalTilbakeTilJobb = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { registrering } = useSykmeldtoppfolging();
 
-    const { tilbakeIArbeid } = registrering;
+    const { tilbakeIArbeid, fremtidigSituasjon } = registrering;
 
-    if (![TilbakeIArbeid.JA_FULL_STILLING].includes(tilbakeIArbeid as TilbakeIArbeid)) {
+    if (
+        !(
+            [TilbakeIArbeid.JA_FULL_STILLING].includes(tilbakeIArbeid as TilbakeIArbeid) &&
+            [FremtidigSituasjon.SAMME_ARBEIDSGIVER, FremtidigSituasjon.SAMME_ARBEIDSGIVER_NY_STILLING].includes(
+                fremtidigSituasjon as FremtidigSituasjon,
+            )
+        )
+    ) {
         return null;
     }
 
