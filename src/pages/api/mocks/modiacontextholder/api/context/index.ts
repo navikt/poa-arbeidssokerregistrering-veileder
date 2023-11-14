@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const modiacontextholder = (req: NextApiRequest, res: NextApiResponse) => {
+const context = (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json({
         ident: 'Z994381',
         navn: 'F_Z994381 E_Z994381',
@@ -16,4 +16,4 @@ const modiacontextholder = (req: NextApiRequest, res: NextApiResponse) => {
     });
 };
 
-export default modiacontextholder;
+export default context;
