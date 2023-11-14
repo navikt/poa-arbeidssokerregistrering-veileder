@@ -37,7 +37,15 @@ export const lagModiaContextKall = (url: string) => {
                 method: req.method,
                 body: req.method === 'POST' ? JSON.stringify(req.body) : null,
                 headers,
-            }).then((res) => res.json());
+            }).then((response) => {
+                const contentType = response.headers.get('content-type');
+
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json();
+                }
+
+                return null;
+            });
             res.json(result);
         } catch (error) {
             logger.error(`Kall med (callId: ${callId}) feilet. Feilmelding: ${error}`);
