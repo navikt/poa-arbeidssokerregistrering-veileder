@@ -1,4 +1,4 @@
-import { Heading } from '@navikt/ds-react';
+import { Heading, Alert, BodyShort } from '@navikt/ds-react';
 
 import { useConfig } from '../contexts/config-context';
 
@@ -27,6 +27,15 @@ export default function RegistreringMerSykmeldtOppfolging() {
                 <Heading size="medium" level="1" className="mb-2">
                     Registrering for mer sykmeldtoppfølging
                 </Heading>
+                <Alert variant="info" className="mb-8">
+                    <Heading level="1" size="small">
+                        Personen kan registreres for mer sykmeldtoppfølging
+                    </Heading>
+                    <BodyShort>
+                        Dersom personen skal registreres som arbeidssøker må du følge gjeldende servicerutiner for å
+                        avslutte sykefraværsoppfølgingen.
+                    </BodyShort>
+                </Alert>
                 <SykmeldtoppfolgingProvider>
                     <SykmeldtFremtidigSituasjon />
                     <TilbakeTilJobb />
