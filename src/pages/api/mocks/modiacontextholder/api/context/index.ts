@@ -3,7 +3,7 @@ import { logger } from '@navikt/next-logger';
 
 const context = (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
-        logger.info('POST request', req.body);
+        logger.info(req.body, 'POST request');
         return res.status(200).json({});
     } else {
         res.status(200).json({
