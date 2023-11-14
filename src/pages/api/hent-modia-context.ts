@@ -19,7 +19,7 @@ export const lagModiaContextKall = (url: string) => {
             logger.info(`Starter kall callId: ${callId} mot ${url}`);
             const result = await fetch(`${url}`, {
                 method: req.method,
-                body: req.body ?? null,
+                body: req.method === 'POST' ? req.body : null,
                 headers,
             }).then((res) => res.json());
             res.json(result);
