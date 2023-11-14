@@ -10,8 +10,8 @@ const nextConfig = {
                 destination: '/api/modiacontextholder/context/:path',
             },
             {
-                source: '/modiacontextholder/api/decorator',
-                destination: '/api/modiacontextholder/decorator',
+                source: '/modiacontextholder/api/:path',
+                destination: '/api/modiacontextholder/:path',
             },
         ];
     },

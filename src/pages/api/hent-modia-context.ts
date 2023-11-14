@@ -16,7 +16,7 @@ export const lagModiaContextKall = (url: string) => {
             const headers = brukerMock
                 ? getHeaders('token', callId)
                 : getHeaders(await getModiacontextholderToken(req), callId);
-            logger.info(`Starter kall callId: ${callId} mot ${url}`);
+            logger.info(`Starter kall (${req.method}) callId: ${callId} mot ${url}`);
             const result = await fetch(`${url}`, {
                 method: req.method,
                 body: req.method === 'POST' ? req.body : null,
