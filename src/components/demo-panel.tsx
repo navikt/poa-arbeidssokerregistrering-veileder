@@ -29,13 +29,20 @@ function DemoPanel({ brukerMock }: Props) {
                                 </NextLink>
                             </p>
                             <p>
+                                <NextLink href="/kvittering-arbeidssoker/" passHref locale={false}>
+                                    <Button variant="secondary">Kvittering registrert arbeidssøker</Button>
+                                </NextLink>
+                            </p>
+                            <p>
                                 <NextLink href={`/registrering-mer-sykmeldtoppfolging`} passHref locale={false}>
                                     <Button variant="secondary">Mer sykmeldt oppfølging</Button>
                                 </NextLink>
                             </p>
                             <p>
-                                <NextLink href="/kvittering-arbeidssoker/" passHref locale={false}>
-                                    <Button variant="secondary">Kvittering registrert arbeidssøker</Button>
+                                <NextLink href="/kvittering-mer-sykmeldtoppfolging/" passHref locale={false}>
+                                    <Button variant="secondary">
+                                        Kvittering registrert for mer sykmeldtoppfølging
+                                    </Button>
                                 </NextLink>
                             </p>
                             <Heading level="4" size="medium">
