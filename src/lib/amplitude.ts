@@ -90,9 +90,6 @@ type AmplitudeInitFunction = (params: AmplitudeParams) => void;
 export const initAmplitude: AmplitudeInitFunction = ({ apiKey, apiEndpoint }) => {
     if (isBrowser()) {
         amplitude.getInstance().init(apiKey, undefined, { ...config, apiEndpoint });
-        logAmplitudeEvent('sidevisning', {
-            sidetittel: document.title,
-        });
     }
 };
 
@@ -100,39 +97,37 @@ export function logAmplitudeEvent(eventName: string, data: EventData) {
     return new Promise(function (resolve) {
         const eventData = data || {};
         if (isBrowser()) {
-            const brukergruppe = window.sessionStorage.getItem('beregnetBrukergruppe') || 'Ikke tilgjengelig';
-            const registreringstype = window.sessionStorage.getItem('registreringType') || 'Ikke tilgjengelig';
-            amplitude.getInstance().logEvent(eventName, { ...eventData, brukergruppe, registreringstype }, resolve);
+            amplitude.getInstance().logEvent(eventName, { ...eventData }, resolve);
         }
     });
 }
 
 export function loggStoppsituasjon(data: StoppsituasjonData) {
-    const eventData = data || {} as EventData;
-    logAmplitudeEvent('arbeidssokerregistrering.stoppsituasjoner', eventData);
+    const eventData = data || ({} as EventData);
+    logAmplitudeEvent('arbeidssokerregistrering-veileder.stoppsituasjoner', eventData);
 }
 
 export function loggAktivitet(data: AktivitetData) {
-    const eventData = data || {} as EventData;
-    logAmplitudeEvent('arbeidssokerregistrering.aktiviteter', eventData);
+    const eventData = data || ({} as EventData);
+    logAmplitudeEvent('arbeidssokerregistrering-veileder.aktiviteter', eventData);
 }
 
 export function loggFeedback(data: FeedbackData) {
-    const eventData = data || {} as EventData;
+    const eventData = data || ({} as EventData);
     logAmplitudeEvent('arbeidssokerregistrering.feedback', eventData);
 }
 
 export function loggFlyt(data: FlytData) {
-    const eventData = data || {} as EventData;
-    logAmplitudeEvent('arbeidssokerregistrering.flyt', eventData);
+    const eventData = data || ({} as EventData);
+    logAmplitudeEvent('arbeidssokerregistrering-veileder.flyt', eventData);
 }
 
 export function loggBesvarelse(data: BesvarelseData) {
-    const eventData = data || {} as EventData;
-    logAmplitudeEvent('arbeidssokerregistrering.besvarelser', eventData);
+    const eventData = data || ({} as EventData);
+    logAmplitudeEvent('arbeidssokerregistrering-veileder.besvarelser', eventData);
 }
 
 export function loggEksperiment(data: EksperimentData) {
-    const eventData = data || {} as EventData;
-    logAmplitudeEvent('arbeidssokerregistrering.eksperimenter', eventData);
+    const eventData = data || ({} as EventData);
+    logAmplitudeEvent('arbeidssokerregistrering-veileder.eksperimenter', eventData);
 }

@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect } from 'react';
-import { initAmplitude, logAmplitudeEvent } from '../lib/amplitude';
+
 import { useConfig } from './config-context';
+
+import { initAmplitude, logAmplitudeEvent } from '../lib/amplitude';
 
 const AmplitudeContext = createContext();
 
