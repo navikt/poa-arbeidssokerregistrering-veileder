@@ -16,8 +16,6 @@ export default function Home() {
     const { enableMock } = useConfig() as Config;
     const brukerMock = enableMock === 'enabled';
 
-    console.log(params);
-
     return (
         <>
             <RedirectTilVedlikehold />
