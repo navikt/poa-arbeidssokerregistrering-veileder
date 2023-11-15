@@ -9,12 +9,12 @@ const InternflateDecorator = () => {
     const { fnr, enhetId } = params;
 
     const onFnrChanged = (fnr) => {
-        setParams({ enhetId: enhetId, fnr: fnr });
+        setParams({ fnr: fnr });
         console.log('onFnrChanged', fnr);
     };
 
     const onEnhetChanged = (enhet) => {
-        setParams({ enhetId: enhet, fnr: fnr });
+        setParams({ enhetId: enhet });
         console.log('onEnhetChanged', enhet);
     };
 
