@@ -1,6 +1,6 @@
 import { Heading, Link, BodyShort } from '@navikt/ds-react';
 
-import { useParamsFromContext, ContextParams } from '../contexts/params-from-context';
+import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
 
 import RedirectTilVedlikehold from '../components/redirect-til-vedlikehold';
@@ -11,9 +11,12 @@ import RedirectTilSkjema from '../components/redirect-til-skjema';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
 
 export default function Home() {
-    const { fnr, enhetId } = useParamsFromContext() as ContextParams;
+    const { params } = useParamsFromContext();
+    const { fnr, enhetId } = params;
     const { enableMock } = useConfig() as Config;
     const brukerMock = enableMock === 'enabled';
+
+    console.log(params);
 
     return (
         <>
