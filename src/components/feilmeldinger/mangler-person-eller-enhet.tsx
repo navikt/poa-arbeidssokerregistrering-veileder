@@ -6,6 +6,10 @@ function ManglerPersonEllerEnhet() {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
 
+    if (fnr === undefined && enhetId === undefined) {
+        return null;
+    }
+
     if (!fnr) {
         return (
             <Alert variant="warning">
