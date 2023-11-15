@@ -1,0 +1,109 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: "arbeidssokerregistrering-for-veileder"
+  namespace: "paw"
+  labels:
+    "team": "paw"
+spec:
+  image: {{image}}
+  port: 3000
+  liveness:
+    path: "/api/isalive"
+    initialDelay: 3
+  readiness:
+    path: "/api/isready"
+    initialDelay: 3
+  replicas:
+    min: 1
+    max: 1
+    cpuThresholdPercentage: 50
+  prometheus:
+    enabled: false
+  limits:
+    cpu: "200m"
+    memory: "256Mi"
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+  env:
+    - name: SELF_URL
+      value: https://arbeidssokerregistrering-for-veileder.intern.nav.no
+    - name: DEKORATOR_URL
+      value: https://dekoratoren.nav.no/
+    - name: DEKORATOR_ENV
+      value: prod
+    - name: NEXT_PUBLIC_SELF_URL
+      value: https://arbeidssokerregistrering-for-veileder.intern.nav.no
+    - name: NEXT_PUBLIC_AMPLITUDE_API_KEY
+      value: 913768927b84cde5eac0d0d18c737561
+    - name: NEXT_PUBLIC_AMPLITUDE_ENDPOINT
+      value: amplitude.nav.no/collect
+    - name: NEXT_PUBLIC_ENABLE_MOCK
+      value: disabled
+    - name: NEXT_PUBLIC_DITTNAV_URL
+      value: https://www.nav.no/minside
+    - name: NEXT_PUBLIC_DAGPENGESOKNAD_URL
+      value: https://arbeid.nav.no/dagpenger/dialog/soknad
+    - name: NEXT_PUBLIC_DIALOG_URL
+      value: https://www.nav.no/arbeid/dialog
+    - name: NEXT_PUBLIC_MER_OPPFOLGING_URL
+      value: https://www.nav.no/syk/meroppfolging/reg/0
+    - name: PAM_JANZZ_URL
+      value: https://arbeidsplassen.nav.no/pam-janzz/rest
+    - name: START_REGISTRERING_URL
+      value: http://veilarbregistrering/veilarbregistrering/api/startregistrering/
+    - name: FULLFOR_REGISTRERING_URL
+      value: http://veilarbregistrering/veilarbregistrering/api/fullfoerordinaerregistrering/
+    - name: FULLFOR_REGISTRERING_SYKMELDT_URL
+      value: http://veilarbregistrering/veilarbregistrering/api/fullfoersykmeldtregistrering/
+    - name: REAKTIVERING_URL
+      value: http://veilarbregistrering/veilarbregistrering/api/fullfoerreaktivering/
+    - name: SISTE_ARBEIDSFORHOLD_URL
+      value: http://veilarbregistrering/veilarbregistrering/api/sistearbeidsforhold/
+    - name: OPPRETT_OPPGAVE_URL
+      value: http://veilarbregistrering/veilarbregistrering/api/oppgave/
+    - name: KONTAKTINFORMASJON_URL
+      value: http://veilarbregistrering/veilarbregistrering/api/person/kontaktinfo
+    - name: NODE_ENV
+      value: production
+    - name: HENT_PROFILERING_URL
+      value: http://veilarbregistrering/veilarbregistrering/api/profilering/
+    - name: UNLEASH_SERVER_API_URL
+      value: https://paw-unleash-api.nav.cloud.nais.io/api
+    - name: ARBEIDSSOKER_PERIODER_URL
+      value: http://veilarbregistrering/veilarbregistrering/api/arbeidssoker/perioder/niva3
+    - name: MODIACONTEXTHOLDER_URL
+      value: https://modiacontextholder.prod-fss-pub.nais.io
+    - name: MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID
+      value: prod-fss.personoversikt.modiacontextholder
+    - name: INTERNARBEIDSFLATEDEKORATOR_URL
+      value: https://internarbeidsflatedecorator.prod-fss-pub.nais.io
+    - name: NEXT_PUBLIC_ASSET_PREFIX
+      value: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
+    - name: DECORATOR_URL
+      value: https://internarbeidsflatedecorator.intern.nav.no
+  envFrom:
+    - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
+  ingresses:
+    - https://arbeidssokerregistrering-for-veileder.intern.nav.no
+  azure:
+    application:
+      enabled: true
+      allowAllUsers: true
+    sidecar:
+      enabled: true
+  tokenx:
+    enabled: true
+  accessPolicy:
+    outbound:
+      external:
+        - host: arbeidsplassen.nav.no
+        - host: paw-unleash-api.nav.cloud.nais.io
+        - host: modiacontextholder.prod-fss-pub.nais.io
+        - host: internarbeidsflatedecorator.prod-fss-pub.nais.io
+      rules:
+        - application: veilarbregistrering
+        - application: modiacontextholder
+          namespace: personoversikt
+          cluster: prod-fss
