@@ -7,13 +7,14 @@ const Decorator: ComponentType<DecoratorConfig> = NAVSPA.importer('internarbeids
 const InternflateDecorator = () => {
     const { params, setParams } = useParamsFromContext();
     const { fnr, enhetId } = params;
+
     const onFnrChanged = (fnr) => {
-        setParams({ fnr: fnr });
+        setParams({ enhetId: enhetId, fnr: fnr });
         console.log('onFnrChanged', fnr);
     };
 
     const onEnhetChanged = (enhet) => {
-        setParams({ enhetId: enhet });
+        setParams({ enhetId: enhet, fnr: fnr });
         console.log('onEnhetChanged', enhet);
     };
 
