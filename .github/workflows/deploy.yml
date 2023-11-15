@@ -39,7 +39,6 @@ jobs:
         env:
           NODE_ENV: production
           NEXT_PUBLIC_ASSET_PREFIX: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
-          DECORATOR_URL: https://internarbeidsflatedecorator-q1.intern.dev.nav.no
 
       - name: Upload static files to NAV CDN
         uses: navikt/frontend/actions/cdn-upload/v1@main
@@ -73,7 +72,7 @@ jobs:
           CLUSTER: dev-gcp
           RESOURCE: .nais/dev-gcp/nais.yaml
           VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
-  
+
   deploy-demo:
     name: Deploy to demo
     needs: [test-and-build-cdn-docker]
@@ -90,6 +89,22 @@ jobs:
           RESOURCE: .nais/demo.yaml
           VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
 
+  deploy-prod:
+    name: Deploy to prod
+    needs: [ test-and-build-cdn-docker ]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-gcp
+          RESOURCE: .nais/prod-gcp/nais.yaml
+          VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
+
   apply-apitoken-unleash:
     name: Legger til ApiToken for Unleash
     runs-on: ubuntu-latest
@@ -103,9 +118,9 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .nais/dev-gcp/unleash-apitoken.yaml
-#      - name: deploy to prod
-#        uses: nais/deploy/actions/deploy@v1
-#        env:
-#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-#          CLUSTER: prod-gcp
-#          RESOURCE: .nais/prod-gcp/unleash-apitoken.yaml
+      - name: deploy to prod
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-gcp
+          RESOURCE: .nais/prod-gcp/unleash-apitoken.yaml
