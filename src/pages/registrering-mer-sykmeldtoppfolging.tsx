@@ -1,6 +1,7 @@
 import { Heading, Alert, BodyShort } from '@navikt/ds-react';
 
 import { useConfig } from '../contexts/config-context';
+import { useParamsFromContext } from '../contexts/params-from-context';
 
 import { SykmeldtoppfolgingProvider } from '../contexts/sykmeldtoppfolging-context';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
@@ -19,33 +20,40 @@ import { RegistrerForMerSykmeldtoppfolgingKnapp } from '../components/skjema/syk
 export default function RegistreringMerSykmeldtOppfolging() {
     const { enableMock } = useConfig() as Config;
     const brukerMock = enableMock === 'enabled';
+    const { params } = useParamsFromContext();
+    const { fnr, enhetId } = params;
+    const visInnhold = fnr && enhetId;
 
     return (
         <section className="flex flex-col items-center p-8">
             <main className="flex flex-col max-w-4xl w-full" tabIndex={-1} id="maincontent">
                 <ManglerPersonEllerEnhet />
-                <Heading size="medium" level="1" className="mb-2">
-                    Registrering for mer sykmeldtoppfølging
-                </Heading>
-                <Alert variant="info" className="mb-8">
-                    <Heading level="1" size="small">
-                        Personen kan registreres for mer sykmeldtoppfølging
-                    </Heading>
-                    <BodyShort>
-                        Dersom personen skal registreres som arbeidssøker må du følge gjeldende servicerutiner for å
-                        avslutte sykefraværsoppfølgingen.
-                    </BodyShort>
-                </Alert>
-                <SykmeldtoppfolgingProvider>
-                    <SykmeldtFremtidigSituasjon />
-                    <TilbakeTilJobb />
-                    <SkalTilbakeTilJobb />
-                    <Utdanning />
-                    <UtdanningGodkjent />
-                    <UtdanningBestatt />
-                    <AndreProblemer />
-                    <RegistrerForMerSykmeldtoppfolgingKnapp />
-                </SykmeldtoppfolgingProvider>
+                {visInnhold && (
+                    <>
+                        <Heading size="medium" level="1" className="mb-2">
+                            Registrering for mer sykmeldtoppfølging
+                        </Heading>
+                        <Alert variant="info" className="mb-8">
+                            <Heading level="1" size="small">
+                                Personen kan registreres for mer sykmeldtoppfølging
+                            </Heading>
+                            <BodyShort>
+                                Dersom personen skal registreres som arbeidssøker må du følge gjeldende servicerutiner
+                                for å avslutte sykefraværsoppfølgingen.
+                            </BodyShort>
+                        </Alert>
+                        <SykmeldtoppfolgingProvider>
+                            <SykmeldtFremtidigSituasjon />
+                            <TilbakeTilJobb />
+                            <SkalTilbakeTilJobb />
+                            <Utdanning />
+                            <UtdanningGodkjent />
+                            <UtdanningBestatt />
+                            <AndreProblemer />
+                            <RegistrerForMerSykmeldtoppfolgingKnapp />
+                        </SykmeldtoppfolgingProvider>
+                    </>
+                )}
             </main>
             <DemoPanel brukerMock={brukerMock} />
         </section>

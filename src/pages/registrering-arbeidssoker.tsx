@@ -1,8 +1,9 @@
 import { Heading } from '@navikt/ds-react';
 
 import { useConfig } from '../contexts/config-context';
-import { Config } from '../model/config';
+import { useParamsFromContext } from '../contexts/params-from-context';
 
+import { Config } from '../model/config';
 import { RegistreringProvider } from '../contexts/registrering-context';
 import DinSituasjon from '../components/skjema/din-situasjon';
 import SisteJobb from '../components/skjema/siste-jobb/siste-jobb';
@@ -19,23 +20,30 @@ import DemoPanel from '../components/demo-panel';
 export default function RegistreringArbeidssoker() {
     const { enableMock } = useConfig() as Config;
     const brukerMock = enableMock === 'enabled';
+    const { params } = useParamsFromContext();
+    const { fnr, enhetId } = params;
+    const visInnhold = fnr && enhetId;
 
     return (
         <>
             <ManglerPersonEllerEnhet />
-            <Heading size="medium" level="1" className="mb-2">
-                Arbeidssøkerregistrering
-            </Heading>
-            <RegistreringProvider>
-                <DinSituasjon />
-                <SisteJobb />
-                <UtdanningsNiva />
-                <UtdanningGodkjent />
-                <UtdanningBestatt />
-                <Helseproblemer />
-                <AndreProblemer />
-                <RegistrerArbeidssokerKnapp />
-            </RegistreringProvider>
+            {visInnhold && (
+                <>
+                    <Heading size="medium" level="1" className="mb-2">
+                        Arbeidssøkerregistrering
+                    </Heading>
+                    <RegistreringProvider>
+                        <DinSituasjon />
+                        <SisteJobb />
+                        <UtdanningsNiva />
+                        <UtdanningGodkjent />
+                        <UtdanningBestatt />
+                        <Helseproblemer />
+                        <AndreProblemer />
+                        <RegistrerArbeidssokerKnapp />
+                    </RegistreringProvider>
+                </>
+            )}
             <DemoPanel brukerMock={brukerMock} />
         </>
     );
