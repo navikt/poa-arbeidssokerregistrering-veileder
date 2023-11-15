@@ -3,6 +3,7 @@ import { useParamsFromContext } from '../contexts/params-from-context';
 import { ComponentType } from 'react';
 import { DecoratorConfig } from '../model/internflate-decorator';
 
+const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const Decorator: ComponentType<DecoratorConfig> = NAVSPA.importer('internarbeidsflatefs');
 const InternflateDecorator = () => {
     const { params, setParams } = useParamsFromContext();
@@ -39,6 +40,10 @@ const InternflateDecorator = () => {
         },
         useProxy: true,
     };
+
+    if (brukerMock) {
+        return null;
+    }
 
     return <Decorator {...props} />;
 };
