@@ -19,7 +19,7 @@ function ParamsFromContextProvider({ children }) {
     const [params, setParams] = useState<ContextParams>({} as ContextParams);
 
     const updateParams = (data: ContextParams) => {
-        setParams({ ...params, ...data });
+        setParams((state) => ({ ...state, ...data }));
     };
 
     const hentContextFraModia = async () => {
