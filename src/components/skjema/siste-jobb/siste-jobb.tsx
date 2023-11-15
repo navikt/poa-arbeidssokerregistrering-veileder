@@ -37,7 +37,8 @@ const SisteJobb = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { registrering, setRegistrering } = useRegistrering();
     const [visStillingsSok, settVisStillingsSok] = useState<boolean>(false);
-    const { fnr } = useParamsFromContext();
+    const { params } = useParamsFromContext();
+    const { fnr } = params;
     const onCloseStillingssok = (value?: any) => {
         if (value) {
             setRegistrering({ [SporsmalId.sisteJobb]: value });

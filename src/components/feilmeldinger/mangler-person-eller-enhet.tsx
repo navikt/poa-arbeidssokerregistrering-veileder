@@ -3,7 +3,8 @@ import { Alert, Heading, BodyLong } from '@navikt/ds-react';
 import { useParamsFromContext } from '../../contexts/params-from-context';
 
 function ManglerPersonEllerEnhet() {
-    const { fnr, enhetId } = useParamsFromContext();
+    const { params } = useParamsFromContext();
+    const { fnr, enhetId } = params;
 
     if (!fnr) {
         return (

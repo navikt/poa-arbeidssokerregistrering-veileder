@@ -36,7 +36,8 @@ function hentNesteSideUrl(data: StartregistreringResponse) {
 
 function RedirectTilSkjema() {
     const router = useRouter();
-    const { fnr, enhetId } = useParamsFromContext();
+    const { params } = useParamsFromContext();
+    const { fnr, enhetId } = params;
     const [registreringsData, setRegistreringsData] = useState<StartregistreringResponse>();
     const [error, setError] = useState<any>();
     async function apiKall() {

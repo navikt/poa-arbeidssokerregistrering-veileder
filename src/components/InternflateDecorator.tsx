@@ -5,12 +5,15 @@ import { DecoratorConfig } from '../model/internflate-decorator';
 
 const Decorator: ComponentType<DecoratorConfig> = NAVSPA.importer('internarbeidsflatefs');
 const InternflateDecorator = () => {
-    const { fnr, enhetId } = useParamsFromContext();
+    const { params, setParams } = useParamsFromContext();
+    const { fnr, enhetId } = params;
     const onFnrChanged = (fnr) => {
+        setParams({ fnr: fnr });
         console.log('onFnrChanged', fnr);
     };
 
     const onEnhetChanged = (enhet) => {
+        setParams({ enhetId: enhet });
         console.log('onEnhetChanged', enhet);
     };
 

@@ -12,7 +12,8 @@ import { Config } from '../model/config';
 import DemoPanel from '../components/demo-panel';
 
 export default function RegistreringReaktivering() {
-    const { fnr } = useParamsFromContext();
+    const { params } = useParamsFromContext();
+    const { fnr } = params;
     const router = useRouter();
     const { enableMock } = useConfig() as Config;
     const [isPending, setIsPending] = useState<boolean>(false);

@@ -26,7 +26,8 @@ export const RegistrerForMerSykmeldtoppfolgingKnapp = () => {
     const [isDisabled, setIsDisabled] = useState(false);
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { setDoValidate, doValidate, isValid, registrering } = useSykmeldtoppfolging();
-    const { fnr, enhetId } = useParamsFromContext();
+    const { params } = useParamsFromContext();
+    const { fnr, enhetId } = params;
 
     async function registrerArbeidssoker() {
         setIsDisabled(true);

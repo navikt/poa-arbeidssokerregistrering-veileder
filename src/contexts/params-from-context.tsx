@@ -5,7 +5,15 @@ export type ContextParams = {
     enhetId?: string;
 };
 
-const ParamsFromContext = createContext<ContextParams>({});
+interface ParamsContextType {
+    params: ContextParams;
+    setParams: (data: any) => void;
+}
+
+const ParamsFromContext = createContext<ParamsContextType>({
+    params: {} as ContextParams,
+    setParams: () => {},
+});
 
 function ParamsFromContextProvider({ children }) {
     const [params, setParams] = useState<ContextParams>({} as ContextParams);
@@ -24,7 +32,12 @@ function ParamsFromContextProvider({ children }) {
         hentContextFraModia();
     }, []);
 
-    return <ParamsFromContext.Provider value={params}>{children}</ParamsFromContext.Provider>;
+    const contextValue = {
+        params,
+        setParams: (data) => setParams({ ...params, ...data }),
+    };
+
+    return <ParamsFromContext.Provider value={contextValue}>{children}</ParamsFromContext.Provider>;
 }
 
 function useParamsFromContext() {

@@ -29,7 +29,8 @@ export const RegistrerArbeidssokerKnapp = () => {
     const [isDisabled, setIsDisabled] = useState(false);
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { setDoValidate, doValidate, isValid, registrering } = useRegistrering();
-    const { fnr, enhetId } = useParamsFromContext();
+    const { params } = useParamsFromContext();
+    const { fnr, enhetId } = params;
 
     async function registrerArbeidssoker() {
         setIsDisabled(true);
