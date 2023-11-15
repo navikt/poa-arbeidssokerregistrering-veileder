@@ -18,6 +18,10 @@ const ParamsFromContext = createContext<ParamsContextType>({
 function ParamsFromContextProvider({ children }) {
     const [params, setParams] = useState<ContextParams>({} as ContextParams);
 
+    const updateParams = (data: ContextParams) => {
+        setParams({ ...params, ...data });
+    };
+
     const hentContextFraModia = async () => {
         const contextFraModia = await fetch('/api/hent-modia-context/').then((res) => res.json());
         const { aktivBruker, aktivEnhet } = contextFraModia;
@@ -34,7 +38,7 @@ function ParamsFromContextProvider({ children }) {
 
     const contextValue = {
         params,
-        setParams: (data) => setParams({ ...params, ...data }),
+        setParams: (data: ContextParams) => updateParams(data),
     };
 
     return <ParamsFromContext.Provider value={contextValue}>{children}</ParamsFromContext.Provider>;
