@@ -1,4 +1,4 @@
-import { Heading, Link, BodyShort } from '@navikt/ds-react';
+import { Heading } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
@@ -26,13 +26,6 @@ export default function Home() {
                     <Heading size="medium" level="1">
                         Arbeidssøkerregistrering for veileder
                     </Heading>
-                    <BodyShort>Fnr: {fnr}</BodyShort>
-                    <BodyShort>EnhetId: {enhetId}</BodyShort>
-                    <div className="flex justify-between">
-                        <Link href={`/registrering-arbeidssoker`}>Registrere arbeidssøker</Link>
-                        <Link href={`/registrering-reaktivering`}>Reaktiver arbeidssøker</Link>
-                        <Link href={`/registrering-mer-sykmeldtoppfolging`}>Registrere for mer sykmeldtoppfølging</Link>
-                    </div>
                 </main>
                 <DemoPanel brukerMock={brukerMock} />
             </section>

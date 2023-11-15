@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Alert, Heading, BodyLong } from '@navikt/ds-react';
+import { Loader } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 
@@ -73,7 +73,7 @@ function RedirectTilSkjema() {
         }
     }, [error, router]);
 
-    return <></>;
+    return <Loader size="3xlarge" title="Henter data..." />;
 }
 
 export default RedirectTilSkjema;
