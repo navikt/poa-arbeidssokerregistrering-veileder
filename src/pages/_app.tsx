@@ -15,6 +15,7 @@ import { initFaro } from '../faro/initFaro';
 
 import '../styles/globals.css';
 import InternflateDecorator from '../components/InternflateDecorator';
+import Visittkort from '../components/visittkort';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -41,6 +42,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                     <ErrorProvider>
                         <ParamsFromContextProvider>
                             <InternflateDecorator />
+                            <Visittkort />
                             <section className="flex flex-col items-center p-8">
                                 <main
                                     className="flex flex-col max-w-4xl w-full"
