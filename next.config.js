@@ -30,6 +30,17 @@ const nextConfig = {
                 has: [
                     {
                         type: 'host',
+                        value: 'arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no',
+                    },
+                ],
+                destination: `${decoratorUrlDev}/internarbeidsflatedecorator/:path*`,
+                permanent: true,
+            },
+            {
+                source: '/internarbeidsflatedecorator/:path*',
+                has: [
+                    {
+                        type: 'host',
                         value: 'arbeidssokerregistrering-for-veileder.intern.nav.no',
                     },
                 ],
