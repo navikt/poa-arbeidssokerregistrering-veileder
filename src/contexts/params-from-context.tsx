@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 export type ContextParams = {
     fnr?: string;
@@ -17,9 +18,11 @@ const ParamsFromContext = createContext<ParamsContextType>({
 
 function ParamsFromContextProvider({ children }) {
     const [params, setParams] = useState<ContextParams>({} as ContextParams);
+    const router = useRouter();
 
     const updateParams = (data: ContextParams) => {
         setParams((state) => ({ ...state, ...data }));
+        router.push('/');
     };
 
     const hentContextFraModia = async () => {
