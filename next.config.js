@@ -18,6 +18,10 @@ const nextConfig = {
                 source: '/veilarbdialog/api/:path*',
                 destination: '/api/veilarbdialog/:path*',
             },
+            {
+                source: '/veilarbperson/api/:path*',
+                destination: '/api/veilarbperson/:path*',
+            },
         ];
     },
     async redirects() {

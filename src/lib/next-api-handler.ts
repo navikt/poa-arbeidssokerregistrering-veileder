@@ -45,6 +45,8 @@ const VEILARBOPPFOLGING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
     'fss',
 )}.pto.veilarboppfolging/.default`;
 const VEILARBDIALOG_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace('gcp', 'fss')}.pto.veilarbdialog/.default`;
+const VEILARBPERSON_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace('gcp', 'fss')}.pto.veilarbperson/.default`;
+
 export const getVeilarbregistreringToken = async (req: NextApiRequest) => {
     const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBREGISTRERING_SCOPE);
     return tokenSet.access_token!;
@@ -60,8 +62,13 @@ export const getVeilarboppfolgingToken = async (req: NextApiRequest) => {
     return tokenSet.access_token!;
 };
 
-export const getVeilarbDialogToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBOPPFOLGING_SCOPE);
+export const getVeilarbdialogToken = async (req: NextApiRequest) => {
+    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBDIALOG_SCOPE);
+    return tokenSet.access_token!;
+};
+
+export const getVeilarbpersonToken = async (req: NextApiRequest) => {
+    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBPERSON_SCOPE);
     return tokenSet.access_token!;
 };
 
