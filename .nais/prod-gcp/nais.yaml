@@ -88,7 +88,9 @@ spec:
     - name: VEILARBDIALOG_URL
       value: https://veilarboppfolging.prod-fss-pub.nais.io/veilarbdialog
     - name: VEILARBPERSON_URL
-      value: https://veilarboperson.prod-fss-pub.nais.io/veilarbperson
+      value: https://veilarbperson.prod-fss-pub.nais.io/veilarbperson
+    - name: VEILARBVEILEDER_URL
+      value: https://veilarbveileder.prod-fss-pub.nais.io/veilarbveileder
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
@@ -111,6 +113,7 @@ spec:
         - host: veilarboppfolging.prod-fss-pub.nais.io
         - host: veilarbdialog.prod-fss-pub.nais.io
         - host: veilarbperson.prod-fss-pub.nais.io
+        - host: veilarbveileder.prod-fss-pub.nais.io
       rules:
         - application: veilarbregistrering
         - application: modiacontextholder
@@ -123,5 +126,8 @@ spec:
           namespace: pto
           cluster: prod-fss
         - application: veilarbperson
+          namespace: pto
+          cluster: prod-fss
+        - application: veilarbveileder
           namespace: pto
           cluster: prod-fss

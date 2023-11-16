@@ -22,6 +22,10 @@ const nextConfig = {
                 source: '/veilarbperson/api/:path*',
                 destination: '/api/veilarbperson/:path*',
             },
+            {
+                source: '/veilarbveileder/api/:path*',
+                destination: '/api/veilarbveileder/:path*',
+            },
         ];
     },
     async redirects() {
