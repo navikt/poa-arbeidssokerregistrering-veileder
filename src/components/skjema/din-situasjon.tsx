@@ -1,4 +1,4 @@
-import { Heading, Panel, Box } from '@navikt/ds-react';
+import { Heading, Box } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';

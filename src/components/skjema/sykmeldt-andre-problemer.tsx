@@ -1,4 +1,4 @@
-import { Heading, Panel } from '@navikt/ds-react';
+import { Box, Heading } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
@@ -6,8 +6,6 @@ import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context
 import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
 import { JaEllerNei, SporsmalId, FremtidigSituasjon } from '../../model/sporsmal';
-
-import styles from '../../styles/skjema.module.css';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -38,22 +36,20 @@ const AndreProblemer = () => {
     }
 
     return (
-        <>
-            <Panel className={`${styles.panel} mbm`} border={true}>
-                <form>
-                    <Heading size="medium" spacing level="1">
-                        Andre utfordringer knyttet til arbeid
-                    </Heading>
-                    <RadioGruppe
-                        legend={tekst('tittel')}
-                        beskrivelse={tekst('ingress')}
-                        valg={valg}
-                        onSelect={(val) => setRegistrering({ [SporsmalId.andreForhold]: val })}
-                        visFeilmelding={visFeilmelding}
-                    />
-                </form>
-            </Panel>
-        </>
+        <Box className="mb-8 bg-gray-100" borderWidth="1" padding="4">
+            <form>
+                <Heading size="medium" spacing level="1">
+                    Andre utfordringer knyttet til arbeid
+                </Heading>
+                <RadioGruppe
+                    legend={tekst('tittel')}
+                    beskrivelse={tekst('ingress')}
+                    valg={valg}
+                    onSelect={(val) => setRegistrering({ [SporsmalId.andreForhold]: val })}
+                    visFeilmelding={visFeilmelding}
+                />
+            </form>
+        </Box>
     );
 };
 

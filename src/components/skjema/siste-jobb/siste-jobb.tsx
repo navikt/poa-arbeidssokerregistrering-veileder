@@ -1,9 +1,10 @@
-import { BodyLong, Button, Heading, Panel, ReadMore } from '@navikt/ds-react';
+import { BodyLong, Box, Button, Heading, ReadMore } from '@navikt/ds-react';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 import useSprak from '../../../hooks/useSprak';
 import { useRegistrering } from '../../../contexts/registrering-context';
+import { useParamsFromContext } from '../../../contexts/params-from-context';
 
 import lagHentTekstForSprak, { Tekster } from '../../../lib/lag-hent-tekst-for-sprak';
 import StillingsSok from './stillings-sok';
@@ -11,9 +12,6 @@ import SisteStilling from './siste-stilling';
 import { SisteJobb } from '../../../model/skjema';
 import { DinSituasjon, SisteStillingValg, SporsmalId } from '../../../model/sporsmal';
 import { fetcher } from '../../../lib/api-utils';
-
-import styles from '../../../styles/skjema.module.css';
-import { useParamsFromContext } from '../../../contexts/params-from-context';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -70,7 +68,7 @@ const SisteJobb = () => {
     }, [error, registrering]);
 
     return (
-        <Panel className={`${styles.panel} mbm`} border={true}>
+        <Box className="mb-8 bg-gray-100" borderWidth="1" padding="4">
             <div>
                 <Heading spacing size={'medium'} level="1">
                     {tekst('tittel')}
@@ -108,7 +106,7 @@ const SisteJobb = () => {
                     <div style={{ maxWidth: '34rem' }}>{tekst('brukesTilInnhold')}</div>
                 </ReadMore>
             </div>
-        </Panel>
+        </Box>
     );
 };
 

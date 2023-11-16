@@ -1,12 +1,10 @@
-import { Heading, Panel } from '@navikt/ds-react';
+import { Box, Heading } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
 import { hentTekst, SporsmalId, UtdanningGodkjentValg, FremtidigSituasjon } from '../../model/sporsmal';
-
-import styles from '../../styles/skjema.module.css';
 
 const UtdanningGodkjent = () => {
     const { registrering, doValidate, setRegistrering } = useSykmeldtoppfolging();
@@ -32,7 +30,7 @@ const UtdanningGodkjent = () => {
     }
 
     return (
-        <Panel className={styles.panel} border={true}>
+        <Box className="mb-8 bg-gray-100" borderWidth="1" padding="4">
             <form>
                 <Heading size="medium" spacing level="1">
                     Utdanning
@@ -44,7 +42,7 @@ const UtdanningGodkjent = () => {
                     visFeilmelding={visFeilmelding}
                 />
             </form>
-        </Panel>
+        </Box>
     );
 };
 
