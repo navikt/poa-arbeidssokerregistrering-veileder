@@ -57,7 +57,7 @@ const Visittkort = () => {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
 
-    if (brukerMock) {
+    if (!brukerMock) {
         return null;
     }
 
