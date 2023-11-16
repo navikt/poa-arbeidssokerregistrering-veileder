@@ -83,6 +83,8 @@ spec:
       value: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
     - name: DECORATOR_URL
       value: https://internarbeidsflatedecorator.intern.nav.no
+    - name: VEILARBOPPFOLGING_URL
+      value: https://veilarboppfolging.prod-fss-pub.nais.io/veilarboppfolging
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
@@ -102,8 +104,12 @@ spec:
         - host: paw-unleash-api.nav.cloud.nais.io
         - host: modiacontextholder.prod-fss-pub.nais.io
         - host: internarbeidsflatedecorator.prod-fss-pub.nais.io
+        - host: veilarboppfolging.prod-fss-pub.nais.io
       rules:
         - application: veilarbregistrering
         - application: modiacontextholder
           namespace: personoversikt
+          cluster: prod-fss
+        - application: veilarboppfolging
+          namespace: pto
           cluster: prod-fss

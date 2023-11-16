@@ -10,6 +10,10 @@ const nextConfig = {
                 source: '/modiacontextholder/api/:path*',
                 destination: '/api/modiacontextholder/:path*',
             },
+            {
+                source: '/veilarboppfolging/api/:path*',
+                destination: '/api/veilarboppfolging/:path*',
+            },
         ];
     },
     async redirects() {
