@@ -1,6 +1,5 @@
 import { BodyLong, Box, Button, Heading, ReadMore } from '@navikt/ds-react';
 import { useEffect, useState } from 'react';
-import useSWR from 'swr';
 
 import useSprak from '../../../hooks/useSprak';
 import { useRegistrering } from '../../../contexts/registrering-context';
@@ -12,6 +11,7 @@ import SisteStilling from './siste-stilling';
 import { SisteJobb } from '../../../model/skjema';
 import { DinSituasjon, SisteStillingValg, SporsmalId } from '../../../model/sporsmal';
 import { fetcher } from '../../../lib/api-utils';
+import useSWRImmutable from 'swr/immutable';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -44,7 +44,7 @@ const SisteJobb = () => {
         settVisStillingsSok(false);
     };
 
-    const { data: sisteArbeidsforhold, error } = useSWR(`api/sistearbeidsforhold?fnr=${fnr || ''}`, fetcher);
+    const { data: sisteArbeidsforhold, error } = useSWRImmutable(`api/sistearbeidsforhold?fnr=${fnr || ''}`, fetcher);
 
     const visSisteJobb = registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB;
     const visSisteStilling = registrering.dinSituasjon
