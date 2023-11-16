@@ -44,7 +44,7 @@ const VEILARBOPPFOLGING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
     'gcp',
     'fss',
 )}.pto.veilarboppfolging/.default`;
-
+const VEILARBDIALOG_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace('gcp', 'fss')}.pto.veilarbdialog/.default`;
 export const getVeilarbregistreringToken = async (req: NextApiRequest) => {
     const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBREGISTRERING_SCOPE);
     return tokenSet.access_token!;
@@ -56,6 +56,11 @@ export const getModiacontextholderToken = async (req: NextApiRequest) => {
 };
 
 export const getVeilarboppfolgingToken = async (req: NextApiRequest) => {
+    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBOPPFOLGING_SCOPE);
+    return tokenSet.access_token!;
+};
+
+export const getVeilarbDialogToken = async (req: NextApiRequest) => {
     const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBOPPFOLGING_SCOPE);
     return tokenSet.access_token!;
 };

@@ -85,6 +85,8 @@ spec:
       value: https://internarbeidsflatedecorator-q1.intern.dev.nav.no
     - name: VEILARBOPPFOLGING_URL
       value: https://veilarboppfolging.dev-fss-pub.nais.io/veilarboppfolging
+    - name: VEILARBDIALOG_URL
+      value: https://veilarboppfolging.dev-fss-pub.nais.io/veilarbdialog
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
@@ -105,11 +107,15 @@ spec:
         - host: modiacontextholder-q1.dev-fss-pub.nais.io
         - host: internarbeidsflatedecorator-q1.dev-fss-pub.nais.io
         - host: veilarboppfolging.dev-fss-pub.nais.io
+        - host: veilarbdialog.dev-fss-pub.nais.io
       rules:
         - application: veilarbregistrering
         - application: modiacontextholder-q1
           namespace: personoversikt
           cluster: dev-fss
         - application: veilarboppfolging
+          namespace: pto
+          cluster: dev-fss
+        - application: veilarbdialog
           namespace: pto
           cluster: dev-fss

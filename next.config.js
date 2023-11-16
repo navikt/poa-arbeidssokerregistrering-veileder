@@ -14,6 +14,10 @@ const nextConfig = {
                 source: '/veilarboppfolging/api/:path*',
                 destination: '/api/veilarboppfolging/:path*',
             },
+            {
+                source: '/veilarbdialog/api/:path*',
+                destination: '/api/veilarbdialog/:path*',
+            },
         ];
     },
     async redirects() {
