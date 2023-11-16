@@ -73,6 +73,10 @@ function RedirectTilSkjema() {
         }
     }, [error, router]);
 
+    if (!fnr || !enhetId) {
+        return <></>;
+    }
+
     return <Loader size="3xlarge" title="Henter data..." />;
 }
 
