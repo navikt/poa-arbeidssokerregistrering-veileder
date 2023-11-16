@@ -58,9 +58,11 @@ export default function RegistreringReaktivering() {
                                 Dersom vedkommende fortsatt skal være registrert som arbeidssøker kan du reaktivere hen.
                             </BodyShort>
                         </Alert>
-                        <Button loading={isPending} disabled={error || success} onClick={onReaktiverArbeidssoker}>
-                            Reaktiver arbeidssøker
-                        </Button>
+                        <div className="flex justify-end">
+                            <Button loading={isPending} disabled={error || success} onClick={onReaktiverArbeidssoker}>
+                                Reaktiver arbeidssøker
+                            </Button>
+                        </div>
                         {error && (
                             <Alert className={'mt-4'} variant={'error'}>
                                 Noe gikk dessverre galt! {error.message}
