@@ -29,7 +29,7 @@ export default function RegistreringArbeidssoker() {
             <ManglerPersonEllerEnhet />
             {visInnhold && (
                 <>
-                    <Heading size="medium" level="1" className="mb-2">
+                    <Heading size="medium" level="1" className="mb-8">
                         Arbeidssøkerregistrering
                     </Heading>
                     <RegistreringProvider>

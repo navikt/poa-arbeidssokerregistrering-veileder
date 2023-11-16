@@ -44,7 +44,7 @@ const KontaktVeileder = (props: Feilsituasjon) => {
     return (
         <>
             <Alert variant="warning">
-                <Heading size="medium" spacing={true} level="1">
+                <Heading size="small" spacing={true} level="1">
                     {tekst('heading')}
                 </Heading>
                 <BodyLong>

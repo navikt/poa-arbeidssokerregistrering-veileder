@@ -29,7 +29,7 @@ export default function RegistreringMerSykmeldtOppfolging() {
             <ManglerPersonEllerEnhet />
             {visInnhold && (
                 <>
-                    <Heading size="medium" level="1" className="mb-2">
+                    <Heading size="medium" level="1" className="mb-8">
                         Registrering for mer sykmeldtoppfølging
                     </Heading>
                     <Alert variant="info" className="mb-8">

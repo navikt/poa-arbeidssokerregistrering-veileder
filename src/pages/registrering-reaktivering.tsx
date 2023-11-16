@@ -45,7 +45,7 @@ export default function RegistreringReaktivering() {
             <ManglerPersonEllerEnhet />
             {visInnhold && (
                 <>
-                    <Heading size="medium" level="1">
+                    <Heading size="medium" level="1" className="mb-8">
                         Reaktiver arbeidssøker
                     </Heading>
                     <Alert variant="info" className="mb-8">

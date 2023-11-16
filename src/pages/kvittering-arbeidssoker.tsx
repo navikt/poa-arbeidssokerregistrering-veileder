@@ -28,7 +28,7 @@ const Kvittering = () => {
 
     return (
         <Alert variant="success">
-            <Heading level="1" size={'large'} className={'mbl'}>
+            <Heading level="1" size="small" className={'mbl'}>
                 {tekst('header')}
             </Heading>
             <BodyLong>{tekst('dagpenger')}</BodyLong>
