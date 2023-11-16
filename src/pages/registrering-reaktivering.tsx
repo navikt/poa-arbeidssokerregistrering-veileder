@@ -41,38 +41,36 @@ export default function RegistreringReaktivering() {
     }
 
     return (
-        <section className="flex flex-col items-center p-8">
-            <main className="flex flex-col max-w-4xl w-full" tabIndex={-1} id="maincontent">
-                <ManglerPersonEllerEnhet />
-                {visInnhold && (
-                    <>
-                        <Heading size="medium" level="1">
-                            Reaktiver arbeidssøker
+        <>
+            <ManglerPersonEllerEnhet />
+            {visInnhold && (
+                <>
+                    <Heading size="medium" level="1">
+                        Reaktiver arbeidssøker
+                    </Heading>
+                    <Alert variant="info" className="mb-8">
+                        <Heading level="1" size="small">
+                            Personen kan reaktiveres som arbeidssøker
                         </Heading>
-                        <Alert variant="info" className="mb-8">
-                            <Heading level="1" size="small">
-                                Personen kan reaktiveres som arbeidssøker
-                            </Heading>
-                            <BodyShort>Personen har nylig vært registrert som arbeidssøker men har falt ut.</BodyShort>
-                            <BodyShort>
-                                Dersom vedkommende fortsatt skal være registrert som arbeidssøker kan du reaktivere hen.
-                            </BodyShort>
+                        <BodyShort>Personen har nylig vært registrert som arbeidssøker men har falt ut.</BodyShort>
+                        <BodyShort>
+                            Dersom vedkommende fortsatt skal være registrert som arbeidssøker kan du reaktivere hen.
+                        </BodyShort>
+                    </Alert>
+                    <div className="flex justify-end">
+                        <Button loading={isPending} disabled={error || success} onClick={onReaktiverArbeidssoker}>
+                            Reaktiver arbeidssøker
+                        </Button>
+                    </div>
+                    {error && (
+                        <Alert className={'mt-4'} variant={'error'}>
+                            Noe gikk dessverre galt! {error.message}
                         </Alert>
-                        <div className="flex justify-end">
-                            <Button loading={isPending} disabled={error || success} onClick={onReaktiverArbeidssoker}>
-                                Reaktiver arbeidssøker
-                            </Button>
-                        </div>
-                        {error && (
-                            <Alert className={'mt-4'} variant={'error'}>
-                                Noe gikk dessverre galt! {error.message}
-                            </Alert>
-                        )}
-                    </>
-                )}
-            </main>
+                    )}
+                </>
+            )}
             <DemoPanel brukerMock={brukerMock} />
-        </section>
+        </>
     );
 }
 

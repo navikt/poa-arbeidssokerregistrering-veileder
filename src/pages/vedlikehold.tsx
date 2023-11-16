@@ -26,15 +26,13 @@ function Vedlikehold() {
     }, []);
 
     return (
-        <>
-            <Alert variant="error">
-                <Heading level="1" size="small" spacing>
-                    {tekst('heading')}
-                </Heading>
-                <BodyLong spacing>{tekst('provIgjen')}</BodyLong>
-                <BodyLong spacing>{tekst('dagpenger')}</BodyLong>
-            </Alert>
-        </>
+        <Alert variant="error">
+            <Heading level="1" size="small" spacing>
+                {tekst('heading')}
+            </Heading>
+            <BodyLong spacing>{tekst('provIgjen')}</BodyLong>
+            <BodyLong spacing>{tekst('dagpenger')}</BodyLong>
+        </Alert>
     );
 }
 
