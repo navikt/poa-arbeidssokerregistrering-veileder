@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { nanoid } from 'nanoid/index';
 import { logger } from '@navikt/next-logger';
+import { nanoid } from 'nanoid';
 
 const resolveDynamicUrl = (url: string, slug?: string | string[]) => {
     if (!slug) {
