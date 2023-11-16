@@ -91,6 +91,8 @@ spec:
       value: https://veilarbperson.prod-fss-pub.nais.io/veilarbperson
     - name: VEILARBVEILEDER_URL
       value: https://veilarbveileder.prod-fss-pub.nais.io/veilarbveileder
+    - name: PAW_PROXY_URL
+      value: https://paw-proxy.prod-fss-pub.nais.io
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
@@ -114,6 +116,7 @@ spec:
         - host: veilarbdialog.prod-fss-pub.nais.io
         - host: veilarbperson.prod-fss-pub.nais.io
         - host: veilarbveileder.prod-fss-pub.nais.io
+        - host: paw-proxy.prod-fss-pub.nais.io
       rules:
         - application: veilarbregistrering
         - application: modiacontextholder
@@ -130,4 +133,6 @@ spec:
           cluster: prod-fss
         - application: veilarbveileder
           namespace: pto
+          cluster: prod-fss
+        - application: paw-proxy
           cluster: prod-fss
