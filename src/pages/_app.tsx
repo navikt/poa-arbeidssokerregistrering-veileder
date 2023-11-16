@@ -12,10 +12,10 @@ import lagHentTekstForSprak, { Tekster } from '../lib/lag-hent-tekst-for-sprak';
 import { ConfigProvider } from '../contexts/config-context';
 import { ParamsFromContextProvider } from '../contexts/params-from-context';
 import { initFaro } from '../faro/initFaro';
-
-import '../styles/globals.css';
 import InternflateDecorator from '../components/InternflateDecorator';
 import Visittkort from '../components/visittkort';
+
+import '../styles/globals.css';
 
 const TEKSTER: Tekster<string> = {
     nb: {
