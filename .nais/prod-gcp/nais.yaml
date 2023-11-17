@@ -117,6 +117,7 @@ spec:
         - host: veilarbperson.prod-fss-pub.nais.io
         - host: veilarbveileder.prod-fss-pub.nais.io
         - host: paw-proxy.prod-fss-pub.nais.io
+        - host: veilarbvisittkortfs.intern.nav.no
       rules:
         - application: veilarbregistrering
         - application: modiacontextholder
