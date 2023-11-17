@@ -30,6 +30,7 @@ type FlytData =
           hendelse: 'Ikke mulig å registrere personen';
           aarsak?: RegistreringType;
       }
+    | { hendelse: 'Start av registrering feiler' }
     | { hendelse: 'Starter registrering av arbeidssøker' }
     | { hendelse: 'Starter registrering for mer sykmeldtoppfølging' }
     | { hendelse: 'Starter reaktivering av arbeidssøker' }

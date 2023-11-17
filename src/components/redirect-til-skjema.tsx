@@ -5,6 +5,7 @@ import { Loader } from '@navikt/ds-react';
 import { useParamsFromContext } from '../contexts/params-from-context';
 
 import { RegistreringType } from '../model/registrering';
+import { loggFlyt } from '../lib/amplitude';
 
 interface StartregistreringResponse {
     registreringType: RegistreringType;
@@ -40,6 +41,7 @@ function RedirectTilSkjema() {
     const { fnr, enhetId } = params;
     const [registreringsData, setRegistreringsData] = useState<StartregistreringResponse>();
     const [error, setError] = useState<any>();
+
     async function apiKall() {
         try {
             const response = await fetch(`/api/startregistrering?fnr=${fnr}`);
@@ -63,12 +65,20 @@ function RedirectTilSkjema() {
 
     useEffect(() => {
         if (registreringsData) {
+            if (
+                [RegistreringType.ALLEREDE_REGISTRERT, RegistreringType.SPERRET].includes(
+                    registreringsData.registreringType,
+                )
+            ) {
+                loggFlyt({ hendelse: 'Ikke mulig å registrere personen', aarsak: registreringsData.registreringType });
+            }
             router.push(`${hentNesteSideUrl(registreringsData)}`);
         }
     }, [enhetId, fnr, registreringsData, router]);
 
     useEffect(() => {
         if (error) {
+            loggFlyt({ hendelse: 'Start av registrering feiler' });
             router.push('/feil/');
         }
     }, [error, router]);
