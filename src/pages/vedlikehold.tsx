@@ -2,6 +2,10 @@ import { Alert, BodyLong, Heading } from '@navikt/ds-react';
 
 import lagHentTekstForSprak, { Tekster } from '../lib/lag-hent-tekst-for-sprak';
 import useSprak from '../hooks/useSprak';
+import useSWR from 'swr';
+import { fetcher } from '../lib/api-utils';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -14,8 +18,23 @@ const TEKSTER: Tekster<string> = {
     },
 };
 
+const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 function Vedlikehold() {
+    const router = useRouter();
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
+    const { data: toggles } = useSWR('api/features/', fetcher, { refreshInterval: 60000 });
+
+    useEffect(() => {
+        if (toggles) {
+            const nedetidFeature = toggles.find((feature) => {
+                return feature.name === 'arbeidssokerregistrering.nedetid';
+            });
+
+            if (nedetidFeature?.enabled === false && !brukerMock) {
+                router.push('/');
+            }
+        }
+    }, [router, toggles]);
 
     return (
         <Alert variant="error">
