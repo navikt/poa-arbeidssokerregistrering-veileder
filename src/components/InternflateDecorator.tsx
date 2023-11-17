@@ -11,16 +11,14 @@ const InternflateDecorator = () => {
 
     const onFnrChanged = (fnr) => {
         setParams({ fnr: fnr });
-        console.log('onFnrChanged', fnr);
     };
 
     const onEnhetChanged = (enhet) => {
         setParams({ enhetId: enhet });
-        console.log('onEnhetChanged', enhet);
     };
 
     const props = {
-        appname: 'Arbeidssøkerregistrering veileder',
+        appname: 'Arbeidssøkerregistrering for veileder',
         toggles: {
             visVeileder: true,
         },
