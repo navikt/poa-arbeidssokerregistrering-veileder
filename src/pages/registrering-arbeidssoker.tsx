@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Heading } from '@navikt/ds-react';
 
 import { useConfig } from '../contexts/config-context';
@@ -16,6 +17,7 @@ import { RegistrerArbeidssokerKnapp } from '../components/skjema/registrer-arbei
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
 import DemoPanel from '../components/demo-panel';
+import { loggFlyt } from '../lib/amplitude';
 
 export default function RegistreringArbeidssoker() {
     const { enableMock } = useConfig() as Config;
@@ -23,6 +25,10 @@ export default function RegistreringArbeidssoker() {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const visInnhold = fnr && enhetId;
+
+    useEffect(() => {
+        loggFlyt({ hendelse: 'Starter registrering av arbeidssøker' });
+    }, []);
 
     return (
         <>

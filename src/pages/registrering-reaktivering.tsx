@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Alert, BodyShort, Button, Heading } from '@navikt/ds-react';
 
@@ -10,6 +10,7 @@ import { fetcher as api } from '../lib/api-utils';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
 import { Config } from '../model/config';
 import DemoPanel from '../components/demo-panel';
+import { loggFlyt } from '../lib/amplitude';
 
 export default function RegistreringReaktivering() {
     const { params } = useParamsFromContext();
@@ -39,6 +40,10 @@ export default function RegistreringReaktivering() {
             setIsPending(false);
         }
     }
+
+    useEffect(() => {
+        loggFlyt({ hendelse: 'Starter reaktivering av arbeidssøker' });
+    }, []);
 
     return (
         <>

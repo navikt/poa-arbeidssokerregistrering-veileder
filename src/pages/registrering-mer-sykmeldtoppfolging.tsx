@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Heading, Alert, BodyShort } from '@navikt/ds-react';
 
 import { useConfig } from '../contexts/config-context';
@@ -16,6 +17,7 @@ import UtdanningGodkjent from '../components/skjema/sykmeldt-utdanning-godkjent'
 import UtdanningBestatt from '../components/skjema/sykmeldt-utdanning-bestatt';
 import AndreProblemer from '../components/skjema/sykmeldt-andre-problemer';
 import { RegistrerForMerSykmeldtoppfolgingKnapp } from '../components/skjema/sykmeldt-registrer-knapp';
+import { loggFlyt } from '../lib/amplitude';
 
 export default function RegistreringMerSykmeldtOppfolging() {
     const { enableMock } = useConfig() as Config;
@@ -23,6 +25,10 @@ export default function RegistreringMerSykmeldtOppfolging() {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const visInnhold = fnr && enhetId;
+
+    useEffect(() => {
+        loggFlyt({ hendelse: 'Starter registrering for mer sykmeldtoppfølging' });
+    }, []);
 
     return (
         <>

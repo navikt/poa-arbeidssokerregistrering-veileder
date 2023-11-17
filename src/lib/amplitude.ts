@@ -62,7 +62,9 @@ type FlytData =
           aarsak?: RegistreringType;
           harAktivArbeidssokerperiode: boolean;
       }
-    | { hendelse: 'Starter registrering' }
+    | { hendelse: 'Starter registrering av arbeidssøker' }
+    | { hendelse: 'Starter registrering for mer sykmeldtoppfølging' }
+    | { hendelse: 'Starter reaktivering av arbeidssøker' }
     | { hendelse: 'Får tilbud om registrering for mer sykmeldtoppfølging' }
     | { hendelse: 'Vil registrere seg for mer sykmeldtoppfølging' }
     | { hendelse: 'Vil registrere seg som arbeidssøker' }
