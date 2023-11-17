@@ -40,6 +40,7 @@ export const RegistrerArbeidssokerKnapp = () => {
             setIsDisabled(true);
             const body = byggRegistrerArbeidssokerPayload(registrering);
             const registreringUrl = `/api/fullforregistrering?fnr=${fnr}&enhetId=${enhetId}`;
+            loggFlyt({ hendelse: 'Sender inn skjema for registrering av arbeidssøker' });
             const response: FullforRegistreringResponse = await api(registreringUrl, {
                 method: 'post',
                 body: JSON.stringify(body),
@@ -47,10 +48,11 @@ export const RegistrerArbeidssokerKnapp = () => {
             const feiltype = response.type;
 
             if (feiltype) {
-                loggFlyt({ hendelse: 'Får ikke fullført registreringen', aarsak: feiltype });
+                loggFlyt({ hendelse: 'Får ikke fullført registreringen av arbeidssøker', aarsak: feiltype });
                 return router.push(hentRegistreringFeiletUrl(feiltype, OppgaveRegistreringstype.REGISTRERING));
             }
 
+            loggFlyt({ hendelse: 'Registrering av arbeidssøker fullført' });
             return router.push('/kvittering-arbeidssoker');
         }
     }

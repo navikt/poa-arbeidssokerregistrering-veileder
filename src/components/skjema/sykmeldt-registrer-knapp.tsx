@@ -37,6 +37,7 @@ export const RegistrerForMerSykmeldtoppfolgingKnapp = () => {
             setIsDisabled(true);
             const body = byggFullforRegistreringForMerSykmeldtoppfolgingPayload(registrering);
             const registreringUrl = `/api/fullforregistreringsykmeldt?fnr=${fnr}&enhetId=${enhetId}`;
+            loggFlyt({ hendelse: 'Sender inn skjema for mer sykmeldtoppfølging' });
             const response: FullforRegistreringResponse = await api(registreringUrl, {
                 method: 'post',
                 body: JSON.stringify(body),
@@ -45,10 +46,11 @@ export const RegistrerForMerSykmeldtoppfolgingKnapp = () => {
             const feiltype = response.type;
 
             if (feiltype) {
-                loggFlyt({ hendelse: 'Får ikke fullført registreringen', aarsak: feiltype });
+                loggFlyt({ hendelse: 'Får ikke fullført registrering for mer sykmeldtoppfølging', aarsak: feiltype });
                 return router.push(hentRegistreringFeiletUrl(feiltype, OppgaveRegistreringstype.REGISTRERING));
             }
 
+            loggFlyt({ hendelse: 'Registrering for mer sykmeldtoppfølging fullført' });
             return router.push('/kvittering-mer-sykmeldtoppfolging');
         }
     }

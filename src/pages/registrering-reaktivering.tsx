@@ -27,14 +27,16 @@ export default function RegistreringReaktivering() {
     async function onReaktiverArbeidssoker() {
         try {
             setIsPending(true);
+            loggFlyt({ hendelse: 'Sender inn skjema for reaktivering av arbeidssøker' });
             await api(`/api/reaktivering?fnr=${fnr}`, {
                 method: 'POST',
                 body: JSON.stringify({}),
             });
             setSuccess(true);
+            loggFlyt({ hendelse: 'Reaktivering av arbeidssøker fullført' });
             return router.push('/kvittering-reaktivering');
         } catch (err: unknown) {
-            console.error(err, 'Feil ved reaktivering');
+            loggFlyt({ hendelse: 'Får ikke fullført reaktivering av arbeidssøker' });
             setError(err);
         } finally {
             setIsPending(false);

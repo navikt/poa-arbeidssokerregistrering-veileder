@@ -23,7 +23,6 @@ const Kvittering = () => {
         loggAktivitet({
             aktivitet: 'Viser kvittering',
         });
-        loggFlyt({ hendelse: 'Registrering fullført' });
     }, []);
 
     return (

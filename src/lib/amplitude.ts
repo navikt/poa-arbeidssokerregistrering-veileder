@@ -68,10 +68,16 @@ type FlytData =
     | { hendelse: 'Får tilbud om registrering for mer sykmeldtoppfølging' }
     | { hendelse: 'Vil registrere seg for mer sykmeldtoppfølging' }
     | { hendelse: 'Vil registrere seg som arbeidssøker' }
-    | { hendelse: 'Sender inn skjema for registrering' }
+    | { hendelse: 'Sender inn skjema for registrering av arbeidssøker' }
+    | { hendelse: 'Sender inn skjema for reaktivering av arbeidssøker' }
+    | { hendelse: 'Sender inn skjema for mer sykmeldtoppfølging' }
     | { hendelse: 'Avbryter registreringen' }
-    | { hendelse: 'Får ikke fullført registreringen'; aarsak?: ErrorTypes }
-    | { hendelse: 'Registrering fullført' };
+    | { hendelse: 'Får ikke fullført registreringen av arbeidssøker'; aarsak?: ErrorTypes }
+    | { hendelse: 'Får ikke fullført registrering for mer sykmeldtoppfølging'; aarsak?: ErrorTypes }
+    | { hendelse: 'Får ikke fullført reaktivering av arbeidssøker'; aarsak?: ErrorTypes }
+    | { hendelse: 'Registrering for mer sykmeldtoppfølging fullført' }
+    | { hendelse: 'Reaktivering av arbeidssøker fullført' }
+    | { hendelse: 'Registrering av arbeidssøker fullført' };
 
 type KvitteringAktivitet =
     | 'Viser kvittering'
