@@ -93,6 +93,8 @@ spec:
       value: https://veilarbveileder.dev-fss-pub.nais.io/veilarbveileder
     - name: PAW_PROXY_URL
       value: https://paw-proxy.dev-fss-pub.nais.io
+    - name: OBO_UNLEASH_URL
+      value: http://obo-unleash.obo
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
@@ -137,4 +139,7 @@ spec:
           cluster: dev-fss
         - application: paw-proxy
           cluster: dev-fss
+        - application: obo-unleash
+          namespace: obo
+
 

@@ -26,6 +26,10 @@ const nextConfig = {
                 source: '/veilarbveileder/api/:path*',
                 destination: '/api/veilarbveileder/:path*',
             },
+            {
+                source: '/obo-unleash/:path*',
+                destination: '/api/obo-unleash/:path*',
+            },
         ];
     },
     async redirects() {
