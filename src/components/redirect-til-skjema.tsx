@@ -77,7 +77,11 @@ function RedirectTilSkjema() {
         return <></>;
     }
 
-    return <Loader size="3xlarge" title="Henter data..." />;
+    return (
+        <div className="flex justify-center">
+            <Loader size="3xlarge" title="Henter data..." />
+        </div>
+    );
 }
 
 export default RedirectTilSkjema;
