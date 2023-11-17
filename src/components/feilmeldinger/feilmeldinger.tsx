@@ -1,11 +1,9 @@
-import { useEffect } from 'react';
 import { Alert, BodyLong, Button, Heading, Link } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
 import { useErrorContext } from '../../contexts/error-context';
 
 import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
-import { loggStoppsituasjon } from '../../lib/amplitude';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -17,12 +15,6 @@ const TEKSTER: Tekster<string> = {
 
 const FeilmeldingGenerell = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
-
-    useEffect(() => {
-        loggStoppsituasjon({
-            situasjon: 'Arbeidssøkeren får en feilmelding',
-        });
-    }, []);
 
     return (
         <Alert variant={'error'}>
@@ -39,14 +31,6 @@ const FeilmeldingGenerell = () => {
 const GlobalFeilmelding = () => {
     const { error, setError } = useErrorContext();
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
-
-    useEffect(() => {
-        if (error) {
-            loggStoppsituasjon({
-                situasjon: 'Arbeidssøkeren får en feilmelding',
-            });
-        }
-    }, [error]);
 
     if (!error) {
         return null;

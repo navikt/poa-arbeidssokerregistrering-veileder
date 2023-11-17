@@ -1,12 +1,8 @@
-import { useEffect } from 'react';
-import { BodyLong, Heading, Link, Alert } from '@navikt/ds-react';
+import { BodyLong, Heading, Alert } from '@navikt/ds-react';
 
-import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
 import useSprak from '../../hooks/useSprak';
 
-import { loggStoppsituasjon } from '../../lib/amplitude';
-import { useConfig } from '../../contexts/config-context';
-import { Config } from '../../model/config';
+import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
 import { withAuthenticatedPage } from '../../auth/withAuthentication';
 
 const TEKSTER: Tekster<string> = {
@@ -18,14 +14,6 @@ const TEKSTER: Tekster<string> = {
 
 function AlleredeRegistrert() {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
-
-    useEffect(() => {
-        loggStoppsituasjon({
-            situasjon: 'Arbeidssøkeren er allerede registrert',
-        });
-    }, []);
-
-    const { dialogUrl } = useConfig() as Config;
 
     return (
         <Alert variant="warning">

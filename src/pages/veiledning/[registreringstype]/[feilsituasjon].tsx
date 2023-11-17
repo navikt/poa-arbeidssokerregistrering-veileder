@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
 import { BodyLong, Heading, Alert, Link } from '@navikt/ds-react';
 
 import lagHentTekstForSprak, { Tekster } from '../../../lib/lag-hent-tekst-for-sprak';
 import useSprak from '../../../hooks/useSprak';
-import { loggStoppsituasjon } from '../../../lib/amplitude';
 
 import { FeilmeldingGenerell } from '../../../components/feilmeldinger/feilmeldinger';
 import { Feiltype, OppgaveRegistreringstype } from '../../../model/feilsituasjonTyper';
@@ -30,12 +28,6 @@ const TEKSTER: Tekster<string> = {
 
 const KontaktVeileder = (props: Feilsituasjon) => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
-
-    useEffect(() => {
-        loggStoppsituasjon({
-            situasjon: 'Arbeidssøkeren mangler arbeidstillatelse eller er utvandret',
-        });
-    }, []);
 
     if (props.feiltype === undefined || !Object.values(Feiltype).includes(props.feiltype)) {
         return <FeilmeldingGenerell />;

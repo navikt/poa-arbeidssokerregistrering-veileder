@@ -1,6 +1,5 @@
 import amplitude from 'amplitude-js';
 
-import { DinSituasjon, SporsmalId } from '../model/sporsmal';
 import { ErrorTypes } from '../model/error';
 import { RegistreringType } from '../model/registrering';
 
@@ -16,62 +15,27 @@ const config = {
     },
 };
 
-type EventData =
-    | SidevisningData
-    | AktivitetData
-    | StoppsituasjonData
-    | BesvarelseData
-    | EksperimentData
-    | FeedbackData
-    | FlytData;
-
-type BesvarelseData = { skjematype: 'standard' | 'sykmeldt'; sporsmalId: SporsmalId; svar: any };
-
-type StoppsituasjonData = { situasjon: string; aarsak?: ErrorTypes };
-
-type FeedbackData = { id: string; feedback: string };
+type EventData = SidevisningData | AktivitetData | FlytData;
 
 type SidevisningData = { sidetittel: string };
 
 type AktivitetData =
     | { aktivitet: KvitteringAktivitet }
-    | {
-          aktivitet: 'Utfylling av skjema fullført';
-          tidBruktForAaFullforeSkjema?: number;
-          innsatsgruppe?: string;
-      }
-    | { aktivitet: 'Start registrering' }
-    | { aktivitet: 'Går til start registrering' }
-    | { aktivitet: 'Avbryter registreringen' }
-    | { aktivitet: 'Arbeidssøkeren reaktiverer seg' }
-    | { aktivitet: 'Arbeidssøkeren avslår reaktivering' }
-    | { aktivitet: 'Fortsetter til sykmeldtregistrering' }
-    | { aktivitet: 'Oppretter kontakt meg oppgave' }
-    | { aktivitet: 'Avbryter kontakt meg' }
+    | { aktivitet: 'Går til servicerutine'; registreringtype?: RegistreringType }
     | { aktivitet: 'Endrer foreslått stilling' }
-    | { aktivitet: 'Viser forsiden for arbeidssøkerregistreringen' }
-    | { aktivitet: 'Åpner bistandsbehov' }
-    | { aktivitet: 'Går til lovdata' }
-    | { aktivitet: 'Går til personvernsiden' }
-    | { aktivitet: 'Åpner personopplysninger' }
-    | { aktivitet: 'Går til kontakt oss' };
+    | { aktivitet: 'Går til skjema for dagpenger' };
 
 type FlytData =
     | {
-          hendelse: 'Ikke mulig å starte registreringen';
+          hendelse: 'Ikke mulig å registrere personen';
           aarsak?: RegistreringType;
-          harAktivArbeidssokerperiode: boolean;
       }
     | { hendelse: 'Starter registrering av arbeidssøker' }
     | { hendelse: 'Starter registrering for mer sykmeldtoppfølging' }
     | { hendelse: 'Starter reaktivering av arbeidssøker' }
-    | { hendelse: 'Får tilbud om registrering for mer sykmeldtoppfølging' }
-    | { hendelse: 'Vil registrere seg for mer sykmeldtoppfølging' }
-    | { hendelse: 'Vil registrere seg som arbeidssøker' }
     | { hendelse: 'Sender inn skjema for registrering av arbeidssøker' }
     | { hendelse: 'Sender inn skjema for reaktivering av arbeidssøker' }
     | { hendelse: 'Sender inn skjema for mer sykmeldtoppfølging' }
-    | { hendelse: 'Avbryter registreringen' }
     | { hendelse: 'Får ikke fullført registreringen av arbeidssøker'; aarsak?: ErrorTypes }
     | { hendelse: 'Får ikke fullført registrering for mer sykmeldtoppfølging'; aarsak?: ErrorTypes }
     | { hendelse: 'Får ikke fullført reaktivering av arbeidssøker'; aarsak?: ErrorTypes }
@@ -80,17 +44,9 @@ type FlytData =
     | { hendelse: 'Registrering av arbeidssøker fullført' };
 
 type KvitteringAktivitet =
-    | 'Viser kvittering'
-    | 'Går til dagpenger fra kvittering'
-    | 'Velger å ikke gå til dagpenger fra kvittering'
-    | 'Velger å lese mer om økonomisk støtte'
-    | 'Velger å ikke søke om økonomisk støtte';
-
-type EksperimentData = {
-    eksperiment: 'Videresender til AiA';
-    innsatsgruppe: string;
-    situasjon?: DinSituasjon;
-};
+    | 'Viser kvittering for registrert arbeidssøker'
+    | 'Viser kvittering for reaktivert arbeidssøker'
+    | 'Viser kvittering for mer sykmeldtoppfølging';
 
 type AmplitudeParams = { apiKey: string; apiEndpoint: string };
 type AmplitudeInitFunction = (params: AmplitudeParams) => void;
@@ -110,32 +66,12 @@ export function logAmplitudeEvent(eventName: string, data: EventData) {
     });
 }
 
-export function loggStoppsituasjon(data: StoppsituasjonData) {
-    const eventData = data || ({} as EventData);
-    logAmplitudeEvent('arbeidssokerregistrering-veileder.stoppsituasjoner', eventData);
-}
-
 export function loggAktivitet(data: AktivitetData) {
     const eventData = data || ({} as EventData);
     logAmplitudeEvent('arbeidssokerregistrering-veileder.aktiviteter', eventData);
 }
 
-export function loggFeedback(data: FeedbackData) {
-    const eventData = data || ({} as EventData);
-    logAmplitudeEvent('arbeidssokerregistrering.feedback', eventData);
-}
-
 export function loggFlyt(data: FlytData) {
     const eventData = data || ({} as EventData);
     logAmplitudeEvent('arbeidssokerregistrering-veileder.flyt', eventData);
-}
-
-export function loggBesvarelse(data: BesvarelseData) {
-    const eventData = data || ({} as EventData);
-    logAmplitudeEvent('arbeidssokerregistrering-veileder.besvarelser', eventData);
-}
-
-export function loggEksperiment(data: EksperimentData) {
-    const eventData = data || ({} as EventData);
-    logAmplitudeEvent('arbeidssokerregistrering-veileder.eksperimenter', eventData);
 }

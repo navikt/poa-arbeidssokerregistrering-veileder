@@ -1,12 +1,8 @@
-import { useEffect } from 'react';
-import { BodyLong, Heading, Link, Alert } from '@navikt/ds-react';
+import { BodyLong, Heading, Alert } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
-import { useConfig } from '../../contexts/config-context';
 
 import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
-import { loggStoppsituasjon } from '../../lib/amplitude';
-import { Config } from '../../model/config';
 import { withAuthenticatedPage } from '../../auth/withAuthentication';
 
 const TEKSTER: Tekster<string> = {
@@ -18,14 +14,6 @@ const TEKSTER: Tekster<string> = {
 
 function Sperret() {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
-
-    useEffect(() => {
-        loggStoppsituasjon({
-            situasjon: 'Arbeidssøkeren er sperret for registrering',
-        });
-    }, []);
-
-    const { dialogUrl } = useConfig() as Config;
 
     return (
         <Alert variant="warning">

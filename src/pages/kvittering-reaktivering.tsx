@@ -4,7 +4,7 @@ import { BodyLong, Heading, Alert } from '@navikt/ds-react';
 import useSprak from '../hooks/useSprak';
 
 import lagHentTekstForSprak, { Tekster } from '../lib/lag-hent-tekst-for-sprak';
-import { loggAktivitet, loggFlyt } from '../lib/amplitude';
+import { loggAktivitet } from '../lib/amplitude';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 
 const TEKSTER: Tekster<string> = {
@@ -21,7 +21,7 @@ const Kvittering = () => {
 
     useEffect(() => {
         loggAktivitet({
-            aktivitet: 'Viser kvittering',
+            aktivitet: 'Viser kvittering for reaktivert arbeidssøker',
         });
     }, []);
 
