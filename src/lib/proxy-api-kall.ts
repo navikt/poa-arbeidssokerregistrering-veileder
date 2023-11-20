@@ -1,29 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { logger } from '@navikt/next-logger';
 import { nanoid } from 'nanoid';
-
-const resolveDynamicUrl = (url: string, slug?: string | string[]) => {
-    if (!slug) {
-        return url;
-    }
-
-    let path;
-    if (Array.isArray(slug)) {
-        path = slug.join('/');
-    } else {
-        path = slug;
-    }
-
-    return url.replace('[slug]', path);
-};
+import resolveDynamicUrl from './resolve-dynamic-url';
 
 type getHeaders = (req: NextApiRequest, callId?: string) => Promise<Record<string, string>>;
 export const createProxyCall = (getHeaders: getHeaders, url: string) => {
     return async (req: NextApiRequest, res: NextApiResponse<any>) => {
         const callId = nanoid();
-        const { slug } = req.query;
+        const { slug, ...query } = req.query;
         try {
-            const resolvedUrl = resolveDynamicUrl(url, slug);
+            const resolvedUrl = resolveDynamicUrl(url, slug, query);
             logger.info(`Starter ${req.method}-kall med callId: ${callId} mot ${resolvedUrl}`);
             const result = await fetch(resolvedUrl, {
                 method: req.method,
