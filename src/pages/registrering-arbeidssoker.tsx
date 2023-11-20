@@ -18,6 +18,7 @@ import { withAuthenticatedPage } from '../auth/withAuthentication';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
 import DemoPanel from '../components/demo-panel';
 import { loggFlyt } from '../lib/amplitude';
+import HvaErNytt from '../components/hva-er-nytt';
 
 export default function RegistreringArbeidssoker() {
     const { enableMock } = useConfig() as Config;
@@ -38,6 +39,7 @@ export default function RegistreringArbeidssoker() {
                     <Heading size="medium" level="1" className="mb-8">
                         Arbeidssøkerregistrering
                     </Heading>
+                    <HvaErNytt />
                     <RegistreringProvider>
                         <DinSituasjon />
                         <SisteJobb />

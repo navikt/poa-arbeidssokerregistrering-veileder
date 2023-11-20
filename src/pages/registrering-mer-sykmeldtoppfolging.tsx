@@ -18,6 +18,7 @@ import UtdanningBestatt from '../components/skjema/sykmeldt-utdanning-bestatt';
 import AndreProblemer from '../components/skjema/sykmeldt-andre-problemer';
 import { RegistrerForMerSykmeldtoppfolgingKnapp } from '../components/skjema/sykmeldt-registrer-knapp';
 import { loggFlyt } from '../lib/amplitude';
+import HvaErNytt from '../components/hva-er-nytt';
 
 export default function RegistreringMerSykmeldtOppfolging() {
     const { enableMock } = useConfig() as Config;
@@ -38,6 +39,7 @@ export default function RegistreringMerSykmeldtOppfolging() {
                     <Heading size="medium" level="1" className="mb-8">
                         Registrering for mer sykmeldtoppfølging
                     </Heading>
+                    <HvaErNytt />
                     <Alert variant="info" className="mb-8">
                         <Heading level="1" size="small">
                             Personen kan registreres for mer sykmeldtoppfølging

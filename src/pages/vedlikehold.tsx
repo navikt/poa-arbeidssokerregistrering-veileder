@@ -1,11 +1,12 @@
+import { useEffect } from 'react';
 import { Alert, BodyLong, Heading } from '@navikt/ds-react';
+import useSWR from 'swr';
+import { useRouter } from 'next/router';
+
+import useSprak from '../hooks/useSprak';
 
 import lagHentTekstForSprak, { Tekster } from '../lib/lag-hent-tekst-for-sprak';
-import useSprak from '../hooks/useSprak';
-import useSWR from 'swr';
 import { fetcher } from '../lib/api-utils';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 
 const TEKSTER: Tekster<string> = {
     nb: {

@@ -11,6 +11,7 @@ import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-
 import { Config } from '../model/config';
 import DemoPanel from '../components/demo-panel';
 import { loggFlyt } from '../lib/amplitude';
+import HvaErNytt from '../components/hva-er-nytt';
 
 export default function RegistreringReaktivering() {
     const { params } = useParamsFromContext();
@@ -55,6 +56,7 @@ export default function RegistreringReaktivering() {
                     <Heading size="medium" level="1" className="mb-8">
                         Reaktiver arbeidssøker
                     </Heading>
+                    <HvaErNytt />
                     <Alert variant="info" className="mb-8">
                         <Heading level="1" size="small">
                             Personen kan reaktiveres som arbeidssøker

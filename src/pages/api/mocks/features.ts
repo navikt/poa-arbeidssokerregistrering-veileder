@@ -4,6 +4,19 @@ export const featureMocks = {
     version: 1,
     features: [
         {
+            name: 'arbeidssokerregistrering-for-veileder.vis-hva-er-nytt',
+            type: 'release',
+            enabled: false,
+            stale: false,
+            strategies: [
+                {
+                    name: 'default',
+                    parameters: {},
+                },
+            ],
+            variants: [],
+        },
+        {
             name: 'arbeidssokerregistrering.fss.ny-ingress',
             type: 'release',
             enabled: false,
@@ -110,7 +123,7 @@ export const featureMocks = {
             variants: [],
         },
     ],
-}
+};
 
 const featureToggles = (req: NextApiRequest, res: NextApiResponse): void => {
     res.status(200).json(featureMocks);
