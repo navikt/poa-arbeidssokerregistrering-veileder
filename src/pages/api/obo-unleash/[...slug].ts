@@ -8,7 +8,7 @@ import {
 } from '../../../lib/next-api-handler';
 
 const url = `${process.env.OBO_UNLEASH_URL}/obo-unleash/[slug]`;
-const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 export default withAuthenticatedApi(
     createProxyCall(async (req, callId) => {
         return brukerMock ? getHeaders('token', callId) : getHeaders(await getOboUnleashToken(req), callId);

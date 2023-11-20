@@ -19,7 +19,7 @@ const TEKSTER: Tekster<string> = {
     },
 };
 
-const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 function Vedlikehold() {
     const router = useRouter();
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());

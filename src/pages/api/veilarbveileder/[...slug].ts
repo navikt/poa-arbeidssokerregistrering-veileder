@@ -4,7 +4,7 @@ import { getHeaders, getPawProxyToken } from '../../../lib/next-api-handler';
 
 // const url = `${process.env.VEILARBVEILEDER_URL}/api/[slug]`;
 const url = `${process.env.PAW_PROXY_URL}/veilarbveileder/api/[slug]`;
-const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 export default withAuthenticatedApi(
     createProxyCall(async (req, callId) => {
         // return brukerMock ? getHeaders('token', callId) : getHeaders(await getVeilarbveilederToken(req), callId);

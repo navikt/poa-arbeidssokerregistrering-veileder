@@ -3,7 +3,7 @@ import { createProxyCall } from '../../../lib/proxy-api-kall';
 import { getHeaders, getVeilarbdialogToken, getVeilarboppfolgingToken } from '../../../lib/next-api-handler';
 
 const url = `${process.env.VEILARBDIALOG_URL}/api/[slug]`;
-const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 export default withAuthenticatedApi(
     createProxyCall(async (req, callId) => {
         return brukerMock ? getHeaders('token', callId) : getHeaders(await getVeilarbdialogToken(req), callId);

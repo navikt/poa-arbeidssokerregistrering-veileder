@@ -5,7 +5,7 @@ import { logger } from '@navikt/next-logger';
 type PageHandler = (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<unknown>>;
 type ApiHandler = (req: NextApiRequest, res: NextApiResponse) => Promise<unknown> | unknown;
 
-const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
 /**
  * Used to authenticate Next.JS pages. Assumes application is behind

@@ -97,7 +97,7 @@ export const getTokenFromRequest = (req: NextApiRequest) => {
     return bearerToken?.replace('Bearer ', '');
 };
 
-const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Response) => void) => NextApiHandler =
     (url: string, errorHandler) => async (req, res) => {
         const callId = nanoid();
