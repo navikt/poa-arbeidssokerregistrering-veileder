@@ -3,6 +3,8 @@ import { ComponentType } from 'react';
 import { Loader } from '@navikt/ds-react';
 import { createAssetManifestParser } from '@navikt/navspa/dist/async/utils';
 import { useParamsFromContext } from '../contexts/params-from-context';
+import { useConfig } from '../contexts/config-context';
+import { Config } from '../model/config';
 
 interface SpaProps {
     enhet?: string;
@@ -61,10 +63,11 @@ function hentVisittkortKomponent(): ComponentType<VisittKortProps> {
     return _veilarbvisittkortfs;
 }
 
-const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const Visittkort = () => {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
+    const { enableMock } = useConfig() as Config;
+    const brukerMock = enableMock === 'enabled';
 
     if (brukerMock) {
         return null;

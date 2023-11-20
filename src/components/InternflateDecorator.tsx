@@ -2,8 +2,9 @@ import NAVSPA from '@navikt/navspa';
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { ComponentType } from 'react';
 import { DecoratorConfig } from '../model/internflate-decorator';
+import { useConfig } from '../contexts/config-context';
+import { Config } from '../model/config';
 
-const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 let _internarbeidsflatefs;
 
 function hentDecoratorKomponent(): ComponentType<DecoratorConfig> {
@@ -18,6 +19,8 @@ function hentDecoratorKomponent(): ComponentType<DecoratorConfig> {
 const InternflateDecorator = () => {
     const { params, setParams } = useParamsFromContext();
     const { fnr, enhetId } = params;
+    const { enableMock } = useConfig() as Config;
+    const brukerMock = enableMock === 'enabled';
 
     const onFnrChanged = (fnr) => {
         setParams({ fnr: fnr });
