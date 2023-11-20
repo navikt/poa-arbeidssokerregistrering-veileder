@@ -74,7 +74,7 @@ spec:
     - name: HENT_PROFILERING_URL
       value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/profilering
     - name: MODIACONTEXTHOLDER_URL
-      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/modiacontextholder
+      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks
     - name: NAIS_CLUSTER_NAME
       value: dev-gcp
   ingresses:
