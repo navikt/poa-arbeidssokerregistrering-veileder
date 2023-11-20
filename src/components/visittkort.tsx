@@ -52,7 +52,7 @@ const visittkortAsyncConfig: AsyncSpaConfig = {
 };
 
 const VisittkortSpa: ComponentType<VisittKortProps> = AsyncNavspa.importer<VisittKortProps>(visittkortAsyncConfig);
-const brukerMock = process.env.ENABLE_MOCK === 'enabled';
+const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const Visittkort = () => {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
