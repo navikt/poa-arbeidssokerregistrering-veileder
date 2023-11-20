@@ -15,7 +15,7 @@ interface SpaProps {
     fnr: string;
 }
 interface VisittKortProps extends SpaProps {
-    // tilbakeTilFlate: string;
+    tilbakeTilFlate: string;
     visVeilederVerktoy: boolean;
 }
 
@@ -77,7 +77,7 @@ const Visittkort = () => {
 
     return (
         <VisittkortSpa
-            // tilbakeTilFlate={'veilarbportefoljeflatefs'}
+            tilbakeTilFlate={'veilarbportefoljeflatefs'}
             visVeilederVerktoy={true}
             fnr={fnr}
             enhet={enhetId}
