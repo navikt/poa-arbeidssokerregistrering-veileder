@@ -6,7 +6,7 @@ export const featureMocks = {
         {
             name: 'arbeidssokerregistrering-for-veileder.vis-hva-er-nytt',
             type: 'release',
-            enabled: false,
+            enabled: true,
             stale: false,
             strategies: [
                 {

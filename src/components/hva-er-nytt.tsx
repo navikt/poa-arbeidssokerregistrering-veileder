@@ -1,4 +1,4 @@
-import { Heading, BodyLong, ReadMore, List, Link } from '@navikt/ds-react';
+import { BodyLong, ReadMore, List, Link } from '@navikt/ds-react';
 
 import { useFeatureToggles } from '../contexts/featuretoggle-context';
 
@@ -18,9 +18,6 @@ export default function HvaErNytt() {
 
     return (
         <ReadMore header="Hva er nytt i registreringen for veileder?" className="mb-8" onClick={aapnerHvaErNytt}>
-            <Heading level="1" size="small">
-                Hva er nytt i registreringen for veileder?
-            </Heading>
             <BodyLong>
                 <List as="ul" title="I korte trekk er dette endret:">
                     <List.Item>alle spørsmål er nå samlet på en side</List.Item>
