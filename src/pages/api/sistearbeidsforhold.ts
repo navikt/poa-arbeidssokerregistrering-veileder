@@ -5,7 +5,7 @@ import { withAuthenticatedApi } from '../../auth/withAuthentication';
 import { logger } from '@navikt/next-logger';
 
 const url = `${process.env.SISTE_ARBEIDSFORHOLD_URL}`;
-const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const sisteArbeidsforhold = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     const callId = nanoid();
 

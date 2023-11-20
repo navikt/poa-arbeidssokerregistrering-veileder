@@ -4,7 +4,7 @@ import { getDefinitions } from '@unleash/nextjs';
 import { featureMocks } from './mocks/features';
 
 async function features(req: NextApiRequest, res: NextApiResponse) {
-    const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+    const brukerMock = process.env.ENABLE_MOCK === 'enabled';
     try {
         const definitions = brukerMock ? featureMocks : await getDefinitions();
         return res.status(200).json(definitions.features || []);
