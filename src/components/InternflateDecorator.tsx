@@ -20,7 +20,7 @@ const InternflateDecorator = () => {
     const { params, setParams } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const { enableMock } = useConfig() as Config;
-    const brukerMock = enableMock === 'enabled';
+    const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
     const onFnrChanged = (fnr) => {
         setParams({ fnr: fnr });

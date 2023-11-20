@@ -67,7 +67,7 @@ const Visittkort = () => {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const { enableMock } = useConfig() as Config;
-    const brukerMock = enableMock === 'enabled';
+    const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
     if (brukerMock) {
         return null;
