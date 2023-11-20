@@ -96,7 +96,7 @@ spec:
     - name: PAW_PROXY_URL
       value: https://paw-proxy.dev-fss-pub.nais.io
     - name: OBO_UNLEASH_URL
-      value: http://obo-unleash.obo
+      value: http://obo-unleash.obo.svc.cluster.local
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
