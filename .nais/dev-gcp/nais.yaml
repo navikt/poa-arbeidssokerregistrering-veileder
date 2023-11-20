@@ -143,5 +143,6 @@ spec:
           cluster: dev-fss
         - application: obo-unleash
           namespace: obo
+          cluster: dev-gcp
 
 
