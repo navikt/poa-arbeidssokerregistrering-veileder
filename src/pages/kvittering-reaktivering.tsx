@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BodyLong, Heading, Alert } from '@navikt/ds-react';
+import { BodyLong, Heading, Alert, Link } from '@navikt/ds-react';
 
 import useSprak from '../hooks/useSprak';
 
@@ -19,6 +19,10 @@ const Kvittering = () => {
     const sprak = useSprak();
     const tekst = lagHentTekstForSprak(TEKSTER, sprak);
 
+    const gaarTilDagpenger = () => {
+        loggAktivitet({ aktivitet: 'Går til skjema for dagpenger' });
+    };
+
     useEffect(() => {
         loggAktivitet({
             aktivitet: 'Viser kvittering for reaktivert arbeidssøker',
@@ -30,7 +34,12 @@ const Kvittering = () => {
             <Heading level="1" size="small" className={'mbl'}>
                 {tekst('header')}
             </Heading>
-            <BodyLong>{tekst('dagpenger')}</BodyLong>
+            <BodyLong>
+                {tekst('dagpenger')}{' '}
+                <Link href="https://www.nav.no/start/soknad-dagpenger?stegvalg=1" onClick={gaarTilDagpenger}>
+                    Uinnlogget dagpengesøknad og papirsøknad finner du her.
+                </Link>
+            </BodyLong>
         </Alert>
     );
 };

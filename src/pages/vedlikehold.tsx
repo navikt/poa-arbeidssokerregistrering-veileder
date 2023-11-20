@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Alert, BodyLong, Heading } from '@navikt/ds-react';
+import { Alert, BodyLong, Heading, Link } from '@navikt/ds-react';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
 
@@ -7,6 +7,7 @@ import useSprak from '../hooks/useSprak';
 
 import lagHentTekstForSprak, { Tekster } from '../lib/lag-hent-tekst-for-sprak';
 import { fetcher } from '../lib/api-utils';
+import { loggAktivitet } from '../lib/amplitude';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -24,6 +25,10 @@ function Vedlikehold() {
     const router = useRouter();
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { data: toggles } = useSWR('api/features/', fetcher, { refreshInterval: 60000 });
+
+    const gaarTilDagpenger = () => {
+        loggAktivitet({ aktivitet: 'Går til skjema for dagpenger' });
+    };
 
     useEffect(() => {
         if (toggles) {
@@ -43,7 +48,12 @@ function Vedlikehold() {
                 {tekst('heading')}
             </Heading>
             <BodyLong spacing>{tekst('provIgjen')}</BodyLong>
-            <BodyLong spacing>{tekst('dagpenger')}</BodyLong>
+            <BodyLong spacing>
+                {tekst('dagpenger')}{' '}
+                <Link href="https://www.nav.no/start/soknad-dagpenger?stegvalg=1" onClick={gaarTilDagpenger}>
+                    Uinnlogget dagpengesøknad og papirsøknad finner du her.
+                </Link>
+            </BodyLong>
         </Alert>
     );
 }
