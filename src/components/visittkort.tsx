@@ -30,7 +30,7 @@ const utledSpaUrl = (appName: string): string => {
     return erITestMiljo() ? `https://${appName}.intern.dev.nav.no` : `https://${appName}.intern.nav.no`;
 };
 
-const SpaName = 'veilarbvisittkortfs';
+const SpaName = '_veilarbvisittkortfs';
 const visittkortAsyncConfig: AsyncSpaConfig = {
     appName: SpaName,
     appBaseUrl: utledSpaUrl(SpaName),
@@ -51,7 +51,16 @@ const visittkortAsyncConfig: AsyncSpaConfig = {
     },
 };
 
-const VisittkortSpa: ComponentType<VisittKortProps> = AsyncNavspa.importer<VisittKortProps>(visittkortAsyncConfig);
+let _veilarbvisittkortfs;
+function hentVisittkortKomponent(): ComponentType<VisittKortProps> {
+    if (_veilarbvisittkortfs) {
+        return _veilarbvisittkortfs;
+    }
+
+    _veilarbvisittkortfs = AsyncNavspa.importer<VisittKortProps>(visittkortAsyncConfig);
+    return _veilarbvisittkortfs;
+}
+
 const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const Visittkort = () => {
     const { params } = useParamsFromContext();
@@ -60,6 +69,8 @@ const Visittkort = () => {
     if (brukerMock) {
         return null;
     }
+
+    const VisittkortSpa = hentVisittkortKomponent();
 
     return (
         <VisittkortSpa

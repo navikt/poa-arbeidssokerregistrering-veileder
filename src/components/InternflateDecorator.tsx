@@ -4,7 +4,16 @@ import { ComponentType } from 'react';
 import { DecoratorConfig } from '../model/internflate-decorator';
 
 const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
-const Decorator: ComponentType<DecoratorConfig> = !brukerMock && NAVSPA.importer('internarbeidsflatefs');
+let _internarbeidsflatefs;
+
+function hentDecoratorKomponent(): ComponentType<DecoratorConfig> {
+    if (_internarbeidsflatefs) {
+        return _internarbeidsflatefs;
+    }
+
+    _internarbeidsflatefs = NAVSPA.importer('internarbeidsflatefs');
+    return _internarbeidsflatefs;
+}
 
 const InternflateDecorator = () => {
     const { params, setParams } = useParamsFromContext();
@@ -43,6 +52,8 @@ const InternflateDecorator = () => {
     if (brukerMock) {
         return null;
     }
+
+    const Decorator = hentDecoratorKomponent();
 
     return <Decorator {...props} />;
 };
