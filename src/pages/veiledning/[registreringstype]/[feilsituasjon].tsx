@@ -6,6 +6,7 @@ import useSprak from '../../../hooks/useSprak';
 import { FeilmeldingGenerell } from '../../../components/feilmeldinger/feilmeldinger';
 import { Feiltype, OppgaveRegistreringstype } from '../../../model/feilsituasjonTyper';
 import { withAuthenticatedPage } from '../../../auth/withAuthentication';
+import { loggAktivitet } from '../../../lib/amplitude';
 
 interface Feilsituasjon {
     feiltype?: Feiltype;
@@ -28,6 +29,10 @@ const TEKSTER: Tekster<string> = {
 
 const KontaktVeileder = (props: Feilsituasjon) => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
+
+    const gaarTilServicerutine = () => {
+        loggAktivitet({ aktivitet: 'Går til servicerutine' });
+    };
 
     if (props.feiltype === undefined || !Object.values(Feiltype).includes(props.feiltype)) {
         return <FeilmeldingGenerell />;
@@ -55,6 +60,7 @@ const KontaktVeileder = (props: Feilsituasjon) => {
                                 ? 'servicerutineLenkeUtvandret'
                                 : 'servicerutineLenkeArbeidstillatelse',
                         )}
+                        onClick={gaarTilServicerutine}
                     >
                         {tekst(
                             props.feiltype === Feiltype.UTVANDRET
