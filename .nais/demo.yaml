@@ -73,7 +73,8 @@ spec:
       value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/profilering
     - name: MODIACONTEXTHOLDER_URL
       value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/modiacontextholder
-
+    - name: NAIS_CLUSTER_NAME
+      value: dev-gcp
   ingresses:
     - https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no
   accessPolicy:
