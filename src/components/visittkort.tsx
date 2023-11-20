@@ -30,7 +30,7 @@ const utledSpaUrl = (appName: string): string => {
     return erITestMiljo() ? `https://${appName}.intern.dev.nav.no` : `https://${appName}.intern.nav.no`;
 };
 
-const SpaName = '_veilarbvisittkortfs';
+const SpaName = 'veilarbvisittkortfs';
 const visittkortAsyncConfig: AsyncSpaConfig = {
     appName: SpaName,
     appBaseUrl: utledSpaUrl(SpaName),
