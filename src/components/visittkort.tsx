@@ -17,6 +17,7 @@ interface SpaProps {
 interface VisittKortProps extends SpaProps {
     tilbakeTilFlate: string;
     visVeilederVerktoy: boolean;
+    skjulEtiketter: boolean;
 }
 
 const DEV_DOMAINS = ['dev', 'app-q1', 'app-q0', 'localhost'];
@@ -78,9 +79,10 @@ const Visittkort = () => {
     return (
         <VisittkortSpa
             tilbakeTilFlate={'veilarbportefoljeflatefs'}
-            visVeilederVerktoy={true}
-            fnr={fnr}
-            enhet={enhetId}
+            visVeilederVerktoy={false}
+            fnr={fnr || ''}
+            enhet={enhetId || ''}
+            skjulEtiketter={false}
         />
     );
 };
