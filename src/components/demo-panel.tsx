@@ -11,98 +11,76 @@ function DemoPanel({ brukerMock }: Props) {
     if (!brukerMock) return null;
 
     return (
-        <Box className="mt-8 flex flex-col">
-            <Heading level="1" size="medium" className={'mbm'}>
-                Demovalg
+        <Box className="mt-8 flex flex-col bg-orange-200">
+            <Heading level="1" size="medium">
+                Demo - hurtigvalg
             </Heading>
-            <Box className={'bg-orange-300'}>
-                <Heading level="1" size="small">
-                    Velg side
+            <Box>
+                <Heading level="2" size="small" className="bg-orange-100">
+                    Registrering
                 </Heading>
-                <Box className="flex justify-between">
+                <Box className="flex justify-evenly">
                     <NextLink href={`/registrering-arbeidssoker`} passHref locale={false}>
-                        <Button>Arbeidssøker registrering</Button>
+                        <Button variant="secondary">Registrering - arbeidssøker</Button>
                     </NextLink>
                     <NextLink href="/kvittering-arbeidssoker/" passHref locale={false}>
-                        <Button variant="secondary">Kvittering registrert arbeidssøker</Button>
+                        <Button variant="secondary">Kvittering - arbeidssøker</Button>
                     </NextLink>
-
-                    <p>
-                        <NextLink href={`/registrering-mer-sykmeldtoppfolging`} passHref locale={false}>
-                            <Button variant="secondary">Mer sykmeldt oppfølging</Button>
-                        </NextLink>
-                    </p>
-                    <p>
-                        <NextLink href="/kvittering-mer-sykmeldtoppfolging/" passHref locale={false}>
-                            <Button variant="secondary">Kvittering registrert for mer sykmeldtoppfølging</Button>
-                        </NextLink>
-                    </p>
+                    <NextLink href={`/registrering-mer-sykmeldtoppfolging`} passHref locale={false}>
+                        <Button variant="secondary">Registrering - sykmeldtoppfølging</Button>
+                    </NextLink>
+                    <NextLink href="/kvittering-mer-sykmeldtoppfolging/" passHref locale={false}>
+                        <Button variant="secondary">Kvittering - sykmeldtoppfølging</Button>
+                    </NextLink>
                 </Box>
                 <Box>
-                    <Heading level="2" size="small">
+                    <Heading level="2" size="small" className="bg-orange-100">
                         Stoppsituasjoner
                     </Heading>
-                    <Box className="flex justify-between">
-                        <p>
-                            <NextLink
-                                href="/veiledning/registrering/mangler-arbeidstillatelse/"
-                                passHref
-                                locale={false}
-                            >
-                                <Button variant="secondary">Mangler arbeidstillatelse</Button>
-                            </NextLink>
-                        </p>
-                        <p>
-                            <NextLink href="/veiledning/registrering/utvandret/" passHref locale={false}>
-                                <Button variant="secondary">Utvandret</Button>
-                            </NextLink>
-                        </p>
-                        <p>
-                            <NextLink href="/veiledning/allerede-registrert/" passHref locale={false}>
-                                <Button variant="secondary">Allerede registrert</Button>
-                            </NextLink>
-                        </p>
-                        <p>
-                            <NextLink href="/veiledning/sperret/" passHref locale={false}>
-                                <Button variant="secondary">Sperret</Button>
-                            </NextLink>
-                        </p>
+                    <Box className="flex justify-evenly">
+                        <NextLink href="/veiledning/registrering/mangler-arbeidstillatelse/" passHref locale={false}>
+                            <Button variant="secondary">Mangler arbeidstillatelse</Button>
+                        </NextLink>
+                        <NextLink href="/veiledning/registrering/utvandret/" passHref locale={false}>
+                            <Button variant="secondary">Utvandret</Button>
+                        </NextLink>
+                        <NextLink href="/veiledning/allerede-registrert/" passHref locale={false}>
+                            <Button variant="secondary">Allerede registrert</Button>
+                        </NextLink>
+                        <NextLink href="/veiledning/sperret/" passHref locale={false}>
+                            <Button variant="secondary">Sperret</Button>
+                        </NextLink>
                     </Box>
                 </Box>
                 <Box>
-                    <Heading level="4" size="medium">
+                    <Heading level="2" size="small" className="bg-orange-100">
                         Feilmeldinger
                     </Heading>
-                    <p>
+                    <Box className="flex justify-evenly">
                         <NextLink href="/vedlikehold/" passHref locale={false}>
                             <Button variant="secondary">Vedlikehold</Button>
                         </NextLink>
-                    </p>
-                    <p>
+
                         <NextLink href="/feil/" passHref locale={false}>
                             <Button variant="secondary">Feil</Button>
                         </NextLink>
-                    </p>
+                    </Box>
                 </Box>
                 <Box>
-                    <Heading level="4" size="medium">
+                    <Heading level="2" size="small" className="bg-orange-100">
                         Reaktivering
                     </Heading>
-                    <p>
+                    <Box className="flex justify-evenly">
                         <NextLink href="/registrering-reaktivering" passHref locale={false}>
                             <Button variant="secondary">Reaktivering</Button>
                         </NextLink>
-                    </p>
-                    <p>
                         <NextLink href="/veiledning/reaktivering/utvandret/" passHref locale={false}>
                             <Button variant="secondary">Utvandret Reaktivering</Button>
                         </NextLink>
-                    </p>
-                    <p>
                         <NextLink href="/kvittering-reaktivering/" passHref locale={false}>
                             <Button variant="secondary">Kvittering Reaktivering</Button>
                         </NextLink>
-                    </p>
+                    </Box>
                 </Box>
             </Box>
         </Box>
