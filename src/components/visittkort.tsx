@@ -61,7 +61,7 @@ const Visittkort = () => {
     const { enableMock } = useConfig() as Config;
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
-    if (brukerMock) {
+    if (brukerMock || !fnr) {
         return null;
     }
 
@@ -69,7 +69,7 @@ const Visittkort = () => {
         <VisittkortSpa
             tilbakeTilFlate={'veilarbportefoljeflatefs'}
             visVeilederVerktoy={false}
-            fnr={fnr || ''}
+            fnr={fnr}
             enhet={enhetId}
             skjulEtiketter={false}
         />
