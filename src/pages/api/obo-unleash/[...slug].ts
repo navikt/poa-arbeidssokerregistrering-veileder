@@ -7,7 +7,7 @@ import {
     getVeilarboppfolgingToken,
 } from '../../../lib/next-api-handler';
 
-const url = `${process.env.OBO_UNLEASH_URL}/obo-unleash/[slug]`;
+const url = `${process.env.OBO_UNLEASH_URL}/[slug]`;
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 export default withAuthenticatedApi(
     createProxyCall(async (req, callId) => {

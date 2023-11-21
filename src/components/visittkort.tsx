@@ -3,6 +3,8 @@ import { ComponentType } from 'react';
 import { Loader } from '@navikt/ds-react';
 import { createAssetManifestParser } from '@navikt/navspa/dist/async/utils';
 import { useParamsFromContext } from '../contexts/params-from-context';
+import { useConfig } from '../contexts/config-context';
+import { Config } from '../model/config';
 
 interface SpaProps {
     enhet?: string;
@@ -13,7 +15,7 @@ interface SpaProps {
     fnr: string;
 }
 interface VisittKortProps extends SpaProps {
-    // tilbakeTilFlate: string;
+    tilbakeTilFlate: string;
     visVeilederVerktoy: boolean;
 }
 
@@ -51,19 +53,31 @@ const visittkortAsyncConfig: AsyncSpaConfig = {
     },
 };
 
-const VisittkortSpa: ComponentType<VisittKortProps> = AsyncNavspa.importer<VisittKortProps>(visittkortAsyncConfig);
-const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+let _veilarbvisittkortfs;
+function hentVisittkortKomponent(): ComponentType<VisittKortProps> {
+    if (_veilarbvisittkortfs) {
+        return _veilarbvisittkortfs;
+    }
+
+    _veilarbvisittkortfs = AsyncNavspa.importer<VisittKortProps>(visittkortAsyncConfig);
+    return _veilarbvisittkortfs;
+}
+
 const Visittkort = () => {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
+    const { enableMock } = useConfig() as Config;
+    const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
     if (brukerMock) {
         return null;
     }
 
+    const VisittkortSpa = hentVisittkortKomponent();
+
     return (
         <VisittkortSpa
-            // tilbakeTilFlate={'veilarbportefoljeflatefs'}
+            tilbakeTilFlate={'veilarbportefoljeflatefs'}
             visVeilederVerktoy={true}
             fnr={fnr}
             enhet={enhetId}
