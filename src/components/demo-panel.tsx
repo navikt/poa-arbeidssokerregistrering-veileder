@@ -1,13 +1,14 @@
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import { Button, Heading, Box } from '@navikt/ds-react';
 
-interface Props {
-    brukerMock?: boolean;
-}
+import { useConfig } from '../contexts/config-context';
 
-function DemoPanel({ brukerMock }: Props) {
-    const router = useRouter();
+import { Config } from '../model/config';
+
+function DemoPanel() {
+    const { enableMock } = useConfig() as Config;
+    const brukerMock = enableMock === 'enabled';
+
     if (!brukerMock) return null;
 
     return (

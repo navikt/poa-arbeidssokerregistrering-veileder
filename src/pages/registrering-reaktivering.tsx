@@ -3,12 +3,10 @@ import { useRouter } from 'next/router';
 import { Alert, BodyShort, Button, Heading } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
-import { useConfig } from '../contexts/config-context';
 
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { fetcher as api } from '../lib/api-utils';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
-import { Config } from '../model/config';
 import DemoPanel from '../components/demo-panel';
 import { loggFlyt } from '../lib/amplitude';
 import HvaErNytt from '../components/hva-er-nytt';
@@ -17,11 +15,9 @@ export default function RegistreringReaktivering() {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const router = useRouter();
-    const { enableMock } = useConfig() as Config;
     const [isPending, setIsPending] = useState<boolean>(false);
     const [error, setError] = useState<any>();
     const [success, setSuccess] = useState<boolean>(false);
-    const brukerMock = enableMock === 'enabled';
 
     const visInnhold = fnr && enhetId;
 
@@ -78,7 +74,7 @@ export default function RegistreringReaktivering() {
                     )}
                 </>
             )}
-            <DemoPanel brukerMock={brukerMock} />
+            <DemoPanel />
         </>
     );
 }

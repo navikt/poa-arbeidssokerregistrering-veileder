@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { Heading, Alert, BodyShort } from '@navikt/ds-react';
 
-import { useConfig } from '../contexts/config-context';
 import { useParamsFromContext } from '../contexts/params-from-context';
 
 import { SykmeldtoppfolgingProvider } from '../contexts/sykmeldtoppfolging-context';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
-import { Config } from '../model/config';
 import DemoPanel from '../components/demo-panel';
 import SykmeldtFremtidigSituasjon from '../components/skjema/sykmeldt-fremtidig-situasjon';
 import TilbakeTilJobb from '../components/skjema/sykmeldt-tilbake-til-jobb';
@@ -21,8 +19,6 @@ import { loggFlyt } from '../lib/amplitude';
 import HvaErNytt from '../components/hva-er-nytt';
 
 export default function RegistreringMerSykmeldtOppfolging() {
-    const { enableMock } = useConfig() as Config;
-    const brukerMock = enableMock === 'enabled';
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const visInnhold = fnr && enhetId;
@@ -61,7 +57,7 @@ export default function RegistreringMerSykmeldtOppfolging() {
                     </SykmeldtoppfolgingProvider>
                 </>
             )}
-            <DemoPanel brukerMock={brukerMock} />
+            <DemoPanel />
         </>
     );
 }

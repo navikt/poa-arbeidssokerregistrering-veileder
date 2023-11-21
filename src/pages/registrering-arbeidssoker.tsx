@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { Heading } from '@navikt/ds-react';
 
-import { useConfig } from '../contexts/config-context';
 import { useParamsFromContext } from '../contexts/params-from-context';
 
-import { Config } from '../model/config';
 import { RegistreringProvider } from '../contexts/registrering-context';
 import DinSituasjon from '../components/skjema/din-situasjon';
 import SisteJobb from '../components/skjema/siste-jobb/siste-jobb';
@@ -21,8 +19,6 @@ import { loggFlyt } from '../lib/amplitude';
 import HvaErNytt from '../components/hva-er-nytt';
 
 export default function RegistreringArbeidssoker() {
-    const { enableMock } = useConfig() as Config;
-    const brukerMock = enableMock === 'enabled';
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const visInnhold = fnr && enhetId;
@@ -52,7 +48,7 @@ export default function RegistreringArbeidssoker() {
                     </RegistreringProvider>
                 </>
             )}
-            <DemoPanel brukerMock={brukerMock} />
+            <DemoPanel />
         </>
     );
 }
