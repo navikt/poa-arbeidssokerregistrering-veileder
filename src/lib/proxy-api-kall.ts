@@ -11,23 +11,36 @@ export const createProxyCall = (getHeaders: getHeaders, url: string) => {
         try {
             const resolvedUrl = resolveDynamicUrl(url, slug, query);
             logger.info(`Starter ${req.method}-kall med callId: ${callId} mot ${resolvedUrl}`);
-            const result = await fetch(resolvedUrl, {
+
+            const response = await fetch(resolvedUrl, {
                 method: req.method,
                 body: req.method === 'POST' ? JSON.stringify(req.body) : null,
                 headers: await getHeaders(req, callId),
-            }).then((response) => {
-                const contentType = response.headers.get('content-type');
-
-                if (contentType && contentType.includes('application/json')) {
-                    return response.json();
-                }
-
-                return null;
             });
+            //     .then((response) => {
+            //     if (!response.ok) {
+            //         const e = new Error(response.statusText);
+            //         (e as any).status = response.status;
+            //         throw e;
+            //     }
+            //
+            //     const contentType = response.headers.get('content-type');
+            //
+            //     if (contentType && contentType.includes('application/json')) {
+            //         return response.json();
+            //     }
+            //
+            //     return null;
+            // });
+            const contentType = response.headers.get('content-type');
+            const isJsonResponse = contentType && contentType.includes('application/json');
+            const result = isJsonResponse ? await response.json() : null;
+
             res.json(result);
         } catch (error) {
             logger.error(`Kall med (callId: ${callId}) feilet. Feilmelding: ${error}`);
-            res.status(500).end(`${error}`);
+            const status = error.status || 500;
+            res.status(status).end(`${error.message}`);
         }
     };
 };
