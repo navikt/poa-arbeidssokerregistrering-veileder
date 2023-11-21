@@ -4,6 +4,12 @@ import { nanoid } from 'nanoid';
 import resolveDynamicUrl from './resolve-dynamic-url';
 
 type getHeaders = (req: NextApiRequest, callId?: string) => Promise<Record<string, string>>;
+
+function toError(response: Response) {
+    const e = new Error(response.statusText);
+    (e as any).status = response.status;
+    return e;
+}
 export const createProxyCall = (getHeaders: getHeaders, url: string) => {
     return async (req: NextApiRequest, res: NextApiResponse<any>) => {
         const callId = nanoid();
@@ -18,9 +24,7 @@ export const createProxyCall = (getHeaders: getHeaders, url: string) => {
                 headers: await getHeaders(req, callId),
             }).then((response) => {
                 if (!response.ok) {
-                    const e = new Error(response.statusText);
-                    (e as any).status = response.status;
-                    throw e;
+                    throw toError(response);
                 }
 
                 const contentType = response.headers.get('content-type');
@@ -34,7 +38,7 @@ export const createProxyCall = (getHeaders: getHeaders, url: string) => {
 
             res.json(result);
         } catch (error) {
-            logger.error(`Kall med (callId: ${callId}) feilet. Feilmelding: ${error}`);
+            logger.error(error, `Kall med (callId: ${callId}) feilet. Feilmelding: ${error.message}`);
             const status = error.status || 500;
             res.status(status).end(`${error.message}`);
         }
