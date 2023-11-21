@@ -80,8 +80,8 @@ const Visittkort = () => {
         <VisittkortSpa
             tilbakeTilFlate={'veilarbportefoljeflatefs'}
             visVeilederVerktoy={false}
-            fnr={fnr || ''}
-            enhet={enhetId || ''}
+            fnr={fnr}
+            enhet={enhetId}
             skjulEtiketter={false}
         />
     );
