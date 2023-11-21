@@ -5,17 +5,18 @@ import { DecoratorConfig } from '../model/internflate-decorator';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
 
-let _internarbeidsflatefs;
+// let _internarbeidsflatefs;
+//
+// function hentDecoratorKomponent(): ComponentType<DecoratorConfig> {
+//     if (_internarbeidsflatefs) {
+//         return _internarbeidsflatefs;
+//     }
+//
+//     _internarbeidsflatefs = NAVSPA.importer('internarbeidsflatefs');
+//     return _internarbeidsflatefs;
+// }
 
-function hentDecoratorKomponent(): ComponentType<DecoratorConfig> {
-    if (_internarbeidsflatefs) {
-        return _internarbeidsflatefs;
-    }
-
-    _internarbeidsflatefs = NAVSPA.importer('internarbeidsflatefs');
-    return _internarbeidsflatefs;
-}
-
+const Decorator: ComponentType<DecoratorConfig> = NAVSPA.importer('internarbeidsflatefs');
 const InternflateDecorator = () => {
     const { params, setParams } = useParamsFromContext();
     const { fnr, enhetId } = params;
@@ -56,7 +57,7 @@ const InternflateDecorator = () => {
         return null;
     }
 
-    const Decorator = hentDecoratorKomponent();
+    // const Decorator = hentDecoratorKomponent();
 
     return <Decorator {...props} />;
 };

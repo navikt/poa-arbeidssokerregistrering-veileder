@@ -5,7 +5,6 @@ import { createAssetManifestParser } from '@navikt/navspa/dist/async/utils';
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
-import { fromNodeOutgoingHttpHeaders } from 'next/dist/server/web/utils';
 
 interface SpaProps {
     enhet?: string;
@@ -55,15 +54,15 @@ const visittkortAsyncConfig: AsyncSpaConfig = {
     },
 };
 
-let _veilarbvisittkortfs;
-function hentVisittkortKomponent(): ComponentType<VisittKortProps> {
-    if (_veilarbvisittkortfs) {
-        return _veilarbvisittkortfs;
-    }
-
-    _veilarbvisittkortfs = AsyncNavspa.importer<VisittKortProps>(visittkortAsyncConfig);
-    return _veilarbvisittkortfs;
-}
+// let _veilarbvisittkortfs;
+// function hentVisittkortKomponent(): ComponentType<VisittKortProps> {
+//     if (_veilarbvisittkortfs) {
+//         return _veilarbvisittkortfs;
+//     }
+//
+//     _veilarbvisittkortfs = AsyncNavspa.importer<VisittKortProps>(visittkortAsyncConfig);
+//     return _veilarbvisittkortfs;
+// }
 
 const VisittkortSpa = AsyncNavspa.importer<VisittKortProps>(visittkortAsyncConfig);
 
@@ -73,10 +72,7 @@ const Visittkort = () => {
     const { enableMock } = useConfig() as Config;
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
-    console.log('appBaseUrl: utledSpaUrl(SpaName)', utledSpaUrl(SpaName));
-    console.log('fnr', fnr);
-
-    if (brukerMock || !fnr) {
+    if (brukerMock || !fnr || !enhetId) {
         return null;
     }
 
