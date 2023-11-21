@@ -72,7 +72,9 @@ function RedirectTilSkjema() {
             ) {
                 loggFlyt({ hendelse: 'Ikke mulig å registrere personen', aarsak: registreringsData.registreringType });
             }
-            router.push(`${hentNesteSideUrl(registreringsData)}`);
+            setTimeout(() => {
+                router.push(`${hentNesteSideUrl(registreringsData)}`);
+            }, 1000);
         }
     }, [enhetId, fnr, registreringsData, router]);
 
