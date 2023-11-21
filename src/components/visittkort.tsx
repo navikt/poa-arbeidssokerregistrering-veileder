@@ -5,6 +5,7 @@ import { createAssetManifestParser } from '@navikt/navspa/dist/async/utils';
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
+import { fromNodeOutgoingHttpHeaders } from 'next/dist/server/web/utils';
 
 interface SpaProps {
     enhet?: string;
@@ -64,6 +65,8 @@ function hentVisittkortKomponent(): ComponentType<VisittKortProps> {
     return _veilarbvisittkortfs;
 }
 
+const VisittkortSpa = AsyncNavspa.importer<VisittKortProps>(visittkortAsyncConfig);
+
 const Visittkort = () => {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
@@ -71,12 +74,13 @@ const Visittkort = () => {
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
     console.log('appBaseUrl: utledSpaUrl(SpaName)', utledSpaUrl(SpaName));
+    console.log('fnr', fnr);
 
     if (brukerMock || !fnr) {
         return null;
     }
 
-    const VisittkortSpa = hentVisittkortKomponent();
+    // const VisittkortSpa = hentVisittkortKomponent();
 
     return (
         <VisittkortSpa
