@@ -70,7 +70,9 @@ const Visittkort = () => {
     const { enableMock } = useConfig() as Config;
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
-    if (brukerMock) {
+    console.log('appBaseUrl: utledSpaUrl(SpaName)', utledSpaUrl(SpaName));
+
+    if (brukerMock || !fnr) {
         return null;
     }
 
@@ -80,8 +82,8 @@ const Visittkort = () => {
         <VisittkortSpa
             tilbakeTilFlate={'veilarbportefoljeflatefs'}
             visVeilederVerktoy={false}
-            fnr={fnr || ''}
-            enhet={enhetId || ''}
+            fnr={fnr}
+            enhet={enhetId}
             skjulEtiketter={false}
         />
     );
