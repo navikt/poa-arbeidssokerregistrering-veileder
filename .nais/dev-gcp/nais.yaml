@@ -88,9 +88,9 @@ spec:
     - name: VEILARBOPPFOLGING_URL
       value: https://veilarboppfolging.dev-fss-pub.nais.io/veilarboppfolging
     - name: VEILARBDIALOG_URL
-      value: https://veilarboppfolging.dev-fss-pub.nais.io/veilarbdialog
+      value: https://veilarbdialog.dev-fss-pub.nais.io/veilarbdialog
     - name: VEILARBPERSON_URL
-      value: https://veilarbpersong.dev-fss-pub.nais.io/veilarbperson
+      value: https://veilarbperson.dev-fss-pub.nais.io/veilarbperson
     - name: VEILARBVEILEDER_URL
       value: https://veilarbveileder.dev-fss-pub.nais.io/veilarbveileder
     - name: PAW_PROXY_URL
