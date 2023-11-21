@@ -16,6 +16,10 @@ export const createProxyCall = (getHeaders: getHeaders, url: string) => {
                 body: req.method === 'POST' ? JSON.stringify(req.body) : null,
                 headers: await getHeaders(req, callId),
             }).then((response) => {
+                if (!response.ok) {
+                    throw response;
+                }
+
                 const contentType = response.headers.get('content-type');
 
                 if (contentType && contentType.includes('application/json')) {
@@ -27,7 +31,8 @@ export const createProxyCall = (getHeaders: getHeaders, url: string) => {
             res.json(result);
         } catch (error) {
             logger.error(`Kall med (callId: ${callId}) feilet. Feilmelding: ${error}`);
-            res.status(500).end(`${error}`);
+            const status = error.status || 500;
+            res.status(status).end(`${error}`);
         }
     };
 };
