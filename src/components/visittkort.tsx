@@ -1,5 +1,4 @@
 import { AsyncNavspa, AsyncSpaConfig } from '@navikt/navspa';
-import { ComponentType } from 'react';
 import { Loader } from '@navikt/ds-react';
 import { createAssetManifestParser } from '@navikt/navspa/dist/async/utils';
 import { useParamsFromContext } from '../contexts/params-from-context';
@@ -54,16 +53,6 @@ const visittkortAsyncConfig: AsyncSpaConfig = {
     },
 };
 
-// let _veilarbvisittkortfs;
-// function hentVisittkortKomponent(): ComponentType<VisittKortProps> {
-//     if (_veilarbvisittkortfs) {
-//         return _veilarbvisittkortfs;
-//     }
-//
-//     _veilarbvisittkortfs = AsyncNavspa.importer<VisittKortProps>(visittkortAsyncConfig);
-//     return _veilarbvisittkortfs;
-// }
-
 const VisittkortSpa = AsyncNavspa.importer<VisittKortProps>(visittkortAsyncConfig);
 
 const Visittkort = () => {
@@ -72,11 +61,9 @@ const Visittkort = () => {
     const { enableMock } = useConfig() as Config;
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
-    if (brukerMock || !fnr || !enhetId) {
+    if (brukerMock) {
         return null;
     }
-
-    // const VisittkortSpa = hentVisittkortKomponent();
 
     return (
         <VisittkortSpa
