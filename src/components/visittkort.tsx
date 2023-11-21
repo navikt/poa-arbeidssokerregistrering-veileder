@@ -69,7 +69,7 @@ const Visittkort = () => {
         <VisittkortSpa
             tilbakeTilFlate={'veilarbportefoljeflatefs'}
             visVeilederVerktoy={false}
-            fnr={fnr}
+            fnr={fnr || ''}
             enhet={enhetId}
             skjulEtiketter={false}
         />
