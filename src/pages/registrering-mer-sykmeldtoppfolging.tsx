@@ -50,7 +50,7 @@ export default function RegistreringMerSykmeldtOppfolging() {
                                 href="https://navno.sharepoint.com/sites/fag-og-ytelser-regelverk-og-rutiner/SitePages/Sykefrav%C3%A6rsomr%C3%A5det-Virkemidler.aspx?web=1"
                                 onClick={gaarTilServicerutine}
                             >
-                                "Friskmelding til arbeidsformidling"
+                                &quot;Friskmelding til arbeidsformidling&quot;
                             </Link>
                             .
                         </BodyShort>
