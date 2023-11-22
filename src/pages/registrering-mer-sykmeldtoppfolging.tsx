@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Heading, Alert, BodyShort } from '@navikt/ds-react';
+import { Heading, Alert, BodyShort, Link } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 
@@ -15,13 +15,17 @@ import UtdanningGodkjent from '../components/skjema/sykmeldt-utdanning-godkjent'
 import UtdanningBestatt from '../components/skjema/sykmeldt-utdanning-bestatt';
 import AndreProblemer from '../components/skjema/sykmeldt-andre-problemer';
 import { RegistrerForMerSykmeldtoppfolgingKnapp } from '../components/skjema/sykmeldt-registrer-knapp';
-import { loggFlyt } from '../lib/amplitude';
+import { loggFlyt, loggAktivitet } from '../lib/amplitude';
 import HvaErNytt from '../components/hva-er-nytt';
 
 export default function RegistreringMerSykmeldtOppfolging() {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const visInnhold = fnr && enhetId;
+
+    const gaarTilServicerutine = () => {
+        loggAktivitet({ aktivitet: 'Går til servicerutine for friskmelding til arbeidsformidling' });
+    };
 
     useEffect(() => {
         loggFlyt({ hendelse: 'Starter registrering for mer sykmeldtoppfølging' });
@@ -41,8 +45,14 @@ export default function RegistreringMerSykmeldtOppfolging() {
                             Personen kan registreres for mer sykmeldtoppfølging
                         </Heading>
                         <BodyShort>
-                            Dersom personen skal registreres som arbeidssøker må du følge gjeldende servicerutiner for å
-                            avslutte sykefraværsoppfølgingen.
+                            Dersom personen skal registreres som arbeidssøker må du følge gjeldende servicerutiner for{' '}
+                            <Link
+                                href="https://navno.sharepoint.com/sites/fag-og-ytelser-regelverk-og-rutiner/SitePages/Sykefrav%C3%A6rsomr%C3%A5det-Virkemidler.aspx?web=1"
+                                onClick={gaarTilServicerutine}
+                            >
+                                "Friskmelding til arbeidsformidling"
+                            </Link>
+                            .
                         </BodyShort>
                     </Alert>
                     <SykmeldtoppfolgingProvider>

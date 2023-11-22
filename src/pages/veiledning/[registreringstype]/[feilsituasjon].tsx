@@ -31,7 +31,7 @@ const KontaktVeileder = (props: Feilsituasjon) => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
 
     const gaarTilServicerutine = () => {
-        loggAktivitet({ aktivitet: 'Går til servicerutine' });
+        loggAktivitet({ aktivitet: 'Går til servicerutine for arbeids- og oppholdstillatelse' });
     };
 
     if (props.feiltype === undefined || !Object.values(Feiltype).includes(props.feiltype)) {

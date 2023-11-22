@@ -21,7 +21,8 @@ type SidevisningData = { sidetittel: string };
 
 type AktivitetData =
     | { aktivitet: KvitteringAktivitet }
-    | { aktivitet: 'Går til servicerutine'; registreringtype?: RegistreringType }
+    | { aktivitet: 'Går til servicerutine for friskmelding til arbeidsformidling'; registreringtype?: RegistreringType }
+    | { aktivitet: 'Går til servicerutine for arbeids- og oppholdstillatelse'; registreringtype?: RegistreringType }
     | { aktivitet: 'Endrer foreslått stilling' }
     | { aktivitet: 'Leser hva er nytt' }
     | { aktivitet: 'Går til skjema for dagpenger' };
