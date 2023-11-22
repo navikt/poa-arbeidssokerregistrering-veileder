@@ -56,6 +56,28 @@ const nextConfig = {
                 destination: `${decoratorUrlProd}/internarbeidsflatedecorator/:path*`,
                 permanent: true,
             },
+            {
+                source: '/veilarbportefoljeflatefs/:path*',
+                has: [
+                    {
+                        type: 'host',
+                        value: 'arbeidssokerregistrering-for-veileder.intern.dev.nav.no',
+                    },
+                ],
+                destination: 'https://veilarbportefoljeflate.intern.dev.nav.no/:path*',
+                permanent: true,
+            },
+            {
+                source: '/veilarbportefoljeflatefs/:path*',
+                has: [
+                    {
+                        type: 'host',
+                        value: 'arbeidssokerregistrering-for-veileder.intern.nav.no',
+                    },
+                ],
+                destination: 'https://veilarbportefoljeflate.intern.nav.no/:path*',
+                permanent: true,
+            },
         ];
     },
     reactStrictMode: true,
