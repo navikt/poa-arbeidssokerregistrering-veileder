@@ -1,15 +1,15 @@
 import { createContext, ReactNode, useContext } from 'react';
-import useSWR from 'swr';
 
 import { fetcher } from '../lib/api-utils';
 import { Config } from '../model/config';
+import useSWRImmutable from 'swr/immutable';
 
 type uninitializedConfig = {};
 
 const ConfigContext = createContext<Config | uninitializedConfig>({});
 
 function ConfigProvider({ children }: { children: ReactNode }) {
-    const { data } = useSWR('api/config/', fetcher);
+    const { data } = useSWRImmutable('/api/config/', fetcher);
 
     return <ConfigContext.Provider value={data ?? {}}>{children}</ConfigContext.Provider>;
 }

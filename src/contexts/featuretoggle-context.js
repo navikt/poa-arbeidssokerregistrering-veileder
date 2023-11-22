@@ -7,7 +7,7 @@ const FeatureToggleContext = createContext();
 
 function FeatureToggleProvider({ children }) {
     const [toggles, setToggles] = useState({});
-    const { data } = useSWR('api/features/', fetcher);
+    const { data } = useSWR('/api/features/', fetcher);
 
     useEffect(() => {
         if (data) {
