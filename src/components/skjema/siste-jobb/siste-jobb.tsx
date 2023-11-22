@@ -31,20 +31,31 @@ const annenStilling: SisteJobb = {
     styrk08: '-1',
 };
 
+type StillingssokValue = {
+    konseptId: number;
+    label: string;
+    styrk08: string[] | string;
+};
+
 const SisteJobb = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { registrering, setRegistrering } = useRegistrering();
     const [visStillingsSok, settVisStillingsSok] = useState<boolean>(false);
     const { params } = useParamsFromContext();
     const { fnr } = params;
-    const onCloseStillingssok = (value?: any) => {
+    const onCloseStillingssok = (value?: StillingssokValue) => {
         if (value) {
-            setRegistrering({ [SporsmalId.sisteJobb]: value });
+            setRegistrering({
+                [SporsmalId.sisteJobb]: {
+                    ...value,
+                    styrk08: Array.isArray(value.styrk08) ? value.styrk08[0] : value.styrk08,
+                },
+            });
         }
         settVisStillingsSok(false);
     };
 
-    const { data: sisteArbeidsforhold, error } = useSWRImmutable(`api/sistearbeidsforhold?fnr=${fnr || ''}`, fetcher);
+    const { data: sisteArbeidsforhold, error } = useSWRImmutable(`/api/sistearbeidsforhold?fnr=${fnr || ''}`, fetcher);
 
     const visSisteJobb = registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB;
     const visSisteStilling = registrering.dinSituasjon
@@ -76,7 +87,7 @@ const SisteJobb = () => {
 
                 {visSisteStilling && (
                     <SisteStilling
-                        onChange={(value) => setRegistrering({ [SporsmalId.sisteJobb]: value })}
+                        onChange={(value) => setRegistrering({ [SporsmalId.sisteStilling]: value })}
                         valgt={registrering.sisteStilling}
                     />
                 )}
