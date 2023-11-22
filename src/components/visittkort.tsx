@@ -68,7 +68,7 @@ const Visittkort = () => {
     return (
         <VisittkortSpa
             tilbakeTilFlate={'veilarbportefoljeflatefs'}
-            visVeilederVerktoy={true}
+            visVeilederVerktoy={false}
             fnr={fnr}
             enhet={enhetId}
             skjulEtiketter={false}
