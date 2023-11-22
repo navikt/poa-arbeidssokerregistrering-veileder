@@ -4,7 +4,7 @@ import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, SporsmalId, UtdanningGodkjentValg } from '../../model/sporsmal';
+import { hentTekst, SporsmalId, UtdanningGodkjentValg, Utdanningsnivaa } from '../../model/sporsmal';
 
 const UtdanningGodkjent = () => {
     const { registrering, doValidate, setRegistrering } = useRegistrering();
@@ -18,6 +18,10 @@ const UtdanningGodkjent = () => {
         lagValg(UtdanningGodkjentValg.NEI),
         lagValg(UtdanningGodkjentValg.VET_IKKE),
     ];
+
+    if (registrering[SporsmalId.utdanning] === Utdanningsnivaa.INGEN_UTDANNING) {
+        return null;
+    }
 
     return (
         <Box className="mb-8 bg-gray-100" borderWidth="1" padding="4">

@@ -4,8 +4,22 @@ import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, SporsmalId, Utdanningsnivaa } from '../../model/sporsmal';
+import { hentTekst, JaEllerNei, SporsmalId, UtdanningGodkjentValg, Utdanningsnivaa } from '../../model/sporsmal';
+import { RegistreringState } from '../../model/registrering';
 
+function tilRegistreringsState(value: Utdanningsnivaa): Partial<RegistreringState> {
+    if (value === Utdanningsnivaa.INGEN_UTDANNING) {
+        return {
+            [SporsmalId.utdanning]: value,
+            [SporsmalId.utdanningGodkjent]: UtdanningGodkjentValg.INGEN_SVAR,
+            [SporsmalId.utdanningBestatt]: JaEllerNei.INGEN_SVAR,
+        };
+    }
+
+    return {
+        [SporsmalId.utdanning]: value,
+    };
+}
 const Utdanning = () => {
     const { registrering, doValidate, setRegistrering } = useRegistrering();
     const sprak = useSprak();
@@ -39,7 +53,7 @@ const Utdanning = () => {
                 <RadioGruppe
                     legend={tekst(SporsmalId.utdanning)}
                     valg={valg}
-                    onSelect={(val) => setRegistrering({ [SporsmalId.utdanning]: val })}
+                    onSelect={(val) => setRegistrering(tilRegistreringsState(val))}
                     visFeilmelding={visFeilmelding}
                 />
             </form>

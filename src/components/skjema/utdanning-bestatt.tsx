@@ -4,7 +4,7 @@ import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, JaEllerNei, SporsmalId } from '../../model/sporsmal';
+import { hentTekst, JaEllerNei, SporsmalId, Utdanningsnivaa } from '../../model/sporsmal';
 
 const BestattUtdanning = () => {
     const sprak = useSprak();
@@ -13,6 +13,10 @@ const BestattUtdanning = () => {
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
     const visFeilmelding = doValidate ? !Object.keys(registrering).includes('utdanningBestatt') : false;
+
+    if (registrering[SporsmalId.utdanning] === Utdanningsnivaa.INGEN_UTDANNING) {
+        return null;
+    }
 
     return (
         <Box className="mb-8 bg-gray-100" borderWidth="1" padding="4">
