@@ -37,6 +37,12 @@ type StillingssokValue = {
     styrk08: string[] | string;
 };
 
+function stringifyStyrk08(value: StillingssokValue) {
+    return {
+        ...value,
+        styrk08: Array.isArray(value.styrk08) ? value.styrk08[0] : value.styrk08,
+    };
+}
 const SisteJobb = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { registrering, setRegistrering } = useRegistrering();
@@ -46,10 +52,7 @@ const SisteJobb = () => {
     const onCloseStillingssok = (value?: StillingssokValue) => {
         if (value) {
             setRegistrering({
-                [SporsmalId.sisteJobb]: {
-                    ...value,
-                    styrk08: Array.isArray(value.styrk08) ? value.styrk08[0] : value.styrk08,
-                },
+                [SporsmalId.sisteJobb]: stringifyStyrk08(value),
             });
         }
         settVisStillingsSok(false);
@@ -68,7 +71,7 @@ const SisteJobb = () => {
 
     useEffect(() => {
         if (sisteArbeidsforhold && !registrering.sisteJobb) {
-            setRegistrering({ [SporsmalId.sisteJobb]: sisteArbeidsforhold });
+            setRegistrering({ [SporsmalId.sisteJobb]: stringifyStyrk08(sisteArbeidsforhold) });
         }
     }, [registrering, sisteArbeidsforhold]);
 
