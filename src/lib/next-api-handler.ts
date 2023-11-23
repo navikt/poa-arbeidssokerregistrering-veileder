@@ -125,7 +125,7 @@ const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Respo
                 }
 
                 if (!apiResponse.ok) {
-                    logger.error(`apiResponse ikke ok, contentType: ${contentType}, callId - ${callId}`);
+                    logger.warn(`apiResponse ikke ok, contentType: ${contentType}, callId - ${callId}`);
                     if (statusCode === 400) {
                         logger.error(body, `Bad request for callId ${callId}`);
                     }
