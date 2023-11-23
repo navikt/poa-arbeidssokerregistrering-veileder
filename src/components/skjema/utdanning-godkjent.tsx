@@ -4,7 +4,13 @@ import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, SporsmalId, UtdanningGodkjentValg, Utdanningsnivaa } from '../../model/sporsmal';
+import {
+    hentTekst,
+    SporsmalId,
+    UtdanningGodkjentValg,
+    Utdanningsnivaa,
+    DinSituasjon as JobbSituasjon,
+} from '../../model/sporsmal';
 
 const UtdanningGodkjent = () => {
     const { registrering, doValidate, setRegistrering } = useRegistrering();
@@ -19,7 +25,10 @@ const UtdanningGodkjent = () => {
         lagValg(UtdanningGodkjentValg.VET_IKKE),
     ];
 
-    if (registrering[SporsmalId.utdanning] === Utdanningsnivaa.INGEN_UTDANNING) {
+    if (
+        registrering[SporsmalId.utdanning] === Utdanningsnivaa.INGEN_UTDANNING ||
+        registrering[SporsmalId.dinSituasjon] === JobbSituasjon.VIL_FORTSETTE_I_JOBB
+    ) {
         return null;
     }
 

@@ -4,7 +4,14 @@ import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, JaEllerNei, SporsmalId, UtdanningGodkjentValg, Utdanningsnivaa } from '../../model/sporsmal';
+import {
+    hentTekst,
+    JaEllerNei,
+    SporsmalId,
+    UtdanningGodkjentValg,
+    Utdanningsnivaa,
+    DinSituasjon as JobbSituasjon,
+} from '../../model/sporsmal';
 import { RegistreringState } from '../../model/registrering';
 
 function tilRegistreringsState(value: Utdanningsnivaa): Partial<RegistreringState> {
@@ -20,6 +27,7 @@ function tilRegistreringsState(value: Utdanningsnivaa): Partial<RegistreringStat
         [SporsmalId.utdanning]: value,
     };
 }
+
 const Utdanning = () => {
     const { registrering, doValidate, setRegistrering } = useRegistrering();
     const sprak = useSprak();
@@ -43,6 +51,10 @@ const Utdanning = () => {
             value: Utdanningsnivaa.HOYERE_UTDANNING_5_ELLER_MER,
         },
     ];
+
+    if (registrering[SporsmalId.dinSituasjon] === JobbSituasjon.VIL_FORTSETTE_I_JOBB) {
+        return null;
+    }
 
     return (
         <Box className="mb-8 bg-gray-100" borderWidth="1" padding="4">

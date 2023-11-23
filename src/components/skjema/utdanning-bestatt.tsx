@@ -4,7 +4,13 @@ import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, JaEllerNei, SporsmalId, Utdanningsnivaa } from '../../model/sporsmal';
+import {
+    hentTekst,
+    JaEllerNei,
+    SporsmalId,
+    Utdanningsnivaa,
+    DinSituasjon as JobbSituasjon,
+} from '../../model/sporsmal';
 
 const BestattUtdanning = () => {
     const sprak = useSprak();
@@ -14,7 +20,10 @@ const BestattUtdanning = () => {
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
     const visFeilmelding = doValidate ? !Object.keys(registrering).includes('utdanningBestatt') : false;
 
-    if (registrering[SporsmalId.utdanning] === Utdanningsnivaa.INGEN_UTDANNING) {
+    if (
+        registrering[SporsmalId.utdanning] === Utdanningsnivaa.INGEN_UTDANNING ||
+        registrering[SporsmalId.dinSituasjon] === JobbSituasjon.VIL_FORTSETTE_I_JOBB
+    ) {
         return null;
     }
 

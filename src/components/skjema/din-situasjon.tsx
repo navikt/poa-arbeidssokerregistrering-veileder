@@ -4,13 +4,36 @@ import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { DinSituasjon as Jobbsituasjon, hentTekst, SporsmalId } from '../../model/sporsmal';
+import {
+    DinSituasjon as Jobbsituasjon,
+    hentTekst,
+    SporsmalId,
+    UtdanningGodkjentValg,
+    JaEllerNei,
+    Utdanningsnivaa,
+} from '../../model/sporsmal';
+import { RegistreringState } from '../../model/registrering';
 
 const DinSituasjon = () => {
     const sprak = useSprak();
     const { registrering, doValidate, setRegistrering } = useRegistrering();
     const tekst = (key: string) => hentTekst(sprak, key);
     const visFeilmelding = doValidate ? !Object.keys(registrering).includes('dinSituasjon') : false;
+
+    function tilRegistreringsState(value: Jobbsituasjon): Partial<RegistreringState> {
+        if (value === Jobbsituasjon.VIL_FORTSETTE_I_JOBB) {
+            return {
+                [SporsmalId.dinSituasjon]: value,
+                [SporsmalId.utdanning]: Utdanningsnivaa.INGEN_SVAR,
+                [SporsmalId.utdanningGodkjent]: UtdanningGodkjentValg.INGEN_SVAR,
+                [SporsmalId.utdanningBestatt]: JaEllerNei.INGEN_SVAR,
+            };
+        }
+
+        return {
+            [SporsmalId.dinSituasjon]: value,
+        };
+    }
 
     const valg = [
         { tekst: tekst(Jobbsituasjon.MISTET_JOBBEN), value: Jobbsituasjon.MISTET_JOBBEN },
@@ -40,7 +63,7 @@ const DinSituasjon = () => {
                 <RadioGruppe
                     legend={tekst(SporsmalId.dinSituasjon)}
                     valg={valg}
-                    onSelect={(val) => setRegistrering({ [SporsmalId.dinSituasjon]: val })}
+                    onSelect={(val) => setRegistrering(tilRegistreringsState(val))}
                     visFeilmelding={visFeilmelding}
                 />
             </form>
