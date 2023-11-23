@@ -24,7 +24,7 @@ const sisteArbeidsforhold = async (req: NextApiRequest, res: NextApiResponse<any
             headers,
         }).then((res) => {
             if (!res.ok) {
-                logger.error(`Feil med callId: ${callId}, respons: ${res.status} ${res.statusText}`);
+                logger.warn(`Feil med callId: ${callId}, respons: ${res.status} ${res.statusText}`);
                 return { styrk: undefined, status: res.status };
             }
             return res.json();
