@@ -43,12 +43,14 @@ function stringifyStyrk08(value: StillingssokValue) {
         styrk08: Array.isArray(value.styrk08) ? value.styrk08[0] : value.styrk08,
     };
 }
+
 const SisteJobb = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { registrering, setRegistrering } = useRegistrering();
     const [visStillingsSok, settVisStillingsSok] = useState<boolean>(false);
     const { params } = useParamsFromContext();
     const { fnr } = params;
+
     const onCloseStillingssok = (value?: StillingssokValue) => {
         if (value) {
             setRegistrering({
@@ -61,6 +63,7 @@ const SisteJobb = () => {
     const { data: sisteArbeidsforhold, error } = useSWRImmutable(`/api/sistearbeidsforhold?fnr=${fnr || ''}`, fetcher);
 
     const visSisteJobb = registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB;
+
     const visSisteStilling = registrering.dinSituasjon
         ? [
               DinSituasjon.AKKURAT_FULLFORT_UTDANNING,
