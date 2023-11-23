@@ -15,7 +15,7 @@ const config = {
     },
 };
 
-type EventData = SidevisningData | AktivitetData | FlytData;
+type EventData = SidevisningData | AktivitetData | FlytData | VisningsData;
 
 type SidevisningData = { sidetittel: string };
 
@@ -26,6 +26,11 @@ type AktivitetData =
     | { aktivitet: 'Endrer foreslått stilling' }
     | { aktivitet: 'Leser hva er nytt' }
     | { aktivitet: 'Går til skjema for dagpenger' };
+
+type VisningsData =
+    | { viser: 'Kvittering for registrert arbeidssøker' }
+    | { viser: 'Kvittering for reaktivert arbeidssøker' }
+    | { viser: 'kvittering for mer sykmeldtoppfølging' };
 
 type FlytData =
     | {
@@ -77,4 +82,9 @@ export function loggAktivitet(data: AktivitetData) {
 export function loggFlyt(data: FlytData) {
     const eventData = data || ({} as EventData);
     logAmplitudeEvent('arbeidssokerregistrering-veileder.flyt', eventData);
+}
+
+export function loggVisning(data: VisningsData) {
+    const eventData = data || ({} as EventData);
+    logAmplitudeEvent('arbeidssokerregistrering-veileder.visning', eventData);
 }
