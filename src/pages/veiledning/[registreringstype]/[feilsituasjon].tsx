@@ -32,22 +32,22 @@ const KontaktVeileder = (props: Feilsituasjon) => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { feiltype } = props;
 
-    if (feiltype === undefined || !Object.values(Feiltype).includes(feiltype)) {
-        return <FeilmeldingGenerell />;
-    }
-
     const gaarTilServicerutine = () => {
         loggAktivitet({ aktivitet: 'Går til servicerutine for arbeids- og oppholdstillatelse', aarsak: feiltype });
     };
 
     useEffect(() => {
-        if (Feiltype.UTVANDRET) {
+        if (feiltype === Feiltype.UTVANDRET) {
             loggStoppsituasjon({ aarsak: 'Personen står som utvandret i Arena' });
         }
-        if (Feiltype.MANGLER_ARBEIDSTILLATELSE) {
+        if (feiltype === Feiltype.MANGLER_ARBEIDSTILLATELSE) {
             loggStoppsituasjon({ aarsak: 'Personen mangler oppholdstillatelse i Arena' });
         }
     }, []);
+
+    if (feiltype === undefined || !Object.values(Feiltype).includes(feiltype)) {
+        return <FeilmeldingGenerell />;
+    }
 
     return (
         <>
