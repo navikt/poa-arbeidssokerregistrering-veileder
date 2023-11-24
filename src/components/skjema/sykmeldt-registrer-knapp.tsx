@@ -61,7 +61,7 @@ export const RegistrerForMerSykmeldtoppfolgingKnapp = () => {
                     hendelse: 'Får ikke fullført registrering for mer sykmeldtoppfølging',
                     aarsak: 'TEKNISK_FEIL' as any,
                 });
-                router.push('/feil');
+                return router.push('/feil');
             }
         }
     }
