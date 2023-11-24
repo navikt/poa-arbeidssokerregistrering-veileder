@@ -18,7 +18,7 @@ function AlleredeRegistrert() {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
 
     useEffect(() => {
-        loggStoppsituasjon({ aarsak: 'Personen er allerede registrert i Arena' });
+        loggStoppsituasjon({ aarsakTilStans: 'Personen er allerede registrert i Arena' });
     }, []);
 
     return (

@@ -18,7 +18,7 @@ function Sperret() {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
 
     useEffect(() => {
-        loggStoppsituasjon({ aarsak: 'Personen står som sperret i Arena' });
+        loggStoppsituasjon({ aarsakTilStans: 'Personen står som sperret i Arena' });
     }, []);
 
     return (

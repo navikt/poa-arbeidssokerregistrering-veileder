@@ -38,10 +38,10 @@ const KontaktVeileder = (props: Feilsituasjon) => {
 
     useEffect(() => {
         if (feiltype === Feiltype.UTVANDRET) {
-            loggStoppsituasjon({ aarsak: 'Personen står som utvandret i Arena' });
+            loggStoppsituasjon({ aarsakTilStans: 'Personen står som utvandret i Arena' });
         }
         if (feiltype === Feiltype.MANGLER_ARBEIDSTILLATELSE) {
-            loggStoppsituasjon({ aarsak: 'Personen mangler oppholdstillatelse i Arena' });
+            loggStoppsituasjon({ aarsakTilStans: 'Personen mangler oppholdstillatelse i Arena' });
         }
     }, []);
 

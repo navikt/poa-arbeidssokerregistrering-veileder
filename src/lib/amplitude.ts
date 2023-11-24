@@ -35,10 +35,10 @@ type VisningsData =
     | { viser: 'generell feilmelding' };
 
 type StoppsituasjonsData =
-    | { aarsak: 'Personen er allerede registrert i Arena' }
-    | { aarsak: 'Personen mangler oppholdstillatelse i Arena' }
-    | { aarsak: 'Personen står som utvandret i Arena' }
-    | { aarsak: 'Personen står som sperret i Arena' };
+    | { aarsakTilStans: 'Personen er allerede registrert i Arena' }
+    | { aarsakTilStans: 'Personen mangler oppholdstillatelse i Arena' }
+    | { aarsakTilStans: 'Personen står som utvandret i Arena' }
+    | { aarsakTilStans: 'Personen står som sperret i Arena' };
 
 type FlytData =
     | {
@@ -94,7 +94,7 @@ export function loggFlyt(data: FlytData) {
 
 export function loggStoppsituasjon(data: StoppsituasjonsData) {
     const eventData = data || ({} as EventData);
-    logAmplitudeEvent('arbeidssokerregistrering-veileder.stoppsituasjoner', eventData);
+    logAmplitudeEvent('arbeidssokerregistrering-veileder.stoppsituasjon', eventData);
 }
 
 export function loggVisning(data: VisningsData) {
