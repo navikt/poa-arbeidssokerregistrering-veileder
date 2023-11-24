@@ -31,7 +31,8 @@ type AktivitetData =
 type VisningsData =
     | { viser: 'Kvittering for registrert arbeidssøker' }
     | { viser: 'Kvittering for reaktivert arbeidssøker' }
-    | { viser: 'kvittering for mer sykmeldtoppfølging' };
+    | { viser: 'kvittering for mer sykmeldtoppfølging' }
+    | { viser: 'generell feilmelding' };
 
 type StoppsituasjonsData =
     | { aarsak: 'Personen er allerede registrert i Arena' }

@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { Alert, BodyLong, Button, Heading, Link } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
 import { useErrorContext } from '../../contexts/error-context';
 
 import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
+import { loggVisning } from '../../lib/amplitude';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -15,6 +17,10 @@ const TEKSTER: Tekster<string> = {
 
 const FeilmeldingGenerell = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
+
+    useEffect(() => {
+        loggVisning({ viser: 'generell feilmelding' });
+    }, []);
 
     return (
         <Alert variant={'error'}>
