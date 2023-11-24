@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BodyLong, Heading, Alert, Link } from '@navikt/ds-react';
 
 import lagHentTekstForSprak, { Tekster } from '../../../lib/lag-hent-tekst-for-sprak';
@@ -6,7 +7,7 @@ import useSprak from '../../../hooks/useSprak';
 import { FeilmeldingGenerell } from '../../../components/feilmeldinger/feilmeldinger';
 import { Feiltype, OppgaveRegistreringstype } from '../../../model/feilsituasjonTyper';
 import { withAuthenticatedPage } from '../../../auth/withAuthentication';
-import { loggAktivitet } from '../../../lib/amplitude';
+import { loggAktivitet, loggStoppsituasjon } from '../../../lib/amplitude';
 
 interface Feilsituasjon {
     feiltype?: Feiltype;
@@ -29,14 +30,24 @@ const TEKSTER: Tekster<string> = {
 
 const KontaktVeileder = (props: Feilsituasjon) => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
+    const { feiltype } = props;
 
-    const gaarTilServicerutine = () => {
-        loggAktivitet({ aktivitet: 'Går til servicerutine for arbeids- og oppholdstillatelse' });
-    };
-
-    if (props.feiltype === undefined || !Object.values(Feiltype).includes(props.feiltype)) {
+    if (feiltype === undefined || !Object.values(Feiltype).includes(feiltype)) {
         return <FeilmeldingGenerell />;
     }
+
+    const gaarTilServicerutine = () => {
+        loggAktivitet({ aktivitet: 'Går til servicerutine for arbeids- og oppholdstillatelse', aarsak: feiltype });
+    };
+
+    useEffect(() => {
+        if (Feiltype.UTVANDRET) {
+            loggStoppsituasjon({ aarsak: 'Personen står som utvandret i Arena' });
+        }
+        if (Feiltype.MANGLER_ARBEIDSTILLATELSE) {
+            loggStoppsituasjon({ aarsak: 'Personen mangler oppholdstillatelse i Arena' });
+        }
+    }, []);
 
     return (
         <>

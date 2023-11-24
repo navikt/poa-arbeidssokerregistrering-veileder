@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { BodyLong, Heading, Alert } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
 
 import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
 import { withAuthenticatedPage } from '../../auth/withAuthentication';
+import { loggStoppsituasjon } from '../../lib/amplitude';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -14,6 +16,10 @@ const TEKSTER: Tekster<string> = {
 
 function Sperret() {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
+
+    useEffect(() => {
+        loggStoppsituasjon({ aarsak: 'Personen står som sperret i Arena' });
+    }, []);
 
     return (
         <Alert variant="warning">

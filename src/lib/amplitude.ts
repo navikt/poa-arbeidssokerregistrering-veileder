@@ -2,6 +2,7 @@ import amplitude from 'amplitude-js';
 
 import { ErrorTypes } from '../model/error';
 import { RegistreringType } from '../model/registrering';
+import { Feiltype } from '../model/feilsituasjonTyper';
 
 const isBrowser = () => typeof window !== 'undefined';
 
@@ -15,14 +16,14 @@ const config = {
     },
 };
 
-type EventData = SidevisningData | AktivitetData | FlytData | VisningsData;
+type EventData = SidevisningData | AktivitetData | FlytData | VisningsData | StoppsituasjonsData;
 
 type SidevisningData = { sidetittel: string };
 
 type AktivitetData =
     | { aktivitet: KvitteringAktivitet }
     | { aktivitet: 'Går til servicerutine for friskmelding til arbeidsformidling'; registreringtype?: RegistreringType }
-    | { aktivitet: 'Går til servicerutine for arbeids- og oppholdstillatelse'; registreringtype?: RegistreringType }
+    | { aktivitet: 'Går til servicerutine for arbeids- og oppholdstillatelse'; aarsak?: Feiltype }
     | { aktivitet: 'Endrer foreslått stilling' }
     | { aktivitet: 'Leser hva er nytt' }
     | { aktivitet: 'Går til skjema for dagpenger' };
@@ -31,6 +32,12 @@ type VisningsData =
     | { viser: 'Kvittering for registrert arbeidssøker' }
     | { viser: 'Kvittering for reaktivert arbeidssøker' }
     | { viser: 'kvittering for mer sykmeldtoppfølging' };
+
+type StoppsituasjonsData =
+    | { aarsak: 'Personen er allerede registrert i Arena' }
+    | { aarsak: 'Personen mangler oppholdstillatelse i Arena' }
+    | { aarsak: 'Personen står som utvandret i Arena' }
+    | { aarsak: 'Personen står som sperret i Arena' };
 
 type FlytData =
     | {
@@ -82,6 +89,11 @@ export function loggAktivitet(data: AktivitetData) {
 export function loggFlyt(data: FlytData) {
     const eventData = data || ({} as EventData);
     logAmplitudeEvent('arbeidssokerregistrering-veileder.flyt', eventData);
+}
+
+export function loggStoppsituasjon(data: StoppsituasjonsData) {
+    const eventData = data || ({} as EventData);
+    logAmplitudeEvent('arbeidssokerregistrering-veileder.stoppsituasjoner', eventData);
 }
 
 export function loggVisning(data: VisningsData) {
