@@ -18,36 +18,34 @@ export default function HvaErNytt() {
 
     return (
         <ReadMore header="Hva er nytt i registreringen for veileder?" className="mb-8" onClick={aapnerHvaErNytt}>
-            <BodyLong>
-                <List as="ul" title="I korte trekk er dette endret:">
-                    <List.Item>alle spørsmål er nå samlet på en side</List.Item>
-                    <List.Item>
-                        tydelig skille mellom registrering av arbeidssøker og registrering for mer sykmeldtoppfølging
-                    </List.Item>
-                    <List.Item>feilmeldinger tilpasset veileder</List.Item>
-                </List>
-            </BodyLong>
+            <List as="ul" title="I korte trekk er dette endret:">
+                <List.Item>alle spørsmål er nå samlet på en side</List.Item>
+                <List.Item>
+                    tydelig skille mellom registrering av arbeidssøker og registrering for mer sykmeldtoppfølging
+                </List.Item>
+                <List.Item>feilmeldinger tilpasset veileder</List.Item>
+            </List>
             <BodyLong>
                 Dersom du ønsker å se hvordan registreringen ser ut for personbrukere kan det gjøres ved å bruke de
                 ulike demoløsningene.
-                <List as="ul">
-                    <List.Item>
-                        <Link href="https://arbeid.ekstern.dev.nav.no/arbeid/registrering">
-                            Registrering av arbeidssøker - demo
-                        </Link>
-                    </List.Item>
-                    <List.Item>
-                        <Link href="https://arbeid.ekstern.dev.nav.no/arbeid/registrering/mer-oppfolging">
-                            Tilbud om registrering for mer sykmeldtoppfølging - demo
-                        </Link>
-                    </List.Item>
-                    <List.Item>
-                        <Link href="https://demo.ekstern.dev.nav.no/syk/meroppfolging/reg/0">
-                            Registrering for mer sykmeldtoppfølging - demo
-                        </Link>
-                    </List.Item>
-                </List>
             </BodyLong>
+            <List as="ul">
+                <List.Item>
+                    <Link href="https://arbeid.ekstern.dev.nav.no/arbeid/registrering">
+                        Registrering av arbeidssøker - demo
+                    </Link>
+                </List.Item>
+                <List.Item>
+                    <Link href="https://arbeid.ekstern.dev.nav.no/arbeid/registrering/mer-oppfolging">
+                        Tilbud om registrering for mer sykmeldtoppfølging - demo
+                    </Link>
+                </List.Item>
+                <List.Item>
+                    <Link href="https://demo.ekstern.dev.nav.no/syk/meroppfolging/reg/0">
+                        Registrering for mer sykmeldtoppfølging - demo
+                    </Link>
+                </List.Item>
+            </List>
         </ReadMore>
     );
 }
