@@ -27,6 +27,7 @@ const TEKSTER: Tekster<string> = {
 export const RegistrerArbeidssokerKnapp = () => {
     const router = useRouter();
     const [isDisabled, setIsDisabled] = useState(false);
+    const [isPending, setIsPending] = useState(false);
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { setDoValidate, doValidate, isValid, registrering } = useRegistrering();
     const { params } = useParamsFromContext();
@@ -38,6 +39,7 @@ export const RegistrerArbeidssokerKnapp = () => {
         if (isValid) {
             setDoValidate(false);
             setIsDisabled(true);
+            setIsPending(true);
             const body = byggRegistrerArbeidssokerPayload(registrering);
             const registreringUrl = `/api/fullforregistrering?fnr=${fnr}&enhetId=${enhetId}`;
             loggFlyt({ hendelse: 'Sender inn skjema for registrering av arbeidssøker' });
@@ -61,6 +63,8 @@ export const RegistrerArbeidssokerKnapp = () => {
                     aarsak: 'TEKNISK_FEIL' as any,
                 });
                 return router.push('/feil');
+            } finally {
+                setIsPending(false);
             }
         }
     }
@@ -73,7 +77,7 @@ export const RegistrerArbeidssokerKnapp = () => {
 
     return (
         <div className="flex justify-end">
-            <Button variant="primary" onClick={() => registrerArbeidssoker()} disabled={isDisabled}>
+            <Button variant="primary" onClick={() => registrerArbeidssoker()} disabled={isDisabled} loading={isPending}>
                 {tekst('registrer')}
             </Button>
         </div>
