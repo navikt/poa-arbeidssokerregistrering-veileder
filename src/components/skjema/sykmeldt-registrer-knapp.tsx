@@ -24,6 +24,7 @@ const TEKSTER: Tekster<string> = {
 export const RegistrerForMerSykmeldtoppfolgingKnapp = () => {
     const router = useRouter();
     const [isDisabled, setIsDisabled] = useState(false);
+    const [isPending, setIsPending] = useState(false);
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { setDoValidate, doValidate, isValid, registrering } = useSykmeldtoppfolging();
     const { params } = useParamsFromContext();
@@ -35,23 +36,37 @@ export const RegistrerForMerSykmeldtoppfolgingKnapp = () => {
         if (isValid) {
             setDoValidate(false);
             setIsDisabled(true);
+            setIsPending(true);
             const body = byggFullforRegistreringForMerSykmeldtoppfolgingPayload(registrering);
             const registreringUrl = `/api/fullforregistreringsykmeldt?fnr=${fnr}&enhetId=${enhetId}`;
             loggFlyt({ hendelse: 'Sender inn skjema for mer sykmeldtoppfølging' });
-            const response: FullforRegistreringResponse = await api(registreringUrl, {
-                method: 'post',
-                body: JSON.stringify(body),
-            });
+            try {
+                const response: FullforRegistreringResponse = await api(registreringUrl, {
+                    method: 'post',
+                    body: JSON.stringify(body),
+                });
 
-            const feiltype = response.type;
+                const feiltype = response.type;
 
-            if (feiltype) {
-                loggFlyt({ hendelse: 'Får ikke fullført registrering for mer sykmeldtoppfølging', aarsak: feiltype });
-                return router.push(hentRegistreringFeiletUrl(feiltype, OppgaveRegistreringstype.REGISTRERING));
+                if (feiltype) {
+                    loggFlyt({
+                        hendelse: 'Får ikke fullført registrering for mer sykmeldtoppfølging',
+                        aarsak: feiltype,
+                    });
+                    return router.push(hentRegistreringFeiletUrl(feiltype, OppgaveRegistreringstype.REGISTRERING));
+                }
+
+                loggFlyt({ hendelse: 'Registrering for mer sykmeldtoppfølging fullført' });
+                return router.push('/kvittering-mer-sykmeldtoppfolging');
+            } catch (e) {
+                loggFlyt({
+                    hendelse: 'Får ikke fullført registrering for mer sykmeldtoppfølging',
+                    aarsak: 'TEKNISK_FEIL' as any,
+                });
+                return router.push('/feil');
+            } finally {
+                setIsPending(false);
             }
-
-            loggFlyt({ hendelse: 'Registrering for mer sykmeldtoppfølging fullført' });
-            return router.push('/kvittering-mer-sykmeldtoppfolging');
         }
     }
 
@@ -63,7 +78,7 @@ export const RegistrerForMerSykmeldtoppfolgingKnapp = () => {
 
     return (
         <div className="flex justify-end">
-            <Button variant="primary" onClick={() => registrerArbeidssoker()} disabled={isDisabled}>
+            <Button variant="primary" onClick={() => registrerArbeidssoker()} disabled={isDisabled} loading={isPending}>
                 {tekst('registrer')}
             </Button>
         </div>

@@ -9,7 +9,7 @@ async function features(req: NextApiRequest, res: NextApiResponse) {
         const definitions = brukerMock ? featureMocks : await getDefinitions();
         return res.status(200).json(definitions.features || []);
     } catch (error) {
-        logger.error(error);
+        logger.error(error, 'Feil ved henting av features');
         return res.status(200).json([]);
     }
 }
