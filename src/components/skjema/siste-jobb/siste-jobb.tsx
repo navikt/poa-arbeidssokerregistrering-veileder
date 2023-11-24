@@ -91,12 +91,7 @@ const SisteJobb = () => {
                     {tekst('tittel')}
                 </Heading>
 
-                {visSisteStilling && (
-                    <SisteStilling
-                        onChange={(value) => setRegistrering({ [SporsmalId.sisteStilling]: value })}
-                        valgt={registrering.sisteStilling}
-                    />
-                )}
+                {visSisteStilling && <SisteStilling />}
 
                 {visSisteJobb && (
                     <div className="mbs">

@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 import { isEqual } from 'lodash';
 
 import { RegistreringState } from '../model/registrering';
-import { SporsmalId } from '../model/sporsmal';
+import { SporsmalId, DinSituasjon, SisteStillingValg } from '../model/sporsmal';
 
 interface RegistreringContextType {
     registrering: RegistreringState;
@@ -45,6 +45,12 @@ function RegistreringProvider({ children }: { children: ReactNode }) {
     };
 
     useEffect(() => {
+        const skalValidereSisteJobb = [
+            DinSituasjon.AKKURAT_FULLFORT_UTDANNING,
+            DinSituasjon.JOBB_OVER_2_AAR,
+            DinSituasjon.USIKKER_JOBBSITUASJON,
+        ].includes(registrering.dinSituasjon);
+
         const altOkUnntattStilling = isEqual(
             Object.keys(registrering)
                 .filter((key) => pakrevdeSvarUnntattStilling.includes(key as SporsmalId))
@@ -53,7 +59,14 @@ function RegistreringProvider({ children }: { children: ReactNode }) {
         );
         const stillingOK =
             Object.keys(registrering).filter((key) => muligeStillingsSvar.includes(key as SporsmalId)).length > 0;
-        const altOK = altOkUnntattStilling && stillingOK;
+
+        const sisteJobbOK = skalValidereSisteJobb
+            ? [SisteStillingValg.HAR_HATT_JOBB, SisteStillingValg.HAR_IKKE_HATT_JOBB].includes(
+                  registrering.sisteStilling,
+              )
+            : true;
+
+        const altOK = altOkUnntattStilling && stillingOK && sisteJobbOK;
         setIsValid(altOK);
     }, [registrering]);
 

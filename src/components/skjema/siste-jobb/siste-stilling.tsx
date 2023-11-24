@@ -1,11 +1,12 @@
 import useSprak from '../../../hooks/useSprak';
+import { useRegistrering } from '../../../contexts/registrering-context';
 
 import RadioGruppe from '../../radio-gruppe/radio-gruppe';
-import { SkjemaKomponentProps } from '../skjema-felleskomponenter';
-import { hentTekst, SisteStillingValg } from '../../../model/sporsmal';
+import { hentTekst, SisteStillingValg, SporsmalId } from '../../../model/sporsmal';
 
-const SisteStilling = (props: SkjemaKomponentProps<SisteStillingValg>) => {
-    const { onChange, visFeilmelding } = props;
+const SisteStilling = () => {
+    const { registrering, doValidate, setRegistrering } = useRegistrering();
+    const visFeilmelding = doValidate ? !Object.keys(registrering).includes('sisteStilling') : false;
     let sprak = useSprak();
 
     const valg = [
@@ -17,8 +18,7 @@ const SisteStilling = (props: SkjemaKomponentProps<SisteStillingValg>) => {
         <div className="mb-2">
             <RadioGruppe
                 valg={valg}
-                valgt={props.valgt}
-                onSelect={(val) => onChange(val)}
+                onSelect={(val) => setRegistrering({ [SporsmalId.sisteStilling]: val })}
                 visFeilmelding={visFeilmelding}
             />
         </div>
