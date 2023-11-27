@@ -32,6 +32,7 @@ type VisningsData =
     | { viser: 'Kvittering for registrert arbeidssøker' }
     | { viser: 'Kvittering for reaktivert arbeidssøker' }
     | { viser: 'kvittering for mer sykmeldtoppfølging' }
+    | { viser: 'mangler tilgang til aa-registeret' }
     | { viser: 'generell feilmelding' };
 
 type StoppsituasjonsData =
