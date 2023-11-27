@@ -1,5 +1,6 @@
 import { BodyLong, Box, Button, Heading, ReadMore } from '@navikt/ds-react';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import useSprak from '../../../hooks/useSprak';
 import { useRegistrering } from '../../../contexts/registrering-context';
@@ -50,6 +51,7 @@ const SisteJobb = () => {
     const [visStillingsSok, settVisStillingsSok] = useState<boolean>(false);
     const { params } = useParamsFromContext();
     const { fnr } = params;
+    const router = useRouter();
 
     const onCloseStillingssok = (value?: StillingssokValue) => {
         if (value) {
@@ -77,6 +79,12 @@ const SisteJobb = () => {
             setRegistrering({ [SporsmalId.sisteJobb]: stringifyStyrk08(sisteArbeidsforhold) });
         }
     }, [registrering, sisteArbeidsforhold]);
+
+    useEffect(() => {
+        if (error && error.status === 403) {
+            router.push('/veiledning/mangler-tilgang-til-aa-registeret');
+        }
+    }, [error]);
 
     useEffect(() => {
         if (error && !registrering.sisteJobb) {

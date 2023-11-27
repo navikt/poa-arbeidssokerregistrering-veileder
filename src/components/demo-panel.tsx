@@ -65,6 +65,10 @@ function DemoPanel() {
                         <NextLink href="/feil/" passHref locale={false}>
                             <Button variant="secondary">Feil</Button>
                         </NextLink>
+
+                        <NextLink href="/veiledning/mangler-tilgang-til-aa-registeret" passHref locale={false}>
+                            <Button variant="secondary">Mangler tilgang til aa-registeret</Button>
+                        </NextLink>
                     </Box>
                 </Box>
                 <Box>

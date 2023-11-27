@@ -10,7 +10,7 @@ export const fetcher = async (path: string, opts?: RequestInit & { onError?: (re
         } else if (typeof opts?.onError === 'function') {
             return opts.onError(response);
         }
-        throw new Error(response.statusText);
+        throw response;
     }
 
     const contentType = response.headers.get('Content-Type');
