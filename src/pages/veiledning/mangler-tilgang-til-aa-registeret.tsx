@@ -11,7 +11,7 @@ const TEKSTER: Tekster<string> = {
     nb: {
         overskrift: 'Du har ikke tilgang til personens arbeidsforhold',
         melding: 'Årsak til feilen kan være manglende lesetilgang til AA registret.',
-        kontakt: 'Ta kontakt med din lokale identansvarlige.',
+        kontakt: 'Ta kontakt med din lokale identansvarlige. Dette er vanligvis enhetens leder.',
     },
 };
 
