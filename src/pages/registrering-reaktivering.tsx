@@ -27,7 +27,7 @@ export default function RegistreringReaktivering() {
             loggFlyt({ hendelse: 'Sender inn skjema for reaktivering av arbeidssøker' });
             await api(`/api/reaktivering?fnr=${fnr}`, {
                 method: 'POST',
-                body: JSON.stringify({}),
+                body: null,
             });
             setSuccess(true);
             loggFlyt({ hendelse: 'Reaktivering av arbeidssøker fullført' });
