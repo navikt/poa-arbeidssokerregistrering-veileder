@@ -17,6 +17,7 @@ import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-
 import DemoPanel from '../components/demo-panel';
 import { loggFlyt } from '../lib/amplitude';
 import HvaErNytt from '../components/hva-er-nytt';
+import PersonUnder18 from '../components/advarsler/person-under-18';
 
 export default function RegistreringArbeidssoker() {
     const { params } = useParamsFromContext();
@@ -37,6 +38,7 @@ export default function RegistreringArbeidssoker() {
                     </Heading>
                     <HvaErNytt />
                     <RegistreringProvider>
+                        <PersonUnder18 />
                         <DinSituasjon />
                         <SisteJobb />
                         <UtdanningsNiva />

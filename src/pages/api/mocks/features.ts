@@ -17,6 +17,19 @@ export const featureMocks = {
             variants: [],
         },
         {
+            name: 'arbeidssokerregistrering.bruk-under-18-sperre',
+            type: 'release',
+            enabled: false,
+            stale: false,
+            strategies: [
+                {
+                    name: 'default',
+                    parameters: {},
+                },
+            ],
+            variants: [],
+        },
+        {
             name: 'arbeidssokerregistrering.fss.ny-ingress',
             type: 'release',
             enabled: false,
