@@ -24,6 +24,7 @@ type AktivitetData =
     | { aktivitet: KvitteringAktivitet }
     | { aktivitet: 'Går til servicerutine for friskmelding til arbeidsformidling'; registreringtype?: RegistreringType }
     | { aktivitet: 'Går til servicerutine for arbeids- og oppholdstillatelse'; aarsak?: Feiltype }
+    | { aktivitet: 'Går til servicerutine for samtykke for personer under 18' }
     | { aktivitet: 'Endrer foreslått stilling' }
     | { aktivitet: 'Leser hva er nytt' }
     | { aktivitet: 'Går til skjema for dagpenger' };
@@ -33,6 +34,7 @@ type VisningsData =
     | { viser: 'Kvittering for reaktivert arbeidssøker' }
     | { viser: 'kvittering for mer sykmeldtoppfølging' }
     | { viser: 'mangler tilgang til aa-registeret' }
+    | { viser: 'advarsel for registrering av person under 18' }
     | { viser: 'generell feilmelding' };
 
 type StoppsituasjonsData =

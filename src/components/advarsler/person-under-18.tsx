@@ -1,9 +1,11 @@
-import { Alert, BodyLong, Heading } from '@navikt/ds-react';
+import { useEffect } from 'react';
+import { Alert, BodyLong, Heading, Link } from '@navikt/ds-react';
 
 import { useFeatureToggles } from '../../contexts/featuretoggle-context';
 import { useConfig } from '../../contexts/config-context';
 
 import { Config } from '../../model/config';
+import { loggAktivitet, loggVisning } from '../../lib/amplitude';
 
 function PersonUnder18() {
     const { toggles } = useFeatureToggles();
@@ -13,6 +15,16 @@ function PersonUnder18() {
 
     const skalViseKomponent = brukSperrUnder18;
 
+    const gaarTilServicerutine = () => {
+        loggAktivitet({ aktivitet: 'Går til servicerutine for samtykke for personer under 18' });
+    };
+
+    useEffect(() => {
+        if (skalViseKomponent) {
+            loggVisning({ viser: 'advarsel for registrering av person under 18' });
+        }
+    }, [skalViseKomponent]);
+
     if (!skalViseKomponent) return null;
 
     return (
@@ -20,9 +32,16 @@ function PersonUnder18() {
             <Heading level="1" size="small">
                 Du er i ferd med å registrere en person under 18 år
             </Heading>
-            <BodyLong>
+            <BodyLong spacing>
                 Personer under 18 år må ha samtykke fra foresatte for å kunne bli registrert som arbeidssøker.
             </BodyLong>
+            <BodyLong spacing>
+                Les mer om hvordan du går frem omkring samtykke i{' '}
+                <Link href="https://www.vg.no" onClick={gaarTilServicerutine}>
+                    servicerutine for samtykke ved arbeidsrettet oppfølging
+                </Link>
+            </BodyLong>
+            <BodyLong spacing>Dersom samtykke allerede er på plass kan du bare gå videre i registreringen.</BodyLong>
         </Alert>
     );
 }
