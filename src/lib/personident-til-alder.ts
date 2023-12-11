@@ -15,6 +15,8 @@ export const personidentTilAlder = (fnrEllerDnr: string, dato?: string): number 
 
     const årNå = nå.getFullYear();
     const årNåKortform = parseInt(årNå.toString().substring(2, 4), 10);
+    const detteÅrhundre = parseInt(årNå.toString().substring(0, 2), 10);
+    const forrigeÅrhundre = detteÅrhundre - 1;
     const månedNå = nå.getMonth() + 1;
     const dagNå = nå.getDate();
 
@@ -22,7 +24,10 @@ export const personidentTilAlder = (fnrEllerDnr: string, dato?: string): number 
     const måned = parseInt(fnr.substring(2, 4), 10);
     const stringÅr = fnr.substring(4, 6);
 
-    let år = parseInt(stringÅr) < årNåKortform ? parseInt('20' + stringÅr, 10) : parseInt('19' + stringÅr, 10);
+    let år =
+        parseInt(stringÅr) < årNåKortform
+            ? parseInt(`${detteÅrhundre}${stringÅr}`, 10)
+            : parseInt(`${forrigeÅrhundre}${stringÅr}`, 10);
 
     let alder = årNå - år;
 
