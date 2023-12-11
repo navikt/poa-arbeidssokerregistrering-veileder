@@ -31,23 +31,21 @@ function PersonUnder18() {
         }
     }, [skalViseKomponent]);
 
-    if (!skalViseKomponent) return null;
+    if (skalViseKomponent) return null;
 
     return (
         <Alert variant="warning" className="mb-8">
-            <Heading level="1" size="small">
-                Du er i ferd med å registrere en person under 18 år
+            <Heading level="1" size="small" className="mb-4">
+                Denne personen er under 18 år og trenger samtykke fra begge foresatte for å kunne registrere seg som
+                arbeidssøker.
             </Heading>
-            <BodyLong spacing>
-                Personer under 18 år må ha samtykke fra foresatte for å kunne bli registrert som arbeidssøker.
-            </BodyLong>
-            <BodyLong spacing>
-                Les mer om hvordan du går frem omkring samtykke i{' '}
+            <BodyLong className="mb-4">
+                Det du må gjøre videre er beskrevet i{' '}
                 <Link href="https://www.vg.no" onClick={gaarTilServicerutine}>
-                    servicerutine for samtykke ved arbeidsrettet oppfølging
+                    Servicerutine samtykke fra foresatte til unge under 18 år.
                 </Link>
             </BodyLong>
-            <BodyLong spacing>Dersom samtykke allerede er på plass kan du bare gå videre i registreringen.</BodyLong>
+            <BodyLong>Du kan bare gå videre med registrering av denne personen hvis samtykke er innhentet.</BodyLong>
         </Alert>
     );
 }
