@@ -31,7 +31,7 @@ function PersonUnder18() {
         }
     }, [skalViseKomponent]);
 
-    if (skalViseKomponent) return null;
+    if (!skalViseKomponent) return null;
 
     return (
         <Alert variant="warning" className="mb-8">
