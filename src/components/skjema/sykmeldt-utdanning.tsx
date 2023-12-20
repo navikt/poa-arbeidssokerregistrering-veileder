@@ -4,7 +4,9 @@ import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, SporsmalId, Utdanningsnivaa, FremtidigSituasjon } from '../../model/sporsmal';
+import { FremtidigSituasjon, hentTekst, SporsmalId, Utdanningsnivaa } from '../../model/sporsmal';
+import SykmeldtUtdanningBestatt from './sykmeldt-utdanning-bestatt';
+import SykmeldtUtdanningGodkjent from './sykmeldt-utdanning-godkjent';
 
 const Utdanning = () => {
     const { registrering, doValidate, setRegistrering } = useSykmeldtoppfolging();
@@ -53,6 +55,8 @@ const Utdanning = () => {
                     visFeilmelding={visFeilmelding}
                 />
             </form>
+            <SykmeldtUtdanningGodkjent />
+            <SykmeldtUtdanningBestatt />
         </Box>
     );
 };

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Heading, Alert, BodyShort, Link } from '@navikt/ds-react';
+import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 
@@ -11,11 +11,9 @@ import SykmeldtFremtidigSituasjon from '../components/skjema/sykmeldt-fremtidig-
 import TilbakeTilJobb from '../components/skjema/sykmeldt-tilbake-til-jobb';
 import SkalTilbakeTilJobb from '../components/skjema/sykmeldt-skal-tilbake-til-jobb';
 import Utdanning from '../components/skjema/sykmeldt-utdanning';
-import UtdanningGodkjent from '../components/skjema/sykmeldt-utdanning-godkjent';
-import UtdanningBestatt from '../components/skjema/sykmeldt-utdanning-bestatt';
 import AndreProblemer from '../components/skjema/sykmeldt-andre-problemer';
 import { RegistrerForMerSykmeldtoppfolgingKnapp } from '../components/skjema/sykmeldt-registrer-knapp';
-import { loggFlyt, loggAktivitet } from '../lib/amplitude';
+import { loggAktivitet, loggFlyt } from '../lib/amplitude';
 import HvaErNytt from '../components/hva-er-nytt';
 
 export default function RegistreringMerSykmeldtOppfolging() {
@@ -60,8 +58,6 @@ export default function RegistreringMerSykmeldtOppfolging() {
                         <TilbakeTilJobb />
                         <SkalTilbakeTilJobb />
                         <Utdanning />
-                        <UtdanningGodkjent />
-                        <UtdanningBestatt />
                         <AndreProblemer />
                         <RegistrerForMerSykmeldtoppfolgingKnapp />
                     </SykmeldtoppfolgingProvider>

@@ -1,15 +1,13 @@
-import { Box, Heading } from '@navikt/ds-react';
-
 import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
 import {
+    DinSituasjon as JobbSituasjon,
     hentTekst,
     JaEllerNei,
     SporsmalId,
     Utdanningsnivaa,
-    DinSituasjon as JobbSituasjon,
 } from '../../model/sporsmal';
 
 const BestattUtdanning = () => {
@@ -28,19 +26,14 @@ const BestattUtdanning = () => {
     }
 
     return (
-        <Box className="mb-8 bg-gray-100" borderWidth="1" padding="4">
-            <form>
-                <Heading size="medium" spacing level="1">
-                    Utdanning
-                </Heading>
-                <RadioGruppe
-                    legend={tekst(SporsmalId.utdanningBestatt)}
-                    valg={valg}
-                    onSelect={(val) => setRegistrering({ [SporsmalId.utdanningBestatt]: val })}
-                    visFeilmelding={visFeilmelding}
-                />
-            </form>
-        </Box>
+        <form className={'mt-8'}>
+            <RadioGruppe
+                legend={tekst(SporsmalId.utdanningBestatt)}
+                valg={valg}
+                onSelect={(val) => setRegistrering({ [SporsmalId.utdanningBestatt]: val })}
+                visFeilmelding={visFeilmelding}
+            />
+        </form>
     );
 };
 

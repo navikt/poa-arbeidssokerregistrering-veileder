@@ -5,14 +5,16 @@ import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
 import {
+    DinSituasjon as JobbSituasjon,
     hentTekst,
     JaEllerNei,
     SporsmalId,
     UtdanningGodkjentValg,
     Utdanningsnivaa,
-    DinSituasjon as JobbSituasjon,
 } from '../../model/sporsmal';
 import { RegistreringState } from '../../model/registrering';
+import UtdanningBestatt from './utdanning-bestatt';
+import UtdanningGodkjent from './utdanning-godkjent';
 
 function tilRegistreringsState(value: Utdanningsnivaa): Partial<RegistreringState> {
     if (value === Utdanningsnivaa.INGEN_UTDANNING) {
@@ -69,6 +71,8 @@ const Utdanning = () => {
                     visFeilmelding={visFeilmelding}
                 />
             </form>
+            <UtdanningGodkjent />
+            <UtdanningBestatt />
         </Box>
     );
 };
