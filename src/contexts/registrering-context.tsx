@@ -2,7 +2,14 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 import { isEqual } from 'lodash';
 
 import { RegistreringState } from '../model/registrering';
-import { SporsmalId, DinSituasjon, SisteStillingValg } from '../model/sporsmal';
+import {
+    DinSituasjon,
+    JaEllerNei,
+    SisteStillingValg,
+    SporsmalId,
+    UtdanningGodkjentValg,
+    Utdanningsnivaa,
+} from '../model/sporsmal';
 
 interface RegistreringContextType {
     registrering: RegistreringState;
@@ -66,7 +73,12 @@ function RegistreringProvider({ children }: { children: ReactNode }) {
               )
             : true;
 
-        const altOK = altOkUnntattStilling && stillingOK && sisteJobbOK;
+        const harUgyldigeUtdanningSvar =
+            registrering[SporsmalId.utdanning] !== Utdanningsnivaa.INGEN_UTDANNING &&
+            registrering[SporsmalId.utdanningGodkjent] === UtdanningGodkjentValg.INGEN_SVAR &&
+            registrering[SporsmalId.utdanningBestatt] === JaEllerNei.INGEN_SVAR;
+
+        const altOK = altOkUnntattStilling && stillingOK && sisteJobbOK && !harUgyldigeUtdanningSvar;
         setIsValid(altOK);
     }, [registrering]);
 

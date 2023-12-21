@@ -14,7 +14,10 @@ const UtdanningGodkjent = () => {
     const { registrering, doValidate, setRegistrering } = useRegistrering();
     const sprak = useSprak();
     const tekst = (key: string) => hentTekst(sprak, key);
-    const visFeilmelding = doValidate ? !Object.keys(registrering).includes('utdanningGodkjent') : false;
+    const visFeilmelding = doValidate
+        ? !registrering[SporsmalId.utdanningGodkjent] ||
+          registrering[SporsmalId.utdanningGodkjent] === UtdanningGodkjentValg.INGEN_SVAR
+        : false;
 
     const lagValg = (valg: UtdanningGodkjentValg) => ({ tekst: tekst(valg), value: valg });
     const valg = [

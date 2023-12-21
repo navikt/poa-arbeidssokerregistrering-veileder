@@ -16,7 +16,10 @@ const BestattUtdanning = () => {
     const tekst = (key: string) => hentTekst(sprak, key);
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
-    const visFeilmelding = doValidate ? !Object.keys(registrering).includes('utdanningBestatt') : false;
+    const visFeilmelding = doValidate
+        ? !registrering[SporsmalId.utdanningBestatt] ||
+          registrering[SporsmalId.utdanningBestatt] === JaEllerNei.INGEN_SVAR
+        : false;
 
     if (
         registrering[SporsmalId.utdanning] === Utdanningsnivaa.INGEN_UTDANNING ||
