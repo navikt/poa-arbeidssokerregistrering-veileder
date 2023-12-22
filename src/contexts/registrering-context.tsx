@@ -74,10 +74,11 @@ function RegistreringProvider({ children }: { children: ReactNode }) {
             : true;
 
         const harUgyldigeUtdanningSvar =
-            registrering[SporsmalId.utdanning] !== Utdanningsnivaa.INGEN_UTDANNING &&
+            ![Utdanningsnivaa.INGEN_UTDANNING, Utdanningsnivaa.INGEN_SVAR].includes(
+                registrering[SporsmalId.utdanning],
+            ) &&
             registrering[SporsmalId.utdanningGodkjent] === UtdanningGodkjentValg.INGEN_SVAR &&
             registrering[SporsmalId.utdanningBestatt] === JaEllerNei.INGEN_SVAR;
-
         const altOK = altOkUnntattStilling && stillingOK && sisteJobbOK && !harUgyldigeUtdanningSvar;
         setIsValid(altOK);
     }, [registrering]);
