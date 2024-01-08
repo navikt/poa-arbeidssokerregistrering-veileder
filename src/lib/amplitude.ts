@@ -1,4 +1,4 @@
-import amplitude from 'amplitude-js';
+import * as amplitude from '@amplitude/analytics-browser';
 
 import { ErrorTypes } from '../model/error';
 import { RegistreringType } from '../model/registrering';
@@ -10,9 +10,9 @@ const config = {
     saveEvents: false,
     includeUtm: true,
     includeReferrer: true,
+    defaultTracking: false,
     trackingOptions: {
-        city: false,
-        ip_address: false,
+        ipAddress: false,
     },
 };
 
@@ -70,19 +70,20 @@ type KvitteringAktivitet =
 type AmplitudeParams = { apiKey: string; apiEndpoint: string };
 type AmplitudeInitFunction = (params: AmplitudeParams) => void;
 
-export const initAmplitude: AmplitudeInitFunction = ({ apiKey, apiEndpoint }) => {
+export const initAmplitude: AmplitudeInitFunction = async ({ apiKey, apiEndpoint }) => {
     if (isBrowser()) {
-        amplitude.getInstance().init(apiKey, undefined, { ...config, apiEndpoint });
+        await amplitude.init(apiKey, undefined, { ...config, serverUrl: apiEndpoint });
+        logAmplitudeEvent('sidevisning', {
+            sidetittel: document.title,
+        });
     }
 };
 
 export function logAmplitudeEvent(eventName: string, data: EventData) {
-    return new Promise(function (resolve) {
-        const eventData = data || {};
-        if (isBrowser()) {
-            amplitude.getInstance().logEvent(eventName, { ...eventData }, resolve);
-        }
-    });
+    const eventData = data || {};
+    if (isBrowser()) {
+        amplitude.logEvent(eventName, { ...eventData });
+    }
 }
 
 export function loggAktivitet(data: AktivitetData) {
