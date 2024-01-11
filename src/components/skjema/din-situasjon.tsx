@@ -1,4 +1,4 @@
-import { Heading, Box } from '@navikt/ds-react';
+import { Box, Heading } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
@@ -7,9 +7,9 @@ import RadioGruppe from '../radio-gruppe/radio-gruppe';
 import {
     DinSituasjon as Jobbsituasjon,
     hentTekst,
+    JaEllerNei,
     SporsmalId,
     UtdanningGodkjentValg,
-    JaEllerNei,
     Utdanningsnivaa,
 } from '../../model/sporsmal';
 import { RegistreringState } from '../../model/registrering';

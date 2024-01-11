@@ -17,6 +17,19 @@ export const featureMocks = {
             variants: [],
         },
         {
+            name: 'arbeidssokerregistrering.bruk-direkte-kobling-mot-aareg',
+            type: 'release',
+            enabled: true,
+            stale: false,
+            strategies: [
+                {
+                    name: 'default',
+                    parameters: {},
+                },
+            ],
+            variants: [],
+        },
+        {
             name: 'arbeidssokerregistrering.bruk-under-18-sperre',
             type: 'release',
             enabled: false,
