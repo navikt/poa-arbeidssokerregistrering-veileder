@@ -4,6 +4,7 @@ import { logger } from '@navikt/next-logger';
 
 import createOboTokenDings, { OboAuth } from '../auth/oboTokenDings';
 import queryToString from './query-to-string';
+import createTokenDings, { TokenXAuth } from '../auth/tokenDings';
 
 export const getHeaders = (token: string, callId: string) => {
     return {
@@ -36,6 +37,19 @@ const getOboTokenDings = async (): Promise<OboAuth> => {
     }
 
     return _oboTokenDings;
+};
+let _tokenDings: TokenXAuth | undefined;
+const getTokenDings = async (): Promise<TokenXAuth> => {
+    if (!_tokenDings) {
+        _tokenDings = await createTokenDings({
+            tokenXWellKnownUrl: process.env.TOKEN_X_WELL_KNOWN_URL!,
+            tokenXClientId: process.env.TOKEN_X_CLIENT_ID!,
+            tokenXTokenEndpoint: process.env.TOKEN_X_TOKEN_ENDPOINT!,
+            tokenXPrivateJwk: process.env.TOKEN_X_PRIVATE_JWK!,
+        });
+    }
+
+    return _tokenDings;
 };
 
 const VEILARBREGISTRERING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.veilarbregistrering/.default`;
@@ -90,7 +104,7 @@ export const getOboUnleashToken = async (req: NextApiRequest) => {
 };
 
 export const getAaregToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, AAREG_CLIENT_ID);
+    const tokenSet = await (await getTokenDings()).exchangeIDPortenToken(getTokenFromRequest(req)!, AAREG_CLIENT_ID);
     return tokenSet.access_token!;
 };
 
