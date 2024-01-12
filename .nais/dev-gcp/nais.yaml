@@ -97,6 +97,12 @@ spec:
       value: https://paw-proxy.dev-fss-pub.nais.io
     - name: OBO_UNLEASH_URL
       value: http://obo-unleash.obo.svc.cluster.local
+    - name: AAREG_REST_API
+      value: https://aareg-services-q1.dev-fss-pub.nais.io/api
+    - name: AAREG_CLUSTER
+      value: dev-fss
+    - name: AAREG_APPNAME
+      value: aareg-services-nais-q1
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
@@ -122,6 +128,7 @@ spec:
         - host: veilarbveileder.dev-fss-pub.nais.io
         - host: paw-proxy.dev-fss-pub.nais.io
         - host: veilarbvisittkortfs.intern.dev.nav.no
+        - host: aareg-services-q1.dev-fss-pub.nais.io
       rules:
         - application: veilarbregistrering
         - application: modiacontextholder-q1
@@ -144,5 +151,8 @@ spec:
         - application: obo-unleash
           namespace: obo
           cluster: dev-gcp
+        - application: aareg-services-nais-q1
+          namespace: arbeidsforhold
+          cluster: dev-fss
 
 

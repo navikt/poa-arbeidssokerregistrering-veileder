@@ -86,7 +86,7 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
                     },
                 );
             } catch (err: unknown) {
-                logger.error(err, `Feil ved generering av OBO-token: ${err}`);
+                logger.error({ err, msg: `Feil ved generering av OBO-token: ${err}` });
                 return Promise.reject(err);
             }
         },

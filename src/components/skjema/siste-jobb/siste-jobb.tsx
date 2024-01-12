@@ -13,6 +13,7 @@ import { SisteJobb } from '../../../model/skjema';
 import { DinSituasjon, SisteStillingValg, SporsmalId } from '../../../model/sporsmal';
 import { fetcher } from '../../../lib/api-utils';
 import useSWRImmutable from 'swr/immutable';
+import { useFeatureToggles } from '../../../contexts/featuretoggle-context';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -52,6 +53,8 @@ const SisteJobb = () => {
     const { params } = useParamsFromContext();
     const { fnr } = params;
     const router = useRouter();
+    const { toggles } = useFeatureToggles();
+    const brukAareg = toggles['arbeidssokerregistrering.bruk-direkte-kobling-mot-aareg'];
 
     const onCloseStillingssok = (value?: StillingssokValue) => {
         if (value) {
@@ -62,7 +65,10 @@ const SisteJobb = () => {
         settVisStillingsSok(false);
     };
 
-    const { data: sisteArbeidsforhold, error } = useSWRImmutable(`/api/sistearbeidsforhold?fnr=${fnr || ''}`, fetcher);
+    const sisteArbeidsforholdUrl = brukAareg ? 'api/sistearbeidsforhold-fra-aareg' : 'api/sistearbeidsforhold';
+    const { data: sisteArbeidsforhold, error } = useSWRImmutable(`${sisteArbeidsforholdUrl}`, (url) =>
+        fetcher(url, { headers: { 'Nav-Personident': fnr } }),
+    );
 
     const visSisteJobb = registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB;
 
