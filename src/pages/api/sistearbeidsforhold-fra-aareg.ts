@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { nanoid } from 'nanoid';
 
-import { getAaregToken, getHeaders } from '../../lib/next-api-handler';
+import { getAaregToken, getHeaders, getTokenFromRequest } from '../../lib/next-api-handler';
 import { withAuthenticatedApi } from '../../auth/withAuthentication';
 import { logger } from '@navikt/next-logger';
 import { hentSisteArbeidsForhold } from '../../lib/hent-siste-arbeidsforhold';
@@ -21,10 +21,13 @@ const getAaregHeaders = async (req: NextApiRequest, callId: string) => {
         };
     }
 
+    logger.info(`Veksler aareg obo token starter: [callId: ${callId}]`);
     const headers = getHeaders(await getAaregToken(req), callId);
+    logger.info(`Token utveksling ferdig: [callId: ${callId}`, headers);
 
     return {
-        ...headers,
+        // ...headers,
+        ...getHeaders(getTokenFromRequest(req)!, callId),
         'Nav-Personident': fnr as string,
     };
 };
