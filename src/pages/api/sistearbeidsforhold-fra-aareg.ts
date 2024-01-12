@@ -11,8 +11,12 @@ const url = brukerMock
     ? `${process.env.SISTEARBEIDSFORHOLD_FRA_AAREG_URL}`
     : `${process.env.AAREG_REST_API}/v2/arbeidstaker/arbeidsforholdoversikt`;
 
+const hentFnr = (req: NextApiRequest) => {
+    return req.headers['nav-personident'];
+};
+
 const getAaregHeaders = async (req: NextApiRequest, callId: string) => {
-    const { fnr } = req.query;
+    const fnr = hentFnr(req);
 
     if (brukerMock) {
         return {
@@ -47,7 +51,7 @@ const sisteArbeidsforhold = async (req: NextApiRequest, res: NextApiResponse<any
     const callId = nanoid();
 
     try {
-        const { fnr } = req.query;
+        const fnr = hentFnr(req);
 
         if (!fnr) {
             return res.status(400).send('mangler fnr');
