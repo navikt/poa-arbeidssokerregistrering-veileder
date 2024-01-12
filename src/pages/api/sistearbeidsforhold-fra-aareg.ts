@@ -21,13 +21,10 @@ const getAaregHeaders = async (req: NextApiRequest, callId: string) => {
         };
     }
 
-    logger.info(`Veksler aareg obo token starter: [callId: ${callId}]`);
     const headers = getHeaders(await getAaregToken(req), callId);
-    logger.info(`Token utveksling ferdig: [callId: ${callId}`, headers);
 
     return {
-        // ...headers,
-        ...getHeaders(getTokenFromRequest(req)!, callId),
+        ...headers,
         'Nav-Personident': fnr as string,
     };
 };

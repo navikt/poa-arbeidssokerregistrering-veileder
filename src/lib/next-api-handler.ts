@@ -50,9 +50,8 @@ const VEILARBVEILEDER_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
     'gcp',
     'fss',
 )}.pto.veilarbveileder/.default`;
-const PAW_PROXY_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace('gcp', 'fss')}.paw.paw-proxy/.default`;
 const OBO_UNLEASH_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.obo.obo-unleash/.default`;
-const AAREG_CLIENT_ID = `${process.env.AAREG_CLUSTER}:arbeidsforhold:${process.env.AAREG_APPNAME}`;
+const AAREG_API_SCOPE = `api://${process.env.AAREG_CLUSTER}.arbeidsforhold.${process.env.AAREG_APPNAME}/.default`;
 
 export const getVeilarbregistreringToken = async (req: NextApiRequest) => {
     const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBREGISTRERING_SCOPE);
@@ -90,7 +89,7 @@ export const getOboUnleashToken = async (req: NextApiRequest) => {
 };
 
 export const getAaregToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, AAREG_CLIENT_ID);
+    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, AAREG_API_SCOPE);
     return tokenSet.access_token!;
 };
 
