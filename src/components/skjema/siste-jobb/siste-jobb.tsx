@@ -13,6 +13,7 @@ import SisteStilling from './siste-stilling';
 import { SisteJobb } from '../../../model/skjema';
 import { DinSituasjon, SisteStillingValg, SporsmalId } from '../../../model/sporsmal';
 import { fetcher } from '../../../lib/api-utils';
+import sisteStilling from './siste-stilling';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -63,10 +64,11 @@ const SisteJobb = () => {
     };
 
     const sisteArbeidsforholdUrl = 'api/sistearbeidsforhold-fra-aareg';
-    const { data: sisteArbeidsforhold, error } = useSWRImmutable(`${sisteArbeidsforholdUrl}`, (url) =>
-        fetcher(url, { headers: { 'Nav-Personident': fnr } }),
-    );
-
+    const {
+        data: sisteArbeidsforhold,
+        error,
+        isLoading,
+    } = useSWRImmutable(`${sisteArbeidsforholdUrl}`, (url) => fetcher(url, { headers: { 'Nav-Personident': fnr } }));
     const visSisteJobb = registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB;
 
     const visSisteStilling = registrering.dinSituasjon
@@ -78,10 +80,15 @@ const SisteJobb = () => {
         : false;
 
     useEffect(() => {
-        if (sisteArbeidsforhold && !registrering.sisteJobb) {
-            setRegistrering({ [SporsmalId.sisteJobb]: stringifyStyrk08(sisteArbeidsforhold) });
+        if (!registrering.sisteJobb) {
+            if (sisteArbeidsforhold) {
+                setRegistrering({ [SporsmalId.sisteJobb]: stringifyStyrk08(sisteArbeidsforhold) });
+            } else if (!sisteArbeidsforhold && !isLoading) {
+                // 204 fra server
+                setRegistrering({ [SporsmalId.sisteJobb]: annenStilling });
+            }
         }
-    }, [registrering, sisteArbeidsforhold]);
+    }, [registrering, sisteArbeidsforhold, isLoading]);
 
     useEffect(() => {
         if (error && error.status === 403) {
