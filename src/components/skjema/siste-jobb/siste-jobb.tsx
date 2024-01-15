@@ -1,6 +1,7 @@
 import { BodyLong, Box, Button, Heading, ReadMore } from '@navikt/ds-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import useSWRImmutable from 'swr/immutable';
 
 import useSprak from '../../../hooks/useSprak';
 import { useRegistrering } from '../../../contexts/registrering-context';
@@ -12,8 +13,6 @@ import SisteStilling from './siste-stilling';
 import { SisteJobb } from '../../../model/skjema';
 import { DinSituasjon, SisteStillingValg, SporsmalId } from '../../../model/sporsmal';
 import { fetcher } from '../../../lib/api-utils';
-import useSWRImmutable from 'swr/immutable';
-import { useFeatureToggles } from '../../../contexts/featuretoggle-context';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -53,8 +52,6 @@ const SisteJobb = () => {
     const { params } = useParamsFromContext();
     const { fnr } = params;
     const router = useRouter();
-    const { toggles } = useFeatureToggles();
-    const brukAareg = toggles['arbeidssokerregistrering.bruk-direkte-kobling-mot-aareg'];
 
     const onCloseStillingssok = (value?: StillingssokValue) => {
         if (value) {
@@ -65,7 +62,7 @@ const SisteJobb = () => {
         settVisStillingsSok(false);
     };
 
-    const sisteArbeidsforholdUrl = brukAareg ? 'api/sistearbeidsforhold-fra-aareg' : 'api/sistearbeidsforhold';
+    const sisteArbeidsforholdUrl = 'api/sistearbeidsforhold-fra-aareg';
     const { data: sisteArbeidsforhold, error } = useSWRImmutable(`${sisteArbeidsforholdUrl}`, (url) =>
         fetcher(url, { headers: { 'Nav-Personident': fnr } }),
     );

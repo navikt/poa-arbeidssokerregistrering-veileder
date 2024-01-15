@@ -19,7 +19,7 @@ export const featureMocks = {
         {
             name: 'arbeidssokerregistrering.bruk-direkte-kobling-mot-aareg',
             type: 'release',
-            enabled: true,
+            enabled: false,
             stale: false,
             strategies: [
                 {
