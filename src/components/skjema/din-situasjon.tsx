@@ -11,6 +11,7 @@ import {
     SporsmalId,
     UtdanningGodkjentValg,
     Utdanningsnivaa,
+    SisteStillingValg,
 } from '../../model/sporsmal';
 import { RegistreringState } from '../../model/registrering';
 
@@ -27,6 +28,19 @@ const DinSituasjon = () => {
                 [SporsmalId.utdanning]: Utdanningsnivaa.INGEN_SVAR,
                 [SporsmalId.utdanningGodkjent]: UtdanningGodkjentValg.INGEN_SVAR,
                 [SporsmalId.utdanningBestatt]: JaEllerNei.INGEN_SVAR,
+            };
+        }
+
+        if (
+            ![
+                Jobbsituasjon.AKKURAT_FULLFORT_UTDANNING,
+                Jobbsituasjon.JOBB_OVER_2_AAR,
+                Jobbsituasjon.USIKKER_JOBBSITUASJON,
+            ].includes(value)
+        ) {
+            return {
+                [SporsmalId.dinSituasjon]: value,
+                [SporsmalId.sisteStilling]: SisteStillingValg.INGEN_SVAR,
             };
         }
 
