@@ -10,7 +10,7 @@
         "test": "npm run lint && jest --watch",
         "test:ci": "npm run lint && jest",
         "refresh": "rm -rf node_modules && rm package-lock.json && npm i",
-        "prepare": "husky install"
+        "prepare": "husky"
     },
     "dependencies": {
         "@amplitude/analytics-browser": "2.4.0",
