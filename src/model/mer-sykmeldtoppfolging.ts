@@ -5,7 +5,7 @@ import {
     TilbakeIArbeid,
     UtdanningGodkjentValg,
     Utdanningsnivaa,
-} from './sporsmal';
+} from '@navikt/arbeidssokerregisteret-utils';
 import { ErrorTypes } from './error';
 
 export enum RegistreringType {

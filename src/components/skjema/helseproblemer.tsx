@@ -3,9 +3,8 @@ import { Box, Heading } from '@navikt/ds-react';
 import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
-import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
+import { JaEllerNei, lagHentTekstForSprak, SporsmalId, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { JaEllerNei, SporsmalId } from '../../model/sporsmal';
 
 const TEKSTER: Tekster<string> = {
     nb: {

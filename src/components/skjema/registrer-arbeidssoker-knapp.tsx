@@ -8,7 +8,7 @@ import { useParamsFromContext } from '../../contexts/params-from-context';
 
 import { fetcher as api } from '../../lib/api-utils';
 import { loggFlyt } from '../../lib/amplitude';
-import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
+import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { hentRegistreringFeiletUrl } from '../../lib/hent-registrering-feilet-url';
 import { FullforRegistreringResponse } from '../../model/registrering';
 import { OppgaveRegistreringstype } from '../../model/feilsituasjonTyper';

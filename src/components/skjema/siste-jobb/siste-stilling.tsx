@@ -2,7 +2,8 @@ import useSprak from '../../../hooks/useSprak';
 import { useRegistrering } from '../../../contexts/registrering-context';
 
 import RadioGruppe from '../../radio-gruppe/radio-gruppe';
-import { hentTekst, SisteStillingValg, SporsmalId } from '../../../model/sporsmal';
+import { hentTekst } from '../../../model/sporsmal';
+import { SisteStillingValg, SporsmalId } from '@navikt/arbeidssokerregisteret-utils';
 
 const SisteStilling = () => {
     const { registrering, doValidate, setRegistrering } = useRegistrering();

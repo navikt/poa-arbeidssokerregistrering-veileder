@@ -3,17 +3,12 @@ import {
     FremtidigSituasjon,
     JaEllerNei,
     SisteStillingValg,
+    SisteJobb,
     SporsmalId,
     TilbakeIArbeid,
     UtdanningGodkjentValg,
     Utdanningsnivaa,
-} from './sporsmal';
-
-export type SisteJobb = {
-    label: string;
-    konseptId: Number;
-    styrk08: string;
-};
+} from '@navikt/arbeidssokerregisteret-utils';
 
 export interface SkjemaState {
     [SporsmalId.dinSituasjon]?: DinSituasjon;

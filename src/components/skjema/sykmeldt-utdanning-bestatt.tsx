@@ -2,7 +2,8 @@ import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { FremtidigSituasjon, hentTekst, JaEllerNei, SporsmalId } from '../../model/sporsmal';
+import { hentTekst } from '../../model/sporsmal';
+import { FremtidigSituasjon, JaEllerNei, SporsmalId } from '@navikt/arbeidssokerregisteret-utils';
 
 const UtdanningBestatt = () => {
     const sprak = useSprak();

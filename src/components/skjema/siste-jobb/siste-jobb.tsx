@@ -6,14 +6,17 @@ import useSWRImmutable from 'swr/immutable';
 import useSprak from '../../../hooks/useSprak';
 import { useRegistrering } from '../../../contexts/registrering-context';
 import { useParamsFromContext } from '../../../contexts/params-from-context';
-
-import lagHentTekstForSprak, { Tekster } from '../../../lib/lag-hent-tekst-for-sprak';
 import StillingsSok from './stillings-sok';
 import SisteStilling from './siste-stilling';
-import { SisteJobb } from '../../../model/skjema';
-import { DinSituasjon, SisteStillingValg, SporsmalId } from '../../../model/sporsmal';
 import { fetcher } from '../../../lib/api-utils';
-import sisteStilling from './siste-stilling';
+import {
+    DinSituasjon,
+    lagHentTekstForSprak,
+    SisteJobb,
+    SisteStillingValg,
+    SporsmalId,
+    Tekster,
+} from '@navikt/arbeidssokerregisteret-utils';
 
 const TEKSTER: Tekster<string> = {
     nb: {

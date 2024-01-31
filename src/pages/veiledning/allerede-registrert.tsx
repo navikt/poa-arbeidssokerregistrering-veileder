@@ -3,7 +3,7 @@ import { BodyLong, Heading, Alert } from '@navikt/ds-react';
 
 import useSprak from '../../hooks/useSprak';
 
-import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
+import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { withAuthenticatedPage } from '../../auth/withAuthentication';
 import { loggStoppsituasjon } from '../../lib/amplitude';
 

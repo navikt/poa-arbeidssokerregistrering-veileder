@@ -1,11 +1,16 @@
 import { Box, Heading } from '@navikt/ds-react';
+import {
+    FremtidigSituasjon,
+    JaEllerNei,
+    lagHentTekstForSprak,
+    SporsmalId,
+    Tekster,
+} from '@navikt/arbeidssokerregisteret-utils';
 
 import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
-import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { JaEllerNei, SporsmalId, FremtidigSituasjon } from '../../model/sporsmal';
 
 const TEKSTER: Tekster<string> = {
     nb: {

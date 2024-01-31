@@ -1,4 +1,11 @@
-import { hentTekst, JaEllerNei, SporsmalId, Svar, UtdanningGodkjentValg, Utdanningsnivaa } from '../model/sporsmal';
+import {
+    JaEllerNei,
+    SporsmalId,
+    Svar,
+    UtdanningGodkjentValg,
+    Utdanningsnivaa,
+} from '@navikt/arbeidssokerregisteret-utils';
+import { hentTekst } from '../model/sporsmal';
 import { SkjemaState } from '../model/skjema';
 import { MerSykmeldtoppfolgingState } from '../model/mer-sykmeldtoppfolging';
 

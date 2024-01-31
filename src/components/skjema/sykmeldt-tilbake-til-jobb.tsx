@@ -4,7 +4,8 @@ import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { hentTekst, SporsmalId, TilbakeIArbeid, FremtidigSituasjon } from '../../model/sporsmal';
+import { hentTekst } from '../../model/sporsmal';
+import { FremtidigSituasjon, SporsmalId, TilbakeIArbeid } from '@navikt/arbeidssokerregisteret-utils';
 
 const TilbakeTilJobb = () => {
     const sprak = useSprak();

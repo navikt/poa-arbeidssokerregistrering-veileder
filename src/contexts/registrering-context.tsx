@@ -9,7 +9,7 @@ import {
     SporsmalId,
     UtdanningGodkjentValg,
     Utdanningsnivaa,
-} from '../model/sporsmal';
+} from '@navikt/arbeidssokerregisteret-utils';
 
 interface RegistreringContextType {
     registrering: RegistreringState;
