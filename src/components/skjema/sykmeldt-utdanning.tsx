@@ -4,9 +4,10 @@ import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { FremtidigSituasjon, hentTekst, SporsmalId, Utdanningsnivaa } from '../../model/sporsmal';
+import { hentTekst } from '../../model/sporsmal';
 import SykmeldtUtdanningBestatt from './sykmeldt-utdanning-bestatt';
 import SykmeldtUtdanningGodkjent from './sykmeldt-utdanning-godkjent';
+import { FremtidigSituasjon, SporsmalId, Utdanningsnivaa } from '@navikt/arbeidssokerregisteret-utils';
 
 const Utdanning = () => {
     const { registrering, doValidate, setRegistrering } = useSykmeldtoppfolging();

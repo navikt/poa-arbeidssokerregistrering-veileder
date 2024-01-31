@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import useSprak from '../hooks/useSprak';
 
-import lagHentTekstForSprak, { Tekster } from '../lib/lag-hent-tekst-for-sprak';
+import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { fetcher } from '../lib/api-utils';
 import { loggAktivitet } from '../lib/amplitude';
 

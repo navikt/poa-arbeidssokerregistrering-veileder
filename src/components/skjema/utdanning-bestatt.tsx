@@ -2,13 +2,13 @@ import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
+import { hentTekst } from '../../model/sporsmal';
 import {
     DinSituasjon as JobbSituasjon,
-    hentTekst,
     JaEllerNei,
     SporsmalId,
     Utdanningsnivaa,
-} from '../../model/sporsmal';
+} from '@navikt/arbeidssokerregisteret-utils';
 
 const BestattUtdanning = () => {
     const sprak = useSprak();

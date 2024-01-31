@@ -4,17 +4,17 @@ import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
+import { hentTekst } from '../../model/sporsmal';
+import { RegistreringState } from '../../model/registrering';
+import UtdanningBestatt from './utdanning-bestatt';
+import UtdanningGodkjent from './utdanning-godkjent';
 import {
     DinSituasjon as JobbSituasjon,
-    hentTekst,
     JaEllerNei,
     SporsmalId,
     UtdanningGodkjentValg,
     Utdanningsnivaa,
-} from '../../model/sporsmal';
-import { RegistreringState } from '../../model/registrering';
-import UtdanningBestatt from './utdanning-bestatt';
-import UtdanningGodkjent from './utdanning-godkjent';
+} from '@navikt/arbeidssokerregisteret-utils';
 
 function tilRegistreringsState(value: Utdanningsnivaa): Partial<RegistreringState> {
     if (value === Utdanningsnivaa.INGEN_UTDANNING) {

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { BodyLong, Heading, Alert, Link } from '@navikt/ds-react';
 
-import lagHentTekstForSprak, { Tekster } from '../../../lib/lag-hent-tekst-for-sprak';
+import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import useSprak from '../../../hooks/useSprak';
 
 import { FeilmeldingGenerell } from '../../../components/feilmeldinger/feilmeldinger';

@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 import { isEqual } from 'lodash';
 
 import { MerSykmeldtoppfolgingState } from '../model/mer-sykmeldtoppfolging';
-import { SporsmalId, FremtidigSituasjon } from '../model/sporsmal';
+import { FremtidigSituasjon, SporsmalId } from '@navikt/arbeidssokerregisteret-utils';
 
 interface SykmeldtoppfolgingContextType {
     registrering: MerSykmeldtoppfolgingState;

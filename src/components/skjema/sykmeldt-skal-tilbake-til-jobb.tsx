@@ -3,8 +3,12 @@ import { Alert, BodyLong, Heading } from '@navikt/ds-react';
 import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
-import lagHentTekstForSprak, { Tekster } from '../../lib/lag-hent-tekst-for-sprak';
-import { FremtidigSituasjon, TilbakeIArbeid } from '../../model/sporsmal';
+import {
+    FremtidigSituasjon,
+    lagHentTekstForSprak,
+    Tekster,
+    TilbakeIArbeid,
+} from '@navikt/arbeidssokerregisteret-utils';
 
 const TEKSTER: Tekster<string> = {
     nb: {

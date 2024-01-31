@@ -2,7 +2,8 @@ import useSprak from '../../hooks/useSprak';
 import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context';
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
-import { FremtidigSituasjon, hentTekst, SporsmalId, UtdanningGodkjentValg } from '../../model/sporsmal';
+import { hentTekst } from '../../model/sporsmal';
+import { FremtidigSituasjon, SporsmalId, UtdanningGodkjentValg } from '@navikt/arbeidssokerregisteret-utils';
 
 const UtdanningGodkjent = () => {
     const { registrering, doValidate, setRegistrering } = useSykmeldtoppfolging();
