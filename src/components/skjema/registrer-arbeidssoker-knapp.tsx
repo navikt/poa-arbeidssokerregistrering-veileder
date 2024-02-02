@@ -1,6 +1,7 @@
 import { Button } from '@navikt/ds-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 
 import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
@@ -8,7 +9,6 @@ import { useParamsFromContext } from '../../contexts/params-from-context';
 
 import { fetcher as api } from '../../lib/api-utils';
 import { loggFlyt } from '../../lib/amplitude';
-import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { hentRegistreringFeiletUrl } from '../../lib/hent-registrering-feilet-url';
 import { FullforRegistreringResponse } from '../../model/registrering';
 import { OppgaveRegistreringstype } from '../../model/feilsituasjonTyper';
