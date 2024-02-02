@@ -7,8 +7,8 @@ describe('hent-registrering-feilet-url', () => {
         expect(
             hentRegistreringFeiletUrl(
                 ErrorTypes.BRUKER_ER_DOD_UTVANDRET_ELLER_FORSVUNNET,
-                OppgaveRegistreringstype.REGISTRERING
-            )
+                OppgaveRegistreringstype.REGISTRERING,
+            ),
         ).toBe('/veiledning/registrering/utvandret/');
     });
 
@@ -16,8 +16,8 @@ describe('hent-registrering-feilet-url', () => {
         expect(
             hentRegistreringFeiletUrl(
                 ErrorTypes.BRUKER_MANGLER_ARBEIDSTILLATELSE,
-                OppgaveRegistreringstype.REGISTRERING
-            )
+                OppgaveRegistreringstype.REGISTRERING,
+            ),
         ).toBe('/veiledning/registrering/mangler-arbeidstillatelse/');
     });
 
@@ -25,8 +25,8 @@ describe('hent-registrering-feilet-url', () => {
         expect(
             hentRegistreringFeiletUrl(
                 ErrorTypes.BRUKER_ER_DOD_UTVANDRET_ELLER_FORSVUNNET,
-                OppgaveRegistreringstype.REAKTIVERING
-            )
+                OppgaveRegistreringstype.REAKTIVERING,
+            ),
         ).toBe('/veiledning/reaktivering/utvandret/');
     });
 
@@ -34,20 +34,26 @@ describe('hent-registrering-feilet-url', () => {
         expect(
             hentRegistreringFeiletUrl(
                 ErrorTypes.BRUKER_MANGLER_ARBEIDSTILLATELSE,
-                OppgaveRegistreringstype.REAKTIVERING
-            )
+                OppgaveRegistreringstype.REAKTIVERING,
+            ),
         ).toBe('/veiledning/reaktivering/mangler-arbeidstillatelse/');
     });
 
     it('returnerer "/feil/" for ukjent bruker', () => {
         expect(hentRegistreringFeiletUrl(ErrorTypes.BRUKER_ER_UKJENT, OppgaveRegistreringstype.REGISTRERING)).toBe(
-            '/feil/'
+            '/feil/',
         );
     });
 
-    it('returnerer "/feil/" for bruker som ikke kan reaktiveres', () => {
+    it('returnerer "/veiledning/registrering/kan-ikke-reaktiveres" for bruker som ikke kan registreres', () => {
         expect(
-            hentRegistreringFeiletUrl(ErrorTypes.BRUKER_KAN_IKKE_REAKTIVERES, OppgaveRegistreringstype.REAKTIVERING)
-        ).toBe('/feil/');
+            hentRegistreringFeiletUrl(ErrorTypes.BRUKER_KAN_IKKE_REAKTIVERES, OppgaveRegistreringstype.REGISTRERING),
+        ).toBe('/veiledning/registrering/kan-ikke-reaktiveres');
+    });
+
+    it('returnerer "/veiledning/reaktivering/kan-ikke-reaktiveres" for bruker som ikke kan reaktiveres', () => {
+        expect(
+            hentRegistreringFeiletUrl(ErrorTypes.BRUKER_KAN_IKKE_REAKTIVERES, OppgaveRegistreringstype.REAKTIVERING),
+        ).toBe('/veiledning/reaktivering/kan-ikke-reaktiveres');
     });
 });
