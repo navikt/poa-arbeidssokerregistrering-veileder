@@ -18,6 +18,8 @@ const TEKSTER: Tekster<string> = {
         heading: 'Personen kan ikke registreres som arbeidssøker',
         utvandretBeskrivelse: 'Personen står registrert som utvandret i våre systemer.',
         manglerArbeidstillatelseBeskrivelse: 'Vi finner ikke godkjent oppholdstillatelse.',
+        kanIkkeReaktiveresBeskrivelse:
+            'For å kunne gjennomføre en registrering må det gjøres endringer i personens status i Arena eller Modia.',
         servicerutineIntro: 'Det du må gjøre videre er beskrevet i ',
         servicerutineLenkeUtvandret:
             'https://navno.sharepoint.com/sites/fag-og-ytelser-regelverk-og-rutiner/SitePages/Registrering-av-arbeids--og-oppholdstillatelse.aspx?web=1',
@@ -28,7 +30,23 @@ const TEKSTER: Tekster<string> = {
     },
 };
 
-const KontaktVeileder = (props: Feilsituasjon) => {
+function hentMeldingsBeskrivelse(feilType: Feiltype): string {
+    switch (feilType) {
+        case Feiltype.BRUKER_KAN_IKKE_REAKTIVERES: {
+            return 'kanIkkeReaktiveresBeskrivelse';
+        }
+        case Feiltype.MANGLER_ARBEIDSTILLATELSE: {
+            return 'manglerArbeidstillatelseBeskrivelse';
+        }
+        case Feiltype.UTVANDRET: {
+            return 'utvandretBeskrivelse';
+        }
+        default:
+            return 'utvandretBeskrivelse';
+    }
+}
+
+function KontaktVeileder(props: Feilsituasjon) {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { feiltype } = props;
 
@@ -43,11 +61,16 @@ const KontaktVeileder = (props: Feilsituasjon) => {
         if (feiltype === Feiltype.MANGLER_ARBEIDSTILLATELSE) {
             loggStoppsituasjon({ aarsakTilStans: 'Personen mangler oppholdstillatelse i Arena' });
         }
+        if (feiltype === Feiltype.BRUKER_KAN_IKKE_REAKTIVERES) {
+            loggStoppsituasjon({ aarsakTilStans: 'Personen får kan ikke reaktiveres fra Arena' });
+        }
     }, []);
 
     if (feiltype === undefined || !Object.values(Feiltype).includes(feiltype)) {
         return <FeilmeldingGenerell />;
     }
+
+    const visServiceRutine = feiltype !== Feiltype.BRUKER_KAN_IKKE_REAKTIVERES;
 
     return (
         <>
@@ -55,36 +78,32 @@ const KontaktVeileder = (props: Feilsituasjon) => {
                 <Heading size="small" spacing={true} level="1">
                     {tekst('heading')}
                 </Heading>
-                <BodyLong>
-                    {tekst(
-                        props.feiltype === Feiltype.UTVANDRET
-                            ? 'utvandretBeskrivelse'
-                            : 'manglerArbeidstillatelseBeskrivelse',
-                    )}
-                </BodyLong>
-                <BodyLong spacing className="mt-4">
-                    {tekst('servicerutineIntro')}{' '}
-                    <Link
-                        inlineText
-                        href={tekst(
-                            props.feiltype === Feiltype.UTVANDRET
-                                ? 'servicerutineLenkeUtvandret'
-                                : 'servicerutineLenkeArbeidstillatelse',
-                        )}
-                        onClick={gaarTilServicerutine}
-                    >
-                        {tekst(
-                            props.feiltype === Feiltype.UTVANDRET
-                                ? 'servicerutineLenkeTekstUtvandret'
-                                : 'servicerutineLenkeTekstArbeidstillatelse',
-                        )}
-                    </Link>
-                    .
-                </BodyLong>
+                <BodyLong>{tekst(hentMeldingsBeskrivelse(props.feiltype))}</BodyLong>
+                {visServiceRutine && (
+                    <BodyLong spacing className="mt-4">
+                        {tekst('servicerutineIntro')}{' '}
+                        <Link
+                            inlineText
+                            href={tekst(
+                                props.feiltype === Feiltype.UTVANDRET
+                                    ? 'servicerutineLenkeUtvandret'
+                                    : 'servicerutineLenkeArbeidstillatelse',
+                            )}
+                            onClick={gaarTilServicerutine}
+                        >
+                            {tekst(
+                                props.feiltype === Feiltype.UTVANDRET
+                                    ? 'servicerutineLenkeTekstUtvandret'
+                                    : 'servicerutineLenkeTekstArbeidstillatelse',
+                            )}
+                        </Link>
+                        .
+                    </BodyLong>
+                )}
             </Alert>
         </>
     );
-};
+}
 
 export const getServerSideProps = withAuthenticatedPage(async (context) => {
     const { registreringstype, feilsituasjon } = context.query;

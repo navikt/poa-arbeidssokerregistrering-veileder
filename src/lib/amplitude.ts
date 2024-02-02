@@ -41,7 +41,8 @@ type StoppsituasjonsData =
     | { aarsakTilStans: 'Personen er allerede registrert i Arena' }
     | { aarsakTilStans: 'Personen mangler oppholdstillatelse i Arena' }
     | { aarsakTilStans: 'Personen står som utvandret i Arena' }
-    | { aarsakTilStans: 'Personen står som sperret i Arena' };
+    | { aarsakTilStans: 'Personen står som sperret i Arena' }
+    | { aarsakTilStans: 'Personen får kan ikke reaktiveres fra Arena' };
 
 type FlytData =
     | {
