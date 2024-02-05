@@ -41,8 +41,12 @@ function PersonUnder18() {
             </Heading>
             <BodyLong className="mb-4">
                 Det du må gjøre videre er beskrevet i{' '}
-                <Link href="https://www.vg.no" onClick={gaarTilServicerutine}>
-                    Servicerutine samtykke fra foresatte til unge under 18 år.
+                <Link
+                    href="https://navno.sharepoint.com/sites/fag-og-ytelser-regelverk-og-rutiner/SitePages/Servicerutine-for-innhenting-av-samtykke-fra-foresatte-for-unge-under-18-%C3%A5r-ved-registrering-som-arbeidss%C3%B8ker,.aspx"
+                    onClick={gaarTilServicerutine}
+                >
+                    Servicerutine for innhenting av samtykke fra foresatte for unge under 18 år ved registrering som
+                    arbeidssøker.
                 </Link>
             </BodyLong>
             <BodyLong>Du kan bare gå videre med registrering av denne personen hvis samtykke er innhentet.</BodyLong>
