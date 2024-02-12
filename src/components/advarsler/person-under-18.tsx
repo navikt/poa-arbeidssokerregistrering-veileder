@@ -45,8 +45,8 @@ function PersonUnder18() {
                     href="https://navno.sharepoint.com/sites/fag-og-ytelser-regelverk-og-rutiner/SitePages/Servicerutine-for-innhenting-av-samtykke-fra-foresatte-for-unge-under-18-%C3%A5r-ved-registrering-som-arbeidss%C3%B8ker,.aspx"
                     onClick={gaarTilServicerutine}
                 >
-                    Servicerutine for innhenting av samtykke fra foresatte for unge under 18 år ved registrering som
-                    arbeidssøker.
+                    Samtykke fra foresatte til unge under 18 år - registrering som arbeidssøker, øvrige tiltak og
+                    tjenester.
                 </Link>
             </BodyLong>
             <BodyLong>Du kan bare gå videre med registrering av denne personen hvis samtykke er innhentet.</BodyLong>
