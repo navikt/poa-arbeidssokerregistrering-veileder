@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 import { isEqual } from 'lodash';
 
 import { MerSykmeldtoppfolgingState } from '../model/mer-sykmeldtoppfolging';
-import { FremtidigSituasjon, SporsmalId } from '@navikt/arbeidssokerregisteret-utils';
+import { FremtidigSituasjon, SporsmalId, SykmeldtSporsmalId } from '@navikt/arbeidssokerregisteret-utils';
 
 interface SykmeldtoppfolgingContextType {
     registrering: MerSykmeldtoppfolgingState;
@@ -12,8 +12,9 @@ interface SykmeldtoppfolgingContextType {
     setDoValidate: (data: boolean) => void;
 }
 
+type PakrevdeSvar = SporsmalId | SykmeldtSporsmalId;
 function genererPakrevdeSvar(svar: FremtidigSituasjon) {
-    let pakrevdeSvar = [SporsmalId.fremtidigSituasjon];
+    let pakrevdeSvar: PakrevdeSvar[] = [SykmeldtSporsmalId.fremtidigSituasjon];
     if ([FremtidigSituasjon.NY_ARBEIDSGIVER, FremtidigSituasjon.USIKKER].includes(svar)) {
         pakrevdeSvar.push(
             ...[
@@ -25,7 +26,7 @@ function genererPakrevdeSvar(svar: FremtidigSituasjon) {
         );
     }
     if ([FremtidigSituasjon.SAMME_ARBEIDSGIVER, FremtidigSituasjon.SAMME_ARBEIDSGIVER_NY_STILLING].includes(svar)) {
-        pakrevdeSvar.push(SporsmalId.tilbakeIArbeid);
+        pakrevdeSvar.push(SykmeldtSporsmalId.tilbakeIArbeid);
     }
     return pakrevdeSvar;
 }
@@ -55,7 +56,7 @@ function SykmeldtoppfolgingProvider({ children }: { children: ReactNode }) {
         const pakrevdeSvar = genererPakrevdeSvar(registrering?.fremtidigSituasjon);
         const altOk = isEqual(
             Object.keys(registrering)
-                .filter((key) => pakrevdeSvar.includes(key as SporsmalId))
+                .filter((key) => pakrevdeSvar.includes(key as any))
                 .sort(),
             pakrevdeSvar.sort(),
         );

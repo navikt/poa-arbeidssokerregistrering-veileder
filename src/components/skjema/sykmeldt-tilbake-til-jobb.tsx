@@ -5,7 +5,7 @@ import { useSykmeldtoppfolging } from '../../contexts/sykmeldtoppfolging-context
 
 import RadioGruppe from '../radio-gruppe/radio-gruppe';
 import { hentTekst } from '../../model/sporsmal';
-import { FremtidigSituasjon, SporsmalId, TilbakeIArbeid } from '@navikt/arbeidssokerregisteret-utils';
+import { FremtidigSituasjon, SykmeldtSporsmalId, TilbakeIArbeid } from '@navikt/arbeidssokerregisteret-utils';
 
 const TilbakeTilJobb = () => {
     const sprak = useSprak();
@@ -39,9 +39,9 @@ const TilbakeTilJobb = () => {
                     Arbeidssituasjon
                 </Heading>
                 <RadioGruppe
-                    legend={tekst(SporsmalId.tilbakeIArbeid)}
+                    legend={tekst(SykmeldtSporsmalId.tilbakeIArbeid)}
                     valg={valg}
-                    onSelect={(val) => setRegistrering({ [SporsmalId.tilbakeIArbeid]: val })}
+                    onSelect={(val) => setRegistrering({ [SykmeldtSporsmalId.tilbakeIArbeid]: val })}
                     visFeilmelding={visFeilmelding}
                 />
             </form>

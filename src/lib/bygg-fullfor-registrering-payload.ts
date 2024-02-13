@@ -9,7 +9,7 @@ import {
     Utdanningsnivaa,
 } from '@navikt/arbeidssokerregisteret-utils';
 import { hentTekst } from '../model/sporsmal';
-import { Side, SkjemaState } from '../model/skjema';
+import { Side, SkjemaState, SykmeldtSkjemaState } from '../model/skjema';
 
 export const aldriJobbet: SisteJobb = {
     label: 'X',
@@ -36,7 +36,7 @@ function byggFullforRegistreringPayload(skjemaState: SkjemaState, side: Side = '
         helseHinder: JaEllerNei.INGEN_SVAR,
     };
 
-    const initialSykmeldtState = {
+    const initialSykmeldtState: SykmeldtSkjemaState = {
         utdanning: Utdanningsnivaa.INGEN_SVAR,
         utdanningGodkjent: UtdanningGodkjentValg.INGEN_SVAR,
         utdanningBestatt: JaEllerNei.INGEN_SVAR,

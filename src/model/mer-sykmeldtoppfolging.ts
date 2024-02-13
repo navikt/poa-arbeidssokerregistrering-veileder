@@ -2,6 +2,7 @@ import {
     FremtidigSituasjon,
     JaEllerNei,
     SporsmalId,
+    SykmeldtSporsmalId,
     TilbakeIArbeid,
     UtdanningGodkjentValg,
     Utdanningsnivaa,
@@ -59,8 +60,8 @@ export type SisteJobb = {
 };
 
 export interface MerSykmeldtoppfolgingState {
-    [SporsmalId.fremtidigSituasjon]?: FremtidigSituasjon;
-    [SporsmalId.tilbakeIArbeid]?: TilbakeIArbeid;
+    [SykmeldtSporsmalId.fremtidigSituasjon]?: FremtidigSituasjon;
+    [SykmeldtSporsmalId.tilbakeIArbeid]?: TilbakeIArbeid;
     [SporsmalId.utdanning]?: Utdanningsnivaa;
     [SporsmalId.utdanningGodkjent]?: UtdanningGodkjentValg;
     [SporsmalId.utdanningBestatt]?: JaEllerNei;
