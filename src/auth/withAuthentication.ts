@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next';
-import { validateAzureToken } from '@navikt/next-auth-wonderwall';
 import { logger } from '@navikt/next-logger';
+import { validateAzureToken } from '@navikt/oasis';
 
 type PageHandler = (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<unknown>>;
 type ApiHandler = (req: NextApiRequest, res: NextApiResponse) => Promise<unknown> | unknown;
@@ -34,12 +34,11 @@ export function withAuthenticatedPage(handler: PageHandler = async () => ({ prop
         }
 
         const validationResult = await validateAzureToken(bearerToken);
-        if (validationResult !== 'valid') {
+        if (validationResult.ok === false) {
             logger.error(
-                new Error(
-                    `Invalid JWT token found (cause: ${validationResult.errorType} ${validationResult.message}, redirecting to login.`,
-                    { cause: validationResult.error },
-                ),
+                new Error(`Invalid JWT token found (cause: ${validationResult.errorType}), redirecting to login.`, {
+                    cause: validationResult.error,
+                }),
             );
             return {
                 redirect: {
@@ -61,9 +60,9 @@ export function withAuthenticatedApi(handler: ApiHandler): ApiHandler {
 
         const bearerToken: string | null | undefined = req.headers['authorization'];
         const validatedToken = bearerToken ? await validateAzureToken(bearerToken) : null;
-        if (!bearerToken || validatedToken !== 'valid') {
-            if (validatedToken && validatedToken !== 'valid') {
-                logger.error(`Invalid JWT token found (cause: ${validatedToken.message} for API ${req.url}`);
+        if (!bearerToken || !validatedToken?.ok) {
+            if (validatedToken && validatedToken.ok === false) {
+                logger.error(`Invalid JWT token found (cause: ${validatedToken.errorType} for API ${req.url}`);
             }
 
             res.status(401).json({ message: 'Access denied' });
