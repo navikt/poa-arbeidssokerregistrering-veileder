@@ -102,6 +102,10 @@ spec:
       value: prod-fss
     - name: AAREG_APPNAME
       value: aareg-services-nais
+    - name: INNGANG_API_URL
+      value: http://paw-arbeidssokerregisteret-api-inngang
+    - name: OPPDATER_OPPLYSNINGER_URL
+      value: http://paw-arbeidssokerregisteret-api-inngang
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
@@ -129,6 +133,7 @@ spec:
         - host: veilarbvisittkortfs.intern.nav.no
         - host: aareg-services.prod-fss-pub.nais.io
       rules:
+        - application: paw-arbeidssokerregisteret-api-inngang
         - application: veilarbregistrering
         - application: modiacontextholder
           namespace: personoversikt
