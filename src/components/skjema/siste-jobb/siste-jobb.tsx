@@ -49,7 +49,7 @@ function stringifyStyrk08(value: StillingssokValue) {
     };
 }
 
-const SisteJobb = () => {
+const SisteJobbSkjema = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { registrering, setRegistrering } = useRegistrering();
     const [visStillingsSok, settVisStillingsSok] = useState<boolean>(false);
@@ -143,4 +143,4 @@ const SisteJobb = () => {
     );
 };
 
-export default SisteJobb;
+export default SisteJobbSkjema;
