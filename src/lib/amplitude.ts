@@ -61,6 +61,7 @@ type FlytData =
     | { hendelse: 'Får ikke fullført reaktivering av arbeidssøker'; aarsak?: ErrorTypes }
     | { hendelse: 'Registrering for mer sykmeldtoppfølging fullført' }
     | { hendelse: 'Reaktivering av arbeidssøker fullført' }
+    | { hendelse: 'Kan ikke registreres for mer sykmeldtoppfølging' }
     | { hendelse: 'Registrering av arbeidssøker fullført' };
 
 type KvitteringAktivitet =
