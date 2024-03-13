@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Alert, Heading, Loader } from '@navikt/ds-react';
+import { Alert, Heading, List, Loader } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 
@@ -15,9 +15,13 @@ interface StartregistreringResponse {
 function Feilmelding() {
     return (
         <Alert variant="warning">
-            <Heading size="small" level="1">
-                Personen kan ikke registreres for sykmeldtoppfølging
+            <Heading size="small" level="1" className="mb-8">
+                Personen kan ikke registreres for mer sykmeldtoppfølging
             </Heading>
+            <List as="ul" description="Sjekk at følgende er registrert i systemene:">
+                <List.Item>Personen har arbeidsgiver</List.Item>
+                <List.Item>Personen har aktiv sykemelding</List.Item>
+            </List>
         </Alert>
     );
 }
