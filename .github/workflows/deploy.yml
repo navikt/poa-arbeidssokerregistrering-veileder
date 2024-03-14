@@ -43,7 +43,7 @@ jobs:
       - name: Upload static files to NAV CDN
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
-          cdn-team-name: paw
+          team: paw
           source: ./.next/static
           destination: arbeidssokerregistrering-for-veileder/_next
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
