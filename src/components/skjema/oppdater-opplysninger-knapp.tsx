@@ -54,7 +54,6 @@ export const OppdaterOpplysningerKnapp = () => {
                         'Content-type': 'application/json',
                     },
                 });
-                console.log(response);
                 if (!response.ok) {
                     loggFlyt({ hendelse: 'Får ikke fullført registreringen av arbeidssøker' });
                     return router.push('/feil');

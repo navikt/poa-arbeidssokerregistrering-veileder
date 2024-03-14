@@ -61,11 +61,10 @@ export default function KanRegistreresSomArbeidssoeker() {
             } else {
                 // noinspection ExceptionCaughtLocallyJS
                 setKanIkkeStarteArbeidssoekerperiode(true);
-                console.error('response', response);
-                throw new Error(response.statusText);
+                const data = await response.json();
+                setError(data);
             }
         } catch (err: unknown) {
-            console.error('err', err);
             setError(err);
         }
     }
