@@ -7,6 +7,7 @@ import { useParamsFromContext } from '../contexts/params-from-context';
 import { RegistreringType } from '../model/registrering';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { loggFlyt } from '../lib/amplitude';
+import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
 
 interface StartregistreringResponse {
     registreringType: RegistreringType;
@@ -80,6 +81,10 @@ export default function KanRegistreresForSykmeldtoppfoelging() {
             router.push('/feil/');
         }
     }, [error, router]);
+
+    if (!fnr) {
+        return <ManglerPersonEllerEnhet />;
+    }
 
     return <>{kanIkkeRegistreresForSykmeldtoppfoelging ? <Feilmelding /> : <HenterDataLoader />}</>;
 }

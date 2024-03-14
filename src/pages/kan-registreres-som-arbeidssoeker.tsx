@@ -7,6 +7,7 @@ import { useConfig } from '../contexts/config-context';
 
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { Config } from '../model/config';
+import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
 
 function StarterArbeidssoekerperiodeLoader() {
     return (
@@ -60,9 +61,11 @@ export default function KanRegistreresSomArbeidssoeker() {
             } else {
                 // noinspection ExceptionCaughtLocallyJS
                 setKanIkkeStarteArbeidssoekerperiode(true);
+                console.error('response', response);
                 throw new Error(response.statusText);
             }
         } catch (err: unknown) {
+            console.error('err', err);
             setError(err);
         }
     }
@@ -78,6 +81,10 @@ export default function KanRegistreresSomArbeidssoeker() {
             router.push('/registrering-arbeidssoker');
         }
     }, [periodeStartet]);
+
+    if (!fnr) {
+        return <ManglerPersonEllerEnhet />;
+    }
 
     return (
         <>
