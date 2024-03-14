@@ -1,8 +1,15 @@
 import { Heading, List, Button } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 
+import { useParamsFromContext } from '../contexts/params-from-context';
+
 function VelgRegistreringstype() {
     const router = useRouter();
+    const { params } = useParamsFromContext();
+    const { fnr } = params;
+
+    if (!fnr) return null;
+
     return (
         <>
             <Heading level="1" size="large" className="mb-8 text-center">
