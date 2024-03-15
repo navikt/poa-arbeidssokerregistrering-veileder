@@ -61,7 +61,7 @@ function StoppPeriodeKnapp() {
 
     return (
         <Button variant="danger" onClick={() => stoppArbeidssoekerperiode()}>
-            Avslutt arbeidssøkerperiode
+            Avslutt arbeidssøkerperioden
         </Button>
     );
 }
