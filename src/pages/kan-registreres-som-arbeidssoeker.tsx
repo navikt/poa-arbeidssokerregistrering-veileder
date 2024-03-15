@@ -23,7 +23,7 @@ function ErUnder18() {
         <>
             <BodyLong>Personen er under 18 år og vil derfor trenge samtykke fra foresatte.</BodyLong>
             <BodyLong spacing>Når samtykke er innhentet kan du registrere vedkommende.</BodyLong>
-            <div className="flex justify-center mt-8">
+            <div className="mt-8">
                 <OverstyrStartPeriodeKnapp />
             </div>
         </>
