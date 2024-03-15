@@ -8,6 +8,7 @@ import { useConfig } from '../contexts/config-context';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { Config } from '../model/config';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
+import OverstyrStartPeriodeKnapp from '../components/overstyr-start-periode-knapp';
 
 function StarterArbeidssoekerperiodeLoader() {
     return (
@@ -17,14 +18,30 @@ function StarterArbeidssoekerperiodeLoader() {
     );
 }
 
+function ErUnder18() {
+    return (
+        <>
+            <BodyLong>Personen er under 18 år og vil derfor trenge samtykke fra foresatte.</BodyLong>
+            <BodyLong className="mb-8">Når samtykke er innhentet kan du registrere vedkommende.</BodyLong>
+            <div className="text-center">
+                <OverstyrStartPeriodeKnapp />
+            </div>
+        </>
+    );
+}
+
 function Feilmelding(props: { feilmelding: any }) {
+    const { aarsakTilAvvisning } = props.feilmelding || {};
+    const erUnder18 = aarsakTilAvvisning && aarsakTilAvvisning.regel === 'UNDER_18_AAR';
+    const generiskFeil = !erUnder18;
     if (!props.feilmelding) return null;
     return (
         <Alert variant="warning">
             <Heading size="small" level="1" className="mb-8">
                 Personen kan ikke registreres som arbeidssøker
             </Heading>
-            <BodyLong>{JSON.stringify(props.feilmelding)}</BodyLong>
+            {erUnder18 && <ErUnder18 />}
+            {generiskFeil && <BodyLong>{JSON.stringify(props.feilmelding)}</BodyLong>}
         </Alert>
     );
 }
