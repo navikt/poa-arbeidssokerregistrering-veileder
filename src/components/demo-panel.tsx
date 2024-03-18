@@ -27,6 +27,12 @@ function DemoPanel() {
                     <NextLink href="/kvittering-arbeidssoker/" passHref locale={false}>
                         <Button variant="secondary">Kvittering - arbeidssøker</Button>
                     </NextLink>
+                    <NextLink href={`/avslutt-arbeidssoekerperiode`} passHref locale={false}>
+                        <Button variant="secondary">Avslutt arbeidssøkerperiode</Button>
+                    </NextLink>
+                    <NextLink href="/arbeidssoekerperiode-er-avsluttet/" passHref locale={false}>
+                        <Button variant="secondary">Kvittering for avsluttet arbeidssøkerperiode</Button>
+                    </NextLink>
                     <NextLink href={`/registrering-mer-sykmeldtoppfolging`} passHref locale={false}>
                         <Button variant="secondary">Registrering - sykmeldtoppfølging</Button>
                     </NextLink>

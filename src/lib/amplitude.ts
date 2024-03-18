@@ -35,6 +35,8 @@ type VisningsData =
     | { viser: 'kvittering for mer sykmeldtoppfølging' }
     | { viser: 'mangler tilgang til aa-registeret' }
     | { viser: 'advarsel for registrering av person under 18' }
+    | { viser: 'siden for å avslutte en arbeidssøkerperiode' }
+    | { viser: 'kvittering for avsluttet arbeidssøkerperiode' }
     | { viser: 'generell feilmelding' };
 
 type StoppsituasjonsData =
@@ -61,6 +63,7 @@ type FlytData =
     | { hendelse: 'Får ikke fullført reaktivering av arbeidssøker'; aarsak?: ErrorTypes }
     | { hendelse: 'Registrering for mer sykmeldtoppfølging fullført' }
     | { hendelse: 'Reaktivering av arbeidssøker fullført' }
+    | { hendelse: 'Kan ikke registreres for mer sykmeldtoppfølging' }
     | { hendelse: 'Registrering av arbeidssøker fullført' };
 
 type KvitteringAktivitet =
