@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Alert, BodyLong, Heading, Loader } from '@navikt/ds-react';
+import { Alert, BodyLong, Heading, Link, Loader } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
@@ -9,6 +9,7 @@ import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { Config } from '../model/config';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
 import OverstyrStartPeriodeKnapp from '../components/overstyr-start-periode-knapp';
+import { loggAktivitet } from '../lib/amplitude';
 
 function StarterArbeidssoekerperiodeLoader() {
     return (
@@ -18,11 +19,25 @@ function StarterArbeidssoekerperiodeLoader() {
     );
 }
 
+const gaarTilServicerutine = () => {
+    loggAktivitet({ aktivitet: 'Går til servicerutine for samtykke for personer under 18' });
+};
+
 function ErUnder18() {
     return (
         <>
-            <BodyLong>Personen er under 18 år og vil derfor trenge samtykke fra foresatte.</BodyLong>
-            <BodyLong spacing>Når samtykke er innhentet kan du registrere vedkommende.</BodyLong>
+            <BodyLong spacing>Personen er under 18 år og vil derfor trenge samtykke fra foresatte.</BodyLong>
+            <BodyLong>
+                Det du må gjøre videre er beskrevet i{' '}
+                <Link
+                    href="https://navno.sharepoint.com/sites/fag-og-ytelser-regelverk-og-rutiner/SitePages/Servicerutine-for-innhenting-av-samtykke-fra-foresatte-for-unge-under-18-%C3%A5r-ved-registrering-som-arbeidss%C3%B8ker,.aspx"
+                    onClick={gaarTilServicerutine}
+                >
+                    Samtykke fra foresatte til unge under 18 år - registrering som arbeidssøker, øvrige tiltak og
+                    tjenester.
+                </Link>
+            </BodyLong>
+            <BodyLong spacing>Dersom samtykke er innhentet kan du går videre med registreringen.</BodyLong>
             <div className="mt-8">
                 <OverstyrStartPeriodeKnapp />
             </div>
