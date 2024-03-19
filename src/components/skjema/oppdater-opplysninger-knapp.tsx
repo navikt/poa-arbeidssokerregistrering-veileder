@@ -14,7 +14,7 @@ import { Config } from '../../model/config';
 
 const TEKSTER: Tekster<string> = {
     nb: {
-        registrer: 'Registrer arbeidssøker',
+        registrer: 'Fullfør registrering som arbeidssøker',
         advarsel: 'Alle spørsmålene i skjemaet må fylles ut før du kan registrere arbeidssøkeren.',
     },
     en: {
