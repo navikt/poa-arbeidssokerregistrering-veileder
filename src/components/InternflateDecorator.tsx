@@ -12,16 +12,12 @@ const InternflateDecorator = () => {
     const { enableMock } = useConfig() as Config;
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
-    const onFnrChanged = (endretFnr) => {
-        if (endretFnr !== fnr) {
-            setParams({ fnr: endretFnr });
-        }
+    const onFnrChanged = (fnr) => {
+        setParams({ fnr: fnr });
     };
 
-    const onEnhetChanged = (endretEnhet) => {
-        if (endretEnhet !== enhetId) {
-            setParams({ enhetId: endretEnhet });
-        }
+    const onEnhetChanged = (enhet) => {
+        setParams({ enhetId: enhet });
     };
 
     const props = {
