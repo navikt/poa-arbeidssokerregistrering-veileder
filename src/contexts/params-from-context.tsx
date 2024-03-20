@@ -23,7 +23,6 @@ function ParamsFromContextProvider({ children }) {
     const updateParams = (data: ContextParams) => {
         setParams((state) => ({ ...state, ...data }));
         if (router.pathname !== '/avslutt-arbeidssoekerperiode') {
-            console.log('pathname', router.pathname);
             router.push('/');
         }
     };
