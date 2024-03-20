@@ -22,7 +22,9 @@ function ParamsFromContextProvider({ children }) {
 
     const updateParams = (data: ContextParams) => {
         setParams((state) => ({ ...state, ...data }));
-        router.push('/');
+        if (router.pathname !== '/avslutt-arbeidssoekerperiode') {
+            router.push('/');
+        }
     };
 
     const hentContextFraModia = async () => {
