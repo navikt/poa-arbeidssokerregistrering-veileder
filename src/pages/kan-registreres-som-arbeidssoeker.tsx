@@ -45,10 +45,73 @@ function ErUnder18() {
     );
 }
 
+function IkkeBosatt() {
+    return (
+        <>
+            <BodyLong spacing>Vedkommende er ifølge våre systemer ikke bosatt etter folkeregisterloven.</BodyLong>
+            <BodyLong>
+                Du kan be personen oppsøke{' '}
+                <Link href="https://www.workinnorway.no/no/Forside">sidene til Work in Norway</Link> for å få vite mer
+                om hva som kreves for å være arbeidssøker i Norge.
+            </BodyLong>
+            <BodyLong spacing>
+                Personen kan selv kontakte folkeregisteret for å gjøre endringer{' '}
+                <Link href="https://www.skatteetaten.no/person/folkeregister/endre/">på nettsiden deres</Link>.
+            </BodyLong>
+            <BodyLong spacing>
+                Hvis du ønsker å hjelpe personen men å registrere endringer hos folkeregisteret kan du gjøre det fra{' '}
+                <Link href="https://www.skatteetaten.no/person/folkeregister/tips-om-avvik-i-folkeregisteret/for-offentlige/">
+                    tipssiden deres for avvik
+                </Link>
+                .
+            </BodyLong>
+        </>
+    );
+}
+
+function ManglendeRegisterOpplysninger() {
+    return (
+        <>
+            <BodyLong spacing>
+                Opplysningene vi henter fra folkeregisteret oppfyller ikke kravene til at denne personen kan registrere
+                seg som arbeidssøker.
+            </BodyLong>
+            <BodyLong spacing>
+                Personen kan selv kontakte folkeregisteret for å gjøre endringer{' '}
+                <Link href="https://www.skatteetaten.no/person/folkeregister/endre/">på nettsiden deres</Link>.
+            </BodyLong>
+            <BodyLong spacing>
+                Hvis du ønsker å hjelpe personen men å registrere endringer hos folkeregisteret kan du gjøre det fra{' '}
+                <Link href="https://www.skatteetaten.no/person/folkeregister/tips-om-avvik-i-folkeregisteret/for-offentlige/">
+                    tipssiden deres for avvik
+                </Link>
+                .
+            </BodyLong>
+        </>
+    );
+}
+
+function IkkeTilgangTilPerson() {
+    return (
+        <>
+            <BodyLong spacing>Du har ikke de nødvendige tilgangene for å kunne registrere denne personen.</BodyLong>
+            <BodyLong spacing>
+                Dersom du mener dette er feil må du kontakte din lokale identansvarlig. Dette er vanligvis enhetens
+                leder.
+            </BodyLong>
+        </>
+    );
+}
+
 function Feilmelding(props: { feilmelding: any }) {
     const { aarsakTilAvvisning } = props.feilmelding || {};
     const erUnder18 = aarsakTilAvvisning && aarsakTilAvvisning.regel === 'UNDER_18_AAR';
-    const generiskFeil = !erUnder18;
+    const ikkeBosatt =
+        aarsakTilAvvisning && aarsakTilAvvisning.regel === 'IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN';
+    const ikkeTilgang = aarsakTilAvvisning && aarsakTilAvvisning.regel === 'ANSATT_IKKE_TILGANG_TIL_BRUKER';
+    const manglendeOpplysninger =
+        aarsakTilAvvisning && ['IKKE_FUNNET', 'SAVNET', 'DOED'].includes(aarsakTilAvvisning.regel);
+    const generiskFeil = !erUnder18 && !ikkeBosatt && !ikkeTilgang && !manglendeOpplysninger;
     if (!props.feilmelding) return null;
     return (
         <Alert variant="warning">
@@ -56,6 +119,9 @@ function Feilmelding(props: { feilmelding: any }) {
                 Personen kan ikke registreres som arbeidssøker
             </Heading>
             {erUnder18 && <ErUnder18 />}
+            {ikkeBosatt && <IkkeBosatt />}
+            {ikkeTilgang && <IkkeTilgangTilPerson />}
+            {manglendeOpplysninger && <ManglendeRegisterOpplysninger />}
             {generiskFeil && <BodyLong>{JSON.stringify(props.feilmelding)}</BodyLong>}
         </Alert>
     );
