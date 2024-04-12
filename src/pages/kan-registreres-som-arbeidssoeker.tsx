@@ -8,7 +8,7 @@ import { useConfig } from '../contexts/config-context';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { Config } from '../model/config';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
-import OverstyrStartPeriodeKnapp from '../components/overstyr-start-periode-knapp';
+import StartPeriodeKnappMedOverstyring from '../components/start-periode-knapp-med-overstyring';
 import { loggAktivitet } from '../lib/amplitude';
 
 function StarterArbeidssoekerperiodeLoader() {
@@ -39,7 +39,7 @@ function ErUnder18() {
             </BodyLong>
             <BodyLong spacing>Dersom samtykke er innhentet kan du går videre med registreringen.</BodyLong>
             <div className="mt-8">
-                <OverstyrStartPeriodeKnapp />
+                <StartPeriodeKnappMedOverstyring />
             </div>
         </>
     );

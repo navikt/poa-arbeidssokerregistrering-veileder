@@ -1,4 +1,4 @@
-import { Alert, BodyLong, List } from '@navikt/ds-react';
+import { Alert, BodyLong, Heading } from '@navikt/ds-react';
 import { useEffect, useState } from 'react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
@@ -18,12 +18,10 @@ function Feilmelding(props: FeilmeldingProps) {
 
     return (
         <Alert variant="warning" className="mb-8">
-            Personen kan ikke registreres som arbeidssøker
-            {aarsakTilAvvisning && (
-                <List>
-                    <List.Item>{aarsakTilAvvisning.beskrivelse}</List.Item>
-                </List>
-            )}
+            <Heading level="1" size="small" className="mb-4">
+                Personen kan ikke registrere seg selv som arbeidssøker på nav.no
+            </Heading>
+            {aarsakTilAvvisning && <BodyLong spacing>Årsak: {aarsakTilAvvisning.beskrivelse}</BodyLong>}
         </Alert>
     );
 }
