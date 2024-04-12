@@ -5,8 +5,7 @@ import { withAuthenticatedPage } from '../auth/withAuthentication';
 import DemoPanel from '../components/demo-panel';
 import RedirectTilSkjema from '../components/redirect-til-skjema';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
-import VelgRegistreringstype from '../components/velg-registreringstype';
-import KanRegistreresSomArbeidssoeker from '../components/kan-registreres-som-arbeidssoeker';
+import Arbeidssoekerstatus from '../components/arbeidssoekerstatus';
 
 export default function Home() {
     const { toggles } = useFeatureToggles();
@@ -15,8 +14,7 @@ export default function Home() {
     return (
         <>
             <RedirectTilVedlikehold />
-            {brukNyInngang && <KanRegistreresSomArbeidssoeker />}
-            {brukNyInngang ? <VelgRegistreringstype /> : <RedirectTilSkjema />}
+            {brukNyInngang ? <Arbeidssoekerstatus /> : <RedirectTilSkjema />}
             <ManglerPersonEllerEnhet />
             <section className="flex flex-col items-center p-8">
                 <DemoPanel />

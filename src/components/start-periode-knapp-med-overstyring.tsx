@@ -61,7 +61,7 @@ function OverstyrStartPeriodeKnapp() {
     if (!fnr) return null;
 
     return (
-        <Button variant="primary" onClick={() => overstyrStartArbeidssoekerperiode()}>
+        <Button variant="secondary-neutral" onClick={() => overstyrStartArbeidssoekerperiode()}>
             Registrer som arbeidssøker
         </Button>
     );
