@@ -13,7 +13,7 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
 
 const UNDER_18_AAR = {
     aarsakTilAvvisning: {
-        beskrivelse: 'Er under 18 år',
+        beskrivelse: 'Er bosatt i Norge i hendhold Folkeregisterloven, men er under 18 år',
         regel: 'UNDER_18_AAR',
         detaljer: ['ER_UNDER_18_AAR'],
     },
