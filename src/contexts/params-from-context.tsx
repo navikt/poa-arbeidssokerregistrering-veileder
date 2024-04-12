@@ -16,13 +16,15 @@ const ParamsFromContext = createContext<ParamsContextType>({
     setParams: () => {},
 });
 
+const routesSomIkkeSkalRefreshes = ['/avslutt-arbeidssoekerperiode', '/sykmeldtoppfoelging'];
+
 function ParamsFromContextProvider({ children }) {
     const [params, setParams] = useState<ContextParams>({} as ContextParams);
     const router = useRouter();
 
     const updateParams = (data: ContextParams) => {
         setParams((state) => ({ ...state, ...data }));
-        if (router.pathname !== '/avslutt-arbeidssoekerperiode') {
+        if (!routesSomIkkeSkalRefreshes.includes(router.pathname)) {
             router.push('/');
         }
     };
