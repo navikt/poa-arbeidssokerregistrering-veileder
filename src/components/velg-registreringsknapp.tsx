@@ -1,8 +1,13 @@
 import StartPeriodeKnapp from './start-periode-knapp';
 import StartPeriodeKnappMedOverstyring from './start-periode-knapp-med-overstyring';
 
+const REGLER_SOM_KAN_OVERSTYRES = ['UNDER_18_AAR', 'IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN'];
+
 function sjekkOverstyring(feilmelding?: any) {
-    return false;
+    const { aarsakTilAvvisning } = feilmelding || {};
+    const { regel } = aarsakTilAvvisning;
+
+    return regel && REGLER_SOM_KAN_OVERSTYRES.includes(regel);
 }
 
 interface RegistreringsknappProps {
