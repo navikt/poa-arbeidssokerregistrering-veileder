@@ -1,20 +1,14 @@
 import { Alert, BodyLong, Heading } from '@navikt/ds-react';
-import { useEffect, useState } from 'react';
-
-import { useParamsFromContext } from '../contexts/params-from-context';
-import { useConfig } from '../contexts/config-context';
-
-import { Config } from '../model/config';
 
 interface FeilmeldingProps {
-    melding?: any;
+    feilmelding?: any;
 }
 
 function Feilmelding(props: FeilmeldingProps) {
-    const { melding } = props;
-    const { aarsakTilAvvisning } = melding || {};
+    const { feilmelding } = props;
+    const { aarsakTilAvvisning } = feilmelding || {};
 
-    if (!melding) return null;
+    if (!feilmelding) return null;
 
     return (
         <Alert variant="warning" className="mb-8">
@@ -26,55 +20,17 @@ function Feilmelding(props: FeilmeldingProps) {
     );
 }
 
-function KanRegistreresSomArbeidssoeker() {
-    const { params } = useParamsFromContext();
-    const { enableMock } = useConfig() as Config;
-    const { fnr, enhetId } = params;
-    const brukerMock = enableMock === 'enabled';
-    const [kanStarteArbeidssoekerperiode, setKanStarteArbeidssoekerperiode] = useState<boolean>(false);
-    const [error, setError] = useState<any>(undefined);
-    const [kanIkkeStarteArbeidssoekerperiode, setKanIkkeStarteArbeidssoekerperiode] = useState<boolean>(false);
+interface KanRegistreresProps {
+    feilmelding?: any;
+    kanStarteArbeidssoekerperiode: boolean;
+}
 
-    const sjekkKanStarteArbeidssoekerperiodeUrl = brukerMock
-        ? '/api/mocks/kan-starte-arbeidssoekerperiode'
-        : '/api/kan-starte-arbeidssoekerperiode';
-
-    async function apiKall() {
-        const payload = JSON.stringify({
-            identitetsnummer: fnr,
-        });
-
-        try {
-            const response = await fetch(sjekkKanStarteArbeidssoekerperiodeUrl, {
-                method: 'PUT',
-                body: payload,
-                credentials: 'include',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-            });
-            if (response.ok) {
-                setKanStarteArbeidssoekerperiode(true);
-            } else {
-                // noinspection ExceptionCaughtLocallyJS
-                setKanIkkeStarteArbeidssoekerperiode(true);
-                const data = await response.json();
-                setError(data);
-            }
-        } catch (err: unknown) {
-            setError(err);
-        }
-    }
-
-    useEffect(() => {
-        if (fnr && enhetId) {
-            apiKall();
-        }
-    }, [fnr, enhetId]);
+function KanRegistreresSomArbeidssoeker(props: KanRegistreresProps) {
+    const { feilmelding, kanStarteArbeidssoekerperiode } = props;
 
     if (kanStarteArbeidssoekerperiode) return null;
 
-    return <Feilmelding melding={error} />;
+    return <Feilmelding feilmelding={feilmelding} />;
 }
 
 export default KanRegistreresSomArbeidssoeker;
