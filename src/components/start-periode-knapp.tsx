@@ -18,7 +18,7 @@ function StartPeriodeKnapp() {
 
     const startArbeidssoekerperiodeUrl = brukerMock ? '/api/mocks/arbeidssokerperioder' : '/api/arbeidssokerperioder';
 
-    async function overstyrStartArbeidssoekerperiode() {
+    async function startArbeidssoekerperiode() {
         const payload = JSON.stringify({
             identitetsnummer: fnr,
             periodeTilstand: 'STARTET',
@@ -60,7 +60,7 @@ function StartPeriodeKnapp() {
     if (!fnr) return null;
 
     return (
-        <Button variant="secondary-neutral" onClick={() => overstyrStartArbeidssoekerperiode()}>
+        <Button variant="secondary-neutral" onClick={() => startArbeidssoekerperiode()}>
             Registrer som arbeidssøker
         </Button>
     );

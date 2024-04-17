@@ -7,10 +7,10 @@ import { useConfig } from '../contexts/config-context';
 
 import { Config } from '../model/config';
 
-import KanRegistreresSomArbeidssoeker from './kan-registreres-som-arbeidssoeker';
-import StartPeriodeKnapp from './start-periode-knapp';
+import KanRegistreresSomArbeidssoekerSjekk from './kan-registreres-som-arbeidssoeker-sjekk';
+import VelgRegistreringsKnapp from './velg-registreringsknapp';
 
-function Arbeidssoekerstatus() {
+function ArbeidssoekerstatusOversikt() {
     const router = useRouter();
     const { params } = useParamsFromContext();
     const { enableMock } = useConfig() as Config;
@@ -61,7 +61,7 @@ function Arbeidssoekerstatus() {
 
     return (
         <Box className="flex flex-col items-center p-8">
-            <KanRegistreresSomArbeidssoeker
+            <KanRegistreresSomArbeidssoekerSjekk
                 feilmelding={error}
                 kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
             />
@@ -75,11 +75,14 @@ function Arbeidssoekerstatus() {
                         <List.Item>Personen skal ha oppfølgingsvedtak 14a</List.Item>
                         <List.Item>Personen skal stå tilmeldt i arbeidssøkerregisteret</List.Item>
                     </List>
-                    <StartPeriodeKnapp />
+                    <VelgRegistreringsKnapp
+                        feilmelding={error}
+                        kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
+                    />
                 </div>
             </div>
         </Box>
     );
 }
 
-export default Arbeidssoekerstatus;
+export default ArbeidssoekerstatusOversikt;
