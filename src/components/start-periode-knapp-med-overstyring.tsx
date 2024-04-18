@@ -1,4 +1,4 @@
-import { Button } from '@navikt/ds-react';
+import { Button, Box, ConfirmationPanel } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -15,6 +15,7 @@ function OverstyrStartPeriodeKnapp() {
     const brukerMock = enableMock === 'enabled';
     const [periodeStartet, setPeriodeStartet] = useState<boolean>(false);
     const [error, setError] = useState<any>(undefined);
+    const [bekreftet, setBekreftet] = useState(false);
 
     const startArbeidssoekerperiodeUrl = brukerMock ? '/api/mocks/arbeidssokerperioder' : '/api/arbeidssokerperioder';
 
@@ -61,9 +62,21 @@ function OverstyrStartPeriodeKnapp() {
     if (!fnr) return null;
 
     return (
-        <Button variant="secondary-neutral" onClick={() => overstyrStartArbeidssoekerperiode()}>
-            Registrer som arbeidssøker
-        </Button>
+        <Box>
+            <ConfirmationPanel
+                checked={bekreftet}
+                label="Jeg bekrefter at de nødvendige vurderingene er gjort og dokumentert"
+                onChange={() => setBekreftet((x) => !x)}
+                className="mb-4"
+            />
+            <Button
+                variant="secondary-neutral"
+                disabled={!bekreftet}
+                onClick={() => overstyrStartArbeidssoekerperiode()}
+            >
+                Registrer som arbeidssøker
+            </Button>
+        </Box>
     );
 }
 
