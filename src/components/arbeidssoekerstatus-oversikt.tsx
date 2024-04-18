@@ -10,13 +10,27 @@ import { Config } from '../model/config';
 import KanRegistreresSomArbeidssoekerSjekk from './kan-registreres-som-arbeidssoeker-sjekk';
 import VelgRegistreringsKnapp from './velg-registreringsknapp';
 
-const KAN_IKKE_OVERSTYRES_REGLER = ['IKKE_FUNNET', 'DOED', 'SAVNET', 'ANSATT_IKKE_TILGANG'];
+const KAN_IKKE_OVERSTYRES_REGLER = ['IKKE_FUNNET', 'DOED', 'SAVNET', 'ANSATT_IKKE_TILGANG_TIL_BRUKER'];
 
 function sjekkOmRegelKanOverstyres(feilmelding?: any) {
     const { aarsakTilAvvisning } = feilmelding || {};
     const { regel } = aarsakTilAvvisning || {};
     if (!regel) return true;
     return regel && !KAN_IKKE_OVERSTYRES_REGLER.includes(regel);
+}
+
+function GenereltOmSamtykke() {
+    return (
+        <Box>
+            <List as="ul" title="Før du registrerer arbeidssøker må du sørge for at">
+                <List.Item>Personen som skal registreres er informert og har samtykket til registreringen</List.Item>
+                <List.Item>
+                    Det er gitt informasjon om at den registrerte må sende meldekort hver 14. dag for å opprettholde
+                    arbeidssøkerstatusen
+                </List.Item>
+            </List>
+        </Box>
+    );
 }
 
 function ArbeidssoekerstatusOversikt() {
@@ -79,23 +93,8 @@ function ArbeidssoekerstatusOversikt() {
             <Heading level="1" size="large" className="mb-8 text-center">
                 Arbeidssøkerregistrering
             </Heading>
-            {kanOverstyres && (
-                <div>
-                    <List as="ul" title="Før du registrerer arbeidssøker må du sørge for at">
-                        <List.Item>
-                            Personen som skal registreres er informert og har samtykket til registreringen
-                        </List.Item>
-                        <List.Item>
-                            Det er gitt informasjon om at den registrerte må sende meldekort hver 14. dag for å
-                            opprettholde arbeidssøkerstatusen
-                        </List.Item>
-                    </List>
-                    <VelgRegistreringsKnapp
-                        feilmelding={error}
-                        kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
-                    />
-                </div>
-            )}
+            {kanOverstyres && <GenereltOmSamtykke />}
+            <VelgRegistreringsKnapp feilmelding={error} kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode} />
         </Box>
     );
 }
