@@ -7,13 +7,16 @@ interface FeilmeldingProps {
 function Feilmelding(props: FeilmeldingProps) {
     const { feilmelding } = props;
     const { aarsakTilAvvisning } = feilmelding || {};
+    const duManglerTilgang = aarsakTilAvvisning && aarsakTilAvvisning.regel === 'ANSATT_IKKE_TILGANG';
 
     if (!feilmelding) return null;
 
     return (
         <Alert variant="warning" className="mb-8">
             <Heading level="1" size="small" className="mb-4">
-                Personen kan ikke registrere seg selv som arbeidssøker på nav.no
+                {duManglerTilgang
+                    ? 'Du kan ikke registrere denne personen som arbeidssøker'
+                    : 'Personen kan ikke registrere seg selv som arbeidssøker på nav.no'}
             </Heading>
             {aarsakTilAvvisning && <BodyLong spacing>Årsak: {aarsakTilAvvisning.beskrivelse}</BodyLong>}
         </Alert>

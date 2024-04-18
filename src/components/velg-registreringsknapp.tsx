@@ -5,7 +5,7 @@ const REGLER_SOM_KAN_OVERSTYRES = ['UNDER_18_AAR', 'IKKE_BOSATT_I_NORGE_I_HENHOL
 
 function sjekkOverstyring(feilmelding?: any) {
     const { aarsakTilAvvisning } = feilmelding || {};
-    const { regel } = aarsakTilAvvisning;
+    const { regel } = aarsakTilAvvisning || {};
 
     return regel && REGLER_SOM_KAN_OVERSTYRES.includes(regel);
 }
