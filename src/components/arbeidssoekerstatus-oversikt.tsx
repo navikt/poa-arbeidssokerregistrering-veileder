@@ -10,6 +10,7 @@ import { Config } from '../model/config';
 import KanRegistreresSomArbeidssoekerSjekk from './kan-registreres-som-arbeidssoeker-sjekk';
 import VelgRegistreringsKnapp from './velg-registreringsknapp';
 import ArbeidssoekerperioderOgOpplysninger from './arbeidssoekerperioder-og-opplysninger';
+import VurderingskriterierForArbeidssoekerregistrering from './vurderingskriterier-for-arbeidssoekerregistrering';
 
 const KAN_IKKE_OVERSTYRES_REGLER = ['IKKE_FUNNET', 'DOED', 'SAVNET', 'ANSATT_IKKE_TILGANG_TIL_BRUKER'];
 
@@ -95,6 +96,7 @@ function ArbeidssoekerstatusOversikt() {
                 Arbeidssøkerregistrering
             </Heading>
             <ArbeidssoekerperioderOgOpplysninger />
+            <VurderingskriterierForArbeidssoekerregistrering feilmelding={error} />
             {kanOverstyres && <GenereltOmSamtykke />}
             <VelgRegistreringsKnapp feilmelding={error} kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode} />
         </Box>
