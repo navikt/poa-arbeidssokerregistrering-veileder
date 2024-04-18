@@ -10,6 +10,15 @@ import { Config } from '../model/config';
 import KanRegistreresSomArbeidssoekerSjekk from './kan-registreres-som-arbeidssoeker-sjekk';
 import VelgRegistreringsKnapp from './velg-registreringsknapp';
 
+const KAN_IKKE_OVERSTYRES_REGLER = ['IKKE_FUNNET', 'DOED', 'SAVNET', 'ANSATT_IKKE_TILGANG'];
+
+function sjekkOmRegelKanOverstyres(feilmelding?: any) {
+    const { aarsakTilAvvisning } = feilmelding || {};
+    const { regel } = aarsakTilAvvisning || {};
+    if (!regel) return true;
+    return regel && !KAN_IKKE_OVERSTYRES_REGLER.includes(regel);
+}
+
 function ArbeidssoekerstatusOversikt() {
     const router = useRouter();
     const { params } = useParamsFromContext();
@@ -23,6 +32,8 @@ function ArbeidssoekerstatusOversikt() {
     const sjekkKanStarteArbeidssoekerperiodeUrl = brukerMock
         ? '/api/mocks/kan-starte-arbeidssoekerperiode'
         : '/api/kan-starte-arbeidssoekerperiode';
+
+    const kanOverstyres = sjekkOmRegelKanOverstyres(error);
 
     async function apiKall() {
         const payload = JSON.stringify({
@@ -68,19 +79,23 @@ function ArbeidssoekerstatusOversikt() {
             <Heading level="1" size="large" className="mb-8 text-center">
                 Arbeidssøkerregistrering
             </Heading>
-            <div className="flex flex-row justify-between">
+            {kanOverstyres && (
                 <div>
-                    <List as="ul" title="Velg arbeidssøkerregistrering hvis">
-                        <List.Item>Personen skal være arbeidssøker fra i dag</List.Item>
-                        <List.Item>Personen skal ha oppfølgingsvedtak 14a</List.Item>
-                        <List.Item>Personen skal stå tilmeldt i arbeidssøkerregisteret</List.Item>
+                    <List as="ul" title="Før du registrerer arbeidssøker må du sørge for at">
+                        <List.Item>
+                            Personen som skal registreres er informert og har samtykket til registreringen
+                        </List.Item>
+                        <List.Item>
+                            Det er gitt informasjon om at den registrerte må sende meldekort hver 14. dag for å
+                            opprettholde arbeidssøkerstatusen
+                        </List.Item>
                     </List>
                     <VelgRegistreringsKnapp
                         feilmelding={error}
                         kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
                     />
                 </div>
-            </div>
+            )}
         </Box>
     );
 }
