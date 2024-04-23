@@ -106,6 +106,8 @@ spec:
       value: http://paw-arbeidssokerregisteret-api-inngang
     - name: OPPLYSNINGER_API_URL
       value: http://paw-arbeidssokerregisteret-api-inngang
+    - name: OPPSLAG_API_URL
+      value: http://paw-arbeidssoekerregisteret-api-oppslag
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
@@ -135,6 +137,7 @@ spec:
       rules:
         - application: veilarbregistrering
         - application: paw-arbeidssokerregisteret-api-inngang
+        - application: paw-arbeidssoekerregisteret-api-oppslag
         - application: modiacontextholder-q1
           namespace: personoversikt
           cluster: dev-fss
