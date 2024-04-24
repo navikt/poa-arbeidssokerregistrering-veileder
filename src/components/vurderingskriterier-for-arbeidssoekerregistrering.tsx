@@ -7,9 +7,32 @@ interface VurderingskriterierProps {
 }
 
 const TILTAKSLISTE = {
-    UNDER_18_AAR: ['Det kreves samtykke fra foresatte for å kunne registrere mindreårige som arbeidssøkere'],
-    UKJENT_ALDER: ['Her er en grunn', 'Her er en annen grunn'],
-    IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN: ['Her er en grunn', 'Her er en annen grunn'],
+    UNDER_18_AAR: [
+        {
+            id: '02dd3c41-e39b-401e-8746-f33924c3be2b',
+            beskrivelse: 'Det kreves samtykke fra foresatte for å kunne registrere mindreårige som arbeidssøkere',
+        },
+    ],
+    UKJENT_ALDER: [
+        {
+            id: 'd4bc30ee-d2e6-488e-9fd5-acad67e26f99',
+            beskrivelse: 'Her er en grunn',
+        },
+        {
+            id: '1138cc8c-1c2f-47df-a582-77fdfd12c185',
+            beskrivelse: 'Her er en annen grunn',
+        },
+    ],
+    IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN: [
+        {
+            id: '773558b7-5336-4cc9-8df0-0c811e38dcd0',
+            beskrivelse: 'Her er en grunn',
+        },
+        {
+            id: '4adf4a48-9fef-4b03-8020-f1379e695d47',
+            beskrivelse: 'Her er en annen grunn',
+        },
+    ],
 };
 
 function VurderingskriterierForArbeidssoekerregistrering(props: VurderingskriterierProps) {
@@ -33,7 +56,7 @@ function VurderingskriterierForArbeidssoekerregistrering(props: Vurderingskriter
             <BodyLong spacing>Du må opprette et notat og dokumentere vurderingene i Gosys.</BodyLong>
             <List as="ul" title="Årsakene til at du må gjøre en vurdering">
                 {tiltaksliste.map((tiltak) => (
-                    <List.Item>{tiltak}</List.Item>
+                    <List.Item key={tiltak.id}>{tiltak.beskrivelse}</List.Item>
                 ))}
             </List>
         </Box>
