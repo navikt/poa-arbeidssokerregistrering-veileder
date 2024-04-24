@@ -64,7 +64,7 @@ function StartPeriodeKnapp() {
         <Box>
             <ConfirmationPanel
                 checked={bekreftet}
-                label="Jeg bekrefter at registreringen gjøres etter samtykke med den som registreres"
+                label="Jeg bekrefter at registreringen gjøres etter samtykke fra den som registreres"
                 onChange={() => setBekreftet((x) => !x)}
                 className="mb-4"
             />

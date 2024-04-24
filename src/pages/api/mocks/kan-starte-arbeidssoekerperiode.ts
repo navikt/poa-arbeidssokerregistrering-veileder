@@ -22,4 +22,22 @@ const UNDER_18_AAR = {
 };
 */
 
+/*
+// Feilmelding for de som er registrert død
+const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
+    res.status(404).json(DOED);
+};
+
+const DOED = {
+    aarsakTilAvvisning: {
+        beskrivelse: "Er registrert som død",
+        regel: "DOED",
+        detaljer: ["DOED"]
+    },
+    feilKode: "AVVIST",
+    melding: "Er registrert som død",
+    status: 403
+}
+*/
+
 export default kanStarteArbeidssoekerperiode;

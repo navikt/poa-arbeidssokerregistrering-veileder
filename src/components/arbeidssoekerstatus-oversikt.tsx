@@ -11,21 +11,27 @@ import KanRegistreresSomArbeidssoekerSjekk from './kan-registreres-som-arbeidsso
 import VelgRegistreringsKnapp from './velg-registreringsknapp';
 import ArbeidssoekerperioderOgOpplysninger from './arbeidssoekerperioder-og-opplysninger';
 import VurderingskriterierForArbeidssoekerregistrering from './vurderingskriterier-for-arbeidssoekerregistrering';
-import AarsakerTilStopp from './aarsaker-til-stopp';
+import AarsakerTilAtPersonenIkkeKanRegistreres from './aarsaker-til-at-personen-ikke-kan-registreres';
 
-const KAN_IKKE_OVERSTYRES_REGLER = ['IKKE_FUNNET', 'DOED', 'SAVNET', 'ANSATT_IKKE_TILGANG_TIL_BRUKER'];
+export const REGLER_SOM_IKKE_KAN_OVERSTYRES = ['IKKE_FUNNET', 'DOED', 'SAVNET', 'ANSATT_IKKE_TILGANG_TIL_BRUKER'];
+
+export const REGLER_SOM_KAN_OVERSTYRES = [
+    'UNDER_18_AAR',
+    'UKJENT_ALDER',
+    'IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN',
+];
 
 function sjekkOmRegelKanOverstyres(feilmelding?: any) {
     const { aarsakTilAvvisning } = feilmelding || {};
     const { regel } = aarsakTilAvvisning || {};
-    if (!regel) return true;
-    return regel && !KAN_IKKE_OVERSTYRES_REGLER.includes(regel);
+    if (!regel) return false;
+    return regel && REGLER_SOM_KAN_OVERSTYRES.includes(regel);
 }
 
 function GenereltOmSamtykke() {
     return (
         <Box>
-            <List as="ul" title="Før du registrerer arbeidssøker må du sørge for at">
+            <List as="ul" title="Før du registrerer arbeidssøker må du sørge for at:">
                 <List.Item>Personen som skal registreres er informert og har samtykket til registreringen</List.Item>
                 <List.Item>
                     Det er gitt informasjon om at den registrerte må sende meldekort hver 14. dag for å opprettholde
@@ -88,7 +94,7 @@ function ArbeidssoekerstatusOversikt() {
     if (!fnr || !enhetId) return null;
 
     return (
-        <Box className="flex flex-col items-center p-8">
+        <Box className="flex flex-col p-8">
             <KanRegistreresSomArbeidssoekerSjekk
                 feilmelding={error}
                 kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
@@ -97,9 +103,9 @@ function ArbeidssoekerstatusOversikt() {
                 Arbeidssøkerregistrering
             </Heading>
             <ArbeidssoekerperioderOgOpplysninger />
-            <AarsakerTilStopp feilmelding={error} />
+            <AarsakerTilAtPersonenIkkeKanRegistreres feilmelding={error} />
             <VurderingskriterierForArbeidssoekerregistrering feilmelding={error} />
-            {kanOverstyres && <GenereltOmSamtykke />}
+            {(kanOverstyres || kanStarteArbeidssoekerperiode) && <GenereltOmSamtykke />}
             <VelgRegistreringsKnapp feilmelding={error} kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode} />
         </Box>
     );
