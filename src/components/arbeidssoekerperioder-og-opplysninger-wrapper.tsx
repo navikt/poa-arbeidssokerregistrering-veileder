@@ -6,6 +6,10 @@ import { useConfig } from '../contexts/config-context';
 
 import { Config } from '../model/config';
 
+import ArbeidssoekerperiodeStatus from './arbeidssoekerperiodestatus';
+import OpplysningerOmArbeidssoeker from './opplysninger-om-arbeidssoeker';
+import Profilering from './profilering';
+
 function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const { params } = useParamsFromContext();
     const { enableMock } = useConfig() as Config;
@@ -100,11 +104,11 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     if (!fnr || !enhetId) return null;
 
     return (
-        <Box>
-            <Heading level="2" size="small">
-                Arbeidssøkerstatus
-            </Heading>
-        </Box>
+        <>
+            <ArbeidssoekerperiodeStatus sisteArbeidssoekerperiode={sisteArbeidssoekerperiode} />
+            <OpplysningerOmArbeidssoeker sisteOpplysningerOmArbeidssoeker={sisteOpplysningerOmArbeidssoeker} />
+            <Profilering sisteProfilering={sisteProfilering} />
+        </>
     );
 }
 
