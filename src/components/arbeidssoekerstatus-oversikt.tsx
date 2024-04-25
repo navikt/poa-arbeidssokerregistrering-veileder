@@ -94,7 +94,7 @@ function ArbeidssoekerstatusOversikt() {
     if (!fnr || !enhetId) return null;
 
     return (
-        <Box className="flex flex-col p-8">
+        <Box>
             <KanRegistreresSomArbeidssoekerSjekk
                 feilmelding={error}
                 kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
@@ -102,11 +102,13 @@ function ArbeidssoekerstatusOversikt() {
             <Heading level="1" size="large" className="mb-8 text-center">
                 Arbeidssøkerregistrering
             </Heading>
-            <ArbeidssoekerperioderOgOpplysningerWrapper />
             <AarsakerTilAtPersonenIkkeKanRegistreres feilmelding={error} />
             <VurderingskriterierForArbeidssoekerregistrering feilmelding={error} />
             {(kanOverstyres || kanStarteArbeidssoekerperiode) && <GenereltOmSamtykke />}
             <VelgRegistreringsKnapp feilmelding={error} kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode} />
+            <div className="mt-8">
+                <ArbeidssoekerperioderOgOpplysningerWrapper />
+            </div>
         </Box>
     );
 }

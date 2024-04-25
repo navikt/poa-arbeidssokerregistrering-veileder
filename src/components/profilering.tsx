@@ -1,4 +1,4 @@
-import { Box, Heading } from '@navikt/ds-react';
+import { BodyLong, Box, Heading } from '@navikt/ds-react';
 
 interface ProfileringProps {
     sisteProfilering: any;
@@ -14,6 +14,7 @@ function Profilering(props: ProfileringProps) {
             <Heading level="1" size="small">
                 Profilering
             </Heading>
+            <BodyLong>{JSON.stringify(sisteProfilering)}</BodyLong>
         </Box>
     );
 }

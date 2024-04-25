@@ -1,5 +1,9 @@
-import { Box, Heading } from '@navikt/ds-react';
 import { useEffect, useState } from 'react';
+import {
+    hentSisteArbeidssokerPeriode,
+    hentSisteOpplysningerOmArbeidssoker,
+    hentSisteProfilering,
+} from '@navikt/arbeidssokerregisteret-utils';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
@@ -16,7 +20,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const { fnr, enhetId } = params;
     const brukerMock = enableMock === 'enabled';
     const [errorArbeidssoekerperioder, setErrorArbeidssoekerperioder] = useState<any>(undefined);
-    const [sisteArbeidssoekerperiode, setSisteArbeidssoekerperiode] = useState<any>(undefined);
+    const [sisteArbeidssoekerperiode, setSisteArbeidssoekerperiode] = useState<any>({});
     const [errorOpplysningerOmArbeidssoeker, setErrorOpplysningerOmArbeidssoeker] = useState<any>(undefined);
     const [sisteOpplysningerOmArbeidssoeker, setSisteOpplysningerOmArbeidssoeker] = useState<any>(undefined);
     const [errorProfileringer, setErrorProfileringer] = useState<any>(undefined);
@@ -48,7 +52,8 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
             });
             if (response.ok) {
                 const data = await response.json();
-                setSisteArbeidssoekerperiode(data);
+                const sisteArbeidssoekerperiode = hentSisteArbeidssokerPeriode(data);
+                setSisteArbeidssoekerperiode(sisteArbeidssoekerperiode);
             }
         } catch (err: unknown) {
             setErrorArbeidssoekerperioder(err);
@@ -58,6 +63,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     async function apiKallOpplysningerOmArbeidssoeker() {
         const payload = JSON.stringify({
             identitetsnummer: fnr,
+            periodeId: sisteArbeidssoekerperiode.periodeId,
         });
 
         try {
@@ -71,7 +77,8 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
             });
             if (response.ok) {
                 const data = await response.json();
-                setSisteOpplysningerOmArbeidssoeker(data);
+                const sisteOpplysninger = hentSisteOpplysningerOmArbeidssoker(data);
+                setSisteOpplysningerOmArbeidssoeker(sisteOpplysninger);
             }
         } catch (err: unknown) {
             setErrorOpplysningerOmArbeidssoeker(err);
@@ -81,6 +88,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     async function apiKallProfilering() {
         const payload = JSON.stringify({
             identitetsnummer: fnr,
+            periodeId: sisteArbeidssoekerperiode.periodeId,
         });
 
         try {
@@ -94,12 +102,26 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
             });
             if (response.ok) {
                 const data = await response.json();
-                setSisteProfilering(data);
+                const sisteProfilering = hentSisteProfilering(data);
+                setSisteProfilering(sisteProfilering);
             }
         } catch (err: unknown) {
             setErrorProfileringer(err);
         }
     }
+
+    useEffect(() => {
+        if (fnr && enhetId) {
+            apiKallArbeidssoekerperioder();
+        }
+    }, [fnr, enhetId]);
+
+    useEffect(() => {
+        if (sisteArbeidssoekerperiode) {
+            apiKallOpplysningerOmArbeidssoeker();
+            apiKallProfilering();
+        }
+    }, [sisteArbeidssoekerperiode]);
 
     if (!fnr || !enhetId) return null;
 

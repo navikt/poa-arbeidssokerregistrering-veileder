@@ -1,4 +1,4 @@
-import { Box, Heading } from '@navikt/ds-react';
+import { BodyLong, Box, Heading } from '@navikt/ds-react';
 
 interface OpplysningerOmArbeidssoekerProps {
     sisteOpplysningerOmArbeidssoeker: any;
@@ -14,6 +14,7 @@ function OpplysningerOmArbeidssoeker(props: OpplysningerOmArbeidssoekerProps) {
             <Heading level="1" size="small">
                 Opplysninger om arbeidssøker
             </Heading>
+            <BodyLong>{JSON.stringify(sisteOpplysningerOmArbeidssoeker)}</BodyLong>
         </Box>
     );
 }
