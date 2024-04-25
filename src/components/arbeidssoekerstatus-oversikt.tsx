@@ -9,7 +9,7 @@ import { Config } from '../model/config';
 
 import KanRegistreresSomArbeidssoekerSjekk from './kan-registreres-som-arbeidssoeker-sjekk';
 import VelgRegistreringsKnapp from './velg-registreringsknapp';
-import ArbeidssoekerperioderOgOpplysninger from './arbeidssoekerperioder-og-opplysninger';
+import ArbeidssoekerperioderOgOpplysningerWrapper from './arbeidssoekerperioder-og-opplysninger-wrapper';
 import VurderingskriterierForArbeidssoekerregistrering from './vurderingskriterier-for-arbeidssoekerregistrering';
 import AarsakerTilAtPersonenIkkeKanRegistreres from './aarsaker-til-at-personen-ikke-kan-registreres';
 
@@ -102,7 +102,7 @@ function ArbeidssoekerstatusOversikt() {
             <Heading level="1" size="large" className="mb-8 text-center">
                 Arbeidssøkerregistrering
             </Heading>
-            <ArbeidssoekerperioderOgOpplysninger />
+            <ArbeidssoekerperioderOgOpplysningerWrapper />
             <AarsakerTilAtPersonenIkkeKanRegistreres feilmelding={error} />
             <VurderingskriterierForArbeidssoekerregistrering feilmelding={error} />
             {(kanOverstyres || kanStarteArbeidssoekerperiode) && <GenereltOmSamtykke />}
