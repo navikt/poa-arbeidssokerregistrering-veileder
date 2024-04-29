@@ -9,19 +9,39 @@ interface ArbeidssoekerperiodeStatusProps {
     sisteArbeidssoekerperiode: ArbeidssokerPeriode;
 }
 
+function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
+    const { sisteArbeidssoekerperiode } = props || {};
+    const harAktivPeriode = sisteArbeidssoekerperiode?.avsluttet === null;
+    const harTidligereArbeidssoekerperiode = sisteArbeidssoekerperiode?.startet;
+
+    if (!harTidligereArbeidssoekerperiode) {
+        return <BodyLong spacing>Personen har ingen tidligere arbeidssøkerperioder</BodyLong>;
+    }
+
+    if (harAktivPeriode) {
+        return (
+            <BodyLong spacing>
+                Arbeidssøkerperioden startet {formaterDato(sisteArbeidssoekerperiode.startet.tidspunkt)}
+            </BodyLong>
+        );
+    }
+
+    return (
+        <BodyLong spacing>
+            Siste arbeidssøkerperiode var {formaterDato(sisteArbeidssoekerperiode.startet.tidspunkt)} -{' '}
+            {formaterDato(sisteArbeidssoekerperiode.avsluttet.tidspunkt)}
+        </BodyLong>
+    );
+}
+
 function ArbeidssoekerperiodeStatus(props: ArbeidssoekerperiodeStatusProps) {
     const { sisteArbeidssoekerperiode } = props || {};
-
-    if (!sisteArbeidssoekerperiode) return null;
 
     const harAktivPeriode = sisteArbeidssoekerperiode?.avsluttet === null;
 
     const statusTekst = harAktivPeriode
         ? 'Personen er registrert som arbeidssøker'
         : 'Personen er ikke registrert som arbeidssøker';
-    const periodeBeskrivelse = harAktivPeriode
-        ? `Registreringsdato: ${formaterDato(sisteArbeidssoekerperiode.startet.tidspunkt)}`
-        : `Siste arbeidssøkerperiode var ${formaterDato(sisteArbeidssoekerperiode.startet.tidspunkt)} - ${formaterDato(sisteArbeidssoekerperiode.avsluttet.tidspunkt)}`;
 
     return (
         <Box>
@@ -29,8 +49,7 @@ function ArbeidssoekerperiodeStatus(props: ArbeidssoekerperiodeStatusProps) {
                 Arbeidssøkerstatus
             </Heading>
             <BodyLong>{statusTekst}</BodyLong>
-            <BodyLong>{periodeBeskrivelse}</BodyLong>
-            <BodyLong>{JSON.stringify(sisteArbeidssoekerperiode)}</BodyLong>
+            <ArbeidssoekerperiodeHistorikk sisteArbeidssoekerperiode={sisteArbeidssoekerperiode} />
         </Box>
     );
 }
