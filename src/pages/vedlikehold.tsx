@@ -8,6 +8,8 @@ import useSprak from '../hooks/useSprak';
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { fetcher } from '../lib/api-utils';
 import { loggAktivitet } from '../lib/amplitude';
+import { useConfig } from '../contexts/config-context';
+import { Config } from '../model/config';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -20,9 +22,9 @@ const TEKSTER: Tekster<string> = {
     },
 };
 
-const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 function Vedlikehold() {
     const router = useRouter();
+    const { enableMock } = useConfig() as Config;
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { data: toggles } = useSWR('api/features/', fetcher, { refreshInterval: 60000 });
 
@@ -35,12 +37,12 @@ function Vedlikehold() {
             const nedetidFeature = toggles.find((feature) => {
                 return feature.name === 'arbeidssokerregistrering.nedetid';
             });
-
+            const brukerMock = enableMock === 'enabled';
             if (nedetidFeature?.enabled === false && !brukerMock) {
                 router.push('/');
             }
         }
-    }, [router, toggles]);
+    }, [router, toggles, enableMock]);
 
     return (
         <Alert variant="error">
