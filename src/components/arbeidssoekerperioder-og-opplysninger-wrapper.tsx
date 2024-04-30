@@ -125,6 +125,8 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
 
     if (!fnr || !enhetId) return null;
 
+    //TODO - ikke vise komponenten før kallene mot oppslag er ferdige
+
     return (
         <>
             <ArbeidssoekerperiodeStatus sisteArbeidssoekerperiode={sisteArbeidssoekerperiode} />
