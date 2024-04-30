@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContentContainer } from '@navikt/ds-react';
+import { Page } from '@navikt/ds-react';
 import Head from 'next/head';
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import useSprak from '../hooks/useSprak';
@@ -14,13 +14,15 @@ const TEKSTER: Tekster<string> = {
 function NotFound() {
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     return (
-        <ContentContainer>
-            <Head>
-                <title>{tekst('metaTittel')}</title>
-                <meta name="description" content={tekst('metaDescription')} />
-            </Head>
-            <div>Fant ikke siden</div>
-        </ContentContainer>
+        <Page>
+            <Page.Block width="xl">
+                <Head>
+                    <title>{tekst('metaTittel')}</title>
+                    <meta name="description" content={tekst('metaDescription')} />
+                </Head>
+                <div>Fant ikke siden</div>
+            </Page.Block>
+        </Page>
     );
 }
 
