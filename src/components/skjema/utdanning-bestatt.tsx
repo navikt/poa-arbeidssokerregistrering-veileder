@@ -9,10 +9,13 @@ import {
     SporsmalId,
     Utdanningsnivaa,
 } from '@navikt/arbeidssokerregisteret-utils';
+import { useFeatureToggles } from '../../contexts/featuretoggle-context';
 
 const BestattUtdanning = () => {
     const sprak = useSprak();
     const { registrering, doValidate, setRegistrering } = useRegistrering();
+    const { toggles } = useFeatureToggles();
+    const brukNyInngang = toggles['arbeidssokerregistrering.bruk-ny-inngang'];
     const tekst = (key: string) => hentTekst(sprak, key);
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
@@ -23,6 +26,7 @@ const BestattUtdanning = () => {
 
     if (
         registrering[SporsmalId.utdanning] === Utdanningsnivaa.INGEN_UTDANNING ||
+        (brukNyInngang && registrering[SporsmalId.utdanning] === Utdanningsnivaa.GRUNNSKOLE) ||
         registrering[SporsmalId.dinSituasjon] === JobbSituasjon.VIL_FORTSETTE_I_JOBB
     ) {
         return null;

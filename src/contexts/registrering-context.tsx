@@ -10,6 +10,7 @@ import {
     UtdanningGodkjentValg,
     Utdanningsnivaa,
 } from '@navikt/arbeidssokerregisteret-utils';
+import { useFeatureToggles } from './featuretoggle-context';
 
 interface RegistreringContextType {
     registrering: RegistreringState;
@@ -42,6 +43,8 @@ function RegistreringProvider({ children }: { children: ReactNode }) {
     const [registrering, setRegistrering] = useState({} as RegistreringState);
     const [isValid, setIsValid] = useState(true);
     const [doValidate, setDoValidate] = useState(false);
+    const { toggles } = useFeatureToggles();
+    const brukNyInngang = toggles['arbeidssokerregistrering.bruk-ny-inngang'];
 
     const contextValue = {
         registrering,
@@ -73,10 +76,12 @@ function RegistreringProvider({ children }: { children: ReactNode }) {
               )
             : true;
 
+        const utdanningsNivaaerSomIkkeKreverGodkjentOgBestaatt = brukNyInngang
+            ? [Utdanningsnivaa.INGEN_UTDANNING, Utdanningsnivaa.INGEN_SVAR, Utdanningsnivaa.GRUNNSKOLE]
+            : [Utdanningsnivaa.INGEN_UTDANNING, Utdanningsnivaa.INGEN_SVAR];
+
         const harUgyldigeUtdanningSvar =
-            ![Utdanningsnivaa.INGEN_UTDANNING, Utdanningsnivaa.INGEN_SVAR].includes(
-                registrering[SporsmalId.utdanning],
-            ) &&
+            !utdanningsNivaaerSomIkkeKreverGodkjentOgBestaatt.includes(registrering[SporsmalId.utdanning]) &&
             registrering[SporsmalId.utdanningGodkjent] === UtdanningGodkjentValg.INGEN_SVAR &&
             registrering[SporsmalId.utdanningBestatt] === JaEllerNei.INGEN_SVAR;
         const altOK = altOkUnntattStilling && stillingOK && sisteJobbOK && !harUgyldigeUtdanningSvar;

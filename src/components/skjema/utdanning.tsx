@@ -15,9 +15,10 @@ import {
     UtdanningGodkjentValg,
     Utdanningsnivaa,
 } from '@navikt/arbeidssokerregisteret-utils';
+import { useFeatureToggles } from '../../contexts/featuretoggle-context';
 
-function tilRegistreringsState(value: Utdanningsnivaa): Partial<RegistreringState> {
-    if (value === Utdanningsnivaa.INGEN_UTDANNING) {
+function tilRegistreringsState(value: Utdanningsnivaa, brukNyInngang: boolean): Partial<RegistreringState> {
+    if (value === Utdanningsnivaa.INGEN_UTDANNING || (brukNyInngang && value === Utdanningsnivaa.GRUNNSKOLE)) {
         return {
             [SporsmalId.utdanning]: value,
             [SporsmalId.utdanningGodkjent]: UtdanningGodkjentValg.INGEN_SVAR,
@@ -33,6 +34,8 @@ function tilRegistreringsState(value: Utdanningsnivaa): Partial<RegistreringStat
 const Utdanning = () => {
     const { registrering, doValidate, setRegistrering } = useRegistrering();
     const sprak = useSprak();
+    const { toggles } = useFeatureToggles();
+    const brukNyInngang = toggles['arbeidssokerregistrering.bruk-ny-inngang'];
     const tekst = (key: string) => hentTekst(sprak, key);
     const visFeilmelding = doValidate ? !Object.keys(registrering).includes('utdanning') : false;
 
@@ -67,7 +70,7 @@ const Utdanning = () => {
                 <RadioGruppe
                     legend={tekst(SporsmalId.utdanning)}
                     valg={valg}
-                    onSelect={(val) => setRegistrering(tilRegistreringsState(val))}
+                    onSelect={(val) => setRegistrering(tilRegistreringsState(val, brukNyInngang))}
                     visFeilmelding={visFeilmelding}
                 />
             </form>
