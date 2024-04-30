@@ -5,6 +5,7 @@ import { RegistreringType } from '../model/registrering';
 import { Feiltype } from '../model/feilsituasjonTyper';
 
 const isBrowser = () => typeof window !== 'undefined';
+const isDevelopment = () => isBrowser() && /^http:\/\/localhost/.test(window.location.href);
 
 const config = {
     saveEvents: false,
@@ -75,7 +76,7 @@ type AmplitudeParams = { apiKey: string; apiEndpoint: string };
 type AmplitudeInitFunction = (params: AmplitudeParams) => void;
 
 export const initAmplitude: AmplitudeInitFunction = async ({ apiKey, apiEndpoint }) => {
-    if (isBrowser()) {
+    if (isBrowser() && !isDevelopment()) {
         await amplitude.init(apiKey, undefined, { ...config, serverUrl: apiEndpoint });
         logAmplitudeEvent('sidevisning', {
             sidetittel: document.title,
@@ -85,7 +86,7 @@ export const initAmplitude: AmplitudeInitFunction = async ({ apiKey, apiEndpoint
 
 export function logAmplitudeEvent(eventName: string, data: EventData) {
     const eventData = data || {};
-    if (isBrowser()) {
+    if (isBrowser() && !isDevelopment()) {
         amplitude.logEvent(eventName, { ...eventData });
     }
 }
