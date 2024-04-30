@@ -4,6 +4,9 @@ const isProd = process.env.NODE_ENV === 'production';
 const decoratorUrlDev = 'https://internarbeidsflatedecorator-q1.intern.dev.nav.no';
 const decoratorUrlProd = 'https://internarbeidsflatedecorator.intern.nav.no';
 const nextConfig = {
+    experimental: {
+        optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
+    },
     async rewrites() {
         return [
             {
