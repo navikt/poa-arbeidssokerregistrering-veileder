@@ -25,7 +25,7 @@ function Profileringsresultat(props: ProfileringProps) {
             <Heading level="1" size="small">
                 Profilering
             </Heading>
-            <BodyLong>Resulatet av profileringen er "{PROFILERINGSMAP[profilertTil]}"</BodyLong>
+            <BodyLong>Resulatet av profileringen er &quot;{PROFILERINGSMAP[profilertTil]}&quot;</BodyLong>
             <BodyLong spacing>Profileringer er sist oppdatert {formaterDato(sendtInnAv.tidspunkt)}</BodyLong>
         </Box>
     );
