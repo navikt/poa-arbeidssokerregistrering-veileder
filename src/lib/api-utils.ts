@@ -5,7 +5,7 @@ export const fetcher = async (path: string, opts?: RequestInit & { onError?: (re
         ...opts,
         credentials: 'include',
         headers: {
-            ...(opts.headers || {}),
+            ...(opts?.headers ?? {}),
             'x-trace-id': nanoid(),
         },
     });
