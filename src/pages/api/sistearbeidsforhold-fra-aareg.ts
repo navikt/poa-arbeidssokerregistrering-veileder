@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { nanoid } from 'nanoid';
 
-import { getAaregToken, getHeaders, getTraceIdFromRequest } from '../../lib/next-api-handler';
+import { getAaregToken, getHeaders, getTokenFromRequest } from '../../lib/next-api-handler';
 import { withAuthenticatedApi } from '../../auth/withAuthentication';
 import { logger } from '@navikt/next-logger';
 import { hentSisteArbeidsForhold } from '../../lib/hent-siste-arbeidsforhold';
@@ -47,7 +48,7 @@ async function hentFraAareg(req: NextApiRequest, callId: string) {
 }
 
 const sisteArbeidsforhold = async (req: NextApiRequest, res: NextApiResponse<any>) => {
-    const callId = getTraceIdFromRequest(req);
+    const callId = nanoid();
 
     try {
         const fnr = hentFnr(req);

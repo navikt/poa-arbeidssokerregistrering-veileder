@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { logger } from '@navikt/next-logger';
+import { nanoid } from 'nanoid';
 import resolveDynamicUrl from './resolve-dynamic-url';
-import { getTraceIdFromRequest } from './next-api-handler';
 
 type getHeaders = (req: NextApiRequest, callId?: string) => Promise<Record<string, string>>;
 
@@ -12,7 +12,7 @@ function toError(response: Response) {
 }
 export const createProxyCall = (getHeaders: getHeaders, url: string) => {
     return async (req: NextApiRequest, res: NextApiResponse<any>) => {
-        const callId = getTraceIdFromRequest(req);
+        const callId = nanoid();
         const { slug, ...query } = req.query;
         try {
             const resolvedUrl = resolveDynamicUrl(url, slug, query);

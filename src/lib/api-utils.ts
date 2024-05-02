@@ -1,13 +1,7 @@
-import { nanoid } from 'nanoid';
-
 export const fetcher = async (path: string, opts?: RequestInit & { onError?: (response: any) => void }) => {
     const response = await fetch(path, {
         ...opts,
         credentials: 'include',
-        headers: {
-            ...(opts.headers || {}),
-            'x-trace-id': nanoid(),
-        },
     });
 
     if (!response.ok) {
