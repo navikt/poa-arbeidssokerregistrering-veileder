@@ -9,10 +9,13 @@ export const getHeaders = (token: string, callId: string) => {
     return {
         'Nav-Consumer-Id': 'arbeidssokerregistrering-for-veileder',
         'Nav-Call-Id': callId,
+        'x-trace-id': callId,
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
     };
 };
+
+export const getTraceIdFromRequest = (req: NextApiRequest) => (req.headers['x-trace-id'] as string) ?? nanoid();
 
 export const lagApiPostHandlerMedAuthHeaders: (
     url: string,
@@ -109,7 +112,7 @@ export const getTokenFromRequest = (req: NextApiRequest) => {
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Response) => void) => NextApiHandler =
     (url: string, errorHandler) => async (req, res) => {
-        const callId = nanoid();
+        const callId = getTraceIdFromRequest(req);
         let body = null;
 
         if (req.method === 'POST') {
