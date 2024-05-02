@@ -5,9 +5,12 @@ import { getTraceIdFromRequest } from './next-api-handler';
 
 type getHeaders = (req: NextApiRequest, callId?: string) => Promise<Record<string, string>>;
 
-function toError(response: Response) {
+async function toError(response: Response) {
     const e = new Error(response.statusText);
     (e as any).status = response.status;
+    try {
+        e.message = await response.text();
+    } catch (err) {} // ignore
     return e;
 }
 export const createProxyCall = (getHeaders: getHeaders, url: string) => {
@@ -22,9 +25,9 @@ export const createProxyCall = (getHeaders: getHeaders, url: string) => {
                 method: req.method,
                 body: req.method === 'POST' ? JSON.stringify(req.body) : null,
                 headers: await getHeaders(req, callId),
-            }).then((response) => {
+            }).then(async (response) => {
                 if (!response.ok) {
-                    throw toError(response);
+                    throw await toError(response);
                 }
 
                 const contentType = response.headers.get('content-type');
@@ -38,7 +41,7 @@ export const createProxyCall = (getHeaders: getHeaders, url: string) => {
 
             res.json(result);
         } catch (error) {
-            logger.error(error, `Kall med (callId: ${callId}) feilet. Feilmelding: ${error.message}`);
+            logger.error(`Kall mot ${url} med (callId: ${callId}) feilet ${error.status}`, error);
             const status = error.status || 500;
             res.status(status).end(`${error.message}`);
         }
