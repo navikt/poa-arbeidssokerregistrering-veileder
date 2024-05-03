@@ -141,6 +141,7 @@ spec:
         - application: paw-arbeidssokerregisteret-api-inngang
         - application: paw-arbeidssoekerregisteret-api-oppslag
         - application: aia-backend
+        - application: paw-arbeidssoker-besvarelse
         - application: modiacontextholder-q1
           namespace: personoversikt
           cluster: dev-fss
