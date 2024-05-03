@@ -30,13 +30,22 @@ function ParamsFromContextProvider({ children }) {
     };
 
     const hentContextFraModia = async () => {
-        const contextFraModia = await fetch('/api/hent-modia-context/').then((res) => res.json());
-        const { aktivBruker, aktivEnhet } = contextFraModia;
+        try {
+            const contextFraModia = await fetch('/api/hent-modia-context/').then((res) => {
+                if (res.ok) {
+                    return res.json();
+                }
+                throw new Error(res.statusText);
+            });
+            const { aktivBruker, aktivEnhet } = contextFraModia;
 
-        setParams({
-            fnr: aktivBruker,
-            enhetId: aktivEnhet,
-        });
+            setParams({
+                fnr: aktivBruker,
+                enhetId: aktivEnhet,
+            });
+        } catch (err) {
+            console.error('/api/hent-modia-context', err);
+        }
     };
 
     useEffect(() => {

@@ -1,5 +1,4 @@
-import { nanoid } from 'nanoid';
-import { ApiError, getHeaders, getArbeidssoekerregistreringToken } from './next-api-handler';
+import { ApiError, getArbeidssoekerregistreringToken, getHeaders, getTraceIdFromRequest } from './next-api-handler';
 import { logger } from '@navikt/next-logger';
 import { NextApiHandler } from 'next';
 
@@ -12,7 +11,7 @@ type Opts = {
 
 type LagArbeidssokerApiKall = (url: string, opts: Opts) => NextApiHandler;
 const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req, res) => {
-    const callId = nanoid();
+    const callId = getTraceIdFromRequest(req);
     try {
         const body = {
             ...(opts.body ?? {}),
