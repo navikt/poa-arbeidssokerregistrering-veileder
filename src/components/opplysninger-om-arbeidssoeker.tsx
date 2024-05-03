@@ -17,7 +17,6 @@ function OpplysningerOmArbeidssoeker(props: OpplysningerOmArbeidssoekerProps) {
                 Opplysninger om arbeidssøker
             </Heading>
             <OpplysningerOmArbeidssokerKomponent
-                sprak="nb"
                 opplysninger={sisteOpplysningerOmArbeidssoeker}
                 behovsvurdering={behovsvurdering}
             />

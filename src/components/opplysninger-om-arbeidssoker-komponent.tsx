@@ -16,8 +16,8 @@ import { ArbeidssokerPeriode } from '@navikt/arbeidssokerregisteret-utils/dist/m
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
 
-const Opplysning = (props: OpplysningProps & { sprak: any }) => {
-    const tekst = lagHentTekstForSprak(SPORSMAL_TEKSTER, props.sprak);
+const Opplysning = (props: OpplysningProps) => {
+    const tekst = lagHentTekstForSprak(SPORSMAL_TEKSTER, 'nb');
     const { sporsmal, svar } = props;
 
     return (
@@ -36,7 +36,7 @@ function getSisteStillingSvar(opplysninger: OpplysningerOmArbeidssoker) {
     return detaljer?.stilling || 'Ikke oppgitt';
 }
 
-function mapOpplysninger(opplysninger: OpplysningerOmArbeidssoker, sprak: any): OpplysningProps[] {
+function mapOpplysninger(opplysninger: OpplysningerOmArbeidssoker): OpplysningProps[] {
     const result: OpplysningProps[] = [
         {
             sporsmal: SporsmalId.dinSituasjon,
@@ -88,14 +88,13 @@ export type BehovsvurderingResponse = {
 
 type Props = {
     opplysninger: OpplysningerOmArbeidssoker;
-    sprak: any;
     behovsvurdering: BehovsvurderingResponse;
 };
 
 function OpplysningerOmArbeidssokerKomponent(props: Props) {
-    const { opplysninger, sprak, behovsvurdering } = props;
+    const { opplysninger, behovsvurdering } = props;
     const erRegistrertAvSluttbruker = opplysninger.sendtInnAv.utfoertAv.type === 'SLUTTBRUKER';
-    const besvarelser = mapOpplysninger(opplysninger, sprak);
+    const besvarelser = mapOpplysninger(opplysninger);
 
     return (
         <div className={'flex flex-col'}>
@@ -106,9 +105,9 @@ function OpplysningerOmArbeidssokerKomponent(props: Props) {
                     Opplysningene ble oppdatert av: {OPPDATERT_AV[opplysninger.sendtInnAv.utfoertAv.type]}.
                 </BodyShort>
             </div>
-            <Oppfolging sprak={sprak} behovsvurdering={behovsvurdering} />
+            <Oppfolging behovsvurdering={behovsvurdering} />
             {besvarelser.map((item, index) => (
-                <Opplysning {...item} key={index} sprak={props.sprak} />
+                <Opplysning {...item} key={index} />
             ))}
         </div>
     );

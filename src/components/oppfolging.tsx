@@ -1,5 +1,5 @@
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
-//import { BehovsvurderingResponse } from '../../contexts/behovsvurdering';
+import { BehovsvurderingResponse } from './opplysninger-om-arbeidssoker-komponent';
 
 const TEKSTER = {
     nb: {
@@ -14,8 +14,8 @@ const TEKSTER = {
     },
 };
 
-const Oppfolging = (props: { sprak: any; behovsvurdering: any }) => {
-    const tekst = lagHentTekstForSprak(TEKSTER, props.sprak);
+const Oppfolging = (props: { behovsvurdering: BehovsvurderingResponse }) => {
+    const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
     const { behovsvurdering } = props;
 
     return (
