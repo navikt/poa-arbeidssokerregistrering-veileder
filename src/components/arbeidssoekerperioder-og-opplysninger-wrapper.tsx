@@ -40,7 +40,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
 
     async function apiKallBehovsvurdering() {
         const payload = JSON.stringify({
-            identitetsnummer: fnr,
+            foedselsnummer: fnr,
         });
 
         try {
