@@ -38,8 +38,28 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
 
     const hentBehovsvurderingUrl = brukerMock ? '/api/mocks/behovsvurdering' : '/api/behovsvurdering';
 
-    const { data: behovsvurderingData } = useSWRImmutable(hentBehovsvurderingUrl, fetcher);
-    console.log('behovsvurdering', behovsvurderingData);
+    async function apiKallBehovsvurdering() {
+        const payload = JSON.stringify({
+            identitetsnummer: fnr,
+        });
+
+        try {
+            const response = await fetch(hentBehovsvurderingUrl, {
+                method: 'POST',
+                body: payload,
+                credentials: 'include',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('behovsvurdering', data);
+            }
+        } catch (err: unknown) {
+            console.error('behovsvurdering', err);
+        }
+    }
 
     const hentProfileringerUrl = brukerMock ? '/api/mocks/oppslag-profileringer' : '/api/oppslag-profileringer';
 
@@ -120,6 +140,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     useEffect(() => {
         if (fnr && enhetId) {
             apiKallArbeidssoekerperioder();
+            apiKallBehovsvurdering();
         }
     }, [fnr, enhetId]);
 
