@@ -29,7 +29,7 @@ const data = [
         },
         jobbsituasjon: [
             {
-                beskrivelse: 'UKJENT_VERDI',
+                beskrivelse: 'HAR_SAGT_OPP',
                 detaljer: {
                     prosent: '25',
                 },
