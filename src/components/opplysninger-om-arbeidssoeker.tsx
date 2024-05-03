@@ -3,10 +3,11 @@ import OpplysningerOmArbeidssokerKomponent from './opplysninger-om-arbeidssoker-
 
 interface OpplysningerOmArbeidssoekerProps {
     sisteOpplysningerOmArbeidssoeker: any;
+    behovsvurdering: any;
 }
 
 function OpplysningerOmArbeidssoeker(props: OpplysningerOmArbeidssoekerProps) {
-    const { sisteOpplysningerOmArbeidssoeker } = props || {};
+    const { sisteOpplysningerOmArbeidssoeker, behovsvurdering } = props || {};
 
     if (!sisteOpplysningerOmArbeidssoeker) return null;
 
@@ -15,7 +16,11 @@ function OpplysningerOmArbeidssoeker(props: OpplysningerOmArbeidssoekerProps) {
             <Heading level="1" size="small">
                 Opplysninger om arbeidssøker
             </Heading>
-            <OpplysningerOmArbeidssokerKomponent sprak="nb" opplysninger={sisteOpplysningerOmArbeidssoeker} />
+            <OpplysningerOmArbeidssokerKomponent
+                sprak="nb"
+                opplysninger={sisteOpplysningerOmArbeidssoeker}
+                behovsvurdering={behovsvurdering}
+            />
         </Box>
     );
 }

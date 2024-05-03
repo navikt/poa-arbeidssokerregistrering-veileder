@@ -27,6 +27,8 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const [sisteOpplysningerOmArbeidssoeker, setSisteOpplysningerOmArbeidssoeker] = useState<any>(undefined);
     const [errorProfileringer, setErrorProfileringer] = useState<any>(undefined);
     const [sisteProfilering, setSisteProfilering] = useState<any>(undefined);
+    const [errorBehovsvurdering, setErrorBehovsvurdering] = useState<any>(undefined);
+    const [sisteBehovsvurdering, setSisteBehovsvurdering] = useState<any>(undefined);
 
     const hentArbeidssoekerperioderUrl = brukerMock
         ? '/api/mocks/oppslag-arbeidssoekerperioder'
@@ -54,10 +56,10 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
             });
             if (response.ok) {
                 const data = await response.json();
-                console.log('behovsvurdering', data);
+                setSisteBehovsvurdering(data);
             }
         } catch (err: unknown) {
-            console.error('behovsvurdering', err);
+            setErrorBehovsvurdering(err);
         }
     }
 
@@ -158,7 +160,10 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     return (
         <>
             <ArbeidssoekerperiodeStatus sisteArbeidssoekerperiode={sisteArbeidssoekerperiode} />
-            <OpplysningerOmArbeidssoeker sisteOpplysningerOmArbeidssoeker={sisteOpplysningerOmArbeidssoeker} />
+            <OpplysningerOmArbeidssoeker
+                sisteOpplysningerOmArbeidssoeker={sisteOpplysningerOmArbeidssoeker}
+                behovsvurdering={sisteBehovsvurdering}
+            />
             <Profilering sisteProfilering={sisteProfilering} />
         </>
     );

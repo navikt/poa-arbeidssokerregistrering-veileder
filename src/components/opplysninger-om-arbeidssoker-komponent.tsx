@@ -74,15 +74,26 @@ const OPPDATERT_AV = {
     VEILEDER: 'Veileder',
     SYSTEM: 'Systembruker',
 };
+export enum ForeslattInnsatsgruppe {
+    STANDARD_INNSATS = 'STANDARD_INNSATS',
+    SITUASJONSBESTEMT_INNSATS = 'SITUASJONSBESTEMT_INNSATS',
+    BEHOV_FOR_ARBEIDSEVNEVURDERING = 'BEHOV_FOR_ARBEIDSEVNEVURDERING',
+}
+export type BehovsvurderingResponse = {
+    dato?: string;
+    oppfolging: ForeslattInnsatsgruppe;
+    dialogId?: string;
+    profileringId?: string;
+} | null;
 
 type Props = {
     opplysninger: OpplysningerOmArbeidssoker;
     sprak: any;
-    //behovsvurdering: any;
+    behovsvurdering: BehovsvurderingResponse;
 };
 
 function OpplysningerOmArbeidssokerKomponent(props: Props) {
-    const { opplysninger, sprak } = props;
+    const { opplysninger, sprak, behovsvurdering } = props;
     const erRegistrertAvSluttbruker = opplysninger.sendtInnAv.utfoertAv.type === 'SLUTTBRUKER';
     const besvarelser = mapOpplysninger(opplysninger, sprak);
 
@@ -95,7 +106,7 @@ function OpplysningerOmArbeidssokerKomponent(props: Props) {
                     Opplysningene ble oppdatert av: {OPPDATERT_AV[opplysninger.sendtInnAv.utfoertAv.type]}.
                 </BodyShort>
             </div>
-            {/*<Oppfolging sprak={sprak} behovsvurdering={behovsvurdering} />*/}
+            <Oppfolging sprak={sprak} behovsvurdering={behovsvurdering} />
             {besvarelser.map((item, index) => (
                 <Opplysning {...item} key={index} sprak={props.sprak} />
             ))}
