@@ -108,6 +108,8 @@ spec:
       value: http://paw-arbeidssokerregisteret-api-inngang
     - name: OPPSLAG_API_URL
       value: http://paw-arbeidssoekerregisteret-api-oppslag
+    - name: AIA_BACKEND_URL
+      value: http://aia-backend
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:

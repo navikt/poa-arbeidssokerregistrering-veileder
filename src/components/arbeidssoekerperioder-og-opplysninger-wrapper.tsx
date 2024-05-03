@@ -13,6 +13,8 @@ import { Config } from '../model/config';
 import ArbeidssoekerperiodeStatus from './arbeidssoekerperiodestatus';
 import OpplysningerOmArbeidssoeker from './opplysninger-om-arbeidssoeker';
 import Profilering from './profilering';
+import useSWRImmutable from 'swr/immutable';
+import { fetcher } from '../lib/api-utils';
 
 function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const { params } = useParamsFromContext();
@@ -33,6 +35,11 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const hentOpplysningerOmArbeidssoekerUrl = brukerMock
         ? '/api/mocks/oppslag-opplysninger'
         : '/api/oppslag-opplysninger';
+
+    const hentBehovsvurderingUrl = brukerMock ? '/api/mocks/behovsvurdering' : '/api/behovsvurdering';
+
+    const { data: behovsvurderingData } = useSWRImmutable(hentBehovsvurderingUrl, fetcher);
+    console.log('behovsvurdering', behovsvurderingData);
 
     const hentProfileringerUrl = brukerMock ? '/api/mocks/oppslag-profileringer' : '/api/oppslag-profileringer';
 
