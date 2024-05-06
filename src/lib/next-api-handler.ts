@@ -171,7 +171,9 @@ const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Respo
             return res.json(response);
         } catch (error) {
             logger.error(`Kall mot ${url} (callId: ${callId}) feilet. Feilmelding: ${error}`);
-            res.status((error as ApiError).status || 500).end(`Noe gikk galt (callId: ${callId})`);
+            res.setHeader('x-trace-id', callId)
+                .status((error as ApiError).status || 500)
+                .end();
         }
     };
 
