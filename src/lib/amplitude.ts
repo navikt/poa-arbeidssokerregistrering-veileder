@@ -38,7 +38,8 @@ type VisningsData =
     | { viser: 'advarsel for registrering av person under 18' }
     | { viser: 'siden for å avslutte en arbeidssøkerperiode' }
     | { viser: 'kvittering for avsluttet arbeidssøkerperiode' }
-    | { viser: 'generell feilmelding' };
+    | { viser: 'generell feilmelding' }
+    | { viser: 'Kvittering for oppdatert opplysninger' };
 
 type StoppsituasjonsData =
     | { aarsakTilStans: 'Personen er allerede registrert i Arena' }
@@ -65,7 +66,9 @@ type FlytData =
     | { hendelse: 'Registrering for mer sykmeldtoppfølging fullført' }
     | { hendelse: 'Reaktivering av arbeidssøker fullført' }
     | { hendelse: 'Kan ikke registreres for mer sykmeldtoppfølging' }
-    | { hendelse: 'Registrering av arbeidssøker fullført' };
+    | { hendelse: 'Registrering av arbeidssøker fullført' }
+    | { hendelse: 'Får ikke oppdatert opplysninger' }
+    | { hendelse: 'Opplysninger oppdatert' };
 
 type KvitteringAktivitet =
     | 'Viser kvittering for registrert arbeidssøker'

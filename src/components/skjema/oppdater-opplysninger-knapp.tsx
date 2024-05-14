@@ -14,11 +14,11 @@ import { Config } from '../../model/config';
 
 const TEKSTER: Tekster<string> = {
     nb: {
-        registrer: 'Fullfør registrering som arbeidssøker',
-        advarsel: 'Alle spørsmålene i skjemaet må fylles ut før du kan registrere arbeidssøkeren.',
+        oppdater: 'Oppdater opplysninger til arbeidssøker',
+        advarsel: 'Alle spørsmålene i skjemaet må være fylt ut før du kan oppdatere opplysningerne.',
     },
     en: {
-        registrer: 'Register Job Seeker',
+        oppdater: 'Updated information of job seeker',
     },
 };
 
@@ -35,7 +35,7 @@ export const OppdaterOpplysningerKnapp = () => {
 
     const opplysningerUrl = brukerMock ? '/api/mocks/opplysninger' : '/api/opplysninger';
 
-    async function registrerArbeidssoker() {
+    async function oppdaterOpplysninger() {
         setIsDisabled(true);
         setDoValidate(true);
         if (isValid) {
@@ -55,16 +55,15 @@ export const OppdaterOpplysningerKnapp = () => {
                     },
                 });
                 if (!response.ok) {
-                    loggFlyt({ hendelse: 'Får ikke fullført registreringen av arbeidssøker' });
+                    loggFlyt({ hendelse: 'Får ikke oppdatert opplysninger' });
                     return router.push('/feil');
                 } else {
-                    loggFlyt({ hendelse: 'Registrering av arbeidssøker fullført' });
-                    return router.push('/kvittering-arbeidssoker');
+                    loggFlyt({ hendelse: 'Opplysninger oppdatert' });
+                    return router.push('/kvittering-oppdatert-opplysninger');
                 }
             } catch (e) {
                 loggFlyt({
-                    hendelse: 'Får ikke fullført registreringen av arbeidssøker',
-                    aarsak: 'TEKNISK_FEIL' as any,
+                    hendelse: 'Får ikke oppdatert opplysninger',
                 });
                 return router.push('/feil');
             } finally {
@@ -81,8 +80,8 @@ export const OppdaterOpplysningerKnapp = () => {
 
     return (
         <div className="flex justify-end">
-            <Button variant="primary" onClick={() => registrerArbeidssoker()} disabled={isDisabled} loading={isPending}>
-                {tekst('registrer')}
+            <Button variant="primary" onClick={() => oppdaterOpplysninger()} disabled={isDisabled} loading={isPending}>
+                {tekst('oppdater')}
             </Button>
         </div>
     );

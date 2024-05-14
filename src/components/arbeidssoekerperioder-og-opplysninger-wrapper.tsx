@@ -15,6 +15,7 @@ import OpplysningerOmArbeidssoeker from './opplysninger-om-arbeidssoeker';
 import Profilering from './profilering';
 import useSWRImmutable from 'swr/immutable';
 import { fetcher } from '../lib/api-utils';
+import OppdaterOpplysningerKnapp from './oppdater-opplysninger-knapp';
 
 function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const { params } = useParamsFromContext();
@@ -164,6 +165,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
                 sisteOpplysningerOmArbeidssoeker={sisteOpplysningerOmArbeidssoeker}
                 behovsvurdering={sisteBehovsvurdering}
             />
+            <OppdaterOpplysningerKnapp />
             <Profilering sisteProfilering={sisteProfilering} />
         </>
     );
