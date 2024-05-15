@@ -31,7 +31,7 @@ const Kvittering = () => {
 
             <BodyLong spacing>
                 Dersom de oppdaterte opplysningene kan ha konsekvenser for eventuelle ytelser til arbeiddssøkeren må du
-                opprette en 'vurder konsekvens for ytelse' oppgave i Gosys
+                opprette en &quot;vurder konsekvens for ytelse&quot; oppgave i Gosys
             </BodyLong>
         </Alert>
     );
