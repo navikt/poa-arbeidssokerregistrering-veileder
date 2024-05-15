@@ -10,7 +10,7 @@ function hentSisteArbeidssokerPeriode(arbeidssokerperioder: Arbeidssokerperioder
     // Hvis 1 periode er registrert
     if (arbeidssokerperioder.length === 1) return arbeidssokerperioder[0];
     // Hvis det finnes 1 åpen periode
-    const aapneArbeidssokerperioder = arbeidssokerperioder.filter((periode) => periode.avsluttet === null);
+    const aapneArbeidssokerperioder = arbeidssokerperioder.filter((periode) => periode && periode.avsluttet === null);
     if (aapneArbeidssokerperioder.length === 1) return aapneArbeidssokerperioder[0];
     // Returnerer sist avslutted periode
     return arbeidssokerperioder.sort(sorterEtterSistAvsluttedePeriode)[0];
