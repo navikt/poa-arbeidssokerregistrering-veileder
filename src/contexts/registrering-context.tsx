@@ -4,6 +4,8 @@ import { isEqual } from 'lodash';
 import { RegistreringState } from '../model/registrering';
 import {
     DinSituasjon,
+    hentSisteArbeidssokerPeriode,
+    hentSisteOpplysningerOmArbeidssoker,
     JaEllerNei,
     SisteStillingValg,
     SporsmalId,
@@ -11,6 +13,9 @@ import {
     Utdanningsnivaa,
 } from '@navikt/arbeidssokerregisteret-utils';
 import { useFeatureToggles } from './featuretoggle-context';
+import { useConfig } from './config-context';
+import { Config } from '../model/config';
+import { useParamsFromContext } from './params-from-context';
 
 interface RegistreringContextType {
     registrering: RegistreringState;
@@ -39,12 +44,32 @@ const RegistreringContext = createContext<RegistreringContextType>({
     setDoValidate: () => false,
 });
 
-function RegistreringProvider({ children }: { children: ReactNode }) {
+function RegistreringProvider({
+    children,
+    hentTidligereOpplysninger,
+}: {
+    children: ReactNode;
+    hentTidligereOpplysninger?: boolean;
+}) {
     const [registrering, setRegistrering] = useState({} as RegistreringState);
     const [isValid, setIsValid] = useState(true);
     const [doValidate, setDoValidate] = useState(false);
     const { toggles } = useFeatureToggles();
     const brukNyInngang = toggles['arbeidssokerregistrering.bruk-ny-inngang'];
+    const { params } = useParamsFromContext();
+    const { fnr, enhetId } = params;
+    const { enableMock } = useConfig() as Config;
+    const brukerMock = enableMock === 'enabled';
+    const [errorArbeidssoekerperioder, setErrorArbeidssoekerperioder] = useState<any>(undefined);
+    const [sisteArbeidssoekerperiode, setSisteArbeidssoekerperiode] = useState<any>({});
+    const [errorOpplysningerOmArbeidssoeker, setErrorOpplysningerOmArbeidssoeker] = useState<any>(undefined);
+    const [sisteOpplysningerOmArbeidssoeker, setSisteOpplysningerOmArbeidssoeker] = useState<any>(undefined);
+    const hentArbeidssoekerperioderUrl = brukerMock
+        ? '/api/mocks/oppslag-arbeidssoekerperioder'
+        : '/api/oppslag-arbeidssoekerperioder';
+    const hentOpplysningerOmArbeidssoekerUrl = brukerMock
+        ? '/api/mocks/oppslag-opplysninger'
+        : '/api/oppslag-opplysninger';
 
     const contextValue = {
         registrering,
@@ -53,6 +78,64 @@ function RegistreringProvider({ children }: { children: ReactNode }) {
         setDoValidate,
         setRegistrering: (data) => setRegistrering({ ...registrering, ...data }),
     };
+
+    async function apiKallArbeidssoekerperioder() {
+        const payload = JSON.stringify({
+            identitetsnummer: fnr,
+        });
+
+        try {
+            const response = await fetch(hentArbeidssoekerperioderUrl, {
+                method: 'POST',
+                body: payload,
+                credentials: 'include',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const sisteArbeidssoekerperiode = hentSisteArbeidssokerPeriode(data);
+                setSisteArbeidssoekerperiode(sisteArbeidssoekerperiode);
+            }
+        } catch (err: unknown) {
+            setErrorArbeidssoekerperioder(err);
+        }
+    }
+
+    async function apiKallOpplysningerOmArbeidssoeker() {
+        const payload = JSON.stringify({
+            identitetsnummer: fnr,
+            periodeId: sisteArbeidssoekerperiode.periodeId,
+        });
+
+        try {
+            const response = await fetch(hentOpplysningerOmArbeidssoekerUrl, {
+                method: 'POST',
+                body: payload,
+                credentials: 'include',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const sisteOpplysninger = hentSisteOpplysningerOmArbeidssoker(data);
+                setSisteOpplysningerOmArbeidssoeker(sisteOpplysninger);
+            }
+        } catch (err: unknown) {
+            setErrorOpplysningerOmArbeidssoeker(err);
+        }
+    }
+
+    useEffect(() => {
+        if (hentTidligereOpplysninger) {
+            console.log('henter opplysnigner');
+            apiKallArbeidssoekerperioder();
+            apiKallOpplysningerOmArbeidssoeker();
+            //console.log((JSON.stringify( sisteOpplysningerOmArbeidssoeker)))
+        }
+    }, [hentTidligereOpplysninger]);
 
     useEffect(() => {
         const skalValidereSisteJobb = [

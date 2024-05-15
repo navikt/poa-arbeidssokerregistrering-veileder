@@ -38,7 +38,7 @@ export default function OppdaterOpplysninger() {
                     <Heading size="medium" level="1" className="mb-8">
                         Oppdater Opplysniger
                     </Heading>
-                    <RegistreringProvider>
+                    <RegistreringProvider hentTidligereOpplysninger>
                         <PersonUnder18 />
                         <DinSituasjon />
                         <SisteJobb />
