@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import {
-    hentSisteArbeidssokerPeriode,
-    hentSisteOpplysningerOmArbeidssoker,
-    hentSisteProfilering,
-} from '@navikt/arbeidssokerregisteret-utils';
+import { hentSisteOpplysningerOmArbeidssoker, hentSisteProfilering } from '@navikt/arbeidssokerregisteret-utils';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
+
+import { hentSisteArbeidssokerPeriode } from '../lib/hent-siste-arbeidssoekerperiode';
 
 import { Config } from '../model/config';
 
@@ -146,7 +144,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     }, [fnr, enhetId]);
 
     useEffect(() => {
-        if (sisteArbeidssoekerperiode) {
+        if (sisteArbeidssoekerperiode && sisteArbeidssoekerperiode?.startet) {
             apiKallOpplysningerOmArbeidssoeker();
             apiKallProfilering();
         }
