@@ -62,7 +62,7 @@ function OppdaterOpplysningerKnapp() {
 
     return (
         <Box>
-            <Button variant="secondary-neutral" onClick={() => startArbeidssoekerperiode()}>
+            <Button variant="secondary-neutral" onClick={() => startArbeidssoekerperiode()} className="mb-4">
                 Oppdater opplysninger
             </Button>
         </Box>

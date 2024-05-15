@@ -16,6 +16,7 @@ import Profilering from './profilering';
 import useSWRImmutable from 'swr/immutable';
 import { fetcher } from '../lib/api-utils';
 import OppdaterOpplysningerKnapp from './oppdater-opplysninger-knapp';
+import { RegistrerArbeidssokerKnapp } from './skjema/registrer-arbeidssoker-knapp';
 
 function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const { params } = useParamsFromContext();
@@ -158,6 +159,8 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
 
     //TODO - ikke vise komponenten før kallene mot oppslag er ferdige
 
+    const aktivPeriode = sisteArbeidssoekerperiode?.avsluttet === null && sisteArbeidssoekerperiode !== undefined;
+
     return (
         <>
             <ArbeidssoekerperiodeStatus sisteArbeidssoekerperiode={sisteArbeidssoekerperiode} />
@@ -165,7 +168,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
                 sisteOpplysningerOmArbeidssoeker={sisteOpplysningerOmArbeidssoeker}
                 behovsvurdering={sisteBehovsvurdering}
             />
-            <OppdaterOpplysningerKnapp />
+            {aktivPeriode && <OppdaterOpplysningerKnapp />}
             <Profilering sisteProfilering={sisteProfilering} />
         </>
     );

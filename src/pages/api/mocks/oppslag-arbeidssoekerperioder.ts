@@ -9,7 +9,6 @@ const oppslagArbeidssoekerperioder = (req: NextApiRequest, res: NextApiResponse)
 const data = []
 */
 
-/*
 // Aktiv arbeidssøkerperiode
 const data = [
     {
@@ -25,9 +24,8 @@ const data = [
         avsluttet: null,
     },
 ];
-*/
 
-const data = [
+/*const data = [
     {
         periodeId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
         startet: {
@@ -47,6 +45,6 @@ const data = [
             aarsak: 'string',
         },
     },
-];
+];*/
 
 export default oppslagArbeidssoekerperioder;
