@@ -28,6 +28,11 @@ const Kvittering = () => {
             <Heading level="1" size="small" className={'mbl'}>
                 {tekst('header')}
             </Heading>
+
+            <BodyLong spacing>
+                Dersom de oppdaterte opplysningene kan ha konsekvenser for eventuelle ytelser til arbeiddssøkeren må du
+                opprette en 'vurder konsekvens for ytelse' oppgave i Gosys
+            </BodyLong>
         </Alert>
     );
 };

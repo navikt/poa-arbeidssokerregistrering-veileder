@@ -45,7 +45,7 @@ export default function OppdaterOpplysninger() {
                         <UtdanningsNiva />
                         <Helseproblemer />
                         <AndreProblemer />
-                        {brukNyInngang ? <OppdaterOpplysningerKnapp /> : <RegistrerArbeidssokerKnapp />}
+                        <OppdaterOpplysningerKnapp />
                     </RegistreringProvider>
                 </>
             )}
