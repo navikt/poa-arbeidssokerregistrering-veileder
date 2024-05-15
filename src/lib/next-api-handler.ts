@@ -43,6 +43,7 @@ const getOboTokenDings = async (): Promise<OboAuth> => {
 
 const VEILARBREGISTRERING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.veilarbregistrering/.default`;
 const ARBEIDSSOEKERREGISTRERING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
+const OPPSLAGSAPI_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oppslag/.default`;
 const MODIACONTEXTHOLDER_SCOPE = `api://${process.env.MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID}/.default`;
 const VEILARBOPPFOLGING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
     'gcp',
@@ -67,6 +68,11 @@ export const getArbeidssoekerregistreringToken = async (req: NextApiRequest) => 
     const tokenSet = await (
         await getOboTokenDings()
     ).getOboToken(getTokenFromRequest(req)!, ARBEIDSSOEKERREGISTRERING_SCOPE);
+    return tokenSet.access_token!;
+};
+
+export const getOppslagsAPIToken = async (req: NextApiRequest) => {
+    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, OPPSLAGSAPI_SCOPE);
     return tokenSet.access_token!;
 };
 
