@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 
-import { RegistreringState } from '../model/registrering';
+import { RegistreringState, SisteJobb } from '../model/registrering';
 import {
     DinSituasjon,
     hentSisteArbeidssokerPeriode,
@@ -16,6 +16,7 @@ import { useFeatureToggles } from './featuretoggle-context';
 import { useConfig } from './config-context';
 import { Config } from '../model/config';
 import { useParamsFromContext } from './params-from-context';
+import { DinSituasjon as Jobbsituasjon } from '@navikt/arbeidssokerregisteret-utils/dist/models/sporsmal';
 
 interface RegistreringContextType {
     registrering: RegistreringState;
@@ -46,10 +47,10 @@ const RegistreringContext = createContext<RegistreringContextType>({
 
 function RegistreringProvider({
     children,
-    hentTidligereOpplysninger,
+    hentTidligereOpplysningerForPeriodeId,
 }: {
     children: ReactNode;
-    hentTidligereOpplysninger?: boolean;
+    hentTidligereOpplysningerForPeriodeId?: string;
 }) {
     const [registrering, setRegistrering] = useState({} as RegistreringState);
     const [isValid, setIsValid] = useState(true);
@@ -60,17 +61,14 @@ function RegistreringProvider({
     const { fnr, enhetId } = params;
     const { enableMock } = useConfig() as Config;
     const brukerMock = enableMock === 'enabled';
-    const [errorArbeidssoekerperioder, setErrorArbeidssoekerperioder] = useState<any>(undefined);
+    const arbeidssoekerPeriodeId = hentTidligereOpplysningerForPeriodeId;
     const [sisteArbeidssoekerperiode, setSisteArbeidssoekerperiode] = useState<any>({});
     const [errorOpplysningerOmArbeidssoeker, setErrorOpplysningerOmArbeidssoeker] = useState<any>(undefined);
     const [sisteOpplysningerOmArbeidssoeker, setSisteOpplysningerOmArbeidssoeker] = useState<any>(undefined);
-    const hentArbeidssoekerperioderUrl = brukerMock
-        ? '/api/mocks/oppslag-arbeidssoekerperioder'
-        : '/api/oppslag-arbeidssoekerperioder';
+
     const hentOpplysningerOmArbeidssoekerUrl = brukerMock
         ? '/api/mocks/oppslag-opplysninger'
         : '/api/oppslag-opplysninger';
-
     const contextValue = {
         registrering,
         isValid,
@@ -79,34 +77,10 @@ function RegistreringProvider({
         setRegistrering: (data) => setRegistrering({ ...registrering, ...data }),
     };
 
-    async function apiKallArbeidssoekerperioder() {
-        const payload = JSON.stringify({
-            identitetsnummer: fnr,
-        });
-
-        try {
-            const response = await fetch(hentArbeidssoekerperioderUrl, {
-                method: 'POST',
-                body: payload,
-                credentials: 'include',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-            });
-            if (response.ok) {
-                const data = await response.json();
-                const sisteArbeidssoekerperiode = hentSisteArbeidssokerPeriode(data);
-                setSisteArbeidssoekerperiode(sisteArbeidssoekerperiode);
-            }
-        } catch (err: unknown) {
-            setErrorArbeidssoekerperioder(err);
-        }
-    }
-
     async function apiKallOpplysningerOmArbeidssoeker() {
         const payload = JSON.stringify({
             identitetsnummer: fnr,
-            periodeId: sisteArbeidssoekerperiode.periodeId,
+            periodeId: arbeidssoekerPeriodeId,
         });
 
         try {
@@ -122,6 +96,20 @@ function RegistreringProvider({
                 const data = await response.json();
                 const sisteOpplysninger = hentSisteOpplysningerOmArbeidssoker(data);
                 setSisteOpplysningerOmArbeidssoeker(sisteOpplysninger);
+                const oppdaterteOpplysninger = {
+                    [SporsmalId.utdanningGodkjent]: sisteOpplysninger.utdanning.godkjent,
+                    [SporsmalId.utdanningBestatt]: sisteOpplysninger.utdanning.bestaatt,
+                    [SporsmalId.andreForhold]: sisteOpplysninger.annet.andreForholdHindrerArbeid,
+                    [SporsmalId.helseHinder]: sisteOpplysninger.helse.helsetilstandHindrerArbeid,
+                    [SporsmalId.dinSituasjon]: DinSituasjon[sisteOpplysninger.jobbsituasjon[0].beskrivelse],
+                    [SporsmalId.utdanning]: Utdanningsnivaa[sisteOpplysninger.utdanning.nus],
+                };
+
+                setRegistrering(oppdaterteOpplysninger);
+
+                console.log(JSON.stringify(sisteOpplysninger));
+                console.log(JSON.stringify(oppdaterteOpplysninger));
+                console.log('ferdig');
             }
         } catch (err: unknown) {
             setErrorOpplysningerOmArbeidssoeker(err);
@@ -129,13 +117,11 @@ function RegistreringProvider({
     }
 
     useEffect(() => {
-        if (hentTidligereOpplysninger) {
+        if (hentTidligereOpplysningerForPeriodeId) {
             console.log('henter opplysnigner');
-            apiKallArbeidssoekerperioder();
             apiKallOpplysningerOmArbeidssoeker();
-            //console.log((JSON.stringify( sisteOpplysningerOmArbeidssoeker)))
         }
-    }, [hentTidligereOpplysninger]);
+    }, [hentTidligereOpplysningerForPeriodeId]);
 
     useEffect(() => {
         const skalValidereSisteJobb = [
