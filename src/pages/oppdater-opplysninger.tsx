@@ -18,6 +18,7 @@ import DemoPanel from '../components/demo-panel';
 import { loggFlyt } from '../lib/amplitude';
 import HvaErNytt from '../components/hva-er-nytt';
 import PersonUnder18 from '../components/advarsler/person-under-18';
+import { useSearchParams } from 'next/navigation';
 
 export default function OppdaterOpplysninger() {
     const { params } = useParamsFromContext();
@@ -25,7 +26,8 @@ export default function OppdaterOpplysninger() {
     const { fnr, enhetId } = params;
     const visInnhold = fnr && enhetId;
     const brukNyInngang = toggles['arbeidssokerregistrering.bruk-ny-inngang'];
-
+    const searchParams = useSearchParams();
+    const periodeId = searchParams.get('periodeId');
     useEffect(() => {
         loggFlyt({ hendelse: 'Starter registrering av arbeidssøker' });
     }, []);
@@ -38,7 +40,7 @@ export default function OppdaterOpplysninger() {
                     <Heading size="medium" level="1" className="mb-8">
                         Oppdater Opplysniger
                     </Heading>
-                    <RegistreringProvider hentTidligereOpplysninger>
+                    <RegistreringProvider hentTidligereOpplysningerForPeriodeId={periodeId}>
                         <PersonUnder18 />
                         <DinSituasjon />
                         <SisteJobb />

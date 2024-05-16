@@ -7,15 +7,24 @@ import { useConfig } from '../contexts/config-context';
 
 import { Config } from '../model/config';
 
-function OppdaterOpplysningerKnapp() {
+interface OppdaterOpplysningerKnappProps {
+    sisteArbeidssoekerperiodeId: string;
+}
+
+function OppdaterOpplysningerKnapp(props: OppdaterOpplysningerKnappProps) {
     const router = useRouter();
     const { params } = useParamsFromContext();
     const { fnr } = params;
+    const { sisteArbeidssoekerperiodeId } = props;
     if (!fnr) return null;
 
     return (
         <Box>
-            <Button variant="secondary-neutral" onClick={() => router.push('/oppdater-opplysninger')} className="mb-4">
+            <Button
+                variant="secondary-neutral"
+                onClick={() => router.push(`/oppdater-opplysninger?periodeId=${sisteArbeidssoekerperiodeId}`)}
+                className="mb-4"
+            >
                 Gå til oppdater opplysninger
             </Button>
         </Box>
