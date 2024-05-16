@@ -107,9 +107,9 @@ function RegistreringProvider({
 
                 setRegistrering(oppdaterteOpplysninger);
 
-                console.log(JSON.stringify(sisteOpplysninger));
+                /*                console.log(JSON.stringify(sisteOpplysninger));
                 console.log(JSON.stringify(oppdaterteOpplysninger));
-                console.log('ferdig');
+                console.log('ferdig');*/
             }
         } catch (err: unknown) {
             setErrorOpplysningerOmArbeidssoeker(err);
