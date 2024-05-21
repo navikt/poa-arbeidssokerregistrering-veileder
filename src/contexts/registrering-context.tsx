@@ -7,6 +7,7 @@ import {
     hentSisteArbeidssokerPeriode,
     hentSisteOpplysningerOmArbeidssoker,
     JaEllerNei,
+    mapNusKodeTilUtdannignsnivaa,
     SisteStillingValg,
     SporsmalId,
     UtdanningGodkjentValg,
@@ -102,14 +103,13 @@ function RegistreringProvider({
                     [SporsmalId.andreForhold]: sisteOpplysninger.annet.andreForholdHindrerArbeid,
                     [SporsmalId.helseHinder]: sisteOpplysninger.helse.helsetilstandHindrerArbeid,
                     [SporsmalId.dinSituasjon]: DinSituasjon[sisteOpplysninger.jobbsituasjon[0].beskrivelse],
-                    [SporsmalId.utdanning]: Utdanningsnivaa[sisteOpplysninger.utdanning.nus],
+                    [SporsmalId.utdanning]:
+                        Utdanningsnivaa[mapNusKodeTilUtdannignsnivaa(sisteOpplysninger.utdanning.nus)],
                 };
 
                 setRegistrering(oppdaterteOpplysninger);
-
-                /*                console.log(JSON.stringify(sisteOpplysninger));
+                console.log(JSON.stringify(sisteOpplysninger));
                 console.log(JSON.stringify(oppdaterteOpplysninger));
-                console.log('ferdig');*/
             }
         } catch (err: unknown) {
             setErrorOpplysningerOmArbeidssoeker(err);

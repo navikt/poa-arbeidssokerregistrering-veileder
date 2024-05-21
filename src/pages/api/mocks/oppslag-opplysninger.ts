@@ -17,7 +17,7 @@ const data = [
             aarsak: 'string',
         },
         utdanning: {
-            nus: 'string',
+            nus: '7',
             bestaatt: 'JA',
             godkjent: 'JA',
         },
@@ -25,7 +25,7 @@ const data = [
             helsetilstandHindrerArbeid: 'JA',
         },
         annet: {
-            andreForholdHindrerArbeid: 'JA',
+            andreForholdHindrerArbeid: 'NEI',
         },
         jobbsituasjon: [
             {

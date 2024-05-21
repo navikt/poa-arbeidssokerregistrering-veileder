@@ -56,7 +56,7 @@ const Utdanning = () => {
             value: Utdanningsnivaa.HOYERE_UTDANNING_5_ELLER_MER,
         },
     ];
-
+    const valgt = registrering[SporsmalId.utdanning];
     if (registrering[SporsmalId.dinSituasjon] === JobbSituasjon.VIL_FORTSETTE_I_JOBB) {
         return null;
     }
@@ -70,6 +70,7 @@ const Utdanning = () => {
                 <RadioGruppe
                     legend={tekst(SporsmalId.utdanning)}
                     valg={valg}
+                    valgt={valgt}
                     onSelect={(val) => setRegistrering(tilRegistreringsState(val, brukNyInngang))}
                     visFeilmelding={visFeilmelding}
                 />

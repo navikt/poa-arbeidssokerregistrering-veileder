@@ -28,6 +28,7 @@ const UtdanningGodkjent = () => {
         lagValg(UtdanningGodkjentValg.NEI),
         lagValg(UtdanningGodkjentValg.VET_IKKE),
     ];
+    const valgt = registrering[SporsmalId.utdanningGodkjent];
 
     if (
         registrering[SporsmalId.utdanning] === Utdanningsnivaa.INGEN_UTDANNING ||
@@ -42,6 +43,7 @@ const UtdanningGodkjent = () => {
             <RadioGruppe
                 legend={tekst(SporsmalId.utdanningGodkjent)}
                 valg={valg}
+                valgt={valgt}
                 onSelect={(val) => setRegistrering({ [SporsmalId.utdanningGodkjent]: val })}
                 visFeilmelding={visFeilmelding}
             />

@@ -21,7 +21,7 @@ const AndreProblemer = () => {
 
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
-
+    const valgt = registrering[SporsmalId.andreForhold];
     const visFeilmelding = doValidate ? !Object.keys(registrering).includes('andreForhold') : false;
 
     return (
@@ -34,6 +34,7 @@ const AndreProblemer = () => {
                     legend={tekst('tittel')}
                     beskrivelse={tekst('ingress')}
                     valg={valg}
+                    valgt={valgt}
                     onSelect={(val) => setRegistrering({ [SporsmalId.andreForhold]: val })}
                     visFeilmelding={visFeilmelding}
                 />

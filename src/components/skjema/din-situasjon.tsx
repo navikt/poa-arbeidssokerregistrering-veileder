@@ -67,6 +67,7 @@ const DinSituasjon = () => {
         },
         { tekst: tekst(Jobbsituasjon.VIL_FORTSETTE_I_JOBB), value: Jobbsituasjon.VIL_FORTSETTE_I_JOBB },
     ];
+    const valgt = registrering.dinSituasjon;
 
     return (
         <Box className="mb-8 bg-gray-100" borderWidth="1" padding="4">
@@ -77,6 +78,7 @@ const DinSituasjon = () => {
                 <RadioGruppe
                     legend={tekst(SporsmalId.dinSituasjon)}
                     valg={valg}
+                    valgt={valgt}
                     onSelect={(val) => setRegistrering(tilRegistreringsState(val))}
                     visFeilmelding={visFeilmelding}
                 />

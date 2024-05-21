@@ -19,6 +19,7 @@ const BestattUtdanning = () => {
     const tekst = (key: string) => hentTekst(sprak, key);
     const lagValg = (valg: JaEllerNei) => ({ tekst: tekst(valg), value: valg });
     const valg = [lagValg(JaEllerNei.JA), lagValg(JaEllerNei.NEI)];
+    const valgt = registrering[SporsmalId.utdanningBestatt];
     const visFeilmelding = doValidate
         ? !registrering[SporsmalId.utdanningBestatt] ||
           registrering[SporsmalId.utdanningBestatt] === JaEllerNei.INGEN_SVAR
@@ -37,6 +38,7 @@ const BestattUtdanning = () => {
             <RadioGruppe
                 legend={tekst(SporsmalId.utdanningBestatt)}
                 valg={valg}
+                valgt={valgt}
                 onSelect={(val) => setRegistrering({ [SporsmalId.utdanningBestatt]: val })}
                 visFeilmelding={visFeilmelding}
             />
