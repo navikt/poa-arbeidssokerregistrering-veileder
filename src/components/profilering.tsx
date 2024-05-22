@@ -26,7 +26,11 @@ function Profileringsresultat(props: ProfileringProps) {
                 Profilering
             </Heading>
             <BodyLong>Resulatet av profileringen er &quot;{PROFILERINGSMAP[profilertTil]}&quot;</BodyLong>
-            <BodyLong spacing>Profileringer er sist oppdatert {formaterDato(sendtInnAv.tidspunkt)}</BodyLong>
+            <BodyLong spacing>Profileringen er sist oppdatert {formaterDato(sendtInnAv.tidspunkt)}</BodyLong>
+            <BodyLong>
+                Profileringen er basert på opplysningene fra registreringen og oppslag mot Arbeidsgiver- og
+                arbeidstakerregisteret.
+            </BodyLong>
         </Box>
     );
 }
