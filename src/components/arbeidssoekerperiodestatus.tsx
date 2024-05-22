@@ -1,5 +1,6 @@
-import { BodyLong, Box, Heading } from '@navikt/ds-react';
+import { BodyLong, Box, Button, Heading } from '@navikt/ds-react';
 import { ArbeidssokerPeriode } from '@navikt/arbeidssokerregisteret-utils';
+import { useRouter } from 'next/navigation';
 
 import { formaterDato } from '../lib/date-utils';
 
@@ -13,6 +14,7 @@ function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
     const { sisteArbeidssoekerperiode } = props || {};
     const harAktivPeriode = sisteArbeidssoekerperiode?.avsluttet === null;
     const harTidligereArbeidssoekerperiode = sisteArbeidssoekerperiode?.startet;
+    const Router = useRouter();
 
     if (!harTidligereArbeidssoekerperiode) {
         return <BodyLong spacing>Personen har ingen tidligere arbeidssøkerperioder</BodyLong>;
@@ -20,9 +22,18 @@ function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
 
     if (harAktivPeriode) {
         return (
-            <BodyLong spacing>
-                Arbeidssøkerperioden startet {formaterDato(sisteArbeidssoekerperiode.startet.tidspunkt)}
-            </BodyLong>
+            <Box>
+                <BodyLong spacing>
+                    Arbeidssøkerperioden startet {formaterDato(sisteArbeidssoekerperiode.startet.tidspunkt)}
+                </BodyLong>
+                <Button
+                    variant="secondary-neutral"
+                    className="mb-8"
+                    onClick={() => Router.push('/avslutt-arbeidssoekerperiode')}
+                >
+                    Avslutt arbeidssøkerperiode
+                </Button>
+            </Box>
         );
     }
 
