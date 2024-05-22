@@ -18,14 +18,21 @@ export default function HvaErNytt() {
 
     return (
         <ReadMore header="Hva er nytt i registreringen for veileder?" className="mb-8" onClick={aapnerHvaErNytt}>
-            <List as="ul" title="I korte trekk er dette endret:">
-                <List.Item>alle spørsmål er nå samlet på en side</List.Item>
+            <List as="ul" title="Dette er de siste endringene:">
+                <List.Item>all informasjon om arbeidssøkerperioden samlet på forsiden</List.Item>
+                <List.Item>mulighet til å oppdatere opplysningene fra registreringen</List.Item>
+                <List.Item>mulig å avslutte en arbeidssøkerperiode fra løsningen</List.Item>
                 <List.Item>
-                    tydelig skille mellom registrering av arbeidssøker og registrering for mer sykmeldtoppfølging
+                    sjekk av hvorvidt en person kan registreres som arbeidssøker gjøres før det eventuelt blir mulig å
+                    registrere personen
                 </List.Item>
-                <List.Item>feilmeldinger tilpasset veileder</List.Item>
+                <List.Item>
+                    mer presis informasjon om hvorfor en person eventuelt ikke kan registreres som arbeidssøker
+                </List.Item>
+                <List.Item>registrering for mer sykmeldtoppfølging er fjernet fra løsningen</List.Item>
             </List>
-            <BodyLong>
+            {/*
+              <BodyLong>
                 Dersom du ønsker å se hvordan registreringen ser ut for personbrukere kan det gjøres ved å bruke de
                 ulike demoløsningene.
             </BodyLong>
@@ -46,6 +53,7 @@ export default function HvaErNytt() {
                     </Link>
                 </List.Item>
             </List>
+             */}
         </ReadMore>
     );
 }
