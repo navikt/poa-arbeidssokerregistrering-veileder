@@ -46,7 +46,11 @@ export default function RegistreringArbeidssoker() {
                         <UtdanningsNiva />
                         <Helseproblemer />
                         <AndreProblemer />
-                        {brukNyInngang ? <OppdaterOpplysningerKnapp /> : <RegistrerArbeidssokerKnapp />}
+                        {brukNyInngang ? (
+                            <OppdaterOpplysningerKnapp erRegistreringsKnapp />
+                        ) : (
+                            <RegistrerArbeidssokerKnapp />
+                        )}
                     </RegistreringProvider>
                 </>
             )}

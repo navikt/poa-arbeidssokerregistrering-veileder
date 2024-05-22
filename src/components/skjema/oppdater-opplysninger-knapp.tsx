@@ -14,7 +14,8 @@ import { Config } from '../../model/config';
 
 const TEKSTER: Tekster<string> = {
     nb: {
-        oppdater: 'Oppdater opplysninger til arbeidssøker',
+        oppdater: 'Oppdater opplysninger for arbeidssøker',
+        registrer: 'Registrer arbeidssøker',
         advarsel: 'Alle spørsmålene i skjemaet må være fylt ut før du kan oppdatere opplysningerne.',
     },
     en: {
@@ -22,7 +23,12 @@ const TEKSTER: Tekster<string> = {
     },
 };
 
-export const OppdaterOpplysningerKnapp = () => {
+interface OppdaterOpplysningerKnappProps {
+    erRegistreringsKnapp?: boolean;
+}
+
+export const OppdaterOpplysningerKnapp = (props: OppdaterOpplysningerKnappProps) => {
+    const { erRegistreringsKnapp } = props;
     const router = useRouter();
     const [isDisabled, setIsDisabled] = useState(false);
     const [isPending, setIsPending] = useState(false);
@@ -33,7 +39,38 @@ export const OppdaterOpplysningerKnapp = () => {
     const { fnr } = params;
     const brukerMock = enableMock === 'enabled';
 
+    const [periodeStartet, setPeriodeStartet] = useState<boolean>(false);
+    const [error, setError] = useState<any>(undefined);
+
+    const startArbeidssoekerperiodeUrl = brukerMock ? '/api/mocks/arbeidssokerperioder' : '/api/arbeidssokerperioder';
     const opplysningerUrl = brukerMock ? '/api/mocks/opplysninger' : '/api/opplysninger';
+
+    async function startArbeidssoekerperiode() {
+        const payload = JSON.stringify({
+            identitetsnummer: fnr,
+            periodeTilstand: 'STARTET',
+        });
+
+        try {
+            const response = await fetch(startArbeidssoekerperiodeUrl, {
+                method: 'PUT',
+                body: payload,
+                credentials: 'include',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                setPeriodeStartet(true);
+            } else {
+                // noinspection ExceptionCaughtLocallyJS
+                const data = await response.json();
+                setError(data);
+            }
+        } catch (err: unknown) {
+            setError(err);
+        }
+    }
 
     async function oppdaterOpplysninger() {
         setIsDisabled(true);
@@ -80,8 +117,17 @@ export const OppdaterOpplysningerKnapp = () => {
 
     return (
         <div className="flex justify-end">
-            <Button variant="primary" onClick={() => oppdaterOpplysninger()} disabled={isDisabled} loading={isPending}>
-                {tekst('oppdater')}
+            <Button
+                variant="primary"
+                onClick={() => {
+                    erRegistreringsKnapp
+                        ? oppdaterOpplysninger() && startArbeidssoekerperiode()
+                        : oppdaterOpplysninger();
+                }}
+                disabled={isDisabled}
+                loading={isPending}
+            >
+                {tekst(erRegistreringsKnapp ? 'registrer' : 'oppdater')}
             </Button>
         </div>
     );
