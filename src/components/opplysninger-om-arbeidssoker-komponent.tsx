@@ -19,7 +19,6 @@ type OpplysningProps = { sporsmal: string; svar: Svar | string };
 const Opplysning = (props: OpplysningProps) => {
     const tekst = lagHentTekstForSprak(SPORSMAL_TEKSTER, 'nb');
     const { sporsmal, svar } = props;
-
     return (
         <div className={'mb-5'}>
             <BodyShort>
@@ -62,6 +61,10 @@ function mapOpplysninger(opplysninger: OpplysningerOmArbeidssoker): OpplysningPr
             sporsmal: SporsmalId.helseHinder,
             svar: opplysninger.helse.helsetilstandHindrerArbeid,
         },
+        {
+            sporsmal: SporsmalId.andreForhold,
+            svar: opplysninger.annet.andreForholdHindrerArbeid,
+        },
     ];
 
     return result;
@@ -95,7 +98,6 @@ function OpplysningerOmArbeidssokerKomponent(props: Props) {
     const { opplysninger, behovsvurdering } = props;
     const erRegistrertAvSluttbruker = opplysninger.sendtInnAv.utfoertAv.type === 'SLUTTBRUKER';
     const besvarelser = mapOpplysninger(opplysninger);
-
     return (
         <div className={'flex flex-col'}>
             <div className={'mb-5'}>
