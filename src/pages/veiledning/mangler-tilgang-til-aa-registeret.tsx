@@ -6,6 +6,7 @@ import useSprak from '../../hooks/useSprak';
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { withAuthenticatedPage } from '../../auth/withAuthentication';
 import { loggVisning } from '../../lib/amplitude';
+import TilbakeTilForside from '../../components/tilbake-til-forside';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -23,13 +24,16 @@ function Sperret() {
     }, []);
 
     return (
-        <Alert variant="warning">
-            <Heading spacing size="small" level="1">
-                {tekst('overskrift')}
-            </Heading>
-            <BodyLong>{tekst('melding')}</BodyLong>
-            <BodyLong>{tekst('kontakt')}</BodyLong>
-        </Alert>
+        <>
+            <TilbakeTilForside sidenavn={'Mangler tilgang'} />
+            <Alert variant="warning">
+                <Heading spacing size="small" level="1">
+                    {tekst('overskrift')}
+                </Heading>
+                <BodyLong>{tekst('melding')}</BodyLong>
+                <BodyLong>{tekst('kontakt')}</BodyLong>
+            </Alert>
+        </>
     );
 }
 

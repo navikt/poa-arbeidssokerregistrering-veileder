@@ -6,6 +6,7 @@ import useSprak from '../hooks/useSprak';
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { loggAktivitet, loggVisning } from '../lib/amplitude';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
+import TilbakeTilForside from '../components/tilbake-til-forside';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -30,17 +31,20 @@ const Kvittering = () => {
     }, []);
 
     return (
-        <Alert variant="success">
-            <Heading level="1" size="small" className={'mbl'}>
-                {tekst('header')}
-            </Heading>
-            <BodyLong>
-                {tekst('dagpenger')}{' '}
-                <Link href="https://www.nav.no/start/soknad-dagpenger?stegvalg=1" onClick={gaarTilDagpenger}>
-                    Uinnlogget dagpengesøknad og papirsøknad finner du her.
-                </Link>
-            </BodyLong>
-        </Alert>
+        <>
+            <TilbakeTilForside sidenavn="Kvittering" />
+            <Alert variant="success">
+                <Heading level="1" size="small" className={'mbl'}>
+                    {tekst('header')}
+                </Heading>
+                <BodyLong>
+                    {tekst('dagpenger')}{' '}
+                    <Link href="https://www.nav.no/start/soknad-dagpenger?stegvalg=1" onClick={gaarTilDagpenger}>
+                        Uinnlogget dagpengesøknad og papirsøknad finner du her.
+                    </Link>
+                </BodyLong>
+            </Alert>
+        </>
     );
 };
 

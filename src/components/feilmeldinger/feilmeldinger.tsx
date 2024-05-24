@@ -6,6 +6,7 @@ import { useErrorContext } from '../../contexts/error-context';
 
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { loggVisning } from '../../lib/amplitude';
+import TilbakeTilForside from '../tilbake-til-forside';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -23,14 +24,17 @@ const FeilmeldingGenerell = () => {
     }, []);
 
     return (
-        <Alert variant={'error'}>
-            <Heading size="small" level="1">
-                Beklager, teknisk feil
-            </Heading>
-            <BodyLong>{tekst('feilISystemene')}</BodyLong>
-            <BodyLong>{tekst('provIgjen')}</BodyLong>
-            <BodyLong>{tekst('kontaktBrukerstotte')}</BodyLong>
-        </Alert>
+        <>
+            <TilbakeTilForside sidenavn={'Feil i system'} />
+            <Alert variant={'error'}>
+                <Heading size="small" level="1">
+                    Beklager, teknisk feil
+                </Heading>
+                <BodyLong>{tekst('feilISystemene')}</BodyLong>
+                <BodyLong>{tekst('provIgjen')}</BodyLong>
+                <BodyLong>{tekst('kontaktBrukerstotte')}</BodyLong>
+            </Alert>
+        </>
     );
 };
 
@@ -43,18 +47,21 @@ const GlobalFeilmelding = () => {
     }
 
     return (
-        <Alert variant={'error'}>
-            <BodyLong spacing>{tekst('feilISystemene')}</BodyLong>
-            <BodyLong spacing>{tekst('provIgjen')}</BodyLong>
-            <BodyLong spacing>
-                <Link href="https://www.nav.no/kontaktoss">{tekst('kontaktBrukerstotte')}</Link>
-            </BodyLong>
-            <BodyLong>
-                <Button variant={'secondary'} onClick={() => setError(null)}>
-                    Lukk
-                </Button>
-            </BodyLong>
-        </Alert>
+        <>
+            <TilbakeTilForside sidenavn={'Feil i system'} />
+            <Alert variant={'error'}>
+                <BodyLong spacing>{tekst('feilISystemene')}</BodyLong>
+                <BodyLong spacing>{tekst('provIgjen')}</BodyLong>
+                <BodyLong spacing>
+                    <Link href="https://www.nav.no/kontaktoss">{tekst('kontaktBrukerstotte')}</Link>
+                </BodyLong>
+                <BodyLong>
+                    <Button variant={'secondary'} onClick={() => setError(null)}>
+                        Lukk
+                    </Button>
+                </BodyLong>
+            </Alert>
+        </>
     );
 };
 
