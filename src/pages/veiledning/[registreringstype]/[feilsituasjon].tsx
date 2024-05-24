@@ -8,6 +8,7 @@ import { FeilmeldingGenerell } from '../../../components/feilmeldinger/feilmeldi
 import { Feiltype, OppgaveRegistreringstype } from '../../../model/feilsituasjonTyper';
 import { withAuthenticatedPage } from '../../../auth/withAuthentication';
 import { loggAktivitet, loggStoppsituasjon } from '../../../lib/amplitude';
+import TilbakeTilForside from '../../../components/tilbake-til-forside';
 
 interface Feilsituasjon {
     feiltype?: Feiltype;
@@ -74,6 +75,7 @@ function KontaktVeileder(props: Feilsituasjon) {
 
     return (
         <>
+            <TilbakeTilForside sidenavn={'Kan ikke registreres'} />
             <Alert variant="warning">
                 <Heading size="small" spacing={true} level="1">
                     {tekst('heading')}

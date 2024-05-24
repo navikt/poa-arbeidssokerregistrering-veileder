@@ -6,6 +6,7 @@ import useSprak from '../hooks/useSprak';
 
 import { loggVisning } from '../lib/amplitude';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
+import TilbakeTilForside from '../components/tilbake-til-forside';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -26,12 +27,16 @@ const ArbeidssoekerperiodenErAvsluttetKvittering = () => {
     }, []);
 
     return (
-        <Alert variant="success">
-            <Heading level="1" size="small" className={'mbl'}>
-                {tekst('header')}
-            </Heading>
-            <BodyLong>{tekst('informasjon')}</BodyLong>
-        </Alert>
+        <>
+            <TilbakeTilForside sidenavn={'Arbeidssøkerperioden er avsluttet'} />
+
+            <Alert variant="success">
+                <Heading level="1" size="small" className={'mbl'}>
+                    {tekst('header')}
+                </Heading>
+                <BodyLong>{tekst('informasjon')}</BodyLong>
+            </Alert>
+        </>
     );
 };
 

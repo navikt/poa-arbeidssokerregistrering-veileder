@@ -18,6 +18,7 @@ import DemoPanel from '../components/demo-panel';
 import { loggFlyt } from '../lib/amplitude';
 import HvaErNytt from '../components/hva-er-nytt';
 import PersonUnder18 from '../components/advarsler/person-under-18';
+import TilbakeTilForside from '../components/tilbake-til-forside';
 
 export default function RegistreringArbeidssoker() {
     const { params } = useParamsFromContext();
@@ -35,6 +36,7 @@ export default function RegistreringArbeidssoker() {
             <ManglerPersonEllerEnhet />
             {visInnhold && (
                 <>
+                    <TilbakeTilForside sidenavn="Arbeidssøkerregistrering" />
                     <Heading size="medium" level="1" className="mb-8">
                         Arbeidssøkerregistrering
                     </Heading>
