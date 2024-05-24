@@ -21,7 +21,6 @@ export default function HvaErNytt() {
             <List as="ul" title="Dette er de siste endringene:">
                 <List.Item>all informasjon om arbeidssøkerperioden samlet på forsiden</List.Item>
                 <List.Item>mulighet til å oppdatere opplysningene fra registreringen</List.Item>
-                <List.Item>mulig å avslutte en arbeidssøkerperiode fra løsningen</List.Item>
                 <List.Item>
                     sjekk av hvorvidt en person kan registreres som arbeidssøker gjøres før det eventuelt blir mulig å
                     registrere personen
