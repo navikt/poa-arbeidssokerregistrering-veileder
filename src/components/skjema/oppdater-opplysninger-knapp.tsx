@@ -96,7 +96,9 @@ export const OppdaterOpplysningerKnapp = (props: OppdaterOpplysningerKnappProps)
                     return router.push('/feil');
                 } else {
                     loggFlyt({ hendelse: 'Opplysninger oppdatert' });
-                    return router.push('/kvittering-oppdatert-opplysninger');
+                    return erRegistreringsKnapp
+                        ? router.push('/kvittering-arbeidssoker')
+                        : router.push('/kvittering-oppdatert-opplysninger');
                 }
             } catch (e) {
                 loggFlyt({
