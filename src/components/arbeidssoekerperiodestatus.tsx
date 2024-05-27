@@ -23,12 +23,16 @@ function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
     if (harAktivPeriode) {
         return (
             <Box>
-                <BodyLong>
+                <BodyLong spacing>
                     Arbeidssøkerperioden startet {formaterDato(sisteArbeidssoekerperiode.startet.tidspunkt)}
                 </BodyLong>
+                <Heading level="1" size="small">
+                    Avslutt arbeidssøkerperiode
+                </Heading>
                 <BodyLong spacing>
-                    Dersom du ønsker å avslutte arbeidssøkerperioden må du inntill videre endre formidlingsgruppen i
-                    Arena til ISERV.
+                    Dersom du ønsker å avslutte arbeidssøkerperioden må du inntill videre be bruker om å svare nei i
+                    meldekortet på spørsmål om de ønsker å fortsatt stå registrert. Dersom det må gjøres raskt er det
+                    også mulig å endre formidlingsgruppen i Arena til ISERV.
                 </BodyLong>
             </Box>
         );
