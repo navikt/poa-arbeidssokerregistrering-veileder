@@ -26,13 +26,14 @@ function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
                 <BodyLong spacing>
                     Arbeidssøkerperioden startet {formaterDato(sisteArbeidssoekerperiode.startet.tidspunkt)}
                 </BodyLong>
-                <Button
-                    variant="secondary-neutral"
-                    className="mb-8"
-                    onClick={() => Router.push('/avslutt-arbeidssoekerperiode')}
-                >
+                <Heading level="1" size="small">
                     Avslutt arbeidssøkerperiode
-                </Button>
+                </Heading>
+                <BodyLong spacing>
+                    Dersom du ønsker å avslutte arbeidssøkerperioden må du inntill videre be bruker om å svare nei i
+                    meldekortet på spørsmål om de ønsker å fortsatt stå registrert. Dersom det må gjøres raskt er det
+                    også mulig å endre formidlingsgruppen i ved å velge oppgavetypen Inaktivering av person.
+                </BodyLong>
             </Box>
         );
     }

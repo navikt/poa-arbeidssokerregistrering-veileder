@@ -4,12 +4,12 @@ const oppslagArbeidssoekerperioder = (req: NextApiRequest, res: NextApiResponse)
     res.json(data);
 };
 
+/*
 // Ingen tidligere arbeidssøkerperioder
 const data = [];
+*/
 
 // Aktvi arbeidssøkerperiode fra dev
-/*
-
 const data = [
     {
         periodeId: '3950569a-ffb1-4c70-b75d-14e808e91517',
@@ -43,7 +43,6 @@ const data = [
         avsluttet: null,
     },
 ];
-*/
 
 /*
 // Aktiv arbeidssøkerperiode

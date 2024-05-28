@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { BodyLong, Link, Heading } from '@navikt/ds-react';
+import React, { useEffect } from 'react';
+import { BodyLong, Link, Heading, HStack } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useFeatureToggles } from '../contexts/featuretoggle-context';
@@ -20,6 +20,7 @@ import HvaErNytt from '../components/hva-er-nytt';
 import PersonUnder18 from '../components/advarsler/person-under-18';
 import { useSearchParams } from 'next/navigation';
 import TilbakeTilForside from '../components/tilbake-til-forside';
+import AvbrytKnapp from '../components/skjema/avbryt-knapp';
 
 export default function OppdaterOpplysninger() {
     const { params } = useParamsFromContext();
@@ -49,7 +50,10 @@ export default function OppdaterOpplysninger() {
                         <UtdanningsNiva />
                         <Helseproblemer />
                         <AndreProblemer />
-                        <OppdaterOpplysningerKnapp />
+                        <HStack className="flex justify-between">
+                            <AvbrytKnapp />
+                            <OppdaterOpplysningerKnapp />
+                        </HStack>
                     </RegistreringProvider>
                 </>
             )}

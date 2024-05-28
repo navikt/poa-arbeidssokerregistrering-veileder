@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { Heading } from '@navikt/ds-react';
+import React, { useEffect } from 'react';
+import { Button, Heading, HStack } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useFeatureToggles } from '../contexts/featuretoggle-context';
@@ -19,6 +19,9 @@ import { loggFlyt } from '../lib/amplitude';
 import HvaErNytt from '../components/hva-er-nytt';
 import PersonUnder18 from '../components/advarsler/person-under-18';
 import TilbakeTilForside from '../components/tilbake-til-forside';
+import { router } from 'next/client';
+import { useRouter } from 'next/router';
+import AvbrytKnapp from '../components/skjema/avbryt-knapp';
 
 export default function RegistreringArbeidssoker() {
     const { params } = useParamsFromContext();
@@ -30,7 +33,6 @@ export default function RegistreringArbeidssoker() {
     useEffect(() => {
         loggFlyt({ hendelse: 'Starter registrering av arbeidssøker' });
     }, []);
-
     return (
         <>
             <ManglerPersonEllerEnhet />
@@ -49,7 +51,10 @@ export default function RegistreringArbeidssoker() {
                         <Helseproblemer />
                         <AndreProblemer />
                         {brukNyInngang ? (
-                            <OppdaterOpplysningerKnapp erRegistreringsKnapp />
+                            <HStack className="flex justify-between">
+                                <AvbrytKnapp />
+                                <OppdaterOpplysningerKnapp erRegistreringsKnapp />
+                            </HStack>
                         ) : (
                             <RegistrerArbeidssokerKnapp />
                         )}
