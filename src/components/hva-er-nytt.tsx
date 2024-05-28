@@ -26,9 +26,16 @@ export default function HvaErNytt() {
                     registrere personen
                 </List.Item>
                 <List.Item>
+                    du må bekrefte at eventuelle sjekker av opplysninger og vurderinger er gjort før registrering kan
+                    starte
+                </List.Item>
+                <List.Item>
                     mer presis informasjon om hvorfor en person eventuelt ikke kan registreres som arbeidssøker
                 </List.Item>
-                <List.Item>registrering for mer sykmeldtoppfølging er fjernet fra løsningen</List.Item>
+                <List.Item>
+                    registrering for mer sykmeldtoppfølging er fjernet fra løsningen og har egen inngang fra andre
+                    systemer
+                </List.Item>
             </List>
             {/*
               <BodyLong>

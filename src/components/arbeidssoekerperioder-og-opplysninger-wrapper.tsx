@@ -155,6 +155,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     //TODO - ikke vise komponenten før kallene mot oppslag er ferdige
 
     const aktivPeriode = sisteArbeidssoekerperiode?.avsluttet === null && sisteArbeidssoekerperiode !== undefined;
+
     return (
         <>
             <ArbeidssoekerperiodeStatus sisteArbeidssoekerperiode={sisteArbeidssoekerperiode} />
