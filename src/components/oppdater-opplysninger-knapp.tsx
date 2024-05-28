@@ -9,13 +9,14 @@ import { Config } from '../model/config';
 
 interface OppdaterOpplysningerKnappProps {
     sisteArbeidssoekerperiodeId: string;
+    knappeTekst?: string;
 }
 
 function OppdaterOpplysningerKnapp(props: OppdaterOpplysningerKnappProps) {
     const router = useRouter();
     const { params } = useParamsFromContext();
     const { fnr } = params;
-    const { sisteArbeidssoekerperiodeId } = props;
+    const { sisteArbeidssoekerperiodeId, knappeTekst } = props;
     if (!fnr) return null;
 
     return (
@@ -25,7 +26,7 @@ function OppdaterOpplysningerKnapp(props: OppdaterOpplysningerKnappProps) {
                 onClick={() => router.push(`/oppdater-opplysninger?periodeId=${sisteArbeidssoekerperiodeId}`)}
                 className="mb-4"
             >
-                Gå til oppdater opplysninger
+                {knappeTekst || 'Gå til oppdater opplysninger'}
             </Button>
         </Box>
     );

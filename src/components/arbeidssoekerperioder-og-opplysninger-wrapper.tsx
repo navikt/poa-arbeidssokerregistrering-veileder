@@ -155,6 +155,8 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     //TODO - ikke vise komponenten før kallene mot oppslag er ferdige
 
     const aktivPeriode = sisteArbeidssoekerperiode?.avsluttet === null && sisteArbeidssoekerperiode !== undefined;
+    const harOpplysninger = sisteOpplysningerOmArbeidssoeker?.opplysningerOmArbeidssoekerId;
+    const opplysningerKnappetekst = harOpplysninger ? '' : 'Legg til opplysninger';
 
     return (
         <>
@@ -164,7 +166,10 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
                 behovsvurdering={sisteBehovsvurdering}
             />
             {aktivPeriode && (
-                <OppdaterOpplysningerKnapp sisteArbeidssoekerperiodeId={sisteArbeidssoekerperiode.periodeId} />
+                <OppdaterOpplysningerKnapp
+                    sisteArbeidssoekerperiodeId={sisteArbeidssoekerperiode.periodeId}
+                    knappeTekst={opplysningerKnappetekst}
+                />
             )}
             <Profilering sisteProfilering={sisteProfilering} />
         </>
