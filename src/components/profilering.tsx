@@ -18,7 +18,7 @@ function Profileringsresultat(props: ProfileringProps) {
     const { sisteProfilering } = props || {};
     const { profilertTil, sendtInnAv } = sisteProfilering || {};
 
-    if (!sisteProfilering) return null;
+    if (!profilertTil) return null;
 
     return (
         <Box>
