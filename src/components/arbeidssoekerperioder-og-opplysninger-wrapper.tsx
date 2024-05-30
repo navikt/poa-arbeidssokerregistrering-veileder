@@ -26,6 +26,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const [sisteProfilering, setSisteProfilering] = useState<any>(undefined);
     const [errorBehovsvurdering, setErrorBehovsvurdering] = useState<any>(undefined);
     const [sisteBehovsvurdering, setSisteBehovsvurdering] = useState<any>(undefined);
+    const [harSjekketArbeidssoekerperioder, setHarSjekketArbeidssoekerperioder] = useState<boolean>(false);
 
     const hentArbeidssoekerperioderUrl = brukerMock
         ? '/api/mocks/oppslag-arbeidssoekerperioder'
@@ -80,6 +81,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
                 const data = await response.json();
                 const sisteArbeidssoekerperiode = hentSisteArbeidssokerPeriode(data);
                 setSisteArbeidssoekerperiode(sisteArbeidssoekerperiode);
+                setHarSjekketArbeidssoekerperioder(true);
             }
         } catch (err: unknown) {
             setErrorArbeidssoekerperioder(err);
@@ -152,15 +154,15 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
 
     if (!fnr || !enhetId) return null;
 
-    //TODO - ikke vise komponenten før kallene mot oppslag er ferdige
-
     const aktivPeriode = sisteArbeidssoekerperiode?.avsluttet === null && sisteArbeidssoekerperiode !== undefined;
     const harOpplysninger = sisteOpplysningerOmArbeidssoeker?.opplysningerOmArbeidssoekerId;
     const opplysningerKnappetekst = harOpplysninger ? '' : 'Legg til opplysninger';
 
     return (
         <>
-            <ArbeidssoekerperiodeStatus sisteArbeidssoekerperiode={sisteArbeidssoekerperiode} />
+            {harSjekketArbeidssoekerperioder && (
+                <ArbeidssoekerperiodeStatus sisteArbeidssoekerperiode={sisteArbeidssoekerperiode} />
+            )}
             <OpplysningerOmArbeidssoeker
                 sisteOpplysningerOmArbeidssoeker={sisteOpplysningerOmArbeidssoeker}
                 behovsvurdering={sisteBehovsvurdering}
