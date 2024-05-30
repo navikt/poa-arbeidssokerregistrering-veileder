@@ -136,15 +136,21 @@ function ArbeidssoekerstatusOversikt() {
 
     return (
         <Box>
-            <KanRegistreresSomArbeidssoekerSjekk
-                feilmelding={error}
-                kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
-            />
+            {harIkkeAktivPeriode && (
+                <KanRegistreresSomArbeidssoekerSjekk
+                    feilmelding={error}
+                    kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
+                />
+            )}
             <Heading level="1" size="large" className="mb-8 text-center">
                 Arbeidssøkerregistrering
             </Heading>
-            <AarsakerTilAtPersonenIkkeKanRegistreres feilmelding={error} />
-            <VurderingskriterierForArbeidssoekerregistrering feilmelding={error} />
+            {harIkkeAktivPeriode && (
+                <>
+                    <AarsakerTilAtPersonenIkkeKanRegistreres feilmelding={error} />
+                    <VurderingskriterierForArbeidssoekerregistrering feilmelding={error} />
+                </>
+            )}
             {(kanOverstyres || kanStarteArbeidssoekerperiode) && harIkkeAktivPeriode && <GenereltOmSamtykke />}
             {harIkkeAktivPeriode && (
                 <VelgRegistreringsKnapp

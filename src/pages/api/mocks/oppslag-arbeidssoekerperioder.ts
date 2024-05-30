@@ -4,11 +4,10 @@ const oppslagArbeidssoekerperioder = (req: NextApiRequest, res: NextApiResponse)
     res.json(data);
 };
 
-/*
 // Ingen tidligere arbeidssøkerperioder
 const data = [];
-*/
 
+/*
 // Aktiv arbeidssøkerperiode fra dev
 const data = [
     {
@@ -43,44 +42,31 @@ const data = [
         avsluttet: null,
     },
 ];
+*/
 
 /*
-// Aktiv arbeidssøkerperiode
+// Avsluttet arbeidssøkerperiode fra dev
 const data = [
     {
-        periodeId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        periodeId: '3950569a-ffb1-4c70-b75d-14e808e91517',
         startet: {
-            tidspunkt: '2021-09-29T11:22:33.444Z',
+            tidspunkt: '2024-05-07T08:32:26.915Z',
             utfoertAv: {
-                type: 'UKJENT_VERDI',
+                type: 'SLUTTBRUKER',
             },
-            kilde: 'string',
-            aarsak: 'string',
+            kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:24.04.25.141-1',
+            aarsak: 'Er over 18 år, er bosatt i Norge i hendhold Folkeregisterloven',
         },
-        avsluttet: null,
+        avsluttet: {
+            tidspunkt: '2024-05-14T11:42:26.902Z',
+            utfoertAv: {
+                type: 'VEILEDER',
+            },
+            kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:24.04.25.141-1',
+            aarsak: 'Ansatt har tilgang til bruker',
+        },
     },
 ];
 */
-/*const data = [
-    {
-        periodeId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        startet: {
-            tidspunkt: '2021-09-29T11:22:33.444Z',
-            utfoertAv: {
-                type: 'UKJENT_VERDI',
-            },
-            kilde: 'string',
-            aarsak: 'string',
-        },
-        avsluttet: {
-            tidspunkt: '2021-09-29T11:22:33.444Z',
-            utfoertAv: {
-                type: 'UKJENT_VERDI',
-            },
-            kilde: 'string',
-            aarsak: 'string',
-        },
-    },
-];*/
 
 export default oppslagArbeidssoekerperioder;
