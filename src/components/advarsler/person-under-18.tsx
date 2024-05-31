@@ -18,8 +18,9 @@ function PersonUnder18() {
     const alder = personidentTilAlder(fnr);
     const erUnder18aar = alder < 18;
     const brukSperrUnder18 = toggles['arbeidssokerregistrering.bruk-under-18-sperre'] && aarsTall > 2023;
+    const brukNyInngang = toggles['arbeidssokerregistrering.bruk-ny-inngang'];
 
-    const skalViseKomponent = brukSperrUnder18 && erUnder18aar;
+    const skalViseKomponent = brukSperrUnder18 && erUnder18aar && !brukNyInngang;
 
     const gaarTilServicerutine = () => {
         loggAktivitet({ aktivitet: 'Går til servicerutine for samtykke for personer under 18' });
