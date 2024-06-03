@@ -16,21 +16,33 @@ const TILTAKSLISTE = {
     DOED: [
         {
             id: '8101c97d-2beb-4fee-ad86-3eb3c3e280b4',
-            beskrivelse: 'Her er en ting å gjøre',
+            beskrivelse: 'Sjekk at du har tastet inn korrekt personident',
         },
         {
             id: 'ca57f913-1932-40ba-8cde-fe1475673166',
-            beskrivelse: 'Her er en annen ting å gjøre',
+            beskrivelse:
+                'Personen kan selv kontakte folkeregisteret for å gjøre endringer her https://www.skatteetaten.no/person/folkeregister/endre/',
+        },
+        {
+            id: '95f78e60-a000-4835-82dc-84628b0c2416',
+            beskrivelse:
+                'Hvis du ønsker å hjelpe personen med å registrere endringer hos folkeregisteret kan du gjøre det her https://www.skatteetaten.no/person/folkeregister/tips-om-avvik-i-folkeregisteret/for-offentlige/',
         },
     ],
     SAVNET: [
         {
             id: 'e1330640-8f60-481e-87c4-1e48109d26ad',
-            beskrivelse: 'Her er en ting å gjøre',
+            beskrivelse: 'Sjekk at du har tastet inn korrekt personident',
         },
         {
             id: '5b04b8cc-f3ca-4440-8dd4-dbfbafd87e01',
-            beskrivelse: 'Her er en annen ting å gjøre',
+            beskrivelse:
+                'Personen kan selv kontakte folkeregisteret for å gjøre endringer her https://www.skatteetaten.no/person/folkeregister/endre/',
+        },
+        {
+            id: '5af038f6-d6b5-4d2c-8e6b-e554cf4bd60d',
+            beskrivelse:
+                'Hvis du ønsker å hjelpe personen med å registrere endringer hos folkeregisteret kan du gjøre det her https://www.skatteetaten.no/person/folkeregister/tips-om-avvik-i-folkeregisteret/for-offentlige/',
         },
     ],
     ANSATT_IKKE_TILGANG_TIL_BRUKER: [
