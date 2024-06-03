@@ -16,21 +16,13 @@ const TILTAKSLISTE = {
     UKJENT_ALDER: [
         {
             id: 'd4bc30ee-d2e6-488e-9fd5-acad67e26f99',
-            beskrivelse: 'Her er en grunn',
-        },
-        {
-            id: '1138cc8c-1c2f-47df-a582-77fdfd12c185',
-            beskrivelse: 'Her er en annen grunn',
+            beskrivelse: 'Systemene vår kan ikke bekrefte personens alder',
         },
     ],
     IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN: [
         {
             id: '773558b7-5336-4cc9-8df0-0c811e38dcd0',
-            beskrivelse: 'Her er en grunn',
-        },
-        {
-            id: '4adf4a48-9fef-4b03-8020-f1379e695d47',
-            beskrivelse: 'Her er en annen grunn',
+            beskrivelse: 'Adressene vi finner i våre systemer oppfyller ikke kravene til registrering',
         },
     ],
 };
