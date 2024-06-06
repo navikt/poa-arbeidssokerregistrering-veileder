@@ -100,6 +100,8 @@ function mapDinSituasjonTilBeskrivelse(situasjon: DinSituasjon): JobbsituasjonBe
         case DinSituasjon.INGEN_SVAR:
         case DinSituasjon.INGEN_VERDI:
             return 'UDEFINERT';
+        case undefined:
+            return 'UDEFINERT';
         default:
             return situasjon;
     }

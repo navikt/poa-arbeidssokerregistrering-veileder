@@ -59,6 +59,7 @@ describe('bygg-opplysninger-payload', () => {
                 beskrivelser: [{ beskrivelse: 'ALDRI_HATT_JOBB' }],
             });
         });
+
         test('dropper detaljer ved ALDRI_HATT_JOBB', () => {
             const result = byggOpplysningerPayload({
                 [SporsmalId.dinSituasjon]: DinSituasjon.AKKURAT_FULLFORT_UTDANNING,
@@ -119,28 +120,37 @@ describe('bygg-opplysninger-payload', () => {
             }).opplysningerOmArbeidssoeker;
             expect(result.jobbsituasjon.beskrivelser[0].beskrivelse).toEqual('HAR_BLITT_SAGT_OPP');
         });
+
         test('mapper om JOBB_OVER_2_AAR', () => {
             const result = byggOpplysningerPayload({
                 [SporsmalId.dinSituasjon]: DinSituasjon.JOBB_OVER_2_AAR,
             }).opplysningerOmArbeidssoeker;
             expect(result.jobbsituasjon.beskrivelser[0].beskrivelse).toEqual('IKKE_VAERT_I_JOBB_SISTE_2_AAR');
         });
+
         test('mapper om VIL_FORTSETTE_I_JOBB', () => {
             const result = byggOpplysningerPayload({
                 [SporsmalId.dinSituasjon]: DinSituasjon.VIL_FORTSETTE_I_JOBB,
             }).opplysningerOmArbeidssoeker;
             expect(result.jobbsituasjon.beskrivelser[0].beskrivelse).toEqual('ANNET');
         });
+
         test('mapper om INGEN_SVAR', () => {
             const result = byggOpplysningerPayload({
                 [SporsmalId.dinSituasjon]: DinSituasjon.INGEN_SVAR,
             }).opplysningerOmArbeidssoeker;
             expect(result.jobbsituasjon.beskrivelser[0].beskrivelse).toEqual('UDEFINERT');
         });
+
         test('mapper om INGEN_VERDI', () => {
             const result = byggOpplysningerPayload({
                 [SporsmalId.dinSituasjon]: DinSituasjon.INGEN_VERDI,
             }).opplysningerOmArbeidssoeker;
+            expect(result.jobbsituasjon.beskrivelser[0].beskrivelse).toEqual('UDEFINERT');
+        });
+
+        test('leverer data også ved manglende innhold', () => {
+            const result = byggOpplysningerPayload({}).opplysningerOmArbeidssoeker;
             expect(result.jobbsituasjon.beskrivelser[0].beskrivelse).toEqual('UDEFINERT');
         });
     });
