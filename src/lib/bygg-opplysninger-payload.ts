@@ -89,8 +89,8 @@ function mapUtdanning(skjema: SkjemaState): Payload['utdanning'] {
     };
 }
 
-function mapDinSituasjonTilBeskrivelse(sitasjon: DinSituasjon): JobbsituasjonBeskrivelse {
-    switch (sitasjon) {
+function mapDinSituasjonTilBeskrivelse(situasjon: DinSituasjon): JobbsituasjonBeskrivelse {
+    switch (situasjon) {
         case DinSituasjon.MISTET_JOBBEN:
             return 'HAR_BLITT_SAGT_OPP';
         case DinSituasjon.JOBB_OVER_2_AAR:
@@ -101,7 +101,7 @@ function mapDinSituasjonTilBeskrivelse(sitasjon: DinSituasjon): JobbsituasjonBes
         case DinSituasjon.INGEN_VERDI:
             return 'UDEFINERT';
         default:
-            return sitasjon;
+            return situasjon;
     }
 }
 
