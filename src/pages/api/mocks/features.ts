@@ -4,6 +4,19 @@ export const featureMocks = {
     version: 1,
     features: [
         {
+            name: 'arbeidssoekerregistrering.vedlikehold',
+            type: 'release',
+            enabled: false,
+            stale: false,
+            strategies: [
+                {
+                    name: 'default',
+                    parameters: {},
+                },
+            ],
+            variants: [],
+        },
+        {
             name: 'arbeidssokerregistrering.bruk-ny-inngang',
             type: 'release',
             enabled: true,
