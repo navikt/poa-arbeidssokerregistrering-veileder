@@ -17,19 +17,6 @@ export const featureMocks = {
             variants: [],
         },
         {
-            name: 'arbeidssokerregistrering.bruk-ny-inngang',
-            type: 'release',
-            enabled: true,
-            stale: false,
-            strategies: [
-                {
-                    name: 'default',
-                    parameters: {},
-                },
-            ],
-            variants: [],
-        },
-        {
             name: 'arbeidssokerregistrering-for-veileder.vis-hva-er-nytt',
             type: 'release',
             enabled: true,
