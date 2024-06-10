@@ -15,7 +15,6 @@ import { withAuthenticatedPage } from '../auth/withAuthentication';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
 import DemoPanel from '../components/demo-panel';
 import { loggFlyt } from '../lib/amplitude';
-import PersonUnder18 from '../components/advarsler/person-under-18';
 import { useSearchParams } from 'next/navigation';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import AvbrytKnapp from '../components/skjema/avbryt-knapp';
@@ -25,7 +24,6 @@ export default function OppdaterOpplysninger() {
     const { toggles } = useFeatureToggles();
     const { fnr, enhetId } = params;
     const visInnhold = fnr && enhetId;
-    const brukNyInngang = toggles['arbeidssokerregistrering.bruk-ny-inngang'];
     const searchParams = useSearchParams();
     const periodeId = searchParams.get('periodeId');
     useEffect(() => {
@@ -42,7 +40,6 @@ export default function OppdaterOpplysninger() {
                         Oppdater opplysniger
                     </Heading>
                     <RegistreringProvider hentTidligereOpplysningerForPeriodeId={periodeId}>
-                        <PersonUnder18 />
                         <DinSituasjon />
                         <SisteJobb />
                         <UtdanningsNiva />

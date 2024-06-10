@@ -57,7 +57,6 @@ function RegistreringProvider({
     const [isValid, setIsValid] = useState(true);
     const [doValidate, setDoValidate] = useState(false);
     const { toggles } = useFeatureToggles();
-    const brukNyInngang = toggles['arbeidssokerregistrering.bruk-ny-inngang'];
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const { enableMock } = useConfig() as Config;
@@ -145,9 +144,11 @@ function RegistreringProvider({
               )
             : true;
 
-        const utdanningsNivaaerSomIkkeKreverGodkjentOgBestaatt = brukNyInngang
-            ? [Utdanningsnivaa.INGEN_UTDANNING, Utdanningsnivaa.INGEN_SVAR, Utdanningsnivaa.GRUNNSKOLE]
-            : [Utdanningsnivaa.INGEN_UTDANNING, Utdanningsnivaa.INGEN_SVAR];
+        const utdanningsNivaaerSomIkkeKreverGodkjentOgBestaatt = [
+            Utdanningsnivaa.INGEN_UTDANNING,
+            Utdanningsnivaa.INGEN_SVAR,
+            Utdanningsnivaa.GRUNNSKOLE,
+        ];
 
         const harUgyldigeUtdanningSvar =
             !utdanningsNivaaerSomIkkeKreverGodkjentOgBestaatt.includes(registrering[SporsmalId.utdanning]) &&

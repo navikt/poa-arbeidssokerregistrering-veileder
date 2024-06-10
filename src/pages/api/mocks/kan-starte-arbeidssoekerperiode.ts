@@ -4,8 +4,7 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
     res.status(204).end();
 };
 
-/*
-// Feilmelding for de under 18 år
+/*// Feilmelding for de under 18 år
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
     res.status(404).json(UNDER_18_AAR);
 };
@@ -19,8 +18,7 @@ const UNDER_18_AAR = {
     feilKode: 'AVVIST',
     melding: 'Er under 18 år',
     status: 403,
-};
-*/
+};*/
 
 /*
 // Feilmelding for de som er registrert død
