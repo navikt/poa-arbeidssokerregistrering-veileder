@@ -77,22 +77,6 @@ function DemoPanel() {
                         </NextLink>
                     </Box>
                 </Box>
-                <Box>
-                    <Heading level="2" size="small" className="bg-orange-100">
-                        Reaktivering
-                    </Heading>
-                    <Box className="flex justify-evenly">
-                        <NextLink href="/registrering-reaktivering" passHref locale={false}>
-                            <Button variant="secondary">Reaktivering</Button>
-                        </NextLink>
-                        <NextLink href="/veiledning/reaktivering/utvandret/" passHref locale={false}>
-                            <Button variant="secondary">Utvandret Reaktivering</Button>
-                        </NextLink>
-                        <NextLink href="/kvittering-reaktivering/" passHref locale={false}>
-                            <Button variant="secondary">Kvittering Reaktivering</Button>
-                        </NextLink>
-                    </Box>
-                </Box>
             </Box>
         </Box>
     );

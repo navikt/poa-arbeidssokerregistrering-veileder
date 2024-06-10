@@ -19,8 +19,6 @@ const TEKSTER: Tekster<string> = {
         heading: 'Personen kan ikke registreres som arbeidssøker',
         utvandretBeskrivelse: 'Personen står registrert som utvandret i våre systemer.',
         manglerArbeidstillatelseBeskrivelse: 'Vi finner ikke godkjent oppholdstillatelse.',
-        kanIkkeReaktiveresBeskrivelse:
-            'For å kunne gjennomføre en registrering må det gjøres endringer i personens status i Arena eller Modia.',
         servicerutineIntro: 'Det du må gjøre videre er beskrevet i ',
         servicerutineLenkeUtvandret:
             'https://navno.sharepoint.com/sites/fag-og-ytelser-regelverk-og-rutiner/SitePages/Registrering-av-arbeids--og-oppholdstillatelse.aspx?web=1',
@@ -33,9 +31,6 @@ const TEKSTER: Tekster<string> = {
 
 function hentMeldingsBeskrivelse(feilType: Feiltype): string {
     switch (feilType) {
-        case Feiltype.BRUKER_KAN_IKKE_REAKTIVERES: {
-            return 'kanIkkeReaktiveresBeskrivelse';
-        }
         case Feiltype.MANGLER_ARBEIDSTILLATELSE: {
             return 'manglerArbeidstillatelseBeskrivelse';
         }
@@ -62,16 +57,13 @@ function KontaktVeileder(props: Feilsituasjon) {
         if (feiltype === Feiltype.MANGLER_ARBEIDSTILLATELSE) {
             loggStoppsituasjon({ aarsakTilStans: 'Personen mangler oppholdstillatelse i Arena' });
         }
-        if (feiltype === Feiltype.BRUKER_KAN_IKKE_REAKTIVERES) {
-            loggStoppsituasjon({ aarsakTilStans: 'Personen får kan ikke reaktiveres fra Arena' });
-        }
     }, []);
 
     if (feiltype === undefined || !Object.values(Feiltype).includes(feiltype)) {
         return <FeilmeldingGenerell />;
     }
 
-    const visServiceRutine = feiltype !== Feiltype.BRUKER_KAN_IKKE_REAKTIVERES;
+    const visServiceRutine = feiltype;
 
     return (
         <>

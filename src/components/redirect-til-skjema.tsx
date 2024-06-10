@@ -21,9 +21,6 @@ function hentNesteSideUrl(data: StartregistreringResponse) {
         case RegistreringType.SYKMELDT_REGISTRERING: {
             return `/registrering-mer-sykmeldtoppfolging`;
         }
-        case RegistreringType.REAKTIVERING: {
-            return '/registrering-reaktivering';
-        }
         case RegistreringType.SPERRET: {
             return '/veiledning/sperret';
         }

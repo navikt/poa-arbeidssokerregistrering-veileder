@@ -60,8 +60,6 @@ spec:
       value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/fullforregistrering
     - name: FULLFOR_REGISTRERING_SYKMELDT_URL
       value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/fullforregistreringsykmeldt
-    - name: REAKTIVERING_URL
-      value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/reaktivering
     - name: SISTEARBEIDSFORHOLD_FRA_AAREG_URL
       value: https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/api/mocks/arbeidsforhold-fra-aareg
     - name: OPPRETT_OPPGAVE_URL
