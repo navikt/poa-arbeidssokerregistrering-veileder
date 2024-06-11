@@ -30,6 +30,7 @@ export const lagApiPostHandlerMedAuthHeaders: (
 
 export interface ApiError extends Error {
     status?: number;
+    traceId?: string;
 }
 
 let _oboTokenDings: OboAuth | undefined;
@@ -161,6 +162,7 @@ const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Respo
                     } else {
                         const error = new Error(apiResponse.statusText) as ApiError;
                         error.status = apiResponse.status;
+                        error.traceId = apiResponse.headers.get('x-trace-id');
                         throw error;
                     }
                 }
@@ -176,8 +178,8 @@ const lagApiHandlerMedAuthHeaders: (url: string, errorHandler?: (response: Respo
 
             return res.json(response);
         } catch (error) {
-            logger.error(`Kall mot ${url} (callId: ${callId}) feilet. Feilmelding: ${error}`);
-            res.setHeader('x-trace-id', callId)
+            logger.error(`Kall mot ${url} (callId: ${callId}) feilet. Feilmelding: ${error} traceID: ${error.traceId}`);
+            res.setHeader('x-trace-id', error.traceId ?? callId)
                 .status((error as ApiError).status || 500)
                 .end();
         }
