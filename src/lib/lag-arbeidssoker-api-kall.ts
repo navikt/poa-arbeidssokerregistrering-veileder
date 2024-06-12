@@ -1,6 +1,7 @@
 import { ApiError, getArbeidssoekerregistreringToken, getHeaders, getTraceIdFromRequest } from './next-api-handler';
 import { logger } from '@navikt/next-logger';
 import { NextApiHandler } from 'next';
+import { trace } from '@opentelemetry/api';
 
 const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 
@@ -29,9 +30,8 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
         }).then(async (apiResponse) => {
             const contentType = apiResponse.headers.get('content-type');
             const isJsonResponse = contentType && contentType.includes('application/json');
-            const traceparent = apiResponse.headers.get('traceparent');
-            logger.info('TraceID: ' + traceparent);
-            logger.info('x-trace-id: ' + apiResponse.headers.get('x-trace-id'));
+            const traceId = apiResponse.headers.get('x-trace-id');
+            logger.info('x-trace-id: ' + traceId);
             if (!apiResponse.ok) {
                 logger.warn(`apiResponse ikke ok (${apiResponse.status}), callId - ${callId}`);
                 if (isJsonResponse) {
@@ -43,6 +43,7 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
                 } else {
                     const error = new Error(apiResponse.statusText) as ApiError;
                     error.status = apiResponse.status;
+                    error.traceId = traceId;
                     throw error;
                 }
             }
@@ -65,8 +66,8 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
             res.json(respons ?? {});
         }
     } catch (error) {
-        logger.error(`Kall mot ${url} (callId: ${callId}) feilet. Feilmelding: ${error}`);
-        res.setHeader('x-trace-id', callId)
+        logger.error(`Kall mot ${url} (callId: ${callId}, traceId: ${error.traceId}) feilet. Feilmelding: ${error}`);
+        res.setHeader('x-trace-id', error.traceId)
             .status((error as ApiError).status || 500)
             .end();
     }
