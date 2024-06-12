@@ -53,8 +53,9 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
                 };
             }
         });
-        const traceId = respons.headers.get('traceparent')?.split('-')[1];
-        logger.info(`Kall callId: ${callId} mot ${url} er ferdig (${respons?.status || 200}) test traceID: ${traceId}`);
+        logger.info(
+            `Kall callId: ${callId} mot ${url} er ferdig (${respons?.status || 200}) test traceparent: ${respons.headers.get('traceparent')}`,
+        );
 
         if (respons?.status === 204) {
             res.status(204).end();
