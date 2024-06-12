@@ -29,6 +29,7 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
         }).then(async (apiResponse) => {
             const contentType = apiResponse.headers.get('content-type');
             const isJsonResponse = contentType && contentType.includes('application/json');
+            //const traceId = apiResponse.headers.get('traceparent')?.split('-')[1];
             if (!apiResponse.ok) {
                 logger.warn(`apiResponse ikke ok (${apiResponse.status}), callId - ${callId}`);
                 if (isJsonResponse) {
@@ -52,8 +53,8 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
                 };
             }
         });
-
-        logger.info(`Kall callId: ${callId} mot ${url} er ferdig (${respons?.status || 200})`);
+        const traceId = respons.headers.get('traceparent')?.split('-')[1];
+        logger.info(`Kall callId: ${callId} mot ${url} er ferdig (${respons?.status || 200}) test traceID: ${traceId}`);
 
         if (respons?.status === 204) {
             res.status(204).end();
