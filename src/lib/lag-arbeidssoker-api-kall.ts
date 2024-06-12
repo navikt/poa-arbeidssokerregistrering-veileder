@@ -33,12 +33,13 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
             const traceId = apiResponse.headers.get('x-trace-id');
             logger.info('x-trace-id: ' + traceId);
             if (!apiResponse.ok) {
-                logger.warn(`apiResponse ikke ok (${apiResponse.status}), callId - ${callId}`);
+                logger.warn(`apiResponse ikke ok (${apiResponse.status}), callId - ${callId}, x-trace-id: ${traceId}`);
                 if (isJsonResponse) {
                     const data = await apiResponse.json();
                     return {
                         ...data,
                         status: apiResponse.status,
+                        traceId: traceId,
                     };
                 } else {
                     const error = new Error(apiResponse.statusText) as ApiError;
@@ -56,7 +57,9 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
                 };
             }
         });
-        logger.info(`Kall callId: ${callId} mot ${url} er ferdig (${respons?.status || 200})`);
+        logger.info(
+            `Kall callId: ${callId} mot ${url} er ferdig (${respons?.status || 200}) traceID: ${respons?.traceId}`,
+        );
 
         if (respons?.status === 204) {
             res.status(204).end();
