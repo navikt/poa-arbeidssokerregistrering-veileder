@@ -12,6 +12,7 @@ import VelgRegistreringsKnapp from './velg-registreringsknapp';
 import ArbeidssoekerperioderOgOpplysningerWrapper from './arbeidssoekerperioder-og-opplysninger-wrapper';
 import VurderingskriterierForArbeidssoekerregistrering from './vurderingskriterier-for-arbeidssoekerregistrering';
 import AarsakerTilAtPersonenIkkeKanRegistreres from './aarsaker-til-at-personen-ikke-kan-registreres';
+import ArbeidssoekerMaaRegistreresIArena from './arbeidssoeker-maa-registreres-i-arena-foerst';
 import { hentSisteArbeidssokerPeriode } from '../lib/hent-siste-arbeidssoekerperiode';
 
 export const REGLER_SOM_IKKE_KAN_OVERSTYRES = ['IKKE_FUNNET', 'DOED', 'SAVNET', 'ANSATT_IKKE_TILGANG_TIL_BRUKER'];
@@ -148,6 +149,7 @@ function ArbeidssoekerstatusOversikt() {
             {harIkkeAktivPeriode && (
                 <>
                     <AarsakerTilAtPersonenIkkeKanRegistreres feilmelding={error} />
+                    <ArbeidssoekerMaaRegistreresIArena feilmelding={error} />
                     <VurderingskriterierForArbeidssoekerregistrering feilmelding={error} />
                 </>
             )}
