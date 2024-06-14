@@ -11,7 +11,7 @@ function Feilmelding(props: FeilmeldingProps) {
     const duManglerTilgang = aarsakTilAvvisning && aarsakTilAvvisning.regel === 'ANSATT_IKKE_TILGANG';
 
     if (!feilmelding) return null;
-    console.log(JSON.stringify(feilmelding));
+    console.log('Feilmelding' + JSON.stringify(feilmelding));
     return (
         <Alert variant="warning" className="mb-8">
             <Heading level="1" size="small" className="mb-4">
