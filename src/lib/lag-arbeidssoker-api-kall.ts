@@ -32,6 +32,7 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
             const isJsonResponse = contentType && contentType.includes('application/json');
             const traceId = apiResponse.headers.get('x-trace-id');
             logger.info('x-trace-id: ' + traceId);
+            console.log('x-trace-id: ' + traceId);
             if (!apiResponse.ok) {
                 logger.warn(`apiResponse ikke ok (${apiResponse.status}), callId - ${callId}, x-trace-id: ${traceId}`);
                 if (isJsonResponse) {

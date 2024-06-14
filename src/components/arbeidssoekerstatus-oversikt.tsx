@@ -87,8 +87,10 @@ function ArbeidssoekerstatusOversikt() {
                 setKanIkkeStarteArbeidssoekerperiode(true);
                 const data = await response.json();
                 const traceId = response.headers.get('x-trace-id');
-
+                console.log('traceId: ' + traceId);
+                console.log('data: ' + JSON.stringify(data));
                 const oppdatertFeilmelding = { ...data, traceId };
+                console.log('oppdatertFeilmelding: ' + JSON.stringify(oppdatertFeilmelding));
                 setError(oppdatertFeilmelding);
             }
         } catch (err: unknown) {
