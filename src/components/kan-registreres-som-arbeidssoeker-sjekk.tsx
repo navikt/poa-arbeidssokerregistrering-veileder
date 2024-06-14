@@ -1,4 +1,5 @@
 import { Alert, BodyLong, Heading } from '@navikt/ds-react';
+import KopierTraceId from './kopierTraceId';
 
 interface FeilmeldingProps {
     feilmelding?: any;
@@ -19,6 +20,7 @@ function Feilmelding(props: FeilmeldingProps) {
                     : 'Personen kan ikke registrere seg selv som arbeidssøker på nav.no'}
             </Heading>
             {aarsakTilAvvisning && <BodyLong spacing>Årsak: {aarsakTilAvvisning.beskrivelse}</BodyLong>}
+            <KopierTraceId traceId={feilmelding.traceId} />
         </Alert>
     );
 }

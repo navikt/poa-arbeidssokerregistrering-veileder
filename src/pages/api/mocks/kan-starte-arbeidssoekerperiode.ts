@@ -1,11 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
+/*const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
+    res.setHeader('x-trace-id', 'tracetest');
     res.status(204).end();
-};
+};*/
 
-/*// Feilmelding for de under 18 år
+// Feilmelding for de under 18 år
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
+    res.setHeader('x-trace-id', 'tracetest');
     res.status(404).json(UNDER_18_AAR);
 };
 
@@ -18,11 +20,12 @@ const UNDER_18_AAR = {
     feilKode: 'AVVIST',
     melding: 'Er under 18 år',
     status: 403,
-};*/
+};
 
 /*
 // Feilmelding for de som er registrert død
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
+    res.setHeader('x-trace-id', 'tracetest');
     res.status(404).json(DOED);
 };
 

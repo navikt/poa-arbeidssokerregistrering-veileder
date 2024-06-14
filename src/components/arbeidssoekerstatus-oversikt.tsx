@@ -86,7 +86,10 @@ function ArbeidssoekerstatusOversikt() {
                 // noinspection ExceptionCaughtLocallyJS
                 setKanIkkeStarteArbeidssoekerperiode(true);
                 const data = await response.json();
-                setError(data);
+                const traceId = response.headers.get('x-trace-id');
+
+                const oppdatertFeilmelding = { ...data, traceId };
+                setError(oppdatertFeilmelding);
             }
         } catch (err: unknown) {
             setError(err);

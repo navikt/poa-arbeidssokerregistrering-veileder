@@ -11,9 +11,9 @@ const KopierTraceId = (props: TraceIdProps) => {
         <Box className="mt-4">
             Dersom du kontakter brukerstøtte blir det lettere for oss å hjelpe deg hvis du legger ved sporingsID-en
             under. Du kopierer den ved å trykke på knappen.
-            <CopyButton copyText="3.14" text={traceId} activeText="Kopierte traceId" />
+            <CopyButton copyText={traceId} text={traceId} activeText="Kopierte traceId" />
         </Box>
     );
 };
-
+undefined;
 export default KopierTraceId;
