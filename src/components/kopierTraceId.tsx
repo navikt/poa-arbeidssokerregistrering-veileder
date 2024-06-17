@@ -15,5 +15,4 @@ const KopierTraceId = (props: TraceIdProps) => {
         </Box>
     );
 };
-undefined;
 export default KopierTraceId;
