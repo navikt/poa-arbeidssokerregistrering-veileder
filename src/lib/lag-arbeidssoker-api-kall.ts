@@ -1,6 +1,7 @@
 import { ApiError, getArbeidssoekerregistreringToken, getHeaders, getTraceIdFromRequest } from './next-api-handler';
 import { logger } from '@navikt/next-logger';
 import { NextApiHandler } from 'next';
+import { trace } from '@opentelemetry/api';
 
 const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 
@@ -29,17 +30,20 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
         }).then(async (apiResponse) => {
             const contentType = apiResponse.headers.get('content-type');
             const isJsonResponse = contentType && contentType.includes('application/json');
+            const traceId = apiResponse.headers.get('x-trace-id');
             if (!apiResponse.ok) {
-                logger.warn(`apiResponse ikke ok (${apiResponse.status}), callId - ${callId}`);
+                logger.warn(`apiResponse ikke ok (${apiResponse.status}), callId - ${callId}, x-trace-id: ${traceId}`);
                 if (isJsonResponse) {
                     const data = await apiResponse.json();
                     return {
                         ...data,
                         status: apiResponse.status,
+                        traceId: traceId,
                     };
                 } else {
                     const error = new Error(apiResponse.statusText) as ApiError;
                     error.status = apiResponse.status;
+                    error.traceId = traceId;
                     throw error;
                 }
             }
@@ -52,8 +56,9 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
                 };
             }
         });
-
-        logger.info(`Kall callId: ${callId} mot ${url} er ferdig (${respons?.status || 200})`);
+        logger.info(
+            `Kall callId: ${callId} mot ${url} er ferdig (${respons?.status || 200}) traceID: ${respons?.traceId}`,
+        );
 
         if (respons?.status === 204) {
             res.status(204).end();
@@ -63,10 +68,8 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
             res.json(respons ?? {});
         }
     } catch (error) {
-        logger.error(`Kall mot ${url} (callId: ${callId}) feilet. Feilmelding: ${error}`);
-        res.setHeader('x-trace-id', callId)
-            .status((error as ApiError).status || 500)
-            .end();
+        logger.error(`Kall mot ${url} (callId: ${callId}, traceId: ${error.traceId}) feilet. Feilmelding: ${error}`);
+        res.status((error as ApiError).status || 500).end();
     }
 };
 
