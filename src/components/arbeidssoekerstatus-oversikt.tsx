@@ -119,13 +119,6 @@ function ArbeidssoekerstatusOversikt() {
     }
 
     useEffect(() => {
-        if (fnr && !enhetId) {
-            console.log('har fnr, men ikke enhetId');
-        }
-        if (enhetId && !fnr) {
-            console.log('har enhetId, men ikke fnr');
-        }
-
         if (fnr && enhetId) {
             apiKall();
             apiKallArbeidssoekerperioder();
