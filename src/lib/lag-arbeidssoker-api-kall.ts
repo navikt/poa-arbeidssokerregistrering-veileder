@@ -69,9 +69,7 @@ const lagArbeidssokerApiKall: LagArbeidssokerApiKall = (url, opts) => async (req
         }
     } catch (error) {
         logger.error(`Kall mot ${url} (callId: ${callId}, traceId: ${error.traceId}) feilet. Feilmelding: ${error}`);
-        res.setHeader('x-trace-id', error.traceId)
-            .status((error as ApiError).status || 500)
-            .end();
+        res.status((error as ApiError).status || 500).end();
     }
 };
 
