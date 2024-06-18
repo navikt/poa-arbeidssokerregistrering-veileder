@@ -126,7 +126,6 @@ function ArbeidssoekerstatusOversikt() {
             setErrorArbeidssoekerperioder(undefined);
             apiKall();
             apiKallArbeidssoekerperioder();
-            console.log('fnr', fnr.substring(0, 6));
         }
     }, [fnr, enhetId]);
 
