@@ -120,6 +120,10 @@ function ArbeidssoekerstatusOversikt() {
 
     useEffect(() => {
         if (fnr && enhetId) {
+            setKanStarteArbeidssoekerperiode(false);
+            setError(undefined);
+            setSisteArbeidssoekerperiode({});
+            setErrorArbeidssoekerperioder(undefined);
             apiKall();
             apiKallArbeidssoekerperioder();
             console.log('fnr', fnr.substring(0, 6));
