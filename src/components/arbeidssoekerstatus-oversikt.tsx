@@ -122,6 +122,7 @@ function ArbeidssoekerstatusOversikt() {
         if (fnr && enhetId) {
             apiKall();
             apiKallArbeidssoekerperioder();
+            console.log('fnr', fnr.substring(0, 6));
         }
     }, [fnr, enhetId]);
 
