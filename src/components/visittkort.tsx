@@ -62,11 +62,11 @@ const Visittkort = () => {
     const { enableMock } = useConfig() as Config;
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
-    /*    useEffect(() => {
+    useEffect(() => {
         if (fnr && enhetId) {
-            //console.log('fnr_sub', fnr.substring(0, 5));
+            console.log('fnr_sub', fnr.substring(0, 5));
         }
-    }, [fnr, enhetId]);*/
+    }, [fnr, enhetId]);
 
     if (brukerMock || !fnr) {
         return null;
