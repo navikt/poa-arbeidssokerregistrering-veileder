@@ -140,6 +140,15 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
 
     useEffect(() => {
         if (fnr && enhetId) {
+            setErrorArbeidssoekerperioder(undefined);
+            setSisteArbeidssoekerperiode({});
+            setErrorOpplysningerOmArbeidssoeker(undefined);
+            setSisteOpplysningerOmArbeidssoeker(undefined);
+            setErrorProfileringer(undefined);
+            setSisteProfilering(undefined);
+            setErrorBehovsvurdering(undefined);
+            setSisteBehovsvurdering(undefined);
+            setHarSjekketArbeidssoekerperioder(false);
             apiKallArbeidssoekerperioder();
             apiKallBehovsvurdering();
         }
