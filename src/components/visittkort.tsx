@@ -4,6 +4,7 @@ import { createAssetManifestParser } from '@navikt/navspa/dist/async/utils';
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
+import { useEffect } from 'react';
 
 interface SpaProps {
     enhet?: string;
@@ -60,6 +61,12 @@ const Visittkort = () => {
     const { fnr, enhetId } = params;
     const { enableMock } = useConfig() as Config;
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
+
+    useEffect(() => {
+        if (fnr && enhetId) {
+            console.log('fnr_sub', fnr.substring(0, 5));
+        }
+    }, [fnr, enhetId]);
 
     if (brukerMock || !fnr) {
         return null;
