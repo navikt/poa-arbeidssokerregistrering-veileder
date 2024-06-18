@@ -4,7 +4,7 @@ import { createAssetManifestParser } from '@navikt/navspa/dist/async/utils';
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface SpaProps {
     enhet?: string;
@@ -61,9 +61,13 @@ const Visittkort = () => {
     const { fnr, enhetId } = params;
     const { enableMock } = useConfig() as Config;
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
+    const [aktivtFnr, setAktivFnr] = useState<any>(undefined);
+    const [aktivEnhetsId, setAktivEnhetsid] = useState<any>(undefined);
 
     useEffect(() => {
         if (fnr && enhetId) {
+            setAktivFnr(fnr);
+            setAktivEnhetsid(enhetId);
             console.log('fnr_sub', fnr.substring(0, 5));
         }
     }, [fnr, enhetId]);
@@ -76,8 +80,8 @@ const Visittkort = () => {
         <VisittkortSpa
             tilbakeTilFlate={'veilarbportefoljeflatefs'}
             visVeilederVerktoy={false}
-            fnr={fnr}
-            enhet={enhetId}
+            fnr={aktivtFnr}
+            enhet={aktivEnhetsId}
             skjulEtiketter={false}
         />
     );
