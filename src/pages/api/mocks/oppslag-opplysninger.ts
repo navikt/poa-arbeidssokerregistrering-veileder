@@ -27,14 +27,7 @@ const data = [
         annet: {
             andreForholdHindrerArbeid: 'NEI',
         },
-        jobbsituasjon: [
-            {
-                beskrivelse: 'HAR_SAGT_OPP',
-                detaljer: {
-                    prosent: '25',
-                },
-            },
-        ],
+        jobbsituasjon: [],
     },
 ];
 

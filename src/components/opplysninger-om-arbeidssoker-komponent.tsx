@@ -39,7 +39,7 @@ function mapOpplysninger(opplysninger: OpplysningerOmArbeidssoker): OpplysningPr
     const result: OpplysningProps[] = [
         {
             sporsmal: SporsmalId.dinSituasjon,
-            svar: opplysninger.jobbsituasjon[0].beskrivelse,
+            svar: opplysninger.jobbsituasjon[0]?.beskrivelse || 'Ingen svar',
         },
         {
             sporsmal: SporsmalId.sisteStilling,

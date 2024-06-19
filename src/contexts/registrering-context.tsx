@@ -101,7 +101,8 @@ function RegistreringProvider({
                     [SporsmalId.utdanningBestatt]: sisteOpplysninger.utdanning.bestaatt,
                     [SporsmalId.andreForhold]: sisteOpplysninger.annet.andreForholdHindrerArbeid,
                     [SporsmalId.helseHinder]: sisteOpplysninger.helse.helsetilstandHindrerArbeid,
-                    [SporsmalId.dinSituasjon]: DinSituasjon[sisteOpplysninger.jobbsituasjon[0].beskrivelse],
+                    [SporsmalId.dinSituasjon]:
+                        DinSituasjon[sisteOpplysninger.jobbsituasjon[0]?.beskrivelse || DinSituasjon.INGEN_SVAR],
                     [SporsmalId.utdanning]:
                         Utdanningsnivaa[mapNusKodeTilUtdannignsnivaa(sisteOpplysninger.utdanning.nus)],
                 };

@@ -4,10 +4,11 @@ const oppslagArbeidssoekerperioder = (req: NextApiRequest, res: NextApiResponse)
     res.json(data);
 };
 
+/*
 // Ingen tidligere arbeidssøkerperioder
 const data = [];
+*/
 
-/*
 // Aktiv arbeidssøkerperiode fra dev
 const data = [
     {
@@ -42,7 +43,6 @@ const data = [
         avsluttet: null,
     },
 ];
-*/
 
 /*
 // Avsluttet arbeidssøkerperiode fra dev
