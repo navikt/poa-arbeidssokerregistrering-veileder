@@ -1,4 +1,4 @@
-import { Box, BodyLong, Heading } from '@navikt/ds-react';
+import { Box, BodyLong, Heading, List } from '@navikt/ds-react';
 
 interface OpplysningerProps {
     feilmelding?: any;
@@ -13,17 +13,19 @@ function ArbeidssoekerMaaRegistreresIArena(props: OpplysningerProps) {
     if (!maaRegistreresIArena) return null;
 
     return (
-        <Box>
-            <Heading level="2" size="small">
-                Personen må være registrert i Arena
+        <Box className="mb-8">
+            <Heading level="3" size="small" className="navds-heading navds-heading--xsmall">
+                Trenger personen å være registrert i Arena?
             </Heading>
-            <BodyLong spacing>
-                Dersom du ønsker at personen skal hentes inn i Arena etter registrering som arbeidssøker så må
-                vedkommende være registrert der fra før.
+            <BodyLong>
+                Hvis du ønsker at personen skal hentes inn i Arena må dette gjøres <strong>før</strong> personen
+                registreres som arbeidssøker.
             </BodyLong>
-            <BodyLong spacing>
-                Sjekk om personen finnes i Arena, hvis ikke må du registrere vedkommende der før du går videre.
-            </BodyLong>
+            <List as="ol" size="small">
+                <List.Item>Sjekk om personen allerede ligger i Arena</List.Item>
+                <List.Item>Registrer personen i Arena hvis hen ikke allerede er registrert der</List.Item>
+                <List.Item>Registrer personen som arbeidssøker</List.Item>
+            </List>
         </Box>
     );
 }

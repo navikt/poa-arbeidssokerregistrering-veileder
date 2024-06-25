@@ -9,7 +9,7 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
 //Feilmelding for de under 18 år
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
     res.setHeader('x-trace-id', 'tracetest');
-    res.status(404).json(UNDER_18_AAR);
+    res.status(403).json(UNDER_18_AAR);
 };
 
 const UNDER_18_AAR = {
@@ -27,7 +27,7 @@ const UNDER_18_AAR = {
 /*
 // Feilmelding for utflyttet
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
-    res.status(404).json(IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN);
+    res.status(403).json(IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN);
 };
 
 const IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN = {
@@ -49,13 +49,13 @@ const IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN = {
     "status": 403,
     "traceId": "130fcc303eb818c9e16e4ba0b6d45fba"
 };
-*/
 
+*/
 /*
 // Feilmelding for de som er registrert død
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
     res.setHeader('x-trace-id', 'tracetest');
-    res.status(404).json(DOED);
+    res.status(403).json(DOED);
 };
 
 const DOED = {
@@ -73,7 +73,7 @@ const DOED = {
 /*
 // Feilmelding for de som er registrert savnet
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
-    res.status(404).json(SAVNET);
+    res.status(403).json(SAVNET);
 };
 
 const SAVNET = {
@@ -91,7 +91,7 @@ const SAVNET = {
 /*
 // Feilmelding for de som ikke er funnet
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
-    res.status(404).json(IKKE_FUNNET);
+    res.status(403).json(IKKE_FUNNET);
 };
 
 const IKKE_FUNNET = {
@@ -109,7 +109,7 @@ const IKKE_FUNNET = {
 /*
 // Feilmelding for de som ikke er funnet
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
-    res.status(404).json(IKKE_FUNNET);
+    res.status(403).json(IKKE_FUNNET);
 };
 
 const IKKE_FUNNET = {
@@ -127,7 +127,7 @@ const IKKE_FUNNET = {
 /*
 // Feilmelding for ansatt som ikke har tilgang
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
-    res.status(404).json(ANSATT_IKKE_TILGANG_TIL_BRUKER);
+    res.status(403).json(ANSATT_IKKE_TILGANG_TIL_BRUKER);
 };
 
 const ANSATT_IKKE_TILGANG_TIL_BRUKER = {
@@ -145,7 +145,7 @@ const ANSATT_IKKE_TILGANG_TIL_BRUKER = {
 /*
 // Feilmelding for arbeidssøker med ukjent alder
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
-    res.status(404).json(UKJENT_ALDER);
+    res.status(403).json(UKJENT_ALDER);
 };
 
 const UKJENT_ALDER = {

@@ -39,18 +39,12 @@ function VurderingskriterierForArbeidssoekerregistrering(props: Vurderingskriter
 
     return (
         <Box>
-            <Heading level="2" size="small">
-                Vilkårsvurdering
-            </Heading>
-            <BodyLong spacing>
-                Før du kan registrere personen som arbeidssøker må du vurdere om vilkårene for registrering er oppfylt.
-            </BodyLong>
-            <BodyLong spacing>Du må opprette et notat og dokumentere vurderingene i Gosys.</BodyLong>
-            <List as="ul" title="Årsakene til at du må gjøre en vurdering">
+            <List as="ul" size="small" title="Hvorfor må jeg gjøre en vurdering av om personen skal kunne registreres?">
                 {tiltaksliste.map((tiltak) => (
                     <List.Item key={tiltak.id}>{tiltak.beskrivelse}</List.Item>
                 ))}
             </List>
+            <BodyLong spacing>Du må opprette et notat og dokumentere vurderingene i Gosys.</BodyLong>
         </Box>
     );
 }

@@ -1,4 +1,4 @@
-import { Alert, BodyLong, Heading } from '@navikt/ds-react';
+import { Alert, BodyLong, Heading, ReadMore } from '@navikt/ds-react';
 import KopierTraceId from './kopierTraceId';
 
 interface FeilmeldingProps {
@@ -16,10 +16,16 @@ function Feilmelding(props: FeilmeldingProps) {
             <Heading level="1" size="small" className="mb-4">
                 {duManglerTilgang
                     ? 'Du kan ikke registrere denne personen som arbeidssøker'
-                    : 'Personen kan ikke registrere seg selv som arbeidssøker på nav.no'}
+                    : 'Personen må registreres manuelt av en veileder etter at en vurdering er gjort'}
             </Heading>
-            {aarsakTilAvvisning && <BodyLong spacing>Årsak: {aarsakTilAvvisning.beskrivelse}</BodyLong>}
-            <KopierTraceId traceId={feilmelding.traceId} />
+            {aarsakTilAvvisning && (
+                <BodyLong spacing>
+                    <strong>Årsak:</strong> {aarsakTilAvvisning.beskrivelse}
+                </BodyLong>
+            )}
+            <ReadMore header="Mener du dette er feil?">
+                <KopierTraceId traceId={feilmelding.traceId} />
+            </ReadMore>
         </Alert>
     );
 }

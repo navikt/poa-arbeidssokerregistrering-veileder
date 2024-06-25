@@ -33,7 +33,7 @@ function sjekkOmRegelKanOverstyres(feilmelding?: any) {
 function GenereltOmSamtykke() {
     return (
         <Box>
-            <List as="ul" title="Før du registrerer arbeidssøker må du sørge for at:">
+            <List as="ul" size="small" title="Før du registrerer arbeidssøker må du sørge for at:">
                 <List.Item>Personen som skal registreres er informert og har samtykket til registreringen</List.Item>
                 <List.Item>
                     Det er gitt informasjon om at den registrerte må sende meldekort hver 14. dag for å opprettholde
@@ -141,20 +141,20 @@ function ArbeidssoekerstatusOversikt() {
 
     return (
         <Box>
+            <Heading level="1" size="large" className="mb-8 text-left">
+                Arbeidssøkerregistrering
+            </Heading>
             {harIkkeAktivPeriode && (
                 <KanRegistreresSomArbeidssoekerSjekk
                     feilmelding={error}
                     kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
                 />
             )}
-            <Heading level="1" size="large" className="mb-8 text-center">
-                Arbeidssøkerregistrering
-            </Heading>
             {harIkkeAktivPeriode && (
                 <>
                     <AarsakerTilAtPersonenIkkeKanRegistreres feilmelding={error} />
-                    <ArbeidssoekerMaaRegistreresIArena feilmelding={error} />
                     <VurderingskriterierForArbeidssoekerregistrering feilmelding={error} />
+                    <ArbeidssoekerMaaRegistreresIArena feilmelding={error} />
                 </>
             )}
             {(kanOverstyres || kanStarteArbeidssoekerperiode) && harIkkeAktivPeriode && <GenereltOmSamtykke />}
