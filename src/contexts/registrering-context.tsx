@@ -1,13 +1,12 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 
-import { RegistreringState, SisteJobb } from '../model/registrering';
+import { RegistreringState } from '../model/registrering';
 import {
     DinSituasjon,
-    hentSisteArbeidssokerPeriode,
     hentSisteOpplysningerOmArbeidssoker,
     JaEllerNei,
-    mapNusKodeTilUtdannignsnivaa,
+    mapOpplysningerTilSkjemaState,
     SisteStillingValg,
     SporsmalId,
     UtdanningGodkjentValg,
@@ -17,7 +16,6 @@ import { useFeatureToggles } from './featuretoggle-context';
 import { useConfig } from './config-context';
 import { Config } from '../model/config';
 import { useParamsFromContext } from './params-from-context';
-import { DinSituasjon as Jobbsituasjon } from '@navikt/arbeidssokerregisteret-utils/dist/models/sporsmal';
 
 interface RegistreringContextType {
     registrering: RegistreringState;
@@ -96,22 +94,13 @@ function RegistreringProvider({
                 const data = await response.json();
                 const sisteOpplysninger = hentSisteOpplysningerOmArbeidssoker(data);
                 setSisteOpplysningerOmArbeidssoeker(sisteOpplysninger);
-                const oppdaterteOpplysninger = {
-                    [SporsmalId.utdanningGodkjent]: sisteOpplysninger.utdanning.godkjent,
-                    [SporsmalId.utdanningBestatt]: sisteOpplysninger.utdanning.bestaatt,
-                    [SporsmalId.andreForhold]: sisteOpplysninger.annet.andreForholdHindrerArbeid,
-                    [SporsmalId.helseHinder]: sisteOpplysninger.helse.helsetilstandHindrerArbeid,
-                    [SporsmalId.dinSituasjon]:
-                        DinSituasjon[sisteOpplysninger.jobbsituasjon[0]?.beskrivelse || DinSituasjon.INGEN_SVAR],
-                    [SporsmalId.utdanning]:
-                        Utdanningsnivaa[mapNusKodeTilUtdannignsnivaa(sisteOpplysninger.utdanning.nus)],
-                };
-
+                const oppdaterteOpplysninger = mapOpplysningerTilSkjemaState(sisteOpplysninger);
                 setRegistrering(oppdaterteOpplysninger);
                 console.log(JSON.stringify(sisteOpplysninger));
                 console.log(JSON.stringify(oppdaterteOpplysninger));
             }
         } catch (err: unknown) {
+            console.error(err);
             setErrorOpplysningerOmArbeidssoeker(err);
         }
     }

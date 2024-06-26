@@ -53,7 +53,7 @@ export enum Brukergruppe {
 
 export type SisteJobb = {
     label: string;
-    konseptId: Number;
+    konseptId: any;
     styrk08: string;
 };
 
