@@ -2,7 +2,7 @@ import { getHeaders, getModiacontextholderToken } from '../../lib/next-api-handl
 import { withAuthenticatedApi } from '../../auth/withAuthentication';
 import { createProxyCall } from '../../lib/proxy-api-kall';
 
-const url = `${process.env.MODIACONTEXTHOLDER_URL}/modiacontextholder/api/context/`;
+const url = `${process.env.MODIACONTEXTHOLDER_URL}/api/context/`;
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
 export const lagModiaContextKall = (url) =>
