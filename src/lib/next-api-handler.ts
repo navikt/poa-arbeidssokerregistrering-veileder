@@ -56,6 +56,10 @@ const VEILARBVEILEDER_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
     'gcp',
     'fss',
 )}.pto.veilarbveileder/.default`;
+const VEILARBPORTEFOLJE_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
+    'gcp',
+    'fss',
+)}.pto.veilarbportefolje/.default`;
 const OBO_UNLEASH_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.obo.obo-unleash/.default`;
 const AAREG_API_SCOPE = `api://${process.env.AAREG_CLUSTER}.arbeidsforhold.${process.env.AAREG_APPNAME}/.default`;
 const PAW_ARBEIDSSOKER_BESVARELSE_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoker-besvarelse/.default`;
@@ -99,6 +103,11 @@ export const getVeilarbpersonToken = async (req: NextApiRequest) => {
 
 export const getVeilarbveilederToken = async (req: NextApiRequest) => {
     const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBVEILEDER_SCOPE);
+    return tokenSet.access_token!;
+};
+
+export const getVeilarbportefoljeToken = async (req: NextApiRequest) => {
+    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBPORTEFOLJE_SCOPE);
     return tokenSet.access_token!;
 };
 

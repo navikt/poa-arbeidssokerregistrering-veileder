@@ -93,6 +93,8 @@ spec:
       value: https://veilarbperson.prod-fss-pub.nais.io/veilarbperson
     - name: VEILARBVEILEDER_URL
       value: https://veilarbveileder.prod-fss-pub.nais.io/veilarbveileder
+    - name: VEILARBPORTEFOLJE_URL
+      value: https://veilarbportefolje.prod-fss-pub.nais.io/veilarbportefolje
     - name: PAW_PROXY_URL
       value: https://paw-proxy.prod-fss-pub.nais.io
     - name: OBO_UNLEASH_URL
@@ -134,6 +136,7 @@ spec:
         - host: veilarbdialog.prod-fss-pub.nais.io
         - host: veilarbperson.prod-fss-pub.nais.io
         - host: veilarbveileder.prod-fss-pub.nais.io
+        - host: veilarbportefolje.prod-fss-pub.nais.io
         - host: paw-proxy.prod-fss-pub.nais.io
         - host: veilarbvisittkortfs.intern.nav.no
         - host: aareg-services.prod-fss-pub.nais.io
@@ -155,6 +158,9 @@ spec:
           namespace: pto
           cluster: prod-fss
         - application: veilarbveileder
+          namespace: pto
+          cluster: prod-fss
+        - application: veilarbportefolje
           namespace: pto
           cluster: prod-fss
         - application: paw-proxy
