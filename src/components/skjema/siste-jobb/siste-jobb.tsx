@@ -67,11 +67,13 @@ const SisteJobbSkjema = () => {
     };
 
     const sisteArbeidsforholdUrl = 'api/sistearbeidsforhold-fra-aareg';
+
     const {
         data: sisteArbeidsforhold,
         error,
         isLoading,
     } = useSWRImmutable(`${sisteArbeidsforholdUrl}`, (url) => fetcher(url, { headers: { 'Nav-Personident': fnr } }));
+
     const visSisteJobb = registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB;
 
     const visSisteStilling = registrering.dinSituasjon
