@@ -76,9 +76,9 @@ spec:
     - name: ARBEIDSSOKER_PERIODER_URL
       value: http://veilarbregistrering/veilarbregistrering/api/arbeidssoker/perioder/niva3
     - name: MODIACONTEXTHOLDER_URL
-      value: https://modiacontextholder.prod-fss-pub.nais.io
+      value: https://modiacontextholder.intern.nav.no
     - name: MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID
-      value: prod-fss.personoversikt.modiacontextholder
+      value: prod-gcp.personoversikt.modiacontextholder
     - name: INTERNARBEIDSFLATEDEKORATOR_URL
       value: https://internarbeidsflatedecorator.prod-fss-pub.nais.io
     - name: NEXT_PUBLIC_ASSET_PREFIX
@@ -128,7 +128,7 @@ spec:
       external:
         - host: arbeidsplassen.nav.no
         - host: paw-unleash-api.nav.cloud.nais.io
-        - host: modiacontextholder.prod-fss-pub.nais.io
+        - host: modiacontextholder.intern.nav.no
         - host: internarbeidsflatedecorator.prod-fss-pub.nais.io
         - host: veilarboppfolging.prod-fss-pub.nais.io
         - host: veilarbdialog.prod-fss-pub.nais.io
@@ -144,7 +144,6 @@ spec:
         - application: veilarbregistrering
         - application: modiacontextholder
           namespace: personoversikt
-          cluster: prod-fss
         - application: veilarboppfolging
           namespace: pto
           cluster: prod-fss
