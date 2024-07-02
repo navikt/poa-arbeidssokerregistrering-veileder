@@ -64,7 +64,7 @@ jobs:
     permissions:
       contents: "read"
       id-token: "write"
-    needs: [test-and-build-cdn-docker]
+    needs: [test-and-build-cdn-docker, apply-apitoken-unleash]
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
     runs-on: ubuntu-latest
     steps:
@@ -100,7 +100,7 @@ jobs:
     permissions:
       contents: "read"
       id-token: "write"
-    needs: [ test-and-build-cdn-docker ]
+    needs: [test-and-build-cdn-docker, apply-apitoken-unleash]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
