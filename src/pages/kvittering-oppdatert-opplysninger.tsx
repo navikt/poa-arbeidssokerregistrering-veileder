@@ -26,7 +26,7 @@ const Kvittering = () => {
 
     return (
         <>
-            <TilbakeTilForside sidenavn="Kvittering oppdatert opplysnigner" />
+            <TilbakeTilForside sidenavn="Kvittering oppdatert opplysninger" />
             <Alert variant="success">
                 <Heading level="1" size="small" className={'mbl'}>
                     {tekst('header')}

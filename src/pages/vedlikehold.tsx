@@ -10,7 +10,6 @@ import { fetcher } from '../lib/api-utils';
 import { loggAktivitet } from '../lib/amplitude';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
-import TilbakeTilForside from '../components/tilbake-til-forside';
 
 const TEKSTER: Tekster<string> = {
     nb: {
