@@ -33,14 +33,7 @@ async function hentFraAareg(req: NextApiRequest, callId: string) {
     const personIdent = hentFnr(req);
     const body = {
         arbeidstakerId: personIdent,
-        rapporteringsordninger: ['A_ORDNINGEN'],
         arbeidsforholdstatuser: ['AKTIV', 'AVSLUTTET'],
-        arbeidsforholdtyper: [
-            'ordinaertArbeidsforhold',
-            'maritimtArbeidsforhold',
-            'forenkletOppgjoersordning',
-            'frilanserOppdragstakerHonorarPersonerMm',
-        ],
     };
 
     const arbeidsforholdoversikt = await fetch(`${url}`, {
