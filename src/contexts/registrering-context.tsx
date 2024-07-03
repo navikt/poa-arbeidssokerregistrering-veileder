@@ -96,8 +96,6 @@ function RegistreringProvider({
                 setSisteOpplysningerOmArbeidssoeker(sisteOpplysninger);
                 const oppdaterteOpplysninger = mapOpplysningerTilSkjemaState(sisteOpplysninger);
                 setRegistrering(oppdaterteOpplysninger);
-                console.log(JSON.stringify(sisteOpplysninger));
-                console.log(JSON.stringify(oppdaterteOpplysninger));
             }
         } catch (err: unknown) {
             console.error(err);
@@ -107,7 +105,6 @@ function RegistreringProvider({
 
     useEffect(() => {
         if (hentTidligereOpplysningerForPeriodeId) {
-            console.log('henter opplysnigner');
             apiKallOpplysningerOmArbeidssoeker();
         }
     }, [hentTidligereOpplysningerForPeriodeId]);

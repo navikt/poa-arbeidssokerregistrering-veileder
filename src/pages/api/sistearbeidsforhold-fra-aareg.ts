@@ -6,6 +6,7 @@ import { logger } from '@navikt/next-logger';
 import { hentSisteArbeidsForhold } from '../../lib/hent-siste-arbeidsforhold';
 
 const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+
 const url = brukerMock
     ? `${process.env.SISTEARBEIDSFORHOLD_FRA_AAREG_URL}`
     : `${process.env.AAREG_REST_API}/v2/arbeidstaker/arbeidsforholdoversikt`;
@@ -15,12 +16,9 @@ const hentFnr = (req: NextApiRequest) => {
 };
 
 const getAaregHeaders = async (req: NextApiRequest, callId: string) => {
-    const fnr = hentFnr(req);
-
     if (brukerMock) {
         return {
             ...getHeaders('token', callId),
-            'Nav-Personident': fnr as string,
         };
     }
 
@@ -28,13 +26,20 @@ const getAaregHeaders = async (req: NextApiRequest, callId: string) => {
 
     return {
         ...headers,
-        'Nav-Personident': fnr as string,
     };
 };
 async function hentFraAareg(req: NextApiRequest, callId: string) {
     logger.info(`Starter kall callId: ${callId} mot ${url}`);
-    const arbeidsforholdoversikt = await fetch(`${url}?arbeidsforholdstatus=AKTIV,AVSLUTTET`, {
+    const personIdent = hentFnr(req);
+    const body = {
+        arbeidstakerId: personIdent,
+        arbeidsforholdstatuser: ['AKTIV', 'AVSLUTTET'],
+    };
+
+    const arbeidsforholdoversikt = await fetch(`${url}`, {
         headers: await getAaregHeaders(req, callId),
+        method: 'POST',
+        body: JSON.stringify(body),
     }).then(async (res) => {
         if (!res.ok) {
             logger.error(`Respons fra aareg ikke OK - [callId: ${callId}] ${res.status} ${res.statusText}`);
