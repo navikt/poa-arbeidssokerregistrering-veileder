@@ -11,8 +11,6 @@ import { BodyShort } from '@navikt/ds-react';
 import Oppfolging from './oppfolging';
 
 import { formaterDato } from '../lib/date-utils';
-import { ArbeidssokerPeriode } from '@navikt/arbeidssokerregisteret-utils/dist/models/arbeidssokerperiode';
-//import { BehovsvurderingResponse } from '../../contexts/behovsvurdering';
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
 
@@ -35,11 +33,16 @@ function getSisteStillingSvar(opplysninger: OpplysningerOmArbeidssoker) {
     return detaljer?.stilling || 'Ikke oppgitt';
 }
 
+function getDinSituasjonSvar(opplysninger: OpplysningerOmArbeidssoker) {
+    const situasjon = opplysninger.jobbsituasjon[0];
+    return situasjon ? situasjon.beskrivelse : 'Ikke oppgitt';
+}
+
 function mapOpplysninger(opplysninger: OpplysningerOmArbeidssoker): OpplysningProps[] {
     const result: OpplysningProps[] = [
         {
             sporsmal: SporsmalId.dinSituasjon,
-            svar: opplysninger.jobbsituasjon[0]?.beskrivelse || 'Ingen svar',
+            svar: getDinSituasjonSvar(opplysninger),
         },
         {
             sporsmal: SporsmalId.sisteStilling,

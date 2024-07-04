@@ -11,7 +11,7 @@ const data = [
         sendtInnAv: {
             tidspunkt: '2021-09-29T11:22:33.444Z',
             utfoertAv: {
-                type: 'UKJENT_VERDI',
+                type: 'SLUTTBRUKER',
             },
             kilde: 'string',
             aarsak: 'string',
@@ -27,7 +27,15 @@ const data = [
         annet: {
             andreForholdHindrerArbeid: 'NEI',
         },
-        jobbsituasjon: [],
+        jobbsituasjon: [
+            {
+                beskrivelse: 'HAR_BLITT_SAGT_OPP',
+                detaljer: {
+                    stilling_styrk08: '7115',
+                    stilling: 'Bygningssnekker',
+                },
+            },
+        ],
     },
 ];
 
