@@ -19,7 +19,7 @@ spec:
     path: "/api/isready"
     initialDelay: 3
   replicas:
-    min: 1
+    min: 2
     max: 2
     cpuThresholdPercentage: 50
   prometheus:
