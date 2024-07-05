@@ -22,7 +22,7 @@
         "@navikt/ds-react": "6.10.1",
         "@navikt/ds-tailwind": "6.10.1",
         "@navikt/ds-tokens": "6.10.1",
-        "@navikt/navspa": "6.0.1",
+        "@navikt/navspa": "6.1.0",
         "@navikt/next-logger": "1.21.0",
         "@navikt/oasis": "3.2.1",
         "@unleash/nextjs": "1.4.3",
