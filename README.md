@@ -34,7 +34,7 @@ Ved å prefikse branch-navn med `dev/`, så vil branchen kun deployes i dev.
 git checkout -b dev/<navn på branch>
 ```
 
-For å teste løsningen i dev bruker du [https://arbeidsokerregistrering-for-veileder.intern.dev.nav.no](https://arbeidsokerregistrering-for-veileder.intern.dev.nav.no)
+For å teste løsningen i dev bruker du [https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no](https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no)
 
 Du vil trenger en veileder-testbruker for veileder for å logge inn.
 
