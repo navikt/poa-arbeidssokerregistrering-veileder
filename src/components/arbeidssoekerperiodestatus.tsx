@@ -1,4 +1,4 @@
-import { BodyLong, Box, Button, Heading } from '@navikt/ds-react';
+import { BodyLong, Box, Heading, ReadMore } from '@navikt/ds-react';
 import { ArbeidssokerPeriode } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/navigation';
 
@@ -23,17 +23,19 @@ function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
     if (harAktivPeriode) {
         return (
             <Box>
-                <BodyLong spacing>
+                <BodyLong>
                     Arbeidssøkerperioden startet {formaterDato(sisteArbeidssoekerperiode.startet.tidspunkt)}
                 </BodyLong>
-                <BodyLong spacing>
-                    For å avslutte arbeidssøkerperioden må du be bruker om å svare nei i meldekortet på spørsmål om de
-                    ønsker å fortsatt stå registrert som arbeidssøker.
-                </BodyLong>
-                <BodyLong spacing>
-                    Dersom det haster er det også mulig å endre formidlingsgruppen i Arena til ISERV ved å velge
-                    oppgavetypen Inaktivering av person.
-                </BodyLong>
+                <ReadMore header="Avslutte arbeidssøkerperioden?">
+                    <BodyLong spacing>
+                        For å avslutte arbeidssøkerperioden må du be bruker om å svare nei i meldekortet på spørsmål om
+                        de ønsker å fortsatt stå registrert som arbeidssøker.
+                    </BodyLong>
+                    <BodyLong spacing>
+                        Dersom det haster er det også mulig å endre formidlingsgruppen i Arena til ISERV ved å velge
+                        oppgavetypen Inaktivering av person.
+                    </BodyLong>
+                </ReadMore>
             </Box>
         );
     }

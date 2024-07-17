@@ -4,10 +4,11 @@ import OpplysningerOmArbeidssokerKomponent from './opplysninger-om-arbeidssoker-
 interface OpplysningerOmArbeidssoekerProps {
     sisteOpplysningerOmArbeidssoeker: any;
     behovsvurdering: any;
+    aktivPeriode: boolean;
 }
 
 function OpplysningerOmArbeidssoeker(props: OpplysningerOmArbeidssoekerProps) {
-    const { sisteOpplysningerOmArbeidssoeker, behovsvurdering } = props || {};
+    const { sisteOpplysningerOmArbeidssoeker, behovsvurdering, aktivPeriode } = props || {};
     const harOpplysninger = sisteOpplysningerOmArbeidssoeker?.opplysningerOmArbeidssoekerId;
 
     return (
@@ -19,6 +20,7 @@ function OpplysningerOmArbeidssoeker(props: OpplysningerOmArbeidssoekerProps) {
                 <OpplysningerOmArbeidssokerKomponent
                     opplysninger={sisteOpplysningerOmArbeidssoeker}
                     behovsvurdering={behovsvurdering}
+                    aktivPeriode={aktivPeriode}
                 />
             ) : (
                 <BodyLong spacing>Det finnes ingen opplysninger knyttet til registreringen.</BodyLong>

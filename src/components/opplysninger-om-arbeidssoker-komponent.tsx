@@ -6,11 +6,12 @@ import {
     SporsmalId,
     Svar,
 } from '@navikt/arbeidssokerregisteret-utils';
-import { BodyShort } from '@navikt/ds-react';
+
+import { BodyShort, ReadMore } from '@navikt/ds-react';
 
 import Oppfolging from './oppfolging';
-
 import { formaterDato } from '../lib/date-utils';
+import OppdaterOpplysningerKnapp from './oppdater-opplysninger-knapp';
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
 
@@ -80,6 +81,7 @@ const OPPDATERT_AV = {
     VEILEDER: 'Veileder',
     SYSTEM: 'Systembruker',
 };
+
 export enum ForeslattInnsatsgruppe {
     STANDARD_INNSATS = 'STANDARD_INNSATS',
     SITUASJONSBESTEMT_INNSATS = 'SITUASJONSBESTEMT_INNSATS',
@@ -95,25 +97,27 @@ export type BehovsvurderingResponse = {
 type Props = {
     opplysninger: OpplysningerOmArbeidssoker;
     behovsvurdering: BehovsvurderingResponse;
+    aktivPeriode: boolean;
 };
 
 function OpplysningerOmArbeidssokerKomponent(props: Props) {
-    const { opplysninger, behovsvurdering } = props;
+    const { opplysninger, behovsvurdering, aktivPeriode } = props;
     const erRegistrertAvSluttbruker = opplysninger.sendtInnAv.utfoertAv.type === 'SLUTTBRUKER';
     const besvarelser = mapOpplysninger(opplysninger);
     return (
         <div className={'flex flex-col'}>
-            <div className={'mb-5'}>
-                <BodyShort>
-                    Opplysningene ble sist oppdatert: {formaterDato(opplysninger.sendtInnAv.tidspunkt)} .
-                    <br />
-                    Opplysningene ble oppdatert av: {OPPDATERT_AV[opplysninger.sendtInnAv.utfoertAv.type]}.
-                </BodyShort>
-            </div>
-            <Oppfolging behovsvurdering={behovsvurdering} />
-            {besvarelser.map((item, index) => (
-                <Opplysning {...item} key={index} />
-            ))}
+            <BodyShort>
+                Opplysningene ble sist oppdatert: {formaterDato(opplysninger.sendtInnAv.tidspunkt)} .
+                <br />
+                Opplysningene ble oppdatert av: {OPPDATERT_AV[opplysninger.sendtInnAv.utfoertAv.type]}.
+            </BodyShort>
+            <ReadMore header="Se og oppdater opplysningene">
+                <Oppfolging behovsvurdering={behovsvurdering} />
+                {besvarelser.map((item, index) => (
+                    <Opplysning {...item} key={index} />
+                ))}
+                {aktivPeriode && <OppdaterOpplysningerKnapp sisteArbeidssoekerperiodeId={opplysninger.periodeId} />}
+            </ReadMore>
         </div>
     );
 }

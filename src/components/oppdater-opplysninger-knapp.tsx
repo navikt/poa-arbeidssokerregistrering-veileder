@@ -1,11 +1,7 @@
-import { Button, Box, ConfirmationPanel } from '@navikt/ds-react';
+import { Button, Box } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
-import { useConfig } from '../contexts/config-context';
-
-import { Config } from '../model/config';
 
 interface OppdaterOpplysningerKnappProps {
     sisteArbeidssoekerperiodeId: string;
