@@ -67,17 +67,17 @@ const sisteArbeidsforhold = async (req: NextApiRequest, res: NextApiResponse<any
             return res.status(204).end();
         }
 
-        logger.debug(`Slår opp styrk-kode [callId: ${callId}`);
+        logger.info(`Slår opp styrk-kode [callId: ${callId}]`);
         const { konseptMedStyrk08List } = await fetch(
             `${process.env.PAM_JANZZ_URL}/kryssklassifiserMedKonsept?kodeForOversetting=${styrk}`,
             {
                 headers: getHeaders('token', callId),
             },
         ).then((res) => res.json());
-
+        logger.info(`Oppslag mot styrk-kode ferdig [callId: ${callId}]`);
         res.json(konseptMedStyrk08List[0]);
     } catch (e) {
-        logger.error(`Feil ved henting av siste arbeidsforhold fra aareg [callId: ${callId}]`, e);
+        logger.error(`Feil ved oppslag av styrk mot PAM_JANZZ [callId: ${callId}]`, e);
         res.status(500).end(`${e}`);
     }
 };

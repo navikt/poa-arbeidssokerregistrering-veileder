@@ -1,8 +1,9 @@
-import { AsyncNavspa, AsyncSpaConfig } from '@navikt/navspa';
+import { AsyncNavspa, AsyncSpaConfig, createAssetManifestParser } from '@navikt/navspa';
 import { Loader } from '@navikt/ds-react';
-import { createAssetManifestParser } from '@navikt/navspa/dist/async/utils';
+
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
+
 import { Config } from '../model/config';
 
 interface SpaProps {
