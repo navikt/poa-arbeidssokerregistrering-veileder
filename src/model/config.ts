@@ -6,9 +6,7 @@ export type Config = {
     featureTogglesUrl: string;
     dittNavUrl: string;
     dagpengesoknadUrl: string;
-    dialogUrl: string;
     enableMock: string;
     loginUrl: string;
-    merOppfolgingUrl: string;
     aarsTall: number;
 };
