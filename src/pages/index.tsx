@@ -1,5 +1,3 @@
-import { useFeatureToggles } from '../contexts/featuretoggle-context';
-
 import RedirectTilVedlikehold from '../components/redirect-til-vedlikehold';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import DemoPanel from '../components/demo-panel';

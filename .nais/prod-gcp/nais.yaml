@@ -53,20 +53,8 @@ spec:
       value: https://arbeid.nav.no/dagpenger/dialog/soknad
     - name: NEXT_PUBLIC_DIALOG_URL
       value: https://www.nav.no/arbeid/dialog
-    - name: NEXT_PUBLIC_MER_OPPFOLGING_URL
-      value: https://www.nav.no/syk/meroppfolging/reg/0
     - name: PAM_JANZZ_URL
       value: https://arbeidsplassen.nav.no/pam-janzz/rest
-    - name: START_REGISTRERING_URL
-      value: http://veilarbregistrering/veilarbregistrering/api/startregistrering/
-    - name: FULLFOR_REGISTRERING_URL
-      value: http://veilarbregistrering/veilarbregistrering/api/fullfoerordinaerregistrering/
-    - name: FULLFOR_REGISTRERING_SYKMELDT_URL
-      value: http://veilarbregistrering/veilarbregistrering/api/fullfoersykmeldtregistrering/
-    - name: OPPRETT_OPPGAVE_URL
-      value: http://veilarbregistrering/veilarbregistrering/api/oppgave/
-    - name: KONTAKTINFORMASJON_URL
-      value: http://veilarbregistrering/veilarbregistrering/api/person/kontaktinfo
     - name: NODE_ENV
       value: production
     - name: HENT_PROFILERING_URL
@@ -138,7 +126,6 @@ spec:
         - application: paw-arbeidssokerregisteret-api-inngang
         - application: paw-arbeidssoekerregisteret-api-oppslag
         - application: aia-backend
-        - application: veilarbregistrering
         - application: modiacontextholder
           namespace: personoversikt
         - application: veilarboppfolging

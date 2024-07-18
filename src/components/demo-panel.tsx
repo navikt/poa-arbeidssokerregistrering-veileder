@@ -33,31 +33,6 @@ function DemoPanel() {
                     <NextLink href="/arbeidssoekerperiode-er-avsluttet/" passHref locale={false}>
                         <Button variant="secondary">Kvittering for avsluttet arbeidssøkerperiode</Button>
                     </NextLink>
-                    <NextLink href={`/registrering-mer-sykmeldtoppfolging`} passHref locale={false}>
-                        <Button variant="secondary">Registrering - sykmeldtoppfølging</Button>
-                    </NextLink>
-                    <NextLink href="/kvittering-mer-sykmeldtoppfolging/" passHref locale={false}>
-                        <Button variant="secondary">Kvittering - sykmeldtoppfølging</Button>
-                    </NextLink>
-                </Box>
-                <Box>
-                    <Heading level="2" size="small" className="bg-orange-100">
-                        Stoppsituasjoner
-                    </Heading>
-                    <Box className="flex justify-evenly">
-                        <NextLink href="/veiledning/registrering/mangler-arbeidstillatelse/" passHref locale={false}>
-                            <Button variant="secondary">Mangler arbeidstillatelse</Button>
-                        </NextLink>
-                        <NextLink href="/veiledning/registrering/utvandret/" passHref locale={false}>
-                            <Button variant="secondary">Utvandret</Button>
-                        </NextLink>
-                        <NextLink href="/veiledning/allerede-registrert/" passHref locale={false}>
-                            <Button variant="secondary">Allerede registrert</Button>
-                        </NextLink>
-                        <NextLink href="/veiledning/sperret/" passHref locale={false}>
-                            <Button variant="secondary">Sperret</Button>
-                        </NextLink>
-                    </Box>
                 </Box>
                 <Box>
                     <Heading level="2" size="small" className="bg-orange-100">
