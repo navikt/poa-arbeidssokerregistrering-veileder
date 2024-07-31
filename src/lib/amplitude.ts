@@ -28,7 +28,8 @@ type AktivitetData =
     | { aktivitet: 'Går til servicerutine for samtykke for personer under 18' }
     | { aktivitet: 'Endrer foreslått stilling' }
     | { aktivitet: 'Leser hva er nytt' }
-    | { aktivitet: 'Går til skjema for dagpenger' };
+    | { aktivitet: 'Går til skjema for dagpenger' }
+    | { aktivitet: 'Klikker på "Fyll inn opplysninger fra siste arbeidssøkerperiode"' };
 
 type VisningsData =
     | { viser: 'Kvittering for registrert arbeidssøker' }

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Alert, Button } from '@navikt/ds-react';
 import { ArbeidssokerPeriode } from '@navikt/arbeidssokerregisteret-utils';
 import { formaterDato } from '../lib/date-utils';
+import { loggAktivitet } from '../lib/amplitude';
 
 interface Props {
     fnr: string;
@@ -65,6 +66,7 @@ const TilbyOpplysningerFraGammelPeriode = ({ fnr, onClick }: Props) => {
                 onClick={() => {
                     onClick(sisteAvsluttedePeriode.periodeId);
                     setHarKlikket(true);
+                    loggAktivitet({ aktivitet: 'Klikker på "Fyll inn opplysninger fra siste arbeidssøkerperiode"' });
                 }}
             >
                 Fyll inn opplysninger fra siste arbeidssøkerperiode
