@@ -54,15 +54,11 @@ function RegistreringProvider({
     const [registrering, setRegistrering] = useState({} as RegistreringState);
     const [isValid, setIsValid] = useState(true);
     const [doValidate, setDoValidate] = useState(false);
-    const { toggles } = useFeatureToggles();
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const { enableMock } = useConfig() as Config;
     const brukerMock = enableMock === 'enabled';
     const arbeidssoekerPeriodeId = hentTidligereOpplysningerForPeriodeId;
-    const [sisteArbeidssoekerperiode, setSisteArbeidssoekerperiode] = useState<any>({});
-    const [errorOpplysningerOmArbeidssoeker, setErrorOpplysningerOmArbeidssoeker] = useState<any>(undefined);
-    const [sisteOpplysningerOmArbeidssoeker, setSisteOpplysningerOmArbeidssoeker] = useState<any>(undefined);
 
     const hentOpplysningerOmArbeidssoekerUrl = brukerMock
         ? '/api/mocks/oppslag-opplysninger'
@@ -93,13 +89,11 @@ function RegistreringProvider({
             if (response.ok) {
                 const data = await response.json();
                 const sisteOpplysninger = hentSisteOpplysningerOmArbeidssoker(data);
-                setSisteOpplysningerOmArbeidssoeker(sisteOpplysninger);
                 const oppdaterteOpplysninger = mapOpplysningerTilSkjemaState(sisteOpplysninger);
                 setRegistrering(oppdaterteOpplysninger);
             }
         } catch (err: unknown) {
             console.error(err);
-            setErrorOpplysningerOmArbeidssoeker(err);
         }
     }
 
