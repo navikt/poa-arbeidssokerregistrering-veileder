@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Heading, HStack } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
@@ -17,12 +17,13 @@ import { loggFlyt } from '../lib/amplitude';
 import HvaErNytt from '../components/hva-er-nytt';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import AvbrytKnapp from '../components/skjema/avbryt-knapp';
+import TilbyOpplysningerFraGammelPeriode from '../components/tilby-opplysninger-fra-gammel-periode';
 
 export default function RegistreringArbeidssoker() {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const visInnhold = fnr && enhetId;
-
+    const [sisteAvsluttedePeriodeId, setSisteAvsluttedePeriodeId] = useState<string | null>(null);
     useEffect(() => {
         loggFlyt({ hendelse: 'Starter registrering av arbeidssøker' });
     }, []);
@@ -36,7 +37,8 @@ export default function RegistreringArbeidssoker() {
                         Arbeidssøkerregistrering
                     </Heading>
                     <HvaErNytt />
-                    <RegistreringProvider>
+                    <TilbyOpplysningerFraGammelPeriode fnr={fnr} onClick={setSisteAvsluttedePeriodeId} />
+                    <RegistreringProvider hentTidligereOpplysningerForPeriodeId={sisteAvsluttedePeriodeId}>
                         <DinSituasjon />
                         <SisteJobb />
                         <UtdanningsNiva />
