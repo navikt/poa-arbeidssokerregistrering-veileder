@@ -38,7 +38,7 @@ const TilbyOpplysningerFraGammelPeriode = ({ fnr, onClick }: Props) => {
             if (response.ok) {
                 const data = await response.json();
                 const sisteArbeidssoekerperiode = hentSisteArbeidssokerPeriode(data);
-                if (sisteArbeidssoekerperiode && sisteArbeidssoekerperiode.avsluttet !== null) {
+                if (Boolean(sisteArbeidssoekerperiode.avsluttet)) {
                     setSisteAvsluttedePeriode(sisteArbeidssoekerperiode);
                 }
             }
