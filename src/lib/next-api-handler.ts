@@ -50,7 +50,7 @@ const VEILARBOPPFOLGING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
     'gcp',
     'fss',
 )}.pto.veilarboppfolging/.default`;
-const VEILARBDIALOG_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace('gcp', 'fss')}.pto.veilarbdialog/.default`;
+const VEILARBDIALOG_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.dab.veilarbdialog/.default`;
 const VEILARBPERSON_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace('gcp', 'fss')}.pto.veilarbperson/.default`;
 const VEILARBVEILEDER_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
     'gcp',

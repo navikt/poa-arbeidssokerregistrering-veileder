@@ -76,7 +76,7 @@ spec:
     - name: VEILARBOPPFOLGING_URL
       value: https://veilarboppfolging.dev-fss-pub.nais.io/veilarboppfolging
     - name: VEILARBDIALOG_URL
-      value: https://veilarbdialog.dev-fss-pub.nais.io/veilarbdialog
+      value: http://veilarbdialog.dab/veilarbdialog
     - name: VEILARBPERSON_URL
       value: https://veilarbperson.dev-fss-pub.nais.io/veilarbperson
     - name: VEILARBVEILEDER_URL
@@ -133,8 +133,8 @@ spec:
           namespace: pto
           cluster: dev-fss
         - application: veilarbdialog
-          namespace: pto
-          cluster: dev-fss
+          namespace: dab
+          cluster: dev-gcp
         - application: veilarbperson
           namespace: pto
           cluster: dev-fss
