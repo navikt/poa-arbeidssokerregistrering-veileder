@@ -15,7 +15,7 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
 const UNDER_18_AAR = {
     aarsakTilAvvisning: {
         regler: [{
-          id: '',
+          id: 'UNDER_18_AAR',
           beskrivelse: 'Er bosatt i Norge i henhold Folkeregisterloven, men er under 18 år',
         }]
         detaljer: ['UNDER_18_AAR'],
@@ -37,7 +37,7 @@ const IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN = {
     "feilKode": "AVVIST",
     "aarsakTilAvvisning": {
         regler: [{
-          id: '',
+          id: 'IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN',
           "beskrivelse": "Avvist fordi personen ikke er bosatt i Norge i henhold til folkeregisterloven",
         }]
         "detaljer": [
@@ -66,7 +66,7 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
 const DOED = {
     aarsakTilAvvisning: {
         regeler: [{
-          id: '',
+          id: 'DOED',
           beskrivelse: "Er registrert som død",
         }]
         detaljer: ["DOED"]
@@ -86,7 +86,7 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
 const SAVNET = {
     aarsakTilAvvisning: {
         regler: [{
-          id: '',
+          id: 'SAVNET',
           beskrivelse: "Er registrert som savnet",
         }]
         detaljer: ["SAVNET"]
@@ -106,7 +106,7 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
 const IKKE_FUNNET = {
     aarsakTilAvvisning: {
         regler: [{
-          id: '',
+          id: 'IKKE_FUNNET',
           beskrivelse: "Person ikke funnet",
         }]
         detaljer: ["IKKE_FUNNET", "PERSON_IKKE_FUNNET"]
@@ -126,7 +126,7 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
 const IKKE_FUNNET = {
     aarsakTilAvvisning: {
         regler: [{
-          id: '',
+          id: 'IKKE_FUNNET',
           beskrivelse: "Person ikke funnet",
         }]
         detaljer: ["IKKE_FUNNET", "PERSON_IKKE_FUNNET"]
@@ -146,7 +146,7 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
 const ANSATT_IKKE_TILGANG_TIL_BRUKER = {
     aarsakTilAvvisning: {
         regler: [{
-          id: '',
+          id: 'ANSATT_IKKE_TILGANG_TIL_BRUKER',
           beskrivelse: "Ansatt har ikke tilgang til bruker",
         }]
         detaljer: ["ANSATT_IKKE_TILGANG_TIL_BRUKER", "ANSATT_IKKE_TILGANG"]
@@ -167,7 +167,7 @@ const UKJENT_ALDER = {
     aarsakTilAvvisning: {
         regler: [
          {
-            id: '51',
+            id: 'UKJENT_ALDER"',
             beskrivelse: 'Kunne ikke fastslå alder'
           }
         ]

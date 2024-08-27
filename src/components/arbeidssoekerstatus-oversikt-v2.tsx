@@ -7,7 +7,7 @@ import { useConfig } from '../contexts/config-context';
 
 import { Config } from '../model/config';
 
-import KanRegistreresSomArbeidssoekerSjekk from './kan-registreres-som-arbeidssoeker-sjekk';
+import KanRegistreresSomArbeidssoekerSjekk from './kan-registreres-som-arbeidssoeker-sjekk-v2';
 import VelgRegistreringsKnapp from './velg-registreringsknapp';
 import ArbeidssoekerperioderOgOpplysningerWrapper from './arbeidssoekerperioder-og-opplysninger-wrapper';
 import VurderingskriterierForArbeidssoekerregistrering from './vurderingskriterier-for-arbeidssoekerregistrering';
@@ -23,11 +23,13 @@ export const REGLER_SOM_KAN_OVERSTYRES = [
     'IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN',
 ];
 
-function sjekkOmRegelKanOverstyres(feilmelding?: any) {
+function sjekkOmAlleReglerKanOverstyres(feilmelding?: any) {
     const { aarsakTilAvvisning } = feilmelding || {};
-    const { regel } = aarsakTilAvvisning || {};
-    if (!regel) return false;
-    return regel && REGLER_SOM_KAN_OVERSTYRES.includes(regel);
+    const { regler } = aarsakTilAvvisning || {};
+    if (!regler) return false;
+    const aarsaker = regler.map((regel) => regel.id);
+    const reglerSomIkkeKanOverstyres = aarsaker.filter((regel) => !REGLER_SOM_KAN_OVERSTYRES.includes(regel));
+    return reglerSomIkkeKanOverstyres.length() === 0;
 }
 
 function GenereltOmSamtykke() {
@@ -58,14 +60,14 @@ function ArbeidssoekerstatusOversiktV2() {
     const [harIkkeAktivPeriode, setHarIkkeAktivPeriode] = useState<boolean>(false);
 
     const sjekkKanStarteArbeidssoekerperiodeUrl = brukerMock
-        ? '/api/mocks/kan-starte-arbeidssoekerperiode'
-        : '/api/kan-starte-arbeidssoekerperiode';
+        ? '/api/mocks/kan-starte-arbeidssoekerperiode-v2'
+        : '/api/kan-starte-arbeidssoekerperiode-v2';
 
     const hentArbeidssoekerperioderUrl = brukerMock
         ? '/api/mocks/oppslag-arbeidssoekerperioder'
         : '/api/oppslag-arbeidssoekerperioder';
 
-    const kanOverstyres = sjekkOmRegelKanOverstyres(error);
+    const kanOverstyres = sjekkOmAlleReglerKanOverstyres(error);
 
     async function apiKall() {
         const payload = JSON.stringify({
