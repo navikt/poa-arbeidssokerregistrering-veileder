@@ -17,7 +17,7 @@ const UNDER_18_AAR = {
         regler: [{
           id: 'UNDER_18_AAR',
           beskrivelse: 'Er bosatt i Norge i henhold Folkeregisterloven, men er under 18 år',
-        }]
+        }],
         detaljer: ['UNDER_18_AAR'],
     },
     feilKode: 'AVVIST',
@@ -39,7 +39,7 @@ const IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN = {
         regler: [{
           id: 'IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN',
           "beskrivelse": "Avvist fordi personen ikke er bosatt i Norge i henhold til folkeregisterloven",
-        }]
+        }],
         "detaljer": [
             "IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN",
             "ER_OVER_18_AAR",
@@ -68,7 +68,7 @@ const DOED = {
         regeler: [{
           id: 'DOED',
           beskrivelse: "Er registrert som død",
-        }]
+        }],
         detaljer: ["DOED"]
     },
     feilKode: "AVVIST",
@@ -88,7 +88,7 @@ const SAVNET = {
         regler: [{
           id: 'SAVNET',
           beskrivelse: "Er registrert som savnet",
-        }]
+        }],
         detaljer: ["SAVNET"]
     },
     feilKode: "AVVIST",
@@ -108,7 +108,7 @@ const IKKE_FUNNET = {
         regler: [{
           id: 'IKKE_FUNNET',
           beskrivelse: "Person ikke funnet",
-        }]
+        }],
         detaljer: ["IKKE_FUNNET", "PERSON_IKKE_FUNNET"]
     },
     feilKode: "AVVIST",
@@ -128,7 +128,7 @@ const IKKE_FUNNET = {
         regler: [{
           id: 'IKKE_FUNNET',
           beskrivelse: "Person ikke funnet",
-        }]
+        }],
         detaljer: ["IKKE_FUNNET", "PERSON_IKKE_FUNNET"]
     },
     feilKode: "AVVIST",
@@ -148,7 +148,7 @@ const ANSATT_IKKE_TILGANG_TIL_BRUKER = {
         regler: [{
           id: 'ANSATT_IKKE_TILGANG_TIL_BRUKER',
           beskrivelse: "Ansatt har ikke tilgang til bruker",
-        }]
+        }],
         detaljer: ["ANSATT_IKKE_TILGANG_TIL_BRUKER", "ANSATT_IKKE_TILGANG"]
     },
     feilKode: "AVVIST",
@@ -170,7 +170,7 @@ const UKJENT_ALDER = {
             id: 'UKJENT_ALDER"',
             beskrivelse: 'Kunne ikke fastslå alder'
           }
-        ]
+        ],
         detaljer: ["UKJENT_ALDER", "UKJENT_FOEDSELSDATO", "UKJENT_FOEDSELSAAR"]
     },
     feilKode: "AVVIST",

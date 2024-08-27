@@ -29,7 +29,7 @@ function sjekkOmAlleReglerKanOverstyres(feilmelding?: any) {
     if (!regler) return false;
     const aarsaker = regler.map((regel) => regel.id);
     const reglerSomIkkeKanOverstyres = aarsaker.filter((regel) => !REGLER_SOM_KAN_OVERSTYRES.includes(regel));
-    return reglerSomIkkeKanOverstyres.length() === 0;
+    return reglerSomIkkeKanOverstyres.length === 0;
 }
 
 function GenereltOmSamtykke() {

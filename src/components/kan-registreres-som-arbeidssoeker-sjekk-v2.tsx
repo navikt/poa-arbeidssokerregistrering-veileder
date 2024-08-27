@@ -8,10 +8,11 @@ interface FeilmeldingProps {
 function Feilmelding(props: FeilmeldingProps) {
     const { feilmelding } = props;
     const { aarsakTilAvvisning } = feilmelding || {};
-    const aarsaker = aarsakTilAvvisning.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
-    const duManglerTilgang = aarsakTilAvvisning && aarsaker.includes('ANSATT_IKKE_TILGANG');
 
     if (!feilmelding) return null;
+
+    const aarsaker = aarsakTilAvvisning.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
+    const duManglerTilgang = aarsakTilAvvisning && aarsaker.includes('ANSATT_IKKE_TILGANG');
 
     return (
         <Alert variant="warning" className="mb-8">
