@@ -68,6 +68,6 @@
         "*.{js,jsx,json,md,ts,tsx}": "prettier --write"
     },
     "engines": {
-        "node": ">=20.15.1"
+        "node": ">=20.16.0"
     }
 }

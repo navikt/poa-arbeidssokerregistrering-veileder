@@ -7,6 +7,7 @@ import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 import { useParamsFromContext } from '../../contexts/params-from-context';
 import { useConfig } from '../../contexts/config-context';
+import { useFeatureToggles } from '../../contexts/featuretoggle-context';
 
 import { loggFlyt } from '../../lib/amplitude';
 import byggOpplysningerPayload from '../../lib/bygg-opplysninger-payload';
@@ -30,6 +31,7 @@ interface OppdaterOpplysningerKnappProps {
 export const OppdaterOpplysningerKnapp = (props: OppdaterOpplysningerKnappProps) => {
     const { erRegistreringsKnapp } = props;
     const router = useRouter();
+    const { toggles } = useFeatureToggles();
     const [isDisabled, setIsDisabled] = useState(false);
     const [isPending, setIsPending] = useState(false);
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
@@ -38,11 +40,13 @@ export const OppdaterOpplysningerKnapp = (props: OppdaterOpplysningerKnappProps)
     const { enableMock } = useConfig() as Config;
     const { fnr } = params;
     const brukerMock = enableMock === 'enabled';
+    const brukV2API = toggles['arbeidssoekerregistrering.bruk-v2-inngang'];
+    const periodeVersjon = brukV2API ? 'arbeidssokerperioder-v2' : 'arbeidssokerperioder';
 
     const [periodeStartet, setPeriodeStartet] = useState<boolean>(false);
     const [error, setError] = useState<any>(undefined);
 
-    const startArbeidssoekerperiodeUrl = brukerMock ? '/api/mocks/arbeidssokerperioder' : '/api/arbeidssokerperioder';
+    const startArbeidssoekerperiodeUrl = brukerMock ? `/api/mocks/${periodeVersjon}` : `/api/${periodeVersjon}`;
     const opplysningerUrl = brukerMock ? '/api/mocks/opplysninger' : '/api/opplysninger';
 
     async function startArbeidssoekerperiode() {
