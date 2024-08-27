@@ -24,7 +24,7 @@ function Feilmelding(props: FeilmeldingProps) {
             {aarsakTilAvvisning && aarsaker && (
                 <List as="ul" title="Årsaker">
                     {aarsakTilAvvisning.regler.map((regel) => (
-                        <List.Item>{regel.beskrivelse}</List.Item>
+                        <List.Item key={regel.id}>{regel.beskrivelse}</List.Item>
                     ))}
                 </List>
             )}
