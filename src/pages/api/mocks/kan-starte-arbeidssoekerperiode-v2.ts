@@ -1,12 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-/*
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
     res.setHeader('x-trace-id', 'tracetest');
     res.status(204).end();
 };
-*/
 
+/*
 //Feilmelding for de under 18 år
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
     res.setHeader('x-trace-id', 'tracetest');
@@ -27,6 +26,7 @@ const UNDER_18_AAR = {
     melding: 'Er under 18 år',
     status: 403,
 };
+*/
 
 /*
 // Feilmelding for utflyttet

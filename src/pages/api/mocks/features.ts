@@ -6,7 +6,7 @@ export const featureMocks = {
         {
             name: 'arbeidssoekerregistrering.bruk-v2-inngang',
             type: 'release',
-            enabled: true,
+            enabled: false,
             stale: false,
             strategies: [
                 {
