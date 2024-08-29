@@ -1,6 +1,6 @@
 import { Box, BodyLong, List, Heading } from '@navikt/ds-react';
 
-import { REGLER_SOM_KAN_OVERSTYRES } from './arbeidssoekerstatus-oversikt';
+import { REGLER_SOM_KAN_OVERSTYRES } from '../model/regler-for-avvisning';
 
 interface VurderingskriterierProps {
     feilmelding?: any;

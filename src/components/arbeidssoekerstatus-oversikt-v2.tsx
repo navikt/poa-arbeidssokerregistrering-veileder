@@ -14,14 +14,7 @@ import VurderingskriterierForArbeidssoekerregistrering from './vurderingskriteri
 import AarsakerTilAtPersonenIkkeKanRegistreres from './aarsaker-til-at-personen-ikke-kan-registreres';
 import ArbeidssoekerMaaRegistreresIArena from './arbeidssoeker-maa-registreres-i-arena-foerst';
 import { hentSisteArbeidssokerPeriode } from '../lib/hent-siste-arbeidssoekerperiode';
-
-export const REGLER_SOM_IKKE_KAN_OVERSTYRES = ['IKKE_FUNNET', 'DOED', 'SAVNET', 'ANSATT_IKKE_TILGANG_TIL_BRUKER'];
-
-export const REGLER_SOM_KAN_OVERSTYRES = [
-    'UNDER_18_AAR',
-    'UKJENT_ALDER',
-    'IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN',
-];
+import { REGLER_SOM_KAN_OVERSTYRES } from '../model/regler-for-avvisning';
 
 function sjekkOmAlleReglerKanOverstyres(feilmelding?: any) {
     const { aarsakTilAvvisning } = feilmelding || {};

@@ -1,4 +1,4 @@
-import { Alert, BodyLong, Heading, ReadMore, List } from '@navikt/ds-react';
+import { Alert, Heading, ReadMore, List } from '@navikt/ds-react';
 import KopierTraceId from './kopierTraceId';
 
 interface FeilmeldingProps {
