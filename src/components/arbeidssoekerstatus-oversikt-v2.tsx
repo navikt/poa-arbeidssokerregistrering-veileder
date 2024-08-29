@@ -12,7 +12,7 @@ import VelgRegistreringsKnapp from './velg-registreringsknapp-v2';
 import ArbeidssoekerperioderOgOpplysningerWrapper from './arbeidssoekerperioder-og-opplysninger-wrapper';
 import VurderingskriterierForArbeidssoekerregistrering from './vurderingskriterier-for-arbeidssoekerregistrering-v2';
 import AarsakerTilAtPersonenIkkeKanRegistreres from './aarsaker-til-at-personen-ikke-kan-registreres';
-import ArbeidssoekerMaaRegistreresIArena from './arbeidssoeker-maa-registreres-i-arena-foerst';
+import ArbeidssoekerMaaRegistreresIArena from './arbeidssoeker-maa-registreres-i-arena-foerst-v2';
 import { hentSisteArbeidssokerPeriode } from '../lib/hent-siste-arbeidssoekerperiode';
 import { REGLER_SOM_KAN_OVERSTYRES } from '../model/regler-for-avvisning';
 
