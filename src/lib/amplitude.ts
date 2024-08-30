@@ -29,7 +29,8 @@ type AktivitetData =
     | { aktivitet: 'Endrer foreslått stilling' }
     | { aktivitet: 'Leser hva er nytt' }
     | { aktivitet: 'Går til skjema for dagpenger' }
-    | { aktivitet: 'Klikker på "Fyll inn opplysninger fra siste arbeidssøkerperiode"' };
+    | { aktivitet: 'Klikker på "Fyll inn opplysninger fra siste arbeidssøkerperiode"' }
+    | { aktivitet: 'Klikker på "Se alle arbeidssøkerperioder bruker har hatt"' };
 
 type VisningsData =
     | { viser: 'Kvittering for registrert arbeidssøker' }
@@ -92,6 +93,8 @@ export function logAmplitudeEvent(eventName: string, data: EventData) {
     const eventData = data || {};
     if (isBrowser() && !isDevelopment()) {
         amplitude.logEvent(eventName, { ...eventData });
+    } else if (isBrowser() && isDevelopment()) {
+        console.log(`Logger "${eventName}" til amplitude:`, data);
     }
 }
 
@@ -103,11 +106,6 @@ export function loggAktivitet(data: AktivitetData) {
 export function loggFlyt(data: FlytData) {
     const eventData = data || ({} as EventData);
     logAmplitudeEvent('arbeidssokerregistrering-veileder.flyt', eventData);
-}
-
-export function loggStoppsituasjon(data: StoppsituasjonsData) {
-    const eventData = data || ({} as EventData);
-    logAmplitudeEvent('arbeidssokerregistrering-veileder.stoppsituasjon', eventData);
 }
 
 export function loggVisning(data: VisningsData) {

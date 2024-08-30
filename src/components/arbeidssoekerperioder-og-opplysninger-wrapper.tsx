@@ -12,6 +12,7 @@ import ArbeidssoekerperiodeStatus from './arbeidssoekerperiodestatus';
 import OpplysningerOmArbeidssoeker from './opplysninger-om-arbeidssoeker';
 import Profilering from './profilering';
 import OppdaterOpplysningerKnapp from './oppdater-opplysninger-knapp';
+import { ArbeidssokerperioderResponse } from '@navikt/arbeidssokerregisteret-utils/dist/models/arbeidssokerperiode';
 
 function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const { params } = useParamsFromContext();
@@ -20,6 +21,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const brukerMock = enableMock === 'enabled';
     const [errorArbeidssoekerperioder, setErrorArbeidssoekerperioder] = useState<any>(undefined);
     const [sisteArbeidssoekerperiode, setSisteArbeidssoekerperiode] = useState<any>({});
+    const [arbeidssoekerperioder, setArbeidssoekerperioder] = useState<ArbeidssokerperioderResponse>(undefined);
     const [errorOpplysningerOmArbeidssoeker, setErrorOpplysningerOmArbeidssoeker] = useState<any>(undefined);
     const [sisteOpplysningerOmArbeidssoeker, setSisteOpplysningerOmArbeidssoeker] = useState<any>(undefined);
     const [errorProfileringer, setErrorProfileringer] = useState<any>(undefined);
@@ -79,6 +81,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
             });
             if (response.ok) {
                 const data = await response.json();
+                setArbeidssoekerperioder(data);
                 const sisteArbeidssoekerperiode = hentSisteArbeidssokerPeriode(data);
                 setSisteArbeidssoekerperiode(sisteArbeidssoekerperiode);
                 setHarSjekketArbeidssoekerperioder(true);
@@ -169,7 +172,10 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     return (
         <>
             {harSjekketArbeidssoekerperioder && (
-                <ArbeidssoekerperiodeStatus sisteArbeidssoekerperiode={sisteArbeidssoekerperiode} />
+                <ArbeidssoekerperiodeStatus
+                    perioder={arbeidssoekerperioder}
+                    sisteArbeidssoekerperiode={sisteArbeidssoekerperiode}
+                />
             )}
             <OpplysningerOmArbeidssoeker
                 sisteOpplysningerOmArbeidssoeker={sisteOpplysningerOmArbeidssoeker}

@@ -42,6 +42,25 @@ const data = [
         },
         avsluttet: null,
     },
+    {
+        periodeId: '3950569a-ffb1-4c70-b75d-14e808e91517',
+        startet: {
+            tidspunkt: '2021-03-13T08:32:26.915Z',
+            utfoertAv: {
+                type: 'SLUTTBRUKER',
+            },
+            kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:24.04.25.141-1',
+            aarsak: 'Er over 18 år, er bosatt i Norge i hendhold Folkeregisterloven',
+        },
+        avsluttet: {
+            tidspunkt: '2022-10-14T11:42:26.902Z',
+            utfoertAv: {
+                type: 'VEILEDER',
+            },
+            kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:24.04.25.141-1',
+            aarsak: 'Ansatt har tilgang til bruker',
+        },
+    },
 ];
 
 /*
@@ -66,7 +85,25 @@ const data = [
             aarsak: 'Ansatt har tilgang til bruker',
         },
     },
+    {
+        periodeId: '3950569a-ffb1-4c70-b75d-14e808e91517',
+        startet: {
+            tidspunkt: '2021-01-17T08:32:26.915Z',
+            utfoertAv: {
+                type: 'SLUTTBRUKER',
+            },
+            kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:24.04.25.141-1',
+            aarsak: 'Er over 18 år, er bosatt i Norge i hendhold Folkeregisterloven',
+        },
+        avsluttet: {
+            tidspunkt: '2022-09-29T11:42:26.902Z',
+            utfoertAv: {
+                type: 'VEILEDER',
+            },
+            kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:24.04.25.141-1',
+            aarsak: 'Ansatt har tilgang til bruker',
+        },
+    },
 ];
 */
-
 export default oppslagArbeidssoekerperioder;
