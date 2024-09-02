@@ -1,5 +1,5 @@
-import StartPeriodeKnapp from './start-periode-knapp';
-import StartPeriodeKnappMedOverstyring from './start-periode-knapp-med-overstyring';
+import StartPeriodeKnapp from './start-periode-knapp-v2';
+import StartPeriodeKnappMedOverstyring from './start-periode-knapp-med-overstyring-v2';
 import { REGLER_SOM_KAN_OVERSTYRES } from '../model/regler-for-avvisning';
 
 function sjekkOmAlleReglerKanOverstyres(feilmelding?: any) {
