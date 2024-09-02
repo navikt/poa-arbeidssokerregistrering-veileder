@@ -51,7 +51,7 @@ export default function RegistreringArbeidssoker() {
 
                         <HStack style={{ justifyContent: 'space-between' }}>
                             <AvbrytKnapp />
-                            <OppdaterOpplysningerKnapp erRegistreringsKnapp erForhaandsgodkjent />
+                            <OppdaterOpplysningerKnapp erRegistreringsKnapp erForhaandsgodkjent={erForhaandsgodkjent} />
                         </HStack>
                     </RegistreringProvider>
                 </>
