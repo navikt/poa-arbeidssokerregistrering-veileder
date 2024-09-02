@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Heading, HStack } from '@navikt/ds-react';
+import { useSearchParams } from 'next/navigation';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 
@@ -23,7 +24,10 @@ export default function RegistreringArbeidssoker() {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
     const visInnhold = fnr && enhetId;
+    const searchParams = useSearchParams();
     const [sisteAvsluttedePeriodeId, setSisteAvsluttedePeriodeId] = useState<string | null>(null);
+    const erForhaandsgodkjent = Boolean(searchParams.get('erForhaandsgodkjent'));
+
     useEffect(() => {
         loggFlyt({ hendelse: 'Starter registrering av arbeidssøker' });
     }, []);
@@ -47,7 +51,7 @@ export default function RegistreringArbeidssoker() {
 
                         <HStack style={{ justifyContent: 'space-between' }}>
                             <AvbrytKnapp />
-                            <OppdaterOpplysningerKnapp erRegistreringsKnapp />
+                            <OppdaterOpplysningerKnapp erRegistreringsKnapp erForhaandsgodkjent />
                         </HStack>
                     </RegistreringProvider>
                 </>

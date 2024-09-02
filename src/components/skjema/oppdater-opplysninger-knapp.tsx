@@ -25,10 +25,11 @@ const TEKSTER: Tekster<string> = {
 
 interface OppdaterOpplysningerKnappProps {
     erRegistreringsKnapp?: boolean;
+    erForhaandsgodkjent: boolean;
 }
 
 export const OppdaterOpplysningerKnapp = (props: OppdaterOpplysningerKnappProps) => {
-    const { erRegistreringsKnapp } = props;
+    const { erRegistreringsKnapp, erForhaandsgodkjent } = props;
     const router = useRouter();
     const [isDisabled, setIsDisabled] = useState(false);
     const [isPending, setIsPending] = useState(false);
@@ -50,6 +51,7 @@ export const OppdaterOpplysningerKnapp = (props: OppdaterOpplysningerKnappProps)
         const payload = JSON.stringify({
             identitetsnummer: fnr,
             periodeTilstand: 'STARTET',
+            registreringForhaandsGodkjentAvAnsatt: erForhaandsgodkjent,
         });
 
         try {
