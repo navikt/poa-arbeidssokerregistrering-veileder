@@ -47,7 +47,7 @@ export default function OppdaterOpplysninger() {
                         <AndreProblemer />
                         <HStack style={{ justifyContent: 'space-between' }}>
                             <AvbrytKnapp />
-                            <OppdaterOpplysningerKnapp />
+                            <OppdaterOpplysningerKnapp erForhaandsgodkjent={false} />
                         </HStack>
                     </RegistreringProvider>
                 </>
