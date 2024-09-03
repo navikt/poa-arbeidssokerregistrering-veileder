@@ -4,6 +4,19 @@ export const featureMocks = {
     version: 1,
     features: [
         {
+            name: 'arbeidssoekerregistrering.vis-bekreftelse',
+            type: 'release',
+            enabled: true,
+            stale: false,
+            strategies: [
+                {
+                    name: 'default',
+                    parameters: {},
+                },
+            ],
+            variants: [],
+        },
+        {
             name: 'arbeidssoekerregistrering.bruk-v2-inngang',
             type: 'release',
             enabled: false,

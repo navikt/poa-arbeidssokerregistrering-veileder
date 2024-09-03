@@ -15,6 +15,8 @@ import AarsakerTilAtPersonenIkkeKanRegistreres from './aarsaker-til-at-personen-
 import ArbeidssoekerMaaRegistreresIArena from './arbeidssoeker-maa-registreres-i-arena-foerst-v2';
 import { hentSisteArbeidssokerPeriode } from '../lib/hent-siste-arbeidssoekerperiode';
 import { REGLER_SOM_KAN_OVERSTYRES } from '../model/regler-for-avvisning';
+import { useFeatureToggles } from '../contexts/featuretoggle-context';
+import BekreftelseInformasjon from './bekreftelse-informasjon';
 
 function sjekkOmAlleReglerKanOverstyres(feilmelding?: any) {
     const { aarsakTilAvvisning } = feilmelding || {};
@@ -40,7 +42,6 @@ function GenereltOmSamtykke() {
 }
 
 function ArbeidssoekerstatusOversiktV2() {
-    const router = useRouter();
     const { params } = useParamsFromContext();
     const { enableMock } = useConfig() as Config;
     const { fnr, enhetId } = params;
@@ -51,6 +52,9 @@ function ArbeidssoekerstatusOversiktV2() {
     const [errorArbeidssoekerperioder, setErrorArbeidssoekerperioder] = useState<any>(undefined);
     const [sisteArbeidssoekerperiode, setSisteArbeidssoekerperiode] = useState<any>({});
     const [harIkkeAktivPeriode, setHarIkkeAktivPeriode] = useState<boolean>(false);
+    const { toggles } = useFeatureToggles();
+
+    const visBekreftelseKomponent = toggles['arbeidssoekerregistrering.vis-bekreftelse'] && !harIkkeAktivPeriode;
 
     const sjekkKanStarteArbeidssoekerperiodeUrl = brukerMock
         ? '/api/mocks/kan-starte-arbeidssoekerperiode-v2'
@@ -161,6 +165,7 @@ function ArbeidssoekerstatusOversiktV2() {
             )}
             <div className="mt-8">
                 <ArbeidssoekerperioderOgOpplysningerWrapper />
+                {visBekreftelseKomponent && <BekreftelseInformasjon />}
             </div>
         </Box>
     );
