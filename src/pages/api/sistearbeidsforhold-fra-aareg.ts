@@ -42,7 +42,7 @@ async function hentFraAareg(req: NextApiRequest, callId: string) {
         body: JSON.stringify(body),
     }).then(async (res) => {
         if (!res.ok) {
-            logger.error(`Respons fra aareg ikke OK - [callId: ${callId}] ${res.status} ${res.statusText}`);
+            logger.warn(`Respons fra aareg ikke OK - [callId: ${callId}] ${res.status} ${res.statusText}`);
             throw new Error('Feil ved henting av siste arbeidsforhold');
         }
         return res.json();
