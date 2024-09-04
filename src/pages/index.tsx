@@ -4,11 +4,13 @@ import DemoPanel from '../components/demo-panel';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
 import ArbeidssoekerstatusOversiktV2 from '../components/arbeidssoekerstatus-oversikt-v2';
 import HvaErNytt from '../components/hva-er-nytt';
+import DemoLabel from '../components/demo-label';
 
 export default function Home() {
     return (
         <>
             <RedirectTilVedlikehold />
+            <DemoLabel />
             <HvaErNytt />
             <ArbeidssoekerstatusOversiktV2 />
             <ManglerPersonEllerEnhet />
