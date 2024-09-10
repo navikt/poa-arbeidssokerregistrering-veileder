@@ -12,7 +12,7 @@ function Feilmelding(props: FeilmeldingProps) {
     if (!feilmelding) return null;
 
     const aarsaker = aarsakTilAvvisning.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
-    const duManglerTilgang = aarsakTilAvvisning && aarsaker.includes('ANSATT_IKKE_TILGANG');
+    const duManglerTilgang = aarsaker.includes('ANSATT_IKKE_TILGANG');
 
     return (
         <Alert variant="warning" className="mb-8">
