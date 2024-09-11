@@ -145,10 +145,11 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
     res.status(403).json(ANSATT_IKKE_TILGANG_TIL_BRUKER);
 };
 
+
 const ANSATT_IKKE_TILGANG_TIL_BRUKER = {
     aarsakTilAvvisning: {
         regler: [{
-          id: 'ANSATT_IKKE_TILGANG',
+          id: 'ANSATT_IKKE_TILGANG_TIL_BRUKER',
           beskrivelse: "Ansatt har ikke tilgang til bruker",
         }],
         detaljer: ["ANSATT_IKKE_TILGANG_TIL_BRUKER", "ANSATT_IKKE_TILGANG"]
