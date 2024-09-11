@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Alert } from '@navikt/ds-react';
 import { hentSisteOpplysningerOmArbeidssoker, hentSisteProfilering } from '@navikt/arbeidssokerregisteret-utils';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
@@ -188,7 +190,9 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
                     knappeTekst="Legg til opplysninger"
                 />
             )}
-            <Profilering sisteProfilering={sisteProfilering} />
+            <ErrorBoundary fallback={<Alert variant="warning">Visning av siste profilering feilet</Alert>}>
+                <Profilering sisteProfilering={sisteProfilering} />
+            </ErrorBoundary>
         </>
     );
 }
