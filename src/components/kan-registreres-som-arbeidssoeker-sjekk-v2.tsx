@@ -12,14 +12,14 @@ function Feilmelding(props: FeilmeldingProps) {
     if (!feilmelding) return null;
 
     const aarsaker = aarsakTilAvvisning.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
-    const duManglerTilgang = aarsaker.includes('ANSATT_IKKE_TILGANG');
+    const duManglerTilgang = aarsaker.includes('ANSATT_IKKE_TILGANG_TIL_BRUKER');
 
     return (
         <Alert variant="warning" className="mb-8">
             <Heading level="1" size="small" className="mb-4">
                 {duManglerTilgang
                     ? 'Du kan ikke registrere denne personen som arbeidssøker'
-                    : 'Personen må registreres manuelt av en veileder etter at en vurdering er gjort'}
+                    : 'Personen må registreres av en veileder etter at en vurdering er gjort'}
             </Heading>
             {aarsakTilAvvisning && aarsaker && (
                 <List as="ul" title="Årsaker">

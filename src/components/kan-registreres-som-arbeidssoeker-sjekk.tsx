@@ -8,7 +8,7 @@ interface FeilmeldingProps {
 function Feilmelding(props: FeilmeldingProps) {
     const { feilmelding } = props;
     const { aarsakTilAvvisning } = feilmelding || {};
-    const duManglerTilgang = aarsakTilAvvisning && aarsakTilAvvisning.regel === 'ANSATT_IKKE_TILGANG';
+    const duManglerTilgang = aarsakTilAvvisning && aarsakTilAvvisning.regel === 'ANSATT_IKKE_TILGANG_TIL_BRUKER';
 
     if (!feilmelding) return null;
     return (
@@ -16,7 +16,7 @@ function Feilmelding(props: FeilmeldingProps) {
             <Heading level="1" size="small" className="mb-4">
                 {duManglerTilgang
                     ? 'Du kan ikke registrere denne personen som arbeidssøker'
-                    : 'Personen må registreres manuelt av en veileder etter at en vurdering er gjort'}
+                    : 'Personen må registreres av en veileder etter at en vurdering er gjort'}
             </Heading>
             {aarsakTilAvvisning && (
                 <BodyLong spacing>
