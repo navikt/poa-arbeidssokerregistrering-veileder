@@ -6,6 +6,10 @@ import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
 import { useParamsFromContext } from '../contexts/params-from-context';
+import useSWRImmutable from 'swr/immutable';
+import { fetcher } from '../lib/api-utils';
+import { formaterDato } from '../lib/date-utils';
+import { TilgjengeligBekreftelse, TilgjengeligeBekreftelser } from '../types/bekreftelse';
 
 const TEKSTER = {
     nb: {
@@ -23,11 +27,11 @@ interface Skjema {
     oenskerAaVaereRegistrert?: boolean;
 }
 
-const getRadioGroupValue = (skjemVerdi: boolean | undefined) => {
-    if (typeof skjemVerdi === 'undefined') {
+const getRadioGroupValue = (skjemaVerdi: boolean | undefined) => {
+    if (typeof skjemaVerdi === 'undefined') {
         return '';
     }
-    return skjemVerdi ? 'ja' : 'nei';
+    return skjemaVerdi ? 'ja' : 'nei';
 };
 
 export default function Bekreftelse() {
@@ -38,6 +42,14 @@ export default function Bekreftelse() {
     const { fnr } = params;
     const brukerMock = enableMock === 'enabled';
 
+    const { data: apiData, isLoading } = useSWRImmutable(
+        `/api/${brukerMock ? 'mocks/' : ''}tilgjengelige-bekreftelser`,
+        fetcher,
+    );
+
+    const [tilgjengeligeBekreftelser, settTilgjengeligeBekreftelser] = useState<TilgjengeligeBekreftelser>();
+    const [aktivBekreftelse, settAktivBekreftelse] = useState<TilgjengeligBekreftelse>();
+
     const [skjemaState, settSkjemaState] = useState<Skjema>({
         harVaertIArbeid: undefined,
         oenskerAaVaereRegistrert: undefined,
@@ -45,8 +57,6 @@ export default function Bekreftelse() {
 
     const [isPending, setIsPending] = useState<boolean>(false);
     const [harSendtSkjema, settHarSendtSkjema] = useState<boolean>(false);
-    const periode = '03. september - 17. september';
-
     const [harGyldigSkjema, settHarGyldigSkjema] = useState<boolean>(false);
 
     useEffect(() => {
@@ -56,14 +66,35 @@ export default function Bekreftelse() {
         );
     }, [skjemaState]);
 
+    useEffect(() => {
+        if (apiData) {
+            settTilgjengeligeBekreftelser(apiData);
+        }
+    }, [apiData]);
+
+    useEffect(() => {
+        if (tilgjengeligeBekreftelser && tilgjengeligeBekreftelser.length > 0) {
+            const bekreftelse = tilgjengeligeBekreftelser[0];
+            settAktivBekreftelse(bekreftelse);
+        }
+    }, [tilgjengeligeBekreftelser]);
+
+    if (isLoading || !tilgjengeligeBekreftelser) {
+        return null;
+    }
+
+    if (apiData.length === 0) {
+        return <p>Ingen tilgjengelige bekreftelser</p>;
+    }
+
     const onSubmit = async () => {
         setIsPending(true);
-        const url = `/api/${brukerMock ? 'mocks' : ''}/rapportering`;
+        const url = `/api/${brukerMock ? 'mocks/' : ''}rapportering`;
         const payload = JSON.stringify({
             identitetsnummer: fnr,
             harJobbetIDennePerioden: skjemaState.harVaertIArbeid,
             vilFortsetteSomArbeidssoeker: skjemaState.oenskerAaVaereRegistrert,
-            // rapporteringsId: TODO
+            bekreftelseId: aktivBekreftelse.bekreftelseId,
         });
         try {
             const response = await fetch(url, {
@@ -77,7 +108,14 @@ export default function Bekreftelse() {
             if (!response.ok) {
                 throw new Error(response.statusText);
             }
+
             settHarSendtSkjema(true);
+
+            if (skjemaState.oenskerAaVaereRegistrert) {
+                settTilgjengeligeBekreftelser((prevState) => prevState.slice(1));
+            } else {
+                settTilgjengeligeBekreftelser([]);
+            }
         } catch (err: any) {
             console.error('Feil ved posting av bekreftelse', err);
         } finally {
@@ -86,6 +124,18 @@ export default function Bekreftelse() {
     };
 
     const onCancel = () => router.push('/');
+    const onClickNesteBekreftelse = () => {
+        settSkjemaState({
+            harVaertIArbeid: undefined,
+            oenskerAaVaereRegistrert: undefined,
+        });
+
+        if (tilgjengeligeBekreftelser.length > 0) {
+            settHarSendtSkjema(false);
+        }
+    };
+
+    const periode = `${formaterDato(aktivBekreftelse?.gjelderFra)} - ${formaterDato(aktivBekreftelse?.gjelderTil)}`;
 
     return (
         <>
@@ -126,15 +176,27 @@ export default function Bekreftelse() {
                     </Button>
                 </div>
             )}
-            {harSendtSkjema && (
-                <>
-                    <Alert variant={'success'}>
-                        <Heading size={'xsmall'}>Svaret er registrert</Heading>
-                        <Button variant={'secondary-neutral'} onClick={onCancel}>
-                            Lukk og gå tilbake
-                        </Button>
-                    </Alert>
-                </>
+
+            {harSendtSkjema && tilgjengeligeBekreftelser.length === 0 && (
+                <Alert variant={skjemaState.oenskerAaVaereRegistrert ? 'success' : 'warning'}>
+                    <Heading size={'xsmall'}>
+                        {skjemaState.oenskerAaVaereRegistrert
+                            ? 'Svaret er registrert'
+                            : 'Bruker er ikke lenger registrert som arbeidssøker'}
+                    </Heading>
+                    <Button variant={'secondary-neutral'} onClick={onCancel}>
+                        Lukk og gå tilbake
+                    </Button>
+                </Alert>
+            )}
+
+            {harSendtSkjema && tilgjengeligeBekreftelser.length > 0 && (
+                <Alert variant={'success'}>
+                    <Heading size={'xsmall'}>Svaret er registrert</Heading>
+                    <Button variant={'secondary'} onClick={onClickNesteBekreftelse}>
+                        Svar på neste periode
+                    </Button>
+                </Alert>
             )}
         </>
     );
