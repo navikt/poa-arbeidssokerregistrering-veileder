@@ -63,11 +63,11 @@ function mapOpplysninger(opplysninger: OpplysningerOmArbeidssoker): OpplysningPr
         },
         {
             sporsmal: SporsmalId.helseHinder,
-            svar: opplysninger.helse.helsetilstandHindrerArbeid,
+            svar: opplysninger.helse?.helsetilstandHindrerArbeid || 'Mangler opplysninger',
         },
         {
             sporsmal: SporsmalId.andreForhold,
-            svar: opplysninger.annet.andreForholdHindrerArbeid,
+            svar: opplysninger.annet?.andreForholdHindrerArbeid || 'Mangler opplysninger',
         },
     ];
 
