@@ -32,6 +32,7 @@ const getOboTokenDings = async (): Promise<OboAuth> => {
 
 const ARBEIDSSOEKERREGISTRERING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
 const OPPSLAGSAPI_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oppslag/.default`;
+const BEKREFTELSE_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oppslag/.default`;
 const MODIACONTEXTHOLDER_SCOPE = `api://${process.env.MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID}/.default`;
 const VEILARBOPPFOLGING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
     'gcp',
@@ -45,7 +46,7 @@ const VEILARBVEILEDER_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
 )}.pto.veilarbveileder/.default`;
 const OBO_UNLEASH_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.obo.obo-unleash/.default`;
 const AAREG_API_SCOPE = `api://${process.env.AAREG_CLUSTER}.arbeidsforhold.${process.env.AAREG_APPNAME}/.default`;
-const PAW_ARBEIDSSOKER_BESVARELSE_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoker-besvarelse/.default`;
+const PAW_ARBEIDSSOKER_BESVARELSE_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoeker-bekreftelse-api/.default`;
 
 export const getArbeidssoekerregistreringToken = async (req: NextApiRequest) => {
     const tokenSet = await (
@@ -56,6 +57,11 @@ export const getArbeidssoekerregistreringToken = async (req: NextApiRequest) => 
 
 export const getOppslagsAPIToken = async (req: NextApiRequest) => {
     const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, OPPSLAGSAPI_SCOPE);
+    return tokenSet.access_token!;
+};
+
+export const getBekreftelseAPIToken = async (req: NextApiRequest) => {
+    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, BEKREFTELSE_API_SCOPE);
     return tokenSet.access_token!;
 };
 
@@ -116,18 +122,18 @@ export type ApiHandlerOpts = {
 export type LagApiHandlerKall = (
     url: string,
     getToken: (req: NextApiRequest) => Promise<string>,
-    opts: ApiHandlerOpts,
+    opts?: ApiHandlerOpts,
 ) => NextApiHandler;
 const lagApiHandlerMedAuthHeaders: LagApiHandlerKall = (url, getToken, opts) => async (req, res) => {
     const callId = getTraceIdFromRequest(req);
     try {
         const body = {
-            ...(opts.body ?? {}),
+            ...(opts?.body ?? {}),
             ...(req.body ?? {}), // OBS: krever at innkommende request har satt Content-type: application/json
         };
 
         const respons = await fetch(url, {
-            method: opts.method,
+            method: opts?.method ?? 'GET',
             body: JSON.stringify({
                 ...body,
             }),
