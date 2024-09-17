@@ -3,7 +3,6 @@ import { nanoid } from 'nanoid';
 import { logger } from '@navikt/next-logger';
 
 import createOboTokenDings, { OboAuth } from '../auth/oboTokenDings';
-import queryToString from './query-to-string';
 
 export const getHeaders = (token: string, callId: string) => {
     return {
@@ -31,7 +30,6 @@ const getOboTokenDings = async (): Promise<OboAuth> => {
     return _oboTokenDings;
 };
 
-const VEILARBREGISTRERING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.veilarbregistrering/.default`;
 const ARBEIDSSOEKERREGISTRERING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
 const OPPSLAGSAPI_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oppslag/.default`;
 const MODIACONTEXTHOLDER_SCOPE = `api://${process.env.MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID}/.default`;
@@ -48,11 +46,6 @@ const VEILARBVEILEDER_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
 const OBO_UNLEASH_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.obo.obo-unleash/.default`;
 const AAREG_API_SCOPE = `api://${process.env.AAREG_CLUSTER}.arbeidsforhold.${process.env.AAREG_APPNAME}/.default`;
 const PAW_ARBEIDSSOKER_BESVARELSE_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoker-besvarelse/.default`;
-
-export const getVeilarbregistreringToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBREGISTRERING_SCOPE);
-    return tokenSet.access_token!;
-};
 
 export const getArbeidssoekerregistreringToken = async (req: NextApiRequest) => {
     const tokenSet = await (
@@ -168,6 +161,7 @@ const lagApiHandlerMedAuthHeaders: LagApiHandlerKall = (url, getToken, opts) => 
                 };
             }
         });
+
         logger.info(
             `Kall callId: ${callId} mot ${url} er ferdig (${respons?.status || 200}) traceID: ${respons?.traceId}`,
         );
