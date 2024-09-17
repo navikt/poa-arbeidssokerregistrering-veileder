@@ -17,17 +17,6 @@ export const getHeaders = (token: string, callId: string) => {
 
 export const getTraceIdFromRequest = (req: NextApiRequest) => (req.headers['x-trace-id'] as string) ?? nanoid();
 
-export const lagApiPostHandlerMedAuthHeaders: (
-    url: string,
-    errorHandler?: (response: Response) => void,
-) => NextApiHandler = (url: string, errorHandler) => async (req, res) => {
-    if (req.method === 'POST') {
-        return lagApiHandlerMedAuthHeaders(url, errorHandler)(req, res);
-    } else {
-        res.status(405).end();
-    }
-};
-
 export interface ApiError extends Error {
     status?: number;
     traceId?: string;
