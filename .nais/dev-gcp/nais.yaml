@@ -97,6 +97,8 @@ spec:
       value: http://paw-arbeidssoekerregisteret-api-oppslag
     - name: AIA_BACKEND_URL
       value: http://aia-backend/aia-backend
+    - name: BEKREFTELSE_API_URL
+      value: http://paw-arbeidssoeker-bekreftelse-api
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
@@ -127,6 +129,7 @@ spec:
         - application: paw-arbeidssoekerregisteret-api-oppslag
         - application: aia-backend
         - application: paw-arbeidssoker-besvarelse
+        - application: paw-arbeidssoeker-bekreftelse-api
         - application: modiacontextholder
           namespace: personoversikt
         - application: veilarboppfolging
