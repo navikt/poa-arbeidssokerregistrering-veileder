@@ -6,7 +6,7 @@ const bekreftelse = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).end();
     }
 
-    logger.info(req.body, 'POST /api/mocks/rapportering');
+    logger.info(req.body, 'POST /api/mocks/bekreftelse');
     res.status(200).json({});
 };
 
