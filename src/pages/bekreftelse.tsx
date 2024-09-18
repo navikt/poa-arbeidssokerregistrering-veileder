@@ -23,8 +23,8 @@ const TEKSTER = {
 };
 
 interface Skjema {
-    harVaertIArbeid?: boolean;
-    oenskerAaVaereRegistrert?: boolean;
+    harJobbetIDennePerioden?: boolean;
+    vilFortsetteSomArbeidssoeker?: boolean;
 }
 
 const getRadioGroupValue = (skjemaVerdi: boolean | undefined) => {
@@ -51,8 +51,8 @@ export default function Bekreftelse() {
     const [aktivBekreftelse, settAktivBekreftelse] = useState<TilgjengeligBekreftelse>();
 
     const [skjemaState, settSkjemaState] = useState<Skjema>({
-        harVaertIArbeid: undefined,
-        oenskerAaVaereRegistrert: undefined,
+        harJobbetIDennePerioden: undefined,
+        vilFortsetteSomArbeidssoeker: undefined,
     });
 
     const [isPending, setIsPending] = useState<boolean>(false);
@@ -89,11 +89,11 @@ export default function Bekreftelse() {
 
     const onSubmit = async () => {
         setIsPending(true);
-        const url = `/api/${brukerMock ? 'mocks/' : ''}rapportering`;
+        const url = `/api/${brukerMock ? 'mocks/' : ''}bekreftelse`;
         const payload = JSON.stringify({
             identitetsnummer: fnr,
-            harJobbetIDennePerioden: skjemaState.harVaertIArbeid,
-            vilFortsetteSomArbeidssoeker: skjemaState.oenskerAaVaereRegistrert,
+            harJobbetIDennePerioden: skjemaState.harJobbetIDennePerioden,
+            vilFortsetteSomArbeidssoeker: skjemaState.vilFortsetteSomArbeidssoeker,
             bekreftelseId: aktivBekreftelse.bekreftelseId,
         });
         try {
@@ -111,7 +111,7 @@ export default function Bekreftelse() {
 
             settHarSendtSkjema(true);
 
-            if (skjemaState.oenskerAaVaereRegistrert) {
+            if (skjemaState.vilFortsetteSomArbeidssoeker) {
                 settTilgjengeligeBekreftelser((prevState) => prevState.slice(1));
             } else {
                 settTilgjengeligeBekreftelser([]);
@@ -126,8 +126,8 @@ export default function Bekreftelse() {
     const onCancel = () => router.push('/');
     const onClickNesteBekreftelse = () => {
         settSkjemaState({
-            harVaertIArbeid: undefined,
-            oenskerAaVaereRegistrert: undefined,
+            harJobbetIDennePerioden: undefined,
+            vilFortsetteSomArbeidssoeker: undefined,
         });
 
         if (tilgjengeligeBekreftelser.length > 0) {
@@ -142,23 +142,23 @@ export default function Bekreftelse() {
             <Heading size={'large'}>Bekreftelse</Heading>
             <RadioGroup
                 legend={`${tekst('beenWorking')} ${periode}?`}
-                value={getRadioGroupValue(skjemaState.harVaertIArbeid)}
-                onChange={(e) => settSkjemaState((state) => ({ ...state, harVaertIArbeid: e === 'ja' }))}
+                value={getRadioGroupValue(skjemaState.harJobbetIDennePerioden)}
+                onChange={(e) => settSkjemaState((state) => ({ ...state, harJobbetIDennePerioden: e === 'ja' }))}
                 className={'mb-4'}
                 disabled={harSendtSkjema}
             >
-                <Radio value="ja" checked={skjemaState.harVaertIArbeid === true}>
+                <Radio value="ja" checked={skjemaState.harJobbetIDennePerioden === true}>
                     {tekst('yes')}
                 </Radio>
-                <Radio value="nei" checked={skjemaState.harVaertIArbeid === false}>
+                <Radio value="nei" checked={skjemaState.harJobbetIDennePerioden === false}>
                     {tekst('no')}
                 </Radio>
             </RadioGroup>
 
             <RadioGroup
                 legend={`${tekst('wantToBeRegistered')}`}
-                value={getRadioGroupValue(skjemaState.oenskerAaVaereRegistrert)}
-                onChange={(e) => settSkjemaState((state) => ({ ...state, oenskerAaVaereRegistrert: e === 'ja' }))}
+                value={getRadioGroupValue(skjemaState.vilFortsetteSomArbeidssoeker)}
+                onChange={(e) => settSkjemaState((state) => ({ ...state, vilFortsetteSomArbeidssoeker: e === 'ja' }))}
                 className={'mb-4'}
                 disabled={harSendtSkjema}
             >
@@ -178,9 +178,9 @@ export default function Bekreftelse() {
             )}
 
             {harSendtSkjema && tilgjengeligeBekreftelser.length === 0 && (
-                <Alert variant={skjemaState.oenskerAaVaereRegistrert ? 'success' : 'warning'}>
+                <Alert variant={skjemaState.vilFortsetteSomArbeidssoeker ? 'success' : 'warning'}>
                     <Heading size={'xsmall'}>
-                        {skjemaState.oenskerAaVaereRegistrert
+                        {skjemaState.vilFortsetteSomArbeidssoeker
                             ? 'Svaret er registrert'
                             : 'Bruker er ikke lenger registrert som arbeidssøker'}
                     </Heading>
