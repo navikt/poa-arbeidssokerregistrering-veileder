@@ -127,10 +127,13 @@ export type LagApiHandlerKall = (
 const lagApiHandlerMedAuthHeaders: LagApiHandlerKall = (url, getToken, opts) => async (req, res) => {
     const callId = getTraceIdFromRequest(req);
     try {
-        const body = {
-            ...(opts?.body ?? {}),
-            ...(req.body ?? {}), // OBS: krever at innkommende request har satt Content-type: application/json
-        };
+        const body =
+            opts?.method === 'POST'
+                ? {
+                      ...(opts?.body ?? {}),
+                      ...(req.body ?? {}), // OBS: krever at innkommende request har satt Content-type: application/json
+                  }
+                : null;
 
         const respons = await fetch(url, {
             method: opts?.method ?? 'GET',
