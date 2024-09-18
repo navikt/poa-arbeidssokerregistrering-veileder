@@ -74,7 +74,7 @@ spec:
     - name: DECORATOR_URL
       value: https://internarbeidsflatedecorator-q1.intern.dev.nav.no
     - name: VEILARBOPPFOLGING_URL
-      value: https://veilarboppfolging.dev-fss-pub.nais.io/veilarboppfolging
+      value: http://veilarboppfolging.poao/veilarboppfolging
     - name: VEILARBDIALOG_URL
       value: http://veilarbdialog.dab/veilarbdialog
     - name: VEILARBPERSON_URL
@@ -133,8 +133,8 @@ spec:
         - application: modiacontextholder
           namespace: personoversikt
         - application: veilarboppfolging
-          namespace: pto
-          cluster: dev-fss
+          namespace: poao
+          cluster: dev-gcp
         - application: veilarbdialog
           namespace: dab
           cluster: dev-gcp
