@@ -34,10 +34,7 @@ const ARBEIDSSOEKERREGISTRERING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.
 const OPPSLAGSAPI_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oppslag/.default`;
 const BEKREFTELSE_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoeker-bekreftelse-api/.default`;
 const MODIACONTEXTHOLDER_SCOPE = `api://${process.env.MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID}/.default`;
-const VEILARBOPPFOLGING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
-    'gcp',
-    'fss',
-)}.pto.veilarboppfolging/.default`;
+const VEILARBOPPFOLGING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.poao.veilarboppfolging/.default`;
 const VEILARBDIALOG_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.dab.veilarbdialog/.default`;
 const VEILARBPERSON_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace('gcp', 'fss')}.pto.veilarbperson/.default`;
 const VEILARBVEILEDER_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
