@@ -1,13 +1,11 @@
 import { Alert, Button, Heading, Radio, RadioGroup } from '@navikt/ds-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
 import { useParamsFromContext } from '../contexts/params-from-context';
-import useSWRImmutable from 'swr/immutable';
-import { fetcher } from '../lib/api-utils';
 import { formaterDato } from '../lib/date-utils';
 import { TilgjengeligBekreftelse, TilgjengeligeBekreftelser } from '../types/bekreftelse';
 
@@ -34,6 +32,39 @@ const getRadioGroupValue = (skjemaVerdi: boolean | undefined) => {
     return skjemaVerdi ? 'ja' : 'nei';
 };
 
+function useApiKall(url: string, identitetsnummer: string) {
+    const [state, dispatch] = useReducer((s, a) => ({ ...s, ...a }), {
+        isLoading: true,
+        data: null,
+        error: null,
+    });
+
+    useEffect(() => {
+        if (!identitetsnummer) {
+            return;
+        }
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({ identitetsnummer }),
+            credentials: 'include',
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error(response.statusText);
+            })
+            .then((data) => dispatch({ isLoading: false, data, identitetsnummer }))
+            .catch((error) => dispatch({ isLoading: false, error }));
+    }, [identitetsnummer]);
+
+    return state;
+}
+
 export default function Bekreftelse() {
     const router = useRouter();
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
@@ -41,11 +72,8 @@ export default function Bekreftelse() {
     const { enableMock } = useConfig() as Config;
     const { fnr } = params;
     const brukerMock = enableMock === 'enabled';
-
-    const { data: apiData, isLoading } = useSWRImmutable(
-        `/api/${brukerMock ? 'mocks/' : ''}tilgjengelige-bekreftelser`,
-        fetcher,
-    );
+    const url = `/api/${brukerMock ? 'mocks/' : ''}tilgjengelige-bekreftelser`;
+    const { data: apiData, isLoading } = useApiKall(url, fnr);
 
     const [tilgjengeligeBekreftelser, settTilgjengeligeBekreftelser] = useState<TilgjengeligeBekreftelser>();
     const [aktivBekreftelse, settAktivBekreftelse] = useState<TilgjengeligBekreftelse>();
