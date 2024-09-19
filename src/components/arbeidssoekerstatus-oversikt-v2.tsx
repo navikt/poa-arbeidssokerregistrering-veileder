@@ -165,7 +165,7 @@ function ArbeidssoekerstatusOversiktV2() {
             )}
             <div className="mt-8">
                 <ArbeidssoekerperioderOgOpplysningerWrapper />
-                {visBekreftelseKomponent && <BekreftelseInformasjon />}
+                {visBekreftelseKomponent && <BekreftelseInformasjon fnr={fnr} brukerMock={brukerMock} />}
             </div>
         </Box>
     );

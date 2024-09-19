@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { formaterDato } from '../lib/date-utils';
 import { TilgjengeligeBekreftelser } from '../types/bekreftelse';
+import useApiKall from '../hooks/useApiKall';
 
 const bekreftelserMock = [
     {
@@ -19,18 +20,15 @@ const bekreftelserMock = [
     },
 ];
 
-function BekreftelseInformasjon() {
-    const [tilgjengeligeBekreftelser, settTilgjengeligeBekreftelser] = useState<TilgjengeligeBekreftelser>();
-    const router = useRouter();
+function BekreftelseInformasjon(props: { fnr: string; brukerMock: boolean }) {
+    const { fnr, brukerMock } = props;
+    const { data: tilgjengeligeBekreftelser, isLoading } = useApiKall<TilgjengeligeBekreftelser>(
+        `/api/${brukerMock ? 'mocks/' : ''}tilgjengelige-bekreftelser`,
+        'POST',
+        fnr ? JSON.stringify({ identitetsnummer: fnr }) : null,
+    );
 
-    useEffect(() => {
-        settTilgjengeligeBekreftelser(
-            bekreftelserMock.sort((a, b) => {
-                // TODO: sorter server-side
-                return new Date(a.gjelderTil).getTime() - new Date(b.gjelderTil).getTime();
-            }),
-        );
-    }, []);
+    const router = useRouter();
 
     return (
         <Box>
