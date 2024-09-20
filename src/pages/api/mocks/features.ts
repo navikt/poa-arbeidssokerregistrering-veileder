@@ -4,6 +4,19 @@ export const featureMocks = {
     version: 1,
     features: [
         {
+            name: 'arbeidssokerregistrering.bruk-pam-ontologi',
+            type: 'release',
+            enabled: false,
+            stale: false,
+            strategies: [
+                {
+                    name: 'default',
+                    parameters: {},
+                },
+            ],
+            variants: [],
+        },
+        {
             name: 'arbeidssoekerregistrering.vis-bekreftelse',
             type: 'release',
             enabled: true,

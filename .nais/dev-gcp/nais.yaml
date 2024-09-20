@@ -55,6 +55,8 @@ spec:
       value: https://www.ekstern.dev.nav.no/syk/meroppfolging/reg/0
     - name: PAM_JANZZ_URL
       value: https://arbeidsplassen.nav.no/pam-janzz/rest
+    - name: PAM_ONTOLOGI_URL
+      value: https://pam-ontologi.intern.nav.no/rest/
     - name: NODE_ENV
       value: test
     - name: HENT_PROFILERING_URL
@@ -115,6 +117,7 @@ spec:
     outbound:
       external:
         - host: arbeidsplassen.nav.no
+        - host: pam-ontologi.intern.nav.no
         - host: paw-unleash-api.nav.cloud.nais.io
         - host: modiacontextholder.intern.dev.nav.no
         - host: internarbeidsflatedecorator-q1.dev-fss-pub.nais.io

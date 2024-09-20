@@ -6,10 +6,7 @@ import useSWRImmutable from 'swr/immutable';
 import useSprak from '../../../hooks/useSprak';
 import { useRegistrering } from '../../../contexts/registrering-context';
 import { useParamsFromContext } from '../../../contexts/params-from-context';
-import { useFeatureToggles } from '../../../contexts/featuretoggle-context';
-
-import StillingsSok from './stillings-sok';
-import StillingsSokV2 from './stillings-sok-v2';
+import StillingsSok from './stillings-sok-v2';
 import SisteStilling from './siste-stilling';
 import { fetcher } from '../../../lib/api-utils';
 import {
@@ -53,8 +50,6 @@ function stringifyStyrk08(value: StillingssokValue) {
 }
 
 const SisteJobbSkjema = () => {
-    const { toggles } = useFeatureToggles();
-    const brukPamOntologi = Boolean(toggles['arbeidssokerregistrering.bruk-pam-ontologi']);
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const { registrering, setRegistrering } = useRegistrering();
     const [visStillingsSok, settVisStillingsSok] = useState<boolean>(false);
@@ -71,9 +66,7 @@ const SisteJobbSkjema = () => {
         settVisStillingsSok(false);
     };
 
-    const sisteArbeidsforholdUrl = brukPamOntologi
-        ? 'api/sistearbeidsforhold-fra-aareg-v2'
-        : 'api/sistearbeidsforhold-fra-aareg';
+    const sisteArbeidsforholdUrl = 'api/sistearbeidsforhold-fra-aareg-v2';
 
     const {
         data: sisteArbeidsforhold,
@@ -113,49 +106,6 @@ const SisteJobbSkjema = () => {
             setRegistrering({ [SporsmalId.sisteJobb]: annenStilling });
         }
     }, [error, registrering]);
-
-    if (brukPamOntologi) {
-        return (
-            <Box className="mb-8" borderWidth="1" padding="4" style={{ backgroundColor: 'var(--a-gray-50)' }}>
-                <div>
-                    <Heading spacing size={'medium'} level="1">
-                        {tekst('tittel')}
-                    </Heading>
-
-                    {visSisteStilling && <SisteStilling />}
-
-                    {visSisteJobb && (
-                        <div className="mbs">
-                            <Heading spacing size={'small'} level="2">
-                                {tekst('stilling')}
-                            </Heading>
-                            <BodyLong>{tekst('registrert')}</BodyLong>
-                            <BodyLong className="mbm">{tekst('feilOpplysninger')}</BodyLong>
-
-                            {visStillingsSok ? (
-                                <StillingsSokV2 onClose={onCloseStillingssok} />
-                            ) : (
-                                <div>
-                                    {registrering.sisteJobb?.label}
-                                    <Button
-                                        variant="tertiary"
-                                        className="mls"
-                                        onClick={() => settVisStillingsSok(true)}
-                                    >
-                                        Endre
-                                    </Button>
-                                </div>
-                            )}
-                        </div>
-                    )}
-
-                    <ReadMore header={tekst('brukesTilTittel')}>
-                        <div style={{ maxWidth: '34rem' }}>{tekst('brukesTilInnhold')}</div>
-                    </ReadMore>
-                </div>
-            </Box>
-        );
-    }
 
     return (
         <Box className="mb-8" borderWidth="1" padding="4" style={{ backgroundColor: 'var(--a-gray-50)' }}>
