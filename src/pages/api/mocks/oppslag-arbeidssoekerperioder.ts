@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const oppslagArbeidssoekerperioder = (req: NextApiRequest, res: NextApiResponse): void => {
-    res.json(data);
+    res.json([]);
 };
 
 /*
