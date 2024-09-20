@@ -80,7 +80,7 @@ spec:
     - name: VEILARBDIALOG_URL
       value: http://veilarbdialog.dab/veilarbdialog
     - name: VEILARBPERSON_URL
-      value: https://veilarbperson.prod-fss-pub.nais.io/veilarbperson
+      value: http://veilarbperson.obo/veilarbperson
     - name: VEILARBVEILEDER_URL
       value: https://veilarbveileder.prod-fss-pub.nais.io/veilarbveileder
     - name: OBO_UNLEASH_URL
@@ -142,8 +142,8 @@ spec:
           namespace: dab
           cluster: prod-gcp
         - application: veilarbperson
-          namespace: pto
-          cluster: prod-fss
+          namespace: obo
+          cluster: prod-gcp
         - application: veilarbveileder
           namespace: pto
           cluster: prod-fss
