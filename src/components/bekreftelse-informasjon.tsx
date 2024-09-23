@@ -1,24 +1,8 @@
 import { BodyLong, Box, Button, Heading } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import { formaterDato } from '../lib/date-utils';
 import { TilgjengeligeBekreftelser } from '../types/bekreftelse';
 import useApiKall from '../hooks/useApiKall';
-
-const bekreftelserMock = [
-    {
-        periodeId: '1',
-        bekreftelseId: '2',
-        gjelderFra: '2024-09-01T10:36:40.474Z',
-        gjelderTil: '2024-09-13T10:36:40.474Z',
-    },
-    {
-        periodeId: '2',
-        bekreftelseId: '3',
-        gjelderFra: '2024-07-01T10:36:40.474Z',
-        gjelderTil: '2024-08-13T10:36:40.474Z',
-    },
-];
 
 function BekreftelseInformasjon(props: { fnr: string; brukerMock: boolean }) {
     const { fnr, brukerMock } = props;

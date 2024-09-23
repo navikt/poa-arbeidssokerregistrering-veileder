@@ -170,6 +170,12 @@ export default function Bekreftelse() {
                 <Radio value="nei">{tekst('no')}</Radio>
             </RadioGroup>
 
+            {!harSendtSkjema && skjemaState.vilFortsetteSomArbeidssoeker === false && (
+                <Alert variant={'warning'} className={'mb-4'}>
+                    Bruker vil ikke lenger være registrert som arbeidssøker, og eventuelle ytelser vil stanses.
+                </Alert>
+            )}
+
             {!harSendtSkjema && (
                 <div className={'flex'}>
                     <Button variant="primary" disabled={!harGyldigSkjema} onClick={onSubmit} aria-busy={isPending}>
