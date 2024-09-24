@@ -9,4 +9,5 @@ export type Config = {
     enableMock: string;
     loginUrl: string;
     aarsTall: number;
+    decoratorEnv: string;
 };

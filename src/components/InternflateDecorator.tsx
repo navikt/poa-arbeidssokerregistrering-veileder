@@ -1,15 +1,17 @@
 import NAVSPA from '@navikt/navspa';
-import { useParamsFromContext } from '../contexts/params-from-context';
 import { ComponentType } from 'react';
-import { DecoratorConfig } from '../model/internflate-decorator';
+
+import { useParamsFromContext } from '../contexts/params-from-context';
+import { DecoratorProps, Environment, UrlFormat } from '../model/internflate-decorator';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
 
-const Decorator: ComponentType<DecoratorConfig> = NAVSPA.importer('internarbeidsflatefs');
+const Decorator: ComponentType<DecoratorProps> = NAVSPA.importer('internarbeidsflate-decorator-v3');
+
 const InternflateDecorator = () => {
     const { params, setParams } = useParamsFromContext();
     const { fnr, enhetId } = params;
-    const { enableMock } = useConfig() as Config;
+    const { enableMock, decoratorEnv } = useConfig() as Config;
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
     const onFnrChanged = (fnr) => {
@@ -21,25 +23,17 @@ const InternflateDecorator = () => {
     };
 
     const props = {
-        appname: 'Arbeidssøkerregistrering for veileder',
-        toggles: {
-            visVeileder: true,
-        },
-        fnr: {
-            display: 'SOKEFELT',
-            value: fnr,
-            skipModal: false,
-            ignoreWsEvents: false,
-            onChange: onFnrChanged,
-        },
-        enhet: {
-            display: 'ENHET',
-            value: enhetId,
-            skipModal: true,
-            ignoreWsEvents: true,
-            onChange: onEnhetChanged,
-        },
-        useProxy: true,
+        appName: 'Arbeidssøkerregistrering for veileder',
+        fnr: fnr,
+        showSearchArea: true,
+        onFnrChanged: onFnrChanged,
+        enhet: enhetId,
+        showEnheter: true,
+        onEnhetChanged: onEnhetChanged,
+        proxy: '/modiacontextholder',
+        showHotkeys: false,
+        environment: decoratorEnv as Environment,
+        urlFormat: 'NAV_NO' as UrlFormat,
     };
 
     if (brukerMock) {

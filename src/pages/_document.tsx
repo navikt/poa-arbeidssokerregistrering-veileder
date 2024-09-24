@@ -8,8 +8,11 @@ export default function Document() {
             <Head>
                 {!brukerMock && (
                     <>
-                        <link rel="stylesheet" href="/internarbeidsflatedecorator/v2.1/static/css/main.css" />
-                        <script defer src="/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js" />
+                        <link
+                            rel="stylesheet"
+                            href="https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/index.css"
+                        />
+                        <script src="https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js" />
                     </>
                 )}
             </Head>
