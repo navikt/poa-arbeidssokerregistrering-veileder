@@ -12,7 +12,10 @@ export default function Document() {
                             rel="stylesheet"
                             href="https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/index.css"
                         />
-                        <script src="https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js" />
+                        <script
+                            src="https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js"
+                            async
+                        />
                     </>
                 )}
             </Head>
