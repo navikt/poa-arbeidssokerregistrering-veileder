@@ -178,10 +178,10 @@ export default function Bekreftelse() {
 
             {!harSendtSkjema && (
                 <div className={'flex'}>
-                    <Button variant="primary" disabled={!harGyldigSkjema} onClick={onSubmit} aria-busy={isPending}>
+                    <Button variant="primary" disabled={!harGyldigSkjema} onClick={onSubmit} loading={isPending}>
                         {tekst('submit')}
                     </Button>
-                    <Button className={'ml-4'} variant={'tertiary'} onClick={onCancel}>
+                    <Button className={'ml-4'} variant={'tertiary'} onClick={onCancel} disabled={isPending}>
                         {tekst('cancel')}
                     </Button>
                 </div>
