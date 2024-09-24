@@ -100,7 +100,7 @@ spec:
     - name: AIA_BACKEND_URL
       value: http://aia-backend/aia-backend
     - name: BEKREFTELSE_API_URL
-      value: http://paw-arbeidssoekerregisteret-bekreftelse-api
+      value: http://paw-arbeidssoekerregisteret-api-bekreftelse
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
