@@ -144,31 +144,35 @@ export default function Bekreftelse() {
     return (
         <>
             <Heading size={'large'}>Bekreftelse</Heading>
-            <RadioGroup
-                legend={`${tekst('beenWorking')} ${periode}?`}
-                value={getRadioGroupValue(skjemaState.harJobbetIDennePerioden)}
-                onChange={(e) => settSkjemaState((state) => ({ ...state, harJobbetIDennePerioden: e === 'ja' }))}
-                className={'mb-4'}
-                disabled={harSendtSkjema}
-            >
-                <Radio value="ja" checked={skjemaState.harJobbetIDennePerioden === true}>
-                    {tekst('yes')}
-                </Radio>
-                <Radio value="nei" checked={skjemaState.harJobbetIDennePerioden === false}>
-                    {tekst('no')}
-                </Radio>
-            </RadioGroup>
+            <div className={'my-4'}>
+                <RadioGroup
+                    legend={`${tekst('beenWorking')} ${periode}?`}
+                    value={getRadioGroupValue(skjemaState.harJobbetIDennePerioden)}
+                    onChange={(e) => settSkjemaState((state) => ({ ...state, harJobbetIDennePerioden: e === 'ja' }))}
+                    disabled={harSendtSkjema}
+                >
+                    <Radio value="ja" checked={skjemaState.harJobbetIDennePerioden === true}>
+                        {tekst('yes')}
+                    </Radio>
+                    <Radio value="nei" checked={skjemaState.harJobbetIDennePerioden === false}>
+                        {tekst('no')}
+                    </Radio>
+                </RadioGroup>
+            </div>
 
-            <RadioGroup
-                legend={`${tekst('wantToBeRegistered')}`}
-                value={getRadioGroupValue(skjemaState.vilFortsetteSomArbeidssoeker)}
-                onChange={(e) => settSkjemaState((state) => ({ ...state, vilFortsetteSomArbeidssoeker: e === 'ja' }))}
-                className={'mb-4'}
-                disabled={harSendtSkjema}
-            >
-                <Radio value="ja">{tekst('yes')}</Radio>
-                <Radio value="nei">{tekst('no')}</Radio>
-            </RadioGroup>
+            <div className={'mb-4'}>
+                <RadioGroup
+                    legend={`${tekst('wantToBeRegistered')}`}
+                    value={getRadioGroupValue(skjemaState.vilFortsetteSomArbeidssoeker)}
+                    onChange={(e) =>
+                        settSkjemaState((state) => ({ ...state, vilFortsetteSomArbeidssoeker: e === 'ja' }))
+                    }
+                    disabled={harSendtSkjema}
+                >
+                    <Radio value="ja">{tekst('yes')}</Radio>
+                    <Radio value="nei">{tekst('no')}</Radio>
+                </RadioGroup>
+            </div>
 
             {!harSendtSkjema && skjemaState.vilFortsetteSomArbeidssoeker === false && (
                 <Alert variant={'warning'} className={'mb-4'}>
@@ -181,9 +185,11 @@ export default function Bekreftelse() {
                     <Button variant="primary" disabled={!harGyldigSkjema} onClick={onSubmit} loading={isPending}>
                         {tekst('submit')}
                     </Button>
-                    <Button className={'ml-4'} variant={'tertiary'} onClick={onCancel} disabled={isPending}>
-                        {tekst('cancel')}
-                    </Button>
+                    <div className={'ml-4'}>
+                        <Button variant={'tertiary'} onClick={onCancel} disabled={isPending}>
+                            {tekst('cancel')}
+                        </Button>
+                    </div>
                 </div>
             )}
 
