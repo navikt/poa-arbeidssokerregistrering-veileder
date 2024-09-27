@@ -53,10 +53,8 @@ spec:
       value: https://arbeid.nav.no/dagpenger/dialog/soknad
     - name: NEXT_PUBLIC_DIALOG_URL
       value: https://www.nav.no/arbeid/dialog
-    - name: PAM_JANZZ_URL
-      value: https://arbeidsplassen.nav.no/pam-janzz/rest
     - name: PAM_ONTOLOGI_URL
-      value: https://pam-ontologi.intern.nav.no/rest
+      value: http://pam-ontologi.teampam/rest
     - name: NODE_ENV
       value: production
     - name: HENT_PROFILERING_URL
@@ -116,8 +114,6 @@ spec:
   accessPolicy:
     outbound:
       external:
-        - host: arbeidsplassen.nav.no
-        - host: pam-ontologi.intern.nav.no
         - host: paw-unleash-api.nav.cloud.nais.io
         - host: modiacontextholder.intern.nav.no
         - host: internarbeidsflatedecorator.prod-fss-pub.nais.io
@@ -138,6 +134,8 @@ spec:
         - application: veilarboppfolging
           namespace: poao
           cluster: prod-gcp
+        - application: pam-ontologi
+          namespace: teampam
         - application: veilarbdialog
           namespace: dab
           cluster: prod-gcp
