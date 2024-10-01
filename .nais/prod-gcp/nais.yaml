@@ -80,7 +80,7 @@ spec:
     - name: VEILARBPERSON_URL
       value: http://veilarbperson.obo/veilarbperson
     - name: VEILARBVEILEDER_URL
-      value: https://veilarbveileder.prod-fss-pub.nais.io/veilarbveileder
+      value: http://veilarbveileder.obo/veilarbveileder
     - name: OBO_UNLEASH_URL
       value: http://obo-unleash.obo.svc.cluster.local
     - name: AAREG_REST_API
@@ -120,7 +120,6 @@ spec:
         - host: veilarboppfolging.prod-fss-pub.nais.io
         - host: veilarbdialog.prod-fss-pub.nais.io
         - host: veilarbperson.prod-fss-pub.nais.io
-        - host: veilarbveileder.prod-fss-pub.nais.io
         - host: veilarbvisittkortfs.intern.nav.no
         - host: aareg-services.prod-fss-pub.nais.io
       rules:
@@ -143,8 +142,8 @@ spec:
           namespace: obo
           cluster: prod-gcp
         - application: veilarbveileder
-          namespace: pto
-          cluster: prod-fss
+          namespace: obo
+          cluster: prod-gcp
         - application: obo-unleash
           namespace: obo
           cluster: prod-gcp
