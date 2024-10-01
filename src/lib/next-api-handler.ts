@@ -37,10 +37,7 @@ const MODIACONTEXTHOLDER_SCOPE = `api://${process.env.MODIACONTEXTHOLDER_AAD_APP
 const VEILARBOPPFOLGING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.poao.veilarboppfolging/.default`;
 const VEILARBDIALOG_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.dab.veilarbdialog/.default`;
 const VEILARBPERSON_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.obo.veilarbperson/.default`;
-const VEILARBVEILEDER_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME.replace(
-    'gcp',
-    'fss',
-)}.pto.veilarbveileder/.default`;
+const VEILARBVEILEDER_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.obo.veilarbveileder/.default`;
 const OBO_UNLEASH_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.obo.obo-unleash/.default`;
 const AAREG_API_SCOPE = `api://${process.env.AAREG_CLUSTER}.arbeidsforhold.${process.env.AAREG_APPNAME}/.default`;
 const PAW_ARBEIDSSOKER_BESVARELSE_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoker-besvarelse/.default`;
