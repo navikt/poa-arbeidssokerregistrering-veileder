@@ -37,6 +37,8 @@ spec:
       value: https://dekoratoren.ekstern.dev.nav.no/
     - name: DEKORATOR_ENV
       value: q2
+    - name: NEXT_PUBLIC_DEKORATOR_ENV
+      value: q2
     - name: NEXT_PUBLIC_SELF_URL
       value: https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no
     - name: NEXT_PUBLIC_AMPLITUDE_API_KEY
