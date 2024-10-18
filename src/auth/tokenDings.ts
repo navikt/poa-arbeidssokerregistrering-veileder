@@ -1,11 +1,12 @@
-import { Issuer, TokenSet } from 'openid-client';
+import * as openIdClient from 'openid-client';
+import { TokenEndpointResponse } from 'openid-client';
 import jwt from 'jsonwebtoken';
 import { JWK } from 'node-jose';
 import { ulid } from 'ulid';
 import { logger } from '@navikt/next-logger';
 
 export interface ExchangeToken {
-    (token: string, targetApp: string): Promise<TokenSet>;
+    (token: string, targetApp: string): Promise<TokenEndpointResponse>;
 }
 
 export interface TokenXAuth {
@@ -39,28 +40,34 @@ async function createClientAssertion(options: TokenDingsOptions): Promise<string
     );
 }
 
-const createTokenDings = async (options: TokenDingsOptions): Promise<TokenXAuth> => {
+let _config = null;
+async function getConfig(options: TokenDingsOptions) {
+    if (_config) {
+        return _config;
+    }
     const { tokenXWellKnownUrl, tokenXClientId } = options;
-    const tokenXIssuer = await Issuer.discover(tokenXWellKnownUrl);
-    const tokenXClient = new tokenXIssuer.Client({
-        client_id: tokenXClientId,
-        token_endpoint_auth_method: 'none',
-    });
+    _config = await openIdClient.discovery(new URL(tokenXWellKnownUrl), tokenXClientId);
+    return _config;
+}
 
+const createTokenDings = async (options: TokenDingsOptions): Promise<TokenXAuth> => {
     return {
         async exchangeIDPortenToken(idPortenToken: string, targetApp: string) {
-            const clientAssertion = await createClientAssertion(options);
-
             try {
-                return tokenXClient.grant({
-                    grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
-                    audience: targetApp,
-                    client_assertion: clientAssertion,
-                    client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-                    subject_token: idPortenToken,
-                    subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
-                    token_endpoint_auth_method: 'private_key_jwt',
-                });
+                const clientAssertion = await createClientAssertion(options);
+                return openIdClient.genericGrantRequest(
+                    await getConfig(options),
+                    'urn:ietf:params:oauth:grant-type:token-exchange',
+                    {
+                        grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
+                        audience: targetApp,
+                        client_assertion: clientAssertion,
+                        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+                        subject_token: idPortenToken,
+                        subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
+                        token_endpoint_auth_method: 'private_key_jwt',
+                    },
+                );
             } catch (err: unknown) {
                 logger.error(`Feil under token exchange: ${err}`);
                 return Promise.reject(err);

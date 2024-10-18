@@ -1,8 +1,9 @@
-import { Issuer, TokenSet } from 'openid-client';
+import * as openIdClient from 'openid-client';
+import { TokenEndpointResponse } from 'openid-client';
 import { logger } from '@navikt/next-logger';
 
 export interface ExchangeToken {
-    (token: string, targetApp: string): Promise<TokenSet>;
+    (token: string, targetApp: string): Promise<TokenEndpointResponse>;
 }
 
 export interface JWKS {
@@ -51,26 +52,25 @@ export const createJWKS = (jwkJson: string): JWKS => {
     };
 };
 
-const createOboTokenDings = async (): Promise<OboAuth> => {
-    const { clientId, discoveryUrl, privateJwk } = getAzureAdOptions();
-    const issuer = await Issuer.discover(discoveryUrl);
-    const client = new issuer.Client(
-        {
-            client_id: clientId,
-            token_endpoint_auth_method: 'private_key_jwt',
-            token_endpoint_auth_signing_alg: 'RS256',
-            response_types: ['code'],
-        },
-        createJWKS(privateJwk),
-    );
+let _config = null;
+async function getConfig() {
+    if (_config) {
+        return _config;
+    }
 
+    const { clientId, discoveryUrl, privateJwk } = getAzureAdOptions();
+    _config = await openIdClient.discovery(new URL(discoveryUrl), clientId, privateJwk);
+    return _config;
+}
+
+const createOboTokenDings = async (): Promise<OboAuth> => {
     return {
         async getOboToken(accessToken, scope) {
             try {
-                return client.grant(
+                return openIdClient.genericGrantRequest(
+                    await getConfig(),
+                    'urn:ietf:params:oauth:grant-type:jwt-bearer',
                     {
-                        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-                        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
                         requested_token_use: 'on_behalf_of',
                         scope,
                         assertion: accessToken,
@@ -78,13 +78,25 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
                         subject_token: accessToken,
                         audience: scope,
                     },
-                    {
-                        clientAssertionPayload: {
-                            aud: client.issuer.metadata.token_endpoint,
-                            nbf: createNbf(),
-                        },
-                    },
                 );
+                // return client.grant(
+                //     {
+                //         grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+                //         client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+                //         requested_token_use: 'on_behalf_of',
+                //         scope,
+                //         assertion: accessToken,
+                //         subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
+                //         subject_token: accessToken,
+                //         audience: scope,
+                //     },
+                //     {
+                //         clientAssertionPayload: {
+                //             aud: client.issuer.metadata.token_endpoint,
+                //             nbf: createNbf(),
+                //         },
+                //     },
+                // );
             } catch (err: unknown) {
                 logger.error({ err, msg: `Feil ved generering av OBO-token: ${err}` });
                 return Promise.reject(err);
