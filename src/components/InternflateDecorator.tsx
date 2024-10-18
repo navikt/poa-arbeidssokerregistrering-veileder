@@ -24,6 +24,7 @@ const InternflateDecorator = () => {
 
     const props = {
         appName: 'Arbeidssøkerregistrering for veileder',
+        syncEnhetOnMount: true,
         fnr: fnr,
         showSearchArea: true,
         onFnrChanged: onFnrChanged,
