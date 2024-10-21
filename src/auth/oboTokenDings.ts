@@ -53,7 +53,7 @@ export const createJWKS = (jwkJson: string): JWKS => {
 };
 
 let _config = null;
-async function getConfig() {
+async function getConfig(): Promise<openIdClient.Configuration> {
     if (_config) {
         return _config;
     }
@@ -67,17 +67,25 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
     return {
         async getOboToken(accessToken, scope) {
             try {
-                return openIdClient.genericGrantRequest(
-                    await getConfig(),
+                const config = await getConfig();
+                const response = await openIdClient.genericGrantRequest(
+                    config,
                     'urn:ietf:params:oauth:grant-type:jwt-bearer',
                     {
                         requested_token_use: 'on_behalf_of',
+                        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
                         scope,
                         assertion: accessToken,
                         subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
                         subject_token: accessToken,
                         audience: scope,
                     },
+                    // {
+                    //     clientAssertionPayload: {
+                    //         aud: config.serverMetadata().token_endpoint,
+                    //         nbf: createNbf(),
+                    //     },
+                    // },
                 );
                 // return client.grant(
                 //     {
@@ -97,6 +105,8 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
                 //         },
                 //     },
                 // );
+                logger.debug({ response, msg: 'Token response' });
+                return response;
             } catch (err: unknown) {
                 logger.error({ err, msg: `Feil ved generering av OBO-token: ${err}` });
                 return Promise.reject(err);
