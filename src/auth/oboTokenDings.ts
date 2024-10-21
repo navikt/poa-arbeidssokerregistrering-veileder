@@ -67,8 +67,9 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
     return {
         async getOboToken(accessToken, scope) {
             try {
-                logger.info(`Starter obo-utveksling for ${scope}`);
+                logger.info('Henter konfig for obo-utveksling');
                 const config = await getConfig();
+                logger.info(`Starter obo-utveksling for ${scope}`);
                 const response = await openIdClient.genericGrantRequest(
                     config,
                     'urn:ietf:params:oauth:grant-type:jwt-bearer',
@@ -109,7 +110,7 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
                 logger.info({ response, msg: 'Token obo-utveklsing ferdig' });
                 return response;
             } catch (err: unknown) {
-                logger.error({ err, msg: `Feil ved generering av OBO-token: ${err}` });
+                logger.error(err, `Feil ved generering av OBO-token: ${err}`);
                 return Promise.reject(err);
             }
         },
