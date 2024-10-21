@@ -6,24 +6,12 @@ export interface ExchangeToken {
     (token: string, targetApp: string): Promise<TokenEndpointResponse>;
 }
 
-export interface JWKS {
-    keys: [
-        {
-            kty: 'oct';
-        },
-    ];
-}
-
 const assert = <T extends any>(value: T | undefined | null, msg?: string): T => {
     if (!value) {
         throw new Error(msg || 'Value is missing');
     }
 
     return value;
-};
-
-const createNbf = (): number => {
-    return Math.floor(Date.now() / 1000);
 };
 
 const getAzureAdOptions = () => {
@@ -41,17 +29,6 @@ export interface OboAuth {
     getOboToken: ExchangeToken;
 }
 
-export const createJWKS = (jwkJson: string): JWKS => {
-    const jwk = JSON.parse(jwkJson);
-
-    // UnhandledPromiseRejectionWarning: JWKInvalid: `x5c` member at index 0 is not a valid base64-encoded DER PKIX certificate
-    delete jwk.x5c;
-
-    return {
-        keys: [jwk],
-    };
-};
-
 let _config = null;
 async function getConfig(): Promise<openIdClient.Configuration> {
     if (_config) {
@@ -67,49 +44,16 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
     return {
         async getOboToken(accessToken, scope) {
             try {
-                logger.info('Henter konfig for obo-utveksling');
                 const config = await getConfig();
-                logger.info(config, 'Ferdig med å hente config');
-                logger.info(`Starter obo-utveksling for ${scope}`);
-                const response = await openIdClient.genericGrantRequest(
-                    config,
-                    'urn:ietf:params:oauth:grant-type:jwt-bearer',
-                    {
-                        requested_token_use: 'on_behalf_of',
-                        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-                        scope,
-                        assertion: accessToken,
-                        subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
-                        subject_token: accessToken,
-                        audience: scope,
-                    },
-                    // {
-                    //     clientAssertionPayload: {
-                    //         aud: config.serverMetadata().token_endpoint,
-                    //         nbf: createNbf(),
-                    //     },
-                    // },
-                );
-                // return client.grant(
-                //     {
-                //         grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-                //         client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-                //         requested_token_use: 'on_behalf_of',
-                //         scope,
-                //         assertion: accessToken,
-                //         subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
-                //         subject_token: accessToken,
-                //         audience: scope,
-                //     },
-                //     {
-                //         clientAssertionPayload: {
-                //             aud: client.issuer.metadata.token_endpoint,
-                //             nbf: createNbf(),
-                //         },
-                //     },
-                // );
-                logger.info({ response, msg: 'Token obo-utveklsing ferdig' });
-                return response;
+                return await openIdClient.genericGrantRequest(config, 'urn:ietf:params:oauth:grant-type:jwt-bearer', {
+                    requested_token_use: 'on_behalf_of',
+                    client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+                    scope,
+                    assertion: accessToken,
+                    subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
+                    subject_token: accessToken,
+                    audience: scope,
+                });
             } catch (err: unknown) {
                 logger.error(err, `Feil ved generering av OBO-token: ${err}`);
                 return Promise.reject(err);
