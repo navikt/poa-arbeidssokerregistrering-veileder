@@ -29,12 +29,12 @@ const createNbf = (): number => {
 const getAzureAdOptions = () => {
     const clientId = assert(process.env.AZURE_APP_CLIENT_ID, 'AZURE_APP_CLIENT_ID is missing');
     const discoveryUrl = assert(process.env.AZURE_APP_WELL_KNOWN_URL, 'AZURE_APP_WELL_KNOWN_URL is missing');
-    const privateJwk = assert(process.env.AZURE_APP_JWK, 'AZURE_APP_JWK is missing');
+    const clientSecret = assert(process.env.AZURE_APP_CLIENT_SECRET, 'AZURE_APP_CLIENT_SECRET is missing');
 
     return {
         clientId,
         discoveryUrl,
-        privateJwk,
+        clientSecret,
     };
 };
 export interface OboAuth {
@@ -58,8 +58,8 @@ async function getConfig(): Promise<openIdClient.Configuration> {
         return _config;
     }
 
-    const { clientId, discoveryUrl, privateJwk } = getAzureAdOptions();
-    _config = await openIdClient.discovery(new URL(discoveryUrl), clientId, privateJwk);
+    const { clientId, discoveryUrl, clientSecret } = getAzureAdOptions();
+    _config = await openIdClient.discovery(new URL(discoveryUrl), clientId, clientSecret);
     return _config;
 }
 
@@ -69,6 +69,7 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
             try {
                 logger.info('Henter konfig for obo-utveksling');
                 const config = await getConfig();
+                logger.info(config, 'Ferdig med å hente config');
                 logger.info(`Starter obo-utveksling for ${scope}`);
                 const response = await openIdClient.genericGrantRequest(
                     config,
