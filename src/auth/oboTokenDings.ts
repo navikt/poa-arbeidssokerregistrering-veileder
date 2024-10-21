@@ -67,6 +67,7 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
     return {
         async getOboToken(accessToken, scope) {
             try {
+                logger.info(`Starter obo-utveksling for ${scope}`);
                 const config = await getConfig();
                 const response = await openIdClient.genericGrantRequest(
                     config,
@@ -105,7 +106,7 @@ const createOboTokenDings = async (): Promise<OboAuth> => {
                 //         },
                 //     },
                 // );
-                logger.debug({ response, msg: 'Token response' });
+                logger.info({ response, msg: 'Token obo-utveklsing ferdig' });
                 return response;
             } catch (err: unknown) {
                 logger.error({ err, msg: `Feil ved generering av OBO-token: ${err}` });
