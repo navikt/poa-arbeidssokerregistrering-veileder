@@ -21,14 +21,14 @@ const InternflateDecorator = () => {
     const onFnrChanged = (fnr) => {
         // setParams({ fnr: fnr });
         if (!routesSomIkkeSkalRefreshes.includes(router.pathname)) {
-            router.push('/');
+            router.reload();
         }
     };
 
     const onEnhetChanged = (enhet) => {
         // setParams({ enhetId: enhet });
         if (!routesSomIkkeSkalRefreshes.includes(router.pathname)) {
-            router.push('/');
+            router.reload();
         }
     };
 
