@@ -23,7 +23,7 @@ const InternflateDecorator = () => {
     };
 
     const props = {
-        appName: 'Arbeidssøkerregistrering for veileder',
+        appName: 'Arbeidssøkerregisteret for veileder',
         syncEnhetOnMount: true,
         fnr: fnr,
         showSearchArea: true,
