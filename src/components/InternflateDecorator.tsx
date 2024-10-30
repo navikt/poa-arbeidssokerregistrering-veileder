@@ -9,8 +9,9 @@ import { Config } from '../model/config';
 const Decorator: ComponentType<DecoratorProps> = NAVSPA.importer('internarbeidsflate-decorator-v3');
 
 const InternflateDecorator = () => {
-    const { params, setParams } = useParamsFromContext();
-    const { fnr, enhetId } = params;
+    // const { params, setParams } = useParamsFromContext();
+    const { setParams } = useParamsFromContext();
+    // const { fnr, enhetId } = params;
     const { enableMock, decoratorEnv } = useConfig() as Config;
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
@@ -18,18 +19,22 @@ const InternflateDecorator = () => {
         setParams({ fnr: fnr });
     };
 
+    /*
     const onEnhetChanged = (enhet) => {
         setParams({ enhetId: enhet });
     };
+    */
 
     const props = {
-        appName: 'Arbeidssøkerregistrering for veileder',
-        fnr: fnr,
+        appName: 'Arbeidssøkerregisteret for veileder',
+        fetchActiveEnhetOnMount: true,
+        fetchActiveUserOnMount: true,
+        //fnr: fnr,
         showSearchArea: true,
         onFnrChanged: onFnrChanged,
-        enhet: enhetId,
+        // enhet: enhetId,
         showEnheter: true,
-        onEnhetChanged: onEnhetChanged,
+        // onEnhetChanged: onEnhetChanged,
         proxy: '/modiacontextholder',
         showHotkeys: false,
         environment: decoratorEnv as Environment,
