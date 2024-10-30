@@ -1,7 +1,7 @@
 import NAVSPA from '@navikt/navspa';
 import { ComponentType } from 'react';
 
-// import { useParamsFromContext } from '../contexts/params-from-context';
+import { useParamsFromContext } from '../contexts/params-from-context';
 import { DecoratorProps, Environment, UrlFormat } from '../model/internflate-decorator';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
@@ -10,15 +10,16 @@ const Decorator: ComponentType<DecoratorProps> = NAVSPA.importer('internarbeidsf
 
 const InternflateDecorator = () => {
     // const { params, setParams } = useParamsFromContext();
+    const { setParams } = useParamsFromContext();
     // const { fnr, enhetId } = params;
     const { enableMock, decoratorEnv } = useConfig() as Config;
     const brukerMock = typeof enableMock === 'undefined' || enableMock === 'enabled';
 
-    /*
     const onFnrChanged = (fnr) => {
         setParams({ fnr: fnr });
     };
 
+    /*
     const onEnhetChanged = (enhet) => {
         setParams({ enhetId: enhet });
     };
@@ -30,7 +31,7 @@ const InternflateDecorator = () => {
         fetchActiveUserOnMount: true,
         //fnr: fnr,
         showSearchArea: true,
-        // onFnrChanged: onFnrChanged,
+        onFnrChanged: onFnrChanged,
         // enhet: enhetId,
         showEnheter: true,
         // onEnhetChanged: onEnhetChanged,
