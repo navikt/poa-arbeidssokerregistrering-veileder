@@ -10,6 +10,7 @@ jobs:
   test-and-build-cdn-docker:
     name: Run tests, build, push assets to CDN and publish Docker image
     runs-on: ubuntu-latest
+    timeout-minutes: 7
     permissions:
       contents: 'read'
       packages: 'write'
@@ -67,6 +68,7 @@ jobs:
     needs: [test-and-build-cdn-docker, apply-apitoken-unleash]
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
     runs-on: ubuntu-latest
+    timeout-minutes: 7
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -85,6 +87,7 @@ jobs:
     needs: [test-and-build-cdn-docker]
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
     runs-on: ubuntu-latest
+    timeout-minutes: 7
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -103,6 +106,7 @@ jobs:
     needs: [test-and-build-cdn-docker, apply-apitoken-unleash]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 7
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -119,6 +123,7 @@ jobs:
       contents: "read"
       id-token: "write"
     runs-on: ubuntu-latest
+    timeout-minutes: 7
     needs: [test-and-build-cdn-docker]
     steps:
       - name: Checkout code
