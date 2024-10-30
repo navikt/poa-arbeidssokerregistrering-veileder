@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Box, Heading, List } from '@navikt/ds-react';
-import { useRouter } from 'next/router';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
@@ -48,7 +47,6 @@ function ArbeidssoekerstatusOversiktV2() {
     const brukerMock = enableMock === 'enabled';
     const [kanStarteArbeidssoekerperiode, setKanStarteArbeidssoekerperiode] = useState<boolean>(false);
     const [error, setError] = useState<any>(undefined);
-    const [kanIkkeStarteArbeidssoekerperiode, setKanIkkeStarteArbeidssoekerperiode] = useState<boolean>(false);
     const [errorArbeidssoekerperioder, setErrorArbeidssoekerperioder] = useState<any>(undefined);
     const [sisteArbeidssoekerperiode, setSisteArbeidssoekerperiode] = useState<any>({});
     const [harIkkeAktivPeriode, setHarIkkeAktivPeriode] = useState<boolean>(false);
@@ -84,7 +82,7 @@ function ArbeidssoekerstatusOversiktV2() {
                 setKanStarteArbeidssoekerperiode(true);
             } else {
                 // noinspection ExceptionCaughtLocallyJS
-                setKanIkkeStarteArbeidssoekerperiode(true);
+                setKanStarteArbeidssoekerperiode(false);
                 const data = await response.json();
                 setError(data);
             }
