@@ -57,6 +57,7 @@ export default function Bekreftelse() {
     const [isPending, setIsPending] = useState<boolean>(false);
     const [harSendtSkjema, settHarSendtSkjema] = useState<boolean>(false);
     const [harGyldigSkjema, settHarGyldigSkjema] = useState<boolean>(false);
+    const [apiError, setApiError] = useState<undefined | { data?: any }>(undefined);
 
     useEffect(() => {
         settHarGyldigSkjema(
@@ -93,6 +94,7 @@ export default function Bekreftelse() {
 
     const onSubmit = async () => {
         setIsPending(true);
+        setApiError(undefined);
         const url = `/api/${brukerMock ? 'mocks/' : ''}bekreftelse`;
         const payload = JSON.stringify({
             identitetsnummer: fnr,
@@ -110,7 +112,11 @@ export default function Bekreftelse() {
                 },
             });
             if (!response.ok) {
-                throw new Error(response.statusText);
+                const error: any = new Error(response.statusText);
+                try {
+                    error.data = await response.json();
+                } catch (e) {}
+                throw error;
             }
 
             settHarSendtSkjema(true);
@@ -122,6 +128,7 @@ export default function Bekreftelse() {
             }
         } catch (err: any) {
             console.error('Feil ved posting av bekreftelse', err);
+            setApiError(err);
         } finally {
             setIsPending(false);
         }
@@ -212,6 +219,16 @@ export default function Bekreftelse() {
                     <Button variant={'secondary'} onClick={onClickNesteBekreftelse}>
                         Svar på neste periode
                     </Button>
+                </Alert>
+            )}
+            {apiError && (
+                <Alert variant={'error'} className={'my-8'}>
+                    Noe gikk dessverre galt
+                    {apiError?.data && (
+                        <div>
+                            <pre>{JSON.stringify(apiError.data, null, 2)}</pre>
+                        </div>
+                    )}
                 </Alert>
             )}
         </>
