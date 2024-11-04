@@ -13,13 +13,13 @@ function BekreftelseInformasjon(props: { fnr: string; brukerMock: boolean }) {
     );
 
     const router = useRouter();
-
+    const harTilgjengeligBekreftelse = tilgjengeligeBekreftelser?.length > 0;
     return (
         <Box>
             <Heading level="1" size="small">
                 Bekreftelse
             </Heading>
-            {tilgjengeligeBekreftelser && (
+            {harTilgjengeligBekreftelse && (
                 <>
                     <div>
                         Ubekreftet arbeidssøkerstatus for perioden:
@@ -38,7 +38,7 @@ function BekreftelseInformasjon(props: { fnr: string; brukerMock: boolean }) {
                     </Button>
                 </>
             )}
-            {!tilgjengeligeBekreftelser && <BodyLong>Ingen ubekreftede perioder.</BodyLong>}
+            {!harTilgjengeligBekreftelse && <BodyLong>Ingen ubekreftede perioder.</BodyLong>}
         </Box>
     );
 }
