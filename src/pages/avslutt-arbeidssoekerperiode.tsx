@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { Alert, BodyLong, Box, Heading, List } from '@navikt/ds-react';
+import { Alert, Heading, List } from '@navikt/ds-react';
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 
 import useSprak from '../hooks/useSprak';
 
 import { loggVisning } from '../lib/amplitude';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
-import StoppPeriodeKnapp from '../components/stopp-periode-knapp';
+import StoppPeriodeKnapp from '../components/stopp-periode-knapp-v2';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 
 const TEKSTER: Tekster<string> = {
