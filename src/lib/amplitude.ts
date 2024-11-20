@@ -39,7 +39,9 @@ type VisningsData =
     | { viser: 'mangler tilgang til aa-registeret' }
     | { viser: 'advarsel for registrering av person under 18' }
     | { viser: 'siden for å avslutte en arbeidssøkerperiode' }
+    | { viser: 'siden for å slette en arbeidssøkerperiode' }
     | { viser: 'kvittering for avsluttet arbeidssøkerperiode' }
+    | { viser: 'kvittering for slettet arbeidssøkerperiode' }
     | { viser: 'generell feilmelding' }
     | { viser: 'Kvittering for oppdatert opplysninger' };
 
