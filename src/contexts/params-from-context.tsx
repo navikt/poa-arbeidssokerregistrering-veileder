@@ -19,7 +19,7 @@ const ParamsFromContext = createContext<ParamsContextType>({
 const routesSomIkkeSkalRefreshes = [
     '/avslutt-arbeidssoekerperiode',
     '/sykmeldtoppfoelging',
-    'slett-arbeidssoekerperiode',
+    '/slett-arbeidssoekerperiode',
 ];
 
 function ParamsFromContextProvider({ children }) {
