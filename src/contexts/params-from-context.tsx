@@ -16,7 +16,11 @@ const ParamsFromContext = createContext<ParamsContextType>({
     setParams: () => {},
 });
 
-const routesSomIkkeSkalRefreshes = ['/avslutt-arbeidssoekerperiode', '/sykmeldtoppfoelging'];
+const routesSomIkkeSkalRefreshes = [
+    '/avslutt-arbeidssoekerperiode',
+    '/sykmeldtoppfoelging',
+    '/slett-arbeidssoekerperiode',
+];
 
 function ParamsFromContextProvider({ children }) {
     const [params, setParams] = useState<ContextParams>({} as ContextParams);
