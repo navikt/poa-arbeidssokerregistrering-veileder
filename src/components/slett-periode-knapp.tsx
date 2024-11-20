@@ -24,6 +24,9 @@ function SlettPeriodeKnapp() {
         const payload = JSON.stringify({
             identitetsnummer: fnr,
             periodeTilstand: 'STOPPET',
+            feilretting: {
+                feilType: 'Feilregistrering',
+            },
         });
 
         try {
