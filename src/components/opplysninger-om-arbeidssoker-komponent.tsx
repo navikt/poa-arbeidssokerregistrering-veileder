@@ -100,10 +100,23 @@ type Props = {
     aktivPeriode: boolean;
 };
 
+export function OpplysningerKomponent(props: { opplysninger: OpplysningerOmArbeidssoker }) {
+    const { opplysninger } = props;
+    const besvarelser = mapOpplysninger(opplysninger);
+
+    return (
+        <>
+            {besvarelser.map((item, index) => (
+                <Opplysning {...item} key={index} />
+            ))}
+        </>
+    );
+}
+
 function OpplysningerOmArbeidssokerKomponent(props: Props) {
     const { opplysninger, behovsvurdering, aktivPeriode } = props;
     const erRegistrertAvSluttbruker = opplysninger.sendtInnAv.utfoertAv.type === 'SLUTTBRUKER';
-    const besvarelser = mapOpplysninger(opplysninger);
+
     return (
         <div className={'flex flex-col'}>
             <BodyShort>
@@ -113,9 +126,7 @@ function OpplysningerOmArbeidssokerKomponent(props: Props) {
             </BodyShort>
             <ReadMore header="Se og oppdater opplysningene">
                 <Oppfolging behovsvurdering={behovsvurdering} />
-                {besvarelser.map((item, index) => (
-                    <Opplysning {...item} key={index} />
-                ))}
+                <OpplysningerKomponent opplysninger={opplysninger} />
                 {aktivPeriode && <OppdaterOpplysningerKnapp sisteArbeidssoekerperiodeId={opplysninger.periodeId} />}
             </ReadMore>
         </div>
