@@ -20,6 +20,7 @@ const routesSomIkkeSkalRefreshes = [
     '/avslutt-arbeidssoekerperiode',
     '/sykmeldtoppfoelging',
     '/slett-arbeidssoekerperiode',
+    '/historikk',
 ];
 
 function ParamsFromContextProvider({ children }) {
