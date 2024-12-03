@@ -1,4 +1,4 @@
-import { BodyLong, Box, Heading, ReadMore } from '@navikt/ds-react';
+import { BodyLong, Box, Heading, ReadMore, Link } from '@navikt/ds-react';
 import { ArbeidssokerPeriode } from '@navikt/arbeidssokerregisteret-utils';
 
 import { formaterDato } from '../lib/date-utils';
@@ -12,6 +12,17 @@ interface ArbeidssoekerperiodeStatusProps {
     sisteArbeidssoekerperiode: ArbeidssokerPeriode;
 }
 
+function LenkeTilHistorikk() {
+    return (
+        <Box className="mt-4 mb-4">
+            <Link href="/historikk" onClick={() => loggAktivitet({ aktivitet: 'Går til historikk' })}>
+                Se tidligere arbeidssøkerperioder og opplysninger
+            </Link>
+        </Box>
+    );
+}
+
+/*
 function AllePerioderReadMore({ perioder }: { perioder: ArbeidssokerperioderResponse }) {
     const visHistorikk = perioder.length > 1;
     const [harKlikket, settHarKlikket] = useState<boolean>(false);
@@ -46,6 +57,7 @@ function AllePerioderReadMore({ perioder }: { perioder: ArbeidssokerperioderResp
         </ReadMore>
     );
 }
+*/
 
 function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
     const { perioder, sisteArbeidssoekerperiode } = props;
@@ -72,7 +84,7 @@ function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
                         oppgavetypen Inaktivering av person.
                     </BodyLong>
                 </ReadMore>
-                <AllePerioderReadMore perioder={perioder} />
+                <LenkeTilHistorikk />
             </Box>
         );
     }
@@ -81,7 +93,7 @@ function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
         <BodyLong>
             Siste arbeidssøkerperiode var {formaterDato(sisteArbeidssoekerperiode.startet.tidspunkt)} -{' '}
             {formaterDato(sisteArbeidssoekerperiode.avsluttet.tidspunkt)}
-            <AllePerioderReadMore perioder={perioder} />
+            <LenkeTilHistorikk />
         </BodyLong>
     );
 }
@@ -101,7 +113,7 @@ function ArbeidssoekerperiodeStatus(props: ArbeidssoekerperiodeStatusProps) {
                 Arbeidssøkerstatus
             </Heading>
             <BodyLong>{statusTekst}</BodyLong>
-            <ArbeidssoekerperiodeHistorikk sisteArbeidssoekerperiode={sisteArbeidssoekerperiode} perioder={perioder} />
+            <LenkeTilHistorikk />
         </Box>
     );
 }
