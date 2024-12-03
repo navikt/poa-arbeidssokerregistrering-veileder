@@ -3,6 +3,7 @@ import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
 import useApiKall from '../hooks/useApiKall';
 import { TilgjengeligeBekreftelser } from '../types/bekreftelse';
+import TilbakeTilForside from '../components/tilbake-til-forside';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { Alert, Heading, Loader } from '@navikt/ds-react';
 import { HistorikkWrapper } from '../components/historikk/historikk-wrapper';
@@ -37,6 +38,7 @@ export default function Historikk() {
 
     return (
         <>
+            <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
             <Heading size={'large'}>Arbeidssøkerhistorikk</Heading>
             <div className={'flex flex-col max-w-3xl'}>
                 {aggregertePerioder &&
