@@ -1,8 +1,7 @@
 import { NextApiHandler, NextApiRequest } from 'next';
 import { nanoid } from 'nanoid';
 import { logger } from '@navikt/next-logger';
-
-import createOboTokenDings, { OboAuth } from '../auth/oboTokenDings';
+import { requestAzureOboToken } from '@navikt/oasis';
 
 export const getHeaders = (token: string, callId: string) => {
     return {
@@ -21,13 +20,14 @@ export interface ApiError extends Error {
     traceId?: string;
 }
 
-let _oboTokenDings: OboAuth | undefined;
-const getOboTokenDings = async (): Promise<OboAuth> => {
-    if (!_oboTokenDings) {
-        _oboTokenDings = await createOboTokenDings();
+const getOboToken = async (accessToken: string, scope: string): Promise<string> => {
+    const result = await requestAzureOboToken(accessToken, scope);
+
+    if (result.ok === false) {
+        throw result.error;
     }
 
-    return _oboTokenDings;
+    return result.token;
 };
 
 const ARBEIDSSOEKERREGISTRERING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
@@ -43,55 +43,43 @@ const AAREG_API_SCOPE = `api://${process.env.AAREG_CLUSTER}.arbeidsforhold.${pro
 const PAW_ARBEIDSSOKER_BESVARELSE_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoker-besvarelse/.default`;
 
 export const getArbeidssoekerregistreringToken = async (req: NextApiRequest) => {
-    const tokenSet = await (
-        await getOboTokenDings()
-    ).getOboToken(getTokenFromRequest(req)!, ARBEIDSSOEKERREGISTRERING_SCOPE);
-    return tokenSet.access_token!;
+    return getOboToken(getTokenFromRequest(req)!, ARBEIDSSOEKERREGISTRERING_SCOPE);
 };
 
 export const getOppslagsAPIToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, OPPSLAGSAPI_SCOPE);
-    return tokenSet.access_token!;
+    return getOboToken(getTokenFromRequest(req)!, OPPSLAGSAPI_SCOPE);
 };
 
 export const getBekreftelseAPIToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, BEKREFTELSE_API_SCOPE);
-    return tokenSet.access_token!;
+    return getOboToken(getTokenFromRequest(req)!, BEKREFTELSE_API_SCOPE);
 };
 
 export const getModiacontextholderToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, MODIACONTEXTHOLDER_SCOPE);
-    return tokenSet.access_token!;
+    return getOboToken(getTokenFromRequest(req)!, MODIACONTEXTHOLDER_SCOPE);
 };
 
 export const getVeilarboppfolgingToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBOPPFOLGING_SCOPE);
-    return tokenSet.access_token!;
+    return getOboToken(getTokenFromRequest(req)!, VEILARBOPPFOLGING_SCOPE);
 };
 
 export const getVeilarbdialogToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBDIALOG_SCOPE);
-    return tokenSet.access_token!;
+    return getOboToken(getTokenFromRequest(req)!, VEILARBDIALOG_SCOPE);
 };
 
 export const getVeilarbpersonToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBPERSON_SCOPE);
-    return tokenSet.access_token!;
+    return getOboToken(getTokenFromRequest(req)!, VEILARBPERSON_SCOPE);
 };
 
 export const getVeilarbveilederToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, VEILARBVEILEDER_SCOPE);
-    return tokenSet.access_token!;
+    return getOboToken(getTokenFromRequest(req)!, VEILARBVEILEDER_SCOPE);
 };
 
 export const getOboUnleashToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, OBO_UNLEASH_SCOPE);
-    return tokenSet.access_token!;
+    return getOboToken(getTokenFromRequest(req)!, OBO_UNLEASH_SCOPE);
 };
 
 export const getAaregToken = async (req: NextApiRequest) => {
-    const tokenSet = await (await getOboTokenDings()).getOboToken(getTokenFromRequest(req)!, AAREG_API_SCOPE);
-    return tokenSet.access_token!;
+    return getOboToken(getTokenFromRequest(req)!, AAREG_API_SCOPE);
 };
 
 export const getTokenFromRequest = (req: NextApiRequest) => {
@@ -100,10 +88,7 @@ export const getTokenFromRequest = (req: NextApiRequest) => {
 };
 
 export const getPawArbeidssokerBesvarelseToken = async (req: NextApiRequest) => {
-    const tokenSet = await (
-        await getOboTokenDings()
-    ).getOboToken(getTokenFromRequest(req)!, PAW_ARBEIDSSOKER_BESVARELSE_SCOPE);
-    return tokenSet.access_token!;
+    return getOboToken(getTokenFromRequest(req)!, PAW_ARBEIDSSOKER_BESVARELSE_SCOPE);
 };
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
