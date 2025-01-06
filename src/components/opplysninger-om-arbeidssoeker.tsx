@@ -1,4 +1,4 @@
-import { BodyLong, Box, Heading } from '@navikt/ds-react';
+import { BodyLong, Box, Heading, Alert } from '@navikt/ds-react';
 import OpplysningerOmArbeidssokerKomponent from './opplysninger-om-arbeidssoker-komponent';
 
 interface OpplysningerOmArbeidssoekerProps {
@@ -13,17 +13,24 @@ function OpplysningerOmArbeidssoeker(props: OpplysningerOmArbeidssoekerProps) {
 
     return (
         <Box>
-            <Heading level="1" size="small">
-                Opplysninger om arbeidssøker
-            </Heading>
             {harOpplysninger ? (
-                <OpplysningerOmArbeidssokerKomponent
-                    opplysninger={sisteOpplysningerOmArbeidssoeker}
-                    behovsvurdering={behovsvurdering}
-                    aktivPeriode={aktivPeriode}
-                />
+                <>
+                    <Heading level="1" size="small">
+                        Opplysninger om arbeidssøker
+                    </Heading>
+                    <OpplysningerOmArbeidssokerKomponent
+                        opplysninger={sisteOpplysningerOmArbeidssoeker}
+                        behovsvurdering={behovsvurdering}
+                        aktivPeriode={aktivPeriode}
+                    />
+                </>
             ) : (
-                <BodyLong spacing>Det finnes ingen opplysninger knyttet til registreringen.</BodyLong>
+                <Alert variant="warning" className="mb-4">
+                    <Heading size="small" level="1">
+                        Det finnes ingen opplysninger for nåværende arbeidssøkerperiode
+                    </Heading>
+                    <BodyLong>Vennligst legg til opplysninger om arbeidssøkersituasjonen.</BodyLong>
+                </Alert>
             )}
         </Box>
     );
