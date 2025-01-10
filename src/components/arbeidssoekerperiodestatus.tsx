@@ -3,61 +3,11 @@ import { ArbeidssokerPeriode } from '@navikt/arbeidssokerregisteret-utils';
 
 import { formaterDato } from '../lib/date-utils';
 import { ArbeidssokerperioderResponse } from '@navikt/arbeidssokerregisteret-utils/dist/models/arbeidssokerperiode';
-import { sorterEtterSistAvsluttedePeriode } from '../lib/sorter-etter-sist-avsluttede-periode';
-import { useState } from 'react';
-import { loggAktivitet } from '../lib/amplitude';
 
 interface ArbeidssoekerperiodeStatusProps {
     perioder: ArbeidssokerperioderResponse;
     sisteArbeidssoekerperiode: ArbeidssokerPeriode;
 }
-
-function LenkeTilHistorikk() {
-    return (
-        <Box className="mt-4 mb-4">
-            <Link href="/historikk" onClick={() => loggAktivitet({ aktivitet: 'Går til historikk' })}>
-                Se tidligere arbeidssøkerperioder og opplysninger
-            </Link>
-        </Box>
-    );
-}
-
-/*
-function AllePerioderReadMore({ perioder }: { perioder: ArbeidssokerperioderResponse }) {
-    const visHistorikk = perioder.length > 1;
-    const [harKlikket, settHarKlikket] = useState<boolean>(false);
-
-    const onClick = () => {
-        if (!harKlikket) {
-            loggAktivitet({ aktivitet: 'Klikker på "Se alle arbeidssøkerperioder bruker har hatt"' });
-            settHarKlikket(true);
-        }
-    };
-
-    if (!visHistorikk) {
-        return null;
-    }
-
-    return (
-        <ReadMore header={'Se alle arbeidssøkerperioder bruker har hatt'} onClick={onClick}>
-            <ul>
-                {perioder.sort(sorterEtterSistAvsluttedePeriode).map((periode) => {
-                    const key = `${periode.startet.tidspunkt}-${periode.avsluttet?.tidspunkt}`;
-                    const aktivPeriode = periode?.avsluttet === null;
-                    return aktivPeriode ? (
-                        <li key={key}>Fra {formaterDato(periode.startet.tidspunkt)} (aktiv periode)</li>
-                    ) : (
-                        <li key={key}>
-                            Fra {formaterDato(periode.startet.tidspunkt)} {' til '}
-                            {formaterDato(periode.avsluttet.tidspunkt)}
-                        </li>
-                    );
-                })}
-            </ul>
-        </ReadMore>
-    );
-}
-*/
 
 function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
     const { perioder, sisteArbeidssoekerperiode } = props;
@@ -84,7 +34,6 @@ function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
                         oppgavetypen Inaktivering av person.
                     </BodyLong>
                 </ReadMore>
-                <LenkeTilHistorikk />
             </Box>
         );
     }
@@ -93,7 +42,6 @@ function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
         <BodyLong>
             Siste arbeidssøkerperiode var {formaterDato(sisteArbeidssoekerperiode.startet.tidspunkt)} -{' '}
             {formaterDato(sisteArbeidssoekerperiode.avsluttet.tidspunkt)}
-            <LenkeTilHistorikk />
         </BodyLong>
     );
 }
@@ -113,7 +61,6 @@ function ArbeidssoekerperiodeStatus(props: ArbeidssoekerperiodeStatusProps) {
                 Arbeidssøkerstatus
             </Heading>
             <BodyLong>{statusTekst}</BodyLong>
-            <LenkeTilHistorikk />
         </Box>
     );
 }
