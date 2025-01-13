@@ -8,7 +8,7 @@ function LenkeTilHistorikk() {
     const { params } = useParamsFromContext();
     const { fnr, enhetId } = params;
 
-    if (fnr === undefined && enhetId === undefined) {
+    if (fnr === undefined) {
         return null;
     }
 
