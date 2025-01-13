@@ -6,9 +6,9 @@ import { loggAktivitet } from '../lib/amplitude';
 
 function LenkeTilHistorikk() {
     const { params } = useParamsFromContext();
-    const { fnr, enhetId } = params;
+    const { fnr } = params;
 
-    if (fnr === undefined) {
+    if (!fnr) {
         return null;
     }
 
