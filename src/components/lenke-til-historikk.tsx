@@ -22,7 +22,7 @@ function LenkeTilHistorikk(props: Props) {
     }
 
     return (
-        <Box className="mt-4 mb-4 text-end">
+        <Box className="mt-4 mb-4 text-start">
             <Link href="/historikk" onClick={() => loggAktivitet({ aktivitet: 'Går til historikk' })}>
                 Se tidligere arbeidssøkerperioder og opplysninger
             </Link>
