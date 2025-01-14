@@ -7,10 +7,11 @@ import { ArbeidssokerperioderResponse } from '@navikt/arbeidssokerregisteret-uti
 interface ArbeidssoekerperiodeStatusProps {
     perioder: ArbeidssokerperioderResponse;
     sisteArbeidssoekerperiode: ArbeidssokerPeriode;
+    harIngenArbeidssoekerperioder: boolean;
 }
 
 function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
-    const { perioder, sisteArbeidssoekerperiode } = props;
+    const { perioder, sisteArbeidssoekerperiode, harIngenArbeidssoekerperioder } = props;
     const harAktivPeriode = sisteArbeidssoekerperiode?.avsluttet === null;
     const harTidligereArbeidssoekerperiode = sisteArbeidssoekerperiode?.startet;
 
@@ -47,7 +48,7 @@ function ArbeidssoekerperiodeHistorikk(props: ArbeidssoekerperiodeStatusProps) {
 }
 
 function ArbeidssoekerperiodeStatus(props: ArbeidssoekerperiodeStatusProps) {
-    const { perioder = [], sisteArbeidssoekerperiode } = props || {};
+    const { perioder = [], sisteArbeidssoekerperiode, harIngenArbeidssoekerperioder } = props || {};
 
     const harAktivPeriode = sisteArbeidssoekerperiode?.avsluttet === null;
 
@@ -61,6 +62,7 @@ function ArbeidssoekerperiodeStatus(props: ArbeidssoekerperiodeStatusProps) {
                 Arbeidssøkerstatus
             </Heading>
             <BodyLong>{statusTekst}</BodyLong>
+            {harIngenArbeidssoekerperioder && <BodyLong>Ingen tidligere arbeidssøkerperioder registrert</BodyLong>}
         </Box>
     );
 }

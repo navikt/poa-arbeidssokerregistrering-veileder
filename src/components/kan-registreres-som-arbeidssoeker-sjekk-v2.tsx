@@ -22,7 +22,7 @@ function Feilmelding(props: FeilmeldingProps) {
                     : 'Personen må registreres av en veileder etter at en vurdering er gjort'}
             </Heading>
             {aarsakTilAvvisning && aarsaker && (
-                <List as="ul" title="Årsaker">
+                <List as="ul">
                     {aarsakTilAvvisning.regler.map((regel) => (
                         <List.Item key={regel.id}>{regel.beskrivelse}</List.Item>
                     ))}

@@ -102,6 +102,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const sisteProfilering = hentSisteProfilering(samletInformasjon?.profilering ?? []);
     const aktivPeriode = sisteArbeidssoekerperiode?.avsluttet === null && sisteArbeidssoekerperiode !== undefined;
     const harOpplysninger = sisteOpplysningerOmArbeidssoeker?.opplysningerOmArbeidssoekerId;
+    const harIngenArbeidssoekerperioder = samletInformasjon?.arbeidssoekerperioder.length === 0;
 
     return (
         <>
@@ -109,12 +110,14 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
                 <ArbeidssoekerperiodeStatus
                     sisteArbeidssoekerperiode={sisteArbeidssoekerperiode}
                     perioder={samletInformasjon?.arbeidssoekerperioder}
+                    harIngenArbeidssoekerperioder={harIngenArbeidssoekerperioder}
                 />
             )}
             <OpplysningerOmArbeidssoeker
                 sisteOpplysningerOmArbeidssoeker={sisteOpplysningerOmArbeidssoeker}
                 behovsvurdering={sisteBehovsvurdering}
                 aktivPeriode={aktivPeriode}
+                harIngenArbeidssoekerperioder={harIngenArbeidssoekerperioder}
             />
             {aktivPeriode && !harOpplysninger && (
                 <OppdaterOpplysningerKnapp

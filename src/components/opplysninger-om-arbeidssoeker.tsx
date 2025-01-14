@@ -5,11 +5,17 @@ interface OpplysningerOmArbeidssoekerProps {
     sisteOpplysningerOmArbeidssoeker: any;
     behovsvurdering: any;
     aktivPeriode: boolean;
+    harIngenArbeidssoekerperioder: boolean;
 }
 
 function OpplysningerOmArbeidssoeker(props: OpplysningerOmArbeidssoekerProps) {
-    const { sisteOpplysningerOmArbeidssoeker, behovsvurdering, aktivPeriode } = props || {};
+    const { sisteOpplysningerOmArbeidssoeker, behovsvurdering, aktivPeriode, harIngenArbeidssoekerperioder } =
+        props || {};
     const harOpplysninger = sisteOpplysningerOmArbeidssoeker?.opplysningerOmArbeidssoekerId;
+
+    if (harIngenArbeidssoekerperioder || !aktivPeriode) {
+        return null;
+    }
 
     return (
         <Box>
