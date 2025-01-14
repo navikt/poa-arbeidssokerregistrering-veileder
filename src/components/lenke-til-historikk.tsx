@@ -4,9 +4,18 @@ import { useParamsFromContext } from '../contexts/params-from-context';
 
 import { loggAktivitet } from '../lib/amplitude';
 
-function LenkeTilHistorikk() {
+interface Props {
+    harIngenArbeidssoekerperioder: boolean;
+}
+
+function LenkeTilHistorikk(props: Props) {
+    const { harIngenArbeidssoekerperioder } = props;
     const { params } = useParamsFromContext();
     const { fnr } = params;
+
+    if (harIngenArbeidssoekerperioder) {
+        return null;
+    }
 
     if (!fnr) {
         return null;

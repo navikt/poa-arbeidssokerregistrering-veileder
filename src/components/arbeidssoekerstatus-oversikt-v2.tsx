@@ -168,7 +168,7 @@ function ArbeidssoekerstatusOversiktV2() {
                 <ArbeidssoekerperioderOgOpplysningerWrapper />
                 {visBekreftelseKomponent && <BekreftelseInformasjon fnr={fnr} brukerMock={brukerMock} />}
             </div>
-            {!harIngenArbeidssoekerperioder && <LenkeTilHistorikk />}
+            <LenkeTilHistorikk harIngenArbeidssoekerperioder={harIngenArbeidssoekerperioder} />
         </Box>
     );
 }
