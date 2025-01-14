@@ -133,7 +133,9 @@ function ArbeidssoekerstatusOversiktV2() {
             const aktivPeriode =
                 sisteArbeidssoekerperiode?.avsluttet === null && sisteArbeidssoekerperiode !== undefined;
             setHarIkkeAktivPeriode(!aktivPeriode);
-            setHarIngenArbeidssoekerperioder(false);
+            const harIngenArbeidssoekerperioder = sisteArbeidssoekerperiode === undefined;
+            setHarIngenArbeidssoekerperioder(harIngenArbeidssoekerperioder);
+            console.log('sisteArbeidssoekerperiode', sisteArbeidssoekerperiode);
         }
     }, [sisteArbeidssoekerperiode]);
 
