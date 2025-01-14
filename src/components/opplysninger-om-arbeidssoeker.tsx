@@ -13,7 +13,7 @@ function OpplysningerOmArbeidssoeker(props: OpplysningerOmArbeidssoekerProps) {
         props || {};
     const harOpplysninger = sisteOpplysningerOmArbeidssoeker?.opplysningerOmArbeidssoekerId;
 
-    if (harIngenArbeidssoekerperioder) {
+    if (harIngenArbeidssoekerperioder || !aktivPeriode) {
         return null;
     }
 
