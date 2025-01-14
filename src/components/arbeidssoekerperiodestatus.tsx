@@ -61,7 +61,7 @@ function ArbeidssoekerperiodeStatus(props: ArbeidssoekerperiodeStatusProps) {
             <Heading level="1" size="small">
                 Arbeidssøkerstatus
             </Heading>
-            <BodyLong spacing>{statusTekst}</BodyLong>
+            <BodyLong>{statusTekst}</BodyLong>
             {harIngenArbeidssoekerperioder && <BodyLong>Ingen tidligere arbeidssøkerperioder registrert</BodyLong>}
         </Box>
     );
