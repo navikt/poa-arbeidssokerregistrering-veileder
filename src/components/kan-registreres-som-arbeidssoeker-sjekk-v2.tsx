@@ -16,13 +16,13 @@ function Feilmelding(props: FeilmeldingProps) {
 
     return (
         <Alert variant="warning" className="mb-8">
-            <Heading level="1" size="small" className="mb-4">
+            <Heading level="2" size="small" className="mb-4">
                 {duManglerTilgang
                     ? 'Du kan ikke registrere denne personen som arbeidssøker'
                     : 'Personen må registreres av en veileder etter at en vurdering er gjort'}
             </Heading>
             {aarsakTilAvvisning && aarsaker && (
-                <List as="ul" title="Årsaker">
+                <List as="ul" title="Årsaker" className="mt-4">
                     {aarsakTilAvvisning.regler.map((regel) => (
                         <List.Item key={regel.id}>{regel.beskrivelse}</List.Item>
                     ))}
