@@ -110,6 +110,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
                 <ArbeidssoekerperiodeStatus
                     sisteArbeidssoekerperiode={sisteArbeidssoekerperiode}
                     perioder={samletInformasjon?.arbeidssoekerperioder}
+                    harIngenArbeidssoekerperioder={harIngenArbeidssoekerperioder}
                 />
             )}
             <OpplysningerOmArbeidssoeker
