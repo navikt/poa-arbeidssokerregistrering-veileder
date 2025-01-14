@@ -102,7 +102,7 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
     const sisteProfilering = hentSisteProfilering(samletInformasjon?.profilering ?? []);
     const aktivPeriode = sisteArbeidssoekerperiode?.avsluttet === null && sisteArbeidssoekerperiode !== undefined;
     const harOpplysninger = sisteOpplysningerOmArbeidssoeker?.opplysningerOmArbeidssoekerId;
-    const harIngenArbeidssoekerperioder = !samletInformasjon?.arbeidssoekerperioder;
+    const harIngenArbeidssoekerperioder = samletInformasjon?.arbeidssoekerperioder.length === 0;
 
     return (
         <>
