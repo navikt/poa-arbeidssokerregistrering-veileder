@@ -16,6 +16,7 @@ import { hentSisteArbeidssokerPeriode } from '../lib/hent-siste-arbeidssoekerper
 import { REGLER_SOM_KAN_OVERSTYRES } from '../model/regler-for-avvisning';
 import { useFeatureToggles } from '../contexts/featuretoggle-context';
 import BekreftelseInformasjon from './bekreftelse-informasjon';
+import LenkeTilHistorikk from './lenke-til-historikk';
 
 function sjekkOmAlleReglerKanOverstyres(feilmelding?: any) {
     const { aarsakTilAvvisning } = feilmelding || {};
@@ -50,6 +51,7 @@ function ArbeidssoekerstatusOversiktV2() {
     const [errorArbeidssoekerperioder, setErrorArbeidssoekerperioder] = useState<any>(undefined);
     const [sisteArbeidssoekerperiode, setSisteArbeidssoekerperiode] = useState<any>({});
     const [harIkkeAktivPeriode, setHarIkkeAktivPeriode] = useState<boolean>(false);
+    const [harIngenArbeidssoekerperioder, setHarIngenArbeidssoekerperioder] = useState<boolean>(true);
     const { toggles } = useFeatureToggles();
 
     const visBekreftelseKomponent = toggles['arbeidssoekerregistrering.vis-bekreftelse'] && !harIkkeAktivPeriode;
@@ -131,6 +133,7 @@ function ArbeidssoekerstatusOversiktV2() {
             const aktivPeriode =
                 sisteArbeidssoekerperiode?.avsluttet === null && sisteArbeidssoekerperiode !== undefined;
             setHarIkkeAktivPeriode(!aktivPeriode);
+            setHarIngenArbeidssoekerperioder(false);
         }
     }, [sisteArbeidssoekerperiode]);
 
@@ -165,6 +168,7 @@ function ArbeidssoekerstatusOversiktV2() {
                 <ArbeidssoekerperioderOgOpplysningerWrapper />
                 {visBekreftelseKomponent && <BekreftelseInformasjon fnr={fnr} brukerMock={brukerMock} />}
             </div>
+            {!harIngenArbeidssoekerperioder && <LenkeTilHistorikk />}
         </Box>
     );
 }
