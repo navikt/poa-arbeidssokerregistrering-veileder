@@ -51,7 +51,7 @@ function ArbeidssoekerstatusOversiktV2() {
     const [errorArbeidssoekerperioder, setErrorArbeidssoekerperioder] = useState<any>(undefined);
     const [sisteArbeidssoekerperiode, setSisteArbeidssoekerperiode] = useState<any>({});
     const [harIkkeAktivPeriode, setHarIkkeAktivPeriode] = useState<boolean>(false);
-    const [harIngenArbeidssoekerperioder, setHarIngenArbeidssoekerperioder] = useState<boolean>(true);
+    const [harIngenArbeidssoekerperioder, setHarIngenArbeidssoekerperioder] = useState<boolean>(false);
     const { toggles } = useFeatureToggles();
 
     const visBekreftelseKomponent = toggles['arbeidssoekerregistrering.vis-bekreftelse'] && !harIkkeAktivPeriode;
