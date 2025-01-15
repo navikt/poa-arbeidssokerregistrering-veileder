@@ -59,10 +59,10 @@ function AarsakerTilAtPersonenIkkeKanRegistreres(props: AarsakerProps) {
 
     if (!feilmelding) return null;
 
-    const aarsaker = aarsakTilAvvisning.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
+    const aarsaker = aarsakTilAvvisning?.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
     const reglerSomKanOverstyres = aarsaker.filter((regel) => !REGLER_SOM_IKKE_KAN_OVERSTYRES.includes(regel));
     const kanAlleReglerIkkeOverstyres = reglerSomKanOverstyres.length === 0;
-    const ansattHarIkkeTilgang = aarsaker.includes('ANSATT_IKKE_TILGANG_TIL_BRUKER');
+    const ansattHarIkkeTilgang = aarsaker.includes('ANSATT_IKKE_TILGANG_TIL_BRUKER', 'IKKE_TILGANG');
 
     if (!aarsaker || !kanAlleReglerIkkeOverstyres) return null;
 

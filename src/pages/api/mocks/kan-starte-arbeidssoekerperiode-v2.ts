@@ -142,7 +142,7 @@ const IKKE_FUNNET = {
 /*
 // Feilmelding for ansatt som ikke har tilgang
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
-    res.status(403).json(ANSATT_IKKE_TILGANG_TIL_BRUKER);
+    res.status(403).json(IKKE_TILGANG);
 };
 
 
@@ -157,6 +157,15 @@ const ANSATT_IKKE_TILGANG_TIL_BRUKER = {
     feilKode: "AVVIST",
     melding: "Ansatt har ikke tilgang til bruker",
     status: 403
+}
+
+
+const IKKE_TILGANG = {
+    "melding": "Ansatt har ikke tilgang til bruker",
+    "feilKode": "IKKE_TILGANG",
+    "aarsakTilAvvisning": null,
+    "status": 403,
+    "traceId": "366405889beebb5060006b15e9dcbe87"
 }
 */
 
