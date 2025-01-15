@@ -39,7 +39,7 @@ function VurderingskriterierForArbeidssoekerregistrering(props: Vurderingskriter
 
     if (!feilmelding) return null;
 
-    const aarsaker = aarsakTilAvvisning.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
+    const aarsaker = aarsakTilAvvisning?.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
     const reglerSomIkkeKanOverstyres = aarsaker.filter((regel) => !REGLER_SOM_KAN_OVERSTYRES.includes(regel));
     const kanAlleReglerOverstyres = reglerSomIkkeKanOverstyres.length === 0;
 
