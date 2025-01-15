@@ -80,6 +80,11 @@ function AarsakerTilAtPersonenIkkeKanRegistreres(props: AarsakerProps) {
                         Hva må ordnes før du kan registrere personen?
                     </Heading>
                     <BodyLong spacing>Du må få korrekt tilgang til vedkommende alle aktuelle opplysninger.</BodyLong>
+                    <List as="ul" title="Dette kan du gjøre">
+                        <List.Item>
+                            Ta kontakt med din lokale identansvarlig. Dette er vanligvis enhetens leder.
+                        </List.Item>
+                    </List>
                 </>
             )}
             {!ansattHarIkkeTilgang && (
@@ -88,13 +93,13 @@ function AarsakerTilAtPersonenIkkeKanRegistreres(props: AarsakerProps) {
                         Hva må ordnes før personen kan registreres?
                     </Heading>
                     <BodyLong spacing>Personen kan ikke registreres før registerdata er oppdatert.</BodyLong>
+                    <List as="ul" title="Dette kan du gjøre">
+                        {tiltaksliste.map((tiltak) => (
+                            <List.Item key={tiltak.id}>{tiltak.beskrivelse}</List.Item>
+                        ))}
+                    </List>
                 </>
             )}
-            <List as="ul" title="Dette kan du gjøre">
-                {tiltaksliste.map((tiltak) => (
-                    <List.Item key={tiltak.id}>{tiltak.beskrivelse}</List.Item>
-                ))}
-            </List>
         </Box>
     );
 }
