@@ -17,7 +17,15 @@ interface RegistreringsknappProps {
 
 function VelgRegistreringsKnapp(props: RegistreringsknappProps) {
     const { feilmelding, kanStarteArbeidssoekerperiode } = props;
+    const { aarsakTilAvvisning, feilKode } = feilmelding || {};
+    const aarsaker = aarsakTilAvvisning?.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
+    const ansattHarIkkeTilgang =
+        aarsaker.includes('ANSATT_IKKE_TILGANG_TIL_BRUKER', 'IKKE_TILGANG') || feilKode === 'IKKE_TILGANG';
     const kanOverstyres = sjekkOmAlleReglerKanOverstyres(feilmelding);
+
+    if (ansattHarIkkeTilgang) {
+        return null;
+    }
 
     if (kanStarteArbeidssoekerperiode) {
         return <StartPeriodeKnapp />;

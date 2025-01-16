@@ -35,15 +35,17 @@ const TILTAKSLISTE = {
 
 function VurderingskriterierForArbeidssoekerregistrering(props: VurderingskriterierProps) {
     const { feilmelding } = props;
-    const { aarsakTilAvvisning } = feilmelding || {};
+    const { aarsakTilAvvisning, feilKode } = feilmelding || {};
 
     if (!feilmelding) return null;
 
-    const aarsaker = aarsakTilAvvisning.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
+    const aarsaker = aarsakTilAvvisning?.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
     const reglerSomIkkeKanOverstyres = aarsaker.filter((regel) => !REGLER_SOM_KAN_OVERSTYRES.includes(regel));
     const kanAlleReglerOverstyres = reglerSomIkkeKanOverstyres.length === 0;
+    const ansattHarIkkeTilgang =
+        aarsaker.includes('ANSATT_IKKE_TILGANG_TIL_BRUKER', 'IKKE_TILGANG') || feilKode === 'IKKE_TILGANG';
 
-    if (!aarsaker || !kanAlleReglerOverstyres) return null;
+    if (!aarsaker || !kanAlleReglerOverstyres || ansattHarIkkeTilgang) return null;
 
     const tiltaksliste = aarsaker.reduce((liste, regel) => {
         liste.push(...TILTAKSLISTE[regel]);
