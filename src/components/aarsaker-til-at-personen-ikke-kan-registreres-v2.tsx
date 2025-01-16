@@ -55,14 +55,15 @@ const TILTAKSLISTE = {
 
 function AarsakerTilAtPersonenIkkeKanRegistreres(props: AarsakerProps) {
     const { feilmelding } = props;
-    const { aarsakTilAvvisning } = feilmelding || {};
+    const { aarsakTilAvvisning, feilKode } = feilmelding || {};
 
     if (!feilmelding) return null;
 
     const aarsaker = aarsakTilAvvisning?.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
     const reglerSomKanOverstyres = aarsaker.filter((regel) => !REGLER_SOM_IKKE_KAN_OVERSTYRES.includes(regel));
     const kanAlleReglerIkkeOverstyres = reglerSomKanOverstyres.length === 0;
-    const ansattHarIkkeTilgang = aarsaker.includes('ANSATT_IKKE_TILGANG_TIL_BRUKER', 'IKKE_TILGANG');
+    const ansattHarIkkeTilgang =
+        aarsaker.includes('ANSATT_IKKE_TILGANG_TIL_BRUKER', 'IKKE_TILGANG') || feilKode === 'IKKE_TILGANG';
 
     if (!aarsaker || !kanAlleReglerIkkeOverstyres) return null;
 
@@ -73,19 +74,32 @@ function AarsakerTilAtPersonenIkkeKanRegistreres(props: AarsakerProps) {
 
     return (
         <Box>
+            {ansattHarIkkeTilgang && (
+                <>
+                    <Heading level="2" size="small">
+                        Hva må ordnes før du kan registrere personen?
+                    </Heading>
+                    <BodyLong spacing>Du må få korrekt tilgang til vedkommende alle aktuelle opplysninger.</BodyLong>
+                    <List as="ul" title="Dette kan du gjøre">
+                        <List.Item>
+                            Ta kontakt med din lokale identansvarlig. Dette er vanligvis enhetens leder.
+                        </List.Item>
+                    </List>
+                </>
+            )}
             {!ansattHarIkkeTilgang && (
                 <>
                     <Heading level="2" size="small">
                         Hva må ordnes før personen kan registreres?
                     </Heading>
                     <BodyLong spacing>Personen kan ikke registreres før registerdata er oppdatert.</BodyLong>
+                    <List as="ul" title="Dette kan du gjøre">
+                        {tiltaksliste.map((tiltak) => (
+                            <List.Item key={tiltak.id}>{tiltak.beskrivelse}</List.Item>
+                        ))}
+                    </List>
                 </>
             )}
-            <List as="ul" title="Dette kan du gjøre">
-                {tiltaksliste.map((tiltak) => (
-                    <List.Item key={tiltak.id}>{tiltak.beskrivelse}</List.Item>
-                ))}
-            </List>
         </Box>
     );
 }
