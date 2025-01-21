@@ -12,7 +12,8 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "jsx": "preserve",
-        "types": ["@testing-library/jest-dom"]
+        "types": ["@testing-library/jest-dom"],
+        "target": "ES2017"
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules"]
