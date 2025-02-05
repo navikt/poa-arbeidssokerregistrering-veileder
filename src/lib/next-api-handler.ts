@@ -93,7 +93,7 @@ export const getPawArbeidssokerBesvarelseToken = async (req: NextApiRequest) => 
 };
 
 export const getAiaBackendAzureToken = async (req: NextApiRequest) => {
-    return getOboToken(getTokenFromRequest(req!), AIA_BACKEND_SCOPE);
+    return getOboToken(getTokenFromRequest(req)!, AIA_BACKEND_SCOPE);
 };
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
