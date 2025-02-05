@@ -24,6 +24,7 @@ const getOboToken = async (accessToken: string, scope: string): Promise<string> 
     const result = await requestAzureOboToken(accessToken, scope);
 
     if (result.ok === false) {
+        logger.error(result.error, `Obo tokenutveksling mot ${scope} feilet`);
         throw result.error;
     }
 
