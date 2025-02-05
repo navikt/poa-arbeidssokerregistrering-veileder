@@ -125,9 +125,11 @@ function ArbeidssoekerperioderOgOpplysningerWrapper() {
                     knappeTekst="Legg til opplysninger"
                 />
             )}
-            <ErrorBoundary fallback={<Alert variant="warning">Visning av siste profilering feilet</Alert>}>
-                <Profilering sisteProfilering={sisteProfilering} />
-            </ErrorBoundary>
+            {aktivPeriode && (
+                <ErrorBoundary fallback={<Alert variant="warning">Visning av siste profilering feilet</Alert>}>
+                    <Profilering sisteProfilering={sisteProfilering} />
+                </ErrorBoundary>
+            )}
         </>
     );
 }
