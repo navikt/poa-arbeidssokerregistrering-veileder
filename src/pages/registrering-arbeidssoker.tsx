@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Heading, HStack } from '@navikt/ds-react';
 import { useSearchParams } from 'next/navigation';
 
@@ -22,6 +22,7 @@ import TilbyOpplysningerFraGammelPeriode from '../components/tilby-opplysninger-
 
 export default function RegistreringArbeidssoker() {
     const { params } = useParamsFromContext();
+    const submitButtonRef = useRef(null);
     const { fnr, enhetId } = params;
     const visInnhold = fnr && enhetId;
     const searchParams = useSearchParams();
@@ -41,7 +42,11 @@ export default function RegistreringArbeidssoker() {
                         Arbeidssøkerregistrering
                     </Heading>
                     <HvaErNytt />
-                    <TilbyOpplysningerFraGammelPeriode fnr={fnr} onClick={setSisteAvsluttedePeriodeId} />
+                    <TilbyOpplysningerFraGammelPeriode
+                        fnr={fnr}
+                        onClick={setSisteAvsluttedePeriodeId}
+                        ref={submitButtonRef}
+                    />
                     <RegistreringProvider hentTidligereOpplysningerForPeriodeId={sisteAvsluttedePeriodeId}>
                         <DinSituasjon />
                         <SisteJobb />
@@ -51,7 +56,11 @@ export default function RegistreringArbeidssoker() {
 
                         <HStack style={{ justifyContent: 'space-between' }}>
                             <AvbrytKnapp />
-                            <OppdaterOpplysningerKnapp erRegistreringsKnapp erForhaandsgodkjent={erForhaandsgodkjent} />
+                            <OppdaterOpplysningerKnapp
+                                erRegistreringsKnapp
+                                erForhaandsgodkjent={erForhaandsgodkjent}
+                                ref={submitButtonRef}
+                            />
                         </HStack>
                     </RegistreringProvider>
                 </>

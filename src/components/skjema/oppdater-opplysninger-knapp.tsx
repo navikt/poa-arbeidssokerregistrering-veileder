@@ -1,5 +1,5 @@
 import { Button } from '@navikt/ds-react';
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 
@@ -28,112 +28,115 @@ interface OppdaterOpplysningerKnappProps {
     erForhaandsgodkjent: boolean;
 }
 
-export const OppdaterOpplysningerKnapp = (props: OppdaterOpplysningerKnappProps) => {
-    const { erRegistreringsKnapp, erForhaandsgodkjent } = props;
-    const router = useRouter();
-    const [isDisabled, setIsDisabled] = useState(false);
-    const [isPending, setIsPending] = useState(false);
-    const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
-    const { setDoValidate, doValidate, isValid, registrering } = useRegistrering();
-    const { params } = useParamsFromContext();
-    const { enableMock } = useConfig() as Config;
-    const { fnr } = params;
-    const brukerMock = enableMock === 'enabled';
-    const periodeVersjon = 'arbeidssokerperioder-v2';
+export const OppdaterOpplysningerKnapp = forwardRef<HTMLButtonElement, OppdaterOpplysningerKnappProps>(
+    function OppdaterOpplysningerKnappKomponent(props, ref) {
+        const { erRegistreringsKnapp, erForhaandsgodkjent } = props;
+        const router = useRouter();
+        const [isDisabled, setIsDisabled] = useState(false);
+        const [isPending, setIsPending] = useState(false);
+        const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
+        const { setDoValidate, doValidate, isValid, registrering } = useRegistrering();
+        const { params } = useParamsFromContext();
+        const { enableMock } = useConfig() as Config;
+        const { fnr } = params;
+        const brukerMock = enableMock === 'enabled';
+        const periodeVersjon = 'arbeidssokerperioder-v2';
 
-    const [periodeStartet, setPeriodeStartet] = useState<boolean>(false);
-    const [error, setError] = useState<any>(undefined);
+        const [periodeStartet, setPeriodeStartet] = useState<boolean>(false);
+        const [error, setError] = useState<any>(undefined);
 
-    const startArbeidssoekerperiodeUrl = brukerMock ? `/api/mocks/${periodeVersjon}` : `/api/${periodeVersjon}`;
-    const opplysningerUrl = brukerMock ? '/api/mocks/opplysninger' : '/api/opplysninger';
+        const startArbeidssoekerperiodeUrl = brukerMock ? `/api/mocks/${periodeVersjon}` : `/api/${periodeVersjon}`;
+        const opplysningerUrl = brukerMock ? '/api/mocks/opplysninger' : '/api/opplysninger';
 
-    async function startArbeidssoekerperiode() {
-        const payload = JSON.stringify({
-            identitetsnummer: fnr,
-            periodeTilstand: 'STARTET',
-            registreringForhaandsGodkjentAvAnsatt: erForhaandsgodkjent,
-        });
-
-        try {
-            const response = await fetch(startArbeidssoekerperiodeUrl, {
-                method: 'PUT',
-                body: payload,
-                credentials: 'include',
-                headers: {
-                    'Content-type': 'application/json',
-                },
+        async function startArbeidssoekerperiode() {
+            const payload = JSON.stringify({
+                identitetsnummer: fnr,
+                periodeTilstand: 'STARTET',
+                registreringForhaandsGodkjentAvAnsatt: erForhaandsgodkjent,
             });
-            if (response.ok) {
-                setPeriodeStartet(true);
-            } else {
-                // noinspection ExceptionCaughtLocallyJS
-                const data = await response.json();
-                setError(data);
-            }
-        } catch (err: unknown) {
-            setError(err);
-        }
-    }
 
-    async function oppdaterOpplysninger() {
-        setIsDisabled(true);
-        setDoValidate(true);
-        if (isValid) {
-            setDoValidate(false);
-            setIsDisabled(true);
-            setIsPending(true);
-            const body = byggOpplysningerPayload(registrering);
-
-            loggFlyt({ hendelse: 'Sender inn skjema for registrering av arbeidssøker' });
             try {
-                const response = await fetch(opplysningerUrl, {
-                    method: 'POST',
+                const response = await fetch(startArbeidssoekerperiodeUrl, {
+                    method: 'PUT',
+                    body: payload,
                     credentials: 'include',
-                    body: JSON.stringify({ identitetsnummer: fnr, ...body }),
                     headers: {
                         'Content-type': 'application/json',
                     },
                 });
-                if (!response.ok) {
-                    loggFlyt({ hendelse: 'Får ikke oppdatert opplysninger' });
-                    return router.push('/feil');
+                if (response.ok) {
+                    setPeriodeStartet(true);
                 } else {
-                    loggFlyt({ hendelse: 'Opplysninger oppdatert' });
-                    return erRegistreringsKnapp
-                        ? router.push('/kvittering-arbeidssoker')
-                        : router.push('/kvittering-oppdatert-opplysninger');
+                    // noinspection ExceptionCaughtLocallyJS
+                    const data = await response.json();
+                    setError(data);
                 }
-            } catch (e) {
-                loggFlyt({
-                    hendelse: 'Får ikke oppdatert opplysninger',
-                });
-                return router.push('/feil');
-            } finally {
-                setIsPending(false);
+            } catch (err: unknown) {
+                setError(err);
             }
         }
-    }
 
-    useEffect(() => {
-        if (doValidate && isValid) {
-            setIsDisabled(false);
+        async function oppdaterOpplysninger() {
+            setIsDisabled(true);
+            setDoValidate(true);
+            if (isValid) {
+                setDoValidate(false);
+                setIsDisabled(true);
+                setIsPending(true);
+                const body = byggOpplysningerPayload(registrering);
+
+                loggFlyt({ hendelse: 'Sender inn skjema for registrering av arbeidssøker' });
+                try {
+                    const response = await fetch(opplysningerUrl, {
+                        method: 'POST',
+                        credentials: 'include',
+                        body: JSON.stringify({ identitetsnummer: fnr, ...body }),
+                        headers: {
+                            'Content-type': 'application/json',
+                        },
+                    });
+                    if (!response.ok) {
+                        loggFlyt({ hendelse: 'Får ikke oppdatert opplysninger' });
+                        return router.push('/feil');
+                    } else {
+                        loggFlyt({ hendelse: 'Opplysninger oppdatert' });
+                        return erRegistreringsKnapp
+                            ? router.push('/kvittering-arbeidssoker')
+                            : router.push('/kvittering-oppdatert-opplysninger');
+                    }
+                } catch (e) {
+                    loggFlyt({
+                        hendelse: 'Får ikke oppdatert opplysninger',
+                    });
+                    return router.push('/feil');
+                } finally {
+                    setIsPending(false);
+                }
+            }
         }
-    }, [doValidate, isValid]);
 
-    return (
-        <div className="flex justify-end">
-            <Button
-                variant="primary"
-                onClick={() => {
-                    erRegistreringsKnapp
-                        ? oppdaterOpplysninger() && startArbeidssoekerperiode()
-                        : oppdaterOpplysninger();
-                }}
-                disabled={isDisabled}
-                loading={isPending}
-            >
-                {tekst(erRegistreringsKnapp ? 'registrer' : 'oppdater')}
-            </Button>
-        </div>
-    );
-};
+        useEffect(() => {
+            if (doValidate && isValid) {
+                setIsDisabled(false);
+            }
+        }, [doValidate, isValid]);
+
+        return (
+            <div className="flex justify-end">
+                <Button
+                    ref={ref}
+                    variant="primary"
+                    onClick={() => {
+                        erRegistreringsKnapp
+                            ? oppdaterOpplysninger() && startArbeidssoekerperiode()
+                            : oppdaterOpplysninger();
+                    }}
+                    disabled={isDisabled}
+                    loading={isPending}
+                >
+                    {tekst(erRegistreringsKnapp ? 'registrer' : 'oppdater')}
+                </Button>
+            </div>
+        );
+    },
+);

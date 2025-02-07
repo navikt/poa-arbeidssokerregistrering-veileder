@@ -1,7 +1,7 @@
 import { hentSisteArbeidssokerPeriode } from '../lib/hent-siste-arbeidssoekerperiode';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { Alert, Button } from '@navikt/ds-react';
 import { ArbeidssokerPeriode } from '@navikt/arbeidssokerregisteret-utils';
 import { formaterDato } from '../lib/date-utils';
@@ -12,7 +12,10 @@ interface Props {
     onClick(periodeId: string): void;
 }
 
-const TilbyOpplysningerFraGammelPeriode = ({ fnr, onClick }: Props) => {
+const TilbyOpplysningerFraGammelPeriode = forwardRef<any, Props>(function TilbyOpplysningerFraGammelPeriodeKomponent(
+    { fnr, onClick },
+    ref,
+) {
     const { enableMock } = useConfig() as Config;
     const brukerMock = enableMock === 'enabled';
     const [sisteAvsluttedePeriode, setSisteAvsluttedePeriode] = useState<ArbeidssokerPeriode | null>(null);
@@ -67,12 +70,16 @@ const TilbyOpplysningerFraGammelPeriode = ({ fnr, onClick }: Props) => {
                     onClick(sisteAvsluttedePeriode.periodeId);
                     setHarKlikket(true);
                     loggAktivitet({ aktivitet: 'Klikker på "Fyll inn opplysninger fra siste arbeidssøkerperiode"' });
+
+                    setTimeout(() => {
+                        (ref as any).current?.scrollIntoView({ behavior: 'smooth' });
+                    }, 500);
                 }}
             >
                 Fyll inn opplysninger fra siste arbeidssøkerperiode
             </Button>
         </Alert>
     );
-};
+});
 
 export default TilbyOpplysningerFraGammelPeriode;
