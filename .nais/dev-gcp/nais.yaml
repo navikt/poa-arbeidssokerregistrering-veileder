@@ -103,6 +103,7 @@ spec:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
     - https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no
+    - https://arbeidssokerregistrering-for-veileder.ansatt.dev.nav.no
   azure:
     application:
       enabled: true
