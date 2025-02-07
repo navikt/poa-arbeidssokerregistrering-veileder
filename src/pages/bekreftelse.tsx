@@ -9,6 +9,7 @@ import { useParamsFromContext } from '../contexts/params-from-context';
 import { formaterDato } from '../lib/date-utils';
 import { TilgjengeligBekreftelse, TilgjengeligeBekreftelser } from '../types/bekreftelse';
 import useApiKall from '../hooks/useApiKall';
+import TilbakeTilForside from '../components/tilbake-til-forside';
 
 const TEKSTER = {
     nb: {
@@ -150,6 +151,7 @@ export default function Bekreftelse() {
 
     return (
         <>
+            <TilbakeTilForside sidenavn="Bekreftelse" />
             <Heading size={'large'}>Bekreftelse</Heading>
             <div className={'my-4'}>
                 <RadioGroup
