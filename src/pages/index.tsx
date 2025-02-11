@@ -5,6 +5,7 @@ import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-
 import ArbeidssoekerstatusOversiktV2 from '../components/arbeidssoekerstatus-oversikt-v2';
 import HvaErNytt from '../components/hva-er-nytt';
 import DemoLabel from '../components/demo-label';
+import NyForside from '../components/ny-forside';
 
 export default function Home() {
     return (
@@ -12,7 +13,8 @@ export default function Home() {
             <RedirectTilVedlikehold />
             <DemoLabel />
             <HvaErNytt />
-            <ArbeidssoekerstatusOversiktV2 />
+            {/*<ArbeidssoekerstatusOversiktV2 />*/}
+            <NyForside />
             <ManglerPersonEllerEnhet />
             <section className="flex flex-col items-center p-8">
                 <DemoPanel />
