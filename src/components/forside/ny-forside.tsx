@@ -3,14 +3,12 @@ import useApiKall from '../../hooks/useApiKall';
 import { useConfig } from '../../contexts/config-context';
 import { Config } from '../../model/config';
 import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
-import ArbeidssoekerstatusOversiktV2 from './../arbeidssoekerstatus-oversikt-v2';
-import { useRouter } from 'next/router';
 import IkkeAktivPeriode from './ikke-aktiv-periode';
+import AktivPeriode from './aktiv-periode';
 
 function NyForside() {
     const { params } = useParamsFromContext();
     const { enableMock } = useConfig() as Config;
-    const router = useRouter();
     const brukerMock = enableMock === 'enabled';
 
     const hentSamletInformasjonUrl = brukerMock
@@ -29,7 +27,7 @@ function NyForside() {
     if (!harAktivPeriode) {
         return <IkkeAktivPeriode samletInformasjon={samletInformasjon} />;
     } else {
-        return <ArbeidssoekerstatusOversiktV2 />;
+        return <AktivPeriode samletInformasjon={samletInformasjon} />;
     }
 }
 

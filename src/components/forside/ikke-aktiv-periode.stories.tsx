@@ -6,10 +6,6 @@ const meta = {
     title: 'Forside/IkkeAktivPeriode',
     component: IkkeAktivPeriode,
     tags: ['autodocs'],
-    parameters: {
-        // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
-        layout: 'fullscreen',
-    },
 } satisfies Meta<typeof IkkeAktivPeriode>;
 
 export default meta;
