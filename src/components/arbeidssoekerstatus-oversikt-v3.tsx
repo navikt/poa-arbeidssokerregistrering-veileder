@@ -12,6 +12,7 @@ import VelgRegistreringsKnapp from './velg-registreringsknapp-v2';
 import VurderingskriterierForArbeidssoekerregistrering from './vurderingskriterier-for-arbeidssoekerregistrering-v2';
 import AarsakerTilAtPersonenIkkeKanRegistreres from './aarsaker-til-at-personen-ikke-kan-registreres-v2';
 import ArbeidssoekerMaaRegistreresIArena from './arbeidssoeker-maa-registreres-i-arena-foerst-v2';
+import TilbakeTilForside from './tilbake-til-forside';
 import { hentSisteArbeidssokerPeriode } from '../lib/hent-siste-arbeidssoekerperiode';
 import { REGLER_SOM_KAN_OVERSTYRES } from '../model/regler-for-avvisning';
 import { useFeatureToggles } from '../contexts/featuretoggle-context';
@@ -154,6 +155,7 @@ function ArbeidssoekerstatusOversiktV3() {
     return (
         <Box>
             <RedirectTilRegistreringOmPeriodeKanStartes kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode} />
+            <TilbakeTilForside sidenavn="Arbeidssøkerregistrering" />
             <Heading level="1" size="large" className="mb-8 text-left">
                 Arbeidssøkerregistrering
             </Heading>
