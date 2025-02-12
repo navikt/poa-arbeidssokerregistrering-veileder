@@ -2,6 +2,7 @@ import { Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
 import LenkeTilHistorikk from '../lenke-til-historikk';
 import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
+import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 
 interface Props {
     samletInformasjon: SamletInformasjon;
@@ -22,8 +23,10 @@ function IkkeAktivPeriode(props: Props) {
                         Sist registrert som arbeidssøker
                     </Heading>
                     <BodyShort textColor={'subtle'} size={'small'}>
-                        {samletInformasjon.opplysningerOmArbeidssoeker[0]?.sendtInnAv.tidspunkt} av{' '}
-                        {samletInformasjon.opplysningerOmArbeidssoeker[0]?.sendtInnAv.kilde}
+                        {prettyPrintDatoOgKlokkeslett(
+                            samletInformasjon.opplysningerOmArbeidssoeker[0]?.sendtInnAv.tidspunkt,
+                        )}{' '}
+                        av {samletInformasjon.opplysningerOmArbeidssoeker[0]?.sendtInnAv.utfoertAv.type}
                     </BodyShort>
                     <LenkeTilHistorikk harIngenArbeidssoekerperioder={true} />
                 </div>
@@ -34,7 +37,7 @@ function IkkeAktivPeriode(props: Props) {
             )}
 
             <Box className={'mt-4'}>
-                <Button variant="secondary-neutral" onClick={() => router.push('/registrering-arbeidssoker')}>
+                <Button variant="secondary" onClick={() => router.push('/registrering-arbeidssoker')}>
                     Registrer som arbeidssøker
                 </Button>
             </Box>
