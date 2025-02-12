@@ -1,8 +1,9 @@
-import { Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
+import { Alert, BodyShort, Box, Button, Heading, Link } from '@navikt/ds-react';
 import LenkeTilHistorikk from '../lenke-til-historikk';
 import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
 import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
+import { loggAktivitet } from '../../lib/amplitude';
 
 interface Props {
     samletInformasjon: SamletInformasjon;
@@ -28,7 +29,11 @@ function IkkeAktivPeriode(props: Props) {
                         )}{' '}
                         av {samletInformasjon.opplysningerOmArbeidssoeker[0]?.sendtInnAv.utfoertAv.type}
                     </BodyShort>
-                    <LenkeTilHistorikk harIngenArbeidssoekerperioder={true} />
+                    <Box className="mt-4 mb-4 text-start">
+                        <Link href="/historikk" onClick={() => loggAktivitet({ aktivitet: 'Går til historikk' })}>
+                            Se tidligere arbeidssøkerperioder og opplysninger
+                        </Link>
+                    </Box>
                 </div>
             ) : (
                 <Heading level={'3'} size={'medium'} className={'mt-4'}>
