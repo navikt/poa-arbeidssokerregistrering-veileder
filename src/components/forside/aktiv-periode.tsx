@@ -1,15 +1,26 @@
 import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
-import { Alert, BodyShort, Box, Heading } from '@navikt/ds-react';
+import { Alert, BodyShort, Heading } from '@navikt/ds-react';
 import { prettyPrintDato } from '../../lib/date-utils';
-import { CheckmarkCircleIcon } from '@navikt/aksel-icons';
+import Bekreftelse from './bekreftelse';
+import useApiKall from '../../hooks/useApiKall';
+import { TilgjengeligeBekreftelser } from '../../types/bekreftelse';
 
 interface Props {
     samletInformasjon: SamletInformasjon;
+    brukerMock: boolean;
+    fnr: string;
 }
 
 function AktivPeriode(props: Props) {
-    const { samletInformasjon } = props;
-    const harTilgjengeligBekreftelse = samletInformasjon.bekreftelser.length > 0;
+    const { samletInformasjon, brukerMock, fnr } = props;
+    const { data: tilgjengeligeBekreftelser } = useApiKall<TilgjengeligeBekreftelser>(
+        `/api/${brukerMock ? 'mocks/' : ''}tilgjengelige-bekreftelser`,
+        'POST',
+        JSON.stringify({ identitetsnummer: fnr }),
+    );
+
+    const harTilgjengeligBekreftelse = tilgjengeligeBekreftelser?.length > 0;
+
     return (
         <>
             <Alert variant={'info'} className={'mb-4'}>
@@ -20,17 +31,7 @@ function AktivPeriode(props: Props) {
                     Registrert {prettyPrintDato(samletInformasjon.arbeidssoekerperioder[0].startet.tidspunkt)}
                 </BodyShort>
             </Alert>
-            <Box>
-                <Heading level="3" size="small">
-                    Bekreftelse
-                </Heading>
-                {!harTilgjengeligBekreftelse && (
-                    <div className={'flex'}>
-                        <CheckmarkCircleIcon title="a11y-title" fontSize="1.5rem" className={'mr-4'} />
-                        Ingen ubekreftede arbeidssøkerperiode
-                    </div>
-                )}
-            </Box>
+            <Bekreftelse harTilgjengeligBekreftelse={harTilgjengeligBekreftelse} />
         </>
     );
 }

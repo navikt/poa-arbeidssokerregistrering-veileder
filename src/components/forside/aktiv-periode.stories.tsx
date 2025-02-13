@@ -1,10 +1,19 @@
 import AktivPeriode from './aktiv-periode';
 import type { Meta, StoryObj } from '@storybook/react';
+import { http, HttpResponse } from 'msw';
 
 const meta = {
     title: 'Forside/AktivPeriode',
     component: AktivPeriode,
-    tags: ['autodocs'],
+    parameters: {
+        msw: {
+            handlers: [
+                http.post('/api/tilgjengelige-bekreftelser', () => {
+                    return HttpResponse.json([]);
+                }),
+            ],
+        },
+    },
 } satisfies Meta<typeof AktivPeriode>;
 
 export default meta;
@@ -32,5 +41,43 @@ export const Default: Story = {
             bekreftelser: [],
             profilering: [],
         },
+        fnr: '123',
+        brukerMock: false,
+    },
+};
+
+export const MedTilgjengeligBekreftelse: Story = {
+    parameters: {
+        msw: {
+            handlers: [
+                http.post('/api/tilgjengelige-bekreftelser', () => {
+                    return HttpResponse.json([{}]);
+                }),
+            ],
+        },
+    },
+    args: {
+        samletInformasjon: {
+            arbeidssoekerperioder: [
+                {
+                    periodeId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+                    startet: {
+                        tidspunkt: '2021-09-29T11:22:33.444Z',
+                        utfoertAv: {
+                            type: 'UKJENT_VERDI',
+                            // id: '12345678910',
+                        },
+                        kilde: 'string',
+                        aarsak: 'string',
+                    },
+                    avsluttet: null,
+                },
+            ],
+            opplysningerOmArbeidssoeker: [],
+            bekreftelser: [],
+            profilering: [],
+        },
+        fnr: '123',
+        brukerMock: false,
     },
 };

@@ -27,7 +27,7 @@ function NyForside() {
     if (!harAktivPeriode) {
         return <IkkeAktivPeriode samletInformasjon={samletInformasjon} />;
     } else {
-        return <AktivPeriode samletInformasjon={samletInformasjon} />;
+        return <AktivPeriode samletInformasjon={samletInformasjon} brukerMock={brukerMock} fnr={fnr} />;
     }
 }
 
