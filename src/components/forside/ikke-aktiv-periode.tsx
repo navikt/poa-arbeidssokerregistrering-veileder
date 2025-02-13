@@ -1,8 +1,7 @@
-import { Alert, BodyShort, Box, Button, Heading, Link } from '@navikt/ds-react';
+import { Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
 import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
 import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
-import { loggAktivitet } from '../../lib/amplitude';
 import HistorikkLenke from './historikk-lenke';
 
 interface Props {
