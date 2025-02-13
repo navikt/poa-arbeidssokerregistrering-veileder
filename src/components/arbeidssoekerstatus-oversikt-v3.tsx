@@ -41,20 +41,6 @@ function sjekkOmAlleReglerKanOverstyres(feilmelding?: any) {
     return reglerSomIkkeKanOverstyres.length === 0;
 }
 
-function GenereltOmSamtykke() {
-    return (
-        <Box>
-            <List as="ul" size="small" title="Før du registrerer arbeidssøker må du sørge for at:">
-                <List.Item>Personen som skal registreres er informert og har samtykket til registreringen</List.Item>
-                <List.Item>
-                    Det er gitt informasjon om at den registrerte må sende meldekort hver 14. dag for å opprettholde
-                    arbeidssøkerstatusen
-                </List.Item>
-            </List>
-        </Box>
-    );
-}
-
 function ArbeidssoekerstatusOversiktV3() {
     const { params } = useParamsFromContext();
     const { enableMock } = useConfig() as Config;
@@ -172,7 +158,7 @@ function ArbeidssoekerstatusOversiktV3() {
                     <ArbeidssoekerMaaRegistreresIArena feilmelding={error} />
                 </>
             )}
-            {(kanOverstyres || kanStarteArbeidssoekerperiode) && harIkkeAktivPeriode && <GenereltOmSamtykke />}
+
             {harIkkeAktivPeriode && (
                 <VelgRegistreringsKnapp
                     feilmelding={error}
