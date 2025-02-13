@@ -5,6 +5,7 @@ import { Config } from '../../model/config';
 import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import IkkeAktivPeriode from './ikke-aktiv-periode';
 import AktivPeriode from './aktiv-periode';
+import { Loader } from '@navikt/ds-react';
 
 interface Props {
     brukerMock: boolean;
@@ -18,13 +19,17 @@ function Innhold(props: Props) {
         ? '/api/mocks/oppslag-samlet-informasjon'
         : '/api/oppslag-samlet-informasjon';
 
-    const { data: samletInformasjon } = useApiKall<SamletInformasjon>(
+    const { data: samletInformasjon, isLoading } = useApiKall<SamletInformasjon>(
         hentSamletInformasjonUrl,
         'POST',
         JSON.stringify({ identitetsnummer: fnr }),
     );
 
     const harAktivPeriode = samletInformasjon?.arbeidssoekerperioder[0]?.avsluttet === null;
+
+    if (isLoading) {
+        return <Loader />;
+    }
 
     if (harAktivPeriode) {
         return <AktivPeriode samletInformasjon={samletInformasjon} brukerMock={brukerMock} fnr={fnr} />;
