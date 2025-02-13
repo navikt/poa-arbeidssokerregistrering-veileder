@@ -5,6 +5,7 @@ import Bekreftelse from './bekreftelse';
 import useApiKall from '../../hooks/useApiKall';
 import { TilgjengeligeBekreftelser } from '../../types/bekreftelse';
 import Opplysninger from './opplysninger';
+import HistorikkLenke from './historikk-lenke';
 
 interface Props {
     samletInformasjon: SamletInformasjon;
@@ -34,6 +35,7 @@ function AktivPeriode(props: Props) {
             </Alert>
             <Opplysninger opplysninger={samletInformasjon.opplysningerOmArbeidssoeker[0]} />
             <Bekreftelse harTilgjengeligBekreftelse={harTilgjengeligBekreftelse} />
+            <HistorikkLenke />
         </>
     );
 }

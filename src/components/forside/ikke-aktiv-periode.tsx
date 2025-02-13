@@ -3,6 +3,7 @@ import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
 import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import { loggAktivitet } from '../../lib/amplitude';
+import HistorikkLenke from './historikk-lenke';
 
 interface Props {
     samletInformasjon: SamletInformasjon;
@@ -28,11 +29,7 @@ function IkkeAktivPeriode(props: Props) {
                         )}{' '}
                         av {samletInformasjon.opplysningerOmArbeidssoeker[0]?.sendtInnAv.utfoertAv.type}
                     </BodyShort>
-                    <Box className="mt-4 mb-4 text-start">
-                        <Link href="/historikk" onClick={() => loggAktivitet({ aktivitet: 'Går til historikk' })}>
-                            Se tidligere arbeidssøkerperioder og opplysninger
-                        </Link>
-                    </Box>
+                    <HistorikkLenke />
                 </div>
             ) : (
                 <Heading level={'3'} size={'medium'} className={'mt-4'}>
