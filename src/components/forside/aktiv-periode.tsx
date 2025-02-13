@@ -4,6 +4,7 @@ import { prettyPrintDato } from '../../lib/date-utils';
 import Bekreftelse from './bekreftelse';
 import useApiKall from '../../hooks/useApiKall';
 import { TilgjengeligeBekreftelser } from '../../types/bekreftelse';
+import Opplysninger from './opplysninger';
 
 interface Props {
     samletInformasjon: SamletInformasjon;
@@ -31,6 +32,7 @@ function AktivPeriode(props: Props) {
                     Registrert {prettyPrintDato(samletInformasjon.arbeidssoekerperioder[0].startet.tidspunkt)}
                 </BodyShort>
             </Alert>
+            <Opplysninger opplysninger={samletInformasjon.opplysningerOmArbeidssoeker[0]} />
             <Bekreftelse harTilgjengeligBekreftelse={harTilgjengeligBekreftelse} />
         </>
     );
