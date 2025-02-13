@@ -42,7 +42,7 @@ function IkkeAktivPeriode(props: Props) {
 
             <Box className={'mt-4'}>
                 <Button variant="secondary" onClick={() => router.push('/registrering-arbeidssoeker-sjekk')}>
-                    Gå til arbeidssøkerregistrering
+                    Start registrering som arbeidssøker
                 </Button>
             </Box>
         </>
