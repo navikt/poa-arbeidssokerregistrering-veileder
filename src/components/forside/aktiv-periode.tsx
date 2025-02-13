@@ -33,7 +33,10 @@ function AktivPeriode(props: Props) {
                     Registrert {prettyPrintDato(samletInformasjon.arbeidssoekerperioder[0].startet.tidspunkt)}
                 </BodyShort>
             </Alert>
-            <Opplysninger opplysninger={samletInformasjon.opplysningerOmArbeidssoeker[0]} />
+            <Opplysninger
+                opplysninger={samletInformasjon.opplysningerOmArbeidssoeker[0]}
+                sisteArbeidssoekerperiodeId={samletInformasjon.arbeidssoekerperioder[0].periodeId}
+            />
             <Bekreftelse harTilgjengeligBekreftelse={harTilgjengeligBekreftelse} />
             <HistorikkLenke />
         </>
