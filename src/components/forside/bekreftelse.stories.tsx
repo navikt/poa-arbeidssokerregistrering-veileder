@@ -12,12 +12,18 @@ type Story = StoryObj<typeof meta>;
 
 export const UtenTilgjengeligBekreftelse: StoryObj<Story> = {
     args: {
-        harTilgjengeligBekreftelse: false,
+        antallTilgjengeligBekreftelser: undefined,
     },
 };
 
-export const MedTilgjengeligBekreftelse: StoryObj<Story> = {
+export const EnTilgjengeligBekreftelse: StoryObj<Story> = {
     args: {
-        harTilgjengeligBekreftelse: true,
+        antallTilgjengeligBekreftelser: 1,
+    },
+};
+
+export const FlereTilgjengeligeBekreftelser: StoryObj<Story> = {
+    args: {
+        antallTilgjengeligBekreftelser: 2,
     },
 };

@@ -21,8 +21,6 @@ function AktivPeriode(props: Props) {
         JSON.stringify({ identitetsnummer: fnr }),
     );
 
-    const harTilgjengeligBekreftelse = tilgjengeligeBekreftelser?.length > 0;
-
     return (
         <>
             <Alert variant={'info'} className={'mb-4'}>
@@ -37,7 +35,7 @@ function AktivPeriode(props: Props) {
                 opplysninger={samletInformasjon.opplysningerOmArbeidssoeker[0]}
                 sisteArbeidssoekerperiodeId={samletInformasjon.arbeidssoekerperioder[0].periodeId}
             />
-            <Bekreftelse harTilgjengeligBekreftelse={harTilgjengeligBekreftelse} />
+            <Bekreftelse antallTilgjengeligBekreftelser={tilgjengeligeBekreftelser?.length} />
             <HistorikkLenke />
         </>
     );

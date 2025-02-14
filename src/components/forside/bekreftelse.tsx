@@ -3,11 +3,12 @@ import { CheckmarkCircleIcon, TimerStartIcon } from '@navikt/aksel-icons';
 import { useRouter } from 'next/router';
 
 interface Props {
-    harTilgjengeligBekreftelse: boolean;
+    antallTilgjengeligBekreftelser?: number;
 }
 
 function Bekreftelse(props: Props) {
-    const { harTilgjengeligBekreftelse } = props;
+    const { antallTilgjengeligBekreftelser } = props;
+    const harTilgjengeligBekreftelse = antallTilgjengeligBekreftelser > 0;
     const router = useRouter();
 
     return (
@@ -18,14 +19,21 @@ function Bekreftelse(props: Props) {
             {!harTilgjengeligBekreftelse && (
                 <div className={'flex'}>
                     <CheckmarkCircleIcon title="a11y-title" fontSize="1.5rem" className={'mr-4'} />
-                    <BodyShort textColor={'subtle'}>Ingen ubekreftede arbeidssøkerperiode</BodyShort>
+                    <BodyShort textColor={'subtle'}>Ingen ubekreftede arbeidssøkerperioder</BodyShort>
                 </div>
             )}
             {harTilgjengeligBekreftelse && (
                 <>
                     <div className={'flex mb-4'}>
                         <TimerStartIcon title="a11y-title" fontSize="1.5rem" className={'mr-4'} />
-                        <BodyShort textColor={'subtle'}>Personen har en ubekreftet arbeidssøkerperiode</BodyShort>
+                        <BodyShort textColor={'subtle'}>
+                            {antallTilgjengeligBekreftelser === 1 && (
+                                <>Personen har en ubekreftet arbeidssøkerperiode</>
+                            )}
+                            {antallTilgjengeligBekreftelser > 1 && (
+                                <>Personen har {antallTilgjengeligBekreftelser} ubekreftede arbeidssøkerperioder</>
+                            )}
+                        </BodyShort>
                     </div>
                     <Button variant={'secondary'} onClick={() => router.push('/bekreftelse')}>
                         Bekreft arbeidssøkerperiode på vegne av bruker
