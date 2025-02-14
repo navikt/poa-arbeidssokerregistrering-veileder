@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Heading, List } from '@navikt/ds-react';
+import { Box, Heading } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
@@ -13,7 +13,6 @@ import VurderingskriterierForArbeidssoekerregistrering from './vurderingskriteri
 import AarsakerTilAtPersonenIkkeKanRegistreres from './aarsaker-til-at-personen-ikke-kan-registreres-v2';
 import ArbeidssoekerMaaRegistreresIArena from './arbeidssoeker-maa-registreres-i-arena-foerst-v2';
 import TilbakeTilForside from './tilbake-til-forside';
-import { hentSisteArbeidssokerPeriode } from '../lib/hent-siste-arbeidssoekerperiode';
 import { REGLER_SOM_KAN_OVERSTYRES } from '../model/regler-for-avvisning';
 import { useFeatureToggles } from '../contexts/featuretoggle-context';
 
@@ -47,20 +46,15 @@ function ArbeidssoekerstatusOversiktV3() {
     const { fnr, enhetId } = params;
     const brukerMock = enableMock === 'enabled';
     const [kanStarteArbeidssoekerperiode, setKanStarteArbeidssoekerperiode] = useState<boolean>(false);
+    const [harSjekketOmPeriodeKanStartes, setHarSjekketOmPeriodeKanStartes] = useState<boolean>(false);
+    const [visSjekkliste, setVisSjekkliste] = useState<boolean>(false);
     const [error, setError] = useState<any>(undefined);
-    const [errorArbeidssoekerperioder, setErrorArbeidssoekerperioder] = useState<any>(undefined);
-    const [sisteArbeidssoekerperiode, setSisteArbeidssoekerperiode] = useState<any>({});
-    const [harIkkeAktivPeriode, setHarIkkeAktivPeriode] = useState<boolean>(false);
-    const [harIngenArbeidssoekerperioder, setHarIngenArbeidssoekerperioder] = useState<boolean>(true);
+
     const { toggles } = useFeatureToggles();
 
     const sjekkKanStarteArbeidssoekerperiodeUrl = brukerMock
         ? '/api/mocks/kan-starte-arbeidssoekerperiode-v2'
         : '/api/kan-starte-arbeidssoekerperiode-v2';
-
-    const hentArbeidssoekerperioderUrl = brukerMock
-        ? '/api/mocks/oppslag-arbeidssoekerperioder'
-        : '/api/oppslag-arbeidssoekerperioder';
 
     const kanOverstyres = sjekkOmAlleReglerKanOverstyres(error);
 
@@ -80,9 +74,12 @@ function ArbeidssoekerstatusOversiktV3() {
             });
             if (response.ok) {
                 setKanStarteArbeidssoekerperiode(true);
+                setHarSjekketOmPeriodeKanStartes(true);
             } else {
                 // noinspection ExceptionCaughtLocallyJS
                 setKanStarteArbeidssoekerperiode(false);
+                setHarSjekketOmPeriodeKanStartes(true);
+                setVisSjekkliste(true);
                 const data = await response.json();
                 setError(data);
             }
@@ -91,79 +88,40 @@ function ArbeidssoekerstatusOversiktV3() {
         }
     }
 
-    async function apiKallArbeidssoekerperioder() {
-        const payload = JSON.stringify({
-            identitetsnummer: fnr,
-        });
-
-        try {
-            const response = await fetch(hentArbeidssoekerperioderUrl, {
-                method: 'POST',
-                body: payload,
-                credentials: 'include',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-            });
-            if (response.ok) {
-                const data = await response.json();
-                const sisteArbeidssoekerperiode = hentSisteArbeidssokerPeriode(data);
-                setSisteArbeidssoekerperiode(sisteArbeidssoekerperiode);
-            }
-        } catch (err: unknown) {
-            setErrorArbeidssoekerperioder(err);
-        }
-    }
-
     useEffect(() => {
         if (fnr && enhetId) {
             setKanStarteArbeidssoekerperiode(false);
+            setHarSjekketOmPeriodeKanStartes(false);
+            setVisSjekkliste(false);
             setError(undefined);
-            setSisteArbeidssoekerperiode({});
-            setErrorArbeidssoekerperioder(undefined);
             apiKall();
-            apiKallArbeidssoekerperioder();
         }
     }, [fnr, enhetId]);
 
-    useEffect(() => {
-        if (sisteArbeidssoekerperiode) {
-            const aktivPeriode =
-                sisteArbeidssoekerperiode?.avsluttet === null && sisteArbeidssoekerperiode !== undefined;
-            setHarIkkeAktivPeriode(!aktivPeriode);
-            const harIngenArbeidssoekerperioder = sisteArbeidssoekerperiode?.avsluttet === undefined;
-            setHarIngenArbeidssoekerperioder(harIngenArbeidssoekerperioder);
-        }
-    }, [sisteArbeidssoekerperiode]);
-
     if (!fnr || !enhetId) return null;
+    if (!harSjekketOmPeriodeKanStartes) return null;
 
     return (
         <Box>
             <RedirectTilRegistreringOmPeriodeKanStartes kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode} />
-            <TilbakeTilForside sidenavn="Arbeidssøkerregistrering" />
-            <Heading level="1" size="large" className="mb-8 text-left">
-                Arbeidssøkerregistrering
-            </Heading>
-            {harIkkeAktivPeriode && (
-                <KanRegistreresSomArbeidssoekerSjekk
-                    feilmelding={error}
-                    kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
-                />
-            )}
-            {harIkkeAktivPeriode && (
+            {visSjekkliste && (
                 <>
+                    <TilbakeTilForside sidenavn="Arbeidssøkerregistrering" />
+                    <Heading level="1" size="large" className="mb-8 text-left">
+                        Arbeidssøkerregistrering
+                    </Heading>
+                    <KanRegistreresSomArbeidssoekerSjekk
+                        feilmelding={error}
+                        kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
+                    />
                     <AarsakerTilAtPersonenIkkeKanRegistreres feilmelding={error} />
                     <VurderingskriterierForArbeidssoekerregistrering feilmelding={error} />
                     <ArbeidssoekerMaaRegistreresIArena feilmelding={error} />
+                    <VelgRegistreringsKnapp
+                        feilmelding={error}
+                        kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
+                    />
                 </>
-            )}
-
-            {harIkkeAktivPeriode && (
-                <VelgRegistreringsKnapp
-                    feilmelding={error}
-                    kanStarteArbeidssoekerperiode={kanStarteArbeidssoekerperiode}
-                />
             )}
         </Box>
     );
