@@ -28,7 +28,11 @@ function Innhold(props: Props) {
     const harAktivPeriode = samletInformasjon?.arbeidssoekerperioder[0]?.avsluttet === null;
 
     if (isLoading) {
-        return <Loader />;
+        return (
+            <div className={'flex place-content-center'}>
+                <Loader size={'2xlarge'} />
+            </div>
+        );
     }
 
     if (error) {
