@@ -5,7 +5,7 @@ import { Config } from '../../model/config';
 import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import IkkeAktivPeriode from './ikke-aktiv-periode';
 import AktivPeriode from './aktiv-periode';
-import { Loader } from '@navikt/ds-react';
+import { Alert, Loader } from '@navikt/ds-react';
 
 interface Props {
     brukerMock: boolean;
@@ -19,16 +19,20 @@ function Innhold(props: Props) {
         ? '/api/mocks/oppslag-samlet-informasjon'
         : '/api/oppslag-samlet-informasjon';
 
-    const { data: samletInformasjon, isLoading } = useApiKall<SamletInformasjon>(
-        hentSamletInformasjonUrl,
-        'POST',
-        JSON.stringify({ identitetsnummer: fnr }),
-    );
+    const {
+        data: samletInformasjon,
+        isLoading,
+        error,
+    } = useApiKall<SamletInformasjon>(hentSamletInformasjonUrl, 'POST', JSON.stringify({ identitetsnummer: fnr }));
 
     const harAktivPeriode = samletInformasjon?.arbeidssoekerperioder[0]?.avsluttet === null;
 
     if (isLoading) {
         return <Loader />;
+    }
+
+    if (error) {
+        return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;
     }
 
     if (harAktivPeriode) {
@@ -43,7 +47,6 @@ function NyForside() {
     const { enableMock } = useConfig() as Config;
     const brukerMock = enableMock === 'enabled';
     const { fnr } = params;
-
     if (!fnr) {
         return null;
     }
