@@ -23,7 +23,9 @@ function ManglerOpplysninger() {
             <Heading level={'3'} size={'small'}>
                 Opplysninger
             </Heading>
-            <BodyShort textColor={'subtle'}>Ingen opplysninger registrert</BodyShort>
+            <BodyShort textColor={'subtle'} className={'mb-4'}>
+                Ingen opplysninger registrert
+            </BodyShort>
             <Button variant={'secondary'} onClick={() => router.push('/oppdater-opplysninger')}>
                 Legg til opplysninger
             </Button>
@@ -55,7 +57,7 @@ function Opplysninger(props: Props) {
             <Heading level={'3'} size={'small'}>
                 Opplysninger
             </Heading>
-            <div className={'flex place-content-between'}>
+            <div className={'flex place-content-between mb-2'}>
                 <BodyShort textColor={'subtle'}>
                     Oppdatert {prettyPrintDato(props.opplysninger.sendtInnAv.tidspunkt)} av{' '}
                     {props.opplysninger.sendtInnAv.utfoertAv.type}
