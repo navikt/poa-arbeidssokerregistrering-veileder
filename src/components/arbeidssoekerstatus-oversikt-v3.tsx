@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Heading } from '@navikt/ds-react';
+import { Box, Heading, Loader } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
@@ -99,7 +99,13 @@ function ArbeidssoekerstatusOversiktV3() {
     }, [fnr, enhetId]);
 
     if (!fnr || !enhetId) return null;
-    if (!harSjekketOmPeriodeKanStartes) return null;
+    if (!harSjekketOmPeriodeKanStartes) {
+        return (
+            <div className={'flex place-content-center'}>
+                <Loader size={'2xlarge'} />
+            </div>
+        );
+    }
 
     return (
         <Box>
