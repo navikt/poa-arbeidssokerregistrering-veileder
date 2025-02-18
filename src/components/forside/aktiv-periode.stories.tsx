@@ -28,6 +28,7 @@ export const Default: Story = {
                     periodeId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
                     startet: {
                         tidspunkt: '2021-09-29T11:22:33.444Z',
+                        tidspunktFraKilde: null,
                         utfoertAv: {
                             type: 'UKJENT_VERDI',
                             // id: '12345678910',
@@ -97,6 +98,7 @@ export const MedTilgjengeligBekreftelse: Story = {
                     periodeId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
                     startet: {
                         tidspunkt: '2021-09-29T11:22:33.444Z',
+                        tidspunktFraKilde: null,
                         utfoertAv: {
                             type: 'UKJENT_VERDI',
                             // id: '12345678910',
