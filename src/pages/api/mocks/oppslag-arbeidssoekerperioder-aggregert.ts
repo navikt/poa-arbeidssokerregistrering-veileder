@@ -15,7 +15,10 @@ const data = [
             },
             kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:24.11.15.143-1',
             aarsak: 'Er over 18 år, er bosatt i Norge i henhold Folkeregisterloven',
-            tidspunktFraKilde: null,
+            tidspunktFraKilde: {
+                tidspunkt: '2023-11-19T08:43:22.237Z',
+                avviksType: 'UKJENT',
+            },
         },
         avsluttet: {
             tidspunkt: '2024-11-19T08:56:25.842Z',

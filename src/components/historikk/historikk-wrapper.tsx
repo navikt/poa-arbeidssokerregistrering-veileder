@@ -29,7 +29,7 @@ const TEKSTER = {
 export function HistorikkWrapper(props: Historikk) {
     const { startet, avsluttet, bekreftelser, opplysningerOmArbeidssoeker, sprak } = props;
     const tekst = lagHentTekstForSprak(TEKSTER, sprak);
-    const startTidspunkt = startet.tidspunktFraKilde ?? startet.tidspunkt;
+    const startTidspunkt = startet.tidspunktFraKilde?.tidspunkt ?? startet.tidspunkt;
     return (
         <>
             <Heading level="2" size="large">
