@@ -1,4 +1,4 @@
-import { Alert, Button, Heading, Radio, RadioGroup } from '@navikt/ds-react';
+import { Alert, Button, Heading, Link, Radio, RadioGroup } from '@navikt/ds-react';
 import { useEffect, useState } from 'react';
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
@@ -203,25 +203,32 @@ export default function Bekreftelse() {
             )}
 
             {harSendtSkjema && tilgjengeligeBekreftelser.length === 0 && (
-                <Alert variant={skjemaState.vilFortsetteSomArbeidssoeker ? 'success' : 'warning'}>
-                    <Heading size={'xsmall'}>
-                        {skjemaState.vilFortsetteSomArbeidssoeker
-                            ? 'Svaret er registrert'
-                            : 'Bruker er ikke lenger registrert som arbeidssøker'}
-                    </Heading>
-                    <Button variant={'secondary-neutral'} onClick={onCancel}>
-                        Lukk og gå tilbake
-                    </Button>
-                </Alert>
+                <>
+                    <Alert
+                        variant={skjemaState.vilFortsetteSomArbeidssoeker ? 'success' : 'warning'}
+                        className={'mb-4'}
+                    >
+                        <Heading size={'xsmall'}>
+                            {skjemaState.vilFortsetteSomArbeidssoeker
+                                ? 'Bekreftelsen er registrert'
+                                : 'Bruker er ikke lenger registrert som arbeidssøker'}
+                        </Heading>
+                    </Alert>
+                    <Link href={'/'}>Gå tilbake til forsiden</Link>
+                </>
             )}
 
             {harSendtSkjema && tilgjengeligeBekreftelser.length > 0 && (
-                <Alert variant={'success'}>
-                    <Heading size={'xsmall'}>Svaret er registrert</Heading>
-                    <Button variant={'secondary'} onClick={onClickNesteBekreftelse}>
-                        Svar på neste periode
-                    </Button>
-                </Alert>
+                <>
+                    <Alert variant={'success'} className={'mb-4'}>
+                        <Heading size={'xsmall'}>Bekreftelsen er registrert</Heading>
+                    </Alert>
+                    <div className={'navds-alert__wrapper--maxwidth'}>
+                        <Button variant={'secondary'} onClick={onClickNesteBekreftelse}>
+                            Svar for neste periode
+                        </Button>
+                    </div>
+                </>
             )}
             {apiError && (
                 <Alert variant={'error'} className={'my-8'}>
