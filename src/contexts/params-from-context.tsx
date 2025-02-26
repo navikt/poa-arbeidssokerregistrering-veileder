@@ -22,6 +22,7 @@ const routesSomIkkeSkalRefreshes = [
     '/slett-arbeidssoekerperiode',
     '/historikk',
     '/registrering-arbeidssoeker-sjekk',
+    '/oppdater-opplysninger',
 ];
 
 function ParamsFromContextProvider({ children }) {

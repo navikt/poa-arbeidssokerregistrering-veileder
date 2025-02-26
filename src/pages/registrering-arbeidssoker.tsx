@@ -19,6 +19,7 @@ import HvaErNytt from '../components/hva-er-nytt';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import AvbrytKnapp from '../components/skjema/avbryt-knapp';
 import TilbyOpplysningerFraGammelPeriode from '../components/tilby-opplysninger-fra-gammel-periode';
+import GenereltOmSamtykke from '../components/generelt-om-samtykke';
 
 export default function RegistreringArbeidssoker() {
     const { params } = useParamsFromContext();
@@ -53,7 +54,7 @@ export default function RegistreringArbeidssoker() {
                         <UtdanningsNiva />
                         <Helseproblemer />
                         <AndreProblemer />
-
+                        <GenereltOmSamtykke />
                         <HStack style={{ justifyContent: 'space-between' }}>
                             <AvbrytKnapp />
                             <OppdaterOpplysningerKnapp

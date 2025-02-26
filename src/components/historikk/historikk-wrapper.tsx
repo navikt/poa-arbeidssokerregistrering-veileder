@@ -29,10 +29,11 @@ const TEKSTER = {
 export function HistorikkWrapper(props: Historikk) {
     const { startet, avsluttet, bekreftelser, opplysningerOmArbeidssoeker, sprak } = props;
     const tekst = lagHentTekstForSprak(TEKSTER, sprak);
+    const startTidspunkt = startet.tidspunktFraKilde?.tidspunkt ?? startet.tidspunkt;
     return (
         <>
             <Heading level="2" size="large">
-                {prettyPrintDato(startet.tidspunkt)} -{' '}
+                {prettyPrintDato(startTidspunkt)} -{' '}
                 {avsluttet && avsluttet.tidspunkt ? prettyPrintDato(avsluttet.tidspunkt) : tekst('fortsatt aktiv')}
             </Heading>
             <Heading level="3" size="small" className="mt-4">
@@ -40,7 +41,7 @@ export function HistorikkWrapper(props: Historikk) {
             </Heading>
             <div className="grid grid-cols-3 gap-x-2">
                 <div className="font-semibold">{tekst('startet')}</div>
-                <div>{prettyPrintDatoOgKlokkeslett(startet.tidspunkt)}</div>
+                <div>{prettyPrintDatoOgKlokkeslett(startTidspunkt)}</div>
                 <div>
                     {tekst('av')} {tekst(startet.utfoertAv.type)}
                 </div>

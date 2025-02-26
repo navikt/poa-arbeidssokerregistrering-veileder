@@ -39,15 +39,11 @@ function getDinSituasjonSvar(opplysninger: OpplysningerOmArbeidssoker) {
     return situasjon ? situasjon.beskrivelse : 'Ikke oppgitt';
 }
 
-function mapOpplysninger(opplysninger: OpplysningerOmArbeidssoker): OpplysningProps[] {
+export function mapOpplysninger(opplysninger: OpplysningerOmArbeidssoker): OpplysningProps[] {
     const result: OpplysningProps[] = [
         {
             sporsmal: SporsmalId.dinSituasjon,
             svar: getDinSituasjonSvar(opplysninger),
-        },
-        {
-            sporsmal: SporsmalId.sisteStilling,
-            svar: getSisteStillingSvar(opplysninger),
         },
         {
             sporsmal: SporsmalId.utdanning,
@@ -58,16 +54,20 @@ function mapOpplysninger(opplysninger: OpplysningerOmArbeidssoker): OpplysningPr
             svar: opplysninger.utdanning.bestaatt,
         },
         {
+            sporsmal: SporsmalId.andreForhold,
+            svar: opplysninger.annet?.andreForholdHindrerArbeid || 'Mangler opplysninger',
+        },
+        {
+            sporsmal: SporsmalId.sisteStilling,
+            svar: getSisteStillingSvar(opplysninger),
+        },
+        {
             sporsmal: SporsmalId.utdanningGodkjent,
             svar: opplysninger.utdanning.godkjent,
         },
         {
             sporsmal: SporsmalId.helseHinder,
             svar: opplysninger.helse?.helsetilstandHindrerArbeid || 'Mangler opplysninger',
-        },
-        {
-            sporsmal: SporsmalId.andreForhold,
-            svar: opplysninger.annet?.andreForholdHindrerArbeid || 'Mangler opplysninger',
         },
     ];
 
