@@ -11,6 +11,11 @@ function Bekreftelse(props: Props) {
     const harTilgjengeligBekreftelse = antallTilgjengeligBekreftelser > 0;
     const router = useRouter();
 
+    if (!harTilgjengeligBekreftelse) {
+        // TEMP
+        return null;
+    }
+
     return (
         <Box className={'mb-4'}>
             <Heading level="3" size="small">

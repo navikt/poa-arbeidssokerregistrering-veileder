@@ -5,6 +5,7 @@ import useApiKall from '../../hooks/useApiKall';
 import { TilgjengeligeBekreftelser } from '../../types/bekreftelse';
 import Opplysninger from './opplysninger';
 import HistorikkLenke from './historikk-lenke';
+import Bekreftelse from './bekreftelse';
 
 interface Props {
     samletInformasjon: SamletInformasjon;
@@ -36,7 +37,7 @@ function AktivPeriode(props: Props) {
                 opplysninger={samletInformasjon.opplysningerOmArbeidssoeker[0]}
                 sisteArbeidssoekerperiodeId={samletInformasjon.arbeidssoekerperioder[0].periodeId}
             />
-            {/*<Bekreftelse antallTilgjengeligBekreftelser={tilgjengeligeBekreftelser?.length} />*/}
+            <Bekreftelse antallTilgjengeligBekreftelser={tilgjengeligeBekreftelser?.length} />
             <HistorikkLenke />
         </>
     );
