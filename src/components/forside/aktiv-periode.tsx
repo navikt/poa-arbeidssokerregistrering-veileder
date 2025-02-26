@@ -1,6 +1,6 @@
 import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import { Alert, BodyShort, Heading } from '@navikt/ds-react';
-import { prettyPrintDato } from '../../lib/date-utils';
+import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import Bekreftelse from './bekreftelse';
 import useApiKall from '../../hooks/useApiKall';
 import { TilgjengeligeBekreftelser } from '../../types/bekreftelse';
@@ -28,7 +28,9 @@ function AktivPeriode(props: Props) {
                     Personen er registrert som arbeidssøker
                 </Heading>
                 <BodyShort textColor={'subtle'}>
-                    Registrert {prettyPrintDato(samletInformasjon.arbeidssoekerperioder[0].startet.tidspunkt)}
+                    Registrert{' '}
+                    {prettyPrintDatoOgKlokkeslett(samletInformasjon.arbeidssoekerperioder[0].startet.tidspunkt)} av{' '}
+                    {samletInformasjon.arbeidssoekerperioder[0].startet.utfoertAv.type}
                 </BodyShort>
             </Alert>
             <Opplysninger

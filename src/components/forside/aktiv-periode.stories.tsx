@@ -30,7 +30,7 @@ export const Default: Story = {
                         tidspunkt: '2021-09-29T11:22:33.444Z',
                         tidspunktFraKilde: null,
                         utfoertAv: {
-                            type: 'UKJENT_VERDI',
+                            type: 'SYSTEM',
                             // id: '12345678910',
                         },
                         kilde: 'string',
