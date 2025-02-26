@@ -26,9 +26,9 @@ function IkkeAktivPeriode(props: Props) {
                         <BodyShort textColor={'subtle'} size={'small'}>
                             Arbeidssøkerperioden ble avsluttet{' '}
                             {prettyPrintDatoOgKlokkeslett(
-                                samletInformasjon.opplysningerOmArbeidssoeker[0]?.sendtInnAv.tidspunkt,
+                                samletInformasjon.arbeidssoekerperioder[0]?.avsluttet.tidspunkt,
                             )}{' '}
-                            av {samletInformasjon.opplysningerOmArbeidssoeker[0]?.sendtInnAv.utfoertAv.type}
+                            av {samletInformasjon.arbeidssoekerperioder[0]?.avsluttet.utfoertAv.type}
                         </BodyShort>
                         <HistorikkLenke />
                     </>
