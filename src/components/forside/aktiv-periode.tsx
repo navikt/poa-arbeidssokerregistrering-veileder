@@ -1,7 +1,6 @@
 import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import { Alert, BodyShort, Heading } from '@navikt/ds-react';
-import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
-import Bekreftelse from './bekreftelse';
+import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import useApiKall from '../../hooks/useApiKall';
 import { TilgjengeligeBekreftelser } from '../../types/bekreftelse';
 import Opplysninger from './opplysninger';
@@ -37,7 +36,7 @@ function AktivPeriode(props: Props) {
                 opplysninger={samletInformasjon.opplysningerOmArbeidssoeker[0]}
                 sisteArbeidssoekerperiodeId={samletInformasjon.arbeidssoekerperioder[0].periodeId}
             />
-            <Bekreftelse antallTilgjengeligBekreftelser={tilgjengeligeBekreftelser?.length} />
+            {/*<Bekreftelse antallTilgjengeligBekreftelser={tilgjengeligeBekreftelser?.length} />*/}
             <HistorikkLenke />
         </>
     );
