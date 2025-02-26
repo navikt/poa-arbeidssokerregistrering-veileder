@@ -23,12 +23,12 @@ function ManglerOpplysninger() {
             <Heading level={'3'} size={'small'}>
                 Opplysninger
             </Heading>
-            <BodyShort textColor={'subtle'} className={'mb-4'}>
-                Ingen opplysninger registrert
-            </BodyShort>
-            <Button variant={'secondary'} onClick={() => router.push('/oppdater-opplysninger')}>
-                Legg til opplysninger
-            </Button>
+            <BodyShort textColor={'subtle'}>Ingen opplysninger registrert</BodyShort>
+            <div className={'mt-4'}>
+                <Button variant={'secondary'} onClick={() => router.push('/oppdater-opplysninger')}>
+                    Legg til opplysninger
+                </Button>
+            </div>
         </Box>
     );
 }
