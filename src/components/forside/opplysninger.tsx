@@ -8,6 +8,7 @@ import { BodyShort, Box, Button, Heading, HGrid, Link } from '@navikt/ds-react';
 import { mapOpplysninger } from '../opplysninger-om-arbeidssoker-komponent';
 import { prettyPrintDato } from '../../lib/date-utils';
 import { useRouter } from 'next/router';
+import { mapUtfoertAvType } from './mapUtfoertAvType';
 
 interface Props {
     opplysninger: OpplysningerOmArbeidssoker;
@@ -60,7 +61,7 @@ function Opplysninger(props: Props) {
             <div className={'flex place-content-between mb-2'}>
                 <BodyShort textColor={'subtle'}>
                     Oppdatert {prettyPrintDato(props.opplysninger.sendtInnAv.tidspunkt)} av{' '}
-                    {props.opplysninger.sendtInnAv.utfoertAv.type}
+                    {mapUtfoertAvType(props.opplysninger.sendtInnAv.utfoertAv.type)}
                 </BodyShort>
                 <Link href={`/oppdater-opplysninger?periodeId=${sisteArbeidssoekerperiodeId}`}>Endre opplysninger</Link>
             </div>
