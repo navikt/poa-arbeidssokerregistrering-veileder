@@ -3,6 +3,7 @@ import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
 import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import HistorikkLenke from './historikk-lenke';
+import { mapUtfoertAvType } from './mapUtfoertAvType';
 
 interface Props {
     samletInformasjon: SamletInformasjon;
@@ -28,7 +29,7 @@ function IkkeAktivPeriode(props: Props) {
                             {prettyPrintDatoOgKlokkeslett(
                                 samletInformasjon.arbeidssoekerperioder[0]?.avsluttet.tidspunkt,
                             )}{' '}
-                            av {samletInformasjon.arbeidssoekerperioder[0]?.avsluttet.utfoertAv.type}
+                            av {mapUtfoertAvType(samletInformasjon.arbeidssoekerperioder[0]?.avsluttet.utfoertAv.type)}
                         </BodyShort>
                         <HistorikkLenke />
                     </>

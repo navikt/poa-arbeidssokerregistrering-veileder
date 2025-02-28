@@ -6,6 +6,7 @@ import { TilgjengeligeBekreftelser } from '../../types/bekreftelse';
 import Opplysninger from './opplysninger';
 import HistorikkLenke from './historikk-lenke';
 import Bekreftelse from './bekreftelse';
+import { mapUtfoertAvType } from './mapUtfoertAvType';
 
 interface Props {
     samletInformasjon: SamletInformasjon;
@@ -30,7 +31,7 @@ function AktivPeriode(props: Props) {
                 <BodyShort textColor={'subtle'}>
                     Registrert{' '}
                     {prettyPrintDatoOgKlokkeslett(samletInformasjon.arbeidssoekerperioder[0].startet.tidspunkt)} av{' '}
-                    {samletInformasjon.arbeidssoekerperioder[0].startet.utfoertAv.type}
+                    {mapUtfoertAvType(samletInformasjon.arbeidssoekerperioder[0].startet.utfoertAv.type)}
                 </BodyShort>
             </Alert>
             <Opplysninger
