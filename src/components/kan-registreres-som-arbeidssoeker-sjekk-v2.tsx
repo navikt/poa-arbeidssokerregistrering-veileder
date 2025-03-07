@@ -14,9 +14,9 @@ function Feilmelding(props: FeilmeldingProps) {
     if (!feilmelding) return null;
 
     const aarsaker = aarsakTilAvvisning?.regler ? aarsakTilAvvisning.regler.map((regel) => regel.id) : [];
-    const reglerSomKanOverstyres = aarsaker.filter((regel) => !REGLER_SOM_IKKE_KAN_OVERSTYRES.includes(regel));
+    const reglerSomIkkeKanOverstyres = aarsaker.filter((regel) => REGLER_SOM_IKKE_KAN_OVERSTYRES.includes(regel));
     const duManglerTilgang = aarsaker.includes('ANSATT_IKKE_TILGANG_TIL_BRUKER') || feilKode === 'IKKE_TILGANG';
-    const inneholderReglerSomIkkeKanOverstyres = reglerSomKanOverstyres.length === 0;
+    const inneholderReglerSomIkkeKanOverstyres = reglerSomIkkeKanOverstyres.length > 0;
 
     return (
         <Alert variant="warning" className="mb-8">

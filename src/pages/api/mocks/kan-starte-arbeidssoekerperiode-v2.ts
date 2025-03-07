@@ -58,6 +58,7 @@ const IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN = {
 };
 
 */
+
 /*
 // Feilmelding for de som er registrert død
 const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse): void => {
@@ -67,14 +68,31 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
 
 const DOED = {
     aarsakTilAvvisning: {
-        regeler: [{
-          id: 'DOED',
-          beskrivelse: "Er registrert som død",
-        }],
-        detaljer: ["DOED"]
+        regler: [
+            {
+                "id": "DOED",
+                "beskrivelse": "Er registrert som død"
+            },
+            {
+                "id": "IKKE_BOSATT_I_NORGE_I_HENHOLD_TIL_FOLKEREGISTERLOVEN",
+                "beskrivelse": "Avvist fordi personen ikke er bosatt i Norge i henhold til folkeregisterloven"
+            }
+        ],
+        detaljer: [
+            "ER_OVER_18_AAR",
+            "INGEN_ADRESSE_FUNNET",
+            "ER_EU_EOES_STATSBORGER",
+            "ER_NORSK_STATSBORGER",
+            "DOED",
+            "INGEN_INFORMASJON_OM_OPPHOLDSTILLATELSE",
+            "INGEN_FLYTTE_INFORMASJON",
+            "TOKENX_PID_IKKE_FUNNET",
+            "ANSATT_TILGANG",
+            "IKKE_SYSTEM"
+        ],
     },
     feilKode: "AVVIST",
-    melding: "Er registrert som død",
+    melding: "Avvist, se 'aarsakTilAvvisning' for detaljer",
     status: 403
 }
 */
