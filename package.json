@@ -79,7 +79,7 @@
         "*.{js,jsx,json,md,ts,tsx}": "prettier --write"
     },
     "engines": {
-        "node": ">=22.13.1"
+        "node": ">=22.14.0"
     },
     "msw": {
         "workerDirectory": [
