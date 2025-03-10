@@ -9,6 +9,7 @@ import { mapOpplysninger } from '../opplysninger-om-arbeidssoker-komponent';
 import { prettyPrintDato } from '../../lib/date-utils';
 import { useRouter } from 'next/router';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
+import LenkeTilStoppknapp from '../lenke-til-stoppknapp';
 
 interface Props {
     opplysninger: OpplysningerOmArbeidssoker;
@@ -64,6 +65,7 @@ function Opplysninger(props: Props) {
                     {mapUtfoertAvType(props.opplysninger.sendtInnAv.utfoertAv.type)}
                 </BodyShort>
                 <Link href={`/oppdater-opplysninger?periodeId=${sisteArbeidssoekerperiodeId}`}>Endre opplysninger</Link>
+                <LenkeTilStoppknapp />
             </div>
             <Box borderWidth={'1'} padding={'5'}>
                 <HGrid columns={2}>
