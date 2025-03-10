@@ -35,7 +35,7 @@ const SlettArbeidssoekerperiode = () => {
                 </Heading>
                 <List as="ul" className="mb-8">
                     <List.Item>
-                        personen mottar ytelser fra NAV som krever at du er registrert som arbeidssøker
+                        personen mottar pengestøtte fra NAV som krever at du er registrert som arbeidssøker
                     </List.Item>
                     <List.Item>
                         personen mottar tjenester fra NAV som krever at du er registrert som arbeidssøker
