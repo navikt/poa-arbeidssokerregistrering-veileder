@@ -12,7 +12,7 @@ import TilbakeTilForside from '../components/tilbake-til-forside';
 const TEKSTER: Tekster<string> = {
     nb: {
         header: 'Når bør du ikke avslutte en arbeidssøkerperiode?',
-        informasjon: 'Avslutt arbeidssøkerperioden hvis personen ikke skal være arbeidssøker',
+        informasjon: 'Avslutt arbeidssøkerperioden hvis personen ikke skal være arbeidssøker lenger',
     },
 };
 
@@ -29,7 +29,7 @@ const AvsluttArbeidssoekerperiode = () => {
     return (
         <>
             <TilbakeTilForside sidenavn={'Avslutt arbeidssøkerperiode'} />
-            <Alert variant="warning">
+            <Alert variant="info">
                 <Heading level="1" size="small" className={'mbl'}>
                     {tekst('header')}
                 </Heading>
