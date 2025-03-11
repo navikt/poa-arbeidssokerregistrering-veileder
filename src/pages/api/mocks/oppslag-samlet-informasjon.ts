@@ -17,8 +17,7 @@ const data = {
                     avviksType: 'UKJENT_VERDI',
                 },
             },
-            avsluttet: null,
-            /*
+            //avsluttet: null,
             avsluttet: {
                 tidspunkt: '2024-05-14T11:42:26.902Z',
                 utfoertAv: {
@@ -27,7 +26,6 @@ const data = {
                 kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:24.04.25.141-1',
                 aarsak: 'Ansatt har tilgang til bruker',
             },
-            */
         },
     ],
     opplysningerOmArbeidssoeker: [

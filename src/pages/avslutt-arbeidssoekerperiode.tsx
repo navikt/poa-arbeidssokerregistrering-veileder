@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Alert, Heading, List } from '@navikt/ds-react';
+import { Alert, Box, Heading, List } from '@navikt/ds-react';
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 
 import useSprak from '../hooks/useSprak';
@@ -45,8 +45,10 @@ const AvsluttArbeidssoekerperiode = () => {
                 <Heading level="2" size="small" className="mb-8 mt-4">
                     {tekst('informasjon')}
                 </Heading>
-                <StoppPeriodeKnapp />
             </Alert>
+            <Box className="mt-4">
+                <StoppPeriodeKnapp />
+            </Box>
         </>
     );
 };
