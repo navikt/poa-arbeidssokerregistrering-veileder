@@ -13,7 +13,7 @@ const TEKSTER: Tekster<string> = {
         header: 'Arbeidssøkerperioden er slettet',
         informasjon:
             'Dersom personen har behov for å være arbeidssøker igjen på et senere tidspunkt må hen registreres på nytt.',
-        tillegg: 'Selv om perioden er slettet vil den fortsatt vises i logger',
+        tillegg: 'Selv om perioden er slettet vil den fortsatt kunne vises i enkelte logger.',
     },
 };
 

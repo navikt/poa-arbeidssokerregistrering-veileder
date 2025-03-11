@@ -17,7 +17,7 @@ const data = {
                     avviksType: 'UKJENT_VERDI',
                 },
             },
-            // avsluttet: null
+            //avsluttet: null,
             avsluttet: {
                 tidspunkt: '2024-05-14T11:42:26.902Z',
                 utfoertAv: {

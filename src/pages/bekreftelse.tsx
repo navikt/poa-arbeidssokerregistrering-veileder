@@ -185,7 +185,7 @@ export default function Bekreftelse() {
 
             {!harSendtSkjema && skjemaState.vilFortsetteSomArbeidssoeker === false && (
                 <Alert variant={'warning'} className={'mb-4'}>
-                    Bruker vil ikke lenger være registrert som arbeidssøker, og eventuelle ytelser vil stanses.
+                    Bruker vil ikke lenger være registrert som arbeidssøker, og eventuell pengestøtte vil stanses.
                 </Alert>
             )}
 

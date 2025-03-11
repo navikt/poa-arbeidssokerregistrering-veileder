@@ -31,6 +31,9 @@ type AktivitetData =
     | { aktivitet: 'Går til skjema for dagpenger' }
     | { aktivitet: 'Klikker på "Fyll inn opplysninger fra siste arbeidssøkerperiode"' }
     | { aktivitet: 'Går til historikk' }
+    | { aktivitet: 'Går til avslutt arbeidssøkerperiode' }
+    | { aktivitet: 'Går til slett arbeidssøkerperiode' }
+    | { aktivitet: 'Går til endre opplysninger' }
     | { aktivitet: 'Klikker på "Se alle arbeidssøkerperioder bruker har hatt"' };
 
 type VisningsData =

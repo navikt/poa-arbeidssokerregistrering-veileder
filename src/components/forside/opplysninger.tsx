@@ -10,6 +10,8 @@ import { prettyPrintDato } from '../../lib/date-utils';
 import { useRouter } from 'next/router';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
 
+import Valgmeny from './valgmeny';
+
 interface Props {
     opplysninger: OpplysningerOmArbeidssoker;
     sisteArbeidssoekerperiodeId: string;
@@ -63,7 +65,9 @@ function Opplysninger(props: Props) {
                     Oppdatert {prettyPrintDato(props.opplysninger.sendtInnAv.tidspunkt)} av{' '}
                     {mapUtfoertAvType(props.opplysninger.sendtInnAv.utfoertAv.type)}
                 </BodyShort>
-                <Link href={`/oppdater-opplysninger?periodeId=${sisteArbeidssoekerperiodeId}`}>Endre opplysninger</Link>
+                {/*<Link href={`/oppdater-opplysninger?periodeId=${sisteArbeidssoekerperiodeId}`}>Endre opplysninger</Link>*/}
+
+                <Valgmeny sisteArbeidssoekerperiodeId={sisteArbeidssoekerperiodeId} />
             </div>
             <Box borderWidth={'1'} padding={'5'}>
                 <HGrid columns={2}>
