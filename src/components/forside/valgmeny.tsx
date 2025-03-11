@@ -36,7 +36,7 @@ function Valgmeny(props: ValgmenyProps) {
                             as="a"
                             href="/avslutt-arbeidssoekerperiode"
                         >
-                            Avslutte arbeidssøkerperiode
+                            Avslutt arbeidssøkerperioden
                         </ActionMenu.Item>
                     )}
                     {brukStoppknapp && (
@@ -45,7 +45,7 @@ function Valgmeny(props: ValgmenyProps) {
                             as="a"
                             href="/slett-arbeidssoekerperiode"
                         >
-                            Slette arbeidssøkerperioden
+                            Slett arbeidssøkerperioden
                         </ActionMenu.Item>
                     )}
                 </ActionMenu.Group>
