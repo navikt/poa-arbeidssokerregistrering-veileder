@@ -12,7 +12,7 @@ import TilbakeTilForside from '../components/tilbake-til-forside';
 const TEKSTER: Tekster<string> = {
     nb: {
         header: 'Når bør du ikke slette en arbeidssøkerperiode?',
-        informasjon: 'Slett arbeidssøkerperioden hvis den er startet ved en feil',
+        informasjon: 'Slett arbeidssøkerperioden bare hvis den er startet ved en feil',
     },
 };
 

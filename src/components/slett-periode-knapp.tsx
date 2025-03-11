@@ -1,4 +1,4 @@
-import { Button } from '@navikt/ds-react';
+import { Box, Button, ConfirmationPanel } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -14,6 +14,7 @@ function SlettPeriodeKnapp() {
     const { fnr } = params;
     const brukerMock = enableMock === 'enabled';
     const [periodeSlettet, setPeriodeSlettet] = useState<boolean>(false);
+    const [bekreftet, setBekreftet] = useState<boolean>(false);
     const [error, setError] = useState<any>(undefined);
 
     const startArbeidssoekerperiodeUrl = brukerMock
@@ -65,9 +66,17 @@ function SlettPeriodeKnapp() {
     if (!fnr) return null;
 
     return (
-        <Button variant="danger" onClick={() => slettArbeidssoekerperiode()}>
-            Slett arbeidssøkerperioden
-        </Button>
+        <Box>
+            <ConfirmationPanel
+                checked={bekreftet}
+                label="Jeg bekrefter at arbeidssøkerperioden skal slettes på grunn av feilregistrering"
+                onChange={() => setBekreftet((x) => !x)}
+                className="mb-4"
+            />
+            <Button variant="danger" disabled={!bekreftet} onClick={() => slettArbeidssoekerperiode()}>
+                Slett arbeidssøkerperioden
+            </Button>
+        </Box>
     );
 }
 
