@@ -22,7 +22,7 @@ function Valgmeny(props: ValgmenyProps) {
                 </Button>
             </ActionMenu.Trigger>
             <ActionMenu.Content>
-                <ActionMenu.Group label="Valg for arbeidssøkeren">
+                <ActionMenu.Group label="Valg for arbeidssøkerperioden">
                     <ActionMenu.Item
                         onSelect={() => loggAktivitet({ aktivitet: 'Går til endre opplysninger' })}
                         as="a"
