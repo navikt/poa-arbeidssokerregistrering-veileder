@@ -46,7 +46,7 @@ export const MedOpplysninger: Story = {
                             // id: '12345678910',
                         },
                         kilde: 'string',
-                        aarsak: 'string',
+                        aarsak: 'ISERV',
                     },
                 },
             ],

@@ -1,9 +1,11 @@
 import { Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
 import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
+
 import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import HistorikkLenke from './historikk-lenke';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
+import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
 
 interface Props {
     samletInformasjon: SamletInformasjon;
@@ -14,6 +16,7 @@ function IkkeAktivPeriode(props: Props) {
     const router = useRouter();
 
     const harOpplysninger = samletInformasjon?.opplysningerOmArbeidssoeker.length > 0;
+    const sluttaarsak = oversettSluttaarsak('nb');
 
     return (
         <>
@@ -31,6 +34,13 @@ function IkkeAktivPeriode(props: Props) {
                             )}{' '}
                             av {mapUtfoertAvType(samletInformasjon.arbeidssoekerperioder[0]?.avsluttet.utfoertAv.type)}
                         </BodyShort>
+                        <BodyShort textColor={'subtle'} size={'small'}>
+                            Sluttårsak:{' '}
+                            {sluttaarsak(
+                                samletInformasjon.arbeidssoekerperioder[0]?.avsluttet.aarsak ?? 'fortsatt aktiv',
+                            )}
+                        </BodyShort>
+
                         <HistorikkLenke />
                     </>
                 ) : (
