@@ -2,15 +2,7 @@ import { lagHentTekstForSprak, Sprak } from '@navikt/arbeidssokerregisteret-util
 
 const TEKSTER = {
     nb: {
-        startet: 'Startet',
-        avsluttet: 'Avsluttet',
-        sluttarsak: 'Sluttårsak',
-        periode: 'Periode',
-        av: 'av',
-        SLUTTBRUKER: 'bruker',
-        SYSTEM: 'Nav',
-        VEILEDER: 'veileder',
-        'fortsatt aktiv': 'fortsatt aktiv',
+        'fortsatt aktiv': 'Arbeidssøkerperioden er fortsatt aktiv',
         'graceperiode utløpt': 'Ikke bekreftet arbeidssøkerstatus',
         'stopp av periode': 'Arbeidssøkerperioden er avsluttet av veileder',
         feilregistrering: 'Slettet på grunn av feilregistrering',

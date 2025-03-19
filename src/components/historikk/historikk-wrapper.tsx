@@ -5,6 +5,7 @@ import { BekreftelseHistorikk } from './bekreftelse-historikk';
 import { OpplysningerHistorikk } from './opplysninger-historikk';
 import { AggregertPeriode } from '../../types/aggregerte-perioder';
 import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
+import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
 
 export interface Historikk extends AggregertPeriode {
     sprak: Sprak;
@@ -43,6 +44,7 @@ const TEKSTER = {
 export function HistorikkWrapper(props: Historikk) {
     const { startet, avsluttet, bekreftelser, opplysningerOmArbeidssoeker, sprak } = props;
     const tekst = lagHentTekstForSprak(TEKSTER, sprak);
+    const sluttaarsak = oversettSluttaarsak(sprak);
     const startTidspunkt = startet.tidspunktFraKilde?.tidspunkt ?? startet.tidspunkt;
     return (
         <>
@@ -76,7 +78,7 @@ export function HistorikkWrapper(props: Historikk) {
             <Heading level="3" size="small" className="mt-4">
                 {tekst('sluttarsak')}
             </Heading>
-            <BodyShort>{tekst(avsluttet?.aarsak.toLocaleLowerCase() ?? 'fortsatt aktiv')}</BodyShort>
+            <BodyShort>{sluttaarsak(avsluttet?.aarsak ?? 'fortsatt aktiv')}</BodyShort>
             <BekreftelseHistorikk bekreftelser={bekreftelser} sprak={sprak} />
             <OpplysningerHistorikk
                 opplysningerOmArbeidssoker={opplysningerOmArbeidssoeker}
