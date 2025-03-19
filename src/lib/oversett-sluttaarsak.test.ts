@@ -9,4 +9,10 @@ describe('oversettSluttaarsak', () => {
     it('returnerer COWABUNGA for COWABUNGA', () => {
         expect(oversett('COWABUNGA')).toEqual('COWABUNGA');
     });
+
+    it('returnerer Svarte "Nei" til å være arbeidssøker på bekreftelsen for [Bekreftelse] Ønsket ikke lenger å være arbeidssøker', () => {
+        expect(oversett('[Bekreftelse] Ønsket ikke lenger å være arbeidssøker')).toEqual(
+            'Svarte "Nei" til å være arbeidssøker på bekreftelsen',
+        );
+    });
 });
