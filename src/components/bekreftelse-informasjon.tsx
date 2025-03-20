@@ -1,5 +1,7 @@
 import { BodyLong, Box, Button, Heading } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
+
+import { loggAktivitet } from '../lib/amplitude';
 import { formaterDato } from '../lib/date-utils';
 import { TilgjengeligeBekreftelser } from '../types/bekreftelse';
 import useApiKall from '../hooks/useApiKall';
@@ -33,7 +35,13 @@ function BekreftelseInformasjon(props: { fnr: string; brukerMock: boolean }) {
                             })}
                         </ul>
                     </div>
-                    <Button variant={'secondary-neutral'} onClick={() => router.push('/bekreftelse')}>
+                    <Button
+                        variant={'secondary-neutral'}
+                        onClick={() => {
+                            loggAktivitet({ aktivitet: 'Går til bekreftelser' });
+                            router.push('/bekreftelse');
+                        }}
+                    >
                         Bekreft arbeidssøkerperiode
                     </Button>
                 </>

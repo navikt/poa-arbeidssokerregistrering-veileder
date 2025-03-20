@@ -2,6 +2,8 @@ import { Alert, Button, Heading, Link, Radio, RadioGroup } from '@navikt/ds-reac
 import { useEffect, useState } from 'react';
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
+
+import { loggAktivitet } from '../lib/amplitude';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
@@ -94,6 +96,7 @@ export default function Bekreftelse() {
     }
 
     const onSubmit = async () => {
+        loggAktivitet({ aktivitet: 'Sender inn bekreftelse på vegne av bruker' });
         setIsPending(true);
         setApiError(undefined);
         const url = `/api/${brukerMock ? 'mocks/' : ''}bekreftelse`;
@@ -136,6 +139,7 @@ export default function Bekreftelse() {
     };
 
     const onCancel = () => router.push('/');
+
     const onClickNesteBekreftelse = () => {
         settSkjemaState({
             harJobbetIDennePerioden: undefined,

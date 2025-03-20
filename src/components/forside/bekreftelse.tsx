@@ -2,6 +2,8 @@ import { BodyShort, Box, Button, Heading } from '@navikt/ds-react';
 import { CheckmarkCircleIcon, TimerStartIcon } from '@navikt/aksel-icons';
 import { useRouter } from 'next/router';
 
+import { loggAktivitet } from '../../lib/amplitude';
+
 interface Props {
     antallTilgjengeligBekreftelser?: number;
 }
@@ -40,7 +42,13 @@ function Bekreftelse(props: Props) {
                             )}
                         </BodyShort>
                     </div>
-                    <Button variant={'secondary'} onClick={() => router.push('/bekreftelse')}>
+                    <Button
+                        variant={'secondary'}
+                        onClick={() => {
+                            loggAktivitet({ aktivitet: 'Går til bekreftelser' });
+                            router.push('/bekreftelse');
+                        }}
+                    >
                         Bekreft arbeidssøkerperiode på vegne av bruker
                     </Button>
                 </>
