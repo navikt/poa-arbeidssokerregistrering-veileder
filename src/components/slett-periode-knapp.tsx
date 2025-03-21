@@ -6,6 +6,7 @@ import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
 
 import { Config } from '../model/config';
+import { loggAktivitet } from '../lib/amplitude';
 
 function SlettPeriodeKnapp() {
     const router = useRouter();
@@ -40,6 +41,7 @@ function SlettPeriodeKnapp() {
                 },
             });
             if (response.ok) {
+                loggAktivitet({ aktivitet: 'Sletter arbeidssøkerperiode' });
                 setPeriodeSlettet(true);
             } else {
                 // noinspection ExceptionCaughtLocallyJS

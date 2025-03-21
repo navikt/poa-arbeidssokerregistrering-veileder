@@ -6,6 +6,7 @@ import { useParamsFromContext } from '../contexts/params-from-context';
 import { useConfig } from '../contexts/config-context';
 
 import { Config } from '../model/config';
+import { loggAktivitet } from '../lib/amplitude';
 
 function StoppPeriodeKnapp() {
     const router = useRouter();
@@ -36,6 +37,7 @@ function StoppPeriodeKnapp() {
                 },
             });
             if (response.ok) {
+                loggAktivitet({ aktivitet: 'Avslutter arbeidssøkerperiode' });
                 setPeriodeStoppet(true);
             } else {
                 // noinspection ExceptionCaughtLocallyJS

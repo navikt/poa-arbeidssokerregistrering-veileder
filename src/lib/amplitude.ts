@@ -36,6 +36,8 @@ type AktivitetData =
     | { aktivitet: 'Går til avslutt arbeidssøkerperiode' }
     | { aktivitet: 'Går til slett arbeidssøkerperiode' }
     | { aktivitet: 'Går til endre opplysninger' }
+    | { aktivitet: 'Avslutter arbeidssøkerperiode' }
+    | { aktivitet: 'Sletter arbeidssøkerperiode' }
     | { aktivitet: 'Klikker på "Se alle arbeidssøkerperioder bruker har hatt"' };
 
 type VisningsData =
