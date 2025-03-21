@@ -29,7 +29,7 @@
         "@unleash/nextjs": "1.6.1",
         "jsonwebtoken": "9.0.2",
         "lodash": "4.17.21",
-        "next": "15.2.1",
+        "next": "15.2.3",
         "pino": "9.6.0",
         "react": "18.3.1",
         "react-autosuggest": "10.1.0",
