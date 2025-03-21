@@ -35,6 +35,7 @@ function ManglerOpplysninger() {
         </Box>
     );
 }
+
 function Opplysninger(props: Props) {
     if (!props.opplysninger) {
         return <ManglerOpplysninger />;
