@@ -5,17 +5,23 @@ import { loggAktivitet } from '../../lib/amplitude';
 
 interface ValgmenyProps {
     sisteArbeidssoekerperiodeId: string;
+    manglerOpplysninger?: boolean;
 }
 
 function Valgmeny(props: ValgmenyProps) {
-    const { sisteArbeidssoekerperiodeId } = props;
+    const { sisteArbeidssoekerperiodeId, manglerOpplysninger } = props;
 
     if (!sisteArbeidssoekerperiodeId) return null;
 
     return (
         <ActionMenu>
             <ActionMenu.Trigger>
-                <Button variant="secondary-neutral" icon={<ChevronDownIcon aria-hidden />} iconPosition="right">
+                <Button
+                    variant="secondary-neutral"
+                    icon={<ChevronDownIcon aria-hidden />}
+                    iconPosition="right"
+                    size={'xsmall'}
+                >
                     Valg
                 </Button>
             </ActionMenu.Trigger>
@@ -26,7 +32,7 @@ function Valgmeny(props: ValgmenyProps) {
                         as="a"
                         href={`/oppdater-opplysninger?periodeId=${sisteArbeidssoekerperiodeId}`}
                     >
-                        Endre opplysninger
+                        {manglerOpplysninger ? 'Legg til opplysninger' : 'Endre opplysninger'}
                     </ActionMenu.Item>
 
                     <ActionMenu.Item

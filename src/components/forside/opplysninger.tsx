@@ -19,14 +19,18 @@ interface Props {
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
 
-function ManglerOpplysninger() {
+function ManglerOpplysninger(props: Props) {
     const router = useRouter();
+    const { sisteArbeidssoekerperiodeId } = props;
     return (
         <Box className={'mb-4'}>
             <Heading level={'3'} size={'small'}>
                 Opplysninger
             </Heading>
-            <BodyShort textColor={'subtle'}>Ingen opplysninger registrert</BodyShort>
+            <div className={'flex place-content-between mb-2'}>
+                <BodyShort textColor={'subtle'}>Ingen opplysninger registrert</BodyShort>
+                <Valgmeny sisteArbeidssoekerperiodeId={sisteArbeidssoekerperiodeId} manglerOpplysninger={true} />
+            </div>
             <div className={'mt-4'}>
                 <Button variant={'secondary'} onClick={() => router.push('/oppdater-opplysninger')}>
                     Legg til opplysninger
@@ -38,7 +42,7 @@ function ManglerOpplysninger() {
 
 function Opplysninger(props: Props) {
     if (!props.opplysninger) {
-        return <ManglerOpplysninger />;
+        return <ManglerOpplysninger {...props} />;
     }
     const { opplysninger, sisteArbeidssoekerperiodeId } = props;
     const mappedeOpplysninger = mapOpplysninger(opplysninger);
@@ -66,8 +70,6 @@ function Opplysninger(props: Props) {
                     Oppdatert {prettyPrintDato(props.opplysninger.sendtInnAv.tidspunkt)} av{' '}
                     {mapUtfoertAvType(props.opplysninger.sendtInnAv.utfoertAv.type)}
                 </BodyShort>
-                {/*<Link href={`/oppdater-opplysninger?periodeId=${sisteArbeidssoekerperiodeId}`}>Endre opplysninger</Link>*/}
-
                 <Valgmeny sisteArbeidssoekerperiodeId={sisteArbeidssoekerperiodeId} />
             </div>
             <Box borderWidth={'1'} padding={'5'}>
