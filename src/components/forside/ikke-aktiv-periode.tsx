@@ -15,14 +15,14 @@ function IkkeAktivPeriode(props: Props) {
     const { samletInformasjon } = props;
     const router = useRouter();
 
-    const harOpplysninger = samletInformasjon?.opplysningerOmArbeidssoeker.length > 0;
+    const harHattPeriode = samletInformasjon?.arbeidssoekerperioder.length > 0;
     const sluttaarsak = oversettSluttaarsak('nb');
 
     return (
         <>
             <Alert variant="warning">Personen er ikke registrert som arbeidssøker</Alert>
             <Box className={'mt-4'}>
-                {harOpplysninger ? (
+                {harHattPeriode ? (
                     <>
                         <Heading level={'3'} size={'medium'}>
                             Sist registrert som arbeidssøker
