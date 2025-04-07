@@ -5,7 +5,7 @@ import {
     Profilering,
 } from '@navikt/arbeidssokerregisteret-utils';
 
-interface OpplysningerMedProfilering extends OpplysningerOmArbeidssoker {
+export interface OpplysningerMedProfilering extends OpplysningerOmArbeidssoker {
     profilering: Profilering;
 }
 
