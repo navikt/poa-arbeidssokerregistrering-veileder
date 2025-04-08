@@ -1,9 +1,11 @@
 import { lagHentTekstForSprak, OpplysningerOmArbeidssoker, Sprak } from '@navikt/arbeidssokerregisteret-utils';
+
 import { Accordion, Heading } from '@navikt/ds-react';
-// import Opplysninger from '@/components/opplysninger/opplysninger';
 import React from 'react';
+import { OpplysningerMedProfilering } from '../../types/aggregerte-perioder';
 import { prettyPrintDato } from '../../lib/date-utils';
 import { OpplysningerKomponent } from '../opplysninger-om-arbeidssoker-komponent';
+import ProfileringKomponent from './profilering';
 
 const TEKSTER = {
     nb: {
@@ -11,9 +13,10 @@ const TEKSTER = {
     },
 };
 interface Props extends React.HTMLProps<any> {
-    opplysningerOmArbeidssoker: OpplysningerOmArbeidssoker[];
+    opplysningerOmArbeidssoker: OpplysningerMedProfilering[];
     sprak: Sprak;
 }
+
 export function OpplysningerHistorikk(props: Props) {
     const { opplysningerOmArbeidssoker, sprak } = props;
 
@@ -24,7 +27,7 @@ export function OpplysningerHistorikk(props: Props) {
     return (
         <div className={props.className ?? ''}>
             <Heading level="2" size="medium">
-                Registrerte opplysninger
+                Registrerte opplysninger og profileringsresultat
             </Heading>
             <Accordion>
                 {opplysningerOmArbeidssoker.map((opplysninger) => {
@@ -35,6 +38,7 @@ export function OpplysningerHistorikk(props: Props) {
                             </Accordion.Header>
                             <Accordion.Content>
                                 <OpplysningerKomponent opplysninger={opplysninger} />
+                                <ProfileringKomponent profilering={opplysninger.profilering} />
                             </Accordion.Content>
                         </Accordion.Item>
                     );
