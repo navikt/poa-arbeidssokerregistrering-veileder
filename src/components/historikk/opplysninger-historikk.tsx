@@ -34,7 +34,7 @@ export function OpplysningerHistorikk(props: Props) {
                     return (
                         <Accordion.Item key={opplysninger.opplysningerOmArbeidssoekerId}>
                             <Accordion.Header>
-                                {tekst('sendtInn')} {prettyPrintDato(opplysninger.sendtInnAv.tidspunkt)}
+                                {tekst('sendtInn')} {prettyPrintDato(opplysninger.sendtInnAv.tidspunkt, sprak, true)}
                             </Accordion.Header>
                             <Accordion.Content>
                                 <OpplysningerKomponent opplysninger={opplysninger} />

@@ -1,4 +1,4 @@
-type Sprak = 'nb' | 'en' | 'nn';
+import { Sprak } from '@navikt/arbeidssokerregisteret-utils';
 
 const norsk = [
     'januar',
@@ -17,6 +17,7 @@ const norsk = [
 const monthNames = {
     nb: norsk,
     nn: norsk,
+    pl: norsk,
     en: [
         'January',
         'February',

@@ -49,22 +49,24 @@ export function HistorikkWrapper(props: Historikk) {
     return (
         <>
             <Heading level="2" size="large">
-                {prettyPrintDato(startTidspunkt)} -{' '}
-                {avsluttet && avsluttet.tidspunkt ? prettyPrintDato(avsluttet.tidspunkt) : tekst('fortsatt aktiv')}
+                {prettyPrintDato(startTidspunkt, sprak, true)} -{' '}
+                {avsluttet && avsluttet.tidspunkt
+                    ? prettyPrintDato(avsluttet.tidspunkt, sprak, true)
+                    : tekst('fortsatt aktiv')}
             </Heading>
             <Heading level="3" size="small" className="mt-4">
                 {tekst('periode')}
             </Heading>
             <div className="grid grid-cols-3 gap-x-2">
                 <div className="font-semibold">{tekst('startet')}</div>
-                <div>{prettyPrintDatoOgKlokkeslett(startTidspunkt)}</div>
+                <div>{prettyPrintDatoOgKlokkeslett(startTidspunkt, sprak, true)}</div>
                 <div>
                     {tekst('av')} {tekst(startet.utfoertAv.type)}
                 </div>
                 <div className="font-semibold">{tekst('avsluttet')}</div>
                 {avsluttet && avsluttet.tidspunkt ? (
                     <>
-                        <div>{prettyPrintDatoOgKlokkeslett(avsluttet.tidspunkt)}</div>
+                        <div>{prettyPrintDatoOgKlokkeslett(avsluttet.tidspunkt, sprak, true)}</div>
                         <div>
                             {tekst('av')} {tekst(avsluttet.utfoertAv.type)}
                         </div>
