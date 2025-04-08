@@ -8,7 +8,7 @@ const data = [
     {
         periodeId: 'd70c0256-e3bc-470e-b3fe-f5999691fef8',
         startet: {
-            tidspunkt: '2024-11-19T08:43:22.237Z',
+            tidspunkt: '2025-11-19T08:43:22.237Z',
             utfoertAv: {
                 type: 'SLUTTBRUKER',
                 id: '10908697745',
@@ -21,7 +21,7 @@ const data = [
             },
         },
         avsluttet: {
-            tidspunkt: '2024-11-19T08:56:25.842Z',
+            tidspunkt: '2025-11-19T08:56:25.842Z',
             utfoertAv: {
                 type: 'SYSTEM',
                 id: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssoekerregisteret-bekreftelse-utgang:24.11.15.54-1',
@@ -35,7 +35,7 @@ const data = [
                 opplysningerOmArbeidssoekerId: 'c36257ca-5cb2-4ed6-8820-8c22e55f5618',
                 periodeId: 'd70c0256-e3bc-470e-b3fe-f5999691fef8',
                 sendtInnAv: {
-                    tidspunkt: '2024-11-19T08:44:01.611Z',
+                    tidspunkt: '2025-11-19T08:44:01.611Z',
                     utfoertAv: {
                         type: 'SLUTTBRUKER',
                         id: '10908697745',
@@ -77,7 +77,7 @@ const data = [
                         kilde: 'paw-arbeidssoekerregisteret-monorepo-ekstern-24.11.18.41-1',
                         aarsak: 'opplysninger-mottatt',
                         tidspunktFraKilde: {
-                            tidspunkt: '2024-11-19T08:44:01.611Z',
+                            tidspunkt: '2025-11-19T08:44:01.611Z',
                             avviksType: 'FORSINKELSE',
                         },
                     },

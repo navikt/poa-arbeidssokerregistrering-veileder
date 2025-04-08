@@ -33,7 +33,7 @@ const monthNames = {
     ],
 };
 
-const prettyPrintDato = (dato: string, locale?: Sprak) => {
+const prettyPrintDato = (dato: string, locale?: Sprak, visAar?: boolean) => {
     const now = new Date();
     const date = new Date(dato);
     const thisYear = now.getFullYear();
@@ -42,10 +42,10 @@ const prettyPrintDato = (dato: string, locale?: Sprak) => {
     const month = monthNames[valgtSprak][date.getMonth()];
 
     if (valgtSprak === 'en') {
-        return `${month} ${date.getDate()}.${thisYear !== year ? ' ' + year : ''}`;
+        return `${month} ${date.getDate()}.${visAar || thisYear !== year ? ' ' + year : ''}`;
     }
 
-    return `${date.getDate()}. ${month}${thisYear !== year ? ' ' + year : ''}`;
+    return `${date.getDate()}. ${month}${visAar || thisYear !== year ? ' ' + year : ''}`;
 };
 
 function formaterDato(
@@ -58,7 +58,7 @@ function formaterDato(
     return dateString ? new Intl.DateTimeFormat('nb', options).format(new Date(dateString)) : 'Ingen tidspunkt funnet';
 }
 
-function prettyPrintDatoOgKlokkeslett(dato: string, locale?: Sprak) {
+function prettyPrintDatoOgKlokkeslett(dato: string, locale?: Sprak, visAar?: boolean) {
     const now = new Date();
     const date = new Date(dato);
     const thisYear = now.getFullYear();
@@ -69,10 +69,10 @@ function prettyPrintDatoOgKlokkeslett(dato: string, locale?: Sprak) {
     const month = monthNames[valgtSprak][date.getMonth()];
 
     if (valgtSprak === 'en') {
-        return `${month} ${date.getDate()}.${thisYear !== year ? ' ' + year : ''} at {timer.toString().length === 1 ? '0': ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
+        return `${month} ${date.getDate()}.${visAar || thisYear !== year ? ' ' + year : ''} at {timer.toString().length === 1 ? '0': ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
     }
 
-    return `${date.getDate()}. ${month}${thisYear !== year ? ' ' + year : ''} klokken ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
+    return `${date.getDate()}. ${month}${visAar || thisYear !== year ? ' ' + year : ''} klokken ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
 }
 
 export { prettyPrintDato, prettyPrintDatoOgKlokkeslett, formaterDato };
