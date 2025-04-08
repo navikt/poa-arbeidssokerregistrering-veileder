@@ -30,18 +30,18 @@ const data = [
             aarsak: 'Ansatt har tilgang til bruker',
         },
     },
-    {
-        periodeId: '082b0a10-7280-4c6e-8749-dbf28f71dd87',
-        startet: {
-            tidspunkt: '2024-05-14T11:42:43.771Z',
-            utfoertAv: {
-                type: 'SLUTTBRUKER',
-            },
-            kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:24.04.25.141-1',
-            aarsak: 'Er over 18 år, er bosatt i Norge i hendhold Folkeregisterloven',
-        },
-        avsluttet: null,
-    },
+    // {
+    //     periodeId: '082b0a10-7280-4c6e-8749-dbf28f71dd87',
+    //     startet: {
+    //         tidspunkt: '2024-05-14T11:42:43.771Z',
+    //         utfoertAv: {
+    //             type: 'SLUTTBRUKER',
+    //         },
+    //         kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:24.04.25.141-1',
+    //         aarsak: 'Er over 18 år, er bosatt i Norge i hendhold Folkeregisterloven',
+    //     },
+    //     avsluttet: null,
+    // },
     {
         periodeId: '3950569a-ffb1-4c70-b75d-14e808e91517',
         startet: {

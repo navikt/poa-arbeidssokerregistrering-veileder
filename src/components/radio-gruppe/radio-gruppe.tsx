@@ -29,11 +29,10 @@ const RadioGruppe = (props: RadioGruppeProps) => {
     const { valg, onSelect, valgt, visFeilmelding, legend, beskrivelse } = props;
     const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
     const error = visFeilmelding ? tekst('advarsel') : undefined;
-
     return (
         <>
             <RadioGroup
-                defaultValue={valgt}
+                value={valgt ?? null}
                 legend={legend}
                 onChange={onSelect}
                 error={error}
