@@ -7,6 +7,19 @@ interface Props {
 
 function ProfileringKomponent(props: Props) {
     const { profilering } = props;
+
+    if (!profilering) {
+        return (
+            <Box>
+                <Heading size="small" level="3">
+                    Profilering
+                </Heading>
+                <hr className="mb-5" />
+                <BodyShort className="mb-5">Profilering ikke funnet</BodyShort>
+            </Box>
+        );
+    }
+
     const { profilertTil, alder, jobbetSammenhengendeSeksAvTolvSisteManeder } = profilering;
 
     return (
