@@ -1,5 +1,3 @@
-import { Box, Heading } from '@navikt/ds-react';
-
 import useSprak from '../../hooks/useSprak';
 import { useRegistrering } from '../../contexts/registrering-context';
 
@@ -24,20 +22,15 @@ const Helseproblemer = () => {
     const valgt = registrering[SporsmalId.helseHinder];
 
     return (
-        <Box className="mb-8" borderWidth="1" padding="4" style={{ backgroundColor: 'var(--a-gray-50)' }}>
-            <form>
-                <Heading size="medium" spacing level="1">
-                    Helse
-                </Heading>
-                <RadioGruppe
-                    legend={tekst('tittel')}
-                    valg={valg}
-                    valgt={valgt}
-                    onSelect={(val) => setRegistrering({ [SporsmalId.helseHinder]: val })}
-                    visFeilmelding={visFeilmelding}
-                />
-            </form>
-        </Box>
+        <form>
+            <RadioGruppe
+                legend={tekst('tittel')}
+                valg={valg}
+                valgt={valgt}
+                onSelect={(val) => setRegistrering({ [SporsmalId.helseHinder]: val })}
+                visFeilmelding={visFeilmelding}
+            />
+        </form>
     );
 };
 
