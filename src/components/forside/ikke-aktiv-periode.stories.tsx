@@ -33,7 +33,7 @@ export const MedOpplysninger: Story = {
                         tidspunktFraKilde: null,
                         utfoertAv: {
                             type: 'UKJENT_VERDI',
-                            // id: '12345678910',
+                            id: '12345678910',
                         },
                         kilde: 'string',
                         aarsak: 'string',
@@ -43,7 +43,7 @@ export const MedOpplysninger: Story = {
                         tidspunktFraKilde: null,
                         utfoertAv: {
                             type: 'SYSTEM',
-                            // id: '12345678910',
+                            id: '12345678910',
                         },
                         kilde: 'string',
                         aarsak: 'ISERV',

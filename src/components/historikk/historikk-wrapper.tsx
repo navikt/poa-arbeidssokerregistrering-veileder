@@ -68,7 +68,8 @@ export function HistorikkWrapper(props: Historikk) {
                     <>
                         <div>{prettyPrintDatoOgKlokkeslett(avsluttet.tidspunkt, sprak, true)}</div>
                         <div>
-                            {tekst('av')} {tekst(avsluttet.utfoertAv.type)}
+                            {tekst('av')} {tekst(avsluttet.utfoertAv.type)}{' '}
+                            {avsluttet.utfoertAv.type === 'VEILEDER' ? `(${avsluttet.utfoertAv.id})` : ''}
                         </div>
                     </>
                 ) : (
