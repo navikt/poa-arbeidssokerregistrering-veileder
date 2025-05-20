@@ -1,5 +1,5 @@
 import { lagHentTekstForSprak, Sprak } from '@navikt/arbeidssokerregisteret-utils';
-import { Accordion, Box, Heading } from '@navikt/ds-react';
+import { Accordion, BodyLong, Box, Heading } from '@navikt/ds-react';
 import React from 'react';
 
 import { OpplysningerMedProfilering } from '../../types/aggregerte-perioder';
@@ -42,16 +42,14 @@ export function OpplysningerHistorikk(props: Props) {
                             </Accordion.Header>
                             <Accordion.Content>
                                 <Box>
-                                    <div>
+                                    <BodyLong>
                                         Sendt inn:{' '}
-                                        {prettyPrintDatoOgKlokkeslett(opplysninger.sendtInnAv.tidspunkt, sprak, true)}
-                                    </div>
-                                    <div>
+                                        {prettyPrintDatoOgKlokkeslett(opplysninger.sendtInnAv.tidspunkt, sprak, true)}{' '}
                                         {tekst('av')} {tekst(opplysninger.sendtInnAv.utfoertAv.type)}{' '}
                                         {opplysninger.sendtInnAv.utfoertAv.type === 'VEILEDER'
                                             ? `(${opplysninger.sendtInnAv.utfoertAv.id})`
                                             : ''}
-                                    </div>
+                                    </BodyLong>
                                 </Box>
                                 <OpplysningerKomponent opplysninger={opplysninger} />
                                 <ProfileringKomponent profilering={opplysninger.profilering} />
