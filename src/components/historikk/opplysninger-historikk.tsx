@@ -1,15 +1,19 @@
-import { lagHentTekstForSprak, OpplysningerOmArbeidssoker, Sprak } from '@navikt/arbeidssokerregisteret-utils';
-
-import { Accordion, Heading } from '@navikt/ds-react';
+import { lagHentTekstForSprak, Sprak } from '@navikt/arbeidssokerregisteret-utils';
+import { Accordion, Box, Heading } from '@navikt/ds-react';
 import React from 'react';
+
 import { OpplysningerMedProfilering } from '../../types/aggregerte-perioder';
-import { prettyPrintDato } from '../../lib/date-utils';
+import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import { OpplysningerKomponent } from '../opplysninger-om-arbeidssoker-komponent';
 import ProfileringKomponent from './profilering';
 
 const TEKSTER = {
     nb: {
         sendtInn: 'Sendt inn ',
+        av: 'av',
+        SLUTTBRUKER: 'bruker',
+        SYSTEM: 'Nav',
+        VEILEDER: 'veileder',
     },
 };
 interface Props extends React.HTMLProps<any> {
@@ -37,6 +41,18 @@ export function OpplysningerHistorikk(props: Props) {
                                 {tekst('sendtInn')} {prettyPrintDato(opplysninger.sendtInnAv.tidspunkt, sprak, true)}
                             </Accordion.Header>
                             <Accordion.Content>
+                                <Box>
+                                    <div>
+                                        Sendt inn:{' '}
+                                        {prettyPrintDatoOgKlokkeslett(opplysninger.sendtInnAv.tidspunkt, sprak, true)}
+                                    </div>
+                                    <div>
+                                        {tekst('av')} {tekst(opplysninger.sendtInnAv.utfoertAv.type)}{' '}
+                                        {opplysninger.sendtInnAv.utfoertAv.type === 'VEILEDER'
+                                            ? `(${opplysninger.sendtInnAv.utfoertAv.id})`
+                                            : ''}
+                                    </div>
+                                </Box>
                                 <OpplysningerKomponent opplysninger={opplysninger} />
                                 <ProfileringKomponent profilering={opplysninger.profilering} />
                             </Accordion.Content>
