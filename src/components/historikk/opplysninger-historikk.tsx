@@ -41,7 +41,7 @@ export function OpplysningerHistorikk(props: Props) {
                                 {tekst('sendtInn')} {prettyPrintDato(opplysninger.sendtInnAv.tidspunkt, sprak, true)}
                             </Accordion.Header>
                             <Accordion.Content>
-                                <Box>
+                                <Box className="mb-4">
                                     <BodyLong>
                                         Sendt inn:{' '}
                                         {prettyPrintDatoOgKlokkeslett(opplysninger.sendtInnAv.tidspunkt, sprak, true)}{' '}
