@@ -61,14 +61,16 @@ export function HistorikkWrapper(props: Historikk) {
                 <div className="font-semibold">{tekst('startet')}</div>
                 <div>{prettyPrintDatoOgKlokkeslett(startTidspunkt, sprak, true)}</div>
                 <div>
-                    {tekst('av')} {tekst(startet.utfoertAv.type)}
+                    {tekst('av')} {tekst(startet.utfoertAv.type)}{' '}
+                    {startet.utfoertAv.type === 'VEILEDER' ? `(${startet.utfoertAv.id})` : ''}
                 </div>
                 <div className="font-semibold">{tekst('avsluttet')}</div>
                 {avsluttet && avsluttet.tidspunkt ? (
                     <>
                         <div>{prettyPrintDatoOgKlokkeslett(avsluttet.tidspunkt, sprak, true)}</div>
                         <div>
-                            {tekst('av')} {tekst(avsluttet.utfoertAv.type)}
+                            {tekst('av')} {tekst(avsluttet.utfoertAv.type)}{' '}
+                            {avsluttet.utfoertAv.type === 'VEILEDER' ? `(${avsluttet.utfoertAv.id})` : ''}
                         </div>
                     </>
                 ) : (

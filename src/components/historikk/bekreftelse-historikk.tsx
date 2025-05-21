@@ -39,7 +39,10 @@ function AlleBekreftelser(props: { bekreftelser: Bekreftelse[]; sprak: Sprak }) 
                             <dt className="font-semibold">{tekst('innsendt')}</dt>
                             <dd>
                                 {prettyPrintDatoOgKlokkeslett(svar.sendtInnAv.tidspunkt, sprak, true)} {tekst('av')}{' '}
-                                {tekst(svar.sendtInnAv.utfoertAv.type)}
+                                {tekst(svar.sendtInnAv.utfoertAv.type)}{' '}
+                                {svar.sendtInnAv.utfoertAv.type === 'VEILEDER'
+                                    ? `(${svar.sendtInnAv.utfoertAv.id})`
+                                    : ''}
                             </dd>
                             <dt className="font-semibold">{tekst('jobbet')}</dt>
                             <dd>{svar.harJobbetIDennePerioden ? 'Ja' : 'Nei'}</dd>
