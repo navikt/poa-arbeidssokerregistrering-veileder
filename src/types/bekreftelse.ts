@@ -10,6 +10,7 @@ export interface TilgjengeligBekreftelse {
     gjelderTil: string;
 }
 export type TilgjengeligeBekreftelser = TilgjengeligBekreftelse[];
+
 export interface SistInnsendteBekreftelse {
     harJobbetIDennePerioden: boolean;
     vilFortsetteSomArbeidssoeker: boolean;
