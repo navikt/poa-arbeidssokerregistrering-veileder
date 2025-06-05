@@ -27,7 +27,7 @@ export default function Historikk() {
         fnr ? JSON.stringify({ identitetsnummer: fnr }) : null,
     );
 
-    const periodeIds = aggregertePerioder.map((periode) => periode.periodeId);
+    const periodeIds = aggregertePerioder ? aggregertePerioder.map((periode) => periode.periodeId) : null;
 
     const {
         data: gyldigeBekreftelser,
@@ -36,11 +36,12 @@ export default function Historikk() {
     } = useApiKall<AggregerteBekreftelser>(
         `/api/${brukerMock ? 'mocks/' : ''}gyldige-bekreftelser`,
         'POST',
-        fnr ? JSON.stringify({ identitetsnummer: fnr, periodeIds: periodeIds }) : null,
+        fnr && periodeIds ? JSON.stringify({ identitetsnummer: fnr, periodeIds: periodeIds }) : null,
     );
 
     const isLoading = isLoadingAggregertePerioder || isLoadingGyldigeBekreftelser;
     const error = errorAggregertePerioder || errorGyldigeBekreftelser;
+
     const aggregertePerioderMedGyldigeBekreftelser =
         aggregertePerioder && gyldigeBekreftelser
             ? mergeGyldigeBekreftelser(aggregertePerioder, gyldigeBekreftelser)
