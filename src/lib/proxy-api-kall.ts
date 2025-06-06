@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { logger } from '@navikt/next-logger';
+
 import resolveDynamicUrl from './resolve-dynamic-url';
 import { getTraceIdFromRequest } from './next-api-handler';
 
@@ -13,13 +14,14 @@ async function toError(response: Response) {
     } catch (err) {} // ignore
     return e;
 }
+
 export const createProxyCall = (getHeaders: getHeaders, url: string) => {
     return async (req: NextApiRequest, res: NextApiResponse<any>) => {
         const callId = getTraceIdFromRequest(req);
         const { slug, ...query } = req.query;
         try {
             const resolvedUrl = resolveDynamicUrl(url, slug, query);
-            logger.info(`Starter ${req.method}-kall med callId: ${callId} mot ${resolvedUrl}`);
+            logger.info(`Starter ${req.method}-kall [${slug}] mot ${resolvedUrl}`);
 
             const result = await fetch(resolvedUrl, {
                 method: req.method,
@@ -41,7 +43,7 @@ export const createProxyCall = (getHeaders: getHeaders, url: string) => {
 
             res.json(result);
         } catch (error) {
-            logger.warn(`Kall mot ${url} med (callId: ${callId}) feilet ${error.status}`, error);
+            logger.warn(`Kall mot ${url} [${slug}] feilet ${error.status}`, error);
             const status = error.status || 500;
             res.setHeader('x-trace-id', callId).status(status).end();
         }
