@@ -1,4 +1,4 @@
-import { Box, Button, ConfirmationPanel } from '@navikt/ds-react';
+import { Box, Button } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -7,6 +7,7 @@ import { useConfig } from '../contexts/config-context';
 
 import { Config } from '../model/config';
 import { loggAktivitet } from '../lib/amplitude';
+import BekreftValgPanel from './bekreft-valg-panel';
 
 function SlettPeriodeKnapp() {
     const router = useRouter();
@@ -69,11 +70,11 @@ function SlettPeriodeKnapp() {
 
     return (
         <Box>
-            <ConfirmationPanel
+            <BekreftValgPanel
                 checked={bekreftet}
                 label="Jeg bekrefter at arbeidssøkerperioden skal slettes på grunn av feilregistrering"
                 onChange={() => setBekreftet((x) => !x)}
-                className="mb-4"
+                className="ml-4"
             />
             <Button variant="danger" disabled={!bekreftet} onClick={() => slettArbeidssoekerperiode()}>
                 Slett arbeidssøkerperioden
