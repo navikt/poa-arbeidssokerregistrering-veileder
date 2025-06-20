@@ -36,7 +36,7 @@ export default function Historikk() {
     } = useApiKall<AggregerteBekreftelser>(
         `/api/${brukerMock ? 'mocks/' : ''}gyldige-bekreftelser`,
         'POST',
-        fnr && periodeIds ? JSON.stringify({ identitetsnummer: fnr, periodeIds: periodeIds }) : null,
+        fnr && periodeIds ? JSON.stringify({ perioder: periodeIds }) : null,
     );
 
     const isLoading = isLoadingAggregertePerioder || isLoadingGyldigeBekreftelser;
