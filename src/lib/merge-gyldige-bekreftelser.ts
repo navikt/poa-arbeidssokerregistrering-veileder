@@ -1,12 +1,12 @@
-import { AggregerteBekreftelser, BekreftelseMedGyldighet } from '../model/bekreftelse';
+import { AggregerteBekreftelser, BekreftelseMedStatus, BekreftelseStatus } from '../model/bekreftelse';
 import {
     AggregertPeriode,
     AggregertePerioder,
-    AggregertePerioderMedGyldigBekreftelse,
+    AggregertePerioderMedBekreftelseStatus,
 } from '../types/aggregerte-perioder';
 
-function isGyldigBekreftelse(bekreftelse: BekreftelseMedGyldighet | undefined) {
-    return bekreftelse && bekreftelse.gyldig === true;
+function isGyldigBekreftelse(bekreftelse: BekreftelseMedStatus | undefined) {
+    return bekreftelse && bekreftelse.status === BekreftelseStatus.GYLDIG;
 }
 
 export function mergeGyldigeBekreftelser(
@@ -14,7 +14,9 @@ export function mergeGyldigeBekreftelser(
     aggregerteBekreftelser: AggregerteBekreftelser,
 ) {
     return aggregertePerioder.map((periode: AggregertPeriode) => {
-        periode.bekreftelser = aggregerteBekreftelser[periode.periodeId].filter(isGyldigBekreftelse);
+        periode.bekreftelser = aggregerteBekreftelser[periode.periodeId]
+            ? aggregerteBekreftelser[periode.periodeId].filter(isGyldigBekreftelse)
+            : [];
         return periode;
     });
 }

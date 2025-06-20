@@ -1,10 +1,11 @@
 import { mergeGyldigeBekreftelser } from './merge-gyldige-bekreftelser';
 
-import { AggregerteBekreftelser, BekreftelseMedGyldighet } from '../model/bekreftelse';
+import { AggregerteBekreftelser, BekreftelseMedStatus, BekreftelseStatus } from '../model/bekreftelse';
+
 import {
     AggregertPeriode,
     AggregertePerioder,
-    AggregertePerioderMedGyldigBekreftelse,
+    AggregertePerioderMedBekreftelseStatus,
 } from '../types/aggregerte-perioder';
 
 const dataAggregertePerioder = [
@@ -564,13 +565,13 @@ const dataAggregertePerioder = [
     },
 ] as AggregertePerioder;
 
-const dataGyldigeBekreftelser = {
+const dataBekreftelserMedStatus = {
     'd70c0256-e3bc-470e-b3fe-f5999691fef8': [],
     'e3a33f8c-586e-45c6-b1e8-2e4573983608': [
         {
             periodeId: 'e3a33f8c-586e-45c6-b1e8-2e4573983608',
             bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
-            gyldig: false,
+            status: BekreftelseStatus.UVENTET_KILDE,
             svar: {
                 sendtInnAv: {
                     tidspunkt: '2024-11-15T13:00:20.993Z',
@@ -591,7 +592,7 @@ const dataGyldigeBekreftelser = {
         {
             periodeId: 'e3a33f8c-586e-45c6-b1e8-2e4573983608',
             bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
-            gyldig: true,
+            status: BekreftelseStatus.GYLDIG,
             svar: {
                 sendtInnAv: {
                     tidspunkt: '2024-11-16T13:00:20.993Z',
@@ -614,7 +615,7 @@ const dataGyldigeBekreftelser = {
         {
             periodeId: 'c9437853-e90c-482d-8ecb-1d2dad4766f2',
             bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
-            gyldig: false,
+            status: BekreftelseStatus.UTENFOR_PERIODE,
             svar: {
                 sendtInnAv: {
                     tidspunkt: '2024-11-16T13:00:20.993Z',
@@ -637,7 +638,7 @@ const dataGyldigeBekreftelser = {
         {
             periodeId: '9875f6e1-342f-429e-b206-029c7832e4cb',
             bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
-            gyldig: true,
+            status: BekreftelseStatus.GYLDIG,
             svar: {
                 sendtInnAv: {
                     tidspunkt: '2024-11-13T11:09:08.928Z',
@@ -660,7 +661,7 @@ const dataGyldigeBekreftelser = {
         {
             periodeId: 'af7201e8-9c14-4597-ab43-b848acb00d6b',
             bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
-            gyldig: true,
+            status: BekreftelseStatus.GYLDIG,
             svar: {
                 sendtInnAv: {
                     tidspunkt: '2024-11-13T09:39:03.066Z',
@@ -681,7 +682,7 @@ const dataGyldigeBekreftelser = {
         {
             periodeId: 'af7201e8-9c14-4597-ab43-b848acb00d6b',
             bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
-            gyldig: false,
+            status: BekreftelseStatus.UVENTET_KILDE,
             svar: {
                 sendtInnAv: {
                     tidspunkt: '2024-11-13T09:36:33.465Z',
@@ -702,7 +703,7 @@ const dataGyldigeBekreftelser = {
         {
             periodeId: 'af7201e8-9c14-4597-ab43-b848acb00d6b',
             bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
-            gyldig: true,
+            status: BekreftelseStatus.GYLDIG,
             svar: {
                 sendtInnAv: {
                     tidspunkt: '2024-11-13T09:36:07.810Z',
@@ -723,7 +724,7 @@ const dataGyldigeBekreftelser = {
         {
             periodeId: 'af7201e8-9c14-4597-ab43-b848acb00d6b',
             bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
-            gyldig: true,
+            status: BekreftelseStatus.GYLDIG,
             svar: {
                 sendtInnAv: {
                     tidspunkt: '2024-11-13T09:23:43.001Z',
@@ -745,7 +746,7 @@ const dataGyldigeBekreftelser = {
 };
 
 describe('mergeGyldigeBekreftelser', () => {
-    const mergedeData = mergeGyldigeBekreftelser(dataAggregertePerioder, dataGyldigeBekreftelser) as any;
+    const mergedeData = mergeGyldigeBekreftelser(dataAggregertePerioder, dataBekreftelserMedStatus) as any;
 
     it('Vi har 5 arbeidssøkerperioder', () => {
         expect(mergedeData.length).toEqual(5);

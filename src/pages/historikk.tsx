@@ -11,6 +11,17 @@ import { AggregertePerioder, AggregertPeriode } from '../types/aggregerte-period
 import { AggregerteBekreftelser } from '../model/bekreftelse';
 import { mergeGyldigeBekreftelser } from '../lib/merge-gyldige-bekreftelser';
 
+function repackBekreftelserMedStatus(bekreftelserMedStatus) {
+    return bekreftelserMedStatus.reduce((current, total) => {
+        const { periodeId } = current;
+        if (!Object.keys(total).includes(periodeId)) {
+            total[periodeId] = [];
+        }
+        total[periodeId].push({ status: current.status, ...current.bekreftelse });
+        return total;
+    }, {});
+}
+
 export default function Historikk() {
     const { params } = useParamsFromContext();
     const { enableMock } = useConfig() as Config;
@@ -34,7 +45,7 @@ export default function Historikk() {
         isLoading: isLoadingGyldigeBekreftelser,
         error: errorGyldigeBekreftelser,
     } = useApiKall<AggregerteBekreftelser>(
-        `/api/${brukerMock ? 'mocks/' : ''}gyldige-bekreftelser`,
+        `/api/${brukerMock ? 'mocks/' : ''}bekreftelser-med-status`,
         'POST',
         fnr && periodeIds ? JSON.stringify({ perioder: periodeIds }) : null,
     );
@@ -44,7 +55,10 @@ export default function Historikk() {
 
     const aggregertePerioderMedGyldigeBekreftelser =
         aggregertePerioder && gyldigeBekreftelser
-            ? mergeGyldigeBekreftelser(aggregertePerioder, gyldigeBekreftelser)
+            ? mergeGyldigeBekreftelser(
+                  aggregertePerioder,
+                  repackBekreftelserMedStatus(gyldigeBekreftelser.bekreftelser),
+              )
             : null;
 
     if (isLoading) {

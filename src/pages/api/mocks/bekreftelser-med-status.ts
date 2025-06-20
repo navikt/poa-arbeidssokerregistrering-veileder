@@ -2,13 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { BekreftelseStatus } from '../../../model/bekreftelse';
 
-const gyldigeBekreftelser = (req: NextApiRequest, res: NextApiResponse): void => {
+const bekreftelserMedStatus = (req: NextApiRequest, res: NextApiResponse): void => {
     res.json(data);
 };
 
 const data = {
-    'd70c0256-e3bc-470e-b3fe-f5999691fef8': [],
-    'e3a33f8c-586e-45c6-b1e8-2e4573983608': [
+    bekreftelser: [
         {
             status: BekreftelseStatus.UTENFOR_PERIODE,
             bekreftelse: {
@@ -55,8 +54,6 @@ const data = {
                 },
             },
         },
-    ],
-    'c9437853-e90c-482d-8ecb-1d2dad4766f2': [
         {
             status: BekreftelseStatus.UVENTET_KILDE,
             bekreftelse: {
@@ -80,8 +77,6 @@ const data = {
                 },
             },
         },
-    ],
-    '9875f6e1-342f-429e-b206-029c7832e4cb': [
         {
             status: BekreftelseStatus.GYLDIG,
             bekreftelse: {
@@ -105,8 +100,6 @@ const data = {
                 },
             },
         },
-    ],
-    'af7201e8-9c14-4597-ab43-b848acb00d6b': [
         {
             status: BekreftelseStatus.GYLDIG,
             bekreftelse: {
@@ -202,4 +195,4 @@ const data = {
     ],
 };
 
-export default gyldigeBekreftelser;
+export default bekreftelserMedStatus;

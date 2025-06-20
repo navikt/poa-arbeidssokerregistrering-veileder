@@ -1,9 +1,15 @@
 import { Bekreftelse } from '@navikt/arbeidssokerregisteret-utils';
 
-export interface BekreftelseMedGyldighet extends Bekreftelse {
-    gyldig?: boolean;
+export enum BekreftelseStatus {
+    'GYLDIG' = 'GYLDIG',
+    'UVENTET_KILDE' = 'UVENTET_KILDE',
+    'UTENFOR_PERIODE' = 'UTENFOR_PERIODE',
+}
+
+export interface BekreftelseMedStatus extends Bekreftelse {
+    status?: BekreftelseStatus;
 }
 
 export interface AggregerteBekreftelser {
-    [index: string]: BekreftelseMedGyldighet[];
+    [index: string]: BekreftelseMedStatus[];
 }

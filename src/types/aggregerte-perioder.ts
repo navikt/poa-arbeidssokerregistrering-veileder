@@ -5,7 +5,7 @@ import {
     Profilering,
 } from '@navikt/arbeidssokerregisteret-utils';
 
-import { BekreftelseMedGyldighet } from '../model/bekreftelse';
+import { BekreftelseMedStatus } from '../model/bekreftelse';
 
 export interface OpplysningerMedProfilering extends OpplysningerOmArbeidssoker {
     profilering: Profilering;
@@ -16,11 +16,11 @@ export interface AggregertPeriode extends ArbeidssokerPeriode {
     bekreftelser: Bekreftelse[];
 }
 
-export interface AggregertPeriodeMedGyldigBekreftelse {
+export interface AggregertPeriodeMedBekreftelseStatus {
     opplysningerOmArbeidssoeker: OpplysningerMedProfilering[];
-    bekreftelser: BekreftelseMedGyldighet[];
+    bekreftelser: BekreftelseMedStatus[];
 }
 
 export type AggregertePerioder = AggregertPeriode[];
 
-export type AggregertePerioderMedGyldigBekreftelse = AggregertPeriodeMedGyldigBekreftelse[];
+export type AggregertePerioderMedBekreftelseStatus = AggregertePerioderMedBekreftelseStatus[];
