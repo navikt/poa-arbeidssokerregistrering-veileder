@@ -12,8 +12,8 @@ import { AggregerteBekreftelser } from '../model/bekreftelse';
 import { mergeGyldigeBekreftelser } from '../lib/merge-gyldige-bekreftelser';
 
 function repackBekreftelserMedStatus(bekreftelserMedStatus) {
-    return bekreftelserMedStatus.reduce((current, total) => {
-        const { periodeId } = current;
+    return bekreftelserMedStatus.reduce((total, current) => {
+        const { periodeId } = current.bekreftelse;
         if (!Object.keys(total).includes(periodeId)) {
             total[periodeId] = [];
         }
