@@ -33,6 +33,7 @@ const getOboToken = async (accessToken: string, scope: string): Promise<string> 
 
 const ARBEIDSSOEKERREGISTRERING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
 const OPPSLAGSAPI_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oppslag/.default`;
+const OPPSLAGSAPI_V2_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oppslag-v2/.default`;
 const BEKREFTELSE_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-bekreftelse/.default`;
 const MODIACONTEXTHOLDER_SCOPE = `api://${process.env.MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID}/.default`;
 const VEILARBOPPFOLGING_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.poao.veilarboppfolging/.default`;
@@ -50,6 +51,10 @@ export const getArbeidssoekerregistreringToken = async (req: NextApiRequest) => 
 
 export const getOppslagsAPIToken = async (req: NextApiRequest) => {
     return getOboToken(getTokenFromRequest(req)!, OPPSLAGSAPI_SCOPE);
+};
+
+export const getOppslagsAPIV2Token = async (req: NextApiRequest) => {
+    return getOboToken(getTokenFromRequest(req)!, OPPSLAGSAPI_V2_SCOPE);
 };
 
 export const getBekreftelseAPIToken = async (req: NextApiRequest) => {
