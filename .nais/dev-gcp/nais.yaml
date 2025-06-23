@@ -98,7 +98,7 @@ spec:
       value: http://paw-arbeidssokerregisteret-api-inngang
     - name: OPPSLAG_API_URL
       value: http://paw-arbeidssoekerregisteret-api-oppslag
-    - name: GYLDIGE_BEKREFTELSER_API_URL
+    - name: OPPSLAG_API_V2_URL
       value: http://paw-arbeidssoekerregisteret-api-oppslag-v2
     - name: AIA_BACKEND_URL
       value: http://aia-backend/aia-backend
