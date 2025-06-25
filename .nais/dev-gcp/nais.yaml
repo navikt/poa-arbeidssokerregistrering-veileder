@@ -98,6 +98,8 @@ spec:
       value: http://paw-arbeidssokerregisteret-api-inngang
     - name: OPPSLAG_API_URL
       value: http://paw-arbeidssoekerregisteret-api-oppslag
+    - name: OPPSLAG_API_V2_URL
+      value: http://paw-arbeidssoekerregisteret-api-oppslag-v2
     - name: AIA_BACKEND_URL
       value: http://aia-backend/aia-backend
     - name: BEKREFTELSE_API_URL
@@ -129,6 +131,7 @@ spec:
       rules:
         - application: paw-arbeidssokerregisteret-api-inngang
         - application: paw-arbeidssoekerregisteret-api-oppslag
+        - application: paw-arbeidssoekerregisteret-api-oppslag-v2
         - application: aia-backend
         - application: paw-arbeidssoker-besvarelse
         - application: paw-arbeidssoekerregisteret-api-bekreftelse

@@ -13,6 +13,12 @@ const TEKSTER = {
         SLUTTBRUKER: 'bruker',
         SYSTEM: 'Nav',
         VEILEDER: 'veileder',
+        kilde: 'Kilde',
+        UKJENT: 'Ikke oppgitt',
+        UKJENT_VERDI: 'Ukjent',
+        ARBEIDSSOEKERREGISTERET: 'Arbeidssøkerregisteret',
+        DAGPENGER: 'Dagpenger',
+        FRISKMELDT_TIL_ARBEIDSFORMIDLING: 'Friskmeldt til arbeidsformidling',
     },
 };
 
@@ -25,7 +31,7 @@ function AlleBekreftelser(props: { bekreftelser: Bekreftelse[]; sprak: Sprak }) 
 
     return (
         <>
-            {bekreftelser.map(({ periodeId, svar }, index) => {
+            {bekreftelser.map(({ periodeId, bekreftelsesloesning, svar }, index) => {
                 return (
                     <Box
                         key={index + periodeId}
@@ -48,6 +54,8 @@ function AlleBekreftelser(props: { bekreftelser: Bekreftelse[]; sprak: Sprak }) 
                             <dd>{svar.harJobbetIDennePerioden ? 'Ja' : 'Nei'}</dd>
                             <dt className="font-semibold">{tekst('fortsette')}</dt>
                             <dd>{svar.vilFortsetteSomArbeidssoeker ? 'Ja' : 'Nei'}</dd>
+                            <dt className="font-semibold">{tekst('kilde')}</dt>
+                            <dd>{tekst(bekreftelsesloesning || 'UKJENT')}</dd>
                         </dl>
                     </Box>
                 );
