@@ -21,6 +21,7 @@ const routesSomIkkeSkalRefreshes = [
     '/sykmeldtoppfoelging',
     '/slett-arbeidssoekerperiode',
     '/historikk',
+    '/tidslinjer',
     '/registrering-arbeidssoeker-sjekk',
     '/oppdater-opplysninger',
 ];
