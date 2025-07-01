@@ -6,23 +6,11 @@ import useApiKall from '../hooks/useApiKall';
 import { Config } from '../model/config';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
-import { HistorikkWrapper } from '../components/historikk/historikk-wrapper';
-import { AggregertePerioder, AggregertPeriode } from '../types/aggregerte-perioder';
-import { AggregerteBekreftelser } from '../model/bekreftelse';
-import { mergeGyldigeBekreftelser } from '../lib/merge-gyldige-bekreftelser';
+import { AggregertePerioder } from '../types/aggregerte-perioder';
+import { TidslinjerWrapper } from '../components/tidslinjer/tidslinjer-wrapper';
+import { TidslinjerResponse } from '../model/tidslinjer';
 
-function repackBekreftelserMedStatus(bekreftelserMedStatus) {
-    return bekreftelserMedStatus.reduce((total, current) => {
-        const { periodeId } = current.bekreftelse;
-        if (!Object.keys(total).includes(periodeId)) {
-            total[periodeId] = [];
-        }
-        total[periodeId].push({ status: current.status, ...current.bekreftelse });
-        return total;
-    }, {});
-}
-
-export default function Historikk() {
+export default function Tidslinje() {
     const { params } = useParamsFromContext();
     const { enableMock } = useConfig() as Config;
     const { fnr } = params;
@@ -41,25 +29,17 @@ export default function Historikk() {
     const periodeIds = aggregertePerioder ? aggregertePerioder.map((periode) => periode.periodeId) : null;
 
     const {
-        data: gyldigeBekreftelser,
-        isLoading: isLoadingGyldigeBekreftelser,
-        error: errorGyldigeBekreftelser,
-    } = useApiKall<AggregerteBekreftelser>(
-        `/api/${brukerMock ? 'mocks/' : ''}bekreftelser-med-status`,
+        data: tidslinjer,
+        isLoading: isLoadingTidslinjer,
+        error: errorTidslinjer,
+    } = useApiKall<TidslinjerResponse>(
+        `/api/${brukerMock ? 'mocks/' : ''}tidslinjer`,
         'POST',
         fnr && periodeIds ? JSON.stringify({ perioder: periodeIds }) : null,
     );
 
-    const isLoading = isLoadingAggregertePerioder || isLoadingGyldigeBekreftelser;
-    const error = errorAggregertePerioder || errorGyldigeBekreftelser;
-
-    const aggregertePerioderMedGyldigeBekreftelser =
-        aggregertePerioder && gyldigeBekreftelser
-            ? mergeGyldigeBekreftelser(
-                  aggregertePerioder,
-                  repackBekreftelserMedStatus(gyldigeBekreftelser.bekreftelser),
-              )
-            : null;
+    const isLoading = isLoadingAggregertePerioder || isLoadingTidslinjer;
+    const error = errorAggregertePerioder || errorTidslinjer;
 
     if (isLoading) {
         return (
@@ -70,24 +50,15 @@ export default function Historikk() {
     }
 
     if (error) {
-        return <Alert variant={'error'}>Noe gikk dessverre galt ved henting av historikk</Alert>;
+        return <Alert variant={'error'}>Noe gikk dessverre galt ved henting av tidslinje</Alert>;
     }
 
     return (
         <>
             <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
-            <Heading size={'large'}>Arbeidssøkerhistorikk</Heading>
+            <Heading size={'large'}>Tidslinje for arbeidssøker</Heading>
             <div className={'flex flex-col max-w-3xl'}>
-                {aggregertePerioderMedGyldigeBekreftelser &&
-                    aggregertePerioderMedGyldigeBekreftelser.map((periode, index) => (
-                        <div
-                            className={'p-4'}
-                            key={periode.periodeId}
-                            style={{ background: index % 2 !== 0 ? 'var(--a-surface-subtle)' : undefined }}
-                        >
-                            <HistorikkWrapper {...periode} sprak={'nb'} />
-                        </div>
-                    ))}
+                <TidslinjerWrapper {...tidslinjer} sprak={'nb'} />
             </div>
         </>
     );
