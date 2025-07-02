@@ -1,9 +1,11 @@
 import { Sprak } from '@navikt/arbeidssokerregisteret-utils';
-import { BodyShort, Accordion } from '@navikt/ds-react';
+import { BodyShort, Accordion, Box } from '@navikt/ds-react';
+import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
 
 import { prettyPrintDato } from '../../lib/date-utils';
 import { Tidslinje } from '../../model/tidslinjer';
 import { HendelseVisning } from './hendelse';
+import { BekreftelseStatus } from '../../model/bekreftelse';
 
 export interface TidslinjerProps {
     sprak: Sprak;
@@ -40,14 +42,37 @@ const TEKSTER = {
     },
 };
 
+function harMuligeProblemer(hendelser) {
+    const bekreftelser = hendelser.filter((hendelse) => ['bekreftelse_v1'].includes(hendelse.hendelseType));
+    const avslutninger = hendelser.filter((hendelse) => ['periode_avsluttet_v1'].includes(hendelse.hendelseType));
+    const problematiskeBekreftelser = bekreftelser.filter(
+        (hendelse) => hendelse.bekreftelseV1.status !== BekreftelseStatus.GYLDIG,
+    );
+    const problematiskeAvslutninger = avslutninger.filter(
+        (hendelse) => hendelse.periodeAvsluttetV1.utfoertAv.type === 'SYSTEM',
+    );
+
+    return problematiskeAvslutninger.length > 0 || problematiskeBekreftelser.length > 0;
+}
+
 function TidslinjeBox(props: Tidslinje) {
     const { startet, avsluttet, hendelser } = props;
+    const problemer = harMuligeProblemer(hendelser);
     return (
         <Accordion className="mb-4">
             <Accordion.Item>
                 <Accordion.Header>
-                    {prettyPrintDato(startet, 'nb', true)} -{' '}
-                    {avsluttet ? prettyPrintDato(avsluttet, 'nb', true) : 'fortsatt pågående'}
+                    <Box className="flex flex-row">
+                        {problemer ? (
+                            <ExclamationmarkTriangleFillIcon className="mr-4" color="orange" />
+                        ) : (
+                            <CheckmarkCircleFillIcon className="mr-4" color="green" />
+                        )}
+                        <BodyShort>
+                            {prettyPrintDato(startet, 'nb', true)} -{' '}
+                            {avsluttet ? prettyPrintDato(avsluttet, 'nb', true) : 'fortsatt pågående'}
+                        </BodyShort>
+                    </Box>
                 </Accordion.Header>
                 <Accordion.Content>
                     {hendelser.map((hendelse, index) => (

@@ -859,10 +859,10 @@ const data = {
                     hendelseType: 'bekreftelse_v1',
                     tidspunkt: '2025-03-19T09:23:21.420Z',
                     bekreftelseV1: {
-                        status: 'GYLDIG',
+                        status: 'UVENTET_KILDE',
                         bekreftelse: {
                             periodeId: '784c1a8a-6acd-4776-97c7-49a5b8b86c6c',
-                            bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
+                            bekreftelsesloesning: 'DAGPENGER',
                             id: '0a6fe68f-9961-41f8-8116-316d4cf77186',
                             svar: {
                                 sendtInnAv: {
