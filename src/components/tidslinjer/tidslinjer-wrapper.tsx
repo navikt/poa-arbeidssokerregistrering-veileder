@@ -1,9 +1,10 @@
 import { Sprak } from '@navikt/arbeidssokerregisteret-utils';
-import { Heading } from '@navikt/ds-react';
+import { BodyShort, Accordion } from '@navikt/ds-react';
 
+import { prettyPrintDato } from '../../lib/date-utils';
 import { Tidslinje } from '../../model/tidslinjer';
 
-export interface TidslinjeProps {
+export interface TidslinjerProps {
     sprak: Sprak;
     tidslinjer: Tidslinje[];
 }
@@ -38,14 +39,35 @@ const TEKSTER = {
     },
 };
 
-export function TidslinjerWrapper(props: TidslinjeProps) {
+function TidslinjeBox(props: Tidslinje) {
+    const { startet, avsluttet, hendelser } = props;
+    return (
+        <Accordion className="mb-4">
+            <Accordion.Item>
+                <Accordion.Header>
+                    {prettyPrintDato(startet, 'nb', true)} -{' '}
+                    {avsluttet ? prettyPrintDato(avsluttet, 'nb', true) : 'fortsatt pågående'}
+                </Accordion.Header>
+                <Accordion.Content>
+                    <pre>{JSON.stringify(hendelser, null, 2)}</pre>
+                </Accordion.Content>
+            </Accordion.Item>
+        </Accordion>
+    );
+}
+
+export function TidslinjerWrapper(props: TidslinjerProps) {
     const { tidslinjer } = props;
+
+    if (!tidslinjer || tidslinjer.length === 0) {
+        return <BodyShort spacing>Ingen arbeidssøkerperioder funnet</BodyShort>;
+    }
+
     return (
         <>
-            <Heading level="2" size="large">
-                Tidslinje
-            </Heading>
-            <pre>{JSON.stringify(tidslinjer, null, 2)}</pre>
+            {tidslinjer.map((tidslinje, index) => (
+                <TidslinjeBox {...tidslinje} key={`${tidslinje.periodeId}-${index}`} />
+            ))}
         </>
     );
 }

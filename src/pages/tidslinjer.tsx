@@ -50,13 +50,13 @@ export default function Tidslinje() {
     }
 
     if (error) {
-        return <Alert variant={'error'}>Noe gikk dessverre galt ved henting av tidslinje</Alert>;
+        return <Alert variant={'error'}>Noe gikk dessverre galt ved henting av tidslinjer</Alert>;
     }
 
     return (
         <>
             <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
-            <Heading size={'large'}>Tidslinje for arbeidssøker</Heading>
+            <Heading size={'large'}>Tidslinjer for arbeidssøker</Heading>
             <div className={'flex flex-col max-w-3xl'}>
                 <TidslinjerWrapper {...tidslinjer} sprak={'nb'} />
             </div>
