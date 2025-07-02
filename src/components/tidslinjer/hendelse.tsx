@@ -15,11 +15,14 @@ const TEKSTER = {
         SLUTTBRUKER: 'bruker',
         SYSTEM: 'Nav',
         VEILEDER: 'veileder',
+        DAGPENGER: 'Dagpenger',
         periode_startet_v1: 'Arbeidssøkerperiode startet',
         opplysninger_v4: 'Opplysninger sendt inn',
         profilering_v1: 'Profilering ferdig',
         bekreftelse_v1: 'Arbeidssøkerperiode bekreftet',
         periode_avsluttet_v1: 'Arbeidssøkerperiode avsluttet',
+        pa_vegne_av_stopp_v1: 'Bekreftelse på vegne av stoppet',
+        pa_vegne_av_start_v1: 'Bekreftelse på vegne av startet',
         'fortsatt aktiv': 'fortsatt aktiv',
         'graceperiode utløpt': 'Ikke bekreftet arbeidssøkerstatus',
         'stopp av periode': 'Arbeidssøkerperioden er avsluttet av veileder',
@@ -45,11 +48,13 @@ function snakeToCamel(snakeCaseString) {
 }
 
 function hentUtfoertAv(data) {
-    const utfoerer = data.bekreftelse
-        ? data.bekreftelse.svar.sendtInnAv.utfoertAv
-        : data.sendtInnAv
-          ? data.sendtInnAv.utfoertAv
-          : data.utfoertAv;
+    const utfoerer = data.bekreftelsesloesning
+        ? { type: data.bekreftelsesloesning }
+        : data.bekreftelse
+          ? data.bekreftelse.svar.sendtInnAv.utfoertAv
+          : data.sendtInnAv
+            ? data.sendtInnAv.utfoertAv
+            : data.utfoertAv;
     return utfoerer.type;
 }
 
