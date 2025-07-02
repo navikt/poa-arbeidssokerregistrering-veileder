@@ -3,6 +3,7 @@ import { BodyShort, Accordion } from '@navikt/ds-react';
 
 import { prettyPrintDato } from '../../lib/date-utils';
 import { Tidslinje } from '../../model/tidslinjer';
+import { HendelseVisning } from './hendelse';
 
 export interface TidslinjerProps {
     sprak: Sprak;
@@ -49,7 +50,9 @@ function TidslinjeBox(props: Tidslinje) {
                     {avsluttet ? prettyPrintDato(avsluttet, 'nb', true) : 'fortsatt pågående'}
                 </Accordion.Header>
                 <Accordion.Content>
-                    <pre>{JSON.stringify(hendelser, null, 2)}</pre>
+                    {hendelser.map((hendelse, index) => (
+                        <HendelseVisning {...hendelse} key={`${hendelse}-${index}`} />
+                    ))}
                 </Accordion.Content>
             </Accordion.Item>
         </Accordion>
