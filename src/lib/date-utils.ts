@@ -76,4 +76,21 @@ function prettyPrintDatoOgKlokkeslett(dato: string, locale?: Sprak, visAar?: boo
     return `${date.getDate()}. ${month}${visAar || thisYear !== year ? ' ' + year : ''} klokken ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
 }
 
-export { prettyPrintDato, prettyPrintDatoOgKlokkeslett, formaterDato };
+function prettyPrintDatoOgKlokkeslettKortform(dato: string, locale?: Sprak, visAar?: boolean) {
+    const now = new Date();
+    const date = new Date(dato);
+    const thisYear = now.getFullYear();
+    const year = date.getFullYear();
+    const timer = date.getHours();
+    const minutter = date.getMinutes();
+    const valgtSprak = !locale ? 'nb' : (locale as Sprak);
+    const month = monthNames[valgtSprak][date.getMonth()];
+
+    if (valgtSprak === 'en') {
+        return `${month} ${date.getDate()}.${visAar || thisYear !== year ? ' ' + year : ''} at {timer.toString().length === 1 ? '0': ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
+    }
+
+    return `${date.getDate().toString().padStart(2, '0')}.${date.getMonth().toString().padStart(2, '0')}${visAar || thisYear !== year ? '.' + year : ''} ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
+}
+
+export { prettyPrintDato, prettyPrintDatoOgKlokkeslett, prettyPrintDatoOgKlokkeslettKortform, formaterDato };

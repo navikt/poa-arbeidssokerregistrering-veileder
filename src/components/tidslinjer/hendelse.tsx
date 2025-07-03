@@ -1,7 +1,7 @@
-import { Box } from '@navikt/ds-react';
+import { Box, HGrid } from '@navikt/ds-react';
 import { lagHentTekstForSprak, Sprak } from '@navikt/arbeidssokerregisteret-utils';
 
-import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
+import { prettyPrintDatoOgKlokkeslettKortform } from '../../lib/date-utils';
 
 import { Hendelse } from '../../model/tidslinjer';
 
@@ -16,13 +16,13 @@ const TEKSTER = {
         SYSTEM: 'Nav',
         VEILEDER: 'veileder',
         DAGPENGER: 'Dagpenger',
-        periode_startet_v1: 'Arbeidssøkerperiode startet',
-        opplysninger_v4: 'Opplysninger sendt inn',
+        periode_startet_v1: 'Periode startet',
+        opplysninger_v4: 'Opplysninger sendt',
         profilering_v1: 'Profilering ferdig',
-        bekreftelse_v1: 'Arbeidssøkerperiode bekreftet',
-        periode_avsluttet_v1: 'Arbeidssøkerperiode avsluttet',
-        pa_vegne_av_stopp_v1: 'Bekreftelse på vegne av stoppet',
-        pa_vegne_av_start_v1: 'Bekreftelse på vegne av startet',
+        bekreftelse_v1: 'Periode bekreftet',
+        periode_avsluttet_v1: 'Periode avsluttet',
+        pa_vegne_av_stopp_v1: 'På vegne av stoppet',
+        pa_vegne_av_start_v1: 'På vegne av startet',
         'fortsatt aktiv': 'fortsatt aktiv',
         'graceperiode utløpt': 'Ikke bekreftet arbeidssøkerstatus',
         'stopp av periode': 'Arbeidssøkerperioden er avsluttet av veileder',
@@ -51,10 +51,11 @@ function hentUtfoertAv(data) {
     const utfoerer = data.bekreftelsesloesning
         ? { type: data.bekreftelsesloesning }
         : data.bekreftelse
-          ? data.bekreftelse.svar.sendtInnAv.utfoertAv
+          ? { type: `${data.bekreftelse.svar.sendtInnAv.utfoertAv.type} / ${data.bekreftelse.bekreftelsesloesning}` }
           : data.sendtInnAv
             ? data.sendtInnAv.utfoertAv
             : data.utfoertAv;
+
     return utfoerer.type;
 }
 
@@ -72,8 +73,12 @@ export function HendelseVisning(props: Hendelse) {
 
     return (
         <Box>
-            {tekst(hendelseType)} - {prettyPrintDatoOgKlokkeslett(tidspunkt, 'nb', true)} - {tekst(utfoertAv)}{' '}
-            {metaData ? ` - ${metaData}` : ''}
+            <HGrid gap={'4'} columns={4}>
+                <span>{prettyPrintDatoOgKlokkeslettKortform(tidspunkt, 'nb', true)}</span>
+                <span>{tekst(hendelseType)}</span>
+                <span>{utfoertAv}</span>
+                <span>{metaData}</span>
+            </HGrid>
         </Box>
     );
 }
