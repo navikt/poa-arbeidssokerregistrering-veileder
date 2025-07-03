@@ -1,5 +1,6 @@
 import { Box, HGrid } from '@navikt/ds-react';
 import { lagHentTekstForSprak, Sprak } from '@navikt/arbeidssokerregisteret-utils';
+import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
 
 import { prettyPrintDatoOgKlokkeslettKortform } from '../../lib/date-utils';
 
@@ -13,7 +14,7 @@ const TEKSTER = {
         periode: 'Periode',
         av: 'av',
         SLUTTBRUKER: 'Bruker',
-        SYSTEM: 'Nav',
+        SYSTEM: 'System',
         VEILEDER: 'Veileder',
         DAGPENGER: 'Dagpenger',
         'SLUTTBRUKER / ARBEIDSSOEKERREGISTERET': 'Bruker/Registeret',
@@ -83,6 +84,9 @@ export function HendelseVisning(props: Hendelse) {
     const data = props[snakeToCamel(hendelseType)];
     const kilde = hentUtfoertAv(data);
     const status = hentMetaData(data);
+    const visVarseltrekant =
+        (hendelseType === 'periode_avsluttet_v1' && kilde === 'SYSTEM') ||
+        (hendelseType === 'bekreftelse_v1' && status !== 'GYLDIG');
 
     return (
         <Box>
@@ -90,7 +94,10 @@ export function HendelseVisning(props: Hendelse) {
                 <span>{prettyPrintDatoOgKlokkeslettKortform(tidspunkt, 'nb', true)}</span>
                 <span>{tekst(hendelseType)}</span>
                 <span>{tekst(kilde)}</span>
-                <span>{tekst(status)}</span>
+                <span className="flex flex-row justify-between">
+                    {tekst(status)}
+                    {visVarseltrekant && <ExclamationmarkTriangleFillIcon color="orange" className="mt-1 mr-4" />}
+                </span>
             </HGrid>
         </Box>
     );

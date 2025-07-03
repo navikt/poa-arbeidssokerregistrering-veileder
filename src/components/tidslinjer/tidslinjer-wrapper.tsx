@@ -20,7 +20,7 @@ const TEKSTER = {
         periode: 'Periode',
         av: 'av',
         SLUTTBRUKER: 'bruker',
-        SYSTEM: 'Nav',
+        SYSTEM: 'System',
         VEILEDER: 'veileder',
         'fortsatt aktiv': 'fortsatt aktiv',
         'graceperiode utløpt': 'Ikke bekreftet arbeidssøkerstatus',
