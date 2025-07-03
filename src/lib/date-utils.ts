@@ -85,12 +85,13 @@ function prettyPrintDatoOgKlokkeslettKortform(dato: string, locale?: Sprak, visA
     const minutter = date.getMinutes();
     const valgtSprak = !locale ? 'nb' : (locale as Sprak);
     const month = monthNames[valgtSprak][date.getMonth()];
+    const maaned = date.getMonth() + 1;
 
     if (valgtSprak === 'en') {
         return `${month} ${date.getDate()}.${visAar || thisYear !== year ? ' ' + year : ''} at {timer.toString().length === 1 ? '0': ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
     }
 
-    return `${date.getDate().toString().padStart(2, '0')}.${date.getMonth().toString().padStart(2, '0')}${visAar || thisYear !== year ? '.' + year : ''} ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
+    return `${date.getDate().toString().padStart(2, '0')}.${maaned.toString().padStart(2, '0')}${visAar || thisYear !== year ? '.' + year : ''} ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
 }
 
 export { prettyPrintDato, prettyPrintDatoOgKlokkeslett, prettyPrintDatoOgKlokkeslettKortform, formaterDato };
