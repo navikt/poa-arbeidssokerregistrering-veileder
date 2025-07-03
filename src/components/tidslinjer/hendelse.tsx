@@ -12,10 +12,16 @@ const TEKSTER = {
         sluttarsak: 'Sluttårsak',
         periode: 'Periode',
         av: 'av',
-        SLUTTBRUKER: 'bruker',
+        SLUTTBRUKER: 'Bruker',
         SYSTEM: 'Nav',
-        VEILEDER: 'veileder',
+        VEILEDER: 'Veileder',
         DAGPENGER: 'Dagpenger',
+        'SLUTTBRUKER / ARBEIDSSOEKERREGISTERET': 'Bruker/Registeret',
+        'SLUTTBRUKER / DAGPENGER': 'Bruker/Dagpenger',
+        'SLUTTBRUKER / FRISKMELDT_TIL_ARBEIDSFORMIDLING': 'Bruker/Sykepenger',
+        'VEILEDER / ARBEIDSSOEKERREGISTERET': 'Veileder/Registeret',
+        'VEILEDER / DAGPENGER': 'Veileder/Dagpenger',
+        'VEILEDER / FRISKMELDT_TIL_ARBEIDSFORMIDLING': 'Veileder/Sykepenger',
         periode_startet_v1: 'Periode startet',
         opplysninger_v4: 'Opplysninger sendt',
         profilering_v1: 'Profilering ferdig',
@@ -23,6 +29,13 @@ const TEKSTER = {
         periode_avsluttet_v1: 'Periode avsluttet',
         pa_vegne_av_stopp_v1: 'På vegne av stoppet',
         pa_vegne_av_start_v1: 'På vegne av startet',
+        GYLDIG: 'Gyldig',
+        UVENTET_KILDE: 'Uventet kilde',
+        UTENFOR_PERIODE: 'Utenfor periode',
+        ANTATT_GODE_MULIGHETER: 'Gode muligheter',
+        ANTATT_BEHOV_FOR_VEILEDNING: 'Behov for veiledning',
+        OPPGITT_HINDRINGER: 'Oppgitt hindringer',
+        UKJENT_VERDI: 'Ukjent verdi',
         'fortsatt aktiv': 'fortsatt aktiv',
         'graceperiode utløpt': 'Ikke bekreftet arbeidssøkerstatus',
         'stopp av periode': 'Arbeidssøkerperioden er avsluttet av veileder',
@@ -68,16 +81,16 @@ export function HendelseVisning(props: Hendelse) {
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
     const { hendelseType, tidspunkt } = props;
     const data = props[snakeToCamel(hendelseType)];
-    const utfoertAv = hentUtfoertAv(data);
-    const metaData = hentMetaData(data);
+    const kilde = hentUtfoertAv(data);
+    const status = hentMetaData(data);
 
     return (
         <Box>
             <HGrid gap={'4'} columns={4}>
                 <span>{prettyPrintDatoOgKlokkeslettKortform(tidspunkt, 'nb', true)}</span>
                 <span>{tekst(hendelseType)}</span>
-                <span>{utfoertAv}</span>
-                <span>{metaData}</span>
+                <span>{tekst(kilde)}</span>
+                <span>{tekst(status)}</span>
             </HGrid>
         </Box>
     );

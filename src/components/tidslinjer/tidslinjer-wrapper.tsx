@@ -1,5 +1,5 @@
 import { Sprak } from '@navikt/arbeidssokerregisteret-utils';
-import { BodyShort, Accordion, Box } from '@navikt/ds-react';
+import { BodyShort, Accordion, Box, HGrid } from '@navikt/ds-react';
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
 
 import { prettyPrintDato } from '../../lib/date-utils';
@@ -75,8 +75,20 @@ function TidslinjeBox(props: Tidslinje) {
                     </Box>
                 </Accordion.Header>
                 <Accordion.Content>
+                    {hendelser.length > 0 && (
+                        <Box className="font-semibold bg-slate-100">
+                            <HGrid gap={'4'} columns={4}>
+                                <span>Tidspunkt</span>
+                                <span>Hendelse</span>
+                                <span>Kilde</span>
+                                <span>Status</span>
+                            </HGrid>
+                        </Box>
+                    )}
                     {hendelser.map((hendelse, index) => (
-                        <HendelseVisning {...hendelse} key={`${hendelse}-${index}`} />
+                        <div style={{ background: index % 2 !== 0 ? 'var(--a-surface-subtle)' : undefined }}>
+                            <HendelseVisning {...hendelse} key={`${hendelse}-${index}`} />
+                        </div>
                     ))}
                 </Accordion.Content>
             </Accordion.Item>
