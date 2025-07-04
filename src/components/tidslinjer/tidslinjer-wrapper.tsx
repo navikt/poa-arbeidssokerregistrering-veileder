@@ -45,6 +45,10 @@ const TEKSTER = {
 function harMuligeProblemer(hendelser) {
     const bekreftelser = hendelser.filter((hendelse) => ['bekreftelse_v1'].includes(hendelse.hendelseType));
     const avslutninger = hendelser.filter((hendelse) => ['periode_avsluttet_v1'].includes(hendelse.hendelseType));
+    const paVegneAv = hendelser.filter((hendelse) =>
+        ['pa_vegne_av_start_v1', 'pa_vegne_av_stopp_v1'].includes(hendelse.hendelseType),
+    );
+
     const problematiskeBekreftelser = bekreftelser.filter(
         (hendelse) => hendelse.bekreftelseV1.status !== BekreftelseStatus.GYLDIG,
     );
@@ -52,7 +56,9 @@ function harMuligeProblemer(hendelser) {
         (hendelse) => hendelse.periodeAvsluttetV1.utfoertAv.type === 'SYSTEM',
     );
 
-    return problematiskeAvslutninger.length > 0 || problematiskeBekreftelser.length > 0;
+    const problematiskePaVegneAv = paVegneAv.length > 0 && paVegneAv[0].hendelseType === 'pa_vegne_av_stopp_v1';
+
+    return problematiskeAvslutninger.length > 0 || problematiskeBekreftelser.length > 0 || problematiskePaVegneAv;
 }
 
 function TidslinjeBox(props: Tidslinje) {
