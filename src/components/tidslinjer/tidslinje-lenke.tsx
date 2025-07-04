@@ -3,9 +3,9 @@ import { loggAktivitet } from '../../lib/amplitude';
 
 function TidslinjerLenke() {
     return (
-        <Box className="mt-4 mb-4 text-start">
+        <Box className="fixed bottom-0 right-10">
             <Link href="/tidslinjer" onClick={() => loggAktivitet({ aktivitet: 'Går til tidslinjer' })}>
-                Se tidligere arbeidssøkerperioder og opplysninger
+                π
             </Link>
         </Box>
     );

@@ -10,6 +10,7 @@ import { HistorikkWrapper } from '../components/historikk/historikk-wrapper';
 import { AggregertePerioder, AggregertPeriode } from '../types/aggregerte-perioder';
 import { AggregerteBekreftelser } from '../model/bekreftelse';
 import { mergeGyldigeBekreftelser } from '../lib/merge-gyldige-bekreftelser';
+import TidslinjerLenke from '../components/tidslinjer/tidslinje-lenke';
 
 function repackBekreftelserMedStatus(bekreftelserMedStatus) {
     return bekreftelserMedStatus.reduce((total, current) => {
@@ -89,6 +90,7 @@ export default function Historikk() {
                         </div>
                     ))}
             </div>
+            <TidslinjerLenke />
         </>
     );
 }
