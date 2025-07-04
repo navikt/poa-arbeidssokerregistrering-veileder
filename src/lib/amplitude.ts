@@ -31,6 +31,7 @@ type AktivitetData =
     | { aktivitet: 'Går til skjema for dagpenger' }
     | { aktivitet: 'Klikker på "Fyll inn opplysninger fra siste arbeidssøkerperiode"' }
     | { aktivitet: 'Går til historikk' }
+    | { aktivitet: 'Går til tidslinjer' }
     | { aktivitet: 'Går til bekreftelser' }
     | { aktivitet: 'Sender inn bekreftelse på vegne av bruker' }
     | { aktivitet: 'Går til avslutt arbeidssøkerperiode' }

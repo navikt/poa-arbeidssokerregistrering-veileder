@@ -17,6 +17,7 @@ const TEKSTER = {
         SYSTEM: 'System',
         VEILEDER: 'Veileder',
         DAGPENGER: 'Dagpenger',
+        FRIST_BRUTT: 'Meldeplikt brutt',
         'SLUTTBRUKER / ARBEIDSSOEKERREGISTERET': 'Bruker/Registeret',
         'SLUTTBRUKER / DAGPENGER': 'Bruker/Dagpenger',
         'SLUTTBRUKER / FRISKMELDT_TIL_ARBEIDSFORMIDLING': 'Bruker/Sykepenger',
@@ -74,6 +75,9 @@ function hentUtfoertAv(data) {
 }
 
 function hentMetaData(data) {
+    if (data?.fristBrutt) {
+        return 'FRIST_BRUTT';
+    }
     const metadata = data?.profilertTil || data?.status || '';
     return metadata;
 }
@@ -86,7 +90,8 @@ export function HendelseVisning(props: Hendelse) {
     const status = hentMetaData(data);
     const visVarseltrekant =
         (hendelseType === 'periode_avsluttet_v1' && kilde === 'SYSTEM') ||
-        (hendelseType === 'bekreftelse_v1' && status !== 'GYLDIG');
+        (hendelseType === 'bekreftelse_v1' && status !== 'GYLDIG') ||
+        (hendelseType === 'pa_vegne_av_stopp_v1' && status === 'FRIST_BRUTT');
 
     return (
         <Box>
