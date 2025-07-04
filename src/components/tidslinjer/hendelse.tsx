@@ -75,7 +75,12 @@ function hentUtfoertAv(data) {
 }
 
 function hentMetaData(data) {
-    if (data?.fristBrutt) {
+    if (
+        data?.fristBrutt ||
+        ['[Bekreftelse:ytelse/støtte] Ikke levert innen fristen', '[Bekreftelse] ikke levert innen fristen'].includes(
+            data?.aarsak,
+        )
+    ) {
         return 'FRIST_BRUTT';
     }
     const metadata = data?.profilertTil || data?.status || '';
