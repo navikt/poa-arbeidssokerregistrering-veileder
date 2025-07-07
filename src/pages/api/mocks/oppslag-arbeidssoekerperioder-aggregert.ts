@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
 
 const oppslagArbeidssoekerperioderAggregert = (req: NextApiRequest, res: NextApiResponse): void => {
     res.json(data);
@@ -220,6 +221,22 @@ const data = [
                     profilertTil: 'ANTATT_GODE_MULIGHETER',
                     jobbetSammenhengendeSeksAvTolvSisteManeder: true,
                     alder: 38,
+                    egenvurderinger: [
+                        {
+                            egenvurderingId: '42',
+                            egenvurdering: 'ANTATT_BEHOV_FOR_VEILEDNING' as ProfilertTil,
+                            sendtInnAv: {
+                                tidspunkt: '2024-11-17T12:48:26.258Z',
+                            },
+                        },
+                        {
+                            egenvurderingId: '43',
+                            egenvurdering: 'ANTATT_GODE_MULIGHETER' as ProfilertTil,
+                            sendtInnAv: {
+                                tidspunkt: '2024-11-16T12:48:26.258Z',
+                            },
+                        },
+                    ],
                 },
             },
         ],

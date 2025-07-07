@@ -6,6 +6,7 @@ import { OpplysningerMedProfilering } from '../../types/aggregerte-perioder';
 import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import { OpplysningerKomponent } from '../opplysninger-om-arbeidssoker-komponent';
 import ProfileringKomponent from './profilering';
+import EgenvurderingerKomponent from './egenvurderinger';
 
 const TEKSTER = {
     nb: {
@@ -53,6 +54,7 @@ export function OpplysningerHistorikk(props: Props) {
                                 </Box>
                                 <OpplysningerKomponent opplysninger={opplysninger} />
                                 <ProfileringKomponent profilering={opplysninger.profilering} />
+                                <EgenvurderingerKomponent egenvurderinger={opplysninger.profilering.egenvurderinger} />
                             </Accordion.Content>
                         </Accordion.Item>
                     );

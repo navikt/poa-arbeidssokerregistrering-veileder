@@ -3,12 +3,25 @@ import {
     OpplysningerOmArbeidssoker,
     Bekreftelse,
     Profilering,
+    SendtInnAv,
+    ProfilertTil,
 } from '@navikt/arbeidssokerregisteret-utils';
 
 import { BekreftelseMedStatus } from '../model/bekreftelse';
 
+export interface ProfileringMedEgenvurdering extends Profilering {
+    egenvurderinger?: {
+        egenvurderingId: string;
+        periodeId: string;
+        opplysningerOmArbeidssoekerId: string;
+        profileringId: string;
+        sendtInnAv: SendtInnAv;
+        egenvurdering: ProfilertTil;
+    }[];
+}
+
 export interface OpplysningerMedProfilering extends OpplysningerOmArbeidssoker {
-    profilering: Profilering;
+    profilering: ProfileringMedEgenvurdering;
 }
 
 export interface AggregertPeriode extends ArbeidssokerPeriode {
