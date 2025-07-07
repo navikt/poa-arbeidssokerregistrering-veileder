@@ -7,6 +7,7 @@ import Opplysninger from './opplysninger';
 import HistorikkLenke from './historikk-lenke';
 import Bekreftelse from './bekreftelse';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
+import { ProfileringMedEgenvurdering } from '../../types/aggregerte-perioder';
 
 interface Props {
     samletInformasjon: SamletInformasjon;
@@ -20,6 +21,11 @@ function AktivPeriode(props: Props) {
         `/api/${brukerMock ? 'mocks/' : ''}tilgjengelige-bekreftelser`,
         'POST',
         JSON.stringify({ identitetsnummer: fnr }),
+    );
+    const { data: egenvurderinger } = useApiKall<ProfileringMedEgenvurdering['egenvurderinger']>(
+        `/api/${brukerMock ? 'mocks/' : ''}oppslag-egenvurderinger`,
+        'POST',
+        JSON.stringify({ identitetsnummer: fnr, periodeId: samletInformasjon.arbeidssoekerperioder[0].periodeId }),
     );
 
     return (
@@ -37,6 +43,7 @@ function AktivPeriode(props: Props) {
             <Opplysninger
                 opplysninger={samletInformasjon.opplysningerOmArbeidssoeker[0]}
                 sisteArbeidssoekerperiodeId={samletInformasjon.arbeidssoekerperioder[0].periodeId}
+                egenvurderinger={egenvurderinger}
             />
             <Bekreftelse antallTilgjengeligBekreftelser={tilgjengeligeBekreftelser?.length} />
             <HistorikkLenke />

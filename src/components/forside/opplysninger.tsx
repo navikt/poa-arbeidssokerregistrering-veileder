@@ -11,10 +11,12 @@ import { useRouter } from 'next/router';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
 
 import Valgmeny from './valgmeny';
+import { AggregertePerioder, ProfileringMedEgenvurdering } from '../../types/aggregerte-perioder';
 
 interface Props {
     opplysninger: OpplysningerOmArbeidssoker;
     sisteArbeidssoekerperiodeId: string;
+    egenvurderinger?: ProfileringMedEgenvurdering['egenvurderinger'];
 }
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
@@ -47,6 +49,9 @@ function Opplysninger(props: Props) {
     const { opplysninger, sisteArbeidssoekerperiodeId } = props;
     const mappedeOpplysninger = mapOpplysninger(opplysninger);
     const tekst = lagHentTekstForSprak(SPORSMAL_TEKSTER, 'nb');
+    const egenvurdering = (props.egenvurderinger ?? []).find(
+        (e) => e.opplysningerOmArbeidssoekerId === opplysninger.opplysningerOmArbeidssoekerId,
+    );
 
     const Opplysning = (props: OpplysningProps) => {
         const { sporsmal, svar } = props;
@@ -83,6 +88,12 @@ function Opplysninger(props: Props) {
                         {mappedeOpplysninger.slice(Math.floor((mappedeOpplysninger.length + 1) / 2)).map((o) => {
                             return <Opplysning {...o} key={o.sporsmal} />;
                         })}
+                        {egenvurdering && (
+                            <Opplysning
+                                sporsmal={'egenvurdering'}
+                                svar={`egenvurdering-${egenvurdering.egenvurdering}`}
+                            />
+                        )}
                     </div>
                 </HGrid>
             </Box>
