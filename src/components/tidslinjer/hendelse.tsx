@@ -51,7 +51,7 @@ const TEKSTER = {
             'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
         'personen er doed': 'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
         'er registrert som død': 'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
-        iserv: 'Arbeidssøkerperioden er avsluttet i Arena',
+        ISERV: 'Perioden avsluttet i Arena',
         overføring: 'Arbeidssøkerperioden er avsluttet i Arena',
         'har ugyldig/annullert identitet, kunne ikke fastslå alder, avvist fordi personen ikke er bosatt i Norge i henhold til folkeregisterloven':
             'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
@@ -82,6 +82,9 @@ function hentMetaData(data) {
         )
     ) {
         return 'FRIST_BRUTT';
+    }
+    if (['ISERV', 'iserv'].includes(data?.aarsak)) {
+        return 'ISERV';
     }
     const metadata = data?.profilertTil || data?.status || '';
     return metadata;
