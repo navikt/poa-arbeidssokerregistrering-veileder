@@ -1,21 +1,21 @@
 import { Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
-import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
 
 import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import HistorikkLenke from './historikk-lenke';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
 import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
+import { AggregertPeriode } from '../../types/aggregerte-perioder';
 
 interface Props {
-    samletInformasjon: SamletInformasjon;
+    aggregertPeriode?: AggregertPeriode;
 }
 
 function IkkeAktivPeriode(props: Props) {
-    const { samletInformasjon } = props;
+    const { aggregertPeriode } = props;
     const router = useRouter();
 
-    const harHattPeriode = samletInformasjon?.arbeidssoekerperioder.length > 0;
+    const harHattPeriode = Boolean(aggregertPeriode);
     const sluttaarsak = oversettSluttaarsak('nb');
 
     return (
@@ -29,16 +29,11 @@ function IkkeAktivPeriode(props: Props) {
                         </Heading>
                         <BodyShort textColor={'subtle'} size={'small'}>
                             Arbeidssøkerperioden ble avsluttet{' '}
-                            {prettyPrintDatoOgKlokkeslett(
-                                samletInformasjon.arbeidssoekerperioder[0]?.avsluttet.tidspunkt,
-                            )}{' '}
-                            av {mapUtfoertAvType(samletInformasjon.arbeidssoekerperioder[0]?.avsluttet.utfoertAv.type)}
+                            {prettyPrintDatoOgKlokkeslett(aggregertPeriode?.avsluttet.tidspunkt)} av{' '}
+                            {mapUtfoertAvType(aggregertPeriode?.avsluttet.utfoertAv.type)}
                         </BodyShort>
                         <BodyShort textColor={'subtle'} size={'small'}>
-                            Sluttårsak:{' '}
-                            {sluttaarsak(
-                                samletInformasjon.arbeidssoekerperioder[0]?.avsluttet.aarsak ?? 'fortsatt aktiv',
-                            )}
+                            Sluttårsak: {sluttaarsak(aggregertPeriode?.avsluttet.aarsak ?? 'fortsatt aktiv')}
                         </BodyShort>
 
                         <HistorikkLenke />

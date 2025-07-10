@@ -2,10 +2,14 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
 
 const oppslagArbeidssoekerperioderAggregert = (req: NextApiRequest, res: NextApiResponse): void => {
-    res.json(data);
+    if (req.query['siste']) {
+        res.json(aggregertePerioderMockData.slice(0, 1));
+        return;
+    }
+    res.json(aggregertePerioderMockData);
 };
 
-const data = [
+export const aggregertePerioderMockData = [
     {
         periodeId: 'd70c0256-e3bc-470e-b3fe-f5999691fef8',
         startet: {
@@ -21,16 +25,17 @@ const data = [
                 avviksType: 'UKJENT',
             },
         },
-        avsluttet: {
-            tidspunkt: '2025-11-19T08:56:25.842Z',
-            utfoertAv: {
-                type: 'SYSTEM',
-                id: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssoekerregisteret-bekreftelse-utgang:24.11.15.54-1',
-            },
-            kilde: 'paw.arbeidssoekerregisteret.bekreftelse-utgang',
-            aarsak: 'Graceperiode utløpt',
-            tidspunktFraKilde: null,
-        },
+        avsluttet: null,
+        // avsluttet: {
+        //     tidspunkt: '2025-11-19T08:56:25.842Z',
+        //     utfoertAv: {
+        //         type: 'SYSTEM',
+        //         id: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssoekerregisteret-bekreftelse-utgang:24.11.15.54-1',
+        //     },
+        //     kilde: 'paw.arbeidssoekerregisteret.bekreftelse-utgang',
+        //     aarsak: 'Graceperiode utløpt',
+        //     tidspunktFraKilde: null,
+        // },
         opplysningerOmArbeidssoeker: [
             {
                 opplysningerOmArbeidssoekerId: 'c36257ca-5cb2-4ed6-8820-8c22e55f5618',

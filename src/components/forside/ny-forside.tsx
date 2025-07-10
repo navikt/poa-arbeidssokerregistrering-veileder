@@ -2,10 +2,10 @@ import { useParamsFromContext } from '../../contexts/params-from-context';
 import useApiKall from '../../hooks/useApiKall';
 import { useConfig } from '../../contexts/config-context';
 import { Config } from '../../model/config';
-import { SamletInformasjon } from '@navikt/arbeidssokerregisteret-utils';
 import IkkeAktivPeriode from './ikke-aktiv-periode';
 import AktivPeriode from './aktiv-periode';
 import { Alert, Loader } from '@navikt/ds-react';
+import { AggregertePerioder } from '../../types/aggregerte-perioder';
 
 interface Props {
     brukerMock: boolean;
@@ -16,16 +16,17 @@ function Innhold(props: Props) {
     const { brukerMock, fnr } = props;
 
     const hentSamletInformasjonUrl = brukerMock
-        ? '/api/mocks/oppslag-samlet-informasjon'
-        : '/api/oppslag-samlet-informasjon';
+        ? '/api/mocks/oppslag-arbeidssoekerperioder-aggregert?siste=true'
+        : '/api/oppslag-arbeidssoekerperioder-aggregert?siste=true';
 
     const {
-        data: samletInformasjon,
+        data: aggregertePerioder,
         isLoading,
         error,
-    } = useApiKall<SamletInformasjon>(hentSamletInformasjonUrl, 'POST', JSON.stringify({ identitetsnummer: fnr }));
+    } = useApiKall<AggregertePerioder>(hentSamletInformasjonUrl, 'POST', JSON.stringify({ identitetsnummer: fnr }));
 
-    const harAktivPeriode = samletInformasjon?.arbeidssoekerperioder[0]?.avsluttet === null;
+    const sistePeriode = aggregertePerioder && aggregertePerioder[0];
+    const harAktivPeriode = sistePeriode?.startet && sistePeriode?.avsluttet === null;
 
     if (isLoading) {
         return (
@@ -40,9 +41,9 @@ function Innhold(props: Props) {
     }
 
     if (harAktivPeriode) {
-        return <AktivPeriode samletInformasjon={samletInformasjon} brukerMock={brukerMock} fnr={fnr} />;
+        return <AktivPeriode aggregertPeriode={sistePeriode} brukerMock={brukerMock} fnr={fnr} />;
     } else {
-        return <IkkeAktivPeriode samletInformasjon={samletInformasjon} />;
+        return <IkkeAktivPeriode aggregertPeriode={sistePeriode} />;
     }
 }
 
