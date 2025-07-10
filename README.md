@@ -1,10 +1,6 @@
 # poa-arbeidssokerregistrering-veileder
 
-Arbeidssøkerregistrering frontend for veileder.
-
-## Demo
-
-[https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/](https://arbeidssokerregistrering-for-veileder.ekstern.dev.nav.no/)
+Arbeidssøkerregistrering frontend for veileder (Modia - Arbeidssøkerregisteret).
 
 # Utvikling
 
@@ -14,17 +10,17 @@ Dersom du ikke kjører i mock-modus må du ha koblet til [naisdevice](https://do
 
 Siden noen av modulene hentes fra GitHubs package registry må du også gjøre litt ekstra konfigurasjon for å kjøre løsningen lokalt.
 
--   Opprett et PAT (github => settings => developer settings => personal access tokens => tokens (classic)) med `read:packages` scope
--   Konfigurer SSO mot NAVIKT for tokenet
--   bruk tokenet som passord ved login `npm login --registry https://npm.pkg.github.com`
+- Opprett et PAT (github => settings => developer settings => personal access tokens => tokens (classic)) med `read:packages` scope
+- Konfigurer SSO mot NAVIKT for tokenet
+- bruk tokenet som passord ved login `npm login --registry https://npm.pkg.github.com`
 
 Deretter fortsette du med
 
--   klon repo
--   innstaller avhengigheter `npm i`
--   kjør tester `npm t`
--   start utviklingsserver `npm run dev`
--   åpne nettleseren på `http://localhost:3000`
+- klon repo
+- innstaller avhengigheter `npm i`
+- kjør tester `npm t`
+- start utviklingsserver `npm run dev`
+- åpne nettleseren på `http://localhost:3000`
 
 ## Deploye kun til dev
 
@@ -36,12 +32,15 @@ git checkout -b dev/<navn på branch>
 
 For å teste løsningen i dev bruker du [https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no](https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no)
 
-Du vil trenger en veileder-testbruker for veileder for å logge inn.
+Du vil trenger en veileder-testbruker for å logge inn.
+Veilederbruker kan du opprette i IDA [https://ida.intern.nav.no](https://ida.intern.nav.no/)
+Du må også opprette eller finne test-identer i Dolly [https://dolly.ekstern.dev.nav.no/](https://dolly.ekstern.dev.nav.no/)
 
 ## Ekstern dokumentasjon
 
--   [Next.js](https://nextjs.org/)
--   [testing-library](https://testing-library.com/)
+- [Next.js](https://nextjs.org/)
+- [testing-library](https://testing-library.com/)
+- [Tailwind.css](https://tailwindcss.com/)
 
 # Henvendelser
 
