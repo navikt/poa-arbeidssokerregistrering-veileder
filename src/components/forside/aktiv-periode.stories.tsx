@@ -1,7 +1,6 @@
 import AktivPeriode from './aktiv-periode';
 import type { Meta, StoryObj } from '@storybook/react';
 import { http, HttpResponse } from 'msw';
-import { JaEllerNei, UtdanningGodkjentValg } from '@navikt/arbeidssokerregisteret-utils';
 import { aggregertePerioderMockData } from '../../pages/api/mocks/oppslag-arbeidssoekerperioder-aggregert';
 
 const meta = {

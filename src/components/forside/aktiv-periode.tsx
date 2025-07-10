@@ -21,11 +21,6 @@ function AktivPeriode(props: Props) {
         'POST',
         JSON.stringify({ identitetsnummer: fnr }),
     );
-    const { data: egenvurderinger } = useApiKall<ProfileringMedEgenvurdering['egenvurderinger']>(
-        `/api/${brukerMock ? 'mocks/' : ''}oppslag-egenvurderinger`,
-        'POST',
-        JSON.stringify({ identitetsnummer: fnr, periodeId: aggregertPeriode.periodeId }),
-    );
 
     return (
         <>
@@ -41,7 +36,6 @@ function AktivPeriode(props: Props) {
             <Opplysninger
                 opplysninger={aggregertPeriode.opplysningerOmArbeidssoeker[0]}
                 sisteArbeidssoekerperiodeId={aggregertPeriode.periodeId}
-                egenvurderinger={egenvurderinger}
             />
             <Bekreftelse antallTilgjengeligBekreftelser={tilgjengeligeBekreftelser?.length} />
             <HistorikkLenke />

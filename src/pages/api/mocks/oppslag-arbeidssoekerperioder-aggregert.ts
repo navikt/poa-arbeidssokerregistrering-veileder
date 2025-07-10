@@ -90,6 +90,15 @@ export const aggregertePerioderMockData = [
                     profilertTil: 'OPPGITT_HINDRINGER',
                     jobbetSammenhengendeSeksAvTolvSisteManeder: true,
                     alder: 38,
+                    egenvurderinger: [
+                        {
+                            egenvurdering: ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING,
+                            egenvurderingId: '42',
+                            sendtInnAv: {
+                                tidspunkt: '2025-07-10T08:44:01.886Z',
+                            },
+                        },
+                    ],
                 },
             },
             {
