@@ -1,5 +1,5 @@
 import { initialize, mswLoader } from 'msw-storybook-addon';
-import type { Preview } from '@storybook/react';
+import type { Preview } from '@storybook/nextjs';
 import '../src/styles/globals.css';
 
 // Initialize MSW
