@@ -121,10 +121,11 @@ const lagApiHandlerMedAuthHeaders: LagApiHandlerKall = (url, getToken, opts) => 
             ...(opts?.body ?? {}),
             ...(req.body ?? {}), // OBS: krever at innkommende request har satt Content-type: application/json
         };
-
+        const params = new URLSearchParams(req.query as Record<string, string>).toString();
+        const queryParams = params.length === 0 ? '' : `?${params}`;
         const method = opts?.method ?? 'GET';
 
-        const respons = await fetch(url, {
+        const respons = await fetch(`${url}${queryParams}`, {
             method,
             body: ['GET', 'HEAD'].includes(method)
                 ? null

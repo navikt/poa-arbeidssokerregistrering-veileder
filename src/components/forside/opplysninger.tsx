@@ -11,12 +11,15 @@ import { useRouter } from 'next/router';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
 
 import Valgmeny from './valgmeny';
-import { AggregertePerioder, ProfileringMedEgenvurdering } from '../../types/aggregerte-perioder';
+import {
+    AggregertePerioder,
+    OpplysningerMedProfilering,
+    ProfileringMedEgenvurdering,
+} from '../../types/aggregerte-perioder';
 
 interface Props {
-    opplysninger: OpplysningerOmArbeidssoker;
+    opplysninger: OpplysningerMedProfilering;
     sisteArbeidssoekerperiodeId: string;
-    egenvurderinger?: ProfileringMedEgenvurdering['egenvurderinger'];
 }
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
@@ -49,9 +52,8 @@ function Opplysninger(props: Props) {
     const { opplysninger, sisteArbeidssoekerperiodeId } = props;
     const mappedeOpplysninger = mapOpplysninger(opplysninger);
     const tekst = lagHentTekstForSprak(SPORSMAL_TEKSTER, 'nb');
-    const egenvurdering = (props.egenvurderinger ?? []).find(
-        (e) => e.opplysningerOmArbeidssoekerId === opplysninger.opplysningerOmArbeidssoekerId,
-    );
+    const egenvurderinger = opplysninger.profilering?.egenvurderinger;
+    const egenvurdering = egenvurderinger && egenvurderinger[0];
 
     const Opplysning = (props: OpplysningProps) => {
         const { sporsmal, svar } = props;
