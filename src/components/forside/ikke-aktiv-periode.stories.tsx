@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import IkkeAktivPeriode from './ikke-aktiv-periode';
 import { JaEllerNei, UtdanningGodkjentValg } from '@navikt/arbeidssokerregisteret-utils';
 import { aggregertePerioderMockData } from '../../pages/api/mocks/oppslag-arbeidssoekerperioder-aggregert';
