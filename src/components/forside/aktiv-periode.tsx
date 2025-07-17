@@ -1,12 +1,11 @@
 import { Alert, BodyShort, Heading } from '@navikt/ds-react';
 import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import useApiKall from '../../hooks/useApiKall';
-import { TilgjengeligeBekreftelser } from '../../types/bekreftelse';
 import Opplysninger from './opplysninger';
 import HistorikkLenke from './historikk-lenke';
 import Bekreftelse from './bekreftelse';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
-import { AggregertPeriode, ProfileringMedEgenvurdering } from '../../types/aggregerte-perioder';
+import { AggregertPeriode, TilgjengeligeBekreftelser } from '@navikt/arbeidssokerregisteret-utils';
 
 interface Props {
     aggregertPeriode: AggregertPeriode;

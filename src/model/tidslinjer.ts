@@ -1,5 +1,10 @@
-import { Profilering, OpplysningerOmArbeidssoker, UtfoertAv, Bekreftelse } from '@navikt/arbeidssokerregisteret-utils';
-import { BekreftelseStatus } from './bekreftelse';
+import {
+    Profilering,
+    OpplysningerOmArbeidssoker,
+    UtfoertAv,
+    Bekreftelse,
+    BekreftelseStatus,
+} from '@navikt/arbeidssokerregisteret-utils';
 
 export type PeriodeStart = {
     tidspunkt: string;

@@ -1,6 +1,10 @@
 import { Alert, Button, Heading, Link, Radio, RadioGroup } from '@navikt/ds-react';
 import { useEffect, useState } from 'react';
-import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
+import {
+    lagHentTekstForSprak,
+    TilgjengeligBekreftelse,
+    TilgjengeligeBekreftelser,
+} from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
 
 import { loggAktivitet } from '../lib/amplitude';
@@ -9,7 +13,6 @@ import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { formaterDato } from '../lib/date-utils';
-import { TilgjengeligBekreftelse, TilgjengeligeBekreftelser } from '../types/bekreftelse';
 import useApiKall from '../hooks/useApiKall';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 

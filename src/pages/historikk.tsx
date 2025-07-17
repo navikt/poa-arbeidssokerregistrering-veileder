@@ -7,10 +7,10 @@ import { Config } from '../model/config';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { HistorikkWrapper } from '../components/historikk/historikk-wrapper';
-import { AggregertePerioder, AggregertPeriode } from '../types/aggregerte-perioder';
 import { AggregerteBekreftelser } from '../model/bekreftelse';
 import { mergeGyldigeBekreftelser } from '../lib/merge-gyldige-bekreftelser';
 import TidslinjerLenke from '../components/tidslinjer/tidslinje-lenke';
+import { AggregertePerioder } from '@navikt/arbeidssokerregisteret-utils';
 
 function repackBekreftelserMedStatus(bekreftelserMedStatus) {
     return bekreftelserMedStatus.reduce((total, current) => {

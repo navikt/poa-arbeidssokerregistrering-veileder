@@ -6,9 +6,9 @@ import useApiKall from '../hooks/useApiKall';
 import { Config } from '../model/config';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
-import { AggregertePerioder } from '../types/aggregerte-perioder';
 import { TidslinjerWrapper } from '../components/tidslinjer/tidslinjer-wrapper';
 import { TidslinjerResponse } from '../model/tidslinjer';
+import { AggregertePerioder } from '@navikt/arbeidssokerregisteret-utils';
 
 export default function Tidslinje() {
     const { params } = useParamsFromContext();

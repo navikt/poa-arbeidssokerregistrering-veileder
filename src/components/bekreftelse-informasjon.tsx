@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 
 import { loggAktivitet } from '../lib/amplitude';
 import { formaterDato } from '../lib/date-utils';
-import { TilgjengeligeBekreftelser } from '../types/bekreftelse';
 import useApiKall from '../hooks/useApiKall';
+import { TilgjengeligeBekreftelser } from '@navikt/arbeidssokerregisteret-utils';
 
 function BekreftelseInformasjon(props: { fnr: string; brukerMock: boolean }) {
     const { fnr, brukerMock } = props;

@@ -1,9 +1,8 @@
-import { lagHentTekstForSprak, Sprak } from '@navikt/arbeidssokerregisteret-utils';
+import { AggregertPeriode, lagHentTekstForSprak, Sprak } from '@navikt/arbeidssokerregisteret-utils';
 import { Heading, BodyShort } from '@navikt/ds-react';
 
 import { BekreftelseHistorikk } from './bekreftelse-historikk';
 import { OpplysningerHistorikk } from './opplysninger-historikk';
-import { AggregertPeriode } from '../../types/aggregerte-perioder';
 import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
 

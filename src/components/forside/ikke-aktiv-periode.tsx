@@ -5,7 +5,7 @@ import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import HistorikkLenke from './historikk-lenke';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
 import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
-import { AggregertPeriode } from '../../types/aggregerte-perioder';
+import { AggregertPeriode } from '@navikt/arbeidssokerregisteret-utils';
 
 interface Props {
     aggregertPeriode?: AggregertPeriode;

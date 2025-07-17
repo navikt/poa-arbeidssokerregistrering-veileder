@@ -1,11 +1,10 @@
-import { Sprak } from '@navikt/arbeidssokerregisteret-utils';
+import { BekreftelseStatus, Sprak } from '@navikt/arbeidssokerregisteret-utils';
 import { BodyShort, Accordion, Box, HGrid } from '@navikt/ds-react';
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
 
 import { prettyPrintDato } from '../../lib/date-utils';
 import { Tidslinje } from '../../model/tidslinjer';
 import { HendelseVisning } from './hendelse';
-import { BekreftelseStatus } from '../../model/bekreftelse';
 
 export interface TidslinjerProps {
     sprak: Sprak;

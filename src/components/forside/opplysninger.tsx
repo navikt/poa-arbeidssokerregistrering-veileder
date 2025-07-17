@@ -1,21 +1,16 @@
 import {
     lagHentTekstForSprak,
-    OpplysningerOmArbeidssoker,
+    OpplysningerMedProfilering,
     SPORSMAL_TEKSTER,
     Svar,
 } from '@navikt/arbeidssokerregisteret-utils';
-import { BodyShort, Box, Button, Heading, HGrid, Link } from '@navikt/ds-react';
+import { BodyShort, Box, Button, Heading, HGrid } from '@navikt/ds-react';
 import { mapOpplysninger } from '../opplysninger-om-arbeidssoker-komponent';
 import { prettyPrintDato } from '../../lib/date-utils';
 import { useRouter } from 'next/router';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
 
 import Valgmeny from './valgmeny';
-import {
-    AggregertePerioder,
-    OpplysningerMedProfilering,
-    ProfileringMedEgenvurdering,
-} from '../../types/aggregerte-perioder';
 
 interface Props {
     opplysninger: OpplysningerMedProfilering;

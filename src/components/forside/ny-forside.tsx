@@ -5,7 +5,7 @@ import { Config } from '../../model/config';
 import IkkeAktivPeriode from './ikke-aktiv-periode';
 import AktivPeriode from './aktiv-periode';
 import { Alert, Loader } from '@navikt/ds-react';
-import { AggregertePerioder } from '../../types/aggregerte-perioder';
+import { AggregertePerioder } from '@navikt/arbeidssokerregisteret-utils';
 
 interface Props {
     brukerMock: boolean;

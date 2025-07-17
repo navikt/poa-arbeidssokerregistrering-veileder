@@ -1,13 +1,11 @@
-import { lagHentTekstForSprak, Sprak } from '@navikt/arbeidssokerregisteret-utils';
+import { lagHentTekstForSprak, OpplysningerMedProfilering, Sprak } from '@navikt/arbeidssokerregisteret-utils';
 import { Accordion, BodyLong, Box, Heading } from '@navikt/ds-react';
 import React from 'react';
 
-import { OpplysningerMedProfilering } from '../../types/aggregerte-perioder';
 import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import { OpplysningerKomponent } from '../opplysninger-om-arbeidssoker-komponent';
 import ProfileringKomponent from './profilering';
 import EgenvurderingerKomponent from './egenvurderinger';
-//import EgenvurderingerKomponent from './egenvurderinger';
 
 const TEKSTER = {
     nb: {

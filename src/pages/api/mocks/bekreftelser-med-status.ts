@@ -1,6 +1,5 @@
+import { BekreftelseStatus } from '@navikt/arbeidssokerregisteret-utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-import { BekreftelseStatus } from '../../../model/bekreftelse';
 
 const bekreftelserMedStatus = (req: NextApiRequest, res: NextApiResponse): void => {
     res.json(data);

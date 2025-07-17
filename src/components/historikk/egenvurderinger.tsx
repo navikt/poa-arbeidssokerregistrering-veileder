@@ -1,6 +1,6 @@
-import { ProfileringMedEgenvurdering } from '../../types/aggregerte-perioder';
 import { BodyShort, Box, Heading } from '@navikt/ds-react';
 import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
+import { ProfileringMedEgenvurdering } from '@navikt/arbeidssokerregisteret-utils';
 
 interface Props {
     egenvurderinger?: ProfileringMedEgenvurdering['egenvurderinger'];

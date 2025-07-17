@@ -1,12 +1,5 @@
 import { mergeGyldigeBekreftelser } from './merge-gyldige-bekreftelser';
-
-import { AggregerteBekreftelser, BekreftelseMedStatus, BekreftelseStatus } from '../model/bekreftelse';
-
-import {
-    AggregertPeriode,
-    AggregertePerioder,
-    AggregertePerioderMedBekreftelseStatus,
-} from '../types/aggregerte-perioder';
+import { AggregertePerioder, BekreftelseStatus } from '@navikt/arbeidssokerregisteret-utils';
 
 const dataAggregertePerioder = [
     {
