@@ -78,15 +78,17 @@ export function HistorikkWrapper(props: Historikk) {
                     </>
                 )}
             </div>
-            <Heading level="3" size="small" className="mt-4">
-                {tekst('sluttarsak')}
-            </Heading>
-            <BodyShort>{sluttaarsak(avsluttet?.aarsak ?? 'fortsatt aktiv')}</BodyShort>
+            <div className={'print:hidden'}>
+                <Heading level="3" size="small" className="mt-4">
+                    {tekst('sluttarsak')}
+                </Heading>
+                <BodyShort>{sluttaarsak(avsluttet?.aarsak ?? 'fortsatt aktiv')}</BodyShort>
+            </div>
             <BekreftelseHistorikk bekreftelser={bekreftelser} sprak={sprak} />
             <OpplysningerHistorikk
                 opplysningerOmArbeidssoker={opplysningerOmArbeidssoeker}
                 sprak={sprak}
-                className={'mt-4'}
+                className={'mt-4 print:hidden'}
             />
         </>
     );

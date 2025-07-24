@@ -11,6 +11,7 @@ import { AggregerteBekreftelser } from '../model/bekreftelse';
 import { mergeGyldigeBekreftelser } from '../lib/merge-gyldige-bekreftelser';
 import TidslinjerLenke from '../components/tidslinjer/tidslinje-lenke';
 import { AggregertePerioder } from '@navikt/arbeidssokerregisteret-utils';
+import PrintInfoHeader from '../components/historikk/print-info-header';
 
 function repackBekreftelserMedStatus(bekreftelserMedStatus) {
     return bekreftelserMedStatus.reduce((total, current) => {
@@ -77,6 +78,7 @@ export default function Historikk() {
     return (
         <>
             <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
+            <PrintInfoHeader fnr={fnr} />
             <Heading size={'large'}>Arbeidssøkerhistorikk</Heading>
             <div className={'flex flex-col max-w-3xl'}>
                 {aggregertePerioderMedGyldigeBekreftelser &&

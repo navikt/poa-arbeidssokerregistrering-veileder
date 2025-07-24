@@ -70,7 +70,7 @@ export function BekreftelseHistorikk(props: { bekreftelser: Bekreftelse[]; sprak
     if (bekreftelser.length === 0) return null;
 
     return (
-        <Box>
+        <Box className={'print:hidden'}>
             <Heading level="2" size="medium">
                 Arbeidsøkerperioden bekreftet
             </Heading>
