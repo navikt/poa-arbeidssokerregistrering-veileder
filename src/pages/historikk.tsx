@@ -97,4 +97,10 @@ export default function Historikk() {
     );
 }
 
-export const getServerSideProps = withAuthenticatedPage();
+export const getServerSideProps = withAuthenticatedPage(async () => {
+    return {
+        props: {
+            skjulDekoratorVedPrint: true,
+        },
+    };
+});

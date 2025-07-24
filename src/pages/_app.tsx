@@ -41,8 +41,10 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                 <AmplitudeProvider>
                     <ErrorProvider>
                         <ParamsFromContextProvider>
-                            <InternflateDecorator />
-                            <Visittkort />
+                            <div className={pageProps.skjulDekoratorVedPrint ? 'print:hidden' : null}>
+                                <InternflateDecorator />
+                                <Visittkort />
+                            </div>
                             <section className="flex flex-col items-center p-8">
                                 <main
                                     className="flex flex-col max-w-4xl w-full"
