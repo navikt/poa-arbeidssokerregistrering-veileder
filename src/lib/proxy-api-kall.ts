@@ -43,7 +43,7 @@ export const createProxyCall = (getHeaders: getHeaders, url: string) => {
 
             res.json(result);
         } catch (error) {
-            logger.warn(`Kall mot ${url} [${slug}] feilet ${error.status}`, error);
+            logger.warn(error, `Kall mot ${url} [${slug}] feilet ${error.status}`);
             const status = error.status || 500;
             res.setHeader('x-trace-id', callId).status(status).end();
         }

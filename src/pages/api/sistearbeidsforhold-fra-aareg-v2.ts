@@ -77,7 +77,7 @@ const sisteArbeidsforhold = async (req: NextApiRequest, res: NextApiResponse<any
         logger.info(`Oppslag mot styrk-kode ferdig [callId: ${callId}]`);
         res.json(konseptMedStyrk08List[0]);
     } catch (error) {
-        logger.error(`Feil ved oppslag av styrk mot PAM_ONTOLOGI [callId: ${callId}]`, error);
+        logger.error(error, `Feil ved oppslag av styrk mot PAM_ONTOLOGI [callId: ${callId}]`);
         res.status(500).end(`${error}`);
     }
 };
