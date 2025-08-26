@@ -11,6 +11,58 @@ const oppslagArbeidssoekerperioderAggregert = (req: NextApiRequest, res: NextApi
 
 export const aggregertePerioderMockData = [
     {
+        periodeId: '60bea570-6acb-4fc8-b508-1aa6ed99fe46',
+        startet: {
+            tidspunkt: '2025-08-22T10:19:52.028Z',
+            utfoertAv: {
+                type: 'SLUTTBRUKER',
+                id: '24849098329',
+            },
+            kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:25.08.18.363-1',
+            aarsak: 'Er over 18 år, er bosatt i Norge i henhold Folkeregisterloven',
+        },
+        opplysningerOmArbeidssoeker: [
+            {
+                opplysningerOmArbeidssoekerId: '382827ce-c36f-4418-afcc-07dbdaace66c',
+                periodeId: '60bea570-6acb-4fc8-b508-1aa6ed99fe46',
+                sendtInnAv: {
+                    tidspunkt: '2025-08-22T10:19:52.628Z',
+                    utfoertAv: {
+                        type: 'SLUTTBRUKER',
+                        id: '24849098329',
+                    },
+                    kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:25.08.18.363-1',
+                    aarsak: 'opplysning om arbeidssøker sendt inn',
+                },
+                jobbsituasjon: [
+                    {
+                        beskrivelse: 'HAR_BLITT_SAGT_OPP',
+                        detaljer: {
+                            stilling: 'Sushikokk',
+                            stilling_styrk08: '5120',
+                        },
+                    },
+                ],
+                utdanning: {
+                    nus: '6',
+                    bestaatt: 'JA',
+                    godkjent: 'JA',
+                },
+                helse: {
+                    helsetilstandHindrerArbeid: 'NEI',
+                },
+                annet: {
+                    andreForholdHindrerArbeid: 'NEI',
+                },
+            },
+        ],
+        bekreftelser: [],
+    },
+];
+
+/*
+export const aggregertePerioderMockData = [
+    {
         periodeId: 'd70c0256-e3bc-470e-b3fe-f5999691fef8',
         startet: {
             tidspunkt: '2025-11-19T08:43:22.237Z',
@@ -620,5 +672,6 @@ export const aggregertePerioderMockData = [
         ],
     },
 ];
+*/
 
 export default oppslagArbeidssoekerperioderAggregert;
