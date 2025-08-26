@@ -1,8 +1,8 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useEffect } from 'react';
 
 import { useConfig } from './config-context';
 
-import { initAmplitude, logAmplitudeEvent } from '../lib/amplitude';
+import { initAmplitude } from '../lib/amplitude';
 
 const AmplitudeContext = createContext();
 
@@ -15,15 +15,7 @@ function AmplitudeProvider({ children }) {
         }
     }, [apiKey, apiEndpoint]);
 
-    return <AmplitudeContext.Provider value={{ logAmplitudeEvent }}>{children}</AmplitudeContext.Provider>;
+    return <AmplitudeContext.Provider>{children}</AmplitudeContext.Provider>;
 }
 
-function useAmplitude() {
-    const context = useContext(AmplitudeContext);
-    if (context === undefined) {
-        throw new Error('useAmplitude må brukes under en AmplitudeProvider');
-    }
-    return context;
-}
-
-export { AmplitudeProvider, useAmplitude };
+export { AmplitudeProvider };
