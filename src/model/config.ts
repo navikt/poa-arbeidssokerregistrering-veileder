@@ -10,4 +10,5 @@ export type Config = {
     loginUrl: string;
     aarsTall: number;
     decoratorEnv: string;
+    umamiTrackingId: string;
 };

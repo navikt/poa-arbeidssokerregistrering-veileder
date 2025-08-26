@@ -14,6 +14,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         loginUrl: `${process.env.NEXT_PUBLIC_SELF_URL}/oauth2/login?redirect=${process.env.NEXT_PUBLIC_SELF_URL}`,
         aarsTall: new Date().getFullYear(),
         decoratorEnv: process.env.DEKORATOR_ENV!,
+        umamiTrackingId: process.env.NEXT_PUBLIC_UMAMI_TRACKING_ID,
     } as Config);
 }
 
