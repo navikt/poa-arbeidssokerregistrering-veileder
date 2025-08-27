@@ -100,26 +100,46 @@ export const initAmplitude: AmplitudeInitFunction = async ({ apiKey, apiEndpoint
     }
 };
 
-export function logAmplitudeEvent(eventName: string, data: EventData) {
-    const eventData = data || {};
+function logAmplitudeEvent(eventName: string, data: EventData) {
     if (isBrowser() && !isDevelopment()) {
-        amplitude.logEvent(eventName, { ...eventData });
+        amplitude.logEvent(eventName, data);
     } else if (isBrowser() && isDevelopment()) {
         console.log(`Logger "${eventName}" til amplitude:`, data);
+    }
+}
+
+function logUmamiEvent(eventName: string, data: EventData) {
+    try {
+        if (isBrowser() && !isDevelopment()) {
+            // @ts-ignore
+            if (!window.umami) {
+                console.debug('umami ikke lastet');
+                return;
+            }
+            // @ts-ignore
+            window.umami.track(eventName, data);
+        } else {
+            console.log(`Logger til umami: ${eventName}`, data);
+        }
+    } catch (error) {
+        console.warn('Feil med umami', error);
     }
 }
 
 export function loggAktivitet(data: AktivitetData) {
     const eventData = data || ({} as EventData);
     logAmplitudeEvent('arbeidssokerregistrering-veileder.aktiviteter', eventData);
+    logUmamiEvent('arbeidssokerregistrering-veileder.aktiviteter', eventData);
 }
 
 export function loggFlyt(data: FlytData) {
     const eventData = data || ({} as EventData);
     logAmplitudeEvent('arbeidssokerregistrering-veileder.flyt', eventData);
+    logUmamiEvent('arbeidssokerregistrering-veileder.flyt', eventData);
 }
 
 export function loggVisning(data: VisningsData) {
     const eventData = data || ({} as EventData);
     logAmplitudeEvent('arbeidssokerregistrering-veileder.visning', eventData);
+    logUmamiEvent('arbeidssokerregistrering-veileder.visning', eventData);
 }

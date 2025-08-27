@@ -101,6 +101,8 @@ spec:
       value: http://aia-backend/aia-backend
     - name: BEKREFTELSE_API_URL
       value: http://paw-arbeidssoekerregisteret-api-bekreftelse
+    - name: NEXT_PUBLIC_UMAMI_TRACKING_ID
+      value: ec13193d-a5b2-4ec1-a0e5-1bd4c798a9b3
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:

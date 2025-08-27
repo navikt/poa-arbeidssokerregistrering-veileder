@@ -3,8 +3,6 @@ import NextApp, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 
 import useSprak from '../hooks/useSprak';
-
-import { AmplitudeProvider } from '../contexts/amplitude-context';
 import { FeatureToggleProvider } from '../contexts/featuretoggle-context';
 import { ErrorProvider } from '../contexts/error-context';
 import { GlobalFeilmelding } from '../components/feilmeldinger/feilmeldinger';
@@ -16,6 +14,8 @@ import InternflateDecorator from '../components/InternflateDecorator';
 import Visittkort from '../components/visittkort';
 
 import '../styles/globals.css';
+import InitUmami from '../components/init-umami';
+import InitAmplitude from '../components/init-amplitude';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -38,32 +38,32 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     return (
         <ConfigProvider>
             <FeatureToggleProvider>
-                <AmplitudeProvider>
-                    <ErrorProvider>
-                        <ParamsFromContextProvider>
-                            <div className={pageProps.skjulDekoratorVedPrint ? 'print:hidden' : null}>
-                                <InternflateDecorator />
-                                <Visittkort />
-                            </div>
-                            <section className="flex flex-col items-center p-8">
-                                <main
-                                    className="flex flex-col max-w-4xl w-full"
-                                    lang="nb"
-                                    id="maincontent"
-                                    role="main"
-                                    tabIndex={-1}
-                                >
-                                    <Head>
-                                        <title>{tekst('metaTittel')}</title>
-                                        <meta name="description" content={tekst('metaDescription')} />
-                                    </Head>
-                                    <GlobalFeilmelding />
-                                    <Component {...pageProps} />
-                                </main>
-                            </section>
-                        </ParamsFromContextProvider>
-                    </ErrorProvider>
-                </AmplitudeProvider>
+                <ErrorProvider>
+                    <ParamsFromContextProvider>
+                        <div className={pageProps.skjulDekoratorVedPrint ? 'print:hidden' : null}>
+                            <InternflateDecorator />
+                            <Visittkort />
+                        </div>
+                        <InitAmplitude />
+                        <InitUmami />
+                        <section className="flex flex-col items-center p-8">
+                            <main
+                                className="flex flex-col max-w-4xl w-full"
+                                lang="nb"
+                                id="maincontent"
+                                role="main"
+                                tabIndex={-1}
+                            >
+                                <Head>
+                                    <title>{tekst('metaTittel')}</title>
+                                    <meta name="description" content={tekst('metaDescription')} />
+                                </Head>
+                                <GlobalFeilmelding />
+                                <Component {...pageProps} />
+                            </main>
+                        </section>
+                    </ParamsFromContextProvider>
+                </ErrorProvider>
             </FeatureToggleProvider>
         </ConfigProvider>
     );
