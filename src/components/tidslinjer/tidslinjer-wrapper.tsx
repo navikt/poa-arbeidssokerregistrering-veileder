@@ -70,6 +70,7 @@ function harMuligeProblemer(hendelser) {
 
 function TidslinjeBox(props: Tidslinje) {
     const { startet, avsluttet, hendelser } = props;
+    hendelser.reverse();
     const problemer = harMuligeProblemer(hendelser);
     return (
         <Accordion className="mb-4">
