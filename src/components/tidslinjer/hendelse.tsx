@@ -18,6 +18,7 @@ const TEKSTER = {
         VEILEDER: 'Veileder',
         DAGPENGER: 'Dagpenger',
         FRIST_BRUTT: 'Meldeplikt brutt',
+        SLETTET: 'Slettet på grunn av feilregistrering',
         'SLUTTBRUKER / ARBEIDSSOEKERREGISTERET': 'Bruker/Registeret',
         'SLUTTBRUKER / DAGPENGER': 'Bruker/Dagpenger',
         'SLUTTBRUKER / FRISKMELDT_TIL_ARBEIDSFORMIDLING': 'Bruker/Sykepenger',
@@ -86,6 +87,7 @@ function hentMetaData(data) {
     if (['ISERV', 'iserv'].includes(data?.aarsak)) {
         return 'ISERV';
     }
+    if (data?.aarsak === 'Feilregistrering') return 'SLETTET';
     const metadata = data?.profilertTil || data?.status || '';
     return metadata;
 }

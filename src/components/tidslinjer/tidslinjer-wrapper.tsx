@@ -1,9 +1,9 @@
 import { BekreftelseStatus, Sprak } from '@navikt/arbeidssokerregisteret-utils';
-import { BodyShort, Accordion, Box, HGrid } from '@navikt/ds-react';
-import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
+import { BodyShort, Accordion, Box, HGrid, Tooltip } from '@navikt/ds-react';
+import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, TrashFillIcon } from '@navikt/aksel-icons';
 
 import { prettyPrintDato } from '../../lib/date-utils';
-import { Tidslinje } from '../../model/tidslinjer';
+import { Hendelse, Tidslinje } from '../../model/tidslinjer';
 import { HendelseVisning } from './hendelse';
 
 export interface TidslinjerProps {
@@ -41,7 +41,7 @@ const TEKSTER = {
     },
 };
 
-function harMuligeProblemer(hendelser) {
+function skalHaVarseltrekant(hendelser: Hendelse[]) {
     const bekreftelser = hendelser.filter((hendelse) => ['bekreftelse_v1'].includes(hendelse.hendelseType));
     const avslutninger = hendelser.filter((hendelse) => ['periode_avsluttet_v1'].includes(hendelse.hendelseType));
     const paVegneAv = hendelser.filter((hendelse) =>
@@ -68,20 +68,43 @@ function harMuligeProblemer(hendelser) {
     );
 }
 
+function skalHaSoppelbotte(hendelser: Hendelse[]) {
+    const avslutninger = hendelser.filter((hendelse) => ['periode_avsluttet_v1'].includes(hendelse.hendelseType));
+    const problematiskeAvslutninger = avslutninger.filter(
+        (hendelse) => hendelse.periodeAvsluttetV1.aarsak === 'Feilregistrering',
+    );
+    return problematiskeAvslutninger.length > 0;
+}
+
+const TidslinjeIkon = ({ hendelser }: { hendelser: Hendelse[] }) => {
+    if (skalHaSoppelbotte(hendelser))
+        return (
+            <Tooltip content="Slettet">
+                <TrashFillIcon className="mr-4" color="red" />
+            </Tooltip>
+        );
+    if (skalHaVarseltrekant(hendelser))
+        return (
+            <Tooltip content="Problematisk">
+                <ExclamationmarkTriangleFillIcon className="mr-4" color="orange" />
+            </Tooltip>
+        );
+    return (
+        <Tooltip content="Ingen problemer">
+            <CheckmarkCircleFillIcon className="mr-4" color="green" />
+        </Tooltip>
+    );
+};
+
 function TidslinjeBox(props: Tidslinje) {
     const { startet, avsluttet, hendelser } = props;
     hendelser.reverse();
-    const problemer = harMuligeProblemer(hendelser);
     return (
         <Accordion className="mb-4">
             <Accordion.Item>
                 <Accordion.Header>
                     <Box className="flex flex-row">
-                        {problemer ? (
-                            <ExclamationmarkTriangleFillIcon className="mr-4" color="orange" />
-                        ) : (
-                            <CheckmarkCircleFillIcon className="mr-4" color="green" />
-                        )}
+                        <TidslinjeIkon hendelser={hendelser} />
                         <BodyShort>
                             {prettyPrintDato(startet, 'nb', true)} -{' '}
                             {avsluttet ? prettyPrintDato(avsluttet, 'nb', true) : 'fortsatt pågående'}
