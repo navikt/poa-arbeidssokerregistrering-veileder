@@ -21,6 +21,7 @@ export const aggregertePerioderMockData = [
             kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:25.08.18.363-1',
             aarsak: 'Er over 18 år, er bosatt i Norge i henhold Folkeregisterloven',
         },
+        avsluttet: null,
         opplysningerOmArbeidssoeker: [
             {
                 opplysningerOmArbeidssoekerId: '382827ce-c36f-4418-afcc-07dbdaace66c',

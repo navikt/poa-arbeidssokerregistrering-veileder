@@ -26,7 +26,7 @@ const InternflateDecorator = () => {
     */
 
     const props = {
-        appName: 'Arbeidssøkerregisteret for veileder',
+        appName: 'Arbeidssøkerregisteret',
         fetchActiveEnhetOnMount: true,
         fetchActiveUserOnMount: true,
         //fnr: fnr,
