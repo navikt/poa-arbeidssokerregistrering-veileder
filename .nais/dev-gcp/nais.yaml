@@ -123,6 +123,7 @@ spec:
     outbound:
       external:
         - host: paw-unleash-api.nav.cloud.nais.io
+        - host: umami.nav.no
         - host: modiacontextholder.intern.dev.nav.no
         - host: internarbeidsflatedecorator-q1.dev-fss-pub.nais.io
         - host: veilarboppfolging.dev-fss-pub.nais.io
