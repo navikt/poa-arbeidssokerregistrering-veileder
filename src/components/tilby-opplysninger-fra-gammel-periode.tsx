@@ -5,7 +5,7 @@ import { forwardRef, useEffect, useState } from 'react';
 import { Alert, Button } from '@navikt/ds-react';
 import { ArbeidssokerPeriode } from '@navikt/arbeidssokerregisteret-utils';
 import { formaterDato } from '../lib/date-utils';
-import { loggAktivitet } from '../lib/amplitude';
+import { loggAktivitet } from '../lib/tracking';
 
 interface Props {
     fnr: string;

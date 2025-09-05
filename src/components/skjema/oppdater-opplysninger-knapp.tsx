@@ -8,7 +8,7 @@ import { useRegistrering } from '../../contexts/registrering-context';
 import { useParamsFromContext } from '../../contexts/params-from-context';
 import { useConfig } from '../../contexts/config-context';
 
-import { loggFlyt } from '../../lib/amplitude';
+import { loggFlyt } from '../../lib/tracking';
 import byggOpplysningerPayload from '../../lib/bygg-opplysninger-payload';
 import { Config } from '../../model/config';
 

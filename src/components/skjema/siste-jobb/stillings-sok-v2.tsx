@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import getConfig from 'next/config';
 import { debounce } from 'lodash';
 
-import { loggAktivitet } from '../../../lib/amplitude';
+import { loggAktivitet } from '../../../lib/tracking';
 
 import styles from './autosuggest.module.css';
 

@@ -2,7 +2,7 @@ import { Box, Link } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
 
-import { loggAktivitet } from '../lib/amplitude';
+import { loggAktivitet } from '../lib/tracking';
 
 interface Props {
     harIngenArbeidssoekerperioder: boolean;

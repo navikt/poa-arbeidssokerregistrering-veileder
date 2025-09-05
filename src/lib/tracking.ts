@@ -1,21 +1,9 @@
-import * as amplitude from '@amplitude/analytics-browser';
-
 import { ErrorTypes } from '../model/error';
 import { RegistreringType } from '../model/registrering';
 import { Feiltype } from '../model/feilsituasjonTyper';
 
 const isBrowser = () => typeof window !== 'undefined';
 const isDevelopment = () => isBrowser() && /^http:\/\/localhost/.test(window.location.href);
-
-const config = {
-    saveEvents: false,
-    includeUtm: true,
-    includeReferrer: true,
-    defaultTracking: false,
-    trackingOptions: {
-        ipAddress: false,
-    },
-};
 
 type EventData = SidevisningData | AktivitetData | FlytData | VisningsData | StoppsituasjonsData;
 
@@ -88,26 +76,6 @@ type KvitteringAktivitet =
     | 'Viser kvittering for reaktivert arbeidssøker'
     | 'Viser kvittering for mer sykmeldtoppfølging';
 
-type AmplitudeParams = { apiKey: string; apiEndpoint: string };
-type AmplitudeInitFunction = (params: AmplitudeParams) => void;
-
-export const initAmplitude: AmplitudeInitFunction = async ({ apiKey, apiEndpoint }) => {
-    if (isBrowser() && !isDevelopment()) {
-        await amplitude.init(apiKey, undefined, { ...config, serverUrl: apiEndpoint });
-        logAmplitudeEvent('sidevisning', {
-            sidetittel: document.title,
-        });
-    }
-};
-
-function logAmplitudeEvent(eventName: string, data: EventData) {
-    if (isBrowser() && !isDevelopment()) {
-        amplitude.logEvent(eventName, data);
-    } else if (isBrowser() && isDevelopment()) {
-        console.log(`Logger "${eventName}" til amplitude:`, data);
-    }
-}
-
 function logUmamiEvent(eventName: string, data: EventData) {
     try {
         if (isBrowser() && !isDevelopment()) {
@@ -128,18 +96,15 @@ function logUmamiEvent(eventName: string, data: EventData) {
 
 export function loggAktivitet(data: AktivitetData) {
     const eventData = data || ({} as EventData);
-    logAmplitudeEvent('arbeidssokerregistrering-veileder.aktiviteter', eventData);
     logUmamiEvent('arbeidssokerregistrering-veileder.aktiviteter', eventData);
 }
 
 export function loggFlyt(data: FlytData) {
     const eventData = data || ({} as EventData);
-    logAmplitudeEvent('arbeidssokerregistrering-veileder.flyt', eventData);
     logUmamiEvent('arbeidssokerregistrering-veileder.flyt', eventData);
 }
 
 export function loggVisning(data: VisningsData) {
     const eventData = data || ({} as EventData);
-    logAmplitudeEvent('arbeidssokerregistrering-veileder.visning', eventData);
     logUmamiEvent('arbeidssokerregistrering-veileder.visning', eventData);
 }

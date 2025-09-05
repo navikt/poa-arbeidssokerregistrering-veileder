@@ -15,7 +15,6 @@ import Visittkort from '../components/visittkort';
 
 import '../styles/globals.css';
 import InitUmami from '../components/init-umami';
-import InitAmplitude from '../components/init-amplitude';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -44,7 +43,6 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                             <InternflateDecorator />
                             <Visittkort />
                         </div>
-                        <InitAmplitude />
                         <InitUmami />
                         <section className="flex flex-col items-center p-8">
                             <main

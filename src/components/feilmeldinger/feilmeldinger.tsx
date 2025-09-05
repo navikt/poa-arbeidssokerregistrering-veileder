@@ -5,7 +5,7 @@ import useSprak from '../../hooks/useSprak';
 import { useErrorContext } from '../../contexts/error-context';
 
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
-import { loggVisning } from '../../lib/amplitude';
+import { loggVisning } from '../../lib/tracking';
 import TilbakeTilForside from '../tilbake-til-forside';
 
 const TEKSTER: Tekster<string> = {

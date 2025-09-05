@@ -9,7 +9,7 @@ import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { Config } from '../model/config';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
 import StartPeriodeKnappMedOverstyring from '../components/start-periode-knapp-med-overstyring';
-import { loggAktivitet } from '../lib/amplitude';
+import { loggAktivitet } from '../lib/tracking';
 
 function StarterArbeidssoekerperiodeLoader() {
     return (

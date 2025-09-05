@@ -4,7 +4,7 @@ import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-ut
 
 import useSprak from '../hooks/useSprak';
 
-import { loggVisning } from '../lib/amplitude';
+import { loggVisning } from '../lib/tracking';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 
