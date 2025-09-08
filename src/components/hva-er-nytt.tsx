@@ -2,7 +2,7 @@ import { BodyLong, ReadMore, List, Link } from '@navikt/ds-react';
 
 import { useFeatureToggles } from '../contexts/featuretoggle-context';
 
-import { loggAktivitet } from '../lib/amplitude';
+import { loggAktivitet } from '../lib/tracking';
 
 export default function HvaErNytt() {
     const { toggles } = useFeatureToggles();

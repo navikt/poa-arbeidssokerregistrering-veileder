@@ -1,7 +1,7 @@
 import { BodyLong, Box, Button, Heading } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 
-import { loggAktivitet } from '../lib/amplitude';
+import { loggAktivitet } from '../lib/tracking';
 import { formaterDato } from '../lib/date-utils';
 import useApiKall from '../hooks/useApiKall';
 import { TilgjengeligeBekreftelser } from '@navikt/arbeidssokerregisteret-utils';

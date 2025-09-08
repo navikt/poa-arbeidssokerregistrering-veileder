@@ -7,7 +7,7 @@ import useSprak from '../hooks/useSprak';
 
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { fetcher } from '../lib/api-utils';
-import { loggAktivitet } from '../lib/amplitude';
+import { loggAktivitet } from '../lib/tracking';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
 

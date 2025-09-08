@@ -4,7 +4,7 @@ import { BodyLong, Heading, Alert, Link } from '@navikt/ds-react';
 import useSprak from '../hooks/useSprak';
 
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
-import { loggAktivitet, loggVisning } from '../lib/amplitude';
+import { loggAktivitet, loggVisning } from '../lib/tracking';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 

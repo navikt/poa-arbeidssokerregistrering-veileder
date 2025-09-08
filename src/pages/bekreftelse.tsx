@@ -7,7 +7,7 @@ import {
 } from '@navikt/arbeidssokerregisteret-utils';
 import { useRouter } from 'next/router';
 
-import { loggAktivitet } from '../lib/amplitude';
+import { loggAktivitet } from '../lib/tracking';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';

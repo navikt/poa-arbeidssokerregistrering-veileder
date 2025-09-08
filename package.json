@@ -15,7 +15,6 @@
         "build-storybook": "storybook build"
     },
     "dependencies": {
-        "@amplitude/analytics-browser": "2.23.5",
         "@grafana/faro-web-sdk": "1.19.0",
         "@grafana/faro-web-tracing": "1.19.0",
         "@navikt/aksel-icons": "7.29.0",

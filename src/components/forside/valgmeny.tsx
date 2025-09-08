@@ -1,7 +1,7 @@
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button } from '@navikt/ds-react';
 
-import { loggAktivitet } from '../../lib/amplitude';
+import { loggAktivitet } from '../../lib/tracking';
 
 interface ValgmenyProps {
     sisteArbeidssoekerperiodeId: string;

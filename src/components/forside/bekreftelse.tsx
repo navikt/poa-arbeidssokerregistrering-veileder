@@ -2,7 +2,7 @@ import { BodyShort, Box, Button, Heading } from '@navikt/ds-react';
 import { CheckmarkCircleIcon, TimerStartIcon } from '@navikt/aksel-icons';
 import { useRouter } from 'next/router';
 
-import { loggAktivitet } from '../../lib/amplitude';
+import { loggAktivitet } from '../../lib/tracking';
 
 interface Props {
     antallTilgjengeligBekreftelser?: number;

@@ -14,7 +14,7 @@ import { OppdaterOpplysningerKnapp } from '../components/skjema/oppdater-opplysn
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
 import DemoPanel from '../components/demo-panel';
-import { loggFlyt } from '../lib/amplitude';
+import { loggFlyt } from '../lib/tracking';
 import { useSearchParams } from 'next/navigation';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import AvbrytKnapp from '../components/skjema/avbryt-knapp';
