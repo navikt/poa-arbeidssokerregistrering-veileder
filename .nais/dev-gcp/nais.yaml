@@ -136,7 +136,6 @@ spec:
         - application: paw-arbeidssoekerregisteret-api-oppslag
         - application: paw-arbeidssoekerregisteret-api-oppslag-v2
         - application: aia-backend
-        - application: paw-arbeidssoker-besvarelse
         - application: paw-arbeidssoekerregisteret-api-bekreftelse
         - application: modiacontextholder
           namespace: personoversikt

@@ -119,6 +119,7 @@ spec:
     outbound:
       external:
         - host: paw-unleash-api.nav.cloud.nais.io
+        - host: umami.nav.no
         - host: modiacontextholder.intern.nav.no
         - host: internarbeidsflatedecorator.prod-fss-pub.nais.io
         - host: veilarboppfolging.prod-fss-pub.nais.io
@@ -131,7 +132,6 @@ spec:
         - application: paw-arbeidssoekerregisteret-api-oppslag
         - application: paw-arbeidssoekerregisteret-api-oppslag-v2
         - application: aia-backend
-        - application: paw-arbeidssoker-besvarelse
         - application: paw-arbeidssoekerregisteret-api-bekreftelse
         - application: modiacontextholder
           namespace: personoversikt
