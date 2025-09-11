@@ -31,9 +31,9 @@
         "lodash": "4.17.21",
         "next": "15.5.3",
         "pino": "9.9.5",
-        "react": "19.1.1",
+        "react": "19.1.0",
         "react-autosuggest": "10.1.0",
-        "react-dom": "19.1.1",
+        "react-dom": "19.1.0",
         "react-error-boundary": "6.0.0",
         "swr": "2.3.6",
         "ulid": "3.0.1"
