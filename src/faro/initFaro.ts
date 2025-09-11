@@ -1,7 +1,7 @@
 import { Faro, initializeFaro } from '@grafana/faro-web-sdk';
 
 const isBrowser = () => typeof window !== 'undefined';
-const isProduction = isBrowser() && window.location.href.includes('www.nav.no');
+const isProduction = isBrowser() && window.location.href.includes('intern.nav.no');
 const isDevelopment = isBrowser() && /intern|ansatt\.dev\.nav\.no/.test(window.location.href);
 const isDemo = isBrowser() && window.location.href.includes('ekstern.dev.nav.no');
 const isLocal = isBrowser() && window.location.href.includes('localhost');
@@ -36,7 +36,7 @@ export const initFaro = (): Faro | null => {
         isolate: true,
         url: TELEMETRY_URL[getEnvironment()],
         app: {
-            name: 'poa-arbeidssokerregistrering-veileder',
+            name: 'arbeidssokerregistrering-for-veileder',
             version: getEnvironment(),
         },
     });
