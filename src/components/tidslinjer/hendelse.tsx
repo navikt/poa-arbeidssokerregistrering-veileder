@@ -18,6 +18,7 @@ const TEKSTER = {
         VEILEDER: 'Veileder',
         DAGPENGER: 'Dagpenger',
         FRIST_BRUTT: 'Meldeplikt brutt',
+        RISKMELDT_TIL_ARBEIDSFORMIDLING: 'Sykepenger',
         SLETTET: 'Slettet på grunn av feilregistrering',
         'SLUTTBRUKER / ARBEIDSSOEKERREGISTERET': 'Bruker/Registeret',
         'SLUTTBRUKER / DAGPENGER': 'Bruker/Dagpenger',
