@@ -15,7 +15,44 @@ export type Hendelse =
     | PeriodeStartetV1Hendelse
     | ProfileringV1Hendelse
     | PeriodeAvsluttetV1Hendelse
-    | PaVegneAvStoppV1Hendelse;
+    | PaVegneAvStoppV1Hendelse
+    | BekreftelseV1Hendelse;
+
+export type BekreftelseV1Hendelse = {
+    hendelseType: 'bekreftelse_v1';
+    tidspunkt: string;
+    periodeStartetV1: null;
+    periodeAvsluttetV1: null;
+    opplysningerV4: null;
+    profileringV1: null;
+    bekreftelseV1: {
+        status: 'GYLDIG' | string;
+        bekreftelse: {
+            periodeId: string;
+            bekreftelsesloesning: string;
+            id: string;
+            svar: {
+                sendtInnAv: {
+                    tidspunkt: string;
+                    utfoertAv: {
+                        type: string;
+                        id: string;
+                        sikkerhetsnivaa: string;
+                    };
+                    kilde: string;
+                    aarsak: string;
+                    tidspunktFraKilde: null;
+                };
+                gjelderFra: string;
+                gjelderTil: string;
+                harJobbetIDennePerioden: boolean;
+                vilFortsetteSomArbeidssoeker: boolean;
+            };
+        };
+    };
+    paVegneAvStartV1: null;
+    paVegneAvStoppV1: null;
+};
 
 export type OpplysningerV4Hendelse = {
     hendelseType: 'opplysninger_v4';

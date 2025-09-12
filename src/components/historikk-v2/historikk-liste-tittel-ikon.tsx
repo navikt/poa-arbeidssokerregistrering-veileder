@@ -1,15 +1,14 @@
 import React from 'react';
 import { Hendelse } from '../../model/tidslinjer';
-import { skalHaSoppelbotte, skalHaVarseltrekant } from './helpers';
 import { Tooltip } from '@navikt/ds-react';
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, TrashFillIcon } from '@navikt/aksel-icons';
+import { skalHaSoppelbotte, skalHaVarseltrekant } from './helpers';
 
-type TidslinjeIkonProps = {
-    hendelser: Hendelse[]
+type HistorikkListeTittelIkonProps = {
+    hendelser: Hendelse[];
 };
 
-
-const TidslinjeIkon: React.FC<TidslinjeIkonProps> = (props) => {
+const HistorikkListeTittelIkon: React.FC<HistorikkListeTittelIkonProps> = (props) => {
     const { hendelser } = props;
     if (skalHaSoppelbotte(hendelser))
         return (
@@ -30,4 +29,4 @@ const TidslinjeIkon: React.FC<TidslinjeIkonProps> = (props) => {
     );
 };
 
-export { TidslinjeIkon };
+export { HistorikkListeTittelIkon };

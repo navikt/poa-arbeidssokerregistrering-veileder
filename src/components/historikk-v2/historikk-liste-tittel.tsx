@@ -1,0 +1,55 @@
+import React from 'react';
+import { Tidslinje } from '../../model/tidslinjer';
+import { useTidslinjeSelection } from '../../contexts/tidslinje-selection-context';
+import classNames from 'classnames';
+import { ChevronRightIcon } from '@navikt/aksel-icons';
+import { HistorikkListeTittelIkon } from './historikk-liste-tittel-ikon';
+
+type HistorikkListeTittelProps = {
+    tidslinje: Tidslinje;
+};
+
+const HistorikkListeTittel: React.FC<HistorikkListeTittelProps> = (props) => {
+    const { tidslinje } = props;
+    const { selectedTidslinje, setSelectedTidslinje } = useTidslinjeSelection();
+
+    const formatTitleString = (fromTimeStamp: string, toTimeStamp: string | null) => {
+        const fromDate = new Date(fromTimeStamp);
+        const isValidDate = (date: Date) => !isNaN(date.getTime());
+        const fromStr = isValidDate(fromDate) ? fromDate.toLocaleDateString() : '';
+        let toStr = '';
+        if (toTimeStamp) {
+            const toDate = new Date(toTimeStamp);
+            toStr = isValidDate(toDate) ? toDate.toLocaleDateString() : '';
+        }
+        return `${fromStr} - ${toStr}`;
+    };
+
+    const handleClick = () => {
+        setSelectedTidslinje(tidslinje);
+    };
+
+    const isSelected = selectedTidslinje?.periodeId === tidslinje.periodeId;
+
+    return (
+        <button
+            className={`w-full mb-2 rounded p-4 transition-transform cursor-pointer flex flex-row text-left justify-between ${classNames(
+                {
+                    'translate-x-0.5 z-10 bg-lightblue-100': isSelected,
+                    'hover:translate-x-0.5 hover:bg-lightblue-50': !isSelected,
+                },
+            )}`}
+            onClick={handleClick}
+        >
+            <h2 className="flex gap-2">
+                {formatTitleString(tidslinje.startet, tidslinje.avsluttet)}
+                <HistorikkListeTittelIkon hendelser={tidslinje.hendelser} />
+            </h2>
+            <div>
+                <ChevronRightIcon title="a11y-title" fontSize="1.5rem" />
+            </div>
+        </button>
+    );
+};
+
+export { HistorikkListeTittel };

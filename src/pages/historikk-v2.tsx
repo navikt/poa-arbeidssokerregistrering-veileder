@@ -5,39 +5,35 @@ import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
 import { AggregertePerioder } from '@navikt/arbeidssokerregisteret-utils';
 import { useParamsFromContext } from '../contexts/params-from-context';
-import { TidslinjeTittelV2 } from '../components/tidslinjer/tidslinje-tittel-v2';
 import { TidslinjeSelectionProvider, useTidslinjeSelection } from '../contexts/tidslinje-selection-context';
-import { Tidslinje } from '../components/tidslinjer/tidslinje';
+import { Historikk } from '../components/historikk-v2/historikk';
 import { BodyShort, Heading } from '@navikt/ds-react';
+import { HistorikkListeTittel } from '../components/historikk-v2/historikk-liste-tittel';
 
-const TidslinjerContent = ({ tidslinjer }: { tidslinjer: TidslinjerResponse | undefined }) => {
+const HistorikkInnhold = ({ tidslinjer }: { tidslinjer: TidslinjerResponse | undefined }) => {
     const { selectedTidslinje } = useTidslinjeSelection();
 
     return (
-        <div className='flex-1 grid grid-cols-[minmax(300px,1fr)_3fr]'>
-            <div>
-                <Heading size='large'>
-                    Tidslinjer
-                </Heading>
-                <BodyShort className='mb-4'>
-                    {tidslinjer.tidslinjer.length} tidslinjer funnet
-                </BodyShort>
+        <div className="flex-1 grid grid-cols-[minmax(300px,1fr)_3fr] overflow-hidden">
+            <div className="overflow-y-scroll relative">
+                <div className="sticky top-0 z-50 bg-white">
+                    <Heading size="large">Arbeidssøkerperioder</Heading>
+                    <BodyShort className="mb-4">
+                        <b>{tidslinjer?.tidslinjer.length || 0}</b> perioder funnet
+                    </BodyShort>
+                </div>
                 {tidslinjer?.tidslinjer.map((el, i) => (
-                    <TidslinjeTittelV2 key={i} tidslinje={el} />
+                    <HistorikkListeTittel key={i} tidslinje={el} />
                 ))}
             </div>
-            <div className='p-4'>
-                {selectedTidslinje ? (
-                    <Tidslinje tidslinje={selectedTidslinje} />
-                ) : (
-                    'Content of selected tidslinje'
-                )}
+            <div className="p-4 overflow-y-scroll">
+                {selectedTidslinje ? <Historikk tidslinje={selectedTidslinje} /> : 'Content of selected tidslinje'}
             </div>
         </div>
     );
 };
 
-const Tidslinjer = () => {
+const HistorikkTidslinjer = () => {
     const { params } = useParamsFromContext();
     const { enableMock } = useConfig() as Config;
     const { fnr } = params;
@@ -66,9 +62,9 @@ const Tidslinjer = () => {
 
     return (
         <TidslinjeSelectionProvider>
-            <TidslinjerContent tidslinjer={tidslinjer} />
+            <HistorikkInnhold tidslinjer={tidslinjer} />
         </TidslinjeSelectionProvider>
     );
 };
 
-export default Tidslinjer;
+export default HistorikkTidslinjer;
