@@ -1,24 +1,22 @@
 import React from 'react';
-import { Tidslinje as TidslinjeData } from '../../model/tidslinjer';
 import { Opplysninger } from './hendelseTyper/opplysninger';
 import {
     BekreftelseV1Hendelse,
     OpplysningerV4Hendelse,
-    PaVegneAvStoppV1Hendelse,
     PeriodeAvsluttetV1Hendelse,
-    PeriodeStartetV1Hendelse,
     ProfileringV1Hendelse,
-} from './tidslinjer.types';
-import { PeriodeStart } from './hendelseTyper/periodeStart';
+    Tidslinje,
+} from './models/tidslinjer.types';
 import { Profilering } from './hendelseTyper/pofilering';
 import { PeriodeAvsluttet } from './hendelseTyper/periodeAvsluttet';
-import { PaVegneAvStoppet } from './hendelseTyper/paVegeneAvStoppet';
 import { HistorikkHeading } from './historikk-heading';
 import { HistorikkInnslagWrapper } from './historikk-innslag-wrapper';
 import { Bekreftelse } from './hendelseTyper/bekreftelse';
+import { getSourceString } from './helpers';
+import { HistorikkInnslagHeader } from './historikk-innslag-header';
 
 type HistorikkProps = {
-    tidslinje: TidslinjeData;
+    tidslinje: Tidslinje;
 };
 
 const Historikk: React.FC<HistorikkProps> = (props) => {
@@ -31,17 +29,16 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
             {tidslinje.hendelser.map((hendelse, index) => (
                 <HistorikkInnslagWrapper key={index + hendelse.tidspunkt}>
                     <>
+                        <HistorikkInnslagHeader
+                            date={hendelse.tidspunkt}
+                            title={hendelse.hendelseType}
+                            source={getSourceString(hendelse)}
+                        />
                         {hendelse.hendelseType === 'opplysninger_v4' && (
                             <Opplysninger opplysninger={hendelse as OpplysningerV4Hendelse} />
                         )}
-                        {hendelse.hendelseType === 'periode_startet_v1' && (
-                            <PeriodeStart periode={hendelse as PeriodeStartetV1Hendelse} />
-                        )}
                         {hendelse.hendelseType === 'profilering_v1' && (
                             <Profilering profilering={hendelse as ProfileringV1Hendelse} />
-                        )}
-                        {hendelse.hendelseType === 'pa_vegne_av_stopp_v1' && (
-                            <PaVegneAvStoppet stoppetHendelse={hendelse as PaVegneAvStoppV1Hendelse} />
                         )}
                         {hendelse.hendelseType === 'bekreftelse_v1' && (
                             <Bekreftelse bekreftelse={hendelse as BekreftelseV1Hendelse} />

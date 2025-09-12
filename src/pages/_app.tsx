@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                         <InitUmami />
                         <section className="flex flex-col items-center p-8 h-screen">
                             <main
-                                className="flex flex-col max-w-4xl_ max-w-7xl w-full flex-1 overflow-hidden"
+                                className="flex flex-col max-w-4xl_ max-w-7xl w-full flex-1 md:overflow-hidden"
                                 lang="nb"
                                 id="maincontent"
                                 role="main"

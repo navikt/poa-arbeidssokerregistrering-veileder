@@ -1,9 +1,9 @@
 import React from 'react';
-import { Tidslinje } from '../../model/tidslinjer';
 import { useTidslinjeSelection } from '../../contexts/tidslinje-selection-context';
 import classNames from 'classnames';
 import { ChevronRightIcon } from '@navikt/aksel-icons';
 import { HistorikkListeTittelIkon } from './historikk-liste-tittel-ikon';
+import { Tidslinje } from './models/tidslinjer.types';
 
 type HistorikkListeTittelProps = {
     tidslinje: Tidslinje;
@@ -33,10 +33,10 @@ const HistorikkListeTittel: React.FC<HistorikkListeTittelProps> = (props) => {
 
     return (
         <button
-            className={`w-full mb-2 rounded p-4 transition-transform cursor-pointer flex flex-row text-left justify-between ${classNames(
+            className={`w-full md:mb-2 md:rounded p-2 md:p-4 md:transition-transform md:cursor-pointer flex flex-row text-left justify-between ${classNames(
                 {
-                    'translate-x-0.5 z-10 bg-lightblue-100': isSelected,
-                    'hover:translate-x-0.5 hover:bg-lightblue-50': !isSelected,
+                    'md:translate-x-0.5 z-10 bg-lightblue-100': isSelected,
+                    'md:hover:translate-x-0.5 md:hover:bg-lightblue-50': !isSelected,
                 },
             )}`}
             onClick={handleClick}

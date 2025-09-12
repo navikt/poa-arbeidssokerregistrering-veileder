@@ -2,13 +2,23 @@ import { BodyLong, Box, CopyButton, Heading } from '@navikt/ds-react';
 import React from 'react';
 import { prettyPrintDato } from '../../lib/date-utils';
 import { HistorikkListeTittelIkon } from './historikk-liste-tittel-ikon';
-import { Tidslinje } from '../../model/tidslinjer';
-import { PeriodeAvsluttetV1Hendelse, PeriodeStartetV1Hendelse } from './tidslinjer.types';
+import { PeriodeAvsluttetV1Hendelse, PeriodeStartetV1Hendelse, Tidslinje } from './models/tidslinjer.types';
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { TEKSTER } from '../tidslinjer/text';
+import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
 
 type HistorikkHeadingProps = {
     tidslinje: Tidslinje;
+};
+
+const KopierVeilederId = ({ veilederId }: { veilederId: string | null }) => {
+    return (
+        <>
+            {' '}
+            (id: {veilederId})
+            <CopyButton copyText={veilederId || ''} size="small" title="Kopier id" />
+        </>
+    );
 };
 
 const PeriodeStartInfo = ({ event }: { event: PeriodeStartetV1Hendelse | undefined }) => {
@@ -17,14 +27,8 @@ const PeriodeStartInfo = ({ event }: { event: PeriodeStartetV1Hendelse | undefin
     const { utfoertAv } = event.periodeStartetV1;
     return (
         <div className="flex items-center">
-            Startet av {tekst(utfoertAv.type)}
-            {utfoertAv.type === 'VEILEDER' && (
-                <>
-                    {' '}
-                    (id: {utfoertAv.id})
-                    <CopyButton copyText={utfoertAv.id || ''} size="small" title="Kopier begrunnelse for opprettelse" />
-                </>
-            )}
+            <strong>Startet</strong>&nbsp;av {tekst(utfoertAv.type)}
+            {utfoertAv.type === 'VEILEDER' && <KopierVeilederId veilederId={utfoertAv.id} />}
         </div>
     );
 };
@@ -32,18 +36,18 @@ const PeriodeStartInfo = ({ event }: { event: PeriodeStartetV1Hendelse | undefin
 const PeriodeSluttInfo = ({ event }: { event: PeriodeAvsluttetV1Hendelse | undefined }) => {
     if (!event) return null;
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
-    const { utfoertAv } = event.periodeAvsluttetV1;
+    const { utfoertAv, aarsak } = event.periodeAvsluttetV1;
+    const sluttaarsak = oversettSluttaarsak('nb');
     return (
-        <div className="flex items-center">
-            Avsluttet av {tekst(utfoertAv.type)}
-            {utfoertAv.type === 'VEILEDER' && (
-                <>
-                    {' '}
-                    (id: {utfoertAv.id})
-                    <CopyButton copyText={utfoertAv.id || ''} size="small" title="Kopier begrunnelse for opprettelse" />
-                </>
-            )}
-        </div>
+        <>
+            <div className="flex items-center">
+                <b>Avsluttet</b>&nbsp;av {tekst(utfoertAv.type)}
+                {utfoertAv.type === 'VEILEDER' && <KopierVeilederId veilederId={utfoertAv.id} />}
+            </div>
+            <div>
+                <b>{tekst('sluttarsak')}</b>: {sluttaarsak(aarsak)}
+            </div>
+        </>
     );
 };
 
@@ -58,24 +62,24 @@ const HistorikkHeading: React.FC<HistorikkHeadingProps> = (props) => {
         | undefined;
 
     return (
-        <>
+        <header className=" bg-surface-info-subtle rounded-md p-4 mb-8 border">
             <Heading size="large" level={'2'} className="flex items-center gap-4 mb-6">
                 {prettyPrintDato(tidslinje.startet, 'nb', true)} -{' '}
                 {tidslinje.avsluttet ? prettyPrintDato(tidslinje.avsluttet, 'nb', true) : 'fortsatt pågående'}
                 <HistorikkListeTittelIkon hendelser={tidslinje.hendelser} />
             </Heading>
-            <Box background="surface-info-subtle" className="rounded-md p-4 mb-8">
+            <Box>
                 <BodyLong size="medium" className="flex flex-row gap-4 mb-4">
                     <div>{tidslinje.hendelser.length} hendelser</div>
                     <div>&#8226;</div>
                     <div>Perioden er {erAvsluttet ? 'avsluttet' : 'pågående'}</div>
                 </BodyLong>
-                <BodyLong size="medium">
+                <BodyLong size="medium" className="flex flex-col gap-1">
                     <PeriodeStartInfo event={periodeStartetEvent} />
                     <PeriodeSluttInfo event={periodeAvsluttetEvent} />
                 </BodyLong>
             </Box>
-        </>
+        </header>
     );
 };
 

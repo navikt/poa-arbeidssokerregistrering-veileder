@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { Tidslinje } from '../model/tidslinjer';
+import { Tidslinje } from '../components/historikk-v2/models/tidslinjer.types';
 
 type TidslinjeSelectionContextType = {
     selectedTidslinje: Tidslinje | null;
