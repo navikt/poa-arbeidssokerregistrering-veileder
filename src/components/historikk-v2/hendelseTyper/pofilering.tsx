@@ -1,11 +1,11 @@
 import React from 'react';
-import { ProfileringV1Hendelse } from '../models/tidslinjer.types';
 import { TEKSTER } from '../../tidslinjer/text';
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { Box } from '@navikt/ds-react';
+import { Hendelse } from '../../../model/schema-api.types';
 
 type ProfileringProps = {
-    profilering: ProfileringV1Hendelse;
+    profilering: Hendelse['profilering_v1'];
 };
 
 const Profilering: React.FC<ProfileringProps> = (props) => {
@@ -16,7 +16,7 @@ const Profilering: React.FC<ProfileringProps> = (props) => {
         <Box as={'p'}>
             <b>Profilering</b>
             {': '}
-            {tekst(profilering.profileringV1.profilertTil)}
+            {tekst(profilering.profilertTil)}
         </Box>
     );
 };

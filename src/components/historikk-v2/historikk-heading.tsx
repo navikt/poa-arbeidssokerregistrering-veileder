@@ -2,10 +2,10 @@ import { BodyLong, Box, CopyButton, Heading } from '@navikt/ds-react';
 import React from 'react';
 import { prettyPrintDato } from '../../lib/date-utils';
 import { HistorikkListeTittelIkon } from './historikk-liste-tittel-ikon';
-import { PeriodeAvsluttetV1Hendelse, PeriodeStartetV1Hendelse, Tidslinje } from './models/tidslinjer.types';
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { TEKSTER } from '../tidslinjer/text';
 import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
+import { Hendelse, Tidslinje } from '../../model/schema-api.types';
 
 type HistorikkHeadingProps = {
     tidslinje: Tidslinje;
@@ -21,10 +21,10 @@ const KopierVeilederId = ({ veilederId }: { veilederId: string | null }) => {
     );
 };
 
-const PeriodeStartInfo = ({ event }: { event: PeriodeStartetV1Hendelse | undefined }) => {
+const PeriodeStartInfo = ({ event }: { event: Hendelse | undefined }) => {
     if (!event) return null;
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
-    const { utfoertAv } = event.periodeStartetV1;
+    const { utfoertAv } = event['periodeStartetV1'];
     return (
         <div className="flex items-center">
             <strong>Startet</strong>&nbsp;av {tekst(utfoertAv.type)}
@@ -33,10 +33,10 @@ const PeriodeStartInfo = ({ event }: { event: PeriodeStartetV1Hendelse | undefin
     );
 };
 
-const PeriodeSluttInfo = ({ event }: { event: PeriodeAvsluttetV1Hendelse | undefined }) => {
+const PeriodeSluttInfo = ({ event }: { event: Hendelse | undefined }) => {
     if (!event) return null;
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
-    const { utfoertAv, aarsak } = event.periodeAvsluttetV1;
+    const { utfoertAv, aarsak } = event['periodeAvsluttetV1'];
     const sluttaarsak = oversettSluttaarsak('nb');
     return (
         <>
@@ -54,12 +54,8 @@ const PeriodeSluttInfo = ({ event }: { event: PeriodeAvsluttetV1Hendelse | undef
 const HistorikkHeading: React.FC<HistorikkHeadingProps> = (props) => {
     const { tidslinje } = props;
     const erAvsluttet = tidslinje.avsluttet !== null;
-    const periodeStartetEvent = tidslinje.hendelser.find((h) => h.hendelseType === 'periode_startet_v1') as
-        | PeriodeStartetV1Hendelse
-        | undefined;
-    const periodeAvsluttetEvent = tidslinje.hendelser.find((h) => h.hendelseType === 'periode_avsluttet_v1') as
-        | PeriodeAvsluttetV1Hendelse
-        | undefined;
+    const periodeStartetEvent = tidslinje.hendelser.find((h) => h.hendelseType === 'periode_startet_v1');
+    const periodeAvsluttetEvent = tidslinje.hendelser.find((h) => h.hendelseType === 'periode_avsluttet_v1');
 
     return (
         <header className=" bg-surface-info-subtle rounded-md p-4 mb-8 border">

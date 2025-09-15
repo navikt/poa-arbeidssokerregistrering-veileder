@@ -1,25 +1,25 @@
 import React from 'react';
-import { BekreftelseV1Hendelse } from '../models/tidslinjer.types';
 import { Box, List, ReadMore, Tag } from '@navikt/ds-react';
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { TEKSTER } from '../../tidslinjer/text';
 import { prettyPrintDato } from '../../../lib/date-utils';
+import { Hendelse } from '../../../model/schema-api.types';
 
 type BekreftelseProps = {
-    bekreftelse: BekreftelseV1Hendelse;
+    bekreftelse: Hendelse['bekreftelse_v1'];
 };
 
 const Bekreftelse: React.FC<BekreftelseProps> = (props) => {
     const { bekreftelse } = props;
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
-    const erGyldig = bekreftelse.bekreftelseV1.status === 'GYLDIG';
+    const erGyldig = bekreftelse.status === 'GYLDIG';
 
     return (
         <div>
             <Box as={'p'}>
                 <b>Status</b>
                 {': '}
-                {tekst(bekreftelse.bekreftelseV1.status)}
+                {tekst(bekreftelse.status)}
                 <Tag variant={erGyldig ? 'success' : 'warning'} className="ml-2">
                     {erGyldig ? 'Gyldig' : 'Ikke gyldig'}
                 </Tag>
@@ -31,19 +31,19 @@ const Bekreftelse: React.FC<BekreftelseProps> = (props) => {
                         <List.Item>
                             <strong>Bekreftelse for følgende periode</strong>
                             <br />
-                            {prettyPrintDato(bekreftelse.bekreftelseV1.bekreftelse.svar.gjelderFra)}
+                            {prettyPrintDato(bekreftelse.bekreftelse.svar.gjelderFra)}
                             {' - '}
-                            {prettyPrintDato(bekreftelse.bekreftelseV1.bekreftelse.svar.gjelderTil)}
+                            {prettyPrintDato(bekreftelse.bekreftelse.svar.gjelderTil)}
                         </List.Item>
                         <List.Item>
                             <strong>Jobbet i perioden</strong>
                             <br />
-                            {bekreftelse.bekreftelseV1.bekreftelse.svar.harJobbetIDennePerioden ? 'Ja' : 'Nei'}
+                            {bekreftelse.bekreftelse.svar.harJobbetIDennePerioden ? 'Ja' : 'Nei'}
                         </List.Item>
                         <List.Item>
                             <strong>Vil du fotsatt være arbeidssøker?</strong>
                             <br />
-                            {bekreftelse.bekreftelseV1.bekreftelse.svar.vilFortsetteSomArbeidssoeker ? 'Ja' : 'Nei'}
+                            {bekreftelse.bekreftelse.svar.vilFortsetteSomArbeidssoeker ? 'Ja' : 'Nei'}
                         </List.Item>
                     </List>
                 </ReadMore>

@@ -1,19 +1,19 @@
 import React from 'react';
-import { OpplysningerV4Hendelse } from '../models/tidslinjer.types';
 import { List, ReadMore } from '@navikt/ds-react';
 import { mapOpplysninger } from '../../opplysninger-om-arbeidssoker-komponent';
 import { lagHentTekstForSprak, SPORSMAL_TEKSTER } from '@navikt/arbeidssokerregisteret-utils';
+import { Hendelse } from '../../../model/schema-api.types';
 
 type OpplysningerProps = {
-    opplysninger: OpplysningerV4Hendelse;
+    opplysninger: Hendelse['opplysninger_v4'];
 };
 
 const Opplysninger: React.FC<OpplysningerProps> = (props) => {
     const { opplysninger } = props;
     // Tror det er en feil på "velg den situasjonen som passer deg best"
-    // TODO: Tror vi kan legge til nåværende stilling (ikke reelt brukt, men vi har jo dataen 🤷‍♀️)
-    // Mulig vi bare må lage vår egen mapOpplysninger - Er ikke så stor.
-    const opplysningerFormatted = mapOpplysninger(opplysninger.opplysningerV4 as any);
+    // Mulig vi kan legge til nåværende stilling (ikke brukt til noe, men vi har jo dataen 🤷‍♀️)
+    // Vurdere å lage en egen mapOpplysninger for å bruke nye typer
+    const opplysningerFormatted = mapOpplysninger(opplysninger as any);
     const tekst = lagHentTekstForSprak(SPORSMAL_TEKSTER, 'nb');
 
     return (

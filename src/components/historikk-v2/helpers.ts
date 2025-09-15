@@ -1,6 +1,6 @@
 import { BekreftelseStatus } from '@navikt/arbeidssokerregisteret-utils';
 import { Hendelse } from '../../model/tidslinjer';
-import { Hendelse as HendelseV2 } from './models/tidslinjer.types';
+import { Hendelse as HendelseApi } from '../../model/schema-api.types';
 
 export function skalHaVarseltrekant(hendelser: Hendelse[]) {
     const bekreftelser = hendelser.filter((hendelse) => ['bekreftelse_v1'].includes(hendelse.hendelseType));
@@ -37,23 +37,23 @@ export function skalHaSoppelbotte(hendelser: Hendelse[]) {
     return problematiskeAvslutninger.length > 0;
 }
 
-export function getSourceString(hendelse: HendelseV2): string {
+export function getSourceString(hendelse: HendelseApi): string {
     const MISSING_DATA = '--';
     switch (hendelse.hendelseType) {
         case 'opplysninger_v4':
-            return hendelse.opplysningerV4?.sendtInnAv?.utfoertAv?.type ?? MISSING_DATA;
+            return hendelse['opplysningerV4']?.sendtInnAv?.utfoertAv?.type ?? MISSING_DATA;
         case 'bekreftelse_v1':
-            const type = hendelse.bekreftelseV1?.bekreftelse?.svar?.sendtInnAv?.utfoertAv?.type;
-            const losning = hendelse.bekreftelseV1?.bekreftelse?.bekreftelsesloesning;
+            const type = hendelse['bekreftelseV1']?.bekreftelse?.svar?.sendtInnAv?.utfoertAv?.type;
+            const losning = hendelse['bekreftelseV1']?.bekreftelse?.bekreftelsesloesning;
             return type && losning ? `${type} / ${losning}` : MISSING_DATA;
         case 'pa_vegne_av_stopp_v1':
-            return hendelse.paVegneAvStoppV1?.bekreftelsesloesning ?? MISSING_DATA;
+            return hendelse['paVegneAvStoppV1']?.bekreftelsesloesning ?? MISSING_DATA;
         case 'periode_avsluttet_v1':
-            return hendelse.periodeAvsluttetV1?.utfoertAv?.type ?? MISSING_DATA;
+            return hendelse['periodeAvsluttetV1']?.utfoertAv?.type ?? MISSING_DATA;
         case 'periode_startet_v1':
-            return hendelse.periodeStartetV1?.utfoertAv?.type ?? MISSING_DATA;
+            return hendelse['periodeStartetV1']?.utfoertAv?.type ?? MISSING_DATA;
         case 'profilering_v1':
-            return hendelse.profileringV1?.sendtInnAv?.utfoertAv?.type ?? MISSING_DATA;
+            return hendelse['profileringV1']?.sendtInnAv?.utfoertAv?.type ?? MISSING_DATA;
         default:
             return MISSING_DATA;
     }

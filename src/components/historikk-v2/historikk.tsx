@@ -1,12 +1,5 @@
 import React from 'react';
 import { Opplysninger } from './hendelseTyper/opplysninger';
-import {
-    BekreftelseV1Hendelse,
-    OpplysningerV4Hendelse,
-    PeriodeAvsluttetV1Hendelse,
-    ProfileringV1Hendelse,
-    Tidslinje,
-} from './models/tidslinjer.types';
 import { Profilering } from './hendelseTyper/pofilering';
 import { PeriodeAvsluttet } from './hendelseTyper/periodeAvsluttet';
 import { HistorikkHeading } from './historikk-heading';
@@ -14,6 +7,7 @@ import { HistorikkInnslagWrapper } from './historikk-innslag-wrapper';
 import { Bekreftelse } from './hendelseTyper/bekreftelse';
 import { getSourceString } from './helpers';
 import { HistorikkInnslagHeader } from './historikk-innslag-header';
+import { Tidslinje } from '../../model/schema-api.types';
 
 type HistorikkProps = {
     tidslinje: Tidslinje;
@@ -35,16 +29,16 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
                             source={getSourceString(hendelse)}
                         />
                         {hendelse.hendelseType === 'opplysninger_v4' && (
-                            <Opplysninger opplysninger={hendelse as OpplysningerV4Hendelse} />
+                            <Opplysninger opplysninger={hendelse['opplysningerV4']} />
                         )}
                         {hendelse.hendelseType === 'profilering_v1' && (
-                            <Profilering profilering={hendelse as ProfileringV1Hendelse} />
+                            <Profilering profilering={hendelse['profileringV1']} />
                         )}
                         {hendelse.hendelseType === 'bekreftelse_v1' && (
-                            <Bekreftelse bekreftelse={hendelse as BekreftelseV1Hendelse} />
+                            <Bekreftelse bekreftelse={hendelse['bekreftelseV1']} />
                         )}
                         {hendelse.hendelseType === 'periode_avsluttet_v1' && (
-                            <PeriodeAvsluttet avsluttetHendelse={hendelse as PeriodeAvsluttetV1Hendelse} />
+                            <PeriodeAvsluttet avsluttetHendelse={hendelse['periodeAvsluttetV1']} />
                         )}
                     </>
                 </HistorikkInnslagWrapper>
