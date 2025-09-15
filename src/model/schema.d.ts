@@ -13,7 +13,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Hent alle bekreftelser for oppgitte perioder */
+        /** @description Hent alle bekreftelser for oppgitte perioder, body: PeriodeRequest eller IdentitetsnummerRequest */
         post: {
             parameters: {
                 query?: never;
@@ -26,9 +26,9 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    'application/json': {
-                        perioder: string[];
-                    };
+                    'application/json':
+                        | components['schemas']['IdentitetsnummerRequest']
+                        | components['schemas']['PerioderRequest'];
                 };
             };
             responses: {
@@ -60,7 +60,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Hent alle bekreftelser for oppgitte perioder */
+        /** @description Hent alle bekreftelser for oppgitte perioder, body: PeriodeRequest eller IdentitetsnummerRequest */
         post: {
             parameters: {
                 query?: never;
@@ -73,9 +73,9 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    'application/json': {
-                        perioder: string[];
-                    };
+                    'application/json':
+                        | components['schemas']['PerioderRequest']
+                        | components['schemas']['IdentitetsnummerRequest'];
                 };
             };
             responses: {
@@ -102,6 +102,16 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        PerioderRequest: {
+            perioder: string[];
+        };
+        IdentitetsnummerRequest: {
+            /**
+             * Format: identitetsnummer
+             * @description Norsk identitetsnummer (11 siffer, ingen andre tegn)
+             */
+            identitetsnummer: string;
+        };
         /** @description En periode er en tidsperiode hvor en bruker har vært registrert som arbeidssøker.
          *     En bruker kan ha flere perioder, og en periode kan være pågående eller avsluttet.
          *     En periode er pågående dersom "avsluttet" er 'null' (ikke satt).
