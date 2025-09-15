@@ -65,19 +65,9 @@ const HistorikkTidslinjer = () => {
     const { fnr } = params;
     const brukerMock = enableMock === 'enabled';
     /*
-    == TODO: TIL MANDAG 15.09
-    ===============================
-    == Hent data-definisjonen fra openapi-spec.yaml og bruk denne til å 
-    == generere en typescript-fil med datamodeller. (chatGPT or something)
-    == LINK: https://github.com/navikt/paw-arbeidssoekerregisteret-monorepo-ekstern/blob/main/apps/oppslag-api-v2/src/main/resources/openapi/openapi-spec.yaml
-
-    == Bruk denne i alt som har med historikk å gjøre. Brude kanskje erstatte typer
-    == i hele repoet på sikt og. EN fil, én definisjon av data.
-
     == API-tidslinjer
     == Denne krever periodeId'er som input, men trenger vi egentlig dette? 
     == Hør med NM om det er mulig å endre til å bruke fnr direkte.
-    
     */
 
     const {

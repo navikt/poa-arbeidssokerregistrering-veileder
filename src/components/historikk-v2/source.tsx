@@ -12,7 +12,7 @@ const Source: React.FC<SourceProps> = (props) => {
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
 
     return (
-        <Tag size="small" variant="info" className="flex_ _flex-nowrap">
+        <Tag size="small" variant="info" className="sm:ml-auto">
             <span>{'Kilde: '}</span>
             <span>{tekst(source)}</span>
         </Tag>
