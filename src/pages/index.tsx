@@ -12,7 +12,6 @@ export default function Home() {
             <RedirectTilVedlikehold />
             <DemoLabel />
             <HvaErNytt />
-            {/*<ArbeidssoekerstatusOversiktV2 />*/}
             <NyForside />
             <ManglerPersonEllerEnhet />
             <section className="flex flex-col items-center p-8">

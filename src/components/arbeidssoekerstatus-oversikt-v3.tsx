@@ -13,8 +13,6 @@ import VurderingskriterierForArbeidssoekerregistrering from './vurderingskriteri
 import AarsakerTilAtPersonenIkkeKanRegistreres from './aarsaker-til-at-personen-ikke-kan-registreres-v2';
 import ArbeidssoekerMaaRegistreresIArena from './arbeidssoeker-maa-registreres-i-arena-foerst-v2';
 import TilbakeTilForside from './tilbake-til-forside';
-import { REGLER_SOM_KAN_OVERSTYRES } from '../model/regler-for-avvisning';
-import { useFeatureToggles } from '../contexts/featuretoggle-context';
 
 interface KanStartePeriodeProps {
     kanStarteArbeidssoekerperiode: boolean;
@@ -31,15 +29,6 @@ function RedirectTilRegistreringOmPeriodeKanStartes(props: KanStartePeriodeProps
     return null;
 }
 
-function sjekkOmAlleReglerKanOverstyres(feilmelding?: any) {
-    const { aarsakTilAvvisning } = feilmelding || {};
-    const { regler } = aarsakTilAvvisning || {};
-    if (!regler) return false;
-    const aarsaker = regler.map((regel) => regel.id);
-    const reglerSomIkkeKanOverstyres = aarsaker.filter((regel) => !REGLER_SOM_KAN_OVERSTYRES.includes(regel));
-    return reglerSomIkkeKanOverstyres.length === 0;
-}
-
 function ArbeidssoekerstatusOversiktV3() {
     const { params } = useParamsFromContext();
     const { enableMock } = useConfig() as Config;
@@ -50,13 +39,9 @@ function ArbeidssoekerstatusOversiktV3() {
     const [visSjekkliste, setVisSjekkliste] = useState<boolean>(false);
     const [error, setError] = useState<any>(undefined);
 
-    const { toggles } = useFeatureToggles();
-
     const sjekkKanStarteArbeidssoekerperiodeUrl = brukerMock
         ? '/api/mocks/kan-starte-arbeidssoekerperiode-v2'
         : '/api/kan-starte-arbeidssoekerperiode-v2';
-
-    const kanOverstyres = sjekkOmAlleReglerKanOverstyres(error);
 
     async function apiKall() {
         const payload = JSON.stringify({
