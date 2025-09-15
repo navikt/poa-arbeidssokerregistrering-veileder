@@ -65,9 +65,9 @@ const HistorikkTidslinjer = () => {
     const { fnr } = params;
     const brukerMock = enableMock === 'enabled';
     /*
-    == API-tidslinjer
-    == Denne krever periodeId'er som input, men trenger vi egentlig dette? 
-    == Hør med NM om det er mulig å endre til å bruke fnr direkte.
+    == TODO: API-tidslinjer
+    == trenger ikke periodeID når vi skal hente alle tidslinjer. 
+    == Sendte tom body - Men sjekke at dette funker 
     */
 
     const {
