@@ -2,3 +2,7 @@
 @import '@navikt/ds-css' layer(components);
 
 @config '../../tailwind.config.ts';
+
+main[data-route="/historikk-v2"] {
+    @apply max-w-7xl md:overflow-hidden;
+}

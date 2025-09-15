@@ -48,11 +48,12 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                         <InitUmami />
                         <section className="flex flex-col items-center p-8 h-screen">
                             <main
-                                className="flex flex-col max-w-4xl_ max-w-7xl w-full flex-1 md:overflow-hidden"
+                                className="flex flex-col max-w-4xl w-full flex-1"
                                 lang="nb"
                                 id="maincontent"
                                 role="main"
                                 tabIndex={-1}
+                                data-route={router.pathname}
                             >
                                 <Head>
                                     <title>{tekst('metaTittel')}</title>
