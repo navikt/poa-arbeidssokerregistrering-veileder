@@ -1,4 +1,4 @@
-import { Button, Box, ConfirmationPanel } from '@navikt/ds-react';
+import { Box, Button, Checkbox } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -63,12 +63,9 @@ function OverstyrStartPeriodeKnapp() {
 
     return (
         <Box>
-            <ConfirmationPanel
-                checked={bekreftet}
-                label="Jeg bekrefter at de nødvendige vurderingene er gjort og dokumentert"
-                onChange={() => setBekreftet((x) => !x)}
-                className="mb-4"
-            />
+            <Checkbox checked={bekreftet} onChange={() => setBekreftet((x) => !x)} className="mb-4">
+                Jeg bekrefter at de nødvendige vurderingene er gjort og dokumentert
+            </Checkbox>
             <Button
                 variant="secondary-neutral"
                 disabled={!bekreftet}
