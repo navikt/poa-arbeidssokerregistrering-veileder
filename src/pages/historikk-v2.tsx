@@ -5,7 +5,7 @@ import { AggregertePerioder } from '@navikt/arbeidssokerregisteret-utils';
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { TidslinjeSelectionProvider, useTidslinjeSelection } from '../contexts/tidslinje-selection-context';
 import { Historikk } from '../components/historikk-v2/historikk';
-import { ActionMenu, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
+import { ActionMenu, Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
 import { HistorikkListeTittel } from '../components/historikk-v2/historikk-liste-tittel';
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { ApiTidslinjeResponse, Tidslinje } from '../model/schema-api.types';
@@ -91,9 +91,8 @@ const HistorikkTidslinjer = () => {
         fnr && periodeIds ? JSON.stringify({ perioder: periodeIds }) : null,
     );
 
-    // TODO: Litt mer innhold her
     if (errorAggregertePerioder || errorTidslinjer) {
-        return <div>Det oppstod en feil ved henting av data.</div>;
+        return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;
     }
 
     return (
