@@ -35,7 +35,7 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
             {tidslinje.hendelser.map((hendelse, index) => (
                 <article
                     key={index + hendelse.tidspunkt}
-                    className="flex flex-col gap-2 bg-gray-50/40 mb-4 p-4 rounded-md shadow"
+                    className="flex flex-col gap-2 bg-gray-50/40 mb-4 p-4 rounded-md shadow print:border-b print:rounded-none"
                 >
                     <div className="grid sm:flex sm:flex-wrap gap-2">
                         <div className="whitespace-nowrap pr-2">

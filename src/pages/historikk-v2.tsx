@@ -8,6 +8,8 @@ import { ActionMenu, Alert, BodyShort, Box, Button, Heading, Skeleton } from '@n
 import { HistorikkListeTittel } from '../components/historikk-v2/historikk-liste-tittel';
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { ApiTidslinjeResponse, Tidslinje } from '../model/schema-api.types';
+import TilbakeTilForside from '../components/tilbake-til-forside';
+import PrintInfoHeader from '../components/historikk/print-info-header';
 
 const HistorikkInnholdSkeleton = () => {
     return (
@@ -59,7 +61,7 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
     return (
         <div className="flex-1 md:grid md:grid-cols-[minmax(300px,1fr)_3fr] md:overflow-hidden">
             {/* Mobile menu for tidslinjer */}
-            <Box as={'nav'} className="md:hidden bg-bg-default mb-4">
+            <Box as={'nav'} className="md:hidden bg-bg-default mb-4 print:hidden">
                 <ActionMenu>
                     <ActionMenu.Trigger>
                         <Button variant="secondary-neutral" icon={<ChevronDownIcon aria-hidden />} iconPosition="right">
@@ -76,7 +78,7 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
                 </ActionMenu>
             </Box>
             {/* Desktop list of tidslinjer */}
-            <div className="hidden md:block md:overflow-y-scroll relative px-1">
+            <div className="hidden md:block md:overflow-y-scroll relative px-1 print:hidden">
                 <div className="sticky top-0 z-50 bg-white">
                     <Heading size="large">Arbeidssøkerperioder</Heading>
                     <BodyShort className="mb-4">
@@ -88,6 +90,7 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
                 ))}
             </div>
             <div className="md:p-4 md:overflow-y-scroll">
+                <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
                 {selectedTidslinje ? <Historikk tidslinje={selectedTidslinje} /> : 'Ingen arbeidsøkerperiode er valgt'}
             </div>
         </div>
@@ -116,6 +119,7 @@ const HistorikkTidslinjer = () => {
 
     return (
         <TidslinjeSelectionProvider>
+            <PrintInfoHeader fnr={fnr} />
             <HistorikkInnhold tidslinjeResponse={tidslinjerResponse} isLoading={isLoadingTidslinjer} />
         </TidslinjeSelectionProvider>
     );
