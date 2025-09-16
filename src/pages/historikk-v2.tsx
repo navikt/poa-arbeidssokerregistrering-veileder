@@ -77,7 +77,7 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
                 </ActionMenu>
             </Box>
             {/* Desktop list of tidslinjer */}
-            <div className="hidden md:block md:overflow-y-scroll relative">
+            <div className="hidden md:block md:overflow-y-scroll relative p-1">
                 <div className="sticky top-0 z-50 bg-white">
                     <Heading size="large">Arbeidssøkerperioder</Heading>
                     <BodyShort className="mb-4">
