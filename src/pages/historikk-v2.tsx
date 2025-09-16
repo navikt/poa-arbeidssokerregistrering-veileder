@@ -1,7 +1,6 @@
 import useApiKall from '../hooks/useApiKall';
 import { useConfig } from '../contexts/config-context';
 import { Config } from '../model/config';
-import { AggregertePerioder } from '@navikt/arbeidssokerregisteret-utils';
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { TidslinjeSelectionProvider, useTidslinjeSelection } from '../contexts/tidslinje-selection-context';
 import { Historikk } from '../components/historikk-v2/historikk';
@@ -100,23 +99,7 @@ const HistorikkTidslinjer = () => {
     const { enableMock } = useConfig() as Config;
     const { fnr } = params;
     const brukerMock = enableMock === 'enabled';
-    /*
-    == TODO: API-tidslinjer
-    == trenger ikke periodeID når vi skal hente alle tidslinjer. 
-    == Sendte tom body - Men sjekke at dette funker 
-    */
 
-    const {
-        data: aggregertePerioder,
-        isLoading: isLoadingAggregertePerioder,
-        error: errorAggregertePerioder,
-    } = useApiKall<AggregertePerioder>(
-        `/api/${brukerMock ? 'mocks/' : ''}oppslag-arbeidssoekerperioder-aggregert`,
-        'POST',
-        fnr ? JSON.stringify({ identitetsnummer: fnr }) : null,
-    );
-
-    const periodeIds = aggregertePerioder ? aggregertePerioder.map((periode) => periode.periodeId) : null;
     const {
         data: tidslinjerResponse,
         isLoading: isLoadingTidslinjer,
@@ -124,10 +107,10 @@ const HistorikkTidslinjer = () => {
     } = useApiKall<ApiTidslinjeResponse>(
         `/api/${brukerMock ? 'mocks/' : ''}tidslinjer`,
         'POST',
-        fnr && periodeIds ? JSON.stringify({ perioder: periodeIds }) : null,
+        fnr ? JSON.stringify({ identitetsnummer: fnr }) : null,
     );
 
-    if (errorAggregertePerioder || errorTidslinjer) {
+    if (errorTidslinjer) {
         return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;
     }
 
