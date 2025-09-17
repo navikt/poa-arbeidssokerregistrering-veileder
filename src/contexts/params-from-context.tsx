@@ -24,7 +24,7 @@ const routesSomIkkeSkalRefreshes = [
     '/tidslinjer',
     '/registrering-arbeidssoeker-sjekk',
     '/oppdater-opplysninger',
-    'historikk-v2',
+    '/historikk-v2',
 ];
 
 function ParamsFromContextProvider({ children }) {
