@@ -11,7 +11,7 @@ const Bekreftelse: React.FC<BekreftelseProps> = (props) => {
     const { bekreftelse } = props;
 
     return (
-        <Box as={'p'}>
+        <Box>
             <ReadMore header="Bekreftede opplysninger">
                 <List size="small">
                     <List.Item>

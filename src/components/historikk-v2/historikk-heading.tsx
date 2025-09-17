@@ -22,31 +22,35 @@ const KopierVeilederId = ({ veilederId }: { veilederId: string | null }) => {
 };
 
 const PeriodeStartInfo = ({ event }: { event: Hendelse | undefined }) => {
-    if (!event) return null;
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
     const { utfoertAv } = event['periodeStartetV1'];
+
+    if (!event) return null;
+
     return (
-        <div className="flex items-center">
+        <p className="flex items-center">
             <strong>Startet</strong>&nbsp;av {tekst(utfoertAv.type)}
             {utfoertAv.type === 'VEILEDER' && <KopierVeilederId veilederId={utfoertAv.id} />}
-        </div>
+        </p>
     );
 };
 
 const PeriodeSluttInfo = ({ event }: { event: Hendelse | undefined }) => {
-    if (!event) return null;
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
     const { utfoertAv, aarsak } = event['periodeAvsluttetV1'];
     const sluttaarsak = oversettSluttaarsak('nb');
+
+    if (!event) return null;
+
     return (
         <>
-            <div className="flex items-center">
+            <p className="flex items-center">
                 <b>Avsluttet</b>&nbsp;av {tekst(utfoertAv.type)}
                 {utfoertAv.type === 'VEILEDER' && <KopierVeilederId veilederId={utfoertAv.id} />}
-            </div>
-            <div>
+            </p>
+            <p>
                 <b>{tekst('sluttarsak')}</b>: {sluttaarsak(aarsak)}
-            </div>
+            </p>
         </>
     );
 };
@@ -66,14 +70,14 @@ const HistorikkHeading: React.FC<HistorikkHeadingProps> = (props) => {
             </Heading>
             <Box>
                 <BodyLong size="medium" className="flex flex-row gap-4 mb-4">
-                    <div>{tidslinje.hendelser.length} hendelser</div>
-                    <div>&#8226;</div>
-                    <div>Perioden er {erAvsluttet ? 'avsluttet' : 'pågående'}</div>
+                    <span>{tidslinje.hendelser.length} hendelser</span>
+                    <span>&#8226;</span>
+                    <span>Perioden er {erAvsluttet ? 'avsluttet' : 'pågående'}</span>
                 </BodyLong>
-                <BodyLong size="medium" className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                     <PeriodeStartInfo event={periodeStartetEvent} />
                     <PeriodeSluttInfo event={periodeAvsluttetEvent} />
-                </BodyLong>
+                </div>
             </Box>
         </header>
     );

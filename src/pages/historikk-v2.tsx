@@ -11,6 +11,7 @@ import { ApiTidslinjeResponse, Tidslinje } from '../model/schema-api.types';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import PrintInfoHeader from '../components/historikk/print-info-header';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
+import { useEffect } from 'react';
 
 const HistorikkInnholdSkeleton = () => {
     return (
@@ -46,10 +47,17 @@ type HistorikkInnholdProps = {
 };
 
 const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProps) => {
-    const { selectedTidslinje } = useTidslinjeSelection();
+    const { selectedTidslinje, setSelectedTidslinje } = useTidslinjeSelection();
     const tidslinjeList: Tidslinje[] =
         tidslinjeResponse && tidslinjeResponse['tidslinjer'] ? tidslinjeResponse['tidslinjer'] : [];
     const hasData = tidslinjeList && tidslinjeList.length > 0;
+
+    useEffect(() => {
+        if (!isLoading && hasData && !selectedTidslinje) {
+            console.log('Setting first tidslinje as selected');
+            setSelectedTidslinje(tidslinjeList[0]);
+        }
+    }, [isLoading, hasData, tidslinjeList, selectedTidslinje, setSelectedTidslinje]);
 
     if (isLoading) {
         return <HistorikkInnholdSkeleton />;
