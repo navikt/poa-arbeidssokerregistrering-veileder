@@ -54,7 +54,6 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
 
     useEffect(() => {
         if (!isLoading && hasData && !selectedTidslinje) {
-            console.log('Setting first tidslinje as selected');
             setSelectedTidslinje(tidslinjeList[0]);
         }
     }, [isLoading, hasData, tidslinjeList, selectedTidslinje, setSelectedTidslinje]);
@@ -64,7 +63,7 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
     }
 
     if (!hasData) {
-        return <div>Ingen data tilgjengelig</div>;
+        return <div>Ingen arbeidssøkerhistorikk tilgjengelig</div>;
     }
 
     return (
