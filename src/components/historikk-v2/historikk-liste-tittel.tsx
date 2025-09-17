@@ -16,11 +16,16 @@ const HistorikkListeTittel: React.FC<HistorikkListeTittelProps> = (props) => {
     const formatTitleString = (fromTimeStamp: string, toTimeStamp: string | null) => {
         const fromDate = new Date(fromTimeStamp);
         const isValidDate = (date: Date) => !isNaN(date.getTime());
-        const fromStr = isValidDate(fromDate) ? fromDate.toLocaleDateString() : '';
+        const dateOptions: Intl.DateTimeFormatOptions = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        };
+        const fromStr = isValidDate(fromDate) ? fromDate.toLocaleDateString('nb-NO', dateOptions) : '';
         let toStr = '';
         if (toTimeStamp) {
             const toDate = new Date(toTimeStamp);
-            toStr = isValidDate(toDate) ? toDate.toLocaleDateString() : '';
+            toStr = isValidDate(toDate) ? toDate.toLocaleDateString('nb-NO', dateOptions) : '';
         }
         return `${fromStr} - ${toStr}`;
     };
