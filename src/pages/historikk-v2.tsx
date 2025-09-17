@@ -10,6 +10,7 @@ import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { ApiTidslinjeResponse, Tidslinje } from '../model/schema-api.types';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import PrintInfoHeader from '../components/historikk/print-info-header';
+import { withAuthenticatedPage } from '../auth/withAuthentication';
 
 const HistorikkInnholdSkeleton = () => {
     return (
@@ -124,5 +125,13 @@ const HistorikkTidslinjer = () => {
         </TidslinjeSelectionProvider>
     );
 };
+
+export const getServerSideProps = withAuthenticatedPage(async () => {
+    return {
+        props: {
+            skjulDekoratorVedPrint: true,
+        },
+    };
+});
 
 export default HistorikkTidslinjer;
