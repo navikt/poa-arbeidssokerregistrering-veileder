@@ -63,7 +63,12 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
     }
 
     if (!hasData) {
-        return <div>Ingen arbeidssøkerhistorikk tilgjengelig</div>;
+        return (
+            <>
+                <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
+                <Alert variant="info">Ingen arbeidssøkerhistorikk tilgjengelig</Alert>
+            </>
+        );
     }
 
     return (
