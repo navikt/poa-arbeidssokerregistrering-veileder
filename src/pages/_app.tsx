@@ -44,13 +44,14 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                             <Visittkort />
                         </div>
                         <InitUmami />
-                        <section className="flex flex-col items-center p-8">
+                        <section className="flex flex-col items-center p-8 h-screen">
                             <main
-                                className="flex flex-col max-w-4xl w-full"
+                                className="flex flex-col max-w-4xl w-full flex-1"
                                 lang="nb"
                                 id="maincontent"
                                 role="main"
                                 tabIndex={-1}
+                                data-route={router.pathname}
                             >
                                 <Head>
                                     <title>{tekst('metaTittel')}</title>

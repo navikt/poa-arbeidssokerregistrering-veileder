@@ -13,7 +13,8 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "types": ["@testing-library/jest-dom"],
-        "target": "ES2017"
+        "target": "ES2017",
+        "noUncheckedIndexedAccess": true
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules"]
