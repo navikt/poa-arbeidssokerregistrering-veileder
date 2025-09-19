@@ -23,7 +23,7 @@ const KopierVeilederId = ({ veilederId }: { veilederId: string | null }) => {
 
 const PeriodeStartInfo = ({ event }: { event: Hendelse | undefined }) => {
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
-    const { utfoertAv } = event['periodeStartetV1'];
+    const utfoertAv = event?.['periodeStartetV1']?.utfoertAv;
 
     if (!event) return null;
 
@@ -37,7 +37,8 @@ const PeriodeStartInfo = ({ event }: { event: Hendelse | undefined }) => {
 
 const PeriodeSluttInfo = ({ event }: { event: Hendelse | undefined }) => {
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
-    const { utfoertAv, aarsak } = event['periodeAvsluttetV1'];
+    const utfoertAv = event?.['periodeAvsluttetV1']?.utfoertAv;
+    const aarsak = event?.['periodeAvsluttetV1']?.aarsak;
     const sluttaarsak = oversettSluttaarsak('nb');
 
     if (!event) return null;
