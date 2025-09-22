@@ -3,6 +3,7 @@ import { List, ReadMore } from '@navikt/ds-react';
 import { mapOpplysninger } from '../../opplysninger-om-arbeidssoker-komponent';
 import { lagHentTekstForSprak, SPORSMAL_TEKSTER } from '@navikt/arbeidssokerregisteret-utils';
 import { Hendelse } from '../../../model/schema-api.types';
+import { mapOpplysningerV2 } from './map-opplysninger-til-fremvisning';
 
 type OpplysningerProps = {
     opplysninger: Hendelse['opplysninger_v4'];
@@ -10,10 +11,7 @@ type OpplysningerProps = {
 
 const Opplysninger: React.FC<OpplysningerProps> = (props) => {
     const { opplysninger } = props;
-    // Tror det er en feil på "velg den situasjonen som passer deg best"
-    // Mulig vi kan legge til nåværende stilling (ikke brukt til noe, men vi har jo dataen 🤷‍♀️)
-    // Vurdere å lage en egen mapOpplysninger for å bruke nye typer
-    const opplysningerFormatted = mapOpplysninger(opplysninger as any);
+    const opplysningerFormatted = mapOpplysningerV2(opplysninger);
     const tekst = lagHentTekstForSprak(SPORSMAL_TEKSTER, 'nb');
 
     return (
