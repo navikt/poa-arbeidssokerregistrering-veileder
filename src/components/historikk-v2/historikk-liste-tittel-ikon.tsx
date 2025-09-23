@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip } from '@navikt/ds-react';
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, TrashFillIcon } from '@navikt/aksel-icons';
 import { skalHaSoppelbotte, skalHaVarseltrekant } from './helpers';
-import { Hendelse } from '../../model/tidslinjer';
+import { Hendelse } from '@navikt/arbeidssokerregisteret-utils';
 
 type HistorikkListeTittelIkonProps = {
     hendelser: Hendelse[];

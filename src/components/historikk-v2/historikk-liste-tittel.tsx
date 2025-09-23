@@ -3,7 +3,7 @@ import { useTidslinjeSelection } from '../../contexts/tidslinje-selection-contex
 import classNames from 'classnames';
 import { ChevronRightIcon } from '@navikt/aksel-icons';
 import { HistorikkListeTittelIkon } from './historikk-liste-tittel-ikon';
-import { Tidslinje } from '../../model/tidslinjer';
+import { Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
 
 type HistorikkListeTittelProps = {
     tidslinje: Tidslinje;

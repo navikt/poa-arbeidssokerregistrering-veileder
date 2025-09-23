@@ -1,9 +1,8 @@
-import { BekreftelseStatus, Sprak } from '@navikt/arbeidssokerregisteret-utils';
+import { BekreftelseStatus, Hendelse, Sprak, Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
 import { BodyShort, Accordion, Box, HGrid, Tooltip } from '@navikt/ds-react';
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, TrashFillIcon } from '@navikt/aksel-icons';
 
 import { prettyPrintDato } from '../../lib/date-utils';
-import { Hendelse, Tidslinje } from '../../model/tidslinjer';
 import { HendelseVisning } from './hendelse';
 
 export interface TidslinjerProps {

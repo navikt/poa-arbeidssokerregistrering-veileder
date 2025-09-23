@@ -2,10 +2,9 @@ import { BodyLong, Box, CopyButton, Heading } from '@navikt/ds-react';
 import React from 'react';
 import { prettyPrintDato } from '../../lib/date-utils';
 import { HistorikkListeTittelIkon } from './historikk-liste-tittel-ikon';
-import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
+import { Hendelse, lagHentTekstForSprak, Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
 import { TEKSTER } from '../tidslinjer/text';
 import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
-import { Hendelse, Tidslinje } from '../../model/tidslinjer';
 
 type HistorikkHeadingProps = {
     tidslinje: Tidslinje;

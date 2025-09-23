@@ -4,11 +4,10 @@ import { PeriodeAvsluttet } from './hendelseTyper/periodeAvsluttet';
 import { HistorikkHeading } from './historikk-heading';
 import { Bekreftelse } from './hendelseTyper/bekreftelse';
 import { getSourceString } from './helpers';
-import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
+import { Hendelse, lagHentTekstForSprak, Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
 import { TEKSTER } from '../tidslinjer/text';
 import { prettyPrintDatoOgKlokkeslettKortform } from '../../lib/date-utils';
 import { Source } from './source';
-import { Hendelse, Tidslinje } from '../../model/tidslinjer';
 
 type HistorikkProps = {
     tidslinje: Tidslinje;
