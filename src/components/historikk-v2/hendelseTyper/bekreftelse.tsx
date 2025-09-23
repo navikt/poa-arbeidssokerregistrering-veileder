@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, List, ReadMore } from '@navikt/ds-react';
 import { prettyPrintDato } from '../../../lib/date-utils';
-import { Hendelse } from '../../../model/schema-api.types';
+import { Hendelse } from '../../../model/tidslinjer';
 
 type BekreftelseProps = {
-    bekreftelse: Hendelse['bekreftelse_v1'];
+    bekreftelse: Hendelse['bekreftelseV1'];
 };
 
 const Bekreftelse: React.FC<BekreftelseProps> = (props) => {

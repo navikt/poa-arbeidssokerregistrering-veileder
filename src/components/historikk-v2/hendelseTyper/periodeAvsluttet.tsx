@@ -3,10 +3,10 @@ import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { TEKSTER } from '../../tidslinjer/text';
 import { Box } from '@navikt/ds-react';
 import { oversettSluttaarsak } from '../../../lib/oversett-sluttaarsak';
-import { Hendelse } from '../../../model/schema-api.types';
+import { Hendelse } from '../../../model/tidslinjer';
 
 type PeriodeAvsluttetProps = {
-    avsluttetHendelse: Hendelse['periode_avsluttet_v1'];
+    avsluttetHendelse: Hendelse['periodeAvsluttetV1'];
 };
 
 const PeriodeAvsluttet: React.FC<PeriodeAvsluttetProps> = (props) => {

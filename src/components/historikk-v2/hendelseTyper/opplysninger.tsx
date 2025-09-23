@@ -1,12 +1,11 @@
 import React from 'react';
 import { List, ReadMore } from '@navikt/ds-react';
-import { mapOpplysninger } from '../../opplysninger-om-arbeidssoker-komponent';
 import { lagHentTekstForSprak, SPORSMAL_TEKSTER } from '@navikt/arbeidssokerregisteret-utils';
-import { Hendelse } from '../../../model/schema-api.types';
 import { mapOpplysningerV2 } from './map-opplysninger-til-fremvisning';
+import { Hendelse } from '../../../model/tidslinjer';
 
 type OpplysningerProps = {
-    opplysninger: Hendelse['opplysninger_v4'];
+    opplysninger: Hendelse['opplysningerV4'];
 };
 
 const Opplysninger: React.FC<OpplysningerProps> = (props) => {

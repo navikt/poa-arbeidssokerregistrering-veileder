@@ -5,7 +5,7 @@ import { HistorikkListeTittelIkon } from './historikk-liste-tittel-ikon';
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { TEKSTER } from '../tidslinjer/text';
 import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
-import { Hendelse, Tidslinje } from '../../model/schema-api.types';
+import { Hendelse, Tidslinje } from '../../model/tidslinjer';
 
 type HistorikkHeadingProps = {
     tidslinje: Tidslinje;

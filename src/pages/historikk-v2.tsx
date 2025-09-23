@@ -7,11 +7,11 @@ import { Historikk } from '../components/historikk-v2/historikk';
 import { ActionMenu, Alert, BodyShort, Box, Button, Heading, Skeleton } from '@navikt/ds-react';
 import { HistorikkListeTittel } from '../components/historikk-v2/historikk-liste-tittel';
 import { ChevronDownIcon } from '@navikt/aksel-icons';
-import { ApiTidslinjeResponse, Tidslinje } from '../model/schema-api.types';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import PrintInfoHeader from '../components/historikk/print-info-header';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { useEffect, useMemo } from 'react';
+import { Tidslinje, TidslinjerResponse } from '../model/tidslinjer';
 
 const HistorikkInnholdSkeleton = () => {
     return (
@@ -42,7 +42,7 @@ const HistorikkInnholdSkeleton = () => {
 };
 
 type HistorikkInnholdProps = {
-    tidslinjeResponse: ApiTidslinjeResponse | undefined;
+    tidslinjeResponse: TidslinjerResponse | undefined;
     isLoading: boolean;
 };
 
@@ -122,7 +122,7 @@ const HistorikkTidslinjer = () => {
         data: tidslinjerResponse,
         isLoading: isLoadingTidslinjer,
         error: errorTidslinjer,
-    } = useApiKall<ApiTidslinjeResponse>(
+    } = useApiKall<TidslinjerResponse>(
         `/api/${brukerMock ? 'mocks/' : ''}tidslinjer`,
         'POST',
         fnr ? JSON.stringify({ identitetsnummer: fnr }) : null,

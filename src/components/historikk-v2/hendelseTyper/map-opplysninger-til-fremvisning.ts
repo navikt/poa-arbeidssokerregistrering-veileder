@@ -1,13 +1,13 @@
 import { mapNusKodeTilUtdannignsnivaa, SporsmalId, Svar } from '@navikt/arbeidssokerregisteret-utils';
-import { OpplysningerOmArbeidssoeker } from '../../../model/schema-api.types';
+import { OpplysningerOmArbeidssokerTidslinjer } from '../../../model/tidslinjer';
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
 
-function getDinSituasjonSvar(opplysninger: OpplysningerOmArbeidssoeker) {
+function getDinSituasjonSvar(opplysninger: OpplysningerOmArbeidssokerTidslinjer) {
     const situasjon = opplysninger.jobbsituasjon.beskrivelser[0];
     return situasjon.beskrivelse || 'Ikke oppgitt';
 }
-function getSisteStillingSvar(opplysninger: OpplysningerOmArbeidssoeker) {
+function getSisteStillingSvar(opplysninger: OpplysningerOmArbeidssokerTidslinjer) {
     const detaljer = opplysninger.jobbsituasjon[0]?.detaljer;
     return detaljer?.stilling || 'Ikke oppgitt';
 }
@@ -19,7 +19,7 @@ function getSisteStillingSvar(opplysninger: OpplysningerOmArbeidssoeker) {
  * @returns En liste med objekter, hver med en spørsmål-identifikator og det tilhørende svaret,
  *          egnet for visning i frontend.
  */
-export function mapOpplysningerV2(opplysninger: OpplysningerOmArbeidssoeker): OpplysningProps[] {
+export function mapOpplysningerV2(opplysninger: OpplysningerOmArbeidssokerTidslinjer): OpplysningProps[] {
     const result: OpplysningProps[] = [
         {
             sporsmal: SporsmalId.dinSituasjon,

@@ -1,6 +1,5 @@
 import { BekreftelseStatus } from '@navikt/arbeidssokerregisteret-utils';
 import { Hendelse } from '../../model/tidslinjer';
-import { Hendelse as HendelseApi } from '../../model/schema-api.types';
 
 export function skalHaVarseltrekant(hendelser: Hendelse[]) {
     const bekreftelser = hendelser.filter((hendelse) => ['bekreftelse_v1'].includes(hendelse.hendelseType));
@@ -37,7 +36,7 @@ export function skalHaSoppelbotte(hendelser: Hendelse[]) {
     return problematiskeAvslutninger.length > 0;
 }
 
-export function getSourceString(hendelse: HendelseApi): string {
+export function getSourceString(hendelse: Hendelse): string {
     const MISSING_DATA = '--';
     switch (hendelse.hendelseType) {
         case 'opplysninger_v4':
