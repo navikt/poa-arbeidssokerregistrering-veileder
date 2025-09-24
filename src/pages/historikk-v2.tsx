@@ -11,7 +11,7 @@ import TilbakeTilForside from '../components/tilbake-til-forside';
 import PrintInfoHeader from '../components/historikk/print-info-header';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { useEffect, useMemo } from 'react';
-import { Tidslinje, TidslinjerResponse } from '../model/tidslinjer';
+import { Tidslinje, TidslinjerResponse } from '@navikt/arbeidssokerregisteret-utils';
 
 const HistorikkInnholdSkeleton = () => {
     return (

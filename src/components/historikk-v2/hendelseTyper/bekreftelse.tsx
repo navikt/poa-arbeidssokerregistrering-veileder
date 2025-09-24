@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, List, ReadMore } from '@navikt/ds-react';
 import { prettyPrintDato } from '../../../lib/date-utils';
-import { Hendelse } from '../../../model/tidslinjer';
+import { Hendelse } from '@navikt/arbeidssokerregisteret-utils';
 
 type BekreftelseProps = {
     bekreftelse: Hendelse['bekreftelseV1'];

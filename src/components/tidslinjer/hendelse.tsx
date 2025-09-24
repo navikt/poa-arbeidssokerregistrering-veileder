@@ -1,10 +1,8 @@
 import { Box, HGrid } from '@navikt/ds-react';
-import { lagHentTekstForSprak, Sprak } from '@navikt/arbeidssokerregisteret-utils';
+import { Hendelse, lagHentTekstForSprak, Sprak } from '@navikt/arbeidssokerregisteret-utils';
 import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
 
 import { prettyPrintDatoOgKlokkeslettKortform } from '../../lib/date-utils';
-
-import { Hendelse } from '../../model/tidslinjer';
 
 const TEKSTER = {
     nb: {

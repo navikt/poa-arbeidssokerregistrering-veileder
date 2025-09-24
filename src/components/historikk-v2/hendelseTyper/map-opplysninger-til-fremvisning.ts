@@ -1,5 +1,9 @@
-import { mapNusKodeTilUtdannignsnivaa, SporsmalId, Svar } from '@navikt/arbeidssokerregisteret-utils';
-import { OpplysningerOmArbeidssokerTidslinjer } from '../../../model/tidslinjer';
+import {
+    mapNusKodeTilUtdannignsnivaa,
+    OpplysningerOmArbeidssokerTidslinjer,
+    SporsmalId,
+    Svar,
+} from '@navikt/arbeidssokerregisteret-utils';
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
 

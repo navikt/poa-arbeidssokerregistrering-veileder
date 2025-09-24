@@ -1,5 +1,4 @@
-import { BekreftelseStatus } from '@navikt/arbeidssokerregisteret-utils';
-import { Hendelse } from '../../model/tidslinjer';
+import { BekreftelseStatus, Hendelse } from '@navikt/arbeidssokerregisteret-utils';
 
 export function skalHaVarseltrekant(hendelser: Hendelse[]) {
     const bekreftelser = hendelser.filter((hendelse) => ['bekreftelse_v1'].includes(hendelse.hendelseType));

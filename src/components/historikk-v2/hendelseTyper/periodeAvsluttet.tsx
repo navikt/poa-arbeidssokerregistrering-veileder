@@ -1,9 +1,8 @@
 import React from 'react';
-import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
+import { Hendelse, lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { TEKSTER } from '../../tidslinjer/text';
 import { Box } from '@navikt/ds-react';
 import { oversettSluttaarsak } from '../../../lib/oversett-sluttaarsak';
-import { Hendelse } from '../../../model/tidslinjer';
 
 type PeriodeAvsluttetProps = {
     avsluttetHendelse: Hendelse['periodeAvsluttetV1'];

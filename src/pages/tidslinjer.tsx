@@ -7,8 +7,7 @@ import { Config } from '../model/config';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { TidslinjerWrapper } from '../components/tidslinjer/tidslinjer-wrapper';
-import { TidslinjerResponse } from '../model/tidslinjer';
-import { AggregertePerioder } from '@navikt/arbeidssokerregisteret-utils';
+import { AggregertePerioder, TidslinjerResponse } from '@navikt/arbeidssokerregisteret-utils';
 
 export default function Tidslinje() {
     const { params } = useParamsFromContext();

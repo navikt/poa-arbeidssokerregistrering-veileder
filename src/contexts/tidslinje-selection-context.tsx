@@ -1,5 +1,5 @@
+import { Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
 import React, { createContext, useContext, useState } from 'react';
-import { Tidslinje } from '../model/tidslinjer';
 
 type TidslinjeSelectionContextType = {
     selectedTidslinje: Tidslinje | null;
