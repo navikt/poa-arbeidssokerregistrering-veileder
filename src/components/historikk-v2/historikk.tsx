@@ -12,7 +12,10 @@ import { Source } from './source';
 type HistorikkProps = {
     tidslinje: Tidslinje;
 };
-
+/**
+ * Historikk viser alle hendelser som har skjedd for en person baset på data fra
+ * tidslinje-apiet.
+ */
 const Historikk: React.FC<HistorikkProps> = (props) => {
     const { tidslinje } = props;
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');

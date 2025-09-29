@@ -4,7 +4,7 @@ const tidslinjer = (req: NextApiRequest, res: NextApiResponse): void => {
     res.json(data);
 };
 
-const data = {
+export const data = {
     tidslinjer: [
         {
             periodeId: 'fd229ec7-ff37-40f0-83eb-65fb236f4cb6',

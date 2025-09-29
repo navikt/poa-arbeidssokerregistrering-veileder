@@ -12,34 +12,7 @@ import PrintInfoHeader from '../components/historikk/print-info-header';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { useEffect, useMemo } from 'react';
 import { Tidslinje, TidslinjerResponse } from '@navikt/arbeidssokerregisteret-utils';
-
-const HistorikkInnholdSkeleton = () => {
-    return (
-        <div className="flex-1 gap-4 md:grid md:grid-cols-[minmax(300px,1fr)_3fr]">
-            <Box className="hidden md:block">
-                <Heading size="large">Arbeidssøkerperioder</Heading>
-                <Skeleton variant="rectangle" height={30} className="mb-4" />
-                {Array(5)
-                    .fill(0)
-                    .map((_, i) => (
-                        <Box key={i}>
-                            <Skeleton variant="rectangle" height={60} className="mb-2" />
-                        </Box>
-                    ))}
-            </Box>
-            <Box>
-                <Skeleton variant="rounded" height={250} className="mb-8" />
-                {Array(5)
-                    .fill(0)
-                    .map((_, i) => (
-                        <Box key={i}>
-                            <Skeleton variant="rounded" height={60} className="mb-2" />
-                        </Box>
-                    ))}
-            </Box>
-        </div>
-    );
-};
+import { HistorikkInnholdSkeleton } from '../components/historikk-v2/historikk-loading-skeleton';
 
 type HistorikkInnholdProps = {
     tidslinjeResponse: TidslinjerResponse | undefined;
