@@ -47,7 +47,7 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
     }
 
     return (
-        <div className="flex-1 md:grid md:grid-cols-[minmax(300px,1fr)_3fr] md:overflow-hidden">
+        <div className="flex-1 md:grid md:grid-cols-[minmax(300px,1fr)_3fr]">
             {/* Mobile menu for tidslinjer */}
             <Box as={'nav'} className="md:hidden bg-bg-default mb-4 print:hidden">
                 <ActionMenu>
@@ -66,18 +66,16 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
                 </ActionMenu>
             </Box>
             {/* Desktop list of tidslinjer */}
-            <div className="hidden md:block md:overflow-y-scroll relative px-1 print:hidden">
-                <div className="sticky top-0 z-50 bg-white">
-                    <Heading size="large">Arbeidssøkerperioder</Heading>
-                    <BodyShort className="mb-4">
-                        <b>{tidslinjeList.length || 0}</b> perioder funnet
-                    </BodyShort>
-                </div>
+            <div className="hidden md:block px-1 print:hidden">
+                <Heading size="large">Arbeidssøkerperioder</Heading>
+                <BodyShort className="mb-4">
+                    <b>{tidslinjeList.length || 0}</b> perioder funnet
+                </BodyShort>
                 {tidslinjeList.map((el, i) => (
                     <HistorikkListeTittel key={i} tidslinje={el} />
                 ))}
             </div>
-            <div className="md:p-4 md:overflow-y-scroll">
+            <div className="md:p-4">
                 <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
                 {selectedTidslinje ? <Historikk tidslinje={selectedTidslinje} /> : 'Ingen arbeidsøkerperiode er valgt'}
             </div>

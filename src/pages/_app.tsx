@@ -44,7 +44,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                             <Visittkort />
                         </div>
                         <InitUmami />
-                        <section className="flex flex-col items-center p-8 h-screen">
+                        <section className="flex flex-col items-center p-8">
                             <main
                                 className="flex flex-col max-w-4xl w-full flex-1"
                                 lang="nb"
