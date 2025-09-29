@@ -62,7 +62,6 @@
         "lint-staged": "16.1.6",
         "msw-storybook-addon": "2.0.5",
         "next-router-mock": "1.0.2",
-        "openapi-typescript": "7.9.1",
         "pino-pretty": "13.1.1",
         "postcss": "8.5.6",
         "prettier": "3.6.2",
