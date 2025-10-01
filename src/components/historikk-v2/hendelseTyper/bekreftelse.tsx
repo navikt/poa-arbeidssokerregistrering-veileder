@@ -1,7 +1,30 @@
+import { Bekreftelse as BekreftelseType, Hendelse } from '@navikt/arbeidssokerregisteret-utils';
+import { Box, ReadMore } from '@navikt/ds-react';
 import React from 'react';
-import { Box, List, ReadMore } from '@navikt/ds-react';
 import { prettyPrintDato } from '../../../lib/date-utils';
-import { Hendelse } from '@navikt/arbeidssokerregisteret-utils';
+
+type SporsmalSvar = {
+    sporsmal: string;
+    svar: string;
+};
+
+function mapBekreftelse(bekreftelse: BekreftelseType): SporsmalSvar[] {
+    const arr: SporsmalSvar[] = [
+        {
+            sporsmal: 'Bekreftelse for følgende periode',
+            svar: `${prettyPrintDato(bekreftelse.svar.gjelderFra)} - ${prettyPrintDato(bekreftelse.svar.gjelderTil)}`,
+        },
+        {
+            sporsmal: 'Jobbet i perioden',
+            svar: bekreftelse.svar.harJobbetIDennePerioden ? 'Ja' : 'Nei',
+        },
+        {
+            sporsmal: 'Vil du fotsatt være arbeidssøker?',
+            svar: bekreftelse.svar.vilFortsetteSomArbeidssoeker ? 'Ja' : 'Nei',
+        },
+    ];
+    return arr;
+}
 
 type BekreftelseProps = {
     bekreftelse: Hendelse['bekreftelseV1'];
@@ -9,29 +32,20 @@ type BekreftelseProps = {
 
 const Bekreftelse: React.FC<BekreftelseProps> = (props) => {
     const { bekreftelse } = props;
+    const bekreftelseMappet = mapBekreftelse(bekreftelse.bekreftelse);
 
     return (
         <Box>
-            <ReadMore header="Bekreftede opplysninger">
-                <List size="small">
-                    <List.Item>
-                        <strong>Bekreftelse for følgende periode</strong>
-                        <br />
-                        {prettyPrintDato(bekreftelse.bekreftelse.svar.gjelderFra)}
-                        {' - '}
-                        {prettyPrintDato(bekreftelse.bekreftelse.svar.gjelderTil)}
-                    </List.Item>
-                    <List.Item>
-                        <strong>Jobbet i perioden</strong>
-                        <br />
-                        {bekreftelse.bekreftelse.svar.harJobbetIDennePerioden ? 'Ja' : 'Nei'}
-                    </List.Item>
-                    <List.Item>
-                        <strong>Vil du fotsatt være arbeidssøker?</strong>
-                        <br />
-                        {bekreftelse.bekreftelse.svar.vilFortsetteSomArbeidssoeker ? 'Ja' : 'Nei'}
-                    </List.Item>
-                </List>
+            <ReadMore header="Se bekreftede opplysninger">
+                <div className="text-base">
+                    {bekreftelseMappet.map((field, i) => (
+                        <div key={i} className="mb-2">
+                            <strong>{field.sporsmal}</strong>
+                            <br />
+                            {field.svar}
+                        </div>
+                    ))}
+                </div>
             </ReadMore>
         </Box>
     );

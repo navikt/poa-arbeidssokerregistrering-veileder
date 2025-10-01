@@ -1,6 +1,6 @@
-import React from 'react';
-import { List, ReadMore } from '@navikt/ds-react';
 import { Hendelse, lagHentTekstForSprak, SPORSMAL_TEKSTER } from '@navikt/arbeidssokerregisteret-utils';
+import { ReadMore } from '@navikt/ds-react';
+import React from 'react';
 import { mapOpplysningerV2 } from './map-opplysninger-til-fremvisning';
 
 type OpplysningerProps = {
@@ -13,16 +13,16 @@ const Opplysninger: React.FC<OpplysningerProps> = (props) => {
     const tekst = lagHentTekstForSprak(SPORSMAL_TEKSTER, 'nb');
 
     return (
-        <ReadMore header="Innsendte opplysninger">
-            <List size="small">
+        <ReadMore header="Se innsendte opplysninger">
+            <div className="text-base">
                 {opplysningerFormatted.map((field, i) => (
-                    <List.Item key={i}>
+                    <div key={i} className="mb-2">
                         <strong>{tekst(field.sporsmal)}</strong>
                         <br />
                         {tekst(field.svar as string) ?? field.svar}
-                    </List.Item>
+                    </div>
                 ))}
-            </List>
+            </div>
         </ReadMore>
     );
 };

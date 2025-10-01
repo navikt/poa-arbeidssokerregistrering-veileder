@@ -19,7 +19,8 @@ const TEKSTER = {
         overføring: 'Arbeidssøkerperioden er avsluttet i Arena',
         'har ugyldig/annullert identitet, kunne ikke fastslå alder, avvist fordi personen ikke er bosatt i Norge i henhold til folkeregisterloven':
             'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
-        '[bekreftelse] ikke levert innen fristen': 'Bekreftelse på arbeidssøkerperiode ikke levert innen fristen',
+        '[bekreftelse] ikke levert innen fristen':
+            'Bekreftelse på arbeidssøkerperiode ikke levert innen fristen. Periode er avsluttet av systemet.',
         '[bekreftelse] ønsket ikke lenger å være arbeidssøker': 'Svarte "Nei" til å være arbeidssøker på bekreftelsen',
     },
 };

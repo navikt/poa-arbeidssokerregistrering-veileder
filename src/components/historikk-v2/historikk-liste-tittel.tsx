@@ -2,7 +2,6 @@ import React from 'react';
 import { useTidslinjeSelection } from '../../contexts/tidslinje-selection-context';
 import classNames from 'classnames';
 import { ChevronRightIcon } from '@navikt/aksel-icons';
-import { HistorikkListeTittelIkon } from './historikk-liste-tittel-ikon';
 import { Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
 
 type HistorikkListeTittelProps = {
@@ -46,10 +45,7 @@ const HistorikkListeTittel: React.FC<HistorikkListeTittelProps> = (props) => {
             )}`}
             onClick={handleClick}
         >
-            <h2 className="flex gap-2">
-                {formatTitleString(tidslinje.startet, tidslinje.avsluttet)}
-                <HistorikkListeTittelIkon hendelser={tidslinje.hendelser} />
-            </h2>
+            <h2 className="flex gap-2">{formatTitleString(tidslinje.startet, tidslinje.avsluttet)}</h2>
             <div>
                 <ChevronRightIcon title="a11y-title" fontSize="1.5rem" />
             </div>

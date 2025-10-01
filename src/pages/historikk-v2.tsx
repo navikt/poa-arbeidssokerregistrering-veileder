@@ -53,7 +53,8 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
                 <ActionMenu>
                     <ActionMenu.Trigger>
                         <Button variant="secondary-neutral" icon={<ChevronDownIcon aria-hidden />} iconPosition="right">
-                            Arbeidssøkerperioder ({tidslinjeList?.length ?? 0})
+                            {tidslinjeList.length === 1 ? 'Arbeidssøkerperiode' : 'Arbeidssøkerperioder'}(
+                            {tidslinjeList?.length ?? 0})
                         </Button>
                     </ActionMenu.Trigger>
                     <ActionMenu.Content>
@@ -69,7 +70,7 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
             <div className="hidden md:block px-1 print:hidden">
                 <Heading size="large">Arbeidssøkerperioder</Heading>
                 <BodyShort className="mb-4">
-                    <b>{tidslinjeList.length || 0}</b> perioder funnet
+                    <b>{tidslinjeList.length || 0}</b> {tidslinjeList.length === 1 ? 'periode' : 'perioder'} funnet
                 </BodyShort>
                 {tidslinjeList.map((el, i) => (
                     <HistorikkListeTittel key={i} tidslinje={el} />

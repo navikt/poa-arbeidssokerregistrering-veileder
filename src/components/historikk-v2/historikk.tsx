@@ -1,12 +1,13 @@
+import { Hendelse, HendelseType, lagHentTekstForSprak, Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
 import React from 'react';
+import { prettyPrintDatoOgKlokkeslettKortform } from '../../lib/date-utils';
+import { TEKSTER } from '../tidslinjer/text';
+import { getSourceString } from './helpers';
+import { Bekreftelse } from './hendelseTyper/bekreftelse';
 import { Opplysninger } from './hendelseTyper/opplysninger';
 import { PeriodeAvsluttet } from './hendelseTyper/periodeAvsluttet';
+import { Profilering } from './hendelseTyper/profilering';
 import { HistorikkHeading } from './historikk-heading';
-import { Bekreftelse } from './hendelseTyper/bekreftelse';
-import { getSourceString } from './helpers';
-import { Hendelse, lagHentTekstForSprak, Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
-import { TEKSTER } from '../tidslinjer/text';
-import { prettyPrintDatoOgKlokkeslettKortform } from '../../lib/date-utils';
 import { Source } from './source';
 
 type HistorikkProps = {
@@ -43,12 +44,11 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
                         <div className="whitespace-nowrap pr-2">
                             {prettyPrintDatoOgKlokkeslettKortform(hendelse.tidspunkt, 'nb', true)}
                         </div>
-                        <h3 className="whitespace-nowrap sm:border-l-2 border-gray-600 sm:pl-3">
+                        <h3 className="whitespace-nowrap sm:border-l-2 border-gray-600 sm:pl-3 flex items-center gap-2">
                             {getItemTitle(hendelse)}
                         </h3>
                         <Source source={getSourceString(hendelse)} />
                     </div>
-
                     {hendelse.hendelseType === 'opplysninger_v4' && (
                         <Opplysninger opplysninger={hendelse['opplysningerV4']} />
                     )}
@@ -57,6 +57,9 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
                     )}
                     {hendelse.hendelseType === 'periode_avsluttet_v1' && (
                         <PeriodeAvsluttet avsluttetHendelse={hendelse['periodeAvsluttetV1']} />
+                    )}
+                    {hendelse.hendelseType === HendelseType.profilering_v1 && (
+                        <Profilering profilering={hendelse.profileringV1} />
                     )}
                 </article>
             ))}

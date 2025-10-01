@@ -1,10 +1,9 @@
+import { Hendelse, lagHentTekstForSprak, Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
 import { BodyLong, Box, CopyButton, Heading } from '@navikt/ds-react';
 import React from 'react';
 import { prettyPrintDato } from '../../lib/date-utils';
-import { HistorikkListeTittelIkon } from './historikk-liste-tittel-ikon';
-import { Hendelse, lagHentTekstForSprak, Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
-import { TEKSTER } from '../tidslinjer/text';
 import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
+import { TEKSTER } from '../tidslinjer/text';
 
 type HistorikkHeadingProps = {
     tidslinje: Tidslinje;
@@ -66,7 +65,6 @@ const HistorikkHeading: React.FC<HistorikkHeadingProps> = (props) => {
             <Heading size="large" level={'2'} className="flex items-center gap-4 mb-6">
                 {prettyPrintDato(tidslinje.startet, 'nb', true)} -{' '}
                 {tidslinje.avsluttet ? prettyPrintDato(tidslinje.avsluttet, 'nb', true) : 'fortsatt pågående'}
-                <HistorikkListeTittelIkon hendelser={tidslinje.hendelser} />
             </Heading>
             <Box>
                 <BodyLong size="medium" className="flex flex-row gap-4 mb-4">
