@@ -32,7 +32,7 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
     };
 
     return (
-        <section>
+        <section id={tidslinje.periodeId}>
             <HistorikkHeading tidslinje={tidslinje} />
 
             {tidslinje.hendelser.map((hendelse, index) => (

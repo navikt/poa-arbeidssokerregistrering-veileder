@@ -31,6 +31,15 @@ const HistorikkListeTittel: React.FC<HistorikkListeTittelProps> = (props) => {
 
     const handleClick = () => {
         setSelectedTidslinje(tidslinje);
+
+        // Scroll to the corresponding section
+        const targetElement = document.getElementById(tidslinje.periodeId);
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+        }
     };
 
     const isSelected = selectedTidslinje?.periodeId === tidslinje.periodeId;
