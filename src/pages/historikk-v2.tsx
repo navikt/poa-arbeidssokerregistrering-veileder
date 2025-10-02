@@ -10,9 +10,10 @@ import { ChevronDownIcon } from '@navikt/aksel-icons';
 import TilbakeTilForside from '../components/tilbake-til-forside';
 import PrintInfoHeader from '../components/historikk/print-info-header';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Tidslinje, TidslinjerResponse } from '@navikt/arbeidssokerregisteret-utils';
 import { HistorikkInnholdSkeleton } from '../components/historikk-v2/historikk-loading-skeleton';
+import { useScrollSpy } from '../hooks/useScrollSpy';
 
 type HistorikkInnholdProps = {
     tidslinjeResponse: TidslinjerResponse | undefined;
@@ -26,12 +27,23 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
         [tidslinjeResponse],
     );
     const hasData = tidslinjeList && tidslinjeList.length > 0;
+    const sectionIds = useMemo(() => tidslinjeList.map((t) => t.periodeId), [tidslinjeList]);
+    const activeSection = useScrollSpy({ sectionIds });
 
     useEffect(() => {
-        if (!isLoading && hasData && !selectedTidslinje) {
-            setSelectedTidslinje(tidslinjeList[0]);
+        if (!isLoading && hasData) {
+            if (activeSection) {
+                const activeTidslinje = tidslinjeList.find((t) => t.periodeId === activeSection);
+                if (activeTidslinje && activeTidslinje.periodeId !== selectedTidslinje?.periodeId) {
+                    setSelectedTidslinje(activeTidslinje);
+                }
+            }
+            // Dersom scrollSpy ikke har satt en aktiv tidslinje, sett første som default
+            else if (!selectedTidslinje && tidslinjeList.length > 0) {
+                setSelectedTidslinje(tidslinjeList[0]);
+            }
         }
-    }, [isLoading, hasData, tidslinjeList, selectedTidslinje, setSelectedTidslinje]);
+    }, [activeSection, hasData, isLoading, selectedTidslinje, setSelectedTidslinje, tidslinjeList]);
 
     if (isLoading) {
         return <HistorikkInnholdSkeleton />;
@@ -49,7 +61,10 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
     return (
         <div className="flex-1 md:grid md:grid-cols-[minmax(300px,1fr)_3fr]">
             {/* Mobile menu for tidslinjer */}
-            <Box as={'nav'} className="md:hidden bg-bg-default mb-4 print:hidden">
+            <Box
+                as={'nav'}
+                className="md:hidden bg-bg-default mb-4 print:hidden sticky top-0 right-0 left-0 pt-4 pb-1 text-center"
+            >
                 <ActionMenu>
                     <ActionMenu.Trigger>
                         <Button variant="secondary-neutral" icon={<ChevronDownIcon aria-hidden />} iconPosition="right">
@@ -67,7 +82,8 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
                 </ActionMenu>
             </Box>
             {/* Desktop list of tidslinjer */}
-            <div className="hidden md:block px-1 print:hidden">
+            <div className="hidden md:block px-1 print:hidden sticky top-0 max-h-screen overflow-y-scroll">
+                {/* Sidebar content */}
                 <Heading size="large">Arbeidssøkerperioder</Heading>
                 <BodyShort className="mb-4">
                     <b>{tidslinjeList.length || 0}</b> {tidslinjeList.length === 1 ? 'periode' : 'perioder'} funnet
@@ -78,7 +94,11 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
             </div>
             <div className="md:p-4">
                 <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
-                {selectedTidslinje ? <Historikk tidslinje={selectedTidslinje} /> : 'Ingen arbeidsøkerperiode er valgt'}
+                {tidslinjeList.map((tidslinje, i) => (
+                    <div key={i} className="mb-8 pb-8">
+                        <Historikk key={i} tidslinje={tidslinje} />
+                    </div>
+                ))}
             </div>
         </div>
     );
