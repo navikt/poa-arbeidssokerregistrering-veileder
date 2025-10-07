@@ -11,9 +11,13 @@ import TilbakeTilForside from '../components/tilbake-til-forside';
 import PrintInfoHeader from '../components/historikk/print-info-header';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import { useEffect, useMemo, useRef } from 'react';
-import { Tidslinje, TidslinjerResponse } from '@navikt/arbeidssokerregisteret-utils';
+import { HendelseType, Tidslinje, TidslinjerResponse } from '@navikt/arbeidssokerregisteret-utils';
 import { HistorikkInnholdSkeleton } from '../components/historikk-v2/historikk-loading-skeleton';
 import { useScrollSpy } from '../hooks/useScrollSpy';
+import { FilterProvider } from '../contexts/hendelse-context';
+import { HendelseFilter } from '../components/historikk-v2/hendelse-filter';
+import { VisningsTypeProvider } from '../contexts/hendelse-visning-context';
+import { ToggleVisningsType } from '../components/historikk-v2/toggle-visnings-type';
 
 type HistorikkInnholdProps = {
     tidslinjeResponse: TidslinjerResponse | undefined;
@@ -29,6 +33,16 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
     const hasData = tidslinjeList && tidslinjeList.length > 0;
     const sectionIds = useMemo(() => tidslinjeList.map((t) => t.periodeId), [tidslinjeList]);
     const activeSection = useScrollSpy({ sectionIds });
+
+    const alleTilgjengeligeHendelser: HendelseType[] = useMemo(() => {
+        const types = new Set<HendelseType>();
+        tidslinjeList.forEach((tidslinje) => {
+            tidslinje.hendelser.forEach((hendelse) => {
+                types.add(hendelse.hendelseType);
+            });
+        });
+        return Array.from(types);
+    }, [tidslinjeList]);
 
     useEffect(() => {
         if (!isLoading && hasData) {
@@ -94,6 +108,10 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
             </div>
             <div className="md:p-4">
                 <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
+                <div className="py-4 mb-6">
+                    <HendelseFilter tilgjengeligeHendelseTyper={alleTilgjengeligeHendelser} />
+                    <ToggleVisningsType />
+                </div>
                 {tidslinjeList.map((tidslinje, i) => (
                     <div key={i} className="mb-8 pb-8">
                         <Historikk key={i} tidslinje={tidslinje} />
@@ -126,8 +144,12 @@ const HistorikkTidslinjer = () => {
 
     return (
         <TidslinjeSelectionProvider>
-            <PrintInfoHeader fnr={fnr} />
-            <HistorikkInnhold tidslinjeResponse={tidslinjerResponse} isLoading={isLoadingTidslinjer} />
+            <FilterProvider>
+                <VisningsTypeProvider>
+                    <PrintInfoHeader fnr={fnr} />
+                    <HistorikkInnhold tidslinjeResponse={tidslinjerResponse} isLoading={isLoadingTidslinjer} />
+                </VisningsTypeProvider>
+            </FilterProvider>
         </TidslinjeSelectionProvider>
     );
 };

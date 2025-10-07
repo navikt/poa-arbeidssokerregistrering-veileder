@@ -1,7 +1,8 @@
 import { Bekreftelse as BekreftelseType, Hendelse } from '@navikt/arbeidssokerregisteret-utils';
 import { Box, ReadMore } from '@navikt/ds-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { prettyPrintDato } from '../../../lib/date-utils';
+import { useVisningTypeContext } from '../../../contexts/hendelse-visning-context';
 
 type SporsmalSvar = {
     sporsmal: string;
@@ -32,11 +33,21 @@ type BekreftelseProps = {
 
 const Bekreftelse: React.FC<BekreftelseProps> = (props) => {
     const { bekreftelse } = props;
+    const [open, setOpen] = useState(false);
+    const { visningsType } = useVisningTypeContext();
     const bekreftelseMappet = mapBekreftelse(bekreftelse.bekreftelse);
+
+    useEffect(() => {
+        if (visningsType === 'expanded') {
+            setOpen(true);
+        } else {
+            setOpen(false);
+        }
+    }, [visningsType]);
 
     return (
         <Box>
-            <ReadMore header="Se bekreftede opplysninger">
+            <ReadMore header="Se bekreftede opplysninger" onOpenChange={() => setOpen(!open)} open={open}>
                 <div className="text-base">
                     {bekreftelseMappet.map((field, i) => (
                         <div key={i} className="mb-2">
