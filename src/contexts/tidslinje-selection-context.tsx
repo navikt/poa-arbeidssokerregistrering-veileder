@@ -8,8 +8,11 @@ type TidslinjeSelectionContextType = {
 
 const TidslinjeSelectionContext = createContext<TidslinjeSelectionContextType | undefined>(undefined);
 
-export const TidslinjeSelectionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [selectedTidslinje, setSelectedTidslinje] = useState<Tidslinje | null>(null);
+export const TidslinjeSelectionProvider: React.FC<{ children: React.ReactNode; initSelected?: Tidslinje | null }> = ({
+    children,
+    initSelected,
+}) => {
+    const [selectedTidslinje, setSelectedTidslinje] = useState<Tidslinje | null>(initSelected);
 
     return (
         <TidslinjeSelectionContext.Provider value={{ selectedTidslinje, setSelectedTidslinje }}>
