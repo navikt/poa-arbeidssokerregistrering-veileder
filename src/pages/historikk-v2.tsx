@@ -1,69 +1,57 @@
-import useApiKall from '../hooks/useApiKall';
+import { ChevronDownIcon } from '@navikt/aksel-icons';
+import { HendelseType, Tidslinje, TidslinjerResponse } from '@navikt/arbeidssokerregisteret-utils';
+import { ActionMenu, Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
+import { useEffect, useMemo } from 'react';
+import { withAuthenticatedPage } from '../auth/withAuthentication';
+import { HendelseFilter } from '../components/historikk-v2/hendelse-filter';
+import { Historikk } from '../components/historikk-v2/historikk';
+import { HistorikkListeTittel } from '../components/historikk-v2/historikk-liste-tittel';
+import { HistorikkInnholdSkeleton } from '../components/historikk-v2/historikk-loading-skeleton';
+import { ToggleVisningsType } from '../components/historikk-v2/toggle-visnings-type';
+import PrintInfoHeader from '../components/historikk/print-info-header';
+import TilbakeTilForside from '../components/tilbake-til-forside';
 import { useConfig } from '../contexts/config-context';
-import { Config } from '../model/config';
+import { FilterProvider } from '../contexts/hendelse-context';
+import { VisningsTypeProvider } from '../contexts/hendelse-visning-context';
 import { useParamsFromContext } from '../contexts/params-from-context';
 import { TidslinjeSelectionProvider, useTidslinjeSelection } from '../contexts/tidslinje-selection-context';
-import { Historikk } from '../components/historikk-v2/historikk';
-import { ActionMenu, Alert, BodyShort, Box, Button, Heading, Skeleton } from '@navikt/ds-react';
-import { HistorikkListeTittel } from '../components/historikk-v2/historikk-liste-tittel';
-import { ChevronDownIcon } from '@navikt/aksel-icons';
-import TilbakeTilForside from '../components/tilbake-til-forside';
-import PrintInfoHeader from '../components/historikk/print-info-header';
-import { withAuthenticatedPage } from '../auth/withAuthentication';
-import { useEffect, useMemo, useRef } from 'react';
-import { HendelseType, Tidslinje, TidslinjerResponse } from '@navikt/arbeidssokerregisteret-utils';
-import { HistorikkInnholdSkeleton } from '../components/historikk-v2/historikk-loading-skeleton';
+import useApiKall from '../hooks/useApiKall';
 import { useScrollSpy } from '../hooks/useScrollSpy';
-import { FilterProvider } from '../contexts/hendelse-context';
-import { HendelseFilter } from '../components/historikk-v2/hendelse-filter';
-import { VisningsTypeProvider } from '../contexts/hendelse-visning-context';
-import { ToggleVisningsType } from '../components/historikk-v2/toggle-visnings-type';
+import { Config } from '../model/config';
 
 type HistorikkInnholdProps = {
-    tidslinjeResponse: TidslinjerResponse | undefined;
-    isLoading: boolean;
+    tidslinjer: Tidslinje[];
 };
 
-const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProps) => {
+const gyldigeHendelseTyper = new Set(Object.values(HendelseType));
+
+function verifiserAlleHendelseTyper(tidslinjer: Tidslinje[]): Tidslinje[] {
+    if (!tidslinjer || tidslinjer.length === 0) return [];
+    return tidslinjer
+        .map((tidslinje) => {
+            const hendelserMedGodkjentType = tidslinje.hendelser.filter((hendelse) =>
+                gyldigeHendelseTyper.has(hendelse.hendelseType),
+            );
+            return { ...tidslinje, hendelser: hendelserMedGodkjentType };
+        })
+        .filter((tidslinje) => tidslinje.hendelser.length > 0);
+}
+
+const HistorikkInnhold = ({ tidslinjer }: HistorikkInnholdProps) => {
     const { selectedTidslinje, setSelectedTidslinje } = useTidslinjeSelection();
-    const tidslinjeList: Tidslinje[] = useMemo(
-        () => (tidslinjeResponse && tidslinjeResponse['tidslinjer'] ? tidslinjeResponse['tidslinjer'] : []),
-        [tidslinjeResponse],
-    );
-    const hasData = tidslinjeList && tidslinjeList.length > 0;
-    const sectionIds = useMemo(() => tidslinjeList.map((t) => t.periodeId), [tidslinjeList]);
+    const sectionIds = useMemo(() => tidslinjer.map((t) => t.periodeId), [tidslinjer]);
     const activeSection = useScrollSpy({ sectionIds });
 
-    const alleTilgjengeligeHendelser: HendelseType[] = useMemo(() => {
-        const types = new Set<HendelseType>();
-        tidslinjeList.forEach((tidslinje) => {
-            tidslinje.hendelser.forEach((hendelse) => {
-                types.add(hendelse.hendelseType);
-            });
-        });
-        return Array.from(types);
-    }, [tidslinjeList]);
-
+    // Endre valgt tidslinje basert på inscreenObserver (scrollSpy)
     useEffect(() => {
-        if (!isLoading && hasData) {
-            if (activeSection) {
-                const activeTidslinje = tidslinjeList.find((t) => t.periodeId === activeSection);
-                if (activeTidslinje && activeTidslinje.periodeId !== selectedTidslinje?.periodeId) {
-                    setSelectedTidslinje(activeTidslinje);
-                }
-            }
-            // Dersom scrollSpy ikke har satt en aktiv tidslinje, sett første som default
-            else if (!selectedTidslinje && tidslinjeList.length > 0) {
-                setSelectedTidslinje(tidslinjeList[0]);
-            }
+        if (!activeSection || !(tidslinjer.length > 0)) return;
+        const activeTidslinje = tidslinjer.find((t) => t.periodeId === activeSection);
+        if (activeTidslinje && activeTidslinje.periodeId !== selectedTidslinje?.periodeId) {
+            setSelectedTidslinje(activeTidslinje);
         }
-    }, [activeSection, hasData, isLoading, selectedTidslinje, setSelectedTidslinje, tidslinjeList]);
+    }, [activeSection, selectedTidslinje, setSelectedTidslinje, tidslinjer]);
 
-    if (isLoading) {
-        return <HistorikkInnholdSkeleton />;
-    }
-
-    if (!hasData) {
+    if (tidslinjer.length === 0) {
         return (
             <>
                 <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
@@ -77,19 +65,20 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
             {/* Mobile menu for tidslinjer */}
             <Box
                 as={'nav'}
+                aria-label="Velg arbeidsøkerperiode"
                 className="md:hidden bg-bg-default mb-4 print:hidden sticky top-0 right-0 left-0 pt-4 pb-1 text-center"
             >
                 <ActionMenu>
                     <ActionMenu.Trigger>
                         <Button variant="secondary-neutral" icon={<ChevronDownIcon aria-hidden />} iconPosition="right">
-                            {tidslinjeList.length === 1 ? 'Arbeidssøkerperiode' : 'Arbeidssøkerperioder'}(
-                            {tidslinjeList?.length ?? 0})
+                            {tidslinjer.length === 1 ? 'Arbeidssøkerperiode' : 'Arbeidssøkerperioder'}(
+                            {tidslinjer?.length ?? 0})
                         </Button>
                     </ActionMenu.Trigger>
                     <ActionMenu.Content>
-                        {tidslinjeList.map((el, i) => (
-                            <ActionMenu.Item key={i}>
-                                <HistorikkListeTittel key={i} tidslinje={el} />
+                        {tidslinjer.map((el) => (
+                            <ActionMenu.Item key={el.periodeId}>
+                                <HistorikkListeTittel tidslinje={el} />
                             </ActionMenu.Item>
                         ))}
                     </ActionMenu.Content>
@@ -100,21 +89,21 @@ const HistorikkInnhold = ({ tidslinjeResponse, isLoading }: HistorikkInnholdProp
                 {/* Sidebar content */}
                 <Heading size="large">Arbeidssøkerperioder</Heading>
                 <BodyShort className="mb-4">
-                    <b>{tidslinjeList.length || 0}</b> {tidslinjeList.length === 1 ? 'periode' : 'perioder'} funnet
+                    <b>{tidslinjer.length || 0}</b> {tidslinjer.length === 1 ? 'periode' : 'perioder'} funnet
                 </BodyShort>
-                {tidslinjeList.map((el, i) => (
-                    <HistorikkListeTittel key={i} tidslinje={el} />
+                {tidslinjer.map((el) => (
+                    <HistorikkListeTittel key={el.periodeId} tidslinje={el} />
                 ))}
             </div>
             <div className="md:p-4">
                 <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
                 <div className="py-4 mb-6">
-                    <HendelseFilter tilgjengeligeHendelseTyper={alleTilgjengeligeHendelser} />
+                    <HendelseFilter />
                     <ToggleVisningsType />
                 </div>
-                {tidslinjeList.map((tidslinje, i) => (
-                    <div key={i} className="mb-8 pb-8">
-                        <Historikk key={i} tidslinje={tidslinje} />
+                {tidslinjer.map((tidslinje) => (
+                    <div key={tidslinje.periodeId} className="mb-8 pb-8">
+                        <Historikk tidslinje={tidslinje} />
                     </div>
                 ))}
             </div>
@@ -137,17 +126,23 @@ const HistorikkTidslinjer = () => {
         'POST',
         fnr ? JSON.stringify({ identitetsnummer: fnr }) : null,
     );
+    const verifiserteTidslinjer: Tidslinje[] = useMemo(
+        () => verifiserAlleHendelseTyper(tidslinjerResponse?.tidslinjer || []),
+        [tidslinjerResponse],
+    );
 
     if (errorTidslinjer) {
         return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;
     }
 
+    if (isLoadingTidslinjer) return <HistorikkInnholdSkeleton />;
+
     return (
-        <TidslinjeSelectionProvider>
+        <TidslinjeSelectionProvider initSelected={verifiserteTidslinjer[0] ?? null}>
             <FilterProvider>
                 <VisningsTypeProvider>
                     <PrintInfoHeader fnr={fnr} />
-                    <HistorikkInnhold tidslinjeResponse={tidslinjerResponse} isLoading={isLoadingTidslinjer} />
+                    <HistorikkInnhold tidslinjer={verifiserteTidslinjer} />
                 </VisningsTypeProvider>
             </FilterProvider>
         </TidslinjeSelectionProvider>
