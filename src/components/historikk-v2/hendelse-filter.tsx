@@ -18,22 +18,20 @@ const HendelseFilter: React.FC<HendelseFilterProps> = (props) => {
     };
 
     return (
-        <div>
-            <Chips>
-                {tilgjengeligeHendelseTyper.map((hendelseType, i) => (
-                    <Chips.Toggle
-                        key={i}
-                        selected={filters.includes(hendelseType)}
-                        onClick={() => handleToggle(hendelseType)}
-                    >
-                        {tekst(hendelseType)}
-                    </Chips.Toggle>
-                ))}
-                <Button size="small" variant="tertiary" onClick={resetFiltersToDefault}>
-                    Nullstill filter
-                </Button>
-            </Chips>
-        </div>
+        <Chips>
+            {tilgjengeligeHendelseTyper.map((hendelseType, i) => (
+                <Chips.Toggle
+                    key={i}
+                    selected={filters.includes(hendelseType)}
+                    onClick={() => handleToggle(hendelseType)}
+                >
+                    {tekst(hendelseType)}
+                </Chips.Toggle>
+            ))}
+            <Button size="small" variant="tertiary" onClick={resetFiltersToDefault}>
+                Nullstill filter
+            </Button>
+        </Chips>
     );
 };
 
