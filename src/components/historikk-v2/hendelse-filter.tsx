@@ -4,12 +4,7 @@ import React from 'react';
 import { useFilterContext } from '../../contexts/hendelse-context';
 import { TEKSTER } from '../tidslinjer/text';
 
-type HendelseFilterProps = {
-    tilgjengeligeHendelseTyper: HendelseType[];
-};
-
-const HendelseFilter: React.FC<HendelseFilterProps> = (props) => {
-    const { tilgjengeligeHendelseTyper } = props;
+const HendelseFilter: React.FC = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
     const { filters, toggleFilter, resetFiltersToDefault } = useFilterContext();
 
@@ -19,7 +14,7 @@ const HendelseFilter: React.FC<HendelseFilterProps> = (props) => {
 
     return (
         <Chips>
-            {tilgjengeligeHendelseTyper.map((hendelseType, i) => (
+            {(Object.keys(HendelseType) as HendelseType[]).map((hendelseType, i) => (
                 <Chips.Toggle
                     key={i}
                     selected={filters.includes(hendelseType)}
