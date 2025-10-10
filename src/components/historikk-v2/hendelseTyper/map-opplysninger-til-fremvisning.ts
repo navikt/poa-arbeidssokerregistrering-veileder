@@ -8,11 +8,11 @@ import {
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
 
 function getDinSituasjonSvar(opplysninger: OpplysningerOmArbeidssokerTidslinjer) {
-    const situasjon = opplysninger.jobbsituasjon.beskrivelser[0];
-    return situasjon.beskrivelse || 'Ikke oppgitt';
+    const situasjon = opplysninger.jobbsituasjon.beskrivelser?.[0];
+    return situasjon?.beskrivelse || 'Ikke oppgitt';
 }
 function getSisteStillingSvar(opplysninger: OpplysningerOmArbeidssokerTidslinjer) {
-    const detaljer = opplysninger.jobbsituasjon[0]?.detaljer;
+    const detaljer = opplysninger.jobbsituasjon.beskrivelser?.[0]?.detaljer;
     return detaljer?.stilling || 'Ikke oppgitt';
 }
 
