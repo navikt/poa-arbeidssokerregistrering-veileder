@@ -19,6 +19,8 @@ export function getSourceString(hendelse: Hendelse): string {
             return hendelse.periodeStartetV1?.utfoertAv?.type ?? MISSING_DATA;
         case HendelseType.profilering_v1:
             return hendelse.profileringV1?.sendtInnAv?.utfoertAv?.type ?? MISSING_DATA;
+        case HendelseType.egenvurdering_v1:
+            return hendelse.egenvurderingV1?.sendtInnAv.utfoertAv.type ?? MISSING_DATA;
         default:
             return MISSING_DATA;
     }

@@ -24,6 +24,7 @@ export const TEKSTER = {
         periode_avsluttet_v1: 'Periode avsluttet',
         pa_vegne_av_stopp_v1: 'På vegne av stoppet',
         pa_vegne_av_start_v1: 'På vegne av startet',
+        egenvurdering_v1: 'Egenvurdering',
         GYLDIG: 'Gyldig',
         UVENTET_KILDE: 'Uventet kilde',
         UTENFOR_PERIODE: 'Utenfor periode',

@@ -12,6 +12,35 @@ export const data = {
             startet: '2025-09-12T10:36:33.501Z',
             hendelser: [
                 {
+                    hendelseType: 'egenvurdering_v1',
+                    tidspunkt: '2025-10-08T08:46:54.639Z',
+                    periodeStartetV1: null,
+                    periodeAvsluttetV1: null,
+                    opplysningerV4: null,
+                    profileringV1: null,
+                    bekreftelseV1: null,
+                    paVegneAvStartV1: null,
+                    paVegneAvStoppV1: null,
+                    egenvurderingV1: {
+                        id: '4a2cf072-edd8-4078-8daa-dd19da1fca97',
+                        periodeId: 'd5ea9c04-3bb7-41fe-975e-1c7cca6cfd87',
+                        profileringId: '11fd9f18-acf4-4bb3-8643-494c7bb72d25',
+                        sendtInnAv: {
+                            tidspunkt: '2025-10-08T08:46:54.639Z',
+                            utfoertAv: {
+                                type: 'SLUTTBRUKER',
+                                id: '06528832693',
+                                sikkerhetsnivaa: 'tokenx:Level4',
+                            },
+                            kilde: 'paw-arbeidssoekerregisteret-api-egenvurdering',
+                            aarsak: 'Bruker har gjort en egenvurdering av profileringsresultatet',
+                            tidspunktFraKilde: null,
+                        },
+                        profilertTil: 'ANTATT_BEHOV_FOR_VEILEDNING',
+                        egenvurdering: 'ANTATT_GODE_MULIGHETER',
+                    },
+                },
+                {
                     hendelseType: 'opplysninger_v4',
                     tidspunkt: '2025-09-12T10:36:33.390Z',
                     periodeStartetV1: null,

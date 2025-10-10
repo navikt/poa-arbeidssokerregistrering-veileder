@@ -30,6 +30,9 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
         if (hendelse.hendelseType === 'bekreftelse_v1') {
             return `${tekst(hendelse.hendelseType)} - Status: ${hendelse?.['bekreftelseV1'].status?.toLowerCase()}`;
         }
+        if (hendelse.hendelseType === HendelseType.egenvurdering_v1) {
+            return `Egenvurdering: ${tekst(hendelse.egenvurderingV1.egenvurdering)}`;
+        }
         return tekst(hendelse.hendelseType);
     };
 
