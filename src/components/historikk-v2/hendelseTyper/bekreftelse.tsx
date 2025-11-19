@@ -19,7 +19,7 @@ function mapBekreftelse(bekreftelse: BekreftelseType): SporsmalSvar[] {
             svar: bekreftelse.svar.harJobbetIDennePerioden ? 'Ja' : 'Nei',
         },
         {
-            sporsmal: 'Vil du fotsatt være arbeidssøker?',
+            sporsmal: 'Vil du fortsatt være arbeidssøker?',
             svar: bekreftelse.svar.vilFortsetteSomArbeidssoeker ? 'Ja' : 'Nei',
         },
     ];
