@@ -1,8 +1,7 @@
 import { BodyLong, Box, Heading, ReadMore, Link } from '@navikt/ds-react';
-import { ArbeidssokerPeriode } from '@navikt/arbeidssokerregisteret-utils';
+import type { ArbeidssokerPeriode, ArbeidssokerperioderResponse } from '@navikt/arbeidssokerregisteret-utils';
 
 import { formaterDato } from '../lib/date-utils';
-import { ArbeidssokerperioderResponse } from '@navikt/arbeidssokerregisteret-utils/dist/models/arbeidssokerperiode';
 
 interface ArbeidssoekerperiodeStatusProps {
     perioder: ArbeidssokerperioderResponse;

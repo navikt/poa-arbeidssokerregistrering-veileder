@@ -18,7 +18,7 @@
         "@grafana/faro-web-sdk": "2.0.2",
         "@grafana/faro-web-tracing": "2.0.2",
         "@navikt/aksel-icons": "7.35.0",
-        "@navikt/arbeidssokerregisteret-utils": "1.8.3",
+        "@navikt/arbeidssokerregisteret-utils": "1.9.2",
         "@navikt/ds-css": "7.35.0",
         "@navikt/ds-react": "7.35.0",
         "@navikt/ds-tailwind": "7.35.0",
