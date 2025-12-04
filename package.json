@@ -9,7 +9,7 @@
         "lint": "eslint .",
         "test": "npm run lint && jest --watch",
         "test:ci": "npm run lint && jest",
-        "refresh": "rm -rf node_modules && rm package-lock.json && npm i",
+        "refresh": "rm -rf node_modules && rm package-lock.json && npm i --ignore-scripts",
         "prepare": "husky",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build"
