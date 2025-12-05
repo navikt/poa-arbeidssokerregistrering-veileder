@@ -1,4 +1,4 @@
-import NAVSPA from '@navikt/navspa';
+import NAVSPA from '../components/navspa';
 import { ComponentType } from 'react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';

@@ -89,9 +89,10 @@ export function importerLazy<P>(config: AsyncSpaConfig): Promise<{ default: Reac
 export function importer<P>(config: AsyncSpaConfig): React.ComponentType<P> {
     const LazyComponent = React.lazy(() => importerLazy(config));
     const loader = config.loader || <></>;
-    return (props: P) => (
+    const lazyKomponent = (props: P) => (
         <React.Suspense fallback={loader}>
             <LazyComponent {...props} />
         </React.Suspense>
     );
+    return lazyKomponent;
 }

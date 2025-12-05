@@ -69,7 +69,9 @@ export function importer<P>(name: string, config?: NAVSPAAppConfig): React.Compo
         };
     }
 
-    return (props: P) => <NavSpa name={name} navSpaApp={app} navSpaProps={props} config={appconfig} />;
+    const mounter = (props: P) => <NavSpa name={name} navSpaApp={app} navSpaProps={props} config={appconfig} />;
+
+    return mounter;
 }
 
 interface NavSpaWrapperProps<P> {

@@ -1,4 +1,4 @@
-import { AsyncNavspa, AsyncSpaConfig, createAssetManifestParser } from '@navikt/navspa';
+import { AsyncNavspa, AsyncSpaConfig, createAssetManifestParser } from '../components/navspa';
 import { Loader } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
