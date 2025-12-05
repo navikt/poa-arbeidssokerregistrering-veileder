@@ -24,7 +24,7 @@
         "@navikt/ds-tailwind": "7.35.0",
         "@navikt/ds-tokens": "7.35.0",
         "@navikt/next-logger": "4.4.1",
-        "@navikt/oasis": "4.1.0",
+        "@navikt/oasis": "4.1.1",
         "@unleash/nextjs": "1.6.2",
         "classnames": "2.5.1",
         "jsonwebtoken": "9.0.2",
