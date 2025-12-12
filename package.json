@@ -30,7 +30,7 @@
         "jsonwebtoken": "9.0.2",
         "loadjs": "4.3.0",
         "lodash": "4.17.21",
-        "next": "15.5.7",
+        "next": "15.5.9",
         "pino": "10.1.0",
         "react": "19.2.1",
         "react-autosuggest": "10.1.0",
