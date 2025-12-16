@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import getConfig from 'next/config';
 import { debounce } from 'lodash';
 
 import { loggAktivitet } from '../../../lib/tracking';
@@ -19,9 +18,9 @@ const StillingsSok = (props: StillingsSokProps) => {
     const [resultat, setResultat] = useState([] as any[]);
     const [value, setValue] = useState<string>('');
     const [endret, setEndret] = useState<Boolean>(false);
-    const { basePath } = getConfig().publicRuntimeConfig;
 
     const onSuggestionsFetchRequested = useCallback(
+        // eslint-disable-next-line react-hooks/use-memo
         debounce(async ({ value }: { value: string }) => {
             const url = `/api/yrke-med-styrk-v2/?yrke=${value}`;
             const response = await fetch(url);
@@ -30,7 +29,7 @@ const StillingsSok = (props: StillingsSokProps) => {
             typeaheadYrkeList.push(annenStilling);
             setResultat(typeaheadYrkeList || [annenStilling]);
         }, 200),
-        [basePath, setResultat],
+        [setResultat],
     );
 
     const inputProps = {

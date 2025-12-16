@@ -169,6 +169,7 @@ export default function KanRegistreresSomArbeidssoeker() {
 
     useEffect(() => {
         if (fnr && enhetId) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             apiKall();
         }
     }, [fnr, enhetId]);
