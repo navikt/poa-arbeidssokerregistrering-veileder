@@ -75,6 +75,7 @@ function ArbeidssoekerstatusOversiktV3() {
 
     useEffect(() => {
         if (fnr && enhetId) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setKanStarteArbeidssoekerperiode(false);
             setHarSjekketOmPeriodeKanStartes(false);
             setVisSjekkliste(false);

@@ -17,6 +17,7 @@ function FeatureToggleProvider({ children }) {
                 }
                 return features;
             }, {});
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setToggles(aktiveFeatures);
         }
     }, [data]);

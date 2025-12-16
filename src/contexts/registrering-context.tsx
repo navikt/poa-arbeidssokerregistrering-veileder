@@ -99,6 +99,7 @@ function RegistreringProvider({
 
     useEffect(() => {
         if (hentTidligereOpplysningerForPeriodeId) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             apiKallOpplysningerOmArbeidssoeker();
         }
     }, [hentTidligereOpplysningerForPeriodeId]);
@@ -136,6 +137,7 @@ function RegistreringProvider({
             registrering[SporsmalId.utdanningGodkjent] === UtdanningGodkjentValg.INGEN_SVAR &&
             registrering[SporsmalId.utdanningBestatt] === JaEllerNei.INGEN_SVAR;
         const altOK = altOkUnntattStilling && stillingOK && sisteJobbOK && !harUgyldigeUtdanningSvar;
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setIsValid(altOK);
     }, [registrering]);
 

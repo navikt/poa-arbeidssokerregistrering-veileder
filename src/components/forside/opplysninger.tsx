@@ -86,6 +86,7 @@ function Opplysninger(props: Props) {
                             return <Opplysning {...o} key={o.sporsmal} />;
                         })}
                         {egenvurdering && (
+                            // eslint-disable-next-line react-hooks/static-components
                             <Opplysning
                                 sporsmal={'egenvurdering'}
                                 svar={`egenvurdering-${egenvurdering.egenvurdering}`}

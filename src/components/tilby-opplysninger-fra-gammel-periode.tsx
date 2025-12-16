@@ -51,6 +51,7 @@ const TilbyOpplysningerFraGammelPeriode = forwardRef<any, Props>(function TilbyO
     }
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         apiKallArbeidssoekerperioder();
     }, [enableMock]);
 
