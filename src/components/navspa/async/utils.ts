@@ -61,7 +61,7 @@ export function joinPaths(...paths: string[]): string {
         .join('/');
 }
 
-export function makeAbsolute(baseUrl: string, maybeAbsolutePath: string): string {
+function makeAbsolute(baseUrl: string, maybeAbsolutePath: string): string {
     if (maybeAbsolutePath.startsWith('http')) {
         return maybeAbsolutePath;
     } else if (baseUrl.startsWith('http')) {

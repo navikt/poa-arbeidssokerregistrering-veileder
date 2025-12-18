@@ -5,40 +5,10 @@ import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, TrashFillIcon
 import { prettyPrintDato } from '../../lib/date-utils';
 import { HendelseVisning } from './hendelse';
 
-export interface TidslinjerProps {
+interface TidslinjerProps {
     sprak: Sprak;
     tidslinjer: Tidslinje[];
 }
-
-const TEKSTER = {
-    nb: {
-        startet: 'Startet',
-        avsluttet: 'Avsluttet',
-        sluttarsak: 'Sluttårsak',
-        periode: 'Periode',
-        av: 'av',
-        SLUTTBRUKER: 'bruker',
-        SYSTEM: 'System',
-        VEILEDER: 'veileder',
-        'fortsatt aktiv': 'fortsatt aktiv',
-        'graceperiode utløpt': 'Ikke bekreftet arbeidssøkerstatus',
-        'stopp av periode': 'Arbeidssøkerperioden er avsluttet av veileder',
-        feilregistrering: 'Slettet på grunn av feilregistrering',
-        "svarte nei på spørsmål 'vil du fortsatt være registrert som arbeidssøker?'": 'Stoppet av bruker',
-        'personen er ikke bosatt etter folkeregisterloven':
-            'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
-        'avvist fordi personen ikke er bosatt i Norge i henhold til folkeregisterloven':
-            'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
-        'er registrert som død, avvist fordi personen ikke er bosatt i Norge i henhold til folkeregisterloven':
-            'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
-        'personen er doed': 'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
-        'er registrert som død': 'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
-        iserv: 'Arbeidssøkerperioden er avsluttet i Arena',
-        overføring: 'Arbeidssøkerperioden er avsluttet i Arena',
-        'har ugyldig/annullert identitet, kunne ikke fastslå alder, avvist fordi personen ikke er bosatt i Norge i henhold til folkeregisterloven':
-            'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
-    },
-};
 
 function skalHaVarseltrekant(hendelser: Hendelse[]) {
     const bekreftelser = hendelser.filter((hendelse) => ['bekreftelse_v1'].includes(hendelse.hendelseType));

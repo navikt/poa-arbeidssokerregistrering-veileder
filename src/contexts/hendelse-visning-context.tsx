@@ -6,7 +6,7 @@ type VisningsTypeContextType = {
     toggleVisningsType: () => void;
 };
 
-export const VisningTypeContext = createContext<VisningsTypeContextType>({
+const VisningTypeContext = createContext<VisningsTypeContextType>({
     visningsType: 'collapsed',
     toggleVisningsType: () => {},
 });

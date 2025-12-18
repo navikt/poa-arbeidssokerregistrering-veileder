@@ -7,11 +7,7 @@ import {
     Svar,
 } from '@navikt/arbeidssokerregisteret-utils';
 
-import { BodyShort, ReadMore } from '@navikt/ds-react';
-
-import Oppfolging from './oppfolging';
-import { formaterDato } from '../lib/date-utils';
-import OppdaterOpplysningerKnapp from './oppdater-opplysninger-knapp';
+import { BodyShort } from '@navikt/ds-react';
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
 
@@ -74,32 +70,6 @@ export function mapOpplysninger(opplysninger: OpplysningerOmArbeidssoker): Opply
     return result;
 }
 
-const OPPDATERT_AV = {
-    UKJENT_VERDI: 'Ukjent',
-    SLUTTBRUKER: 'Sluttbruker',
-    UDEFINERT: 'Ukjent',
-    VEILEDER: 'Veileder',
-    SYSTEM: 'Systembruker',
-};
-
-export enum ForeslattInnsatsgruppe {
-    STANDARD_INNSATS = 'STANDARD_INNSATS',
-    SITUASJONSBESTEMT_INNSATS = 'SITUASJONSBESTEMT_INNSATS',
-    BEHOV_FOR_ARBEIDSEVNEVURDERING = 'BEHOV_FOR_ARBEIDSEVNEVURDERING',
-}
-export type BehovsvurderingResponse = {
-    dato?: string;
-    oppfolging: ForeslattInnsatsgruppe;
-    dialogId?: string;
-    profileringId?: string;
-} | null;
-
-type Props = {
-    opplysninger: OpplysningerOmArbeidssoker;
-    behovsvurdering: BehovsvurderingResponse;
-    aktivPeriode: boolean;
-};
-
 export function OpplysningerKomponent(props: { opplysninger: OpplysningerOmArbeidssoker }) {
     const { opplysninger } = props;
     const besvarelser = mapOpplysninger(opplysninger);
@@ -112,25 +82,3 @@ export function OpplysningerKomponent(props: { opplysninger: OpplysningerOmArbei
         </>
     );
 }
-
-function OpplysningerOmArbeidssokerKomponent(props: Props) {
-    const { opplysninger, behovsvurdering, aktivPeriode } = props;
-    const erRegistrertAvSluttbruker = opplysninger.sendtInnAv.utfoertAv.type === 'SLUTTBRUKER';
-
-    return (
-        <div className={'flex flex-col'}>
-            <BodyShort>
-                Opplysningene ble sist oppdatert: {formaterDato(opplysninger.sendtInnAv.tidspunkt)} .
-                <br />
-                Opplysningene ble oppdatert av: {OPPDATERT_AV[opplysninger.sendtInnAv.utfoertAv.type]}.
-            </BodyShort>
-            <ReadMore header="Se og oppdater opplysningene">
-                <Oppfolging behovsvurdering={behovsvurdering} />
-                <OpplysningerKomponent opplysninger={opplysninger} />
-                {aktivPeriode && <OppdaterOpplysningerKnapp sisteArbeidssoekerperiodeId={opplysninger.periodeId} />}
-            </ReadMore>
-        </div>
-    );
-}
-
-export default OpplysningerOmArbeidssokerKomponent;

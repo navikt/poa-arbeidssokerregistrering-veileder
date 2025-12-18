@@ -6,7 +6,7 @@ import { OpplysningerHistorikk } from './opplysninger-historikk';
 import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
 
-export interface Historikk extends AggregertPeriode {
+interface Historikk extends AggregertPeriode {
     sprak: Sprak;
 }
 
