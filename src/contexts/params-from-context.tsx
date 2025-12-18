@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-export type ContextParams = {
+type ContextParams = {
     fnr?: string;
     enhetId?: string;
 };

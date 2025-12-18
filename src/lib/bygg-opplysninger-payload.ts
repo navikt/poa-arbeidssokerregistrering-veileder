@@ -9,7 +9,7 @@ import {
 } from '@navikt/arbeidssokerregisteret-utils';
 
 // temp - eksporter i utils
-export enum NUS {
+enum NUS {
     INGEN_UTDANNING = '0',
     GRUNNSKOLE = '2',
     VIDEREGAENDE_GRUNNUTDANNING = '3',
@@ -20,7 +20,7 @@ export enum NUS {
     INGEN_SVAR = '9',
 }
 
-export type JobbsituasjonBeskrivelse =
+type JobbsituasjonBeskrivelse =
     | 'UKJENT_VERDI'
     | 'UDEFINERT'
     | 'HAR_SAGT_OPP'

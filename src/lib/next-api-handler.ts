@@ -15,7 +15,7 @@ export const getHeaders = (token: string, callId: string) => {
 
 export const getTraceIdFromRequest = (req: NextApiRequest) => (req.headers['x-trace-id'] as string) ?? nanoid();
 
-export interface ApiError extends Error {
+interface ApiError extends Error {
     status?: number;
     traceId?: string;
 }
@@ -109,7 +109,7 @@ export type ApiHandlerOpts = {
     body?: Record<string, string>;
 };
 
-export type LagApiHandlerKall = (
+type LagApiHandlerKall = (
     url: string,
     getToken: (req: NextApiRequest) => Promise<string>,
     opts?: ApiHandlerOpts,

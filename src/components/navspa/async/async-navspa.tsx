@@ -6,7 +6,7 @@ import { createAssetManifestParser, joinPaths } from './utils';
 
 const ASSET_MANIFEST_NAME = 'asset-manifest.json';
 
-export type Asset = {
+type Asset = {
     path: string;
     /**
      * Any additional asset attributes will be set on the mounted HTMLElement.
@@ -17,7 +17,7 @@ export type Asset = {
 export type ManifestObject = { [k: string]: any };
 export type AssetManifestParser = (manifestObject: ManifestObject) => Asset[];
 
-export interface PreloadConfig {
+interface PreloadConfig {
     appName: string;
     appBaseUrl: string;
     assetManifestParser?: AssetManifestParser;
