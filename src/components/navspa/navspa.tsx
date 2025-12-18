@@ -24,29 +24,11 @@ type NAVSPAApp = {
 };
 
 let reactAdapter: ReactAdapter = new React18Adapter();
-export function setAdapter(adapter: ReactAdapter) {
-    reactAdapter = adapter;
-}
 
 const globalScope = getGlobal();
 export const scope: DeprecatedNAVSPAScope = (globalScope['NAVSPA'] = globalScope['NAVSPA'] || {});
 export const scopeV2: NAVSPAScope = (globalScope['NAVSPA-V2'] = globalScope['NAVSPA-V2'] || {});
 export const exportEvent: string = 'NAVSPA-eksporter';
-
-export function eksporter<PROPS>(name: string, component: React.ComponentType<PROPS>) {
-    scope[name] = (element: HTMLElement, props: PROPS) => {
-        reactAdapter.render(React.createElement(component, props), element);
-    };
-    scopeV2[name] = {
-        mount(element: HTMLElement, props: PROPS) {
-            reactAdapter.render(React.createElement(component, props), element);
-        },
-        unmount(element: HTMLElement) {
-            reactAdapter.unmount(element);
-        },
-    };
-    document.dispatchEvent(createCustomEvent(exportEvent, name));
-}
 
 export function importer<P>(name: string, config?: NAVSPAAppConfig): React.ComponentType<P> {
     const appconfig: NAVSPAAppConfig = {

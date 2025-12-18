@@ -89,7 +89,7 @@ export const getAaregToken = async (req: NextApiRequest) => {
     return getOboToken(getTokenFromRequest(req)!, AAREG_API_SCOPE);
 };
 
-export const getTokenFromRequest = (req: NextApiRequest) => {
+const getTokenFromRequest = (req: NextApiRequest) => {
     const bearerToken = req.headers['authorization'];
     return bearerToken?.replace('Bearer ', '');
 };

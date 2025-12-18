@@ -32,14 +32,14 @@ function createLoadJsBundleId(appName: string): string {
     return `async_navspa_${appName}`;
 }
 
-export function fetchAssetUrls(appBaseUrl: string, assetManifestParser: AssetManifestParser): Promise<Asset[]> {
+function fetchAssetUrls(appBaseUrl: string, assetManifestParser: AssetManifestParser): Promise<Asset[]> {
     return fetch(joinPaths(appBaseUrl, ASSET_MANIFEST_NAME))
         .then((res) => res.json())
         .then((manifest) => assetManifestParser(manifest));
 }
 
 const loadingStatus: { [key: string]: Promise<void> } = {};
-export function loadAssets(config: PreloadConfig): Promise<void> {
+function loadAssets(config: PreloadConfig): Promise<void> {
     const loadJsBundleId = createLoadJsBundleId(config.appName);
     if (!loadingStatus[loadJsBundleId]) {
         if (process.env.NODE_ENV === 'development' && (scope[config.appName] || scopeV2[config.appName])) {
@@ -76,11 +76,7 @@ function setAssetAttributes(assets: Asset[]) {
     };
 }
 
-export function preload(config: PreloadConfig) {
-    loadAssets(config).catch(console.error);
-}
-
-export function importerLazy<P>(config: AsyncSpaConfig): Promise<{ default: React.ComponentType<P> }> {
+function importerLazy<P>(config: AsyncSpaConfig): Promise<{ default: React.ComponentType<P> }> {
     return loadAssets(config)
         .catch(console.error)
         .then(() => ({ default: importerSync<P>(config.appName, config.config) }));
