@@ -53,7 +53,7 @@
         "husky": "9.1.7",
         "jest": "30.2.0",
         "jest-environment-jsdom": "30.2.0",
-        "knip": "5.75.2",
+        "knip": "5.76.3",
         "lint-staged": "16.2.7",
         "msw": "2.12.4",
         "msw-storybook-addon": "2.0.6",
