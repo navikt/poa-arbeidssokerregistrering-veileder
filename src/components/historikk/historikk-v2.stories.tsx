@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { ParamsFromContextProvider } from '../../contexts/params-from-context';
 import { TidslinjeSelectionProvider } from '../../contexts/tidslinje-selection-context';
 import { data } from '../../pages/api/mocks/tidslinjer';
-import HistorikkTidslinjer from '../../pages/historikk-v2';
+import HistorikkTidslinjer from '../../pages/historikk';
 
 const meta = {
     title: 'Historikk/Historikk siden',
@@ -24,7 +24,7 @@ const meta = {
         docs: {
             description: {
                 component:
-                    'Viser hele historikk-v2 siden. Historikk Med Data viser en side med perioder, Historikk Uten Data viser fallback når ingen perioder finnes.',
+                    'Viser hele historikk siden. Historikk Med Data viser en side med perioder, Historikk Uten Data viser fallback når ingen perioder finnes.',
             },
         },
     },

@@ -1,101 +1,153 @@
-import { Alert, Heading, Loader } from '@navikt/ds-react';
-
-import { useParamsFromContext } from '../contexts/params-from-context';
-import { useConfig } from '../contexts/config-context';
-import useApiKall from '../hooks/useApiKall';
-import { Config } from '../model/config';
-import TilbakeTilForside from '../components/tilbake-til-forside';
+import { ChevronDownIcon } from '@navikt/aksel-icons';
+import { HendelseType, Tidslinje, TidslinjerResponse } from '@navikt/arbeidssokerregisteret-utils';
+import { ActionMenu, Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
+import { useEffect, useMemo } from 'react';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
-import { HistorikkWrapper } from '../components/historikk/historikk-wrapper';
-import { AggregerteBekreftelser } from '../model/bekreftelse';
-import { mergeGyldigeBekreftelser } from '../lib/merge-gyldige-bekreftelser';
-import TidslinjerLenke from '../components/tidslinjer/tidslinje-lenke';
-import { AggregertePerioder } from '@navikt/arbeidssokerregisteret-utils';
+import { HendelseFilter } from '../components/historikk/hendelse-filter';
+import { Historikk } from '../components/historikk/historikk';
+import { HistorikkListeTittel } from '../components/historikk/historikk-liste-tittel';
+import { HistorikkInnholdSkeleton } from '../components/historikk/historikk-loading-skeleton';
+import { ToggleVisningsType } from '../components/historikk/toggle-visnings-type';
 import PrintInfoHeader from '../components/historikk/print-info-header';
+import TilbakeTilForside from '../components/tilbake-til-forside';
+import { useConfig } from '../contexts/config-context';
+import { FilterProvider } from '../contexts/hendelse-context';
+import { VisningsTypeProvider } from '../contexts/hendelse-visning-context';
+import { useParamsFromContext } from '../contexts/params-from-context';
+import { TidslinjeSelectionProvider, useTidslinjeSelection } from '../contexts/tidslinje-selection-context';
+import useApiKall from '../hooks/useApiKall';
+import { useScrollSpy } from '../hooks/useScrollSpy';
+import { Config } from '../model/config';
 
-function repackBekreftelserMedStatus(bekreftelserMedStatus) {
-    return bekreftelserMedStatus.reduce((total, current) => {
-        const { periodeId } = current.bekreftelse;
-        if (!Object.keys(total).includes(periodeId)) {
-            total[periodeId] = [];
-        }
-        total[periodeId].push({ status: current.status, ...current.bekreftelse });
-        return total;
-    }, {});
+type HistorikkInnholdProps = {
+    tidslinjer: Tidslinje[];
+};
+
+const gyldigeHendelseTyper = new Set(Object.values(HendelseType));
+
+function verifiserAlleHendelseTyper(tidslinjer: Tidslinje[]): Tidslinje[] {
+    if (!tidslinjer || tidslinjer.length === 0) return [];
+    return tidslinjer
+        .map((tidslinje) => {
+            const hendelserMedGodkjentType = tidslinje.hendelser.filter((hendelse) =>
+                gyldigeHendelseTyper.has(hendelse.hendelseType),
+            );
+            return { ...tidslinje, hendelser: hendelserMedGodkjentType };
+        })
+        .filter((tidslinje) => tidslinje.hendelser.length > 0);
 }
 
-export default function Historikk() {
+const HistorikkInnhold = ({ tidslinjer }: HistorikkInnholdProps) => {
+    const { selectedTidslinje, setSelectedTidslinje } = useTidslinjeSelection();
+    const sectionIds = useMemo(() => tidslinjer.map((t) => t.periodeId), [tidslinjer]);
+    const activeSection = useScrollSpy({ sectionIds });
+
+    // Endre valgt tidslinje basert på inscreenObserver (scrollSpy)
+    useEffect(() => {
+        if (!activeSection || !(tidslinjer.length > 0)) return;
+        const activeTidslinje = tidslinjer.find((t) => t.periodeId === activeSection);
+        if (activeTidslinje && activeTidslinje.periodeId !== selectedTidslinje?.periodeId) {
+            setSelectedTidslinje(activeTidslinje);
+        }
+    }, [activeSection, selectedTidslinje, setSelectedTidslinje, tidslinjer]);
+
+    if (tidslinjer.length === 0) {
+        return (
+            <>
+                <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
+                <Alert variant="info">Ingen arbeidssøkerhistorikk tilgjengelig</Alert>
+            </>
+        );
+    }
+
+    return (
+        <div className="flex-1 md:grid md:grid-cols-[minmax(300px,1fr)_3fr]">
+            {/* Mobile menu for tidslinjer */}
+            <Box
+                as={'nav'}
+                aria-label="Velg arbeidsøkerperiode"
+                className="md:hidden bg-bg-default mb-4 print:hidden sticky top-0 right-0 left-0 pt-4 pb-1 text-center"
+            >
+                <ActionMenu>
+                    <ActionMenu.Trigger>
+                        <Button variant="secondary-neutral" icon={<ChevronDownIcon aria-hidden />} iconPosition="right">
+                            {tidslinjer.length === 1 ? 'Arbeidssøkerperiode' : 'Arbeidssøkerperioder'}(
+                            {tidslinjer?.length ?? 0})
+                        </Button>
+                    </ActionMenu.Trigger>
+                    <ActionMenu.Content>
+                        {tidslinjer.map((el) => (
+                            <ActionMenu.Item key={el.periodeId}>
+                                <HistorikkListeTittel tidslinje={el} />
+                            </ActionMenu.Item>
+                        ))}
+                    </ActionMenu.Content>
+                </ActionMenu>
+            </Box>
+            {/* Desktop list of tidslinjer */}
+            <div className="hidden md:block px-1 print:hidden sticky top-0 max-h-screen overflow-y-scroll">
+                {/* Sidebar content */}
+                <Heading size="large">Arbeidssøkerperioder</Heading>
+                <BodyShort className="mb-4">
+                    <b>{tidslinjer.length || 0}</b> {tidslinjer.length === 1 ? 'periode' : 'perioder'} funnet
+                </BodyShort>
+                {tidslinjer.map((el) => (
+                    <HistorikkListeTittel key={el.periodeId} tidslinje={el} />
+                ))}
+            </div>
+            <div className="md:p-4">
+                <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
+                <div className="py-4 mb-6">
+                    <HendelseFilter />
+                    <ToggleVisningsType />
+                </div>
+                {tidslinjer.map((tidslinje) => (
+                    <div key={tidslinje.periodeId} className="mb-8 pb-8">
+                        <Historikk tidslinje={tidslinje} />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const HistorikkTidslinjer = () => {
     const { params } = useParamsFromContext();
     const { enableMock } = useConfig() as Config;
     const { fnr } = params;
     const brukerMock = enableMock === 'enabled';
 
     const {
-        data: aggregertePerioder,
-        isLoading: isLoadingAggregertePerioder,
-        error: errorAggregertePerioder,
-    } = useApiKall<AggregertePerioder>(
-        `/api/${brukerMock ? 'mocks/' : ''}oppslag-arbeidssoekerperioder-aggregert`,
+        data: tidslinjerResponse,
+        isLoading: isLoadingTidslinjer,
+        error: errorTidslinjer,
+    } = useApiKall<TidslinjerResponse>(
+        `/api/${brukerMock ? 'mocks/' : ''}tidslinjer`,
         'POST',
         fnr ? JSON.stringify({ identitetsnummer: fnr }) : null,
     );
-
-    const periodeIds = aggregertePerioder ? aggregertePerioder.map((periode) => periode.periodeId) : null;
-
-    const {
-        data: gyldigeBekreftelser,
-        isLoading: isLoadingGyldigeBekreftelser,
-        error: errorGyldigeBekreftelser,
-    } = useApiKall<AggregerteBekreftelser>(
-        `/api/${brukerMock ? 'mocks/' : ''}bekreftelser-med-status`,
-        'POST',
-        fnr && periodeIds ? JSON.stringify({ perioder: periodeIds }) : null,
+    const verifiserteTidslinjer: Tidslinje[] = useMemo(
+        () => verifiserAlleHendelseTyper(tidslinjerResponse?.tidslinjer || []),
+        [tidslinjerResponse],
     );
 
-    const isLoading = isLoadingAggregertePerioder || isLoadingGyldigeBekreftelser;
-    const error = errorAggregertePerioder || errorGyldigeBekreftelser;
-
-    const aggregertePerioderMedGyldigeBekreftelser =
-        aggregertePerioder && gyldigeBekreftelser
-            ? mergeGyldigeBekreftelser(
-                  aggregertePerioder,
-                  repackBekreftelserMedStatus(gyldigeBekreftelser.bekreftelser),
-              )
-            : null;
-
-    if (isLoading) {
-        return (
-            <div className="flex justify-center">
-                <Loader size="3xlarge" title="Henter data..." />
-            </div>
-        );
+    if (errorTidslinjer) {
+        return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;
     }
 
-    if (error) {
-        return <Alert variant={'error'}>Noe gikk dessverre galt ved henting av historikk</Alert>;
-    }
+    if (isLoadingTidslinjer) return <HistorikkInnholdSkeleton />;
 
     return (
-        <>
-            <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
-            <PrintInfoHeader fnr={fnr} />
-            <Heading size={'large'}>Arbeidssøkerhistorikk</Heading>
-            <div className={'flex flex-col max-w-3xl'}>
-                {aggregertePerioderMedGyldigeBekreftelser &&
-                    aggregertePerioderMedGyldigeBekreftelser.map((periode, index) => (
-                        <div
-                            className={'p-4'}
-                            key={periode.periodeId}
-                            style={{ background: index % 2 !== 0 ? 'var(--a-surface-subtle)' : undefined }}
-                        >
-                            <HistorikkWrapper {...periode} sprak={'nb'} />
-                        </div>
-                    ))}
-            </div>
-            <TidslinjerLenke />
-        </>
+        <TidslinjeSelectionProvider initSelected={verifiserteTidslinjer[0] ?? null}>
+            <FilterProvider>
+                <VisningsTypeProvider>
+                    <PrintInfoHeader fnr={fnr} />
+                    <HistorikkInnhold tidslinjer={verifiserteTidslinjer} />
+                </VisningsTypeProvider>
+            </FilterProvider>
+        </TidslinjeSelectionProvider>
     );
-}
+};
 
 export const getServerSideProps = withAuthenticatedPage(async () => {
     return {
@@ -104,3 +156,5 @@ export const getServerSideProps = withAuthenticatedPage(async () => {
         },
     };
 });
+
+export default HistorikkTidslinjer;
