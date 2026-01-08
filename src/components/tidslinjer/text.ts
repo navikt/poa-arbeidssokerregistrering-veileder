@@ -49,5 +49,6 @@ export const TEKSTER = {
         overføring: 'Arbeidssøkerperioden er avsluttet i Arena',
         'har ugyldig/annullert identitet, kunne ikke fastslå alder, avvist fordi personen ikke er bosatt i Norge i henhold til folkeregisterloven':
             'Personen oppfyller ikke lenger kravene til å være registrert arbeidssøker',
+        FRISKMELDT_TIL_ARBEIDSFORMIDLING: 'Sykepenger',
     },
 };
