@@ -21,7 +21,7 @@
         "@navikt/ds-css": "7.36.0",
         "@navikt/ds-react": "7.36.0",
         "@navikt/ds-tailwind": "7.36.0",
-        "@navikt/next-logger": "4.4.4",
+        "@navikt/next-logger": "4.4.5",
         "@navikt/oasis": "4.1.1",
         "@unleash/nextjs": "1.6.2",
         "classnames": "2.5.1",
