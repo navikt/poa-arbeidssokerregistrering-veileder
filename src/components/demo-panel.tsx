@@ -24,6 +24,9 @@ function DemoPanel() {
                     <NextLink href={`/registrering-arbeidssoker`} passHref locale={false}>
                         <Button variant="secondary">Registrering - arbeidssøker</Button>
                     </NextLink>
+                    <NextLink href={`/registrering-arbeidssoeker-sjekk`} passHref locale={false}>
+                        <Button variant="secondary">Registrering med sjekk - arbeidssøker</Button>
+                    </NextLink>
                     <NextLink href="/kvittering-arbeidssoker/" passHref locale={false}>
                         <Button variant="secondary">Kvittering - arbeidssøker</Button>
                     </NextLink>
