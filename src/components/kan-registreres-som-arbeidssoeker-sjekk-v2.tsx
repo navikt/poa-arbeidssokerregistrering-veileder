@@ -11,7 +11,7 @@ const Under18Melding: React.FC = () => {
     return (
         <Alert variant="warning" className="mb-8">
             <Heading level="1" size="small" className="mb-4">
-                Denne personen er under 18 år og trenger samtykke fra begge foresatte for å kunne registrere seg som
+                Denne personen er under 18 år og trenger samtykke fra foresatte for å kunne registrere seg som
                 arbeidssøker.
             </Heading>
             <BodyLong spacing>
