@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Heading, HStack } from '@navikt/ds-react';
 
 import { useParamsFromContext } from '../contexts/params-from-context';
-import { useFeatureToggles } from '../contexts/featuretoggle-context';
 
 import { RegistreringProvider } from '../contexts/registrering-context';
 import DinSituasjon from '../components/skjema/din-situasjon';
@@ -21,7 +20,6 @@ import AvbrytKnapp from '../components/skjema/avbryt-knapp';
 
 export default function OppdaterOpplysninger() {
     const { params } = useParamsFromContext();
-    const { toggles } = useFeatureToggles();
     const { fnr, enhetId } = params;
     const visInnhold = fnr && enhetId;
     const searchParams = useSearchParams();
