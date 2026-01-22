@@ -10,7 +10,6 @@ import { Profilering } from './hendelseTyper/profilering';
 import { HistorikkHeading } from './historikk-heading';
 import { Source } from './source';
 import { useFilterContext } from '../../contexts/hendelse-context';
-import TidslinjerLenke from '../tidslinjer/tidslinje-lenke';
 
 type HistorikkProps = {
     tidslinje: Tidslinje;
@@ -40,7 +39,6 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
     return (
         <section id={tidslinje.periodeId}>
             <HistorikkHeading tidslinje={tidslinje} />
-            <TidslinjerLenke />
             {tidslinje.hendelser
                 .filter((hendelse) => filters.includes(hendelse.hendelseType))
                 .map((hendelse, index) => (
