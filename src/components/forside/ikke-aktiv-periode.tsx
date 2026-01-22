@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 
 import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import HistorikkLenke from './historikk-lenke';
+import TidslinjerLenke from './tidslinjer-lenke';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
 import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
 import { AggregertPeriode } from '@navikt/arbeidssokerregisteret-utils';
@@ -35,8 +36,10 @@ function IkkeAktivPeriode(props: Props) {
                         <BodyShort textColor={'subtle'} size={'small'}>
                             Sluttårsak: {sluttaarsak(aggregertPeriode?.avsluttet.aarsak ?? 'fortsatt aktiv')}
                         </BodyShort>
-
-                        <HistorikkLenke />
+                        <Box className="flex justify-between">
+                            <HistorikkLenke />
+                            <TidslinjerLenke />
+                        </Box>
                     </>
                 ) : (
                     <Heading level={'3'} size={'medium'}>

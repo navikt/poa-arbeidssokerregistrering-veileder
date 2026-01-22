@@ -1,8 +1,9 @@
-import { Alert, BodyShort, Heading } from '@navikt/ds-react';
+import { Alert, BodyShort, Heading, Box } from '@navikt/ds-react';
 import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
 import useApiKall from '../../hooks/useApiKall';
 import Opplysninger from './opplysninger';
 import HistorikkLenke from './historikk-lenke';
+import TidslinjerLenke from './tidslinjer-lenke';
 import Bekreftelse from './bekreftelse';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
 import { AggregertPeriode, TilgjengeligeBekreftelser } from '@navikt/arbeidssokerregisteret-utils';
@@ -37,7 +38,10 @@ function AktivPeriode(props: Props) {
                 sisteArbeidssoekerperiodeId={aggregertPeriode.periodeId}
             />
             <Bekreftelse antallTilgjengeligBekreftelser={tilgjengeligeBekreftelser?.length} />
-            <HistorikkLenke />
+            <Box className="flex justify-between">
+                <HistorikkLenke />
+                <TidslinjerLenke />
+            </Box>
         </>
     );
 }
