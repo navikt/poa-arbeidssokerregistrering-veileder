@@ -94,7 +94,7 @@ function TidslinjeBox(props: Tidslinje) {
                     {hendelser.map((hendelse, index) => (
                         <div
                             key={`${hendelse}-${index}-background`}
-                            style={{ background: index % 2 !== 0 ? 'var(--a-surface-subtle)' : undefined }}
+                            style={{ background: index % 2 !== 0 ? 'var(--ax-bg-neutral-soft)' : undefined }}
                         >
                             <HendelseVisning {...hendelse} key={`${hendelse}-${index}`} />
                         </div>

@@ -12,12 +12,12 @@ function DemoPanel() {
     if (!brukerMock) return null;
 
     return (
-        <Box className="mt-8 flex flex-col bg-orange-200">
+        <Box className="mt-8 flex flex-col bg-ax-warning-300">
             <Heading level="1" size="medium">
                 Demo - hurtigvalg
             </Heading>
             <Box>
-                <Heading level="2" size="small" className="bg-orange-100">
+                <Heading level="2" size="small" className="bg-ax-warning-200">
                     Registrering
                 </Heading>
                 <Box className="flex justify-evenly">
@@ -35,7 +35,7 @@ function DemoPanel() {
                     </NextLink>
                 </Box>
                 <Box>
-                    <Heading level="2" size="small" className="bg-orange-100">
+                    <Heading level="2" size="small" className="bg-ax-warning-200">
                         Feilmeldinger
                     </Heading>
                     <Box className="flex justify-evenly">
