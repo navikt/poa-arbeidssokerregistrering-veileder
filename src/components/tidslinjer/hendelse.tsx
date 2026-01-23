@@ -104,7 +104,7 @@ export function HendelseVisning(props: Hendelse) {
 
     return (
         <Box>
-            <HGrid gap={'4'} columns={4}>
+            <HGrid gap={'space-16'} columns={4}>
                 <span>{prettyPrintDatoOgKlokkeslettKortform(tidspunkt, 'nb', true)}</span>
                 <span>{tekst(hendelseType)}</span>
                 <span>{tekst(kilde)}</span>

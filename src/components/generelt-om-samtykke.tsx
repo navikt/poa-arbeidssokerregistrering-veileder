@@ -2,7 +2,7 @@ import { Box, List, Heading } from '@navikt/ds-react';
 
 function GenereltOmSamtykke() {
     return (
-        <Box className="mb-8" borderWidth="1" padding="4" style={{ backgroundColor: 'var(--ax-neutral-100)' }}>
+        <Box className="mb-8" borderWidth="1" padding="space-16" style={{ backgroundColor: 'var(--ax-neutral-100)' }}>
             <div>
                 <Heading as="h3" size="xsmall">
                     Før du registrerer arbeidssøkeren må du sørge for at:

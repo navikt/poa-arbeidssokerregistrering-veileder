@@ -83,7 +83,7 @@ function TidslinjeBox(props: Tidslinje) {
                 <Accordion.Content>
                     {hendelser.length > 0 && (
                         <Box className="font-semibold bg-slate-100">
-                            <HGrid gap={'4'} columns={4}>
+                            <HGrid gap={'space-16'} columns={4}>
                                 <span>Tidspunkt</span>
                                 <span>Hendelse</span>
                                 <span>Kilde</span>

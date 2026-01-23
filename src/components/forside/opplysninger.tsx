@@ -74,7 +74,7 @@ function Opplysninger(props: Props) {
                 </BodyShort>
                 <Valgmeny sisteArbeidssoekerperiodeId={sisteArbeidssoekerperiodeId} />
             </div>
-            <Box borderWidth={'1'} padding={'5'}>
+            <Box borderWidth={'1'} padding={'space-16'}>
                 <HGrid columns={2}>
                     <div>
                         {mappedeOpplysninger.slice(0, Math.floor((mappedeOpplysninger.length + 1) / 2)).map((o) => {

@@ -12,7 +12,7 @@ function BekreftValgPanel(props: PanelProps) {
     const { label } = props;
 
     return (
-        <Box paddingBlock="4 8">
+        <Box paddingBlock="space-16 space-24">
             <Checkbox {...props}>{label}</Checkbox>
         </Box>
     );

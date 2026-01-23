@@ -7,8 +7,7 @@ import { RegistreringProvider } from '../contexts/registrering-context';
 import DinSituasjon from '../components/skjema/din-situasjon';
 import SisteJobb from '../components/skjema/siste-jobb/siste-jobb';
 import UtdanningsNiva from '../components/skjema/utdanning';
-import Helseproblemer from '../components/skjema/helseproblemer';
-import AndreProblemer from '../components/skjema/andre-problemer';
+import Hindringer from '../components/skjema/hindringer';
 import { OppdaterOpplysningerKnapp } from '../components/skjema/oppdater-opplysninger-knapp';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
 import ManglerPersonEllerEnhet from '../components/feilmeldinger/mangler-person-eller-enhet';
@@ -41,8 +40,7 @@ export default function OppdaterOpplysninger() {
                         <DinSituasjon />
                         <SisteJobb />
                         <UtdanningsNiva />
-                        <Helseproblemer />
-                        <AndreProblemer />
+                        <Hindringer />
                         <HStack style={{ justifyContent: 'space-between' }}>
                             <AvbrytKnapp />
                             <OppdaterOpplysningerKnapp erForhaandsgodkjent={false} />
