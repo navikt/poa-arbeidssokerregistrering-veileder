@@ -80,11 +80,18 @@ function AarsakerTilAtPersonenIkkeKanRegistreres(props: AarsakerProps) {
                         Hva må ordnes før du kan registrere personen?
                     </Heading>
                     <BodyLong spacing>Du må få korrekt tilgang til vedkommende alle aktuelle opplysninger.</BodyLong>
-                    <List as="ul" title="Dette kan du gjøre">
-                        <List.Item>
-                            Ta kontakt med din lokale identansvarlig. Dette er vanligvis enhetens leder.
-                        </List.Item>
-                    </List>
+                    <div>
+                        <Heading as="h3" size="small">
+                            Dette kan du gjøre
+                        </Heading>
+                        <Box marginBlock="space-16" asChild>
+                            <List data-aksel-migrated-v8 as="ul">
+                                <List.Item>
+                                    Ta kontakt med din lokale identansvarlig. Dette er vanligvis enhetens leder.
+                                </List.Item>
+                            </List>
+                        </Box>
+                    </div>
                 </>
             )}
             {!ansattHarIkkeTilgang && (
@@ -93,11 +100,18 @@ function AarsakerTilAtPersonenIkkeKanRegistreres(props: AarsakerProps) {
                         Hva må ordnes før personen kan registreres?
                     </Heading>
                     <BodyLong spacing>Personen kan ikke registreres før registerdata er oppdatert.</BodyLong>
-                    <List as="ul" title="Dette kan du gjøre">
-                        {tiltaksliste.map((tiltak) => (
-                            <List.Item key={tiltak.id}>{tiltak.beskrivelse}</List.Item>
-                        ))}
-                    </List>
+                    <div>
+                        <Heading as="h3" size="small">
+                            Dette kan du gjøre
+                        </Heading>
+                        <Box marginBlock="space-16" asChild>
+                            <List data-aksel-migrated-v8 as="ul">
+                                {tiltaksliste.map((tiltak) => (
+                                    <List.Item key={tiltak.id}>{tiltak.beskrivelse}</List.Item>
+                                ))}
+                            </List>
+                        </Box>
+                    </div>
                 </>
             )}
         </Box>

@@ -1,4 +1,4 @@
-import { Alert, Heading, ReadMore, List } from '@navikt/ds-react';
+import { Alert, Heading, ReadMore, List, Box } from '@navikt/ds-react';
 import KopierTraceId from './kopierTraceId';
 import { REGLER_SOM_IKKE_KAN_OVERSTYRES } from '../model/regler-for-avvisning';
 
@@ -26,11 +26,13 @@ function Feilmelding(props: FeilmeldingProps) {
                     : 'Personen må registreres av en veileder etter at en vurdering er gjort'}
             </Heading>
             {aarsakTilAvvisning && aarsaker && (
-                <List as="ul">
-                    {aarsakTilAvvisning.regler.map((regel) => (
-                        <List.Item key={regel.id}>{regel.beskrivelse}</List.Item>
-                    ))}
-                </List>
+                <Box marginBlock="space-16" asChild>
+                    <List data-aksel-migrated-v8 as="ul">
+                        {aarsakTilAvvisning.regler.map((regel) => (
+                            <List.Item key={regel.id}>{regel.beskrivelse}</List.Item>
+                        ))}
+                    </List>
+                </Box>
             )}
             <ReadMore header="Mener du dette er feil?">
                 <KopierTraceId traceId={feilmelding.traceId} />

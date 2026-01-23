@@ -1,4 +1,4 @@
-import { Box, BodyLong, List } from '@navikt/ds-react';
+import { Box, BodyLong, List, Heading } from '@navikt/ds-react';
 
 import { REGLER_SOM_KAN_OVERSTYRES } from '../model/regler-for-avvisning';
 
@@ -54,11 +54,18 @@ function VurderingskriterierForArbeidssoekerregistrering(props: Vurderingskriter
 
     return (
         <Box>
-            <List as="ul" size="small" title="Hvorfor må jeg gjøre en vurdering av om personen skal kunne registreres?">
-                {tiltaksliste.map((tiltak) => (
-                    <List.Item key={tiltak.id}>{tiltak.beskrivelse}</List.Item>
-                ))}
-            </List>
+            <div>
+                <Heading as="h3" size="xsmall">
+                    Hvorfor må jeg gjøre en vurdering av om personen skal kunne registreres?
+                </Heading>
+                <Box marginBlock="space-12" asChild>
+                    <List data-aksel-migrated-v8 as="ul" size="small">
+                        {tiltaksliste.map((tiltak) => (
+                            <List.Item key={tiltak.id}>{tiltak.beskrivelse}</List.Item>
+                        ))}
+                    </List>
+                </Box>
+            </div>
             <BodyLong spacing>Du må opprette et notat og dokumentere vurderingene i Gosys.</BodyLong>
         </Box>
     );
