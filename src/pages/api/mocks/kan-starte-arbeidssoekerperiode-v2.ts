@@ -13,18 +13,31 @@ const kanStarteArbeidssoekerperiode = (req: NextApiRequest, res: NextApiResponse
 };
 
 const UNDER_18_AAR = {
-    aarsakTilAvvisning: {
-        regler: [
-            {
-                id: 'UNDER_18_AAR',
-                beskrivelse: 'Er bosatt i Norge i henhold Folkeregisterloven, men er under 18 år',
-            },
+    "melding": "Avvist, se 'aarsakTilAvvisning' for detaljer",
+    "feilKode": "AVVIST",
+    "aarsakTilAvvisning": {
+        "detaljer": [
+            "ER_UNDER_18_AAR",
+            "HAR_NORSK_ADRESSE",
+            "HAR_REGISTRERT_ADRESSE_I_EU_EOES",
+            "ER_EU_EOES_STATSBORGER",
+            "ER_NORSK_STATSBORGER",
+            "BOSATT_ETTER_FREG_LOVEN",
+            "INGEN_INFORMASJON_OM_OPPHOLDSTILLATELSE",
+            "INGEN_FLYTTE_INFORMASJON",
+            "TOKENX_PID_IKKE_FUNNET",
+            "ANSATT_TILGANG",
+            "IKKE_SYSTEM"
         ],
-        detaljer: ['UNDER_18_AAR'],
+        "regler": [
+            {
+                "id": "UNDER_18_AAR",
+                "beskrivelse": "Er under 18 år"
+            }
+        ]
     },
-    feilKode: 'AVVIST',
-    melding: 'Er under 18 år',
-    status: 403,
+    "status": 403,
+    "traceId": "c9d6c2f28bf56535aa6a2b31ee7e323e"
 };
 */
 
