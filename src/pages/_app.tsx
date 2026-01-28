@@ -11,7 +11,7 @@ import { ConfigProvider } from '../contexts/config-context';
 import { ParamsFromContextProvider } from '../contexts/params-from-context';
 import { initFaro } from '../faro/initFaro';
 import InternflateDecorator from '../components/InternflateDecorator';
-import Visittkort from '../components/visittkort';
+import { Visittkort } from '../components/visittkort-webcomponent';
 
 import '../styles/globals.css';
 import InitUmami from '../components/init-umami';

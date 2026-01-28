@@ -18,10 +18,10 @@ export const Visittkort = () => {
     return (
         <Box>
             <ao-visittkort
-                enhet={'1234'}
-                fnr={'123123123'}
-                tilbakeTilFlate={'http://veilarbportefolje.nav.no'}
-                visVeilederVerktoy={'true'}
+                enhet={enhetId}
+                fnr={fnr}
+                tilbakeTilFlate={'veilarbportefoljeflatefs'}
+                visVeilederVerktoy={'false'}
                 key={fnr}
             ></ao-visittkort>
         </Box>
