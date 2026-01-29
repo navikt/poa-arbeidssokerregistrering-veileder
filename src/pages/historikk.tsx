@@ -61,12 +61,12 @@ const HistorikkInnhold = ({ tidslinjer }: HistorikkInnholdProps) => {
     }
 
     return (
-        <div className="flex-1 md:grid md:grid-cols-[minmax(300px,1fr)_3fr]">
+        <div className="flex-1 ax-md:grid ax-md:grid-cols-[minmax(300px,1fr)_3fr]">
             {/* Mobile menu for tidslinjer */}
             <Box
                 as={'nav'}
                 aria-label="Velg arbeidsøkerperiode"
-                className="md:hidden bg-bg-default mb-4 print:hidden sticky top-0 right-0 left-0 pt-4 pb-1 text-center"
+                className="md:hidden bg-ax-bg-default mb-4 print:hidden sticky top-0 right-0 left-0 pt-4 pb-1 text-center"
             >
                 <ActionMenu>
                     <ActionMenu.Trigger>
@@ -85,7 +85,7 @@ const HistorikkInnhold = ({ tidslinjer }: HistorikkInnholdProps) => {
                 </ActionMenu>
             </Box>
             {/* Desktop list of tidslinjer */}
-            <div className="hidden md:block px-1 print:hidden sticky top-0 max-h-screen overflow-y-scroll">
+            <div className="hidden ax-md:block px-1 print:hidden sticky top-0 max-h-screen overflow-y-scroll">
                 {/* Sidebar content */}
                 <Heading size="large">Arbeidssøkerperioder</Heading>
                 <BodyShort className="mb-4">

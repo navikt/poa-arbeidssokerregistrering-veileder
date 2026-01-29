@@ -25,11 +25,13 @@ function ArbeidssoekerMaaRegistreresIArena(props: OpplysningerProps) {
                 Hvis du ønsker at personen skal hentes inn i Arena må dette gjøres <strong>før</strong> personen
                 registreres som arbeidssøker.
             </BodyLong>
-            <List as="ol" size="small">
-                <List.Item>Sjekk om personen allerede ligger i Arena</List.Item>
-                <List.Item>Registrer personen i Arena hvis hen ikke allerede er registrert der</List.Item>
-                <List.Item>Registrer personen som arbeidssøker</List.Item>
-            </List>
+            <Box marginBlock="space-12" asChild>
+                <List data-aksel-migrated-v8 as="ol" size="small">
+                    <List.Item>Sjekk om personen allerede ligger i Arena</List.Item>
+                    <List.Item>Registrer personen i Arena hvis hen ikke allerede er registrert der</List.Item>
+                    <List.Item>Registrer personen som arbeidssøker</List.Item>
+                </List>
+            </Box>
         </Box>
     );
 }

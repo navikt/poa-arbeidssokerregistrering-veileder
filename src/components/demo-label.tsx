@@ -10,7 +10,7 @@ function DemoLabel() {
 
     return (
         <div className="top-0 left-0 -mb-4 h-16 w-32">
-            <div className="text-red-600 text-4xl">DEMO</div>
+            <div className="text-ax-danger-700 text-4xl">DEMO</div>
         </div>
     );
 }

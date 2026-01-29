@@ -61,7 +61,7 @@ const HistorikkHeading: React.FC<HistorikkHeadingProps> = (props) => {
     const periodeAvsluttetEvent = tidslinje.hendelser.find((h) => h.hendelseType === 'periode_avsluttet_v1');
 
     return (
-        <header className=" bg-surface-info-subtle rounded-md p-4 mb-8 border">
+        <header className=" bg-ax-bg-info-soft rounded-md p-4 mb-8 border">
             <Heading size="large" level={'2'} className="flex items-center gap-4 mb-6">
                 {prettyPrintDato(tidslinje.startet, 'nb', true)} -{' '}
                 {tidslinje.avsluttet ? prettyPrintDato(tidslinje.avsluttet, 'nb', true) : 'fortsatt pågående'}

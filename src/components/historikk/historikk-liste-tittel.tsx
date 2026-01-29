@@ -46,10 +46,10 @@ const HistorikkListeTittel: React.FC<HistorikkListeTittelProps> = (props) => {
 
     return (
         <button
-            className={`w-full md:mb-2 md:rounded p-2 md:p-4 md:transition-transform md:cursor-pointer flex flex-row text-left justify-between ${classNames(
+            className={`w-full ax-md:mb-2 ax-md:rounded p-2 ax-md:p-4 ax-md:transition-transform ax-md:cursor-pointer flex flex-row text-left justify-between ${classNames(
                 {
                     'md:translate-x-0.5 z-10 bg-lightblue-100': isSelected,
-                    'md:hover:translate-x-0.5 md:hover:bg-lightblue-50': !isSelected,
+                    'md:hover:translate-x-0.5 ax-md:hover:bg-lightblue-50': !isSelected,
                 },
             )}`}
             onClick={handleClick}

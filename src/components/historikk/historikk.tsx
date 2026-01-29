@@ -44,13 +44,13 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
                 .map((hendelse, index) => (
                     <article
                         key={index + hendelse.tidspunkt}
-                        className="flex flex-col gap-2 bg-gray-50/40 mb-4 p-4 rounded-md shadow print:border-b print:rounded-none"
+                        className="flex flex-col gap-2 bg-ax-neutral-100/40 mb-4 p-4 rounded-md shadow print:border-b print:rounded-none"
                     >
-                        <div className="grid sm:flex sm:flex-wrap gap-2">
+                        <div className="grid ax-sm:flex ax-sm:flex-wrap gap-2">
                             <div className="whitespace-nowrap pr-2">
                                 {prettyPrintDatoOgKlokkeslettKortform(hendelse.tidspunkt, 'nb', true)}
                             </div>
-                            <h3 className="whitespace-nowrap sm:border-l-2 border-gray-600 sm:pl-3 flex items-center gap-2">
+                            <h3 className="whitespace-nowrap ax-sm:border-l-2 border-ax-neutral-700 ax-sm:pl-3 flex items-center gap-2">
                                 {getItemTitle(hendelse)}
                             </h3>
                             <Source source={getSourceString(hendelse)} />

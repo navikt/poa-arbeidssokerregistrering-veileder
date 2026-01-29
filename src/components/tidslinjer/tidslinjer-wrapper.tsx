@@ -83,7 +83,7 @@ function TidslinjeBox(props: Tidslinje) {
                 <Accordion.Content>
                     {hendelser.length > 0 && (
                         <Box className="font-semibold bg-slate-100">
-                            <HGrid gap={'4'} columns={4}>
+                            <HGrid gap={'space-16'} columns={4}>
                                 <span>Tidspunkt</span>
                                 <span>Hendelse</span>
                                 <span>Kilde</span>
@@ -94,7 +94,7 @@ function TidslinjeBox(props: Tidslinje) {
                     {hendelser.map((hendelse, index) => (
                         <div
                             key={`${hendelse}-${index}-background`}
-                            style={{ background: index % 2 !== 0 ? 'var(--a-surface-subtle)' : undefined }}
+                            style={{ background: index % 2 !== 0 ? 'var(--ax-bg-neutral-soft)' : undefined }}
                         >
                             <HendelseVisning {...hendelse} key={`${hendelse}-${index}`} />
                         </div>

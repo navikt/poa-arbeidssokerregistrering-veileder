@@ -33,15 +33,19 @@ const AvsluttArbeidssoekerperiode = () => {
                 <Heading level="1" size="small" className={'mbl'}>
                     {tekst('header')}
                 </Heading>
-                <List as="ul" className="mb-8">
-                    <List.Item>
-                        personen mottar pengestøtte fra NAV som krever at du er registrert som arbeidssøker
-                    </List.Item>
-                    <List.Item>
-                        personen mottar tjenester fra NAV som krever at du er registrert som arbeidssøker
-                    </List.Item>
-                    <List.Item>personen ønsker å stå registrert som arbeidssøker</List.Item>
-                </List>
+                <div className="mb-8">
+                    <Box marginBlock="space-16" asChild>
+                        <List data-aksel-migrated-v8 as="ul">
+                            <List.Item>
+                                personen mottar pengestøtte fra NAV som krever at du er registrert som arbeidssøker
+                            </List.Item>
+                            <List.Item>
+                                personen mottar tjenester fra NAV som krever at du er registrert som arbeidssøker
+                            </List.Item>
+                            <List.Item>personen ønsker å stå registrert som arbeidssøker</List.Item>
+                        </List>
+                    </Box>
+                </div>
                 <Heading level="2" size="small" className="mb-8 mt-4">
                     {tekst('informasjon')}
                 </Heading>
