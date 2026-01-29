@@ -15,6 +15,7 @@ import { Visittkort } from '../components/visittkort-webcomponent';
 
 import '../styles/globals.css';
 import InitUmami from '../components/init-umami';
+import { VisittkortScript } from '../components/visittkort-script';
 
 const TEKSTER: Tekster<string> = {
     nb: {
@@ -41,6 +42,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                     <ParamsFromContextProvider>
                         <div className={pageProps.skjulDekoratorVedPrint ? 'print:hidden' : null}>
                             <InternflateDecorator />
+                            <VisittkortScript />
                             <Visittkort />
                         </div>
                         <InitUmami />
