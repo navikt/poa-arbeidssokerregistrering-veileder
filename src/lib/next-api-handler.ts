@@ -42,8 +42,6 @@ const VEILARBPERSON_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.obo.veilarbp
 const VEILARBVEILEDER_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.obo.veilarbveileder/.default`;
 const OBO_UNLEASH_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.obo.obo-unleash/.default`;
 const AAREG_API_SCOPE = `api://${process.env.AAREG_CLUSTER}.arbeidsforhold.${process.env.AAREG_APPNAME}/.default`;
-const PAW_ARBEIDSSOKER_BESVARELSE_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoker-besvarelse/.default`;
-const AIA_BACKEND_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.aia-backend/.default`;
 
 export const getArbeidssoekerregistreringToken = async (req: NextApiRequest) => {
     return getOboToken(getTokenFromRequest(req)!, ARBEIDSSOEKERREGISTRERING_SCOPE);
@@ -92,14 +90,6 @@ export const getAaregToken = async (req: NextApiRequest) => {
 const getTokenFromRequest = (req: NextApiRequest) => {
     const bearerToken = req.headers['authorization'];
     return bearerToken?.replace('Bearer ', '');
-};
-
-export const getPawArbeidssokerBesvarelseToken = async (req: NextApiRequest) => {
-    return getOboToken(getTokenFromRequest(req)!, PAW_ARBEIDSSOKER_BESVARELSE_SCOPE);
-};
-
-export const getAiaBackendAzureToken = async (req: NextApiRequest) => {
-    return getOboToken(getTokenFromRequest(req)!, AIA_BACKEND_SCOPE);
 };
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
