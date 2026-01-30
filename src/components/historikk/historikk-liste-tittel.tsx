@@ -2,10 +2,10 @@ import React from 'react';
 import { useTidslinjeSelection } from '../../contexts/tidslinje-selection-context';
 import classNames from 'classnames';
 import { ChevronRightIcon } from '@navikt/aksel-icons';
-import { Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
+import { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
 type HistorikkListeTittelProps = {
-    tidslinje: Tidslinje;
+    tidslinje: Periode;
 };
 
 const HistorikkListeTittel: React.FC<HistorikkListeTittelProps> = (props) => {

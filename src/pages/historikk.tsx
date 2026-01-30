@@ -1,5 +1,4 @@
 import { ChevronDownIcon } from '@navikt/aksel-icons';
-import { HendelseType, Tidslinje, TidslinjerResponse } from '@navikt/arbeidssokerregisteret-utils';
 import { ActionMenu, Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
 import { useEffect, useMemo } from 'react';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
@@ -18,24 +17,12 @@ import { TidslinjeSelectionProvider, useTidslinjeSelection } from '../contexts/t
 import useApiKall from '../hooks/useApiKall';
 import { useScrollSpy } from '../hooks/useScrollSpy';
 import { Config } from '../model/config';
+import { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
 type HistorikkInnholdProps = {
-    tidslinjer: Tidslinje[];
+    tidslinjer: Periode[];
 };
 
-const gyldigeHendelseTyper = new Set(Object.values(HendelseType));
-
-function verifiserAlleHendelseTyper(tidslinjer: Tidslinje[]): Tidslinje[] {
-    if (!tidslinjer || tidslinjer.length === 0) return [];
-    return tidslinjer
-        .map((tidslinje) => {
-            const hendelserMedGodkjentType = tidslinje.hendelser.filter((hendelse) =>
-                gyldigeHendelseTyper.has(hendelse.hendelseType),
-            );
-            return { ...tidslinje, hendelser: hendelserMedGodkjentType };
-        })
-        .filter((tidslinje) => tidslinje.hendelser.length > 0);
-}
 
 const HistorikkInnhold = ({ tidslinjer }: HistorikkInnholdProps) => {
     const { selectedTidslinje, setSelectedTidslinje } = useTidslinjeSelection();
@@ -118,18 +105,15 @@ const HistorikkTidslinjer = () => {
     const brukerMock = enableMock === 'enabled';
 
     const {
-        data: tidslinjerResponse,
+        data: perioder,
         isLoading: isLoadingTidslinjer,
         error: errorTidslinjer,
-    } = useApiKall<TidslinjerResponse>(
+    } = useApiKall<Periode[]>(
         `/api/${brukerMock ? 'mocks/' : ''}tidslinjer`,
         'POST',
         fnr ? JSON.stringify({ identitetsnummer: fnr }) : null,
     );
-    const verifiserteTidslinjer: Tidslinje[] = useMemo(
-        () => verifiserAlleHendelseTyper(tidslinjerResponse?.tidslinjer || []),
-        [tidslinjerResponse],
-    );
+    console.log('tidslinjerResponse', perioder);
 
     if (errorTidslinjer) {
         return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;
@@ -138,11 +122,11 @@ const HistorikkTidslinjer = () => {
     if (isLoadingTidslinjer) return <HistorikkInnholdSkeleton />;
 
     return (
-        <TidslinjeSelectionProvider initSelected={verifiserteTidslinjer[0] ?? null}>
+        <TidslinjeSelectionProvider initSelected={perioder[0] ?? null}>
             <FilterProvider>
                 <VisningsTypeProvider>
                     <PrintInfoHeader fnr={fnr} />
-                    <HistorikkInnhold tidslinjer={verifiserteTidslinjer} />
+                    <HistorikkInnhold tidslinjer={perioder} />
                 </VisningsTypeProvider>
             </FilterProvider>
         </TidslinjeSelectionProvider>

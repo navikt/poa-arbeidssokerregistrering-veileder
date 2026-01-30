@@ -1,12 +1,13 @@
-import { Hendelse, lagHentTekstForSprak, Tidslinje } from '@navikt/arbeidssokerregisteret-utils';
+import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { BodyLong, Box, CopyButton, Heading } from '@navikt/ds-react';
 import React from 'react';
 import { prettyPrintDato } from '../../lib/date-utils';
 import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
 import { TEKSTER } from '../tidslinjer/text';
+import { Hendelse, Periode, PeriodeAvsluttetHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
 type HistorikkHeadingProps = {
-    tidslinje: Tidslinje;
+    tidslinje: Periode;
 };
 
 const KopierVeilederId = ({ veilederId }: { veilederId: string | null }) => {
@@ -21,7 +22,7 @@ const KopierVeilederId = ({ veilederId }: { veilederId: string | null }) => {
 
 const PeriodeStartInfo = ({ event }: { event: Hendelse | undefined }) => {
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
-    const utfoertAv = event?.['periodeStartetV1']?.utfoertAv;
+    const utfoertAv = event.type === "PERIODE_STARTET_V1" ? event.sendtInnAv.utfoertAv : null;
 
     if (!event) return null;
 
@@ -33,10 +34,8 @@ const PeriodeStartInfo = ({ event }: { event: Hendelse | undefined }) => {
     );
 };
 
-const PeriodeSluttInfo = ({ event }: { event: Hendelse | undefined }) => {
+const PeriodeSluttInfo = ({ event }: { event: PeriodeAvsluttetHendelse | undefined }) => {
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
-    const utfoertAv = event?.['periodeAvsluttetV1']?.utfoertAv;
-    const aarsak = event?.['periodeAvsluttetV1']?.aarsak;
     const sluttaarsak = oversettSluttaarsak('nb');
 
     if (!event) return null;
@@ -44,11 +43,12 @@ const PeriodeSluttInfo = ({ event }: { event: Hendelse | undefined }) => {
     return (
         <>
             <p className="flex items-center">
-                <b>Avsluttet</b>&nbsp;av {tekst(utfoertAv.type)}
-                {utfoertAv.type === 'VEILEDER' && <KopierVeilederId veilederId={utfoertAv.id} />}
+                <b>Avsluttet</b>&nbsp;av {tekst(event.sendtInnAv.utfoertAv.type)}
+                {event.sendtInnAv.utfoertAv.type === 'VEILEDER' && 
+                    <KopierVeilederId veilederId={event.sendtInnAv.utfoertAv.id} />}
             </p>
             <p>
-                <b>{tekst('sluttarsak')}</b>: {sluttaarsak(aarsak)}
+                <b>{tekst('sluttarsak')}</b>: {sluttaarsak(event.sendtInnAv.aarsak)}
             </p>
         </>
     );
@@ -57,8 +57,8 @@ const PeriodeSluttInfo = ({ event }: { event: Hendelse | undefined }) => {
 const HistorikkHeading: React.FC<HistorikkHeadingProps> = (props) => {
     const { tidslinje } = props;
     const erAvsluttet = tidslinje.avsluttet !== null;
-    const periodeStartetEvent = tidslinje.hendelser.find((h) => h.hendelseType === 'periode_startet_v1');
-    const periodeAvsluttetEvent = tidslinje.hendelser.find((h) => h.hendelseType === 'periode_avsluttet_v1');
+    const periodeStartetEvent = tidslinje.hendelser.find((h) => h.type === "PERIODE_STARTET_V1");
+    const periodeAvsluttetEvent = tidslinje.hendelser.find((h) => h.type === "PERIODE_AVSLUTTET_V1");
 
     return (
         <header className=" bg-ax-bg-info-soft rounded-md p-4 mb-8 border">
