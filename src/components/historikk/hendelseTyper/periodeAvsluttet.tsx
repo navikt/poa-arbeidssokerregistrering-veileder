@@ -1,11 +1,12 @@
 import React from 'react';
-import { Hendelse, lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
+import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { TEKSTER } from '../../tidslinjer/text';
 import { Box } from '@navikt/ds-react';
 import { oversettSluttaarsak } from '../../../lib/oversett-sluttaarsak';
+import { PeriodeAvsluttetHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
 type PeriodeAvsluttetProps = {
-    avsluttetHendelse: Hendelse['periodeAvsluttetV1'];
+    avsluttetHendelse: PeriodeAvsluttetHendelse;
 };
 
 const PeriodeAvsluttet: React.FC<PeriodeAvsluttetProps> = (props) => {
@@ -17,7 +18,7 @@ const PeriodeAvsluttet: React.FC<PeriodeAvsluttetProps> = (props) => {
         <Box as={'p'}>
             <b>{tekst('sluttarsak')}</b>
             {': '}
-            {sluttaarsak(avsluttetHendelse.aarsak)}
+            {sluttaarsak(avsluttetHendelse.sendtInnAv.aarsak)}
         </Box>
     );
 };

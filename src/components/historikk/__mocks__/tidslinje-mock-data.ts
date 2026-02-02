@@ -1,187 +1,171 @@
 import {
-    Tidslinje,
-    JaEllerNei,
-    UtdanningGodkjentValg,
-    ProfilertTil,
-    BekreftelseStatus,
-    HendelseType,
-    TidslinjerResponse,
-    OpplysningerOmArbeidssokerTidslinjer,
+    OpplysningerHendelse,
     BekreftelseHendelse,
-    ArbeidssokerperiodeMetadata,
-} from '@navikt/arbeidssokerregisteret-utils';
+    PeriodeAvsluttetHendelse,
+    Periode,
+} from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
-export const opplysningsHendelse: OpplysningerOmArbeidssokerTidslinjer = {
-    opplysningerOmArbeidssoekerId: 'b6ebf6f1-bdf5-4455-93a9-4ed535902201',
-    periodeId: 'fd229ec7-ff37-40f0-83eb-65fb236f4cb6',
+export const opplysningsHendelse: OpplysningerHendelse = {
+    id: 'e98014ee-b7e7-4d74-8ff9-d8fa959e6a04',
     sendtInnAv: {
-        tidspunkt: '2025-09-12T10:36:33.390Z',
+        tidspunkt: '2025-10-27T13:17:14.037Z',
         utfoertAv: {
-            type: 'VEILEDER',
-            id: 'Z994498',
+            type: 'SLUTTBRUKER',
+            id: '24849098329',
+            sikkerhetsnivaa: 'tokenx:Level4',
         },
-        kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:25.09.12.371-1',
+        kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:25.10.14.382-1',
         aarsak: 'opplysning om arbeidssøker sendt inn',
     },
     utdanning: {
-        nus: '3',
-        bestaatt: JaEllerNei.JA,
-        godkjent: UtdanningGodkjentValg.JA,
+        nus: '6',
+        bestaatt: 'JA',
+        godkjent: 'JA',
     },
     helse: {
-        helsetilstandHindrerArbeid: JaEllerNei.JA,
+        helsetilstandHindrerArbeid: 'NEI',
     },
     jobbsituasjon: {
         beskrivelser: [
             {
-                beskrivelse: 'IKKE_VAERT_I_JOBB_SISTE_2_AAR',
+                beskrivelse: 'HAR_BLITT_SAGT_OPP',
                 detaljer: {
-                    stilling: 'Annen stilling',
-                    stilling_styrk08: '00',
+                    stilling: 'Chassispåbygger',
+                    stilling_styrk08: '8211',
                 },
             },
         ],
     },
     annet: {
-        andreForholdHindrerArbeid: JaEllerNei.JA,
+        andreForholdHindrerArbeid: 'NEI',
     },
+    tidspunkt: '2025-10-27T13:17:14.037Z',
+    type: 'OPPLYSNINGER_V4',
 };
 
 export const bekreftelseHendelse: BekreftelseHendelse = {
-    status: BekreftelseStatus.GYLDIG,
-    bekreftelse: {
-        periodeId: '60bea570-6acb-4fc8-b508-1aa6ed99fe46',
-        bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
-        svar: {
-            sendtInnAv: {
-                tidspunkt: '2025-09-01T05:24:59.291Z',
-                utfoertAv: {
-                    type: 'SLUTTBRUKER',
-                    id: '24849098329',
-                },
-                kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssoekerregisteret-api-bekreftelse:25.08.18.368-1',
-                aarsak: 'Bekreftelse levert',
-                tidspunktFraKilde: null,
+    id: '037433f9-0ae4-41c9-83a6-c26c860b0cc4',
+    bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
+    status: 'GYLDIG',
+    svar: {
+        sendtInnAv: {
+            tidspunkt: '2025-10-24T13:09:58.274Z',
+            utfoertAv: {
+                type: 'SLUTTBRUKER',
+                id: '24849098329',
+                sikkerhetsnivaa: 'tokenx:Level4',
             },
-            gjelderFra: '2025-08-22T10:19:52.028Z',
-            gjelderTil: '2025-08-31T22:00:00Z',
-            harJobbetIDennePerioden: false,
-            vilFortsetteSomArbeidssoeker: true,
+            kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssoekerregisteret-api-bekreftelse:25.10.14.387-1',
+            aarsak: 'Bekreftelse levert',
         },
+        gjelderFra: '2025-10-19T22:00:00Z',
+        gjelderTil: '2025-10-26T23:00:00Z',
+        harJobbetIDennePerioden: false,
+        vilFortsetteSomArbeidssoeker: false,
     },
+    tidspunkt: '2025-10-24T13:09:58.274Z',
+    type: 'BEKREFTELSE_V1',
 };
 
-export const avsluttetPeriode: ArbeidssokerperiodeMetadata = {
-    tidspunkt: '2025-09-20T14:22:10.123Z',
-    utfoertAv: {
-        type: 'SLUTTBRUKER',
-        id: '24849098329',
+export const avsluttetPeriode: PeriodeAvsluttetHendelse = {
+    sendtInnAv: {
+        tidspunkt: '2025-09-23T07:32:45.810Z',
+        utfoertAv: {
+            type: 'VEILEDER',
+            id: 'Z994498',
+            sikkerhetsnivaa: 'azure:undefined',
+        },
+        kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:25.09.22.376-1',
+        aarsak: 'Stopp av periode',
     },
-    kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:25.04.29.318-1',
-    aarsak: '[Bekreftelse] Ønsket ikke lenger å være arbeidssøker',
-    tidspunktFraKilde: null,
+    tidspunkt: '2025-09-23T07:32:45.810Z',
+    type: 'PERIODE_AVSLUTTET_V1',
 };
 
-export const sampleTidslinje: Tidslinje = {
-    periodeId: 'fd229ec7-ff37-40f0-83eb-65fb236f4cb6',
+export const samplePeriode: Periode = {
+    periodeId: 'd4428822-103c-423a-aa7c-4dd016b0cb47',
     identitetsnummer: '24849098329',
-    startet: '2025-09-12T10:36:33.501Z',
-    avsluttet: null,
+    startet: '2026-01-13T11:31:07.953Z',
     hendelser: [
         {
-            hendelseType: HendelseType.opplysninger_v4,
-            tidspunkt: '2025-09-12T10:36:33.390Z',
-            opplysningerV4: {
-                ...opplysningsHendelse,
-            },
+            periodeId: 'd4428822-103c-423a-aa7c-4dd016b0cb47',
+            bekreftelsesloesning: 'DAGPENGER',
+            fristBrutt: false,
+            tidspunkt: '2026-01-13T12:35:03.331Z',
+            type: 'PAA_VEGNE_AV_STOPP_V1',
         },
         {
-            hendelseType: HendelseType.periode_startet_v1,
-            tidspunkt: '2025-09-12T10:36:33.501Z',
-            periodeStartetV1: {
-                tidspunkt: '2025-09-12T10:36:33.501Z',
+            id: 'd684452d-78ec-426a-ae6a-7d505dbe3a4e',
+            opplysningerOmArbeidssokerId: 'be4ccbb7-c76f-405f-92c5-9f02ed671b73',
+            sendtInnAv: {
+                tidspunkt: '2026-01-13T11:31:08.531Z',
+                utfoertAv: {
+                    type: 'SYSTEM',
+                    id: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-profilering:25.12.11.257-1',
+                },
+                kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-profilering:25.12.11.257-1',
+                aarsak: 'opplysninger-mottatt',
+                tidspunktFraKilde: {
+                    tidspunkt: '2026-01-13T11:31:07.867Z',
+                    avviksType: 'FORSINKELSE',
+                },
+            },
+            profilertTil: 'OPPGITT_HINDRINGER',
+            jobbetSammenhengendeSeksAvTolvSisteMnd: true,
+            alder: 35,
+            tidspunkt: '2026-01-13T11:31:08.531Z',
+            type: 'PROFILERING_V1',
+        },
+        {
+            sendtInnAv: {
+                tidspunkt: '2026-01-13T11:31:07.953Z',
                 utfoertAv: {
                     type: 'VEILEDER',
                     id: 'Z994498',
+                    sikkerhetsnivaa: 'azure:undefined',
                 },
-                kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:25.09.12.371-1',
+                kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:26.01.07.405-1',
                 aarsak: 'Er over 18 år, er bosatt i Norge i henhold Folkeregisterloven',
-                tidspunktFraKilde: null,
             },
+            tidspunkt: '2026-01-13T11:31:07.953Z',
+            type: 'PERIODE_STARTET_V1',
         },
         {
-            hendelseType: HendelseType.profilering_v1,
-            tidspunkt: '2025-09-12T10:36:34.097Z',
-            profileringV1: {
-                profileringId: 'fd1afda2-118f-4f43-8791-0ebe8b0589d4',
-                periodeId: 'fd229ec7-ff37-40f0-83eb-65fb236f4cb6',
-                opplysningerOmArbeidssoekerId: 'b6ebf6f1-bdf5-4455-93a9-4ed535902201',
-                sendtInnAv: {
-                    tidspunkt: '2025-09-12T10:36:34.097Z',
-                    utfoertAv: {
-                        type: 'SYSTEM',
-                    },
-                    kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-profilering:25.09.12.192-1',
-                    aarsak: 'opplysninger-mottatt',
-                },
-                profilertTil: ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING,
-                jobbetSammenhengendeSeksAvTolvSisteManeder: true,
-                alder: 25,
-            },
-        },
-        {
-            hendelseType: HendelseType.bekreftelse_v1,
-            tidspunkt: '2025-09-12T10:36:35.097Z',
-            bekreftelseV1: {
-                ...bekreftelseHendelse,
-            },
-        },
-    ],
-};
-
-export const avsluttetTidslinje: Tidslinje = {
-    ...sampleTidslinje,
-    avsluttet: '2025-09-20T14:22:10.123Z',
-    hendelser: [
-        ...sampleTidslinje.hendelser,
-        {
-            hendelseType: HendelseType.periode_avsluttet_v1,
-            tidspunkt: '2025-09-20T14:22:10.123Z',
-            periodeAvsluttetV1: {
-                ...avsluttetPeriode,
-            },
-        },
-    ],
-};
-
-export const avsluttetTidslinjeVeileder: Tidslinje = {
-    ...sampleTidslinje,
-    avsluttet: '2025-09-20T14:22:10.123Z',
-    hendelser: [
-        ...sampleTidslinje.hendelser,
-        {
-            hendelseType: HendelseType.periode_avsluttet_v1,
-            tidspunkt: '2025-09-20T14:22:10.123Z',
-            periodeAvsluttetV1: {
-                tidspunkt: '2025-09-20T14:22:10.123Z',
+            id: 'be4ccbb7-c76f-405f-92c5-9f02ed671b73',
+            sendtInnAv: {
+                tidspunkt: '2026-01-13T11:31:07.867Z',
                 utfoertAv: {
                     type: 'VEILEDER',
                     id: 'Z994498',
+                    sikkerhetsnivaa: 'azure:undefined',
                 },
-                kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:25.09.12.371-1',
-                aarsak: 'Stopp av periode',
-                tidspunktFraKilde: null,
+                kilde: 'europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:26.01.07.405-1',
+                aarsak: 'opplysning om arbeidssøker sendt inn',
             },
+            utdanning: {
+                nus: '3',
+                bestaatt: 'JA',
+                godkjent: 'JA',
+            },
+            helse: {
+                helsetilstandHindrerArbeid: 'JA',
+            },
+            jobbsituasjon: {
+                beskrivelser: [
+                    {
+                        beskrivelse: 'VIL_BYTTE_JOBB',
+                        detaljer: {
+                            stilling: 'Chassispåbygger',
+                            stilling_styrk08: '8211',
+                        },
+                    },
+                ],
+            },
+            annet: {
+                andreForholdHindrerArbeid: 'NEI',
+            },
+            tidspunkt: '2026-01-13T11:31:07.867Z',
+            type: 'OPPLYSNINGER_V4',
         },
     ],
-};
-
-export const tidslinjeMedKunOpplysninger: Tidslinje = {
-    ...sampleTidslinje,
-    hendelser: [sampleTidslinje.hendelser[0]],
-};
-
-export const tidslinjeMedKunBekreftelse: Tidslinje = {
-    ...sampleTidslinje,
-    hendelser: [sampleTidslinje.hendelser[3]],
 };

@@ -1,5 +1,4 @@
 import { ChevronDownIcon } from '@navikt/aksel-icons';
-import { HendelseType, Tidslinje, TidslinjerResponse } from '@navikt/arbeidssokerregisteret-utils';
 import { ActionMenu, Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
 import { useEffect, useMemo } from 'react';
 import { withAuthenticatedPage } from '../auth/withAuthentication';
@@ -18,40 +17,30 @@ import { TidslinjeSelectionProvider, useTidslinjeSelection } from '../contexts/t
 import useApiKall from '../hooks/useApiKall';
 import { useScrollSpy } from '../hooks/useScrollSpy';
 import { Config } from '../model/config';
+import { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
 type HistorikkInnholdProps = {
-    tidslinjer: Tidslinje[];
+    perioder: Periode[];
 };
 
-const gyldigeHendelseTyper = new Set(Object.values(HendelseType));
-
-function verifiserAlleHendelseTyper(tidslinjer: Tidslinje[]): Tidslinje[] {
-    if (!tidslinjer || tidslinjer.length === 0) return [];
-    return tidslinjer
-        .map((tidslinje) => {
-            const hendelserMedGodkjentType = tidslinje.hendelser.filter((hendelse) =>
-                gyldigeHendelseTyper.has(hendelse.hendelseType),
-            );
-            return { ...tidslinje, hendelser: hendelserMedGodkjentType };
-        })
-        .filter((tidslinje) => tidslinje.hendelser.length > 0);
-}
-
-const HistorikkInnhold = ({ tidslinjer }: HistorikkInnholdProps) => {
+const HistorikkInnhold = ({ perioder }: HistorikkInnholdProps) => {
     const { selectedTidslinje, setSelectedTidslinje } = useTidslinjeSelection();
-    const sectionIds = useMemo(() => tidslinjer.map((t) => t.periodeId), [tidslinjer]);
+    const sectionIds = useMemo(() => {
+        if (!perioder) return [];
+        return perioder.map((t) => t.periodeId);
+    }, [perioder]);
     const activeSection = useScrollSpy({ sectionIds });
 
     // Endre valgt tidslinje basert på inscreenObserver (scrollSpy)
     useEffect(() => {
-        if (!activeSection || !(tidslinjer.length > 0)) return;
-        const activeTidslinje = tidslinjer.find((t) => t.periodeId === activeSection);
+        if (!activeSection || !(perioder.length > 0)) return;
+        const activeTidslinje = perioder.find((t) => t.periodeId === activeSection);
         if (activeTidslinje && activeTidslinje.periodeId !== selectedTidslinje?.periodeId) {
             setSelectedTidslinje(activeTidslinje);
         }
-    }, [activeSection, selectedTidslinje, setSelectedTidslinje, tidslinjer]);
+    }, [activeSection, selectedTidslinje, setSelectedTidslinje, perioder]);
 
-    if (tidslinjer.length === 0) {
+    if (!perioder || perioder.length === 0) {
         return (
             <>
                 <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
@@ -62,7 +51,7 @@ const HistorikkInnhold = ({ tidslinjer }: HistorikkInnholdProps) => {
 
     return (
         <div className="flex-1 ax-md:grid ax-md:grid-cols-[minmax(300px,1fr)_3fr]">
-            {/* Mobile menu for tidslinjer */}
+            {/* Mobile menu for perioder */}
             <Box
                 as={'nav'}
                 aria-label="Velg arbeidsøkerperiode"
@@ -71,12 +60,12 @@ const HistorikkInnhold = ({ tidslinjer }: HistorikkInnholdProps) => {
                 <ActionMenu>
                     <ActionMenu.Trigger>
                         <Button variant="secondary-neutral" icon={<ChevronDownIcon aria-hidden />} iconPosition="right">
-                            {tidslinjer.length === 1 ? 'Arbeidssøkerperiode' : 'Arbeidssøkerperioder'}(
-                            {tidslinjer?.length ?? 0})
+                            {perioder.length === 1 ? 'Arbeidssøkerperiode' : 'Arbeidssøkerperioder'}(
+                            {perioder?.length ?? 0})
                         </Button>
                     </ActionMenu.Trigger>
                     <ActionMenu.Content>
-                        {tidslinjer.map((el) => (
+                        {perioder.map((el) => (
                             <ActionMenu.Item key={el.periodeId}>
                                 <HistorikkListeTittel tidslinje={el} />
                             </ActionMenu.Item>
@@ -84,14 +73,14 @@ const HistorikkInnhold = ({ tidslinjer }: HistorikkInnholdProps) => {
                     </ActionMenu.Content>
                 </ActionMenu>
             </Box>
-            {/* Desktop list of tidslinjer */}
+            {/* Desktop list of perioder */}
             <div className="hidden ax-md:block px-1 print:hidden sticky top-0 max-h-screen overflow-y-scroll">
                 {/* Sidebar content */}
                 <Heading size="large">Arbeidssøkerperioder</Heading>
                 <BodyShort className="mb-4">
-                    <b>{tidslinjer.length || 0}</b> {tidslinjer.length === 1 ? 'periode' : 'perioder'} funnet
+                    <b>{perioder.length || 0}</b> {perioder.length === 1 ? 'periode' : 'perioder'} funnet
                 </BodyShort>
-                {tidslinjer.map((el) => (
+                {perioder.map((el) => (
                     <HistorikkListeTittel key={el.periodeId} tidslinje={el} />
                 ))}
             </div>
@@ -101,9 +90,9 @@ const HistorikkInnhold = ({ tidslinjer }: HistorikkInnholdProps) => {
                     <HendelseFilter />
                     <ToggleVisningsType />
                 </div>
-                {tidslinjer.map((tidslinje) => (
-                    <div key={tidslinje.periodeId} className="mb-8 pb-8">
-                        <Historikk tidslinje={tidslinje} />
+                {perioder.map((periode) => (
+                    <div key={periode.periodeId} className="mb-8 pb-8">
+                        <Historikk periode={periode} />
                     </div>
                 ))}
             </div>
@@ -118,31 +107,32 @@ const HistorikkTidslinjer = () => {
     const brukerMock = enableMock === 'enabled';
 
     const {
-        data: tidslinjerResponse,
-        isLoading: isLoadingTidslinjer,
-        error: errorTidslinjer,
-    } = useApiKall<TidslinjerResponse>(
-        `/api/${brukerMock ? 'mocks/' : ''}tidslinjer`,
+        data: perioder,
+        isLoading: isLoadingPerioder,
+        error: errorPerioder,
+    } = useApiKall<Periode[]>(
+        `/api/${brukerMock ? 'mocks/' : ''}perioder`,
         'POST',
-        fnr ? JSON.stringify({ identitetsnummer: fnr }) : null,
-    );
-    const verifiserteTidslinjer: Tidslinje[] = useMemo(
-        () => verifiserAlleHendelseTyper(tidslinjerResponse?.tidslinjer || []),
-        [tidslinjerResponse],
+        fnr
+            ? JSON.stringify({
+                  type: 'IDENTITETSNUMMER',
+                  identitetsnummer: fnr,
+              })
+            : null,
     );
 
-    if (errorTidslinjer) {
-        return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;
+    if (errorPerioder) {
+        return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere.</Alert>;
     }
 
-    if (isLoadingTidslinjer) return <HistorikkInnholdSkeleton />;
+    if (isLoadingPerioder) return <HistorikkInnholdSkeleton />;
 
     return (
-        <TidslinjeSelectionProvider initSelected={verifiserteTidslinjer[0] ?? null}>
+        <TidslinjeSelectionProvider initSelected={perioder[0] ?? null}>
             <FilterProvider>
                 <VisningsTypeProvider>
                     <PrintInfoHeader fnr={fnr} />
-                    <HistorikkInnhold tidslinjer={verifiserteTidslinjer} />
+                    <HistorikkInnhold perioder={perioder} />
                 </VisningsTypeProvider>
             </FilterProvider>
         </TidslinjeSelectionProvider>

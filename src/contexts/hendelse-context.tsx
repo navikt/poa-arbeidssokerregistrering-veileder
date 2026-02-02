@@ -1,15 +1,15 @@
-import { HendelseType } from '@navikt/arbeidssokerregisteret-utils';
+import { HendelseType } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import React, { createContext, useState, ReactNode, useContext, useEffect } from 'react';
+import { ALLE_HENDELSER } from '../lib/alle-hendelser';
 const LOCAL_STORAGE_KEY = 'historikk-hendelse-filter';
 
 function parseFiltersFromString(parsedJson: any): HendelseType[] {
     if (!parsedJson) return defaultFilters;
     if (!Array.isArray(parsedJson)) return defaultFilters;
-    const validatedValues = new Set(Object.values(HendelseType) as (string | number)[]);
 
     const validatedFilters = parsedJson
         .filter((f: unknown) => typeof f === 'string' || typeof f === 'number')
-        .filter((f: any) => validatedValues.has(f)) as HendelseType[];
+        .filter((f: any) => ALLE_HENDELSER.includes(f as HendelseType)) as HendelseType[];
 
     return validatedFilters;
 }
@@ -33,7 +33,8 @@ type FilterContextType = {
 };
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);
-const defaultFilters: HendelseType[] = Object.values(HendelseType);
+
+const defaultFilters: HendelseType[] = ALLE_HENDELSER;
 
 type FilterProviderProps = {
     children: ReactNode;

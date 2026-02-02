@@ -1,6 +1,6 @@
-import { Profilering as ProfileringType } from '@navikt/arbeidssokerregisteret-utils';
 import React from 'react';
 import { ReadMoreWrapper } from './read-more-wrapper';
+import { ProfileringHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
 type SporsmalSvar = {
     sporsmal: string;
@@ -13,7 +13,7 @@ function formatProfilertTil(profilertTil: string): string {
     return firstToUpperCase;
 }
 
-function mapProfilering(profilering: ProfileringType): SporsmalSvar[] {
+function mapProfilering(profilering: ProfileringHendelse): SporsmalSvar[] {
     return [
         {
             sporsmal: 'Profilert til',
@@ -21,7 +21,7 @@ function mapProfilering(profilering: ProfileringType): SporsmalSvar[] {
         },
         {
             sporsmal: 'Jobbet sammenhengende 6 av siste 12 måneder',
-            svar: profilering.jobbetSammenhengendeSeksAvTolvSisteManeder ? 'Ja' : 'Nei',
+            svar: profilering.jobbetSammenhengendeSeksAvTolvSisteMnd ? 'Ja' : 'Nei',
         },
         {
             sporsmal: 'Alder',
@@ -31,7 +31,7 @@ function mapProfilering(profilering: ProfileringType): SporsmalSvar[] {
 }
 
 type ProfileringProps = {
-    profilering: ProfileringType;
+    profilering: ProfileringHendelse;
 };
 
 const Profilering: React.FC<ProfileringProps> = (props) => {

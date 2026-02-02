@@ -2,9 +2,10 @@ import { Hendelse, lagHentTekstForSprak, SPORSMAL_TEKSTER } from '@navikt/arbeid
 import React from 'react';
 import { mapOpplysningerV2 } from './map-opplysninger-til-fremvisning';
 import { ReadMoreWrapper } from './read-more-wrapper';
+import { OpplysningerHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
 type OpplysningerProps = {
-    opplysninger: Hendelse['opplysningerV4'];
+    opplysninger: OpplysningerHendelse;
 };
 
 const Opplysninger: React.FC<OpplysningerProps> = (props) => {

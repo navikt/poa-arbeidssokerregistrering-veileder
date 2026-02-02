@@ -1,8 +1,11 @@
-import { HendelseType, lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
+import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { Button, Chips } from '@navikt/ds-react';
 import React from 'react';
 import { useFilterContext } from '../../contexts/hendelse-context';
 import { TEKSTER } from '../tidslinjer/text';
+import { HendelseType } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { ALLE_HENDELSER } from '../../lib/alle-hendelser';
+
 
 const HendelseFilter: React.FC = () => {
     const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
@@ -11,10 +14,11 @@ const HendelseFilter: React.FC = () => {
     const handleToggle = (hendelseType: HendelseType) => {
         toggleFilter(hendelseType);
     };
+    
 
     return (
         <Chips>
-            {(Object.keys(HendelseType) as HendelseType[]).map((hendelseType, i) => (
+            {ALLE_HENDELSER.map((hendelseType, i) => (
                 <Chips.Toggle
                     key={i}
                     selected={filters.includes(hendelseType)}

@@ -1,17 +1,15 @@
-import {
-    mapNusKodeTilUtdannignsnivaa,
-    OpplysningerOmArbeidssokerTidslinjer,
-    SporsmalId,
-    Svar,
-} from '@navikt/arbeidssokerregisteret-utils';
+import { mapNusKodeTilUtdannignsnivaa, SporsmalId, Svar } from '@navikt/arbeidssokerregisteret-utils';
+import { OpplysningerHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
 
-function getDinSituasjonSvar(opplysninger: OpplysningerOmArbeidssokerTidslinjer) {
-    const situasjon = opplysninger.jobbsituasjon.beskrivelser?.[0];
+function getDinSituasjonSvar(opplysninger?: OpplysningerHendelse) {
+    if (!opplysninger?.jobbsituasjon) return 'Ikke oppgitt';
+    const situasjon = opplysninger.jobbsituasjon.beskrivelser[0];
     return situasjon?.beskrivelse || 'Ikke oppgitt';
 }
-function getSisteStillingSvar(opplysninger: OpplysningerOmArbeidssokerTidslinjer) {
+function getSisteStillingSvar(opplysninger: OpplysningerHendelse) {
+    if (!opplysninger?.jobbsituasjon) return 'Ikke oppgitt';
     const detaljer = opplysninger.jobbsituasjon.beskrivelser?.[0]?.detaljer;
     return detaljer?.stilling || 'Ikke oppgitt';
 }
@@ -23,7 +21,7 @@ function getSisteStillingSvar(opplysninger: OpplysningerOmArbeidssokerTidslinjer
  * @returns En liste med objekter, hver med en spørsmål-identifikator og det tilhørende svaret,
  *          egnet for visning i frontend.
  */
-export function mapOpplysningerV2(opplysninger: OpplysningerOmArbeidssokerTidslinjer): OpplysningProps[] {
+export function mapOpplysningerV2(opplysninger: OpplysningerHendelse): OpplysningProps[] {
     const result: OpplysningProps[] = [
         {
             sporsmal: SporsmalId.dinSituasjon,
@@ -39,7 +37,7 @@ export function mapOpplysningerV2(opplysninger: OpplysningerOmArbeidssokerTidsli
         },
         {
             sporsmal: SporsmalId.andreForhold,
-            svar: opplysninger.annet?.andreForholdHindrerArbeid || 'Mangler opplysninger',
+            svar: opplysninger.annet.andreForholdHindrerArbeid || 'Mangler opplysninger',
         },
         {
             sporsmal: SporsmalId.sisteStilling,
@@ -51,7 +49,7 @@ export function mapOpplysningerV2(opplysninger: OpplysningerOmArbeidssokerTidsli
         },
         {
             sporsmal: SporsmalId.helseHinder,
-            svar: opplysninger.helse?.helsetilstandHindrerArbeid || 'Mangler opplysninger',
+            svar: opplysninger.helse.helsetilstandHindrerArbeid || 'Mangler opplysninger',
         },
     ];
 
