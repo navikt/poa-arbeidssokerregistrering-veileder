@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import { http, HttpResponse } from 'msw';
 import { ParamsFromContextProvider } from '../../contexts/params-from-context';
 import { TidslinjeSelectionProvider } from '../../contexts/tidslinje-selection-context';
-import { data } from '../../pages/api/mocks/tidslinjer';
 import HistorikkTidslinjer from '../../pages/historikk';
+import perioder from '../../pages/api/mocks/perioder';
 
 const meta = {
     title: 'Historikk/Historikk siden',
@@ -43,9 +43,9 @@ export const HistorikkMedData: Story = {
                         aktivEnhet: '9999',
                     }),
                 ),
-                http.post('/api/tidslinjer', async () => {
+                http.post('/api/perioder', async () => {
                     await new Promise((resolve) => setTimeout(resolve, 500));
-                    return HttpResponse.json(data);
+                    return HttpResponse.json(perioder);
                 }),
             ],
         },
@@ -62,7 +62,7 @@ export const HistorikkUtenData: Story = {
                         aktivEnhet: '9999',
                     }),
                 ),
-                http.post('/api/tidslinjer', async () => {
+                http.post('/api/perioder', async () => {
                     await new Promise((resolve) => setTimeout(resolve, 500));
                     return HttpResponse.json({});
                 }),

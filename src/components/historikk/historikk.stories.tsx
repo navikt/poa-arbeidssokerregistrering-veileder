@@ -1,14 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { ParamsFromContextProvider } from '../../contexts/params-from-context';
 import { TidslinjeSelectionProvider } from '../../contexts/tidslinje-selection-context';
-import {
-    avsluttetTidslinje,
-    avsluttetTidslinjeVeileder,
-    sampleTidslinje,
-    tidslinjeMedKunBekreftelse,
-    tidslinjeMedKunOpplysninger,
-} from './__mocks__/tidslinje-mock-data';
+import { samplePeriode } from './__mocks__/tidslinje-mock-data';
 import { Historikk } from './historikk';
+import { FilterProvider } from '../../contexts/hendelse-context';
 
 const meta = {
     title: 'Historikk/Historikk',
@@ -18,9 +13,11 @@ const meta = {
         (Story) => (
             <ParamsFromContextProvider>
                 <TidslinjeSelectionProvider>
-                    <div className="max-w-4xl mx-auto p-4">
-                        <Story />
-                    </div>
+                    <FilterProvider>
+                        <div className="max-w-4xl mx-auto p-4">
+                            <Story />
+                        </div>
+                    </FilterProvider>
                 </TidslinjeSelectionProvider>
             </ParamsFromContextProvider>
         ),
@@ -33,32 +30,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const AktivPeriode: Story = {
+export const Periode: Story = {
     args: {
-        tidslinje: sampleTidslinje,
-    },
-};
-
-export const AvsluttetPeriode: Story = {
-    args: {
-        tidslinje: avsluttetTidslinje,
-    },
-};
-
-export const AvsluttetAvVeilederPeriode: Story = {
-    args: {
-        tidslinje: avsluttetTidslinjeVeileder,
-    },
-};
-
-export const KunOpplysninger: Story = {
-    args: {
-        tidslinje: tidslinjeMedKunOpplysninger,
-    },
-};
-
-export const KunBekreftelse: Story = {
-    args: {
-        tidslinje: tidslinjeMedKunBekreftelse,
+        periode: samplePeriode,
     },
 };
