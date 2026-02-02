@@ -1,19 +1,15 @@
-import {
-    mapNusKodeTilUtdannignsnivaa,
-    SporsmalId,
-    Svar,
-} from '@navikt/arbeidssokerregisteret-utils';
+import { mapNusKodeTilUtdannignsnivaa, SporsmalId, Svar } from '@navikt/arbeidssokerregisteret-utils';
 import { OpplysningerHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };
 
 function getDinSituasjonSvar(opplysninger?: OpplysningerHendelse) {
-    if(!opplysninger?.jobbsituasjon) return 'Ikke oppgitt';
-    const situasjon = opplysninger.jobbsituasjon.beskrivelser[0]
+    if (!opplysninger?.jobbsituasjon) return 'Ikke oppgitt';
+    const situasjon = opplysninger.jobbsituasjon.beskrivelser[0];
     return situasjon?.beskrivelse || 'Ikke oppgitt';
 }
 function getSisteStillingSvar(opplysninger: OpplysningerHendelse) {
-    if(!opplysninger?.jobbsituasjon) return 'Ikke oppgitt';
+    if (!opplysninger?.jobbsituasjon) return 'Ikke oppgitt';
     const detaljer = opplysninger.jobbsituasjon.beskrivelser?.[0]?.detaljer;
     return detaljer?.stilling || 'Ikke oppgitt';
 }

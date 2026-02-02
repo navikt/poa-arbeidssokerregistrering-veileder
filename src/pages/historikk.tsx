@@ -40,7 +40,7 @@ const HistorikkInnhold = ({ perioder }: HistorikkInnholdProps) => {
         }
     }, [activeSection, selectedTidslinje, setSelectedTidslinje, perioder]);
 
-    if (perioder.length === 0) {
+    if (!perioder || perioder.length === 0) {
         return (
             <>
                 <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />

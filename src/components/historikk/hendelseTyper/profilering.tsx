@@ -31,7 +31,7 @@ function mapProfilering(profilering: ProfileringHendelse): SporsmalSvar[] {
 }
 
 type ProfileringProps = {
-    profilering: ProfileringHendelse
+    profilering: ProfileringHendelse;
 };
 
 const Profilering: React.FC<ProfileringProps> = (props) => {

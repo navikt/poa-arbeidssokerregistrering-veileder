@@ -43,7 +43,7 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
                 .filter((hendelse) => filters.includes(hendelse.type))
                 .map((hendelse, index) => (
                     <article
-                        key={index}
+                        key={`${index}-${hendelse.tidspunkt}`}
                         className="flex flex-col gap-2 bg-ax-neutral-100/40 mb-4 p-4 rounded-md shadow print:border-b print:rounded-none"
                     >
                         <div className="grid ax-sm:flex ax-sm:flex-wrap gap-2">

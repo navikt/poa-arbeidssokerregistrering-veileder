@@ -9,7 +9,7 @@ type SporsmalSvar = {
 };
 
 function mapBekreftelse(bekreftelse: BekreftelseHendelse): SporsmalSvar[] {
-    if(!bekreftelse?.svar) {
+    if (!bekreftelse || !bekreftelse.svar) {
         return [];
     }
     const arr: SporsmalSvar[] = [
@@ -30,7 +30,7 @@ function mapBekreftelse(bekreftelse: BekreftelseHendelse): SporsmalSvar[] {
 }
 
 type BekreftelseProps = {
-    bekreftelse: BekreftelseHendelse
+    bekreftelse: BekreftelseHendelse;
 };
 
 const Bekreftelse: React.FC<BekreftelseProps> = (props) => {

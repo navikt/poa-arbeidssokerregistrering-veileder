@@ -6,7 +6,6 @@ const LOCAL_STORAGE_KEY = 'historikk-hendelse-filter';
 function parseFiltersFromString(parsedJson: any): HendelseType[] {
     if (!parsedJson) return defaultFilters;
     if (!Array.isArray(parsedJson)) return defaultFilters;
-    // const validatedValues = new Set(Object.values(ALLE_HENDELSER) as (string | number)[]);
 
     const validatedFilters = parsedJson
         .filter((f: unknown) => typeof f === 'string' || typeof f === 'number')
