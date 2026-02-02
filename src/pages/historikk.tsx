@@ -113,7 +113,12 @@ const HistorikkTidslinjer = () => {
     } = useApiKall<Periode[]>(
         `/api/${brukerMock ? 'mocks/' : ''}perioder`,
         'POST',
-        fnr ? JSON.stringify({ identitetsnummer: fnr }) : null,
+        fnr
+            ? JSON.stringify({
+                  type: 'IDENTITETSNUMMER',
+                  identitetsnummer: fnr,
+              })
+            : null,
     );
 
     if (errorPerioder) {
