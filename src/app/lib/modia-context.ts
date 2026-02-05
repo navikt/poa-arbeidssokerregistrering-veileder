@@ -47,7 +47,12 @@ async function hentModiaContext(): Promise<ModiaContext> {
             return DEFAULT_RESPONSE;
         }
         try {
-            return response.json();
+            // return response.json();
+            const data = await response.json();
+            return {
+                fnr: data.aktivBruker,
+                enhetId: data.enhetId,
+            };
         } catch (error) {
             logger.info(`Klarte ikke parse JSON fra responsen. ${error}`);
             return DEFAULT_RESPONSE;
