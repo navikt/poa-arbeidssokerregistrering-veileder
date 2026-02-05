@@ -1,7 +1,7 @@
+import 'server-only'; // Være ekstra påpasslige her
 import { logger } from '@navikt/next-logger';
 import { nanoid } from 'nanoid';
 import { headers } from 'next/headers';
-import 'server-only'; // Være ekstra påpasslige her
 import type { ModiaContext } from './models';
 import { hentModiaHeaders } from './modia-headers';
 import { hentOboToken } from './obo-token';
