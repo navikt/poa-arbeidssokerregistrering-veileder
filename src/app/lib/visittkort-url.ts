@@ -4,8 +4,7 @@ type Manifest = {
     'index.html': { file: string; css: string[] };
 };
 
-const isBrowser = () => typeof window !== 'undefined';
-const isProduction = isBrowser() && window.location.href.includes('intern.nav.no');
+const isProduction = process.env.NAIS_CLUSTER_NAME === 'prod-gcp';
 
 async function hentVisittkortScriptUrl(): Promise<string | null> {
     const cdnUrl = `https://cdn.nav.no/poao/veilarbvisittkortfs-${isProduction ? 'prod' : 'dev'}/build`;

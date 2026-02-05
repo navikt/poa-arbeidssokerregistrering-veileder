@@ -2,7 +2,7 @@ import Script from 'next/script';
 import '../styles/globals.css';
 import { Visittkort } from './components/visittkort';
 import { hentModiaContext } from './lib/modia-context';
-import { hentVisittkortScriptUrl } from './lib/visittkort';
+import { hentVisittkortScriptUrl } from './lib/visittkort-url';
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     const [modiaContext, visittkortUrl] = await Promise.all([hentModiaContext(), hentVisittkortScriptUrl()]);
