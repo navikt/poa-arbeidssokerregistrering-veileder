@@ -38,7 +38,7 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
 		// 2. Hent OBO token
 		let oboToken = 'mock';
 		if (!brukerMock) {
-			const tokenUtenBearer = bearerToken.replace('Bearer', '');
+			const tokenUtenBearer = bearerToken.replace('Bearer ', '');
 			const oboResult = await requestAzureOboToken(tokenUtenBearer, scope);
 
 			if (!oboResult.ok) {
