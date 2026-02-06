@@ -1,4 +1,4 @@
 export type ModiaContext = {
-    fnr?: string;
-    enhetId?: string;
+	fnr?: string;
+	enhetId?: string;
 };

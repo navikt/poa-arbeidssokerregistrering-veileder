@@ -1,3 +1,3 @@
 export default function TidslinjerPage() {
-    return <div>Tidslinjer Page</div>;
+	return <div>Tidslinjer Page</div>;
 }
