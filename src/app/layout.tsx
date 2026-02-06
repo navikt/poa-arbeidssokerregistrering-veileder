@@ -33,7 +33,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 			<body>
 				<ModiaProvider initFnr={modiaContext.fnr} initEnhetId={modiaContext.enhetId}>
 					<InternflateDecorator decoratorEnv={decoratorEnv} enableMock={enableMock} />
-					<Visittkort modia={modiaContext} />
+					<Visittkort modia={modiaContext} brukerMock={enableMock} />
 					{children}
 				</ModiaProvider>
 			</body>
