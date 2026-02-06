@@ -3,10 +3,15 @@ import type { ModiaContext } from '../lib/models';
 
 type VisittkortProps = {
 	modia: ModiaContext;
+	brukerMock: boolean;
 };
 
 const Visittkort: React.FC<VisittkortProps> = (props) => {
-	const { modia } = props;
+	const { modia, brukerMock } = props;
+
+	if (brukerMock || !modia.fnr) {
+		return null;
+	}
 
 	return (
 		<ao-visittkort
