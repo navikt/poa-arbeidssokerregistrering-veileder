@@ -15,18 +15,14 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 	return (
 		<html lang='no'>
 			<head>
-				{enableMock && (
-					<>
-						<link
-							rel='stylesheet'
-							href='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/index.css'
-						/>
-						<Script
-							src='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js'
-							strategy='beforeInteractive'
-						/>
-					</>
-				)}
+				<link
+					rel='stylesheet'
+					href='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/index.css'
+				/>
+				<Script
+					src='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js'
+					strategy='beforeInteractive'
+				/>
 			</head>
 			{visittkortUrl && <Script src={visittkortUrl} strategy='afterInteractive' type='module' />}
 

@@ -33,9 +33,9 @@ const InternflateDecorator: React.FC<{
 		urlFormat: 'NAV_NO' as UrlFormat,
 	};
 
-	if (enableMock) {
-		return null;
-	}
+	// if (enableMock) {
+	// 	return null;
+	// }
 
 	return <Decorator {...decoratorProps} />;
 };
