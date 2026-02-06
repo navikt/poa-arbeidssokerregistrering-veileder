@@ -9,9 +9,8 @@ const Decorator: ComponentType<DecoratorProps> = NAVSPA.importer('internarbeidsf
 
 const InternflateDecorator: React.FC<{
 	decoratorEnv: string;
-	enableMock: boolean;
 }> = (props) => {
-	const { decoratorEnv, enableMock } = props;
+	const { decoratorEnv } = props;
 	const { setFnr } = useModiaContext();
 
 	const onFnrChanged = (fnr: unknown) => {
@@ -32,10 +31,6 @@ const InternflateDecorator: React.FC<{
 		environment: decoratorEnv as Environment,
 		urlFormat: 'NAV_NO' as UrlFormat,
 	};
-
-	// if (enableMock) {
-	// 	return null;
-	// }
 
 	return <Decorator {...decoratorProps} />;
 };
