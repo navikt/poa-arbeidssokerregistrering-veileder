@@ -10,37 +10,36 @@ const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
 function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
 	return async (request: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) => {
+		if (brukerMock) {
+			logger.info('Mock modus aktiv – proxy-kall blir ikke utført');
+			return NextResponse.json({ message: 'Mock modus aktiv, proxy deaktivert' }, { status: 200 });
+		}
+
 		const headersList = await headers();
 		const callId = headersList.get('x-trace-id') ?? nanoid();
 		const bearerToken = headersList.get('authorization');
 
-		// TODO: ved lokal utvikling kan vi hoppe ut med en gang kanskje?
-		// Vil jo aldri ha noe reelt å returnere her
-		if (!brukerMock) {
-			if (!bearerToken) {
-				return NextResponse.json({ message: 'Access denied' }, { status: 401 });
-			}
+		if (!bearerToken) {
+			return NextResponse.json({ message: 'Access denied' }, { status: 401 });
+		}
 
-			// 1. Valider brukers token
-			const validated = await validateAzureToken(bearerToken);
-			if (!validated.ok) {
-				logger.error(`AzureToken ble ikke validert`);
-				return NextResponse.json({ message: 'Access denied' }, { status: 401 });
-			}
+		// 1. Valider brukers token
+		const validated = await validateAzureToken(bearerToken);
+		if (!validated.ok) {
+			logger.error(`AzureToken ble ikke validert`);
+			return NextResponse.json({ message: 'Access denied' }, { status: 401 });
 		}
 
 		// 2. Hent OBO token
 		let oboToken = 'mock';
-		if (!brukerMock) {
-			const tokenUtenBearer = bearerToken.replace('Bearer ', '');
-			const oboResult = await requestAzureOboToken(tokenUtenBearer, scope);
+		const tokenUtenBearer = bearerToken.replace('Bearer ', '');
+		const oboResult = await requestAzureOboToken(tokenUtenBearer, scope);
 
-			if (!oboResult.ok) {
-				logger.error(`OBO token ble ikke hentet`);
-				return NextResponse.json({ message: 'Klarte ikke å hente obo token' }, { status: 500 });
-			}
-			oboToken = oboResult.token;
+		if (!oboResult.ok) {
+			logger.error(`OBO token ble ikke hentet`);
+			return NextResponse.json({ message: 'Klarte ikke å hente obo token' }, { status: 500 });
 		}
+		oboToken = oboResult.token;
 
 		// 3. Bygg url
 		const { slug } = await params;
@@ -67,7 +66,6 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
 			const contentType = response.headers.get('content-type');
 			if (contentType?.includes('application/json')) {
 				try {
-					// TODO: forskjellen på return reponse.json() rett frem og via NextResponse, hva er deT?
 					return NextResponse.json(await response.json(), { status: response.status });
 				} catch (jsonError) {
 					logger.error(`Kunne ikke parse JSON fra ${targetUrl}: ${jsonError}`);
