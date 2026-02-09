@@ -17,7 +17,11 @@ export async function proxy(request: NextRequest) {
 
     if (!tokenValidationResult.ok) {
         // TODO: logg error
-        return NextResponse.redirect(new URL(LOGIN_URL));
+        // return NextResponse.redirect(new URL(LOGIN_URL));
+        const selfUrl = process.env.NEXT_PUBLIC_SELF_URL || request.nextUrl.origin;
+        const loginUrl = new URL(`/oauth2/login`, request.url);
+        loginUrl.searchParams.set('redirect', selfUrl);
+        return NextResponse.redirect(loginUrl);
     }
 
     return NextResponse.next();
