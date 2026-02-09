@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateToken } from './app/lib/auth/validateToken';
+import { logger } from '@navikt/next-logger';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
-const LOGIN_URL = `/oauth2/login?redirect=${process.env.NEXT_PUBLIC_SELF_URL}`;
 
 export async function proxy(request: NextRequest) {
     if (brukerMock) {
@@ -15,9 +15,12 @@ export async function proxy(request: NextRequest) {
     // Validate bearer token (azure)
     const tokenValidationResult = await validateToken(bearerToken);
 
-    if (!tokenValidationResult.ok) {
-        // TODO: logg error
-        // return NextResponse.redirect(new URL(LOGIN_URL));
+    if (tokenValidationResult.ok === false) {
+        logger.error(
+            new Error(`Invalid JWT token found (cause: ${tokenValidationResult.errorType}), redirecting to login.`, {
+                cause: tokenValidationResult.error,
+            }),
+        );
         const selfUrl = process.env.NEXT_PUBLIC_SELF_URL || request.nextUrl.origin;
         const loginUrl = new URL(`/oauth2/login`, request.url);
         loginUrl.searchParams.set('redirect', selfUrl);
