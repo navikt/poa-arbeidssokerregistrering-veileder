@@ -10,8 +10,8 @@ const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const MODIACONTEXTHOLDER_URL = `${process.env.MODIACONTEXTHOLDER_URL}/api/context/`;
 const MODIACONTEXTHOLDER_SCOPE = `api://${process.env.MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID}/.default`;
 const DEFAULT_RESPONSE: ModiaContext = {
-	fnr: undefined,
-	enhetId: undefined,
+	fnr: null,
+	enhetId: null,
 };
 
 async function hentModiaContext(): Promise<ModiaContext> {
