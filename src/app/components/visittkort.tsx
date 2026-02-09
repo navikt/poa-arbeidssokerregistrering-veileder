@@ -1,13 +1,14 @@
-import type React from 'react';
-import type { ModiaContext } from '../lib/models';
+'use client';
+
+import { useModiaContext } from '../contexts/modia-context';
 
 type VisittkortProps = {
-	modia: ModiaContext;
 	brukerMock: boolean;
 };
 
 const Visittkort: React.FC<VisittkortProps> = (props) => {
-	const { modia, brukerMock } = props;
+	const { brukerMock } = props;
+	const modia = useModiaContext();
 
 	if (brukerMock || !modia.fnr) {
 		return null;
