@@ -18,20 +18,14 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
 		// Vil jo aldri ha noe reelt å returnere her
 		if (!brukerMock) {
 			if (!bearerToken) {
-				return NextResponse.json({
-					message: 'Access denied',
-					status: 401,
-				});
+				return NextResponse.json({ message: 'Access denied' }, { status: 401 });
 			}
 
 			// 1. Valider brukers token
 			const validated = await validateAzureToken(bearerToken);
 			if (!validated.ok) {
 				logger.error(`AzureToken ble ikke validert`);
-				return NextResponse.json({
-					message: 'Access denied',
-					status: 401,
-				});
+				return NextResponse.json({ message: 'Access denied' }, { status: 401 });
 			}
 		}
 
@@ -43,10 +37,7 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
 
 			if (!oboResult.ok) {
 				logger.error(`OBO token ble ikke hentet`);
-				return NextResponse.json({
-					message: 'Klarte ikke å hente obo token',
-					status: 500,
-				});
+				return NextResponse.json({ message: 'Klarte ikke å hente obo token' }, { status: 500 });
 			}
 			oboToken = oboResult.token;
 		}
