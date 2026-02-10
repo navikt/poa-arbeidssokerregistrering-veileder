@@ -1,0 +1,43 @@
+'use client';
+
+import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { Suspense, useEffect, useRef, useState, useTransition } from 'react';
+import { useModiaContext } from '../contexts/modia-context';
+import { getPerioder } from './actions';
+import { Tidslinjer } from './Tidslinjer';
+
+type TidslinjerWrapperProps = {
+	initialPerioderPromise: Promise<{
+		perioder: Periode[] | null;
+		error?: Error;
+	}>;
+};
+
+const TidslinjeWrapper: React.FC<TidslinjerWrapperProps> = ({ initialPerioderPromise }) => {
+	const { fnr } = useModiaContext();
+	const [perioderPromise, setPerioderPromise] = useState(initialPerioderPromise);
+	const [isPending, startTransition] = useTransition();
+	const isInitialMount = useRef(true);
+
+	useEffect(() => {
+		// Skip the first run — we already have server-fetched data
+		if (isInitialMount.current) {
+			isInitialMount.current = false;
+			return;
+		}
+
+		// fnr changed client-side (e.g., via the decorator) — refetch
+		startTransition(() => {
+			setPerioderPromise(getPerioder(fnr));
+		});
+	}, [fnr]);
+
+	return (
+		<Suspense fallback={<div>Loading...</div>}>
+			{isPending && <div>Oppdaterer...</div>}
+			<Tidslinjer perioderPromise={perioderPromise} />
+		</Suspense>
+	);
+};
+
+export { TidslinjeWrapper };
