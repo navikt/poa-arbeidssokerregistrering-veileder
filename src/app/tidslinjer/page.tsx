@@ -12,7 +12,9 @@ export default async function TidslinjerPage() {
 	return (
 		<div>
 			<TilbakeTilForside sidenavn='Arbeidssøkerhistorikk' />
-			<Heading size={'large'}>Tidslinjer for arbeidssøker</Heading>
+			<Heading size={'large'} className='mb-4'>
+				Tidslinjer for arbeidssøker
+			</Heading>
 			<div className={'flex flex-col max-w-3xl'}>
 				<Suspense fallback={<div>Loading...</div>}>
 					<TidslinjeWrapper initialPerioderPromise={perioderPromise} />
