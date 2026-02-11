@@ -1,6 +1,6 @@
 import 'server-only';
 import { logger } from '@navikt/next-logger';
-import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
+import { getToken, requestAzureOboToken } from '@navikt/oasis';
 import type { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
 import { validateToken } from './validateToken';
 
