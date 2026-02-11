@@ -1,7 +1,12 @@
 'use client';
 
 import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { Accordion, Table } from '@navikt/ds-react';
+import { AccordionContent, AccordionHeader, AccordionItem } from '@navikt/ds-react/Accordion';
+import { TableBody, TableHeader, TableHeaderCell, TableRow } from '@navikt/ds-react/Table';
 import { use } from 'react';
+import { HendelseVisning } from '@/app/tidslinjer/HendelseVisning';
+import { formaterDato } from '@/lib/date-utils';
 
 type TidslinjerProps = {
 	perioderPromise: Promise<{
@@ -23,11 +28,32 @@ const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
 	}
 
 	return (
-		<div>
+		<Accordion>
 			{perioder?.map((periode) => (
-				<div key={periode.periodeId}>{periode.periodeId}</div>
+				<AccordionItem key={periode.periodeId}>
+					<AccordionHeader>
+						{formaterDato(periode.startet)} - {formaterDato(periode.avsluttet)}
+					</AccordionHeader>
+					<AccordionContent>
+						<Table size='small' className='mb-4'>
+							<TableHeader>
+								<TableRow>
+									<TableHeaderCell scope='col'>Tidspunkt</TableHeaderCell>
+									<TableHeaderCell scope='col'>Hendelse</TableHeaderCell>
+									<TableHeaderCell scope='col'>Kilde</TableHeaderCell>
+									<TableHeaderCell scope='col'>Status</TableHeaderCell>
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{periode.hendelser.reverse().map((hendelse, i) => (
+									<HendelseVisning key={`${periode.periodeId}_${i}`} hendelse={hendelse} />
+								))}
+							</TableBody>
+						</Table>
+					</AccordionContent>
+				</AccordionItem>
 			))}
-		</div>
+		</Accordion>
 	);
 };
 
