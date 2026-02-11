@@ -57,7 +57,6 @@ const PeriodeSluttInfo = ({ event }: { event: PeriodeAvsluttetHendelse | undefin
 
 const HistorikkHeading: React.FC<HistorikkHeadingProps> = (props) => {
     const { periode } = props;
-    const erAvsluttet = periode.avsluttet !== null;
     const periodeStartetEvent = periode.hendelser.find((h) => h.type === 'PERIODE_STARTET_V1');
     const periodeAvsluttetEvent = periode.hendelser.find((h) => h.type === 'PERIODE_AVSLUTTET_V1');
 
@@ -73,7 +72,7 @@ const HistorikkHeading: React.FC<HistorikkHeadingProps> = (props) => {
                 <BodyLong size="medium" className="flex flex-row gap-4 mb-4">
                     <span>{periode.hendelser.length} hendelser</span>
                     <span>&#8226;</span>
-                    <span>Perioden er {erAvsluttet ? 'avsluttet' : 'pågående'}</span>
+                    <span>Perioden er {periode.avsluttet ? 'avsluttet' : 'pågående'}</span>
                 </BodyLong>
                 <div className="flex flex-col gap-2">
                     <PeriodeStartInfo event={periodeStartetEvent} />
