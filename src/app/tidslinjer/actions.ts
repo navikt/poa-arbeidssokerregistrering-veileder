@@ -2,10 +2,9 @@
 
 import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { logger } from '@navikt/next-logger';
-import { getToken, requestAzureOboToken } from '@navikt/oasis';
 import { nanoid } from 'nanoid';
 import { headers } from 'next/headers';
-import { validateToken } from '@/app/lib/auth/validateToken';
+import { getOboTokenFromRequest } from '../lib/auth/oboToken';
 import { hentModiaHeaders } from '../lib/modia-headers';
 import { isProblemDetails, type ProblemDetails } from '../lib/types/problem-details';
 
@@ -41,26 +40,11 @@ async function getPerioder(identitetsnummer: string | null): Promise<{
 	}
 
 	const PERIODER_URL = `${OPPSLAG_V2_URL}/api/v3/perioder?ordering=DESC`;
+
 	const headerList = await headers();
+	const oboToken = await getOboTokenFromRequest(headerList, OPPSLAG_V2_SCOPE);
 
-	const innkommendeTokens = getToken(headerList);
-	if (!innkommendeTokens) {
-		return {
-			perioder: null,
-			error: new Error('Mangler innkommende headers'),
-		};
-	}
-
-	const azureTokenValidation = validateToken(innkommendeTokens);
-	if ((await azureTokenValidation).ok === false) {
-		return {
-			perioder: null,
-			error: new Error('Azure token validation failed'),
-		};
-	}
-
-	const oboResult = await requestAzureOboToken(innkommendeTokens, OPPSLAG_V2_SCOPE);
-	if (!oboResult.ok) {
+	if (!oboToken.ok) {
 		return {
 			perioder: null,
 			error: new Error('Azure OBO token request failed'),
@@ -68,7 +52,7 @@ async function getPerioder(identitetsnummer: string | null): Promise<{
 	}
 
 	const traceId = headerList.get('x-trace-id') ?? nanoid();
-	const customNavHeader = hentModiaHeaders(oboResult.token, traceId);
+	const customNavHeader = hentModiaHeaders(oboToken.token, traceId);
 
 	try {
 		const response = await fetch(PERIODER_URL, {
@@ -94,7 +78,7 @@ async function getPerioder(identitetsnummer: string | null): Promise<{
 				// Ignore JSON parse errors
 			}
 			// - Dersom det ikke er RFC 9457, logg generisk error
-			if (!isProblemDetails(problemDetails)) {
+			if (!problemDetails) {
 				logger.error({
 					message: `Feil fra API uten RFC 9457: ${response.status} ${response.statusText}`,
 				});

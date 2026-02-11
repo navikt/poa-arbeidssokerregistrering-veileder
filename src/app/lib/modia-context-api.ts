@@ -2,9 +2,9 @@ import 'server-only'; // Være ekstra påpasslige her
 import { logger } from '@navikt/next-logger';
 import { nanoid } from 'nanoid';
 import { headers } from 'next/headers';
+import { getOboTokenFromRequest } from './auth/oboToken';
 import type { ModiaContext } from './models';
 import { hentModiaHeaders } from './modia-headers';
-import { hentOboToken } from './obo-token';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const MODIACONTEXTHOLDER_URL = `${process.env.MODIACONTEXTHOLDER_URL}/api/context/`;
@@ -23,20 +23,15 @@ async function hentModiaContext(): Promise<ModiaContext> {
 	}
 
 	const headerList = await headers();
-	const bearerToken = headerList.get('authorization')?.replace('Bearer', '');
-	// TODO: sjekk om det er noe forskjell på å gjøre det sånn her
-	// eller å ta det via req:NextApiRequest (gamlemåten)
 	const callId = headerList.get('x-trace-id') ?? nanoid();
-
-	if (!bearerToken) {
-		logger.error('Ingen auth header funnet');
+	const oboToken = await getOboTokenFromRequest(headerList, MODIACONTEXTHOLDER_SCOPE);
+	if (!oboToken.ok) {
+		logger.error(`${oboToken.error}`);
 		return DEFAULT_RESPONSE;
 	}
 
 	try {
-		// TODO: Om OBO feiler, så får aldri bruker innhold, burde vi returnert tomt?
-		const oboToken = await hentOboToken(bearerToken, MODIACONTEXTHOLDER_SCOPE);
-		const modiaHeaders = hentModiaHeaders(oboToken, callId);
+		const modiaHeaders = hentModiaHeaders(oboToken.token, callId);
 		const response = await fetch(MODIACONTEXTHOLDER_URL, {
 			method: 'GET',
 			headers: modiaHeaders,
