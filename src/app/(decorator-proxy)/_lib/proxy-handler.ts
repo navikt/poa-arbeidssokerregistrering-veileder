@@ -1,9 +1,9 @@
-import 'server-only';
 import { logger } from '@navikt/next-logger';
-import { requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
 import { nanoid } from 'nanoid';
 import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
+import { getOboTokenFromRequest } from '@/app/lib/auth/oboToken';
+import 'server-only';
 import { hentModiaHeaders } from '../../lib/modia-headers';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
@@ -17,29 +17,18 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
 
 		const headersList = await headers();
 		const callId = headersList.get('x-trace-id') ?? nanoid();
-		const bearerToken = headersList.get('authorization');
-
-		if (!bearerToken) {
-			return NextResponse.json({ message: 'Access denied' }, { status: 401 });
-		}
-
-		// 1. Valider brukers token
-		const validated = await validateAzureToken(bearerToken);
-		if (!validated.ok) {
-			logger.error(`AzureToken ble ikke validert`);
-			return NextResponse.json({ message: 'Access denied' }, { status: 401 });
-		}
 
 		// 2. Hent OBO token
-		let oboToken = 'mock';
-		const tokenUtenBearer = bearerToken.replace('Bearer ', '');
-		const oboResult = await requestAzureOboToken(tokenUtenBearer, scope);
-
-		if (!oboResult.ok) {
+		const oboToken = await getOboTokenFromRequest(headersList, scope);
+		if (!oboToken.ok) {
 			logger.error(`OBO token ble ikke hentet`);
-			return NextResponse.json({ message: 'Klarte ikke å hente obo token' }, { status: 500 });
+			return NextResponse.json(
+				{
+					message: `Klarte ikke å hente obo token: ${oboToken.error}`,
+				},
+				{ status: 500 },
+			);
 		}
-		oboToken = oboResult.token;
 
 		// 3. Bygg url
 		const { slug } = await params;
@@ -56,7 +45,7 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
 				// body: request.method === 'POST' ? JSON.stringify(request.body) : null,
 				// AI-varianten under blir brukt nå, "noraml" variant over.
 				body: request.method === 'POST' ? await request.text() : null,
-				headers: hentModiaHeaders(oboToken, callId),
+				headers: hentModiaHeaders(oboToken.token, callId),
 			});
 
 			if (!response.ok) {
