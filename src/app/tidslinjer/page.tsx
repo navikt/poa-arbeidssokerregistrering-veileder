@@ -1,5 +1,6 @@
 import { Heading } from '@navikt/ds-react';
 import { Suspense } from 'react';
+import { LoaderSkeleton } from '@/app/tidslinjer/LoaderSkeleton';
 import { TidslinjeWrapper } from '@/app/tidslinjer/TidslinjeWrapper';
 import TilbakeTilForside from '@/components/tilbake-til-forside';
 import { hentModiaContext } from '../lib/modia-context-api';
@@ -16,7 +17,7 @@ export default async function TidslinjerPage() {
 				Tidslinjer for arbeidssøker
 			</Heading>
 			<div className={'flex flex-col max-w-3xl'}>
-				<Suspense fallback={<div>Loading...</div>}>
+				<Suspense fallback={<LoaderSkeleton />}>
 					<TidslinjeWrapper initialPerioderPromise={perioderPromise} />
 				</Suspense>
 			</div>
