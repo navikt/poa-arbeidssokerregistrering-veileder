@@ -73,8 +73,8 @@
         "tabWidth": 4
     },
     "lint-staged": {
-        "src/app/**/*.{js,jsx,json,md,ts,tsx}": "biome check --write",
-        "!src/app/**/*.{js,jsx,json,md,ts,tsx}": "prettier --write"
+        "src/app/**/*.{js,jsx,json,ts,tsx}": "biome check --write",
+        "!src/app/**/*.{js,jsx,json,ts,tsx}": "prettier --write"
     },
     "engines": {
         "node": ">=24.13.0"
