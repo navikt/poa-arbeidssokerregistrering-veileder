@@ -16,7 +16,7 @@ const Visittkort: React.FC<VisittkortProps> = (props) => {
 
 	return (
 		<ao-visittkort
-			enhet={modia.enhetId}
+			enhet={modia.enhetId || undefined}
 			fnr={modia.fnr}
 			tilbakeTilFlate={'veilarbportefoljeflatefs'}
 			visVeilederVerktoy={'false'}

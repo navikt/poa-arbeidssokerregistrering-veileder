@@ -17,7 +17,8 @@
 		"../../next-env.d.ts",
 		"../../src/components/**/*.ts",
 		"../../src/components/**/*.tsx",
-		"../../src/model/**/*.ts"
+		"../../src/model/**/*.ts",
+		"../../visittkort.d.ts"
 	],
 	"exclude": ["node_modules"]
 }
