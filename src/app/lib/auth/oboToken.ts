@@ -1,6 +1,8 @@
 import 'server-only';
 import { logger } from '@navikt/next-logger';
 import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
+import type { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
+import { validateToken } from './validateToken';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
@@ -8,7 +10,7 @@ type OboTokenSuccess = { ok: true; token: string };
 type OboTokenFailure = { ok: false; error: Error };
 type OboTokenResult = OboTokenSuccess | OboTokenFailure;
 
-async function getOboTokenFromRequest(headerList: Headers, scope: string): Promise<OboTokenResult> {
+async function getOboTokenFromRequest(headerList: Headers | ReadonlyHeaders, scope: string): Promise<OboTokenResult> {
 	if (brukerMock) {
 		return {
 			ok: true,
@@ -29,8 +31,7 @@ async function getOboTokenFromRequest(headerList: Headers, scope: string): Promi
 			error: new Error('Ingen token funnet'),
 		};
 	}
-
-	const validation = await validateAzureToken(incommingToken);
+	const validation = await validateToken(incommingToken);
 	if (!validation.ok) {
 		logger.info('Ugyldig token');
 		return {
