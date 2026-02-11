@@ -6,7 +6,6 @@ import { ModiaProvider } from './contexts/modia-context';
 import { hentModiaContext } from './lib/modia-context-api';
 import { hentVisittkortScriptUrl } from './lib/visittkort-url';
 
-// TODO: hent via NAIS
 const enableMock = process.env.ENABLE_MOCK === 'enabled';
 const decoratorEnv = process.env.DEKORATOR_ENV ?? 'q2';
 
@@ -30,7 +29,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 				<ModiaProvider initFnr={modiaContext.fnr} initEnhetId={modiaContext.enhetId}>
 					<InternflateDecorator decoratorEnv={decoratorEnv} />
 					<Visittkort brukerMock={enableMock} />
-					{children}
+					<main className='max-w-4xl m-auto'>{children}</main>
 				</ModiaProvider>
 			</body>
 		</html>
