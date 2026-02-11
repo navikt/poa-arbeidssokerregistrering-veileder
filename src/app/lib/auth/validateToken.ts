@@ -14,7 +14,7 @@ type TokenValidationFailure = {
 
 export type TokenValidationResult = TokenValidationSuccess | TokenValidationFailure;
 
-async function validateToken(bearerToken: string): Promise<TokenValidationResult> {
+async function validateToken(bearerToken: string | null): Promise<TokenValidationResult> {
 	if (brukerMock) {
 		return {
 			ok: true,
