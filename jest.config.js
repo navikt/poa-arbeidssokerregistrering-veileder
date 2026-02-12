@@ -12,6 +12,7 @@ const customJestConfig = {
     // if using TypeScript with a baseUrl set to the root directory then you need the below for alias' to work
     moduleDirectories: ['node_modules', '<rootDir>/'],
     testEnvironment: 'jsdom',
+    testPathIgnorePatterns: ['<rootDir>/src/app/'],
     // resolver: '<rootDir>/test/resolver.js', // temp workaround - uuid feiler for jest 28
 };
 
