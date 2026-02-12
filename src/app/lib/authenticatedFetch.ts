@@ -22,7 +22,8 @@ async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promis
 	const oboToken = await getOboTokenFromRequest(headers, scope);
 
 	if (!oboToken.ok) {
-		return { ok: false, error: oboToken.error };
+		const { error } = oboToken as { ok: false; error: Error };
+		return { ok: false, error };
 	}
 
 	const traceId = headers.get('x-trace-id') ?? nanoid();

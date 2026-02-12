@@ -150,6 +150,10 @@ src/
 │   └── modia-headers.ts             # Bygger NAV-headere med OBO-token + trace-id
 ```
 
+## Kjent tsconfig-problem: `strictNullChecks`
+
+Prosjektet har `strictNullChecks: false` i `tsconfig.json`. Dette gjør at TypeScript ikke klarer å narrowe discriminated unions (f.eks. `OboTokenResult = OboTokenSuccess | OboTokenFailure`) etter en `if (!result.ok)`-sjekk. Vi jobber rundt dette med eksplisitte type assertions (`as { ok: false; error: Error }`). Tidligere var `src/app` også i `exclude`-lista i tsconfig, som skjulte feilen lokalt mens Next.js-buildet i CI fanget den. `src/app` er nå fjernet fra `exclude`, men vi bør på sikt skru på `strictNullChecks: true` i topp-nivå tsconfig — da vil discriminated unions fungere uten assertions, og vi kan fjerne alle workarounds.
+
 ## Testing
 
 Vi bruker [Vitest](https://vitest.dev/) for testing av app router-kode. Vitest er scopet til kun `src/app/` via `vitest.config.ts` i prosjektrot — resten av prosjektet bruker fortsatt Jest. Kjør `npm run test:app` for å kjøre testene, eller `npm run test:app:watch` for watch-modus. CI kjører begge via `npm run test:ci`.

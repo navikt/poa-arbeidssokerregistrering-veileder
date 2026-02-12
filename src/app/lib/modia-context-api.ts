@@ -26,7 +26,8 @@ async function hentModiaContext(): Promise<ModiaContext> {
 	const callId = headerList.get('x-trace-id') ?? nanoid();
 	const oboToken = await getOboTokenFromRequest(headerList, MODIACONTEXTHOLDER_SCOPE);
 	if (!oboToken.ok) {
-		logger.error(`${oboToken.error}`);
+		const { error } = oboToken as { ok: false; error: Error };
+		logger.error(`${error}`);
 		return DEFAULT_RESPONSE;
 	}
 

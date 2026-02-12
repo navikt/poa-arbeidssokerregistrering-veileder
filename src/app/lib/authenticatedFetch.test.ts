@@ -35,7 +35,8 @@ describe('authenticatedFetch', () => {
 		const result = await authenticatedFetch(defaultOptions);
 		expect(result.ok).toBe(false);
 		if (!result.ok) {
-			expect(result.error.message).toBe('Token feil');
+			const { error } = result as { ok: false; error: Error };
+			expect(error.message).toBe('Token feil');
 		}
 		expect(fetch).not.toHaveBeenCalled();
 	});
@@ -90,9 +91,10 @@ describe('authenticatedFetch', () => {
 
 		expect(result.ok).toBe(false);
 		if (!result.ok) {
-			expect(result.error.message).toContain('500');
-			expect(result.error.message).toContain('Internal Server Error');
-			expect(result.error.message).toContain('Forespørsel feilet med ukjent feil');
+			const { error } = result as { ok: false; error: Error };
+			expect(error.message).toContain('500');
+			expect(error.message).toContain('Internal Server Error');
+			expect(error.message).toContain('Forespørsel feilet med ukjent feil');
 		}
 	});
 
@@ -121,9 +123,10 @@ describe('authenticatedFetch', () => {
 
 		expect(result.ok).toBe(false);
 		if (!result.ok) {
-			expect(result.error.message).toContain('400');
-			expect(result.error.message).toContain('Bad Request');
-			expect(result.error.message).toContain('Kunne ikke tolke forespørsel');
+			const { error } = result as { ok: false; error: Error };
+			expect(error.message).toContain('400');
+			expect(error.message).toContain('Bad Request');
+			expect(error.message).toContain('Kunne ikke tolke forespørsel');
 		}
 	});
 
@@ -135,7 +138,8 @@ describe('authenticatedFetch', () => {
 		const result = await authenticatedFetch(defaultOptions);
 		expect(result.ok).toBe(false);
 		if (!result.ok) {
-			expect(result.error.message).toBe('500 Internal Server Error');
+			const { error } = result as { ok: false; error: Error };
+			expect(error.message).toBe('500 Internal Server Error');
 		}
 		expect(logger.error).toHaveBeenCalledWith(
 			expect.objectContaining({ message: expect.stringContaining('Feil fra API:') }),

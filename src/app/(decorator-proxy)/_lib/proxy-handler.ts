@@ -21,10 +21,11 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
 		// 2. Hent OBO token
 		const oboToken = await getOboTokenFromRequest(headersList, scope);
 		if (!oboToken.ok) {
+			const { error } = oboToken as { ok: false; error: Error };
 			logger.error(`OBO token ble ikke hentet`);
 			return NextResponse.json(
 				{
-					message: `Klarte ikke å hente obo token: ${oboToken.error}`,
+					message: `Klarte ikke å hente obo token: ${error}`,
 				},
 				{ status: 500 },
 			);

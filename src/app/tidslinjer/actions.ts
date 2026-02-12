@@ -38,7 +38,8 @@ async function getPerioder(identitetsnummer: string | null): Promise<{
 	});
 
 	if (!result.ok) {
-		return { perioder: null, error: result.error };
+		const { error } = result as { ok: false; error: Error };
+		return { perioder: null, error };
 	}
 	return {
 		perioder: result.data,

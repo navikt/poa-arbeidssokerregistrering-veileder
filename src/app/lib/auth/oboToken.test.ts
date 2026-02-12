@@ -38,7 +38,8 @@ describe('getOboTokenFromRequest', () => {
 
 		expect(result.ok).toBe(false);
 		if (!result.ok) {
-			expect(result.error.message).toContain('Ingen token funnet');
+			const { error } = result as { ok: false; error: Error };
+			expect(error.message).toContain('Ingen token funnet');
 		}
 		// Skal ikke gå videre til validering
 		expect(mockValidateToken).not.toHaveBeenCalled();
@@ -56,7 +57,8 @@ describe('getOboTokenFromRequest', () => {
 
 		expect(result.ok).toBe(false);
 		if (!result.ok) {
-			expect(result.error.message).toContain('Ugyldig token');
+			const { error } = result as { ok: false; error: Error };
+			expect(error.message).toContain('Ugyldig token');
 		}
 		// Skal ikke gå videre til OBO-utveksling
 		expect(mockRequestObo).not.toHaveBeenCalled();
@@ -74,7 +76,8 @@ describe('getOboTokenFromRequest', () => {
 
 		expect(result.ok).toBe(false);
 		if (!result.ok) {
-			expect(result.error.message).toContain(scope);
+			const { error } = result as { ok: false; error: Error };
+			expect(error.message).toContain(scope);
 		}
 	});
 

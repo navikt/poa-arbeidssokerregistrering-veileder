@@ -22,7 +22,8 @@ describe('validateToken', () => {
 		expect(result.ok).toBe(false);
 
 		if (!result.ok) {
-			expect(result.errorType).toBe('missing-token');
+			const { errorType } = result as { ok: false; errorType: string; error: Error };
+			expect(errorType).toBe('missing-token');
 		}
 		expect(mockeValidatedAzureToken).not.toHaveBeenCalled();
 	});
@@ -45,8 +46,9 @@ describe('validateToken', () => {
 		const result = await validateToken('Bearer expired-token');
 		expect(result.ok).toBe(false);
 		if (!result.ok) {
-			expect(result.errorType).toBe('token expired');
-			expect(result.error).toBe(tokenError);
+			const { errorType, error } = result as { ok: false; errorType: string; error: Error };
+			expect(errorType).toBe('token expired');
+			expect(error).toBe(tokenError);
 		}
 	});
 });
