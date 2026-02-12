@@ -42,7 +42,6 @@ async function getPerioder(identitetsnummer: string | null): Promise<{
 	}
 	return {
 		perioder: result.data,
-		error: new Error('Feil ved henting av perioder'),
 	};
 }
 
