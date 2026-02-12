@@ -79,4 +79,77 @@ const Komponent = ({ dataPromise }) => {
 | **Hydration**         | Wrapper hydreres med server-promiset, `use()` resolver umiddelbart                              |
 | **Bruker bytter fnr** | Kontekst oppdateres → `useEffect` → `startTransition` → nytt promise → `use()` resolver ny data |
 
-## Se `tidslinjer/` for komplett eksempel.
+#### Se `tidslinjer/` for komplett eksempel.
+
+## Auth
+
+Vi har tre auth-behov i app routeren, og de løses på tre ulike måter:
+
+| Behov                        | Løsning                         | Hvor                        |
+| ---------------------------- | ------------------------------- | --------------------------- |
+| Beskytte sider               | `proxy.ts` (global)             | `src/proxy.ts`              |
+| Server-side API-kall med OBO | `authenticatedFetch`            | `lib/authenticatedFetch.ts` |
+| Proxy for klient-komponenter | `lagProxyKall` (route handlers) | `(decorator-proxy)/`        |
+
+### 1. Sidebeskyttelse — `proxy.ts`
+
+Next.js 16 sin [proxy](https://nextjs.org/docs/app/getting-started/proxy) (tidligere kalt middleware) validerer Azure-tokenet før noen side rendres. Matcher-konfigen bestemmer hvilke ruter som er beskyttet. Feiler valideringen, redirectes bruker til login.
+
+### 2. Server-side API-kall — `authenticatedFetch`
+
+Når en server component eller server action trenger data fra et backend-API, bruker vi `authenticatedFetch`. Den håndterer hele flyten: OBO-tokenutveksling, modia-headere, trace-id, fetch, feilhåndtering (inkl. RFC 9457 ProblemDetails) og JSON-parsing.
+
+```tsx
+// actions.ts
+const result = await authenticatedFetch<Periode[]>({
+    url: `${OPPSLAG_V2_URL}/api/v3/perioder?ordering=DESC`,
+    scope: OPPSLAG_V2_SCOPE,
+    headers: await headers(),
+    method: 'POST',
+    body: { identitetsnummer, type: 'IDENTITETSNUMMER' },
+});
+
+if (!result.ok) {
+    return { perioder: null, error: result.error };
+}
+return { perioder: result.data };
+```
+
+Under panseret bruker `authenticatedFetch` → `getOboTokenFromRequest` → `validateToken` → `validateAzureToken` (oasis).
+
+### 3. Proxy for klient-komponenter — `lagProxyKall`
+
+Dekoratøren og visittkortet er klient-komponenter vi ikke kontrollerer. De gjør fetch-kall fra nettleseren, men kan ikke snakke direkte med backend-APIene (ingen OBO-token, APIene er interne). Derfor har vi route handlers under `(decorator-proxy)/` som tar imot klient-kall, utveksler OBO-token, og videresender til riktig backend.
+
+```
+Nettleser → /modiacontextholder/[...slug] (route handler) → Backend API
+```
+
+Disse bruker `lagProxyKall` som er en factory som tar `baseUrl` + `scope` og returnerer en route handler. Auth skjer via den samme `getOboTokenFromRequest`.
+
+### Hvorfor ikke HOF-mønsteret fra pages router?
+
+I app routeren bruker vi **ikke** dette mønsteret, av tre grunner:
+
+1. **Sidebeskyttelse er løst globalt.** `proxy.ts` med `matcher` beskytter alle relevante ruter automatisk. I pages routeren måtte man huske `withAuthenticatedPage` på hver eneste side.
+
+2. **Server actions har unik domenologikk rundt auth.** Hver server action har egen validering, mock-håndtering og feilmapping før og etter selve API-kallet. En HOF-wrapper ville bare dekket en liten del av flyten — resten måtte uansett ligge i action-funksjonen. Å kalle en utility (`authenticatedFetch`) direkte virket mer naturlig og fleksibelt.
+
+3. **`authenticatedFetch` dekker behovet.** Istedenfor å wrappe handleren med auth, kaller vi en utility som gjør auth + fetch i ett. Resultatet er like konsist og eksplisitt.
+
+### Oversikt over auth-filer
+
+```
+src/
+├── proxy.ts                          # Sidebeskyttelse (Next.js 16 proxy/middleware)
+├── app/lib/
+│   ├── auth/
+│   │   ├── validateToken.ts          # Mock-aware Azure token-validering
+│   │   └── oboToken.ts              # Token → validering → OBO-utveksling
+│   ├── authenticatedFetch.ts         # Auth + fetch + feilhåndtering i ett
+│   └── modia-headers.ts             # Bygger NAV-headere med OBO-token + trace-id
+```
+
+## Testing
+
+Vi bruker [Vitest](https://vitest.dev/) for testing av app router-kode. Vitest er scopet til kun `src/app/` via `vitest.config.ts` i prosjektrot — resten av prosjektet bruker fortsatt Jest. Kjør `npm run test:app` for å kjøre testene, eller `npm run test:app:watch` for watch-modus. CI kjører begge via `npm run test:ci`.
