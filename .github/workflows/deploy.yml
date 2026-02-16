@@ -1,143 +1,146 @@
 name: Build, push, and deploy
 
 on:
-  push:
-    branches:
-      - main
-      - dev/*
+    push:
+        branches:
+            - main
+            - dev/*
 
 jobs:
-  test-and-build-cdn-docker:
-    name: Run tests, build, push assets to CDN and publish Docker image
-    runs-on: ubuntu-latest
-    timeout-minutes: 7
-    permissions:
-      contents: 'read'
-      packages: 'write'
-      id-token: 'write'
+    test-and-build-cdn-docker:
+        name: Run tests, build, push assets to CDN and publish Docker image
+        runs-on: ubuntu-latest
+        timeout-minutes: 7
+        permissions:
+            contents: 'read'
+            packages: 'write'
+            id-token: 'write'
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Set up node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "24.13.0"
-          cache: "npm"
-          registry-url: "https://npm.pkg.github.com"
+            - name: Set up node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '24.13.0'
+                  cache: 'npm'
+                  registry-url: 'https://npm.pkg.github.com'
 
-      - name: Install
-        run: npm install --no-save --no-audit --prefer-offline --ignore-scripts
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+            - name: Install
+              run: npm install --no-save --no-audit --prefer-offline --ignore-scripts
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
-      - name: Test
-        run: npm run test:ci
+            - name: Test
+              run: npm run test:ci
 
-      - name: Knip
-        run: npx knip --no-exit-code --reporter=markdown >> "$GITHUB_STEP_SUMMARY"
+            - name: Vitest (app only)
+              run: npm run test:app
 
-      - name: Build
-        run: npm run build
-        env:
-          NODE_ENV: production
-          NEXT_PUBLIC_ASSET_PREFIX: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
+            - name: Knip
+              run: npx knip --no-exit-code --reporter=markdown >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Upload static files to NAV CDN
-        uses: nais/deploy/actions/cdn-upload/v2@master
-        with:
-          team: paw
-          source: ./.next/static
-          destination: arbeidssokerregistrering-for-veileder/_next
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+            - name: Build
+              run: npm run build
+              env:
+                  NODE_ENV: production
+                  NEXT_PUBLIC_ASSET_PREFIX: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
 
-      - name: docker-build-push
-        uses: nais/docker-build-push@v0
-        id: docker-build-push
-        with:
-          team: paw
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-    outputs:
-      image: ${{ steps.docker-build-push.outputs.image }}
+            - name: Upload static files to NAV CDN
+              uses: nais/deploy/actions/cdn-upload/v2@master
+              with:
+                  team: paw
+                  source: ./.next/static
+                  destination: arbeidssokerregistrering-for-veileder/_next
+                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
-  deploy-dev:
-    name: Deploy to dev
-    permissions:
-      contents: "read"
-      id-token: "write"
-    needs: [test-and-build-cdn-docker, apply-apitoken-unleash]
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
-    runs-on: ubuntu-latest
-    timeout-minutes: 7
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Deploy
-        uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: dev-gcp
-          RESOURCE: .nais/dev-gcp/nais.yaml
-          VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
+            - name: docker-build-push
+              uses: nais/docker-build-push@v0
+              id: docker-build-push
+              with:
+                  team: paw
+                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+        outputs:
+            image: ${{ steps.docker-build-push.outputs.image }}
 
-  deploy-demo:
-    name: Deploy to demo
-    permissions:
-      contents: "read"
-      id-token: "write"
-    needs: [test-and-build-cdn-docker]
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
-    runs-on: ubuntu-latest
-    timeout-minutes: 7
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Deploy
-        uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: dev-gcp
-          RESOURCE: .nais/demo.yaml
-          VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
+    deploy-dev:
+        name: Deploy to dev
+        permissions:
+            contents: 'read'
+            id-token: 'write'
+        needs: [test-and-build-cdn-docker, apply-apitoken-unleash]
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
+        runs-on: ubuntu-latest
+        timeout-minutes: 7
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Deploy
+              uses: nais/deploy/actions/deploy@v2
+              env:
+                  CLUSTER: dev-gcp
+                  RESOURCE: .nais/dev-gcp/nais.yaml
+                  VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
 
-  deploy-prod:
-    name: Deploy to prod
-    permissions:
-      contents: "read"
-      id-token: "write"
-    needs: [test-and-build-cdn-docker, apply-apitoken-unleash]
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    timeout-minutes: 7
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Deploy
-        uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: prod-gcp
-          RESOURCE: .nais/prod-gcp/nais.yaml
-          VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
+    deploy-demo:
+        name: Deploy to demo
+        permissions:
+            contents: 'read'
+            id-token: 'write'
+        needs: [test-and-build-cdn-docker]
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
+        runs-on: ubuntu-latest
+        timeout-minutes: 7
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Deploy
+              uses: nais/deploy/actions/deploy@v2
+              env:
+                  CLUSTER: dev-gcp
+                  RESOURCE: .nais/demo.yaml
+                  VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
 
-  apply-apitoken-unleash:
-    name: Legger til ApiToken for Unleash
-    permissions:
-      contents: "read"
-      id-token: "write"
-    runs-on: ubuntu-latest
-    timeout-minutes: 7
-    needs: [test-and-build-cdn-docker]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: deploy to dev
-        uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: dev-gcp
-          RESOURCE: .nais/dev-gcp/unleash-apitoken.yaml
-      - name: deploy to prod
-        uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: prod-gcp
-          RESOURCE: .nais/prod-gcp/unleash-apitoken.yaml
+    deploy-prod:
+        name: Deploy to prod
+        permissions:
+            contents: 'read'
+            id-token: 'write'
+        needs: [test-and-build-cdn-docker, apply-apitoken-unleash]
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        timeout-minutes: 7
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Deploy
+              uses: nais/deploy/actions/deploy@v2
+              env:
+                  CLUSTER: prod-gcp
+                  RESOURCE: .nais/prod-gcp/nais.yaml
+                  VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
+
+    apply-apitoken-unleash:
+        name: Legger til ApiToken for Unleash
+        permissions:
+            contents: 'read'
+            id-token: 'write'
+        runs-on: ubuntu-latest
+        timeout-minutes: 7
+        needs: [test-and-build-cdn-docker]
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: deploy to dev
+              uses: nais/deploy/actions/deploy@v2
+              env:
+                  CLUSTER: dev-gcp
+                  RESOURCE: .nais/dev-gcp/unleash-apitoken.yaml
+            - name: deploy to prod
+              uses: nais/deploy/actions/deploy@v2
+              env:
+                  CLUSTER: prod-gcp
+                  RESOURCE: .nais/prod-gcp/unleash-apitoken.yaml
