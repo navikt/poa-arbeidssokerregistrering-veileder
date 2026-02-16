@@ -30,7 +30,7 @@ const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
 	}
 
 	if (!perioder || perioder.length === 0) {
-		return 'ingen perioder';
+		return <Alert variant='info'>Ingen tidslinjer funnet for denne brukeren</Alert>;
 	}
 
 	return (
