@@ -1,7 +1,7 @@
 'use client';
 
 import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { Accordion, Table } from '@navikt/ds-react';
+import { Accordion, Alert, Table } from '@navikt/ds-react';
 import { AccordionContent, AccordionHeader, AccordionItem } from '@navikt/ds-react/Accordion';
 import { TableBody, TableHeader, TableHeaderCell, TableRow } from '@navikt/ds-react/Table';
 import { use } from 'react';
@@ -26,7 +26,7 @@ const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
 	};
 
 	if (error) {
-		return 'error...';
+		return <Alert variant={'error'}>Noe gikk dessverre galt ved henting av tidslinjer</Alert>;
 	}
 
 	if (!perioder || perioder.length === 0) {
