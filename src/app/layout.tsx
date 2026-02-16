@@ -10,28 +10,28 @@ const enableMock = process.env.ENABLE_MOCK === 'enabled';
 const decoratorEnv = process.env.DEKORATOR_ENV ?? 'q2';
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-	const [modiaContext, visittkortUrl] = await Promise.all([hentModiaContext(), hentVisittkortScriptUrl()]);
-	return (
-		<html lang='no'>
-			<head>
-				<link
-					rel='stylesheet'
-					href='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/index.css'
-				/>
-				<Script
-					src='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js'
-					strategy='beforeInteractive'
-				/>
-			</head>
-			{visittkortUrl && <Script src={visittkortUrl} strategy='afterInteractive' type='module' />}
+    const [modiaContext, visittkortUrl] = await Promise.all([hentModiaContext(), hentVisittkortScriptUrl()]);
+    return (
+        <html lang="no">
+            <head>
+                <link
+                    rel="stylesheet"
+                    href="https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/index.css"
+                />
+                <Script
+                    src="https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js"
+                    strategy="beforeInteractive"
+                />
+            </head>
 
-			<body>
-				<ModiaProvider initFnr={modiaContext.fnr} initEnhetId={modiaContext.enhetId}>
-					<InternflateDecorator decoratorEnv={decoratorEnv} />
-					<Visittkort brukerMock={enableMock} />
-					<main className='max-w-4xl m-auto'>{children}</main>
-				</ModiaProvider>
-			</body>
-		</html>
-	);
+            <body>
+                {visittkortUrl && <Script src={visittkortUrl} strategy="afterInteractive" type="module" />}
+                <ModiaProvider initFnr={modiaContext.fnr} initEnhetId={modiaContext.enhetId}>
+                    <InternflateDecorator decoratorEnv={decoratorEnv} />
+                    <Visittkort brukerMock={enableMock} />
+                    <main className="max-w-4xl m-auto">{children}</main>
+                </ModiaProvider>
+            </body>
+        </html>
+    );
 }
