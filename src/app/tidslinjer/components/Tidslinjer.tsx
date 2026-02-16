@@ -5,8 +5,9 @@ import { Accordion, Table } from '@navikt/ds-react';
 import { AccordionContent, AccordionHeader, AccordionItem } from '@navikt/ds-react/Accordion';
 import { TableBody, TableHeader, TableHeaderCell, TableRow } from '@navikt/ds-react/Table';
 import { use } from 'react';
-import { HendelseVisning } from '@/app/tidslinjer/HendelseVisning';
+import { HendelseVisning } from '@/app/tidslinjer/components/HendelseVisning';
 import { formaterDato } from '@/lib/date-utils';
+import { TidslinjeVarsel } from './TidslinjeVarsel';
 
 type TidslinjerProps = {
 	perioderPromise: Promise<{
@@ -32,7 +33,10 @@ const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
 			{perioder?.map((periode) => (
 				<AccordionItem key={periode.periodeId}>
 					<AccordionHeader>
-						{formaterDato(periode.startet)} - {formaterDato(periode.avsluttet)}
+						<div className='flex gap-2'>
+							<TidslinjeVarsel hendelser={periode.hendelser} />
+							{formaterDato(periode.startet)} - {formaterDato(periode.avsluttet)}
+						</div>
 					</AccordionHeader>
 					<AccordionContent>
 						<Table size='small' className='mb-4'>

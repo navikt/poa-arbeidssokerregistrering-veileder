@@ -1,7 +1,7 @@
 import { Heading } from '@navikt/ds-react';
 import { Suspense } from 'react';
-import { LoaderSkeleton } from '@/app/tidslinjer/LoaderSkeleton';
-import { TidslinjeWrapper } from '@/app/tidslinjer/TidslinjeWrapper';
+import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
+import { TidslinjeWrapper } from '@/app/tidslinjer/components/TidslinjeWrapper';
 import TilbakeTilForside from '@/components/tilbake-til-forside';
 import { hentModiaContext } from '../lib/modia-context-api';
 import { getPerioder } from './actions';
