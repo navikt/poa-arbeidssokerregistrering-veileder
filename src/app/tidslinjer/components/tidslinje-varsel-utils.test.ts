@@ -86,15 +86,15 @@ const hendelseMedProblematiskPaVegneAv: Hendelse[] = [
 		sendtInnAv: lagSendtInnAv('SLUTTBRUKER'),
 	},
 	{
+		type: 'PAA_VEGNE_AV_START_V1',
+		tidspunkt: '2026-01-10T10:00:00.000Z',
+		sendtInnAv: lagSendtInnAv('VEILEDER'),
+	},
+	{
 		type: 'PAA_VEGNE_AV_STOPP_V1',
 		tidspunkt: '2026-01-05T10:00:00.000Z',
 		sendtInnAv: lagSendtInnAv('SYSTEM'),
 		fristBrutt: false,
-	},
-	{
-		type: 'PAA_VEGNE_AV_START_V1',
-		tidspunkt: '2026-01-10T10:00:00.000Z',
-		sendtInnAv: lagSendtInnAv('VEILEDER'),
 	},
 	{
 		type: 'PERIODE_AVSLUTTET_V1',
@@ -132,6 +132,25 @@ const hendelseMedPaVegneAvStoppMenBareEn: Hendelse[] = [
 	},
 ] as Hendelse[];
 
+const hendelseUtenProblematiskPaVegneAv: Hendelse[] = [
+	{
+		type: 'PAA_VEGNE_AV_STOPP_V1',
+		tidspunkt: '2026-01-02T10:00:00.000Z',
+		sendtInnAv: lagSendtInnAv('SYSTEM'),
+		fristBrutt: false,
+	},
+	{
+		type: 'PAA_VEGNE_AV_START_V1',
+		tidspunkt: '2026-01-01T10:00:00.000Z',
+		sendtInnAv: lagSendtInnAv('VEILEDER'),
+	},
+	{
+		type: 'PERIODE_AVSLUTTET_V1',
+		tidspunkt: '2026-01-03T10:00:00.000Z',
+		sendtInnAv: lagSendtInnAv('VEILEDER', 'Stopp av periode'),
+	},
+] as Hendelse[];
+
 // ── Tester ───────────────────────────────────────────────────────────
 
 describe('skalHaVarseltrekant', () => {
@@ -161,6 +180,9 @@ describe('skalHaVarseltrekant', () => {
 
 	it('skal returnere false for en tom hendelsesliste', () => {
 		expect(skalHaVarseltrekant([])).toBe(false);
+	});
+	it('skal klare å sortere liste, og se at den er uten problematiske på vegne av', () => {
+		expect(skalHaVarseltrekant(hendelseUtenProblematiskPaVegneAv)).toBe(false);
 	});
 });
 
