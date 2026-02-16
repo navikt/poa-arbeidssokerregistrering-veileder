@@ -18,7 +18,7 @@ function skalHaVarseltrekant(hendelser: Hendelse[]) {
 	const allePaaVegneAv = hendelser
 		.filter((hendelse) => hendelse.type === 'PAA_VEGNE_AV_START_V1' || hendelse.type === 'PAA_VEGNE_AV_STOPP_V1')
 		.sort((a, b) => new Date(a.tidspunkt).getTime() - new Date(b.tidspunkt).getTime());
-	const harProblematiskePaVegneAv = allePaaVegneAv.length > 0 && allePaaVegneAv[0]?.type === 'PAA_VEGNE_AV_STOPP_V1';
+	const harProblematiskePaVegneAv = allePaaVegneAv.length > 1 && allePaaVegneAv[0]?.type === 'PAA_VEGNE_AV_STOPP_V1';
 
 	// Dersom én av de over stemmer, så skal vi vise et varsel-ikon
 	return harAvsluttetAvSystem || harUgyldigBekreftelse || harProblematiskePaVegneAv || harFristBrutt;

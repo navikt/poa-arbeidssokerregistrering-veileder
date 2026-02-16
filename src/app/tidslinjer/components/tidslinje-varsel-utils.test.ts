@@ -117,6 +117,21 @@ const hendelseMedFeilregistrering: Hendelse[] = [
 	},
 ] as Hendelse[];
 
+const hendelseMedPaVegneAvStoppMenBareEn: Hendelse[] = [
+	{
+		sendtInnAv: lagSendtInnAv('VEILEDER'),
+		tidspunkt: '2026-02-11T09:40:09.652Z',
+		type: 'PERIODE_STARTET_V1',
+	},
+	{
+		periodeId: 'a43abadd-5f86-41e0-9b69-31d091861252',
+		bekreftelsesloesning: 'DAGPENGER',
+		fristBrutt: false,
+		tidspunkt: '2026-02-11T09:58:35.287Z',
+		type: 'PAA_VEGNE_AV_STOPP_V1',
+	},
+] as Hendelse[];
+
 // ── Tester ───────────────────────────────────────────────────────────
 
 describe('skalHaVarseltrekant', () => {
@@ -134,6 +149,10 @@ describe('skalHaVarseltrekant', () => {
 
 	it('skal returnere true dersom første "på vegne av" er en STOPP (problematisk rekkefølge)', () => {
 		expect(skalHaVarseltrekant(hendelseMedProblematiskPaVegneAv)).toBe(true);
+	});
+
+	it('skal returnere false når perioden kun har en PAA_VEGNE_AV_STOPP uten fristBrutt (mock periode 1)', () => {
+		expect(skalHaVarseltrekant(hendelseMedPaVegneAvStoppMenBareEn)).toBe(false);
 	});
 
 	it('skal returnere false dersom perioden ikke inneholder noen uregelmessigheter', () => {
