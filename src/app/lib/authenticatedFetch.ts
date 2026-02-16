@@ -61,7 +61,7 @@ async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promis
 		}
 		return { ok: true, data: (await response.json()) as T };
 	} catch (e) {
-		return { ok: false, error: new Error(e) };
+		return { ok: false, error: new Error(`Fetch failed`, { cause: e }) };
 	}
 }
 
