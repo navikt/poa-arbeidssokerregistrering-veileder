@@ -1,3 +1,11 @@
+# App router migrering - hva er greia?
+
+I korte trekk:
+
+- En gradevis migrering til app router, en sti om gangen. Første sti er /tidslinjer
+- Alle sider bruker visittkortet og decoratøren, så for at /tidslinjer skulle funke, måtte vi også håndtere api-kallene, disse finnes nå i `(decorator-proxy)`, MEN. Men proxy-håndteringen vi gjør for /tidslinjer gjør seg gjeldene på alle sider. Altså er den gamle api-proxy-håndteringen i pages (kun for dekoratør og visittkort) nå overflødig.
+- Gjenstående side, feks /historikk treffer pages, MEN App Router sin handleren "vinner" over pages sin. Derfor er all proxy-håndtering som finnes i app-router gjeldene for alle paths/routes.
+
 # App Router — mental modell for datahenting
 
 ### Hva er greia spør du?
