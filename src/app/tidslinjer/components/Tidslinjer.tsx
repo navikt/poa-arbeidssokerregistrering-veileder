@@ -20,6 +20,11 @@ const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
 	const { perioderPromise } = props;
 	const { perioder, error } = use(perioderPromise);
 
+	const hentAvsluttetDatoString = (avsluttetDato: string | undefined) => {
+		if (!avsluttetDato) return 'fortsatt pågående';
+		return formaterDato(avsluttetDato);
+	};
+
 	if (error) {
 		return 'error...';
 	}
@@ -35,7 +40,7 @@ const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
 					<AccordionHeader>
 						<div className='flex gap-2'>
 							<TidslinjeVarsel hendelser={periode.hendelser} />
-							{formaterDato(periode.startet)} - {formaterDato(periode.avsluttet)}
+							{formaterDato(periode.startet)} - {hentAvsluttetDatoString(periode.avsluttet)}
 						</div>
 					</AccordionHeader>
 					<AccordionContent>
