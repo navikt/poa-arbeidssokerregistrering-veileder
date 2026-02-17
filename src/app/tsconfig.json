@@ -1,0 +1,25 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"strictNullChecks": true,
+		"baseUrl": "../..",
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+		"types": ["vitest/globals"]
+	},
+	"include": [
+		"next-env.d.ts",
+		".next/types/**/*.ts",
+		".next/dev/types/**/*.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.json",
+		"../../next-env.d.ts",
+		"../../src/components/**/*.ts",
+		"../../src/components/**/*.tsx",
+		"../../src/model/**/*.ts",
+		"../../src/types/*"
+	],
+	"exclude": ["node_modules"]
+}

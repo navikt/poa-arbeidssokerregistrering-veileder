@@ -1,0 +1,11 @@
+{
+    "lsp": {
+        "eslint": {
+            "settings": {
+                "options": {
+                    "flags": ["--no-warn-ignored"]
+                }
+            }
+        }
+    }
+}

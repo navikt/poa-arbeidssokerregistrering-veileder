@@ -1,0 +1,69 @@
+'use client';
+
+import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { Accordion, Alert, Table } from '@navikt/ds-react';
+import { AccordionContent, AccordionHeader, AccordionItem } from '@navikt/ds-react/Accordion';
+import { TableBody, TableHeader, TableHeaderCell, TableRow } from '@navikt/ds-react/Table';
+import { use } from 'react';
+import { HendelseVisning } from '@/app/tidslinjer/components/HendelseVisning';
+import { formaterDato } from '@/lib/date-utils';
+import { TidslinjeVarsel } from './TidslinjeVarsel';
+
+type TidslinjerProps = {
+	perioderPromise: Promise<{
+		perioder: Periode[] | null;
+		error?: Error;
+	}>;
+};
+
+const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
+	const { perioderPromise } = props;
+	const { perioder, error } = use(perioderPromise);
+
+	const hentAvsluttetDatoString = (avsluttetDato: string | undefined) => {
+		if (!avsluttetDato) return 'fortsatt pågående';
+		return formaterDato(avsluttetDato);
+	};
+
+	if (error) {
+		return <Alert variant={'error'}>Noe gikk dessverre galt ved henting av tidslinjer</Alert>;
+	}
+
+	if (!perioder || perioder.length === 0) {
+		return <Alert variant='info'>Ingen tidslinjer funnet for denne brukeren</Alert>;
+	}
+
+	return (
+		<Accordion>
+			{perioder?.map((periode) => (
+				<AccordionItem key={periode.periodeId}>
+					<AccordionHeader>
+						<div className='flex gap-2'>
+							<TidslinjeVarsel hendelser={periode.hendelser} />
+							{formaterDato(periode.startet)} - {hentAvsluttetDatoString(periode.avsluttet)}
+						</div>
+					</AccordionHeader>
+					<AccordionContent>
+						<Table size='small' className='mb-4'>
+							<TableHeader>
+								<TableRow>
+									<TableHeaderCell scope='col'>Tidspunkt</TableHeaderCell>
+									<TableHeaderCell scope='col'>Hendelse</TableHeaderCell>
+									<TableHeaderCell scope='col'>Kilde</TableHeaderCell>
+									<TableHeaderCell scope='col'>Status</TableHeaderCell>
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{periode.hendelser.toReversed().map((hendelse, i) => (
+									<HendelseVisning key={`${periode.periodeId}_${i}`} hendelse={hendelse} />
+								))}
+							</TableBody>
+						</Table>
+					</AccordionContent>
+				</AccordionItem>
+			))}
+		</Accordion>
+	);
+};
+
+export { Tidslinjer };

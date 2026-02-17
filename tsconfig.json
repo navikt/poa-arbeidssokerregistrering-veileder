@@ -4,6 +4,7 @@
         "allowJs": true,
         "skipLibCheck": true,
         "strict": false,
+        "strictNullChecks": false,
         "noEmit": true,
         "incremental": true,
         "esModuleInterop": true,
@@ -14,7 +15,10 @@
         "jsx": "react-jsx",
         "types": ["@testing-library/jest-dom"],
         "target": "ES2017",
-        "noUncheckedIndexedAccess": true
+        "noUncheckedIndexedAccess": true,
+        "paths": {
+            "@/*": ["./src/*"]
+        }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules"]

@@ -129,6 +129,7 @@ spec:
         - host: veilarbperson.dev-fss-pub.nais.io
         - host: veilarbvisittkortfs.intern.dev.nav.no
         - host: aareg-services-q1.dev-fss-pub.nais.io
+        - host: cdn.nav.no
       rules:
         - application: paw-arbeidssokerregisteret-api-inngang
         - application: paw-arbeidssoekerregisteret-api-oppslag

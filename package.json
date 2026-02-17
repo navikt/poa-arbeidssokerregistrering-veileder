@@ -8,11 +8,15 @@
         "start": "next start",
         "lint": "eslint .",
         "test": "npm run lint && jest --watch",
-        "test:ci": "npm run lint && jest",
+        "test:app": "vitest --run",
+        "test:app:watch": "vitest",
+        "test:ci": "npm run lint && jest && vitest --run",
         "refresh": "rm -rf node_modules && rm package-lock.json && npm i --ignore-scripts",
         "prepare": "husky",
         "storybook": "storybook dev -p 6006",
-        "build-storybook": "storybook build"
+        "build-storybook": "storybook build",
+        "format:app": "biome check --write src/app",
+        "format:legacy": "prettier --write 'src/!(app)/**/*.{js,jsx,ts,tsx,json,md}'"
     },
     "dependencies": {
         "@grafana/faro-web-sdk": "2.2.0",
@@ -36,6 +40,7 @@
         "swr": "2.3.8"
     },
     "devDependencies": {
+        "@biomejs/biome": "2.3.14",
         "@chromatic-com/storybook": "5.0.0",
         "@jest/globals": "30.2.0",
         "@storybook/addon-docs": "10.2.1",
@@ -62,7 +67,8 @@
         "prettier": "3.8.1",
         "storybook": "10.2.1",
         "tailwindcss": "4.1.18",
-        "typescript": "5.9.3"
+        "typescript": "5.9.3",
+        "vitest": "4.0.18"
     },
     "prettier": {
         "printWidth": 120,
@@ -70,7 +76,9 @@
         "tabWidth": 4
     },
     "lint-staged": {
-        "*.{js,jsx,json,md,ts,tsx}": "prettier --write"
+        "src/app/**/*.{js,jsx,json,ts,tsx}": "biome check --write",
+        "src/!(app)/**/*.{js,jsx,json,ts,tsx}": "prettier --write",
+        "*.{js,jsx,json,ts,tsx}": "prettier --write"
     },
     "engines": {
         "node": ">=24.13.0"

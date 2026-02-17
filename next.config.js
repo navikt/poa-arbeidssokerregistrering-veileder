@@ -7,34 +7,6 @@ const nextConfig = {
     experimental: {
         optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
     },
-    async rewrites() {
-        return [
-            {
-                source: '/modiacontextholder/api/:path*',
-                destination: '/api/modiacontextholder/:path*',
-            },
-            {
-                source: '/veilarboppfolging/api/:path*',
-                destination: '/api/veilarboppfolging/:path*',
-            },
-            {
-                source: '/veilarbdialog/api/:path*',
-                destination: '/api/veilarbdialog/:path*',
-            },
-            {
-                source: '/veilarbperson/api/:path*',
-                destination: '/api/veilarbperson/:path*',
-            },
-            {
-                source: '/veilarbveileder/api/:path*',
-                destination: '/api/veilarbveileder/:path*',
-            },
-            {
-                source: '/obo-unleash/:path*',
-                destination: '/api/obo-unleash/:path*',
-            },
-        ];
-    },
     async redirects() {
         return [
             {
