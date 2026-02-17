@@ -47,10 +47,6 @@ export const getArbeidssoekerregistreringToken = async (req: NextApiRequest) => 
     return getOboToken(getTokenFromRequest(req)!, ARBEIDSSOEKERREGISTRERING_SCOPE);
 };
 
-export const getOppslagsAPIToken = async (req: NextApiRequest) => {
-    return getOboToken(getTokenFromRequest(req)!, OPPSLAGSAPI_SCOPE);
-};
-
 export const getOppslagsAPIV2Token = async (req: NextApiRequest) => {
     return getOboToken(getTokenFromRequest(req)!, OPPSLAGSAPI_V2_SCOPE);
 };
@@ -61,26 +57,6 @@ export const getBekreftelseAPIToken = async (req: NextApiRequest) => {
 
 export const getModiacontextholderToken = async (req: NextApiRequest) => {
     return getOboToken(getTokenFromRequest(req)!, MODIACONTEXTHOLDER_SCOPE);
-};
-
-export const getVeilarboppfolgingToken = async (req: NextApiRequest) => {
-    return getOboToken(getTokenFromRequest(req)!, VEILARBOPPFOLGING_SCOPE);
-};
-
-export const getVeilarbdialogToken = async (req: NextApiRequest) => {
-    return getOboToken(getTokenFromRequest(req)!, VEILARBDIALOG_SCOPE);
-};
-
-export const getVeilarbpersonToken = async (req: NextApiRequest) => {
-    return getOboToken(getTokenFromRequest(req)!, VEILARBPERSON_SCOPE);
-};
-
-export const getVeilarbveilederToken = async (req: NextApiRequest) => {
-    return getOboToken(getTokenFromRequest(req)!, VEILARBVEILEDER_SCOPE);
-};
-
-export const getOboUnleashToken = async (req: NextApiRequest) => {
-    return getOboToken(getTokenFromRequest(req)!, OBO_UNLEASH_SCOPE);
 };
 
 export const getAaregToken = async (req: NextApiRequest) => {
