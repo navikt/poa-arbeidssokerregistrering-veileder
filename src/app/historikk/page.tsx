@@ -1,12 +1,12 @@
 import { Heading } from '@navikt/ds-react';
 import { Suspense } from 'react';
+import { hentModiaContext } from '@/app/lib/modia-context-api';
 import { getPerioder } from '@/app/lib/oppslag/perioder';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
-import { TidslinjeWrapper } from '@/app/tidslinjer/components/TidslinjeWrapper';
 import TilbakeTilForside from '@/components/tilbake-til-forside';
-import { hentModiaContext } from '../lib/modia-context-api';
+import { HistorikkWrapper } from './components/HistorikkWrapper';
 
-export default async function TidslinjerPage() {
+export default async function HistorikkPage() {
     const modiaContext = await hentModiaContext();
     const perioderPromise = getPerioder(modiaContext.fnr);
 
@@ -14,11 +14,11 @@ export default async function TidslinjerPage() {
         <div>
             <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
             <Heading size={'large'} className="mb-4">
-                Tidslinjer for arbeidssøker
+                Historikk for arbeidssøker
             </Heading>
             <div className={'flex flex-col max-w-3xl'}>
                 <Suspense fallback={<LoaderSkeleton />}>
-                    <TidslinjeWrapper initialPerioderPromise={perioderPromise} />
+                    <HistorikkWrapper initialPerioderPromise={perioderPromise} />
                 </Suspense>
             </div>
         </div>

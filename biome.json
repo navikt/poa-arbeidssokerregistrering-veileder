@@ -1,12 +1,12 @@
 {
     "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
     "files": {
-        "includes": ["src/app/**"]
+        "includes": ["src/app/**", "src/app/*"]
     },
     "formatter": {
         "enabled": true,
         "indentStyle": "tab",
-        "indentWidth": 2,
+        "indentWidth": 4,
         "lineEnding": "lf",
         "attributePosition": "auto",
         "lineWidth": 120

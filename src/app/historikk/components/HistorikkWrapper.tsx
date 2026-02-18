@@ -5,25 +5,25 @@ import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { useServerData } from '@/app/hooks/useServerData';
 import { getPerioder } from '@/app/lib/oppslag/perioder';
-import { LoaderSkeleton } from './LoaderSkeleton';
-import { Tidslinjer } from './Tidslinjer';
+import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
+import { Historikk } from './Historikk';
 
-type TidslinjerWrapperProps = {
+type HistorikkWrapperProps = {
     initialPerioderPromise: Promise<{
         perioder: Periode[] | null;
         error?: Error;
     }>;
 };
 
-const TidslinjeWrapper: React.FC<TidslinjerWrapperProps> = ({ initialPerioderPromise }) => {
+const HistorikkWrapper: React.FC<HistorikkWrapperProps> = ({ initialPerioderPromise }) => {
     const { dataPromise, isPending } = useServerData(initialPerioderPromise, getPerioder);
 
     return (
         <Suspense fallback={<LoaderSkeleton />}>
-            {isPending && <Loader size="medium" title="Henter tidslinjer" />}
-            <Tidslinjer perioderPromise={dataPromise} />
+            {isPending && <Loader size="medium" title="Henter historikk" />}
+            <Historikk perioderPromise={dataPromise} />
         </Suspense>
     );
 };
 
-export { TidslinjeWrapper };
+export { HistorikkWrapper };
