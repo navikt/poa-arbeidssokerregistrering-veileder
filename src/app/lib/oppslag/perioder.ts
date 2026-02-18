@@ -8,10 +8,9 @@ const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const OPPSLAG_V2_URL = process.env.OPPSLAG_API_V2_URL;
 const OPPSLAG_V2_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oppslag-v2/.default`;
 
-async function getPerioder(identitetsnummer: string | null): Promise<{
-    perioder: Periode[] | null;
-    error?: Error;
-}> {
+export type PeriodeResult = { perioder: Periode[] | null; error?: Error };
+
+async function getPerioder(identitetsnummer: string | null): Promise<PeriodeResult> {
     if (!identitetsnummer) {
         return { perioder: null, error: new Error('Identitetsnummer mangler') };
     }

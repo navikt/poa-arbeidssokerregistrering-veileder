@@ -1,7 +1,6 @@
 'use client';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
-import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { ActionMenu, Alert, BodyShort, Box, Button, Heading, Switch } from '@navikt/ds-react';
 import { use, useMemo, useRef } from 'react';
 import { FilterProvider } from '@/app/contexts/filter-hendelse-context';
@@ -12,13 +11,11 @@ import { HistorikkListeTittel } from '@/app/historikk/components/HistorikkListeT
 import { HistorikkPeriode } from '@/app/historikk/components/HistorikkPeriode';
 import PrintInfoHeader from '@/app/historikk/components/PrintInfoHeader';
 import { useScrollSpy } from '@/app/hooks/useScrollSpy';
+import type { PeriodeResult } from '@/app/lib/oppslag/perioder';
 import TilbakeTilForside from '@/components/tilbake-til-forside';
 
 type HistorikkProps = {
-    perioderPromise: Promise<{
-        perioder: Periode[] | null;
-        error?: Error;
-    }>;
+    perioderPromise: Promise<PeriodeResult>;
 };
 
 const Historikk: React.FC<HistorikkProps> = (props) => {
@@ -35,7 +32,12 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
 
     useScrollSpy(sidebarRef, sectionIds);
 
-    if (error) return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere.</Alert>;
+    if (!fnr) return null;
+
+    if (error)
+        return (
+            <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere.{JSON.stringify(error.message)}</Alert>
+        );
 
     if (!perioder || perioder.length === 0) {
         return <Alert variant="info">Ingen arbeidssøkerhistorikk tilgjengelig</Alert>;

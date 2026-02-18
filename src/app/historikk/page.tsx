@@ -4,6 +4,7 @@ import { hentModiaContext } from '@/app/lib/modia-context-api';
 import { getPerioder } from '@/app/lib/oppslag/perioder';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
 import TilbakeTilForside from '@/components/tilbake-til-forside';
+import { ManglerPersonEllerEnhet } from '../components/ManglerPersonEllerEnhet';
 import { HistorikkWrapper } from './components/HistorikkWrapper';
 
 export default async function HistorikkPage() {
@@ -18,6 +19,7 @@ export default async function HistorikkPage() {
             </Heading>
             <div className={'flex flex-col max-w-3xl'}>
                 <Suspense fallback={<LoaderSkeleton />}>
+                    <ManglerPersonEllerEnhet />
                     <HistorikkWrapper initialPerioderPromise={perioderPromise} />
                 </Suspense>
             </div>

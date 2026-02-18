@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from 'react';
 import { useModiaContext } from '@/app/contexts/modia-context';
 
-export function useServerData<T>(initialPromise: Promise<T>, fetchFn: (fnr: string) => Promise<T>) {
+export function useServerData<T>(initialPromise: Promise<T>, fetchFn: (fnr: string | null) => Promise<T>) {
     const { fnr } = useModiaContext();
     const [dataPromise, setDataPromise] = useState(initialPromise);
     const [isPending, startTransition] = useTransition();
