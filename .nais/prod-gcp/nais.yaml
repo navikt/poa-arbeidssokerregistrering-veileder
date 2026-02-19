@@ -150,6 +150,9 @@ spec:
         - application: obo-unleash
           namespace: obo
           cluster: prod-gcp
+        - application: veilarbvedtaksstotte
+          namespace: obo
+          cluster: prod-gcp
         - application: aareg-services-nais
           namespace: arbeidsforhold
           cluster: prod-fss
