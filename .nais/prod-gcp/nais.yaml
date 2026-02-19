@@ -81,6 +81,8 @@ spec:
       value: http://veilarbperson.obo/veilarbperson
     - name: VEILARBVEILEDER_URL
       value: http://veilarbveileder.obo/veilarbveileder
+    - name: VEILARBVEDTAKSSTOTTE_URL
+      value: http://veilarbvedtaksstotte.obo/veilarbvedtaksstotte
     - name: OBO_UNLEASH_URL
       value: http://obo-unleash.obo.svc.cluster.local
     - name: AAREG_REST_API
