@@ -45,7 +45,7 @@ async function hentModiaContext(): Promise<ModiaContext> {
         try {
             const data = await response.json();
             logger.warn(`DEBUGGER: enhetsid: ${data.enhetsId}`);
-            logger.warn(`DEBUGGER: aktivEnhet: ${data.acktivEnhet}`);
+            logger.warn(`DEBUGGER: aktivEnhet: ${data.aktivEnhet}`);
             return {
                 fnr: data.aktivBruker,
                 enhetId: data.enhetId,
