@@ -44,11 +44,9 @@ async function hentModiaContext(): Promise<ModiaContext> {
         }
         try {
             const data = await response.json();
-            logger.warn(`DEBUGGER: enhetsid: ${data.enhetsId}`);
-            logger.warn(`DEBUGGER: aktivEnhet: ${data.aktivEnhet}`);
             return {
-                fnr: data.aktivBruker,
-                enhetId: data.enhetId,
+                fnr: data.aktivBruker ?? null,
+                enhetId: data.aktivEnhet ?? null,
             };
         } catch (error) {
             logger.info(`Klarte ikke parse JSON fra responsen. ${error}`);
