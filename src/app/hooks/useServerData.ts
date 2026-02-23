@@ -18,6 +18,14 @@ export function useServerData<T>(initialPromise: Promise<T>, fetchFn: (fnr: stri
         startTransition(() => {
             setDataPromise(fetchFn(fnr));
         });
+        // INFO om "fetchFn" i deps-arr
+        // Mulig en linter eller andre vil klage på at fetchFn er i deps-arr her
+        // Men ved bruken av useServerData VET vi at den skal brukes til å sende
+        // en server funksjon (top-level modul eksport), som alltid vil være samme
+        // objekt på hver render.
+        // Hvis noen sender inn ()=>{doSomething()} istedenfor en server-funksjon
+        // så vil det trigge re-render ja. Men det er ikke sånn hooken er tiltenkt å
+        // brukes.
     }, [fnr, fetchFn]);
 
     return { dataPromise, isPending };
