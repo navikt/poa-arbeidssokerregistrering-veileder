@@ -34,10 +34,7 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
 
     if (!fnr) return null;
 
-    if (error)
-        return (
-            <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere.{JSON.stringify(error.message)}</Alert>
-        );
+    if (error) return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere.</Alert>;
 
     if (!perioder || perioder.length === 0) {
         return <Alert variant="info">Ingen arbeidssøkerhistorikk tilgjengelig</Alert>;
