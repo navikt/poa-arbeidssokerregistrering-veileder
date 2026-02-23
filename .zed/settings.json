@@ -3,9 +3,27 @@
         "eslint": {
             "settings": {
                 "options": {
-                    "flags": ["--no-warn-ignored"]
-                }
-            }
-        }
-    }
+                    "flags": ["--no-warn-ignored"],
+                },
+            },
+        },
+    },
+    "languages": {
+        "TypeScript": {
+            "formatter": {
+                "external": {
+                    "command": "npx",
+                    "arguments": ["biome", "format", "--stdin-file-path", "{buffer_path}"],
+                },
+            },
+        },
+        "TSX": {
+            "formatter": {
+                "external": {
+                    "command": "npx",
+                    "arguments": ["biome", "format", "--stdin-file-path", "{buffer_path}"],
+                },
+            },
+        },
+    },
 }
