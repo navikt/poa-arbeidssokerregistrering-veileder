@@ -7,10 +7,7 @@ type VisningsTypeContextType = {
     toggleVisningsType: () => void;
 };
 
-const VisningTypeContext = createContext<VisningsTypeContextType>({
-    visningsType: 'collapsed',
-    toggleVisningsType: () => {},
-});
+const VisningTypeContext = createContext<VisningsTypeContextType | undefined>(undefined);
 
 interface VisningsTypeProviderProps {
     children: ReactNode;
