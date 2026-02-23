@@ -38,10 +38,10 @@ const Bekreftelse: React.FC<BekreftelseProps> = (props) => {
     const bekreftelseMappet = mapBekreftelse(bekreftelse);
 
     return (
-        <ReadMoreWrapper header="Se bekreftede opplysninger">
-            <div className="text-base">
+        <ReadMoreWrapper header='Se bekreftede opplysninger'>
+            <div className='text-base'>
                 {bekreftelseMappet.map((field) => (
-                    <div key={field.sporsmal} className="mb-2">
+                    <div key={field.sporsmal} className='mb-2'>
                         <strong>{field.sporsmal}</strong>
                         <br />
                         {field.svar}

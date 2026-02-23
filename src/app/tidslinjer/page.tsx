@@ -13,8 +13,8 @@ export default async function TidslinjerPage() {
 
     return (
         <div>
-            <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
-            <Heading size={'large'} className="mb-4">
+            <TilbakeTilForside sidenavn='Arbeidssøkerhistorikk' />
+            <Heading size={'large'} className='mb-4'>
                 Tidslinjer for arbeidssøker
             </Heading>
             <div className={'flex flex-col max-w-3xl'}>

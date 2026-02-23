@@ -8,31 +8,31 @@ import { useModiaContext } from '../contexts/modia-context';
 const Decorator: ComponentType<DecoratorProps> = NAVSPA.importer('internarbeidsflate-decorator-v3');
 
 const InternflateDecorator: React.FC<{
-	decoratorEnv: string;
+    decoratorEnv: string;
 }> = (props) => {
-	const { decoratorEnv } = props;
-	const { setFnr } = useModiaContext();
+    const { decoratorEnv } = props;
+    const { setFnr } = useModiaContext();
 
-	const onFnrChanged = (fnr: unknown) => {
-		if (typeof fnr === 'string') {
-			setFnr(fnr);
-		}
-	};
+    const onFnrChanged = (fnr: unknown) => {
+        if (typeof fnr === 'string') {
+            setFnr(fnr);
+        }
+    };
 
-	const decoratorProps = {
-		appName: 'Arbeidssøkerregisteret',
-		fetchActiveEnhetOnMount: true,
-		fetchActiveUserOnMount: true,
-		showSearchArea: true,
-		onFnrChanged: onFnrChanged,
-		showEnheter: true,
-		proxy: '/modiacontextholder',
-		showHotkeys: false,
-		environment: decoratorEnv as Environment,
-		urlFormat: 'NAV_NO' as UrlFormat,
-	};
+    const decoratorProps = {
+        appName: 'Arbeidssøkerregisteret',
+        fetchActiveEnhetOnMount: true,
+        fetchActiveUserOnMount: true,
+        showSearchArea: true,
+        onFnrChanged: onFnrChanged,
+        showEnheter: true,
+        proxy: '/modiacontextholder',
+        showHotkeys: false,
+        environment: decoratorEnv as Environment,
+        urlFormat: 'NAV_NO' as UrlFormat,
+    };
 
-	return <Decorator {...decoratorProps} />;
+    return <Decorator {...decoratorProps} />;
 };
 
 export { InternflateDecorator };

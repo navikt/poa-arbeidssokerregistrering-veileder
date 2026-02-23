@@ -18,7 +18,7 @@ const HistorikkWrapper: React.FC<HistorikkWrapperProps> = ({ initialPerioderProm
     return (
         <VisningsTypeProvider>
             <Suspense fallback={<LoaderSkeleton />}>
-                {isPending && <Loader size="medium" title="Henter historikk" />}
+                {isPending && <Loader size='medium' title='Henter historikk' />}
                 <Historikk perioderPromise={dataPromise} />
             </Suspense>
         </VisningsTypeProvider>

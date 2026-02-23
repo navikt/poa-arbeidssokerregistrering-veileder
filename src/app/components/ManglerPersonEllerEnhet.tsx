@@ -11,8 +11,8 @@ const ManglerPersonEllerEnhet: React.FC = () => {
 
     if (!fnr) {
         return (
-            <Alert variant="warning">
-                <Heading level="1" size="small">
+            <Alert variant='warning'>
+                <Heading level='1' size='small'>
                     Fødselsnummer mangler
                 </Heading>
                 <BodyLong>Du må søke opp en person for å kunne registrere vedkommende</BodyLong>
@@ -22,8 +22,8 @@ const ManglerPersonEllerEnhet: React.FC = () => {
 
     if (!enhetId) {
         return (
-            <Alert variant="warning">
-                <Heading level="1" size="small">
+            <Alert variant='warning'>
+                <Heading level='1' size='small'>
                     Enhet mangler
                 </Heading>
                 <BodyLong>Du må velge aktiv enhet.</BodyLong>

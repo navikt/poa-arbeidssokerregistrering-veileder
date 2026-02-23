@@ -34,7 +34,7 @@ const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
     }
 
     if (!perioder || perioder.length === 0) {
-        return <Alert variant="info">Ingen tidslinjer funnet for denne brukeren</Alert>;
+        return <Alert variant='info'>Ingen tidslinjer funnet for denne brukeren</Alert>;
     }
 
     return (
@@ -42,19 +42,19 @@ const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
             {perioder?.map((periode) => (
                 <AccordionItem key={periode.periodeId}>
                     <AccordionHeader>
-                        <div className="flex gap-2">
+                        <div className='flex gap-2'>
                             <TidslinjeVarsel hendelser={periode.hendelser} />
                             {formaterDato(periode.startet)} - {hentAvsluttetDatoString(periode.avsluttet)}
                         </div>
                     </AccordionHeader>
                     <AccordionContent>
-                        <Table size="small" className="mb-4">
+                        <Table size='small' className='mb-4'>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHeaderCell scope="col">Tidspunkt</TableHeaderCell>
-                                    <TableHeaderCell scope="col">Hendelse</TableHeaderCell>
-                                    <TableHeaderCell scope="col">Kilde</TableHeaderCell>
-                                    <TableHeaderCell scope="col">Status</TableHeaderCell>
+                                    <TableHeaderCell scope='col'>Tidspunkt</TableHeaderCell>
+                                    <TableHeaderCell scope='col'>Hendelse</TableHeaderCell>
+                                    <TableHeaderCell scope='col'>Kilde</TableHeaderCell>
+                                    <TableHeaderCell scope='col'>Status</TableHeaderCell>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

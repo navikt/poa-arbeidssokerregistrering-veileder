@@ -15,7 +15,7 @@ const KopierVeilederId = ({ veilederId }: { veilederId: string | null }) => {
         <>
             {' '}
             (id: {veilederId})
-            <CopyButton copyText={veilederId || ''} size="small" title="Kopier id" />
+            <CopyButton copyText={veilederId || ''} size='small' title='Kopier id' />
         </>
     );
 };
@@ -27,7 +27,7 @@ const PeriodeStartInfo = ({ event }: { event: Hendelse | undefined }) => {
     if (!event) return null;
 
     return (
-        <p className="flex items-center">
+        <p className='flex items-center'>
             <strong>Startet</strong>&nbsp;av {tekst(utfoertAv?.type || '')}
             {utfoertAv?.type === 'VEILEDER' && <KopierVeilederId veilederId={utfoertAv.id} />}
         </p>
@@ -42,7 +42,7 @@ const PeriodeSluttInfo = ({ event }: { event: PeriodeAvsluttetHendelse | undefin
 
     return (
         <>
-            <p className="flex items-center">
+            <p className='flex items-center'>
                 <b>Avsluttet</b>&nbsp;av {tekst(event.sendtInnAv.utfoertAv.type)}
                 {event.sendtInnAv.utfoertAv.type === 'VEILEDER' && (
                     <KopierVeilederId veilederId={event.sendtInnAv.utfoertAv.id} />
@@ -61,7 +61,7 @@ const HistorikkHeading: React.FC<HistorikkHeadingProps> = (props) => {
     const periodeAvsluttetEvent = periode.hendelser.find((h) => h.type === 'PERIODE_AVSLUTTET_V1');
 
     return (
-        <InfoCard data-color="info" className="mb-8">
+        <InfoCard data-color='info' className='mb-8'>
             <InfoCard.Header>
                 <InfoCard.Title>
                     {prettyPrintDato(periode.startet, 'nb', true)} -{' '}
@@ -69,12 +69,12 @@ const HistorikkHeading: React.FC<HistorikkHeadingProps> = (props) => {
                 </InfoCard.Title>
             </InfoCard.Header>
             <InfoCard.Content>
-                <BodyLong size="medium" className="flex flex-row gap-4 mb-4">
+                <BodyLong size='medium' className='flex flex-row gap-4 mb-4'>
                     <span>{periode.hendelser.length} hendelser</span>
                     <span>&#8226;</span>
                     <span>Perioden er {periode.avsluttet ? 'avsluttet' : 'pågående'}</span>
                 </BodyLong>
-                <div className="flex flex-col gap-2">
+                <div className='flex flex-col gap-2'>
                     <PeriodeStartInfo event={periodeStartetEvent} />
                     <PeriodeSluttInfo event={periodeAvsluttetEvent} />
                 </div>

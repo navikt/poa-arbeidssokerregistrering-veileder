@@ -39,10 +39,10 @@ const Profilering: React.FC<ProfileringProps> = (props) => {
     const profileringMappet = mapProfilering(profilering);
 
     return (
-        <ReadMoreWrapper header="Se profilering">
-            <div className="text-base">
+        <ReadMoreWrapper header='Se profilering'>
+            <div className='text-base'>
                 {profileringMappet.map((field) => (
-                    <div key={field.sporsmal} className="mb-2">
+                    <div key={field.sporsmal} className='mb-2'>
                         <strong>{field.sporsmal}</strong>
                         <br />
                         {field.svar}

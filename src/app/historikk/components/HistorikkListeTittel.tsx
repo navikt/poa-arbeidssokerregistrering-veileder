@@ -28,12 +28,12 @@ const HistorikkListeTittel: React.FC<HistorikkListeTittelProps> = (props) => {
 			  ax-md:cursor-pointer flex flex-row text-left justify-between
         md:hover:translate-x-0.5 ax-md:hover:bg-ax-accent-100
         aria-current:md:translate-x-0.5 aria-current:z-10 aria-current:bg-ax-accent-200`}
-            type="button"
+            type='button'
             onClick={handleClick}
         >
-            <h2 className="flex gap-2">{`${getFormatedDateString(periode.startet) || '--'} - ${getFormatedDateString(periode.avsluttet) || 'Pågående'}`}</h2>
+            <h2 className='flex gap-2'>{`${getFormatedDateString(periode.startet) || '--'} - ${getFormatedDateString(periode.avsluttet) || 'Pågående'}`}</h2>
             <div>
-                <ChevronRightIcon fontSize="1.5rem" aria-hidden />
+                <ChevronRightIcon fontSize='1.5rem' aria-hidden />
             </div>
         </button>
     );

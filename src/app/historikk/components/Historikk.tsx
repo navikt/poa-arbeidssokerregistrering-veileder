@@ -37,25 +37,25 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
     if (error) return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere.</Alert>;
 
     if (!perioder || perioder.length === 0) {
-        return <Alert variant="info">Ingen arbeidssøkerhistorikk tilgjengelig</Alert>;
+        return <Alert variant='info'>Ingen arbeidssøkerhistorikk tilgjengelig</Alert>;
     }
 
     return (
         <FilterProvider>
             <PrintInfoHeader fnr={fnr} />
-            <div className="flex-1 ax-md:grid ax-md:grid-cols-[minmax(300px,1fr)_3fr]">
+            <div className='flex-1 ax-md:grid ax-md:grid-cols-[minmax(300px,1fr)_3fr]'>
                 {/* Mobile menu for perioder */}
                 <Box
                     as={'nav'}
-                    aria-label="Velg arbeidsøkerperiode"
-                    className="md:hidden bg-ax-bg-default mb-4 print:hidden sticky top-0 right-0 left-0 pt-4 pb-1 text-center"
+                    aria-label='Velg arbeidsøkerperiode'
+                    className='md:hidden bg-ax-bg-default mb-4 print:hidden sticky top-0 right-0 left-0 pt-4 pb-1 text-center'
                 >
                     <ActionMenu>
                         <ActionMenu.Trigger>
                             <Button
-                                variant="secondary-neutral"
+                                variant='secondary-neutral'
                                 icon={<ChevronDownIcon aria-hidden />}
-                                iconPosition="right"
+                                iconPosition='right'
                             >
                                 {perioder.length === 1 ? 'Arbeidssøkerperiode' : 'Arbeidssøkerperioder'}(
                                 {perioder?.length ?? 0})
@@ -73,25 +73,25 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
                 {/* Desktop list of perioder */}
                 <div
                     ref={sidebarRef}
-                    className="hidden ax-md:block px-1 print:hidden sticky top-0 max-h-screen overflow-y-scroll"
+                    className='hidden ax-md:block px-1 print:hidden sticky top-0 max-h-screen overflow-y-scroll'
                 >
                     {/* Sidebar content */}
-                    <Heading size="large">Arbeidssøkerperioder</Heading>
-                    <BodyShort className="mb-4">
+                    <Heading size='large'>Arbeidssøkerperioder</Heading>
+                    <BodyShort className='mb-4'>
                         <b>{perioder.length || 0}</b> {perioder.length === 1 ? 'periode' : 'perioder'} funnet
                     </BodyShort>
                     {perioder.map((el) => (
                         <HistorikkListeTittel key={el.periodeId} periode={el} />
                     ))}
                 </div>
-                <div className="md:p-4">
-                    <TilbakeTilForside sidenavn="Arbeidssøkerhistorikk" />
-                    <div className="py-4 mb-6">
+                <div className='md:p-4'>
+                    <TilbakeTilForside sidenavn='Arbeidssøkerhistorikk' />
+                    <div className='py-4 mb-6'>
                         <HendelseFilter />
                         <Switch onChange={toggleVisningsType}>Vis innhold ekspandert</Switch>
                     </div>
                     {perioder.map((periode) => (
-                        <div key={periode.periodeId} className="mb-8 pb-8">
+                        <div key={periode.periodeId} className='mb-8 pb-8'>
                             <HistorikkPeriode periode={periode} />
                         </div>
                     ))}

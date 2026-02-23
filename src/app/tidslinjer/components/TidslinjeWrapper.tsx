@@ -20,7 +20,7 @@ const TidslinjeWrapper: React.FC<TidslinjerWrapperProps> = ({ initialPerioderPro
 
     return (
         <Suspense fallback={<LoaderSkeleton />}>
-            {isPending && <Loader size="medium" title="Henter tidslinjer" />}
+            {isPending && <Loader size='medium' title='Henter tidslinjer' />}
             <Tidslinjer perioderPromise={dataPromise} />
         </Suspense>
     );

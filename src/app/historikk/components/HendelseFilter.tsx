@@ -25,7 +25,7 @@ const HendelseFilter: React.FC = () => {
                     {tekst(hendelseType)}
                 </Chips.Toggle>
             ))}
-            <Button size="small" variant="tertiary" onClick={resetFiltersToDefault}>
+            <Button size='small' variant='tertiary' onClick={resetFiltersToDefault}>
                 Nullstill filter
             </Button>
         </Chips>

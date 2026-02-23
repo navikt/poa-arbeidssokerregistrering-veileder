@@ -14,10 +14,10 @@ const Opplysninger: React.FC<OpplysningerProps> = (props) => {
     const tekst = lagHentTekstForSprak(SPORSMAL_TEKSTER, 'nb');
 
     return (
-        <ReadMoreWrapper header="Se innsendte opplysninger">
-            <div className="text-base">
+        <ReadMoreWrapper header='Se innsendte opplysninger'>
+            <div className='text-base'>
                 {opplysningerFormatted.map((field) => (
-                    <div key={field.sporsmal} className="mb-2">
+                    <div key={field.sporsmal} className='mb-2'>
                         <strong>{tekst(field.sporsmal)}</strong>
                         <br />
                         {tekst(field.svar as string) ?? field.svar}

@@ -10,8 +10,8 @@ const meta = {
     component: Historikk,
     decorators: [
         (Story) => (
-            <ModiaProvider initFnr="12345678901" initEnhetId="9999">
-                <div className="max-w-6xl mx-auto p-4">
+            <ModiaProvider initFnr='12345678901' initEnhetId='9999'>
+                <div className='max-w-6xl mx-auto p-4'>
                     <Story />
                 </div>
             </ModiaProvider>
