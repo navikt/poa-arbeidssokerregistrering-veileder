@@ -44,7 +44,7 @@
         "@jest/globals": "30.2.0",
         "@storybook/addon-docs": "10.2.1",
         "@storybook/addon-onboarding": "10.2.1",
-        "@storybook/nextjs": "10.2.1",
+        "@storybook/nextjs": "10.2.8",
         "@storybook/nextjs-vite": "10.2.1",
         "@tailwindcss/postcss": "4.1.18",
         "@testing-library/jest-dom": "6.9.1",
