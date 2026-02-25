@@ -142,7 +142,7 @@ describe('authenticatedFetch', () => {
             expect(error.message).toBe('500 Internal Server Error');
         }
         expect(logger.error).toHaveBeenCalledWith(
-            expect.objectContaining({ message: expect.stringContaining('Feil fra API:') }),
+            expect.objectContaining({ message: expect.stringContaining(`Feil fra ${defaultOptions.url}:`) }),
         );
     });
 });

@@ -42,7 +42,7 @@ async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promis
                 problemDetails = await response.json();
                 if (isProblemDetails(problemDetails)) {
                     logger.error({
-                        message: `Feil fra API: ${problemDetails.status} ${problemDetails.title} - ${problemDetails.detail || 'ingen detaljer gitt'}`,
+                        message: `Feil fra ${url}: ${problemDetails.status} ${problemDetails.title} - ${problemDetails.detail || 'ingen detaljer gitt'}`,
                     });
                 }
             } catch (_e) {} // Ignore JSON parse errors
