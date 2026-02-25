@@ -34,7 +34,7 @@ async function getBekreftelser(identitetsnummer: string | null): Promise<Bekreft
     }
 
     const result = await authenticatedFetch<TilgjengeligBekreftelse[]>({
-        url: `${BEKREFTELSER_API_URL}/api/v1/bekreftelse`,
+        url: `${BEKREFTELSER_API_URL}/api/v1/tilgjengelige-bekreftelser`,
         scope: BEKREFTELSE_API_SCOPE,
         headers: await headers(),
         method: 'POST',
