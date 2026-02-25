@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
+import { VisningsTypeProvider } from '@/app/contexts/hendelse-visning-context';
 import { opplysningsHendelse } from '../__mocks__/tidslinje-mock-data';
 import { Opplysninger } from './opplysninger';
 
@@ -8,9 +9,11 @@ const meta = {
     tags: ['autodocs'],
     decorators: [
         (Story) => (
-            <div className='max-w-4xl mx-auto p-4'>
-                <Story />
-            </div>
+            <VisningsTypeProvider>
+                <div className='max-w-4xl mx-auto p-4'>
+                    <Story />
+                </div>
+            </VisningsTypeProvider>
         ),
     ],
 } satisfies Meta<typeof Opplysninger>;
