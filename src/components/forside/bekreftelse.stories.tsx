@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import Bekreftelse from './bekreftelse';
+import { Bekreftelse } from '../../app/(forside)/components/Bekreftelse';
 
 const meta = {
     title: 'Forside/Bekreftelse',

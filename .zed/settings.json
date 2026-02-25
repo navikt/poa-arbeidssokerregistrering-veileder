@@ -7,6 +7,20 @@
                 },
             },
         },
+        "typescript-language-server": {
+            "settings": {
+                "typescript": {
+                    "preferences": {
+                        "importModuleSpecifier": "non-relative",
+                    },
+                },
+                "javascript": {
+                    "preferences": {
+                        "importModuleSpecifier": "non-relative",
+                    },
+                },
+            },
+        },
     },
     "languages": {
         "TypeScript": {
