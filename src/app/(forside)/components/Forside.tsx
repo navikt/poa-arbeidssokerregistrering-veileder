@@ -18,9 +18,13 @@ function Forside({ snapshotPromise, bekreftelserPromise }: ForsideProps) {
     const { snapshot, error: snapshotError } = use(snapshotPromise);
     const { bekreftelser, error: bekreftelserError } = use(bekreftelserPromise);
 
-    // !TODO: returner noe som gir mening
-    if (snapshotError || bekreftelserError) return 'error';
-    if (!snapshot) return 'mangeler data';
+    if (snapshotError || bekreftelserError) {
+        return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;
+    }
+
+    if (!snapshot) {
+        return <Alert variant={'error'}>Fant ingen data. Prøv igjen senere</Alert>;
+    }
 
     return (
         <div>
