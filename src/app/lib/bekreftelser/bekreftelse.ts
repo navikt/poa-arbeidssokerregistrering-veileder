@@ -12,6 +12,7 @@ export type BekreftelseApiResult = {
     bekreftelser: TilgjengeligBekreftelse[] | null;
     error?: Error;
 };
+
 async function getBekreftelser(identitetsnummer: string | null): Promise<BekreftelseApiResult> {
     if (!identitetsnummer) {
         return {
@@ -37,7 +38,7 @@ async function getBekreftelser(identitetsnummer: string | null): Promise<Bekreft
         scope: BEKREFTELSE_API_SCOPE,
         headers: await headers(),
         method: 'POST',
-        body: { identitetsnummer: identitetsnummer, type: 'IDENTITETSNUMMER' },
+        body: { identitetsnummer: identitetsnummer },
     });
 
     if (!result.ok) {
