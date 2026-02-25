@@ -50,7 +50,7 @@ async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promis
             // - Dersom det ikke er RFC 9457, logg generisk error
             if (!problemDetails) {
                 logger.error({
-                    message: `Feil fra API: ${response.status} ${response.statusText}`,
+                    message: `Feil fra ${url}: ${response.status} ${response.statusText}`,
                 });
             }
             const errorMsg = problemDetails?.detail
