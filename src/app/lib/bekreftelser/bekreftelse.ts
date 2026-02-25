@@ -31,8 +31,9 @@ async function getBekreftelser(identitetsnummer: string | null): Promise<Bekreft
     if (!BEKREFTELSER_API_URL) {
         return { error: new Error('Bekreftelse API URL mangler'), bekreftelser: null };
     }
+
     const result = await authenticatedFetch<TilgjengeligBekreftelse[]>({
-        url: BEKREFTELSER_API_URL,
+        url: `${BEKREFTELSER_API_URL}/api/v1/bekreftelse`,
         scope: BEKREFTELSE_API_SCOPE,
         headers: await headers(),
         method: 'POST',
