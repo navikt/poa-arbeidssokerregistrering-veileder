@@ -31,5 +31,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/tidslinjer/:path*', '/historikk/:path*'],
+    matcher: ['/','/tidslinjer/:path*', '/historikk/:path*'],
 };
