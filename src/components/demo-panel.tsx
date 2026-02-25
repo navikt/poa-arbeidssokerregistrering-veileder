@@ -1,15 +1,10 @@
 import NextLink from 'next/link';
 import { Button, Heading, Box } from '@navikt/ds-react';
 
-import { useConfig } from '../contexts/config-context';
-
-import { Config } from '../model/config';
-
 function DemoPanel() {
-    const { enableMock } = useConfig() as Config;
-    const brukerMock = enableMock === 'enabled';
+    const enableMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 
-    if (!brukerMock) return null;
+    if (!enableMock) return null;
 
     return (
         <Box className="mt-8 flex flex-col bg-ax-warning-300">

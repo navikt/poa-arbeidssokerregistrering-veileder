@@ -158,6 +158,10 @@ src/
 │   └── modia-headers.ts             # Bygger NAV-headere med OBO-token + trace-id
 ```
 
+## Feature flags (Unleash)
+
+I pages routeren ble feature toggles hentet via en API-route (`pages/api/features.ts`) som returnerte rå definisjoner til klienten, som selv evaluerte flaggene. I app routeren evalueres flaggene server-side i `lib/unleash/feature-flags.ts`.
+
 ## Kjent tsconfig-problem: `strictNullChecks`
 
 Prosjektet har `strictNullChecks: false` i `tsconfig.json`. Dette gjør at TypeScript ikke klarer å narrowe discriminated unions (f.eks. `OboTokenResult = OboTokenSuccess | OboTokenFailure`) etter en `if (!result.ok)`-sjekk. Vi jobber rundt dette med eksplisitte type assertions (`as { ok: false; error: Error }`). Tidligere var `src/app` også i `exclude`-lista i tsconfig, som skjulte feilen lokalt mens Next.js-buildet i CI fanget den. `src/app` er nå fjernet fra `exclude`, men vi bør på sikt skru på `strictNullChecks: true` i topp-nivå tsconfig — da vil discriminated unions fungere uten assertions, og vi kan fjerne alle workarounds.

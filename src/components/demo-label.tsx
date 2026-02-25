@@ -1,12 +1,7 @@
-import { useConfig } from '../contexts/config-context';
-
-import { Config } from '../model/config';
-
 function DemoLabel() {
-    const { enableMock } = useConfig() as Config;
-    const brukerMock = enableMock === 'enabled';
+    const enableMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 
-    if (!brukerMock) return null;
+    if (!enableMock) return null;
 
     return (
         <div className="top-0 left-0 -mb-4 h-16 w-32">
