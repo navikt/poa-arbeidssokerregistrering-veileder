@@ -31,6 +31,7 @@ vi.mock('@/app/lib/bekreftelser/bekreftelse', () => ({
     getBekreftelser: vi.fn(),
 }));
 
+import type { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { act, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
 import { ModiaProvider } from '@/app/contexts/modia-context';
@@ -80,6 +81,13 @@ const problemDetailsSnapshot: SnapshotResult = {
     snapshot: null,
     notFound: true,
 };
+
+const lagSnapshotMedEgenvurdering = (egenvurdering: ProfilertTil | undefined): SnapshotResult => ({
+    snapshot: {
+        ...snapshotMock,
+        egenvurdering: egenvurdering ? { ...snapshotMock.egenvurdering, egenvurdering } : undefined,
+    } as SnapshotResult['snapshot'],
+});
 
 // ———————————————————————————————————————————————————
 // Hjelpere
@@ -212,6 +220,24 @@ describe('Forside', () => {
             await renderForside(problemDetailsSnapshot, happyBekreftelser);
             expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
             expect(screen.getByText('Har ikke vært registrert som arbeidssøker')).toBeDefined();
+        });
+    });
+
+    describe('Egenvurdering', () => {
+        it('Sjekk at egenvurderingsfeltet er synlig når det finnes', async () => {
+            await renderForside(lagSnapshotMedEgenvurdering('ANTATT_BEHOV_FOR_VEILEDNING'), emptyBekreftelser);
+            expect(screen.getByText('Hva slags veiledning ønsker du?')).toBeDefined();
+            expect(screen.getByText('Jeg ønsker oppfølging fra Nav')).toBeDefined();
+        });
+        it('Sjekk at egenvurderingsfeltet er synlig når det finnes', async () => {
+            await renderForside(lagSnapshotMedEgenvurdering('ANTATT_GODE_MULIGHETER'), emptyBekreftelser);
+            expect(screen.getByText('Hva slags veiledning ønsker du?')).toBeDefined();
+            expect(screen.getByText('Jeg ønsker å klare meg selv')).toBeDefined();
+        });
+
+        it('Sjekk at egenvurderingsfeltet ikke vises når det er undefined', async () => {
+            await renderForside(lagSnapshotMedEgenvurdering(undefined), emptyBekreftelser);
+            expect(screen.queryByText('Hva slags veiledning ønsker du?')).toBeNull();
         });
     });
 });
