@@ -1,0 +1,91 @@
+{
+    "id": "927f6ce5-452d-4734-ac96-e4528878fc51",
+    "identitetsnummer": "21488117839",
+    "startet": {
+        "sendtInnAv": {
+            "tidspunkt": "2026-02-10T06:17:49.060Z",
+            "utfoertAv": {
+                "type": "SLUTTBRUKER",
+                "id": "21488117839",
+                "sikkerhetsnivaa": "tokenx:Level4"
+            },
+            "kilde": "europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:26.02.05.409-1",
+            "aarsak": "Er over 18 år, er bosatt i Norge i henhold Folkeregisterloven"
+        },
+        "tidspunkt": "2026-02-10T06:17:49.060Z",
+        "type": "PERIODE_STARTET_V1"
+    },
+    "avsluttet": {
+        "sendtInnAv": {
+            "tidspunkt": "2026-02-10T06:20:12.727Z",
+            "utfoertAv": {
+                "type": "VEILEDER",
+                "id": "Z994498",
+                "sikkerhetsnivaa": "azure:undefined"
+            },
+            "kilde": "europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:26.02.05.409-1",
+            "aarsak": "Stopp av periode"
+        },
+        "tidspunkt": "2026-02-10T06:20:12.727Z",
+        "type": "PERIODE_AVSLUTTET_V1"
+    },
+    "opplysning": {
+        "id": "3404cf4f-2458-424c-9854-7be9a5dbc14a",
+        "sendtInnAv": {
+            "tidspunkt": "2026-02-10T06:17:49.667Z",
+            "utfoertAv": {
+                "type": "SLUTTBRUKER",
+                "id": "21488117839",
+                "sikkerhetsnivaa": "tokenx:Level4"
+            },
+            "kilde": "europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:26.02.05.409-1",
+            "aarsak": "opplysning om arbeidssøker sendt inn"
+        },
+        "utdanning": {
+            "nus": "3",
+            "bestaatt": "JA",
+            "godkjent": "JA"
+        },
+        "helse": {
+            "helsetilstandHindrerArbeid": "NEI"
+        },
+        "jobbsituasjon": {
+            "beskrivelser": [
+                {
+                    "beskrivelse": "HAR_BLITT_SAGT_OPP",
+                    "detaljer": {
+                        "stilling": "Annen stilling",
+                        "stilling_styrk08": "00"
+                    }
+                }
+            ]
+        },
+        "annet": {
+            "andreForholdHindrerArbeid": "NEI"
+        },
+        "tidspunkt": "2026-02-10T06:17:49.667Z",
+        "type": "OPPLYSNINGER_V4"
+    },
+    "profilering": {
+        "id": "4d7c0c62-fa49-4d94-b1f1-37d60c52c034",
+        "opplysningerOmArbeidssokerId": "3404cf4f-2458-424c-9854-7be9a5dbc14a",
+        "sendtInnAv": {
+            "tidspunkt": "2026-02-10T06:17:50.390Z",
+            "utfoertAv": {
+                "type": "SYSTEM",
+                "id": "europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-profilering:26.01.23.265-1"
+            },
+            "kilde": "europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-profilering:26.01.23.265-1",
+            "aarsak": "opplysninger-mottatt",
+            "tidspunktFraKilde": {
+                "tidspunkt": "2026-02-10T06:17:49.667Z",
+                "avviksType": "FORSINKELSE"
+            }
+        },
+        "profilertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
+        "jobbetSammenhengendeSeksAvTolvSisteMnd": false,
+        "alder": 44,
+        "tidspunkt": "2026-02-10T06:17:50.390Z",
+        "type": "PROFILERING_V1"
+    }
+}

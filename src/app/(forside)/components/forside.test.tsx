@@ -38,6 +38,7 @@ import type { BekreftelseApiResult } from '@/app/lib/bekreftelser/bekreftelse';
 import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
 import bekreftelserMock from '@/app/mocks/bekfreftelser.json';
 import snapshotMock from '@/app/mocks/snapshot.json';
+import snapshotMockAvsluttet from '@/app/mocks/snapshot-med-avsluttet.json';
 import { Forside } from './Forside';
 import { ForsideWrapper } from './ForsideWrapper';
 
@@ -45,8 +46,12 @@ import { ForsideWrapper } from './ForsideWrapper';
 // Test-data
 // ———————————————————————————————————————————————————
 
-const happySnapshot: SnapshotResult = {
+const happySnapshotMedPaagaaende: SnapshotResult = {
     snapshot: snapshotMock as SnapshotResult['snapshot'],
+};
+
+const happySnapshotMedAvsluttet: SnapshotResult = {
+    snapshot: snapshotMockAvsluttet as SnapshotResult['snapshot'],
 };
 
 const happyBekreftelser: BekreftelseApiResult = {
@@ -69,6 +74,11 @@ const errorBekreftelser: BekreftelseApiResult = {
 
 const nullSnapshot: SnapshotResult = {
     snapshot: null,
+};
+
+const problemDetailsSnapshot: SnapshotResult = {
+    snapshot: null,
+    notFound: true,
 };
 
 // ———————————————————————————————————————————————————
@@ -114,7 +124,7 @@ async function renderForsideWrapper(snapshotResult: SnapshotResult, bekreftelser
 describe('Forside', () => {
     describe('happy path — snapshot og bekreftelser lastes', () => {
         beforeEach(async () => {
-            await renderForside(happySnapshot, happyBekreftelser);
+            await renderForside(happySnapshotMedPaagaaende, happyBekreftelser);
         });
 
         it('viser at personen er registrert som arbeidssøker', () => {
@@ -149,7 +159,7 @@ describe('Forside', () => {
 
     describe('ingen tilgjengelige bekreftelser', () => {
         it('viser ikke bekreftelse-seksjonen', async () => {
-            await renderForside(happySnapshot, emptyBekreftelser);
+            await renderForside(happySnapshotMedPaagaaende, emptyBekreftelser);
             // Bekreftelse returnerer null når antall er 0/falsy
             expect(screen.getByText('Personen er registrert som arbeidssøker')).toBeDefined();
             expect(screen.queryByText('Bekreftelse')).toBeNull();
@@ -170,15 +180,38 @@ describe('Forside', () => {
 
     describe('feil ved henting av bekreftelser', () => {
         it('viser generell feilmelding', async () => {
-            await renderForside(happySnapshot, errorBekreftelser);
+            await renderForside(happySnapshotMedPaagaaende, errorBekreftelser);
             expect(screen.getByText('Noe gikk dessverre galt. Prøv igjen senere')).toBeDefined();
         });
     });
 
     describe('snapshot er null uten feil', () => {
-        it('viser "fant ingen data"-melding', async () => {
+        it('viser ikke-aktiv-forside', async () => {
             await renderForside(nullSnapshot, happyBekreftelser);
             expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
+        });
+    });
+
+    describe('snapshot hvor periode er avsluttet', () => {
+        it('viser ikke-aktiv-forside når person har gyldig snapshot, men perioden er avsluttet', async () => {
+            await renderForside(happySnapshotMedAvsluttet, emptyBekreftelser);
+            expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
+        });
+        it('viser ikke-aktiv-forside selvom bekreftelser finnes (det skal ikke finnes men...)', async () => {
+            await renderForside(happySnapshotMedAvsluttet, happyBekreftelser);
+            expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
+        });
+    });
+    describe('snapshot hvor person aldri har vært registrert før (problem details - periode-ikke-funnet)', () => {
+        it('skal viser ikke-aktiv-forside', async () => {
+            await renderForside(problemDetailsSnapshot, emptyBekreftelser);
+            expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
+            expect(screen.getByText('Har ikke vært registrert som arbeidssøker')).toBeDefined();
+        });
+        it('skal viser ikke-aktiv-forside, gyldige bekreftelser skal ikke påvirke dette', async () => {
+            await renderForside(problemDetailsSnapshot, happyBekreftelser);
+            expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
+            expect(screen.getByText('Har ikke vært registrert som arbeidssøker')).toBeDefined();
         });
     });
 });
@@ -189,7 +222,7 @@ describe('Forside', () => {
 
 describe('ForsideWrapper', () => {
     it('rendrer Forside-innhold når promises resolver', async () => {
-        await renderForsideWrapper(happySnapshot, happyBekreftelser);
+        await renderForsideWrapper(happySnapshotMedPaagaaende, happyBekreftelser);
         expect(screen.getByText('Personen er registrert som arbeidssøker')).toBeDefined();
         expect(screen.getByText('Opplysninger')).toBeDefined();
         expect(screen.getByText('Personen har en ubekreftet arbeidssøkerperiode')).toBeDefined();
@@ -201,7 +234,7 @@ describe('ForsideWrapper', () => {
     });
 
     it('rendrer Forside-innhold når bekreftelser er tom', async () => {
-        await renderForsideWrapper(happySnapshot, emptyBekreftelser);
+        await renderForsideWrapper(happySnapshotMedPaagaaende, emptyBekreftelser);
         expect(screen.getByText('Personen er registrert som arbeidssøker')).toBeDefined();
         expect(screen.getByText('Opplysninger')).toBeDefined();
         expect(screen.queryByText('Personen har en ubekreftet arbeidssøkerperiode')).toBeNull();
