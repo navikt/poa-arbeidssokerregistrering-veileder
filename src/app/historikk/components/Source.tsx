@@ -1,6 +1,6 @@
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import { Tag } from '@navikt/ds-react';
-import { TEKSTER } from '@/components/tidslinjer/text';
+import { TEKSTER } from '@/app/historikk/components/text';
 
 type SourceProps = {
     source: string;

@@ -2,7 +2,7 @@ import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import type { Hendelse, Periode, PeriodeAvsluttetHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { BodyLong, CopyButton, InfoCard } from '@navikt/ds-react';
 import type React from 'react';
-import { TEKSTER } from '@/components/tidslinjer/text';
+import { TEKSTER } from '@/app/historikk/components/text';
 import { prettyPrintDato } from '@/lib/date-utils';
 import { oversettSluttaarsak } from '@/lib/oversett-sluttaarsak';
 

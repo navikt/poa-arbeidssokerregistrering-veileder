@@ -9,7 +9,7 @@ import { Opplysninger } from '@/app/historikk/components/hendelseTyper/opplysnin
 import { PeriodeAvsluttet } from '@/app/historikk/components/hendelseTyper/periodeAvsluttet';
 import { Profilering } from '@/app/historikk/components/hendelseTyper/profilering';
 import { Source } from '@/app/historikk/components/Source';
-import { TEKSTER } from '@/components/tidslinjer/text';
+import { TEKSTER } from '@/app/historikk/components/text';
 import { prettyPrintDatoOgKlokkeslettKortform } from '@/lib/date-utils';
 
 type HistorikkProps = {

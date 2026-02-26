@@ -2,8 +2,8 @@ import type { PeriodeAvsluttetHendelse } from '@navikt/arbeidssokerregisteret-ut
 import { Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
 import Link from 'next/link';
 import { HistorikkLenke } from '@/app/(forside)/components/HistorikkLenke';
+import { mapUtfoertAvType } from '@/app/(forside)/components/mapUtfoertAvType';
 import { TidslinjerLenke } from '@/app/(forside)/components/TidslinjerLenke';
-import { mapUtfoertAvType } from '@/components/forside/mapUtfoertAvType';
 import { prettyPrintDatoOgKlokkeslett } from '@/lib/date-utils';
 import { oversettSluttaarsak } from '@/lib/oversett-sluttaarsak';
 
@@ -44,9 +44,7 @@ function IkkeAktivPeriode({ avsluttetHendelse }: IkkeAktivPeriodeProps) {
             </Box>
             <Box className={'mt-4'}>
                 <Link href='/registrering-arbeidssoeker-sjekk' passHref>
-                    <Button as='a' variant={'secondary'}>
-                        Start registrering som arbeidssøker
-                    </Button>
+                    <Button variant={'secondary'}>Start registrering som arbeidssøker</Button>
                 </Link>
             </Box>
         </>

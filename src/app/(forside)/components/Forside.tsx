@@ -2,11 +2,11 @@ import { Alert, BodyShort, Box, Heading } from '@navikt/ds-react';
 import { use } from 'react';
 import { Bekreftelse } from '@/app/(forside)/components/Bekreftelse';
 import { HistorikkLenke } from '@/app/(forside)/components/HistorikkLenke';
+import { mapUtfoertAvType } from '@/app/(forside)/components/mapUtfoertAvType';
 import { Opplysninger } from '@/app/(forside)/components/Opplysninger';
 import { TidslinjerLenke } from '@/app/(forside)/components/TidslinjerLenke';
 import type { BekreftelseApiResult } from '@/app/lib/bekreftelser/bekreftelse';
 import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
-import { mapUtfoertAvType } from '@/components/forside/mapUtfoertAvType';
 import { prettyPrintDatoOgKlokkeslett } from '@/lib/date-utils';
 import { IkkeAktivPeriode } from './IkkeAktivPeriode';
 

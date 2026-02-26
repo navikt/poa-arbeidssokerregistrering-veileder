@@ -1,7 +1,6 @@
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button } from '@navikt/ds-react';
-
-import { loggAktivitet } from '../../lib/tracking';
+import { loggAktivitet } from '@/lib/tracking';
 
 interface ValgmenyProps {
     sisteArbeidssoekerperiodeId: string;
@@ -17,19 +16,19 @@ function Valgmeny(props: ValgmenyProps) {
         <ActionMenu>
             <ActionMenu.Trigger>
                 <Button
-                    variant="secondary-neutral"
+                    variant='secondary-neutral'
                     icon={<ChevronDownIcon aria-hidden />}
-                    iconPosition="right"
+                    iconPosition='right'
                     size={'xsmall'}
                 >
                     Valg
                 </Button>
             </ActionMenu.Trigger>
             <ActionMenu.Content>
-                <ActionMenu.Group label="Valg for arbeidssøkerperioden">
+                <ActionMenu.Group label='Valg for arbeidssøkerperioden'>
                     <ActionMenu.Item
                         onSelect={() => loggAktivitet({ aktivitet: 'Går til endre opplysninger' })}
-                        as="a"
+                        as='a'
                         href={`/oppdater-opplysninger?periodeId=${sisteArbeidssoekerperiodeId}`}
                     >
                         {manglerOpplysninger ? 'Legg til opplysninger' : 'Endre opplysninger'}
@@ -37,15 +36,15 @@ function Valgmeny(props: ValgmenyProps) {
 
                     <ActionMenu.Item
                         onSelect={() => loggAktivitet({ aktivitet: 'Går til avslutt arbeidssøkerperiode' })}
-                        as="a"
-                        href="/avslutt-arbeidssoekerperiode"
+                        as='a'
+                        href='/avslutt-arbeidssoekerperiode'
                     >
                         Avslutt arbeidssøkerperioden
                     </ActionMenu.Item>
                     <ActionMenu.Item
                         onSelect={() => loggAktivitet({ aktivitet: 'Går til slett arbeidssøkerperiode' })}
-                        as="a"
-                        href="/slett-arbeidssoekerperiode"
+                        as='a'
+                        href='/slett-arbeidssoekerperiode'
                     >
                         Slett arbeidssøkerperioden
                     </ActionMenu.Item>
@@ -55,4 +54,4 @@ function Valgmeny(props: ValgmenyProps) {
     );
 }
 
-export default Valgmeny;
+export { Valgmeny };

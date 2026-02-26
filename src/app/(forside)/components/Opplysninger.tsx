@@ -2,9 +2,9 @@ import { lagHentTekstForSprak, SPORSMAL_TEKSTER, type Svar } from '@navikt/arbei
 import type { EgenvurderingHendelse, OpplysningerHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { BodyShort, Box, Button, Heading, HGrid } from '@navikt/ds-react';
 import Link from 'next/link';
+import { mapUtfoertAvType } from '@/app/(forside)/components/mapUtfoertAvType';
+import { Valgmeny } from '@/app/(forside)/components/Valgmeny';
 import { mapOpplysningerV2 } from '@/app/historikk/components/hendelseTyper/map-opplysninger-til-fremvisning';
-import { mapUtfoertAvType } from '@/components/forside/mapUtfoertAvType';
-import Valgmeny from '@/components/forside/valgmeny';
 import { prettyPrintDato } from '@/lib/date-utils';
 
 type OpplysningProps = { sporsmal: string; svar: Svar | string };

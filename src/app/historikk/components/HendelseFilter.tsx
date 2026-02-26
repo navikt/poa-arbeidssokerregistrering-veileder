@@ -3,7 +3,7 @@ import type { HendelseType } from '@navikt/arbeidssokerregisteret-utils/oppslag/
 import { Button, Chips } from '@navikt/ds-react';
 import type React from 'react';
 import { useFilterContext } from '@/app/contexts/filter-hendelse-context';
-import { TEKSTER } from '@/components/tidslinjer/text';
+import { TEKSTER } from '@/app/historikk/components/text';
 import { ALLE_HENDELSER } from '@/lib/alle-hendelser';
 
 const HendelseFilter: React.FC = () => {
