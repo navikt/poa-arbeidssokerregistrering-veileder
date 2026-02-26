@@ -37,7 +37,6 @@ function Bekreftelse({ antallTilgjengeligBekreftelser }: BekreftelseProps) {
                     </div>
                     <Link href='/bekreftelse' passHref>
                         <Button
-                            as='a'
                             variant={'secondary'}
                             onClick={() => loggAktivitet({ aktivitet: 'Går til bekreftelser' })}
                         >
