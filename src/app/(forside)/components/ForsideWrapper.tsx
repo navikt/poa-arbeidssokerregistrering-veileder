@@ -22,7 +22,7 @@ function ForsideWrapper({ initialSnapshotPromise, initialBekreftelserPromise }: 
     return (
         <div>
             <Suspense fallback={<Loader />}>
-                {snapshotIsPending || (bekreftelserIsPending && <Loader size='medium' title='Henter informasjon' />)}
+                {(snapshotIsPending || bekreftelserIsPending) && <Loader size='medium' title='Henter informasjon' />}
                 <Forside snapshotPromise={dataPromise} bekreftelserPromise={bekreftelserPromise} />
             </Suspense>
         </div>
