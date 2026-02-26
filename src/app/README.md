@@ -185,7 +185,11 @@ I pages routeren ble feature toggles hentet via en API-route (`pages/api/feature
 
 ## Kjent tsconfig-problem: `strictNullChecks`
 
-Prosjektet har `strictNullChecks: false` i `tsconfig.json`. Dette gjør at TypeScript ikke klarer å narrowe discriminated unions (f.eks. `OboTokenResult = OboTokenSuccess | OboTokenFailure`) etter en `if (!result.ok)`-sjekk. Vi jobber rundt dette med eksplisitte type assertions (`as { ok: false; error: Error }`). Tidligere var `src/app` også i `exclude`-lista i tsconfig, som skjulte feilen lokalt mens Next.js-buildet i CI fanget den. `src/app` er nå fjernet fra `exclude`, men vi bør på sikt skru på `strictNullChecks: true` i topp-nivå tsconfig — da vil discriminated unions fungere uten assertions, og vi kan fjerne alle workarounds.
+Prosjektet har `strictNullChecks: false` i rot-`tsconfig.json`. Dette gjør at TypeScript ikke klarer å narrowe discriminated unions (f.eks. `FetchResult<T> = FetchSuccess<T> | FetchFailure`) etter en `if (!result.ok)`-sjekk. Vi jobber rundt dette med eksplisitte type assertions (`as { ok: false; error: Error }`).
+
+`src/app/tsconfig.json` overstyrer dette med `strictNullChecks: true`. Det betyr at IDE-en (som plukker opp nærmeste tsconfig) viser ingen feil for filer under `src/app/`, mens `npx tsc` (pre-commit hook og CI) bruker rot-tsconfigen og feiler. Dette er grunnen til at man kan ha "ingen feil i editoren" men likevel få feil ved commit.
+
+Vi bør på sikt skru på `strictNullChecks: true` i rot-`tsconfig.json` — da vil discriminated unions fungere uten assertions, IDE og CLI vil være i sync, og vi kan fjerne alle workarounds.
 
 ## Testing
 
