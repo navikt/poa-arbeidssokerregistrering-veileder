@@ -1,7 +1,7 @@
 import Script from 'next/script';
 import '../styles/globals.css';
 import { InternflateDecorator } from './components/decorator-intern';
-import { FaroWrapper } from './components/FaroWrapper';
+import { InitFaro } from './components/InitFaro';
 import { Visittkort } from './components/visittkort';
 import { ModiaProvider } from './contexts/modia-context';
 import { hentModiaContext } from './lib/modia-context-api';
@@ -26,14 +26,13 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             </head>
 
             <body>
-                <FaroWrapper>
-                    {visittkortUrl && <Script src={visittkortUrl} strategy='afterInteractive' type='module' />}
-                    <ModiaProvider initFnr={modiaContext.fnr} initEnhetId={modiaContext.enhetId}>
-                        <InternflateDecorator decoratorEnv={decoratorEnv} />
-                        <Visittkort brukerMock={enableMock} />
-                        <main className='max-w-4xl m-auto p-8'>{children}</main>
-                    </ModiaProvider>
-                </FaroWrapper>
+                <InitFaro />
+                {visittkortUrl && <Script src={visittkortUrl} strategy='afterInteractive' type='module' />}
+                <ModiaProvider initFnr={modiaContext.fnr} initEnhetId={modiaContext.enhetId}>
+                    <InternflateDecorator decoratorEnv={decoratorEnv} />
+                    <Visittkort brukerMock={enableMock} />
+                    <main className='max-w-4xl m-auto p-8'>{children}</main>
+                </ModiaProvider>
             </body>
         </html>
     );
