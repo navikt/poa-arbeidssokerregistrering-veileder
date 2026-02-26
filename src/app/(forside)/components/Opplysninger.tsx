@@ -56,7 +56,7 @@ function Opplysninger(props: OpplysningerProps) {
     }
     const { opplysninger, sisteArbeidssoekerperiodeId, egenvurderinger } = props;
     const mappedeOpplysninger = mapOpplysningerV2(opplysninger);
-    const egenvurdering = egenvurderinger?.profilertTil;
+    const egenvurdering = egenvurderinger?.egenvurdering;
 
     return (
         <Box className={'mb-4'}>
