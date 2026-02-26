@@ -23,14 +23,8 @@ function Forside({ snapshotPromise, bekreftelserPromise }: ForsideProps) {
         return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;
     }
 
-    // TODO: snapshot vil inneholde forrige avsluttede periode-dato?
-    // Ved ingen pågående periode viser vi ikke aktiv forside
-    // men vi må sjekke om personen har tidligere periode, og evt siste dato
-    // avslutten.
-    // BASERT PÅ SNAPSHOT -> HVIS snapshot.avsluttet finnes, så skal vi vise "ikka aktiv periode"
-    if (!snapshot || notFound) {
+    if (!snapshot || snapshot.avsluttet || notFound) {
         return <IkkeAktivPeriode avsluttetHendelse={snapshot?.avsluttet} />;
-        // return <Alert variant={'warning'}>Fant ingen data. Prøv igjen senere</Alert>;
     }
 
     return (
