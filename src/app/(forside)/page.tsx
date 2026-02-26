@@ -12,9 +12,11 @@ import DemoPanel from '@/components/demo-panel';
 
 export default async function ForsidePage() {
     const modiaContext = await hentModiaContext();
-    const flagVisHvaSomErNytt = await isFeatureEnabled('arbeidssokerregistrering-for-veileder.vis-hva-er-nytt');
+    const flagVisHvaSomErNyttPromise = isFeatureEnabled('arbeidssokerregistrering-for-veileder.vis-hva-er-nytt');
     const snapshotPromise = getSnapshot(modiaContext.fnr);
     const bekreftelserPromise = getBekreftelser(modiaContext.fnr);
+
+    const flagVisHvaSomErNytt = await flagVisHvaSomErNyttPromise;
 
     return (
         <div className={'flex flex-col max-w-3xl'}>
