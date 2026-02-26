@@ -36,7 +36,7 @@ import { Suspense } from 'react';
 import { ModiaProvider } from '@/app/contexts/modia-context';
 import type { BekreftelseApiResult } from '@/app/lib/bekreftelser/bekreftelse';
 import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
-import bekreftelserMock from '@/app/mocks/bekfreftelser.json';
+import bekreftelserMock from '@/app/mocks/bekreftelser.json';
 import snapshotMock from '@/app/mocks/snapshot.json';
 import snapshotMockAvsluttet from '@/app/mocks/snapshot-med-avsluttet.json';
 import { Forside } from './Forside';

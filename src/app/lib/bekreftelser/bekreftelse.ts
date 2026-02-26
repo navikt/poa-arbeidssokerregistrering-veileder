@@ -22,7 +22,7 @@ async function getBekreftelser(identitetsnummer: string | null): Promise<Bekreft
     }
 
     if (brukerMock) {
-        const { default: bekreftelser } = (await import('@/app/mocks/bekfreftelser.json', {
+        const { default: bekreftelser } = (await import('@/app/mocks/bekreftelser.json', {
             with: { type: 'json' },
         })) as { default: TilgjengeligBekreftelse[] };
         await new Promise((res) => setTimeout(res, 500));

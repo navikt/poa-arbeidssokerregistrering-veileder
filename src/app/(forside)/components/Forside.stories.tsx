@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import type { BekreftelseApiResult } from '@/app/lib/bekreftelser/bekreftelse';
 import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
-import bekreftelserMock from '@/app/mocks/bekfreftelser.json';
+import bekreftelserMock from '@/app/mocks/bekreftelser.json';
 import snapshotMock from '@/app/mocks/snapshot.json';
 import { Forside } from './Forside';
 
