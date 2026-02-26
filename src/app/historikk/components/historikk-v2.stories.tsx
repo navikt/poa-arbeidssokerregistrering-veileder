@@ -1,5 +1,6 @@
 import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import type { Meta, StoryObj } from '@storybook/nextjs';
+import { VisningsTypeProvider } from '@/app/contexts/hendelse-visning-context';
 import { ModiaProvider } from '@/app/contexts/modia-context';
 import perioderMock from '@/app/mocks/perioder.json';
 import { samplePeriode } from './__mocks__/tidslinje-mock-data';
@@ -10,11 +11,13 @@ const meta = {
     component: Historikk,
     decorators: [
         (Story) => (
-            <ModiaProvider initFnr='12345678901' initEnhetId='9999'>
-                <div className='max-w-6xl mx-auto p-4'>
-                    <Story />
-                </div>
-            </ModiaProvider>
+            <VisningsTypeProvider>
+                <ModiaProvider initFnr='12345678901' initEnhetId='9999'>
+                    <div className='max-w-6xl mx-auto p-4'>
+                        <Story />
+                    </div>
+                </ModiaProvider>
+            </VisningsTypeProvider>
         ),
     ],
     parameters: {

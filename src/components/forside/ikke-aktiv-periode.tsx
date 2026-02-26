@@ -2,8 +2,8 @@ import { Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
 import { useRouter } from 'next/router';
 
 import { prettyPrintDatoOgKlokkeslett } from '../../lib/date-utils';
-import HistorikkLenke from './historikk-lenke';
-import TidslinjerLenke from './tidslinjer-lenke';
+import { HistorikkLenke } from '../../app/(forside)/components/HistorikkLenke';
+import { TidslinjerLenke } from '../../app/(forside)/components/TidslinjerLenke';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
 import { oversettSluttaarsak } from '../../lib/oversett-sluttaarsak';
 import { AggregertPeriode } from '@navikt/arbeidssokerregisteret-utils';

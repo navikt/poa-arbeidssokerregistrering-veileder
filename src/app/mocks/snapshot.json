@@ -1,0 +1,95 @@
+{
+    "id": "a43abadd-5f86-41e0-9b69-31d091861252",
+    "identitetsnummer": "24849098329",
+    "startet": {
+        "sendtInnAv": {
+            "tidspunkt": "2026-02-11T09:40:09.652Z",
+            "utfoertAv": {
+                "type": "SLUTTBRUKER",
+                "id": "24849098329",
+                "sikkerhetsnivaa": "tokenx:Level4"
+            },
+            "kilde": "europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:26.02.05.409-1",
+            "aarsak": "Er over 18 år, er bosatt i Norge i henhold Folkeregisterloven"
+        },
+        "tidspunkt": "2026-02-11T09:40:09.652Z",
+        "type": "PERIODE_STARTET_V1"
+    },
+    "opplysning": {
+        "id": "4c69e5e1-4a29-41b2-be3b-f2db9b9002ea",
+        "sendtInnAv": {
+            "tidspunkt": "2026-02-11T09:40:10.394Z",
+            "utfoertAv": {
+                "type": "SLUTTBRUKER",
+                "id": "24849098329",
+                "sikkerhetsnivaa": "tokenx:Level4"
+            },
+            "kilde": "europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-api-inngang:26.02.05.409-1",
+            "aarsak": "opplysning om arbeidssøker sendt inn"
+        },
+        "utdanning": {
+            "nus": "6",
+            "bestaatt": "JA",
+            "godkjent": "JA"
+        },
+        "helse": {
+            "helsetilstandHindrerArbeid": "NEI"
+        },
+        "jobbsituasjon": {
+            "beskrivelser": [
+                {
+                    "beskrivelse": "USIKKER_JOBBSITUASJON",
+                    "detaljer": {
+                        "stilling": "Annen stilling",
+                        "stilling_styrk08": "00"
+                    }
+                }
+            ]
+        },
+        "annet": {
+            "andreForholdHindrerArbeid": "NEI"
+        },
+        "tidspunkt": "2026-02-11T09:40:10.394Z",
+        "type": "OPPLYSNINGER_V4"
+    },
+    "profilering": {
+        "id": "23576632-16b3-4b80-8acd-cd4d489ba26f",
+        "opplysningerOmArbeidssokerId": "4c69e5e1-4a29-41b2-be3b-f2db9b9002ea",
+        "sendtInnAv": {
+            "tidspunkt": "2026-02-11T09:40:11.158Z",
+            "utfoertAv": {
+                "type": "SYSTEM",
+                "id": "europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-profilering:26.01.23.265-1"
+            },
+            "kilde": "europe-north1-docker.pkg.dev/nais-management-233d/paw/paw-arbeidssokerregisteret-profilering:26.01.23.265-1",
+            "aarsak": "opplysninger-mottatt",
+            "tidspunktFraKilde": {
+                "tidspunkt": "2026-02-11T09:40:10.394Z",
+                "avviksType": "FORSINKELSE"
+            }
+        },
+        "profilertTil": "ANTATT_GODE_MULIGHETER",
+        "jobbetSammenhengendeSeksAvTolvSisteMnd": true,
+        "alder": 35,
+        "tidspunkt": "2026-02-11T09:40:11.158Z",
+        "type": "PROFILERING_V1"
+    },
+    "egenvurdering": {
+        "id": "83152b28-5acb-4b72-b194-bfa91e684708",
+        "profileringId": "23576632-16b3-4b80-8acd-cd4d489ba26f",
+        "sendtInnAv": {
+            "tidspunkt": "2026-02-24T08:10:44.815Z",
+            "utfoertAv": {
+                "type": "SLUTTBRUKER",
+                "id": "24849098329",
+                "sikkerhetsnivaa": "tokenx:Level4"
+            },
+            "kilde": "paw-arbeidssoekerregisteret-api-egenvurdering",
+            "aarsak": "Bruker har gjort en egenvurdering av profileringsresultatet"
+        },
+        "profilertTil": "ANTATT_GODE_MULIGHETER",
+        "egenvurdering": "ANTATT_BEHOV_FOR_VEILEDNING",
+        "tidspunkt": "2026-02-24T08:10:44.815Z",
+        "type": "EGENVURDERING_V1"
+    }
+}

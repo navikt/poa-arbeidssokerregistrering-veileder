@@ -12,6 +12,7 @@ export const featureMocks = {
                 {
                     name: 'default',
                     parameters: {},
+                    constraints: [],
                 },
             ],
             variants: [],

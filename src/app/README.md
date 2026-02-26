@@ -6,6 +6,27 @@ I korte trekk:
 - Alle sider bruker visittkortet og decoratøren, så for at /tidslinjer skulle funke, måtte vi også håndtere api-kallene, disse finnes nå i `(decorator-proxy)`, MEN. Men proxy-håndteringen vi gjør for /tidslinjer gjør seg gjeldene på alle sider. Altså er den gamle api-proxy-håndteringen i pages (kun for dekoratør og visittkort) nå overflødig.
 - Gjenstående side, feks /historikk treffer pages, MEN App Router sin handleren "vinner" over pages sin. Derfor er all proxy-håndtering som finnes i app-router gjeldene for alle paths/routes.
 
+## Routes som er over
+- [x] - /tidslinjer
+- [x] - /historikk
+- [x] - /(forsiden)
+
+## Routes som gjenstår
+- [ ] - /404
+- [ ] - /arbeidssoekerperiode-er-avsluttet
+- [ ] - /arbeidssoekerperiode-er-slettet
+- [ ] - /avslutt-arbeidssoekerperiode
+- [ ] - /bekreftelse
+- [ ] - /feil
+- [ ] - /kan-registreres-som-arbeidssoeker
+- [ ] - /kvittering-arbeidssoker
+- [ ] - /kvittering-oppdatert-opplysninger
+- [ ] - /oppdater-opplysninger
+- [ ] - /registrering-arbeidssoeker-sjekk
+- [ ] - /registrering-arbeidssoker
+- [ ] - /slett-arbeidssoekerperiode
+- [ ] - /veiledning/mangler-tilgang-til-aa-registeret
+
 # App Router — mental modell for datahenting
 
 ### Hva er greia spør du?
@@ -158,9 +179,17 @@ src/
 │   └── modia-headers.ts             # Bygger NAV-headere med OBO-token + trace-id
 ```
 
+## Feature flags (Unleash)
+
+I pages routeren ble feature toggles hentet via en API-route (`pages/api/features.ts`) som returnerte rå definisjoner til klienten, som selv evaluerte flaggene. I app routeren evalueres flaggene server-side i `lib/unleash/feature-flags.ts`.
+
 ## Kjent tsconfig-problem: `strictNullChecks`
 
-Prosjektet har `strictNullChecks: false` i `tsconfig.json`. Dette gjør at TypeScript ikke klarer å narrowe discriminated unions (f.eks. `OboTokenResult = OboTokenSuccess | OboTokenFailure`) etter en `if (!result.ok)`-sjekk. Vi jobber rundt dette med eksplisitte type assertions (`as { ok: false; error: Error }`). Tidligere var `src/app` også i `exclude`-lista i tsconfig, som skjulte feilen lokalt mens Next.js-buildet i CI fanget den. `src/app` er nå fjernet fra `exclude`, men vi bør på sikt skru på `strictNullChecks: true` i topp-nivå tsconfig — da vil discriminated unions fungere uten assertions, og vi kan fjerne alle workarounds.
+Prosjektet har `strictNullChecks: false` i rot-`tsconfig.json`. Dette gjør at TypeScript ikke klarer å narrowe discriminated unions (f.eks. `FetchResult<T> = FetchSuccess<T> | FetchFailure`) etter en `if (!result.ok)`-sjekk. Vi jobber rundt dette med eksplisitte type assertions (`as { ok: false; error: Error }`).
+
+`src/app/tsconfig.json` overstyrer dette med `strictNullChecks: true`. Det betyr at IDE-en (som plukker opp nærmeste tsconfig) viser ingen feil for filer under `src/app/`, mens `npx tsc` (pre-commit hook og CI) bruker rot-tsconfigen og feiler. Dette er grunnen til at man kan ha "ingen feil i editoren" men likevel få feil ved commit.
+
+Vi bør på sikt skru på `strictNullChecks: true` i rot-`tsconfig.json` — da vil discriminated unions fungere uten assertions, IDE og CLI vil være i sync, og vi kan fjerne alle workarounds.
 
 ## Testing
 
