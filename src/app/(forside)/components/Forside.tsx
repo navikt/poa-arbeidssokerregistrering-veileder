@@ -8,6 +8,7 @@ import type { BekreftelseApiResult } from '@/app/lib/bekreftelser/bekreftelse';
 import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
 import { mapUtfoertAvType } from '@/components/forside/mapUtfoertAvType';
 import { prettyPrintDatoOgKlokkeslett } from '@/lib/date-utils';
+import { IkkeAktivPeriode } from './IkkeAktivPeriode';
 
 type ForsideProps = {
     snapshotPromise: Promise<SnapshotResult>;
@@ -15,15 +16,21 @@ type ForsideProps = {
 };
 
 function Forside({ snapshotPromise, bekreftelserPromise }: ForsideProps) {
-    const { snapshot, error: snapshotError } = use(snapshotPromise);
+    const { snapshot, error: snapshotError, notFound } = use(snapshotPromise);
     const { bekreftelser, error: bekreftelserError } = use(bekreftelserPromise);
 
     if (snapshotError || bekreftelserError) {
         return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;
     }
 
-    if (!snapshot) {
-        return <Alert variant={'error'}>Fant ingen data. Prøv igjen senere</Alert>;
+    // TODO: snapshot vil inneholde forrige avsluttede periode-dato?
+    // Ved ingen pågående periode viser vi ikke aktiv forside
+    // men vi må sjekke om personen har tidligere periode, og evt siste dato
+    // avslutten.
+    // BASERT PÅ SNAPSHOT -> HVIS snapshot.avsluttet finnes, så skal vi vise "ikka aktiv periode"
+    if (!snapshot || notFound) {
+        return <IkkeAktivPeriode avsluttetHendelse={snapshot?.avsluttet} />;
+        // return <Alert variant={'warning'}>Fant ingen data. Prøv igjen senere</Alert>;
     }
 
     return (

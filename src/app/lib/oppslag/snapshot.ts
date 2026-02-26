@@ -3,10 +3,12 @@
 import type { Snapshot } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '../authenticatedFetch';
+import type { ProblemDetails } from '../types/problem-details';
 
 export type SnapshotResult = {
     snapshot: Snapshot | null;
     error?: Error;
+    notFound?: boolean;
 };
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
@@ -40,7 +42,13 @@ async function getSnapshot(identitetsnummer: string | null): Promise<SnapshotRes
     });
 
     if (!result.ok) {
-        const { error } = result as { ok: false; error: Error };
+        const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: ProblemDetails };
+        if (problemDetails?.type === 'urn:paw:perioder:periode-ikke-funnet') {
+            return {
+                snapshot: null,
+                notFound: true,
+            };
+        }
         return { snapshot: null, error };
     }
     return {

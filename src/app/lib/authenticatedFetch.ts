@@ -5,7 +5,11 @@ import { hentModiaHeaders } from '@/app/lib/modia-headers';
 import { isProblemDetails, type ProblemDetails } from '@/app/lib/types/problem-details';
 
 type FetchSuccess<T> = { ok: true; data: T };
-type FetchFailure = { ok: false; error: Error };
+type FetchFailure = {
+    ok: false;
+    error: Error;
+    problemDetails?: ProblemDetails;
+};
 type FetchResult<T> = FetchSuccess<T> | FetchFailure;
 
 type AuthenticatedFetchOptions = {
@@ -57,7 +61,11 @@ async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promis
                 ? `${problemDetails.status} ${problemDetails.title} - ${problemDetails.detail}`
                 : `${response.status} ${response.statusText}`;
 
-            return { ok: false, error: new Error(errorMsg) };
+            return {
+                ok: false,
+                error: new Error(errorMsg),
+                problemDetails: problemDetails ?? undefined,
+            };
         }
         return { ok: true, data: (await response.json()) as T };
     } catch (e) {

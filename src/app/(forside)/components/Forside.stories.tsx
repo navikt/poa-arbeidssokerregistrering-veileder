@@ -50,6 +50,11 @@ const nullSnapshot: SnapshotResult = {
     snapshot: null,
 };
 
+const notFoundSnapshot: SnapshotResult = {
+    snapshot: null,
+    notFound: true,
+};
+
 const meta = {
     title: 'Forside/Forside',
     component: Forside,
@@ -126,6 +131,14 @@ export const IngenData: Story = {
     name: 'Ingen data (ingen aktiv periode)',
     args: {
         snapshotPromise: Promise.resolve(nullSnapshot),
+        bekreftelserPromise: Promise.resolve(emptyBekreftelser),
+    },
+};
+
+export const IkkeRegistrert: Story = {
+    name: 'Ikke registrert som arbeidssøker (404)',
+    args: {
+        snapshotPromise: Promise.resolve(notFoundSnapshot),
         bekreftelserPromise: Promise.resolve(emptyBekreftelser),
     },
 };
