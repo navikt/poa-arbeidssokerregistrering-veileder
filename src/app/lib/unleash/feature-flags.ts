@@ -6,7 +6,7 @@ import 'server-only';
 const REVALIDATE_SECONDS = 15;
 
 async function getServerSideDefinitions() {
-    const brukerMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+    const brukerMock = process.env.ENABLE_MOCK === 'enabled';
     if (brukerMock) {
         return featureMocks;
     }
