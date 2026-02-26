@@ -25,14 +25,18 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     return (
         <html lang='no'>
             <head>
-                <link
-                    rel='stylesheet'
-                    href='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/index.css'
-                />
-                <Script
-                    src='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js'
-                    strategy='beforeInteractive'
-                />
+                {!enableMock && (
+                    <>
+                        <link
+                            rel='stylesheet'
+                            href='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/index.css'
+                        />
+                        <Script
+                            src='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js'
+                            strategy='beforeInteractive'
+                        />
+                    </>
+                )}
             </head>
 
             <body>
@@ -48,7 +52,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                 )}
                 {visittkortUrl && <Script src={visittkortUrl} strategy='afterInteractive' type='module' />}
                 <ModiaProvider initFnr={modiaContext.fnr} initEnhetId={modiaContext.enhetId}>
-                    <InternflateDecorator decoratorEnv={decoratorEnv} />
+                    {!enableMock && <InternflateDecorator decoratorEnv={decoratorEnv} />}
                     <Visittkort brukerMock={enableMock} />
                     <main className='max-w-4xl m-auto p-8'>{children}</main>
                 </ModiaProvider>
