@@ -1,5 +1,6 @@
 import Script from 'next/script';
 import '../styles/globals.css';
+import type { Metadata } from 'next';
 import { InternflateDecorator } from './components/decorator-intern';
 import { InitFaro } from './components/InitFaro';
 import { Visittkort } from './components/visittkort';
@@ -10,6 +11,14 @@ import { hentVisittkortScriptUrl } from './lib/visittkort-url';
 const enableMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const decoratorEnv = process.env.DEKORATOR_ENV ?? 'q2';
 const umamiTrackingId = process.env.NEXT_PUBLIC_UMAMI_TRACKING_ID;
+
+// NB: tidliger hadde vi engelsk også på meta.
+// Vi kan mekke en generateMetadata (next-func) som kan
+// orkestrere dette. Men har droppet pr nå.
+export const metadata: Metadata = {
+    title: 'Arbeidssøkerregistrering',
+    description: 'Skjema for arbeidssøkerregistrering',
+};
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     const [modiaContext, visittkortUrl] = await Promise.all([hentModiaContext(), hentVisittkortScriptUrl()]);
