@@ -9,6 +9,7 @@ import { hentVisittkortScriptUrl } from './lib/visittkort-url';
 
 const enableMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const decoratorEnv = process.env.DEKORATOR_ENV ?? 'q2';
+const umamiTrackingId = process.env.NEXT_PUBLIC_UMAMI_TRACKING_ID;
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     const [modiaContext, visittkortUrl] = await Promise.all([hentModiaContext(), hentVisittkortScriptUrl()]);
@@ -27,6 +28,15 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
             <body>
                 <InitFaro />
+                {!enableMock && umamiTrackingId && (
+                    <Script
+                        defer
+                        strategy='afterInteractive'
+                        src='https://cdn.nav.no/team-researchops/sporing/sporing.js'
+                        data-host-url='https://umami.nav.no'
+                        data-website-id={umamiTrackingId}
+                    />
+                )}
                 {visittkortUrl && <Script src={visittkortUrl} strategy='afterInteractive' type='module' />}
                 <ModiaProvider initFnr={modiaContext.fnr} initEnhetId={modiaContext.enhetId}>
                     <InternflateDecorator decoratorEnv={decoratorEnv} />
