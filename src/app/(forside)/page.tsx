@@ -29,9 +29,7 @@ export default async function ForsidePage() {
                     initialBekreftelserPromise={bekreftelserPromise}
                 />
             </Suspense>
-            <section className='flex flex-col items-center p-8'>
-                <DemoPanel />
-            </section>
+            <DemoPanel />
         </div>
     );
 }

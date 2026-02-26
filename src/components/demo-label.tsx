@@ -1,5 +1,5 @@
 function DemoLabel() {
-    const enableMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
+    const enableMock = process.env.ENABLE_MOCK === 'enabled';
 
     if (!enableMock) return null;
 
