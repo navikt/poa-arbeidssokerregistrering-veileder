@@ -178,7 +178,7 @@ describe('Forside', () => {
     describe('snapshot er null uten feil', () => {
         it('viser "fant ingen data"-melding', async () => {
             await renderForside(nullSnapshot, happyBekreftelser);
-            expect(screen.getByText('Fant ingen data. Prøv igjen senere')).toBeDefined();
+            expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
         });
     });
 });
