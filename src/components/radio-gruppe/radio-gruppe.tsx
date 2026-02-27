@@ -1,6 +1,6 @@
 import { Radio, RadioGroup } from '@navikt/ds-react';
 
-import useSprak from '../../hooks/useSprak';
+// import useSprak from '../../hooks/useSprak';
 
 import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 
@@ -27,7 +27,7 @@ const TEKSTER: Tekster<string> = {
 
 const RadioGruppe = (props: RadioGruppeProps) => {
     const { valg, onSelect, valgt, visFeilmelding, legend, beskrivelse } = props;
-    const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
+    const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
     const error = visFeilmelding ? tekst('advarsel') : undefined;
     return (
         <>

@@ -29,7 +29,7 @@ type AktivitetData =
     | { aktivitet: 'Sletter arbeidssøkerperiode' }
     | { aktivitet: 'Klikker på "Se alle arbeidssøkerperioder bruker har hatt"' };
 
-type VisningsData =
+export type VisningsData =
     | { viser: 'Kvittering for registrert arbeidssøker' }
     | { viser: 'Kvittering for reaktivert arbeidssøker' }
     | { viser: 'kvittering for mer sykmeldtoppfølging' }
