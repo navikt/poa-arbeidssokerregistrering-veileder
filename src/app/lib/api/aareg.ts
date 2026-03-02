@@ -3,6 +3,7 @@
 import { logger } from '@navikt/next-logger';
 import { nanoid } from 'nanoid';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { authenticatedFetch } from '../authenticatedFetch';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
@@ -11,9 +12,11 @@ const AAREG_API_URL = `${process.env.AAREG_REST_API}/v2/arbeidstaker/arbeidsforh
 const AAREG_API_SCOPE = `api://${process.env.AAREG_CLUSTER}.arbeidsforhold.${process.env.AAREG_APPNAME}/.default`;
 const PAM_ONTOLOGI_URL = process.env.PAM_ONTOLOGI_URL;
 
+type SisteAareg = { konseptId: number; label: string; styrk08: string };
+
 type SisteArbeidsforholdResult = {
-    sisteArbeidsforhold: { konseptId: number; label: string; styrk08: string } | null;
-    error?: Error;
+    sisteArbeidsforhold: SisteAareg | null;
+    error?: { message: string; status?: number };
 };
 
 type Arbeidsforhold = {
@@ -79,7 +82,7 @@ async function konverterStyrk98TilStyrk08(
  */
 async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): Promise<SisteArbeidsforholdResult> {
     if (!identitetsnummer) {
-        return { sisteArbeidsforhold: null, error: new Error('Identitetsnummer mangler') };
+        return { sisteArbeidsforhold: null, error: { message: 'Identitetsnummer mangler' } };
     }
 
     if (brukerMock) {
@@ -105,8 +108,11 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
     });
 
     if (!result.ok) {
-        const { error } = result as { ok: false; error: Error };
-        return { sisteArbeidsforhold: null, error };
+        const { error, status } = result as { ok: false; error: Error; status?: number };
+        if (status === 403) {
+            redirect('/veiledning/mangler-tilgang-til-aa-registeret');
+        }
+        return { sisteArbeidsforhold: null, error: { message: error?.message ?? 'Ukjent feil', status } };
     }
 
     const data = result.data[0];

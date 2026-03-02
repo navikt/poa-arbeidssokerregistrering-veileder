@@ -8,6 +8,7 @@ type FetchSuccess<T> = { ok: true; data: T };
 type FetchFailure = {
     ok: false;
     error: Error;
+    status?: number;
     problemDetails?: ProblemDetails;
 };
 type FetchResult<T> = FetchSuccess<T> | FetchFailure;
@@ -64,6 +65,7 @@ async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promis
             return {
                 ok: false,
                 error: new Error(errorMsg),
+                status: response.status,
                 problemDetails: problemDetails ?? undefined,
             };
         }
