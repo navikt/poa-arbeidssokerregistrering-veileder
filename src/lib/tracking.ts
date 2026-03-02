@@ -9,7 +9,7 @@ type EventData = SidevisningData | AktivitetData | FlytData | VisningsData | Sto
 
 type SidevisningData = { sidetittel: string };
 
-type AktivitetData =
+export type AktivitetData =
     | { aktivitet: KvitteringAktivitet }
     | { aktivitet: 'Går til servicerutine for friskmelding til arbeidsformidling'; registreringtype?: RegistreringType }
     | { aktivitet: 'Går til servicerutine for arbeids- og oppholdstillatelse'; aarsak?: Feiltype }
