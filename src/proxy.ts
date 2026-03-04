@@ -36,6 +36,7 @@ export const config = {
         '/tidslinjer/:path*',
         '/historikk/:path*',
         '/oppdater-opplysninger/:path*',
-        '/kvittering-oppdatert-opplysninger'
+        '/kvittering-oppdatert-opplysninger',
+        '/registrering-arbeidssoeker-sjekk'
     ],
 };
