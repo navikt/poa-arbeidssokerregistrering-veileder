@@ -20,7 +20,7 @@ async function getSnapshot(identitetsnummer: string | null): Promise<SnapshotRes
         return { snapshot: null, error: new Error('Identitetsnummer mangler') };
     }
     if (brukerMock) {
-        const { default: snapshot } = (await import('@/app/mocks/snapshot-med-avsluttet.json', {
+        const { default: snapshot } = (await import('@/app/mocks/snapshot.json', {
             with: { type: 'json' },
         })) as { default: Snapshot };
         await new Promise((res) => setTimeout(res, 500));
