@@ -17,7 +17,7 @@ type AuthenticatedFetchOptions = {
     url: string;
     scope: string;
     headers: Headers;
-    method?: 'GET' | 'POST';
+    method?: 'GET' | 'POST' | 'PUT';
     body?: unknown;
 };
 

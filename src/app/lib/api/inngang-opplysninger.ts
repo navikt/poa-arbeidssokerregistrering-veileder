@@ -46,7 +46,7 @@ async function registrerOpplysninger(
         return { ok: true };
     }
 
-    if (!INNGANG_OPPLYSNINGER_URL || !process.env.OPPLYSNINGER_API_URL) {
+    if (!INNGANG_OPPLYSNINGER_URL) {
         logger.error('OPPLYSNINGER_API_URL er ikke konfigurert');
         return { ok: false, error: 'Opplysninger API URL mangler i konfigurasjon' };
     }
