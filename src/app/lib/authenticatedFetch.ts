@@ -5,13 +5,13 @@ import { hentModiaHeaders } from '@/app/lib/modia-headers';
 import { isProblemDetails, type ProblemDetails } from '@/app/lib/types/problem-details';
 
 type FetchSuccess<T> = { ok: true; data: T };
-type FetchFailure = {
+type FetchFailure<E = ProblemDetails> = {
     ok: false;
     error: Error;
     status?: number;
-    problemDetails?: ProblemDetails;
+    problemDetails?: E;
 };
-type FetchResult<T> = FetchSuccess<T> | FetchFailure;
+type FetchResult<T, E = ProblemDetails> = FetchSuccess<T> | FetchFailure<E>;
 
 type AuthenticatedFetchOptions = {
     url: string;
@@ -21,7 +21,9 @@ type AuthenticatedFetchOptions = {
     body?: unknown;
 };
 
-async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promise<FetchResult<T>> {
+async function authenticatedFetch<T, E = ProblemDetails>(
+    options: AuthenticatedFetchOptions,
+): Promise<FetchResult<T, E>> {
     const { url, scope, headers, method = 'GET', body } = options;
 
     const oboToken = await getOboTokenFromRequest(headers, scope);
@@ -66,7 +68,7 @@ async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promis
                 ok: false,
                 error: new Error(errorMsg),
                 status: response.status,
-                problemDetails: problemDetails ?? undefined,
+                problemDetails: (problemDetails ?? undefined) as E | undefined,
             };
         }
         return { ok: true, data: (await response.json()) as T };

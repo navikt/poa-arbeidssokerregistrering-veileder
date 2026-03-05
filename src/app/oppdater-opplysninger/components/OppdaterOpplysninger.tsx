@@ -1,9 +1,9 @@
 import { Alert } from '@navikt/ds-react';
 import { use } from 'react';
+import { mapOpplysningerTilInitState } from '@/app/components/skjema/mapSnapshotOpplysningerTilRegistrering';
+import { OpplysningerSkjema } from '@/app/components/skjema/OpplysningerSkjema';
 import type { SisteArbeidsforholdResult } from '@/app/lib/api/aareg';
 import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
-import { mapOpplysningerTilInitState } from './mapSnapshotOpplysningerTilRegistrering';
-import { OpplysningerSkjema } from './OpplysningerSkjema';
 
 type OppdaterOpplysningerProps = {
     snapshotPromise: Promise<SnapshotResult>;
@@ -20,6 +20,6 @@ function OppdaterOpplysninger({ snapshotPromise, sisteArbeidsforholdPromise }: O
 
     const initState = mapOpplysningerTilInitState(snapshot?.opplysning, aaregResult);
 
-    return <OpplysningerSkjema initState={initState} fnr={snapshot?.identitetsnummer} />;
+    return <OpplysningerSkjema initState={initState} mode='oppdater' />;
 }
 export { OppdaterOpplysninger };
