@@ -58,7 +58,7 @@ import type { Snapshot } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
 import type { SisteArbeidsforholdResult } from '@/app/lib/api/aareg';
-import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
+import type { SnapshotResult } from '@/app/lib/api/oppslag-snapshot';
 
 import { RegistrerArbeidssoeker } from './RegistrerArbeidssoeker';
 

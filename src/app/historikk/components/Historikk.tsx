@@ -11,7 +11,7 @@ import { HistorikkListeTittel } from '@/app/historikk/components/HistorikkListeT
 import { HistorikkPeriode } from '@/app/historikk/components/HistorikkPeriode';
 import PrintInfoHeader from '@/app/historikk/components/PrintInfoHeader';
 import { useScrollSpy } from '@/app/hooks/useScrollSpy';
-import type { PeriodeResult } from '@/app/lib/oppslag/perioder';
+import type { PeriodeResult } from '@/app/lib/api/oppslag-perioder';
 import TilbakeTilForside from '@/components/tilbake-til-forside';
 
 type HistorikkProps = {

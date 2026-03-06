@@ -3,7 +3,7 @@ import { use } from 'react';
 import { mapOpplysningerTilInitState } from '@/app/components/skjema/mapSnapshotOpplysningerTilRegistrering';
 import { OpplysningerSkjema } from '@/app/components/skjema/OpplysningerSkjema';
 import type { SisteArbeidsforholdResult } from '@/app/lib/api/aareg';
-import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
+import type { SnapshotResult } from '@/app/lib/api/oppslag-snapshot';
 
 type OppdaterOpplysningerProps = {
     snapshotPromise: Promise<SnapshotResult>;

@@ -2,8 +2,8 @@ import { Heading, Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
 import { getSisteArbeidsforholdFraAareg } from '@/app/lib/api/aareg';
+import { getSnapshot } from '@/app/lib/api/oppslag-snapshot';
 import { hentModiaContext } from '@/app/lib/modia-context-api';
-import { getSnapshot } from '@/app/lib/oppslag/snapshot';
 import TilbakeTilForside from '@/components/tilbake-til-forside';
 import { OppdaterOpplysningerWrapper } from './components/OppdaterOpplysningerWrapper';
 

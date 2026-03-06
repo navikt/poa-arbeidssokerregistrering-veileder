@@ -3,7 +3,7 @@ import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { useServerData } from '@/app/hooks/useServerData';
 import { getSisteArbeidsforholdFraAareg, type SisteArbeidsforholdResult } from '@/app/lib/api/aareg';
-import { getSnapshot, type SnapshotResult } from '@/app/lib/oppslag/snapshot';
+import { getSnapshot, type SnapshotResult } from '@/app/lib/api/oppslag-snapshot';
 import { OppdaterOpplysninger } from './OppdaterOpplysninger';
 
 type OppdaterOpplysningerWrapperProps = {

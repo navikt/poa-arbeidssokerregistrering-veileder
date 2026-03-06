@@ -23,11 +23,11 @@ vi.mock('@/lib/tracking', () => ({
 
 // Mocker server-action-modulene som ForsideWrapper importerer.
 // Disse har 'use server' og importerer next/headers som ikke finnes i jsdom.
-vi.mock('@/app/lib/oppslag/snapshot', () => ({
+vi.mock('@/app/lib/api/oppslag-snapshot', () => ({
     getSnapshot: vi.fn(),
 }));
 
-vi.mock('@/app/lib/bekreftelser/bekreftelse', () => ({
+vi.mock('@/app/lib/api/bekreftelse', () => ({
     getBekreftelser: vi.fn(),
 }));
 
@@ -35,8 +35,8 @@ import type { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/
 import { act, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
 import { ModiaProvider } from '@/app/contexts/modia-context';
-import type { BekreftelseApiResult } from '@/app/lib/bekreftelser/bekreftelse';
-import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
+import type { BekreftelseApiResult } from '@/app/lib/api/bekreftelse';
+import type { SnapshotResult } from '@/app/lib/api/oppslag-snapshot';
 import bekreftelserMock from '@/app/mocks/bekreftelser.json';
 import snapshotMock from '@/app/mocks/snapshot.json';
 import snapshotMockAvsluttet from '@/app/mocks/snapshot-med-avsluttet.json';

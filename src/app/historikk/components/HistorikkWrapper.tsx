@@ -4,7 +4,7 @@ import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { VisningsTypeProvider } from '@/app/contexts/hendelse-visning-context';
 import { useServerData } from '@/app/hooks/useServerData';
-import { getPerioder, type PeriodeResult } from '@/app/lib/oppslag/perioder';
+import { getPerioder, type PeriodeResult } from '@/app/lib/api/oppslag-perioder';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
 import { Historikk } from './Historikk';
 

@@ -5,7 +5,7 @@ import { buildSisteJobb } from '@/app/components/skjema/buildSisteJobb';
 import { mapOpplysningerTilInitState } from '@/app/components/skjema/mapSnapshotOpplysningerTilRegistrering';
 import { OpplysningerSkjema } from '@/app/components/skjema/OpplysningerSkjema';
 import type { SisteArbeidsforholdResult } from '@/app/lib/api/aareg';
-import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
+import type { SnapshotResult } from '@/app/lib/api/oppslag-snapshot';
 import { TilbyOpplysningerFraGammelPeriode } from './TilbyOpplysningerFraGammelPeriode';
 
 type RegistrerArbeidssoekerProps = {

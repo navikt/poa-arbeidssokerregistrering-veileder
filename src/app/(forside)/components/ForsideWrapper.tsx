@@ -3,8 +3,8 @@
 import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { useServerData } from '@/app/hooks/useServerData';
-import { type BekreftelseApiResult, getBekreftelser } from '@/app/lib/bekreftelser/bekreftelse';
-import { getSnapshot, type SnapshotResult } from '@/app/lib/oppslag/snapshot';
+import { type BekreftelseApiResult, getBekreftelser } from '@/app/lib/api/bekreftelse';
+import { getSnapshot, type SnapshotResult } from '@/app/lib/api/oppslag-snapshot';
 import { Forside } from './Forside';
 
 type ForsideWrapperProps = {

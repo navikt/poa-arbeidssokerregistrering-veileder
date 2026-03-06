@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
+import type { SnapshotResult } from '@/app/lib/api/oppslag-snapshot';
 import snapshotMock from '@/app/mocks/snapshot.json';
 import { Opplysninger } from './Opplysninger';
 

@@ -1,7 +1,7 @@
 import { Heading } from '@navikt/ds-react';
 import { Suspense } from 'react';
+import { getPerioder } from '@/app/lib/api/oppslag-perioder';
 import { hentModiaContext } from '@/app/lib/modia-context-api';
-import { getPerioder } from '@/app/lib/oppslag/perioder';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
 import TilbakeTilForside from '@/components/tilbake-til-forside';
 import { ManglerPersonEllerEnhet } from '../components/ManglerPersonEllerEnhet';
