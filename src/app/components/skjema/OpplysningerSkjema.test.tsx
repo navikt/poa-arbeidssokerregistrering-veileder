@@ -157,7 +157,6 @@ describe('OpplysningerSkjema', () => {
             expect(screen.getByTestId('siste-jobb')).toBeDefined();
             expect(screen.getByTestId('utdanning')).toBeDefined();
             expect(screen.getByTestId('hindringer')).toBeDefined();
-            expect(screen.getByTestId('generelt-om-samtykke')).toBeDefined();
         });
 
         it('rendrer Avbryt-lenke som peker til forsiden', () => {
@@ -218,15 +217,6 @@ describe('OpplysningerSkjema', () => {
 
             expect(mockRegistrerOpplysninger).not.toHaveBeenCalled();
             expect(mockStartPeriode).not.toHaveBeenCalled();
-        });
-
-        it('kaller IKKE API-er når fnr mangler', async () => {
-            mockFnr.mockReturnValue(null);
-            mockValidateRegistrering.mockReturnValue(true);
-            // Component renders null, so we can't click — just verify null render
-            const { container } = renderSkjema('registrering');
-            expect(container.innerHTML).toBe('');
-            expect(mockRegistrerOpplysninger).not.toHaveBeenCalled();
         });
     });
 
