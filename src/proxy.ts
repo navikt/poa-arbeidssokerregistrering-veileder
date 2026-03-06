@@ -32,11 +32,14 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
     matcher: [
-        '/',
-        '/tidslinjer/:path*',
-        '/historikk/:path*',
-        '/oppdater-opplysninger/:path*',
-        '/kvittering-oppdatert-opplysninger',
-        '/registrering-arbeidssoeker-sjekk'
+        /*
+         * Match all request paths except:
+         * - api/isalive (NAIS liveness probe)
+         * - api/isready (NAIS readiness probe)
+         * - _next/static (static files)
+         * - _next/image (image optimization)
+         * - favicon.ico and other static metadata files
+         */
+        '/((?!api/isalive|api/isready|_next/static|_next/image|favicon\\.ico).*)',
     ],
 };
