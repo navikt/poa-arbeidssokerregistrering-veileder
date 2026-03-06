@@ -41,7 +41,6 @@ async function startPeriode(
     if (!result.ok) {
         const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: PeriodeFeil };
         logger.error(`start periode kall feilet: ${error.message}`);
-
         return { ok: false, error: error.message, feil: problemDetails };
     }
 

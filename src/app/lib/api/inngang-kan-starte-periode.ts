@@ -35,7 +35,7 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
         return { ok: false, error: 'API URL mangler i konfigurasjon' };
     }
 
-    const result = await authenticatedFetch<Record<string, unknown>>({
+    const result = await authenticatedFetch<Record<string, never>, KanStartePeriodeFeil>({
         url: KAN_STARTE_PERIODE_URL,
         scope: INNGANG_API_SCOPE,
         headers: await headers(),
@@ -44,12 +44,10 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
     });
 
     if (!result.ok) {
-        const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: unknown };
-        logger.error(`kanStartePeriode kall feilet: ${error.message}`);
-
+        const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: KanStartePeriodeFeil };
         const feil = isKanStartePeriodeFeil(problemDetails) ? problemDetails : undefined;
-
-        return { ok: false, error: error.message, feil };
+        logger.error(`kanStartePeriode kall feilet: ${feil ? feil : error.message}`);
+        return { ok: false, error: error.message, feil: problemDetails };
     }
 
     return { ok: true };

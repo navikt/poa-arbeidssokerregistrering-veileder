@@ -3,14 +3,13 @@
 import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/app/lib/authenticatedFetch';
+import type { PeriodeFeil, PeriodeResult, StartStoppPeriodeRequest } from '@/app/lib/models/periode';
 
 const INNGANG_SLETT_PERIODE_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/periode`;
 const INNGANG_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
-export type SlettPeriodeResult = { ok: true } | { ok: false; error: string };
-
-async function stoppPeriode(identitetsnummer?: string | null): Promise<SlettPeriodeResult> {
+async function stoppPeriode(identitetsnummer?: string | null): Promise<PeriodeResult> {
     if (!identitetsnummer) {
         return { ok: false, error: 'Mangler identitetsnummer' };
     }
@@ -21,23 +20,24 @@ async function stoppPeriode(identitetsnummer?: string | null): Promise<SlettPeri
         logger.error('Api-url (periode) er ikke konfigurert');
         return { ok: false, error: 'API URL mangler i konfigurasjon' };
     }
-    const result = await authenticatedFetch<Record<string, unknown>>({
+
+    const body: StartStoppPeriodeRequest = {
+        identitetsnummer,
+        periodeTilstand: 'STOPPET',
+    };
+
+    const result = await authenticatedFetch<Record<string, never>, PeriodeFeil>({
         url: INNGANG_SLETT_PERIODE_URL,
         scope: INNGANG_API_SCOPE,
         headers: await headers(),
         method: 'PUT',
-        body: {
-            identitetsnummer,
-            periodeTilstand: 'STOPPET',
-        },
+        body,
     });
 
     if (!result.ok) {
-        // TODO. se om vi skal ha mer feilhåndtering her
-        // evt problemDetails
-        const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: unknown };
+        const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: PeriodeFeil };
         logger.error(`slett periode kall feilet: ${error.message}`);
-        return { ok: false, error: error.message };
+        return { ok: false, error: error.message, feil: problemDetails };
     }
 
     return { ok: true };

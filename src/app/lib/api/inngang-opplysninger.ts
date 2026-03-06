@@ -22,6 +22,7 @@ export type OpplysningerResult =
     | {
           ok: false;
           error: string;
+          feilKode?: string;
       };
 
 async function registrerOpplysninger(
@@ -60,8 +61,8 @@ async function registrerOpplysninger(
     });
 
     if (!result.ok) {
-        const { error } = result as { ok: false; error: Error };
-        logger.error(`registrerOpplysninger feilet: ${error.message}`);
+        const { error, feilKode } = result as { ok: false; error: Error; feilKode: string };
+        logger.error(`registrerOpplysninger feilet: ${error.message}. Feilkode: ${feilKode}`);
         return { ok: false, error: error.message };
     }
 
