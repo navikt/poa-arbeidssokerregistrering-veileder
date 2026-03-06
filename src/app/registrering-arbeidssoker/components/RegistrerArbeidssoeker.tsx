@@ -1,5 +1,7 @@
+import { SporsmalId } from '@navikt/arbeidssokerregisteret-utils';
 import { Alert } from '@navikt/ds-react';
 import { use, useState } from 'react';
+import { buildSisteJobb } from '@/app/components/skjema/buildSisteJobb';
 import { mapOpplysningerTilInitState } from '@/app/components/skjema/mapSnapshotOpplysningerTilRegistrering';
 import { OpplysningerSkjema } from '@/app/components/skjema/OpplysningerSkjema';
 import type { SisteArbeidsforholdResult } from '@/app/lib/api/aareg';
@@ -19,7 +21,11 @@ function RegistrerArbeidssoeker({ snapshotPromise, sisteArbeidsforholdPromise }:
     const fetchCurrentOpplysninger = () => {
         setUseGammelPeriode(true);
     };
-    const initSkjemaState = useGammelPeriode ? mapOpplysningerTilInitState(snapshot?.opplysning, aaregResult) : {};
+    const initSkjemaState = useGammelPeriode
+        ? mapOpplysningerTilInitState(snapshot?.opplysning, aaregResult)
+        : {
+              [SporsmalId.sisteJobb]: buildSisteJobb(aaregResult, snapshot?.opplysning?.jobbsituasjon?.beskrivelser[0]),
+          };
 
     if (snapshotError) {
         return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;

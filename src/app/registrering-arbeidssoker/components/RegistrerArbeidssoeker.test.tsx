@@ -50,13 +50,6 @@ vi.mock('@/app/lib/api/inngang-start-periode', () => ({
     startPeriode: vi.fn(),
 }));
 
-// Mock mapOpplysningerTilInitState so we can control what initState is produced
-const mockMapOpplysninger = vi.fn();
-
-vi.mock('@/app/components/skjema/mapSnapshotOpplysningerTilRegistrering', () => ({
-    mapOpplysningerTilInitState: (...args: unknown[]) => mockMapOpplysninger(...args),
-}));
-
 // ———————————————————————————————————————————————————
 // Imports (after mocks)
 // ———————————————————————————————————————————————————
@@ -66,7 +59,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
 import type { SisteArbeidsforholdResult } from '@/app/lib/api/aareg';
 import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
-import type { RegistreringState } from '@/model/registrering';
+
 import { RegistrerArbeidssoeker } from './RegistrerArbeidssoeker';
 
 // ———————————————————————————————————————————————————
@@ -111,6 +104,19 @@ const snapshotUtenAvsluttet: Snapshot = {
         tidspunkt: '2026-02-11T09:40:09.652Z',
         type: 'PERIODE_STARTET_V1',
     },
+    opplysning: {
+        jobbsituasjon: {
+            beskrivelser: [
+                {
+                    beskrivelse: 'USIKKER_JOBBSITUASJON',
+                    detaljer: {
+                        stilling: 'WEBUTVIKLER',
+                        stilling_styrk08: '2130',
+                    },
+                },
+            ],
+        },
+    },
 } as unknown as Snapshot;
 
 const aaregResult: SisteArbeidsforholdResult = {
@@ -123,17 +129,6 @@ const aaregResult: SisteArbeidsforholdResult = {
 
 const emptyAaregResult: SisteArbeidsforholdResult = {
     sisteArbeidsforhold: null,
-};
-
-const PREFILLED_STATE: RegistreringState = {
-    dinSituasjon: 'MISTET_JOBBEN' as RegistreringState['dinSituasjon'],
-    utdanning: 'GRUNNSKOLE' as RegistreringState['utdanning'],
-    utdanningGodkjent: 'JA' as RegistreringState['utdanningGodkjent'],
-    utdanningBestatt: 'JA' as RegistreringState['utdanningBestatt'],
-    helseHinder: 'NEI' as RegistreringState['helseHinder'],
-    andreForhold: 'NEI' as RegistreringState['andreForhold'],
-    sisteStilling: 'INGEN_SVAR' as RegistreringState['sisteStilling'],
-    sisteJobb: { label: 'KONTORLEDER', konseptId: 12345, styrk08: '1231' },
 };
 
 // ———————————————————————————————————————————————————
@@ -163,7 +158,6 @@ async function renderRegistrerArbeidssoeker(
 describe('RegistrerArbeidssoeker', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        mockMapOpplysninger.mockReturnValue(PREFILLED_STATE);
     });
 
     // ———————————————————————————————————————————————
@@ -209,10 +203,10 @@ describe('RegistrerArbeidssoeker', () => {
             expect(screen.getByRole('button', { name: 'Registrer' })).toBeDefined();
         });
 
-        it('kaller IKKE mapOpplysningerTilInitState', async () => {
+        it('viser Annen stilling som standard når ingen data finnes', async () => {
             await renderRegistrerArbeidssoeker({ snapshot: null });
 
-            expect(mockMapOpplysninger).not.toHaveBeenCalled();
+            expect(screen.getAllByText('Annen stilling')).toBeDefined();
         });
     });
 
@@ -270,11 +264,8 @@ describe('RegistrerArbeidssoeker', () => {
     // ———————————————————————————————————————————————
 
     describe('prefill-flyt ved klikk på "Fyll inn opplysninger"', () => {
-        it('kaller mapOpplysningerTilInitState med snapshot.opplysning og aaregResult når bruker klikker', async () => {
+        it('viser siste jobb fra aareg etter klikk når aareg har data', async () => {
             await renderRegistrerArbeidssoeker({ snapshot: snapshotMedAvsluttet }, aaregResult);
-
-            // Should not have been called before click (useGammelPeriode is false)
-            expect(mockMapOpplysninger).not.toHaveBeenCalled();
 
             const button = screen.getByRole('button', {
                 name: 'Fyll inn opplysninger fra siste arbeidssøkerperiode',
@@ -284,10 +275,11 @@ describe('RegistrerArbeidssoeker', () => {
                 fireEvent.click(button);
             });
 
-            expect(mockMapOpplysninger).toHaveBeenCalledWith(snapshotMedAvsluttet.opplysning, aaregResult);
+            // aaregResult har KONTORLEDER — buildSisteJobb prioriterer aa-reg
+            expect(screen.getByText('KONTORLEDER')).toBeDefined();
         });
 
-        it('kaller mapOpplysningerTilInitState med snapshot.opplysning og aaregResult uten arbeidsforhold', async () => {
+        it('faller tilbake til snapshot-stilling etter klikk når aareg mangler data', async () => {
             await renderRegistrerArbeidssoeker({ snapshot: snapshotMedAvsluttet }, emptyAaregResult);
 
             const button = screen.getByRole('button', {
@@ -298,7 +290,8 @@ describe('RegistrerArbeidssoeker', () => {
                 fireEvent.click(button);
             });
 
-            expect(mockMapOpplysninger).toHaveBeenCalledWith(snapshotMedAvsluttet.opplysning, emptyAaregResult);
+            // emptyAaregResult → faller tilbake til snapshot-stilling «Annen stilling» (fra snapshotMedAvsluttet)
+            expect(screen.getAllByText('Annen stilling')).toBeDefined();
         });
 
         it('beholder OpplysningerSkjema synlig etter klikk (re-rendres med ny key)', async () => {
@@ -314,6 +307,28 @@ describe('RegistrerArbeidssoeker', () => {
 
             // OpplysningerSkjema should still be visible after prefill
             expect(screen.getByRole('button', { name: 'Registrer' })).toBeDefined();
+        });
+    });
+
+    describe('Siste stilling', () => {
+        it('viser Annen stilling når aa-reg mangler data og snapshot er avsluttet (clean slate)', async () => {
+            await renderRegistrerArbeidssoeker({ snapshot: snapshotMedAvsluttet }, emptyAaregResult);
+            expect(screen.getAllByText('Annen stilling')).toBeDefined();
+        });
+
+        it('viser data fra snapshot når aa-reg mangler data og snapshot ikke er avsluttet', async () => {
+            await renderRegistrerArbeidssoeker({ snapshot: snapshotUtenAvsluttet }, emptyAaregResult);
+            expect(screen.getAllByText('WEBUTVIKLER')).toBeDefined();
+        });
+
+        it('viser stilling fra aa-reg når aa-reg har data og snapshot har data', async () => {
+            await renderRegistrerArbeidssoeker({ snapshot: snapshotUtenAvsluttet }, aaregResult);
+            expect(screen.getByText('KONTORLEDER')).toBeDefined();
+        });
+
+        it('viser stilling fra aa-reg selv uten snapshot', async () => {
+            await renderRegistrerArbeidssoeker({ snapshot: null }, aaregResult);
+            expect(screen.getByText('KONTORLEDER')).toBeDefined();
         });
     });
 });

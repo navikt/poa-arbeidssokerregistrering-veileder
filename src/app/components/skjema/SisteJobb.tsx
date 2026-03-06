@@ -53,7 +53,6 @@ function SisteJobb({ registrering, setRegistrering, doValidate }: SisteJobbProps
         }
         setVisStillingsSok(false);
     };
-
     return (
         <Box className='mb-8' borderWidth='1' padding='space-16' style={{ backgroundColor: 'var(--ax-neutral-100)' }}>
             <Heading spacing size='medium' level='1'>
@@ -84,7 +83,6 @@ function SisteJobb({ registrering, setRegistrering, doValidate }: SisteJobbProps
                     </Heading>
                     <BodyLong>Følgende informasjon er registrert i Aa-registeret om siste stilling.</BodyLong>
                     <BodyLong className='mb-4'>Hvis opplysningen er feil, kan du endre under.</BodyLong>
-
                     {visStillingsSok ? (
                         <StillingsSok onClose={onCloseStillingssok} />
                     ) : (

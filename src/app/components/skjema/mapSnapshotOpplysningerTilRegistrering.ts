@@ -9,6 +9,7 @@ import {
 import type { Beskrivelse, OpplysningerHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import type { SisteArbeidsforholdResult } from '@/app/lib/api/aareg';
 import type { RegistreringState } from '@/model/registrering';
+import { buildSisteJobb } from './buildSisteJobb';
 
 const BESKRIVELSE_TIL_SITUASJON: Record<Beskrivelse, DinSituasjon> = {
     HAR_SAGT_OPP: DinSituasjon.HAR_SAGT_OPP,
@@ -52,15 +53,7 @@ export function mapOpplysningerTilInitState(
             : SisteStillingValg.HAR_IKKE_HATT_JOBB
         : SisteStillingValg.INGEN_SVAR;
 
-    // Aareg er ferskeste kilde til «siste jobb» — overstyr snapshot hvis tilgjengelig
-    const sisteJobbFraAareg = aaregResult?.sisteArbeidsforhold;
-    const sisteJobb = sisteJobbFraAareg
-        ? { label: sisteJobbFraAareg.label, styrk08: sisteJobbFraAareg.styrk08, konseptId: sisteJobbFraAareg.konseptId }
-        : {
-              label: forsteBeskrivelse?.detaljer?.stilling ?? 'Annen stilling',
-              styrk08: forsteBeskrivelse?.detaljer?.stilling_styrk08 ?? '-1',
-              konseptId: '-1',
-          };
+    const sisteJobb = buildSisteJobb(aaregResult, forsteBeskrivelse);
 
     return {
         [SporsmalId.dinSituasjon]: dinSituasjon,
