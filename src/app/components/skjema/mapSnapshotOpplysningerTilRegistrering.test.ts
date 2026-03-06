@@ -113,7 +113,7 @@ describe('mapOpplysningerTilInitState', () => {
             expect(result[SporsmalId.sisteJobb]).toEqual({
                 label: 'Kokk',
                 styrk08: '5120',
-                konseptId: '-1',
+                konseptId: -1,
             });
         });
 
@@ -128,7 +128,7 @@ describe('mapOpplysningerTilInitState', () => {
             expect(result[SporsmalId.sisteJobb]).toEqual({
                 label: 'Annen stilling',
                 styrk08: '-1',
-                konseptId: '-1',
+                konseptId: -1,
             });
         });
 
@@ -142,7 +142,7 @@ describe('mapOpplysningerTilInitState', () => {
             expect(result[SporsmalId.sisteJobb]).toEqual({
                 label: 'Annen stilling',
                 styrk08: '-1',
-                konseptId: '-1',
+                konseptId: -1,
             });
         });
     });
