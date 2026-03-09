@@ -11,7 +11,7 @@ import {
     Utdanningsnivaa,
 } from '@navikt/arbeidssokerregisteret-utils';
 import { Box, Heading } from '@navikt/ds-react';
-import { RadioGruppe } from '@/app/components/radio-gruppe/radio-gruppe';
+import { RadioGruppe } from '@/components/radio-gruppe/radio-gruppe';
 import type { RegistreringState } from '@/model/registrering';
 
 type DinSituasjonProps = {

@@ -1,10 +1,10 @@
 import { Heading } from '@navikt/ds-react';
 import { Suspense } from 'react';
-import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
+import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
+import { TilbakeTilForside } from '@/components/tilbake-til-forside';
 import { getPerioder } from '@/lib/api/oppslag-perioder';
 import { hentModiaContext } from '@/lib/modia-context-api';
-import { ManglerPersonEllerEnhet } from '../components/ManglerPersonEllerEnhet';
 import { HistorikkWrapper } from './components/HistorikkWrapper';
 
 export default async function HistorikkPage() {

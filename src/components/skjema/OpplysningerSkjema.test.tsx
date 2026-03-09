@@ -58,19 +58,19 @@ vi.mock('@/lib/api/inngang-start-periode', () => ({
 }));
 
 // Stub child components — we test OpplysningerSkjema's orchestration, not children
-vi.mock('@/app/components/skjema/DinSituasjon', () => ({
+vi.mock('@/components/skjema/DinSituasjon', () => ({
     DinSituasjon: () => <div data-testid='din-situasjon'>DinSituasjon</div>,
 }));
 
-vi.mock('@/app/components/skjema/SisteJobb', () => ({
+vi.mock('@/components/skjema/SisteJobb', () => ({
     SisteJobb: () => <div data-testid='siste-jobb'>SisteJobb</div>,
 }));
 
-vi.mock('@/app/components/skjema/Utdanning', () => ({
+vi.mock('@/components/skjema/Utdanning', () => ({
     Utdanning: () => <div data-testid='utdanning'>Utdanning</div>,
 }));
 
-vi.mock('@/app/components/skjema/Hindringer', () => ({
+vi.mock('@/components/skjema/Hindringer', () => ({
     Hindringer: () => <div data-testid='hindringer'>Hindringer</div>,
 }));
 

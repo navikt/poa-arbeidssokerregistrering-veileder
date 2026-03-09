@@ -1,8 +1,8 @@
 import { Heading, Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
-import { HvaErNytt } from '@/app/components/HvaErNytt';
-import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
-import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
+import { HvaErNytt } from '@/components/HvaErNytt';
+import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
+import { TilbakeTilForside } from '@/components/tilbake-til-forside';
 import { getSisteArbeidsforholdFraAareg } from '@/lib/api/aareg';
 import { getSnapshot } from '@/lib/api/oppslag-snapshot';
 import { hentModiaContext } from '@/lib/modia-context-api';

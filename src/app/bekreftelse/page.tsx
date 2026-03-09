@@ -1,8 +1,8 @@
 import { Heading } from '@navikt/ds-react';
 import { Suspense } from 'react';
-import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
-import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
+import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
+import { TilbakeTilForside } from '@/components/tilbake-til-forside';
 import { getBekreftelser } from '@/lib/api/bekreftelse';
 import { hentModiaContext } from '@/lib/modia-context-api';
 import { BekreftelseWrapper } from './components/BekreftelseWrapper';

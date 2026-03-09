@@ -1,9 +1,9 @@
 import { SporsmalId } from '@navikt/arbeidssokerregisteret-utils';
 import { Alert } from '@navikt/ds-react';
 import { use, useState } from 'react';
-import { buildSisteJobb } from '@/app/components/skjema/buildSisteJobb';
-import { mapOpplysningerTilInitState } from '@/app/components/skjema/mapSnapshotOpplysningerTilRegistrering';
-import { OpplysningerSkjema } from '@/app/components/skjema/OpplysningerSkjema';
+import { buildSisteJobb } from '@/components/skjema/buildSisteJobb';
+import { mapOpplysningerTilInitState } from '@/components/skjema/mapSnapshotOpplysningerTilRegistrering';
+import { OpplysningerSkjema } from '@/components/skjema/OpplysningerSkjema';
 import type { SisteArbeidsforholdResult } from '@/lib/api/aareg';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import { TilbyOpplysningerFraGammelPeriode } from './TilbyOpplysningerFraGammelPeriode';
