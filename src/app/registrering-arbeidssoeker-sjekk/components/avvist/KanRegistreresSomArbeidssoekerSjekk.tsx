@@ -1,8 +1,8 @@
 'use client';
 
 import { Alert, BodyLong, Box, CopyButton, Heading, Link, List, ReadMore } from '@navikt/ds-react';
-import type { KanStartePeriodeFeil } from '@/lib/models/kan-starte-periode';
 import { loggAktivitet } from '@/lib/tracking';
+import type { KanStartePeriodeFeil } from '@/model/kan-starte-periode';
 import type { AvvisningKlassifisering } from './klassifiserAvvisning';
 
 interface KopierTraceIdProps {

@@ -5,7 +5,7 @@
  * https://github.com/navikt/paw-arbeidssoekerregisteret-monorepo-intern/blob/main/apps/api-start-stopp-perioder/src/main/resources/openapi/startstopp.yaml
  */
 
-import type { KanStartePeriodeFeil } from '@/lib/models/kan-starte-periode';
+import type { KanStartePeriodeFeil } from '@/model/kan-starte-periode';
 
 // --- Enums ---
 

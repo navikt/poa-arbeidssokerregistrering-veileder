@@ -5,7 +5,7 @@ import { Suspense } from 'react';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
 import { VisningsTypeProvider } from '@/contexts/hendelse-visning-context';
 import { useServerData } from '@/hooks/useServerData';
-import type { KanStartePeriodeResult } from '@/lib/models/kan-starte-periode';
+import type { KanStartePeriodeResult } from '@/model/kan-starte-periode';
 import { kanStartePeriode } from '../../../lib/api/inngang-kan-starte-periode';
 import { RegistreringSjekk } from './RegistreringSjekk';
 

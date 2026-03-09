@@ -24,7 +24,7 @@ const replaceMock = vi.fn();
 import { act, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
 
-import type { ApiRegelId, KanStartePeriodeFeil, KanStartePeriodeResult } from '@/lib/models/kan-starte-periode';
+import type { ApiRegelId, KanStartePeriodeFeil, KanStartePeriodeResult } from '@/model/kan-starte-periode';
 import { klassifiserAvvisning } from './avvist/klassifiserAvvisning';
 import { RegistreringSjekk } from './RegistreringSjekk';
 

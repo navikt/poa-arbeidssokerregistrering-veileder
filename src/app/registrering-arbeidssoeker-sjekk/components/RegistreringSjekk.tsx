@@ -3,7 +3,7 @@
 import { BodyShort } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import { use, useEffect } from 'react';
-import type { KanStartePeriodeFeil, KanStartePeriodeResult } from '@/lib/models/kan-starte-periode';
+import type { KanStartePeriodeFeil, KanStartePeriodeResult } from '@/model/kan-starte-periode';
 import AarsakerTilAtPersonenIkkeKanRegistreres from './avvist/AarsakerTilAtPersonenIkkeKanRegistreres';
 import ArbeidssoekerMaaRegistreresIArena from './avvist/ArbeidssoekerMaaRegistreresIArena';
 import KanRegistreresSomArbeidssoekerSjekk from './avvist/KanRegistreresSomArbeidssoekerSjekk';
