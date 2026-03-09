@@ -3,8 +3,12 @@ import { logger } from '@navikt/next-logger';
 import { nanoid } from 'nanoid';
 import { headers } from 'next/headers';
 import { getOboTokenFromRequest } from './auth/oboToken';
-import type { ModiaContext } from './models';
 import { hentModiaHeaders } from './modia-headers';
+
+type ModiaContext = {
+    fnr: string | null;
+    enhetId: string | null;
+};
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const MODIACONTEXTHOLDER_URL = `${process.env.MODIACONTEXTHOLDER_URL}/api/context/`;

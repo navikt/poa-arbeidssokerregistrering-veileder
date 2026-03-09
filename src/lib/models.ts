@@ -1,8 +1,3 @@
-export type ModiaContext = {
-    fnr: string | null;
-    enhetId: string | null;
-};
-
 // --- Opplysninger API (inngang) ---
 // Typer basert på OpenAPI spec for POST /api/v1/arbeidssoker/opplysninger
 
