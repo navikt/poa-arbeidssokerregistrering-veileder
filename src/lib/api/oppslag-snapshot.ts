@@ -3,7 +3,7 @@
 import type { Snapshot } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
-import type { ProblemDetails } from '../types/problem-details';
+import type { ProblemDetails } from '../../model/problem-details';
 
 export type SnapshotResult = {
     snapshot: Snapshot | null;

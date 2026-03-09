@@ -2,7 +2,7 @@ import { logger } from '@navikt/next-logger';
 import { nanoid } from 'nanoid';
 import { getOboTokenFromRequest } from '@/lib/auth/oboToken';
 import { hentModiaHeaders } from '@/lib/modia-headers';
-import { isProblemDetails, type ProblemDetails } from '@/lib/types/problem-details';
+import { isProblemDetails, type ProblemDetails } from '@/model/problem-details';
 
 type FetchSuccess<T> = { ok: true; data: T };
 type FetchFailure<E = ProblemDetails> = {

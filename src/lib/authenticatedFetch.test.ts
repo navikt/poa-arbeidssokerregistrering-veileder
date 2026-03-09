@@ -11,7 +11,7 @@ vi.mock('@/lib/auth/oboToken', () => ({
 import { logger } from '@navikt/next-logger';
 import { getOboTokenFromRequest } from '@/lib/auth/oboToken';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
-import type { ProblemDetails } from '@/lib/types/problem-details';
+import type { ProblemDetails } from '@/model/problem-details';
 
 const mockGetOboToken = vi.mocked(getOboTokenFromRequest);
 

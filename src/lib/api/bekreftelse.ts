@@ -5,7 +5,7 @@ import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import { sorterBekreftelser } from '@/lib/sorter-bekreftelser';
-import type { ProblemDetails } from '../types/problem-details';
+import type { ProblemDetails } from '../../model/problem-details';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const BEKREFTELSER_API_URL = process.env.BEKREFTELSE_API_URL;
