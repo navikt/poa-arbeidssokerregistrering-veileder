@@ -3,7 +3,7 @@
 import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { Bekreftelse } from '@/app/bekreftelse/components/Bekreftelse';
-import { useServerData } from '@/app/hooks/useServerData';
+import { useServerData } from '@/hooks/useServerData';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
 
 type BekreftelseWrapperProps = {

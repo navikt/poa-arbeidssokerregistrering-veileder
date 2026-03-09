@@ -2,7 +2,7 @@
 
 import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
-import { useServerData } from '@/app/hooks/useServerData';
+import { useServerData } from '@/hooks/useServerData';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
 import { getSnapshot, type SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import { Forside } from './Forside';

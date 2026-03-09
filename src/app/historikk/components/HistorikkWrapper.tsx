@@ -2,9 +2,9 @@
 
 import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
-import { useServerData } from '@/app/hooks/useServerData';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
 import { VisningsTypeProvider } from '@/contexts/hendelse-visning-context';
+import { useServerData } from '@/hooks/useServerData';
 import { getPerioder, type PeriodeResult } from '@/lib/api/oppslag-perioder';
 import { Historikk } from './Historikk';
 

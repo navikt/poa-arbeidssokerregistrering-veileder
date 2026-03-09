@@ -3,7 +3,7 @@
 import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
-import { useServerData } from '@/app/hooks/useServerData';
+import { useServerData } from '@/hooks/useServerData';
 import { getPerioder } from '@/lib/api/oppslag-perioder';
 import { LoaderSkeleton } from './LoaderSkeleton';
 import { Tidslinjer } from './Tidslinjer';

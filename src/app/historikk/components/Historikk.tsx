@@ -8,10 +8,10 @@ import { HendelseFilter } from '@/app/historikk/components/HendelseFilter';
 import { HistorikkListeTittel } from '@/app/historikk/components/HistorikkListeTittel';
 import { HistorikkPeriode } from '@/app/historikk/components/HistorikkPeriode';
 import PrintInfoHeader from '@/app/historikk/components/PrintInfoHeader';
-import { useScrollSpy } from '@/app/hooks/useScrollSpy';
 import { FilterProvider } from '@/contexts/filter-hendelse-context';
 import { useVisningTypeContext } from '@/contexts/hendelse-visning-context';
 import { useModiaContext } from '@/contexts/modia-context';
+import { useScrollSpy } from '@/hooks/useScrollSpy';
 import type { PeriodeResult } from '@/lib/api/oppslag-perioder';
 
 type HistorikkProps = {
