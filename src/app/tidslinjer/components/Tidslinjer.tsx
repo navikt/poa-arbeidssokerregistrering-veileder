@@ -5,8 +5,8 @@ import { Accordion, Alert, Table } from '@navikt/ds-react';
 import { AccordionContent, AccordionHeader, AccordionItem } from '@navikt/ds-react/Accordion';
 import { TableBody, TableHeader, TableHeaderCell, TableRow } from '@navikt/ds-react/Table';
 import { use } from 'react';
-import { useModiaContext } from '@/app/contexts/modia-context';
 import { HendelseVisning } from '@/app/tidslinjer/components/HendelseVisning';
+import { useModiaContext } from '@/contexts/modia-context';
 import { formaterDato } from '@/lib/date-utils';
 import { TidslinjeVarsel } from './TidslinjeVarsel';
 

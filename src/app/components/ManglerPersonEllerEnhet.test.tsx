@@ -3,7 +3,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
-import { ModiaProvider } from '@/app/contexts/modia-context';
+import { ModiaProvider } from '@/contexts/modia-context';
 
 function renderMedModia(fnr: string | null, enhetId: string | null) {
     return render(

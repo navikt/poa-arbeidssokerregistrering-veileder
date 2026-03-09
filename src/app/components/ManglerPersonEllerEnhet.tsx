@@ -1,6 +1,6 @@
 'use client';
 import { Alert, BodyLong, Heading } from '@navikt/ds-react';
-import { useModiaContext } from '../contexts/modia-context';
+import { useModiaContext } from '../../contexts/modia-context';
 
 const ManglerPersonEllerEnhet: React.FC = () => {
     const { fnr, enhetId } = useModiaContext();

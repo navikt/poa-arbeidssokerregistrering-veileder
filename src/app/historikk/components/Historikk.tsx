@@ -4,14 +4,14 @@ import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Alert, BodyShort, Box, Button, Heading, Switch } from '@navikt/ds-react';
 import { use, useMemo, useRef } from 'react';
 import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
-import { FilterProvider } from '@/app/contexts/filter-hendelse-context';
-import { useVisningTypeContext } from '@/app/contexts/hendelse-visning-context';
-import { useModiaContext } from '@/app/contexts/modia-context';
 import { HendelseFilter } from '@/app/historikk/components/HendelseFilter';
 import { HistorikkListeTittel } from '@/app/historikk/components/HistorikkListeTittel';
 import { HistorikkPeriode } from '@/app/historikk/components/HistorikkPeriode';
 import PrintInfoHeader from '@/app/historikk/components/PrintInfoHeader';
 import { useScrollSpy } from '@/app/hooks/useScrollSpy';
+import { FilterProvider } from '@/contexts/filter-hendelse-context';
+import { useVisningTypeContext } from '@/contexts/hendelse-visning-context';
+import { useModiaContext } from '@/contexts/modia-context';
 import type { PeriodeResult } from '@/lib/api/oppslag-perioder';
 
 type HistorikkProps = {

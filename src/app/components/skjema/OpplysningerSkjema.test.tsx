@@ -31,7 +31,7 @@ vi.mock('next/link', () => ({
 
 const mockFnr = vi.fn<() => string | null>(() => '12345678910');
 
-vi.mock('@/app/contexts/modia-context', () => ({
+vi.mock('@/contexts/modia-context', () => ({
     useModiaContext: () => ({
         fnr: mockFnr(),
         enhetId: '0219',

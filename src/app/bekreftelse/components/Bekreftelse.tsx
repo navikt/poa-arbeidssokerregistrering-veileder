@@ -4,7 +4,7 @@ import type { TilgjengeligBekreftelse } from '@navikt/arbeidssokerregisteret-uti
 import { Alert } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import { use, useReducer } from 'react';
-import { useModiaContext } from '@/app/contexts/modia-context';
+import { useModiaContext } from '@/contexts/modia-context';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
 import { sendBekreftelse } from '@/lib/api/bekreftelse';
 import { loggAktivitet } from '@/lib/tracking';

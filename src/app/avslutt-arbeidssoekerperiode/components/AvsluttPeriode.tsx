@@ -3,7 +3,7 @@
 import { Alert, Box, Button } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useModiaContext } from '@/app/contexts/modia-context';
+import { useModiaContext } from '@/contexts/modia-context';
 import { stoppPeriode } from '@/lib/api/inngang-stopp-periode';
 import { loggAktivitet } from '@/lib/tracking';
 

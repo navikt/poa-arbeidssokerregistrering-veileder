@@ -2,9 +2,9 @@
 
 import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
-import { VisningsTypeProvider } from '@/app/contexts/hendelse-visning-context';
 import { useServerData } from '@/app/hooks/useServerData';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
+import { VisningsTypeProvider } from '@/contexts/hendelse-visning-context';
 import type { KanStartePeriodeResult } from '@/lib/models/kan-starte-periode';
 import { kanStartePeriode } from '../../../lib/api/inngang-kan-starte-periode';
 import { RegistreringSjekk } from './RegistreringSjekk';

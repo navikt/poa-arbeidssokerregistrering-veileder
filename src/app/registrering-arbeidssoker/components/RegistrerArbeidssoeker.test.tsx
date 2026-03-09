@@ -32,7 +32,7 @@ vi.mock('next/link', () => ({
     ),
 }));
 
-vi.mock('@/app/contexts/modia-context', () => ({
+vi.mock('@/contexts/modia-context', () => ({
     useModiaContext: () => ({
         fnr: '12345678910',
         enhetId: '0219',

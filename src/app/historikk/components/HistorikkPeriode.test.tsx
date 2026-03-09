@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { FilterProvider } from '@/app/contexts/filter-hendelse-context';
-import { VisningsTypeProvider } from '@/app/contexts/hendelse-visning-context';
+import { FilterProvider } from '@/contexts/filter-hendelse-context';
+import { VisningsTypeProvider } from '@/contexts/hendelse-visning-context';
 import { samplePeriode } from './__mocks__/tidslinje-mock-data';
 import { HistorikkPeriode } from './HistorikkPeriode';
 

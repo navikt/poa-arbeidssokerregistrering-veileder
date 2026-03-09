@@ -1,6 +1,6 @@
 'use client';
 
-import { useModiaContext } from '../contexts/modia-context';
+import { useModiaContext } from '../../contexts/modia-context';
 
 type VisittkortProps = {
     brukerMock: boolean;

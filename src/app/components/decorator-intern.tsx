@@ -2,8 +2,8 @@
 
 import type { ComponentType } from 'react';
 import NAVSPA from '@/app/components/navspa';
+import { useModiaContext } from '../../contexts/modia-context';
 import type { DecoratorProps, Environment, UrlFormat } from '../../model/internflate-decorator';
-import { useModiaContext } from '../contexts/modia-context';
 
 const Decorator: ComponentType<DecoratorProps> = NAVSPA.importer('internarbeidsflate-decorator-v3');
 

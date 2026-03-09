@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import { VisningsTypeProvider } from '@/app/contexts/hendelse-visning-context';
+import { VisningsTypeProvider } from '@/contexts/hendelse-visning-context';
 import { bekreftelseHendelse } from '../__mocks__/tidslinje-mock-data';
 import { Bekreftelse } from './bekreftelse';
 
