@@ -12,6 +12,11 @@ import { isFeatureEnabled } from '@/lib/unleash/feature-flags';
 
 export default async function ForsidePage() {
     const modiaContext = await hentModiaContext();
+
+    if (!modiaContext.fnr) {
+        return <ManglerPersonEllerEnhet />;
+    }
+
     const flagVisHvaSomErNyttPromise = isFeatureEnabled('arbeidssokerregistrering-for-veileder.vis-hva-er-nytt');
     const snapshotPromise = getSnapshot(modiaContext.fnr);
     const bekreftelserPromise = getBekreftelser(modiaContext.fnr);

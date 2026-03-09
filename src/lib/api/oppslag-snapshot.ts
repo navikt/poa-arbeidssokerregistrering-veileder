@@ -17,7 +17,7 @@ const OPPSLAG_V2_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeids
 
 async function getSnapshot(identitetsnummer: string | null): Promise<SnapshotResult> {
     if (!identitetsnummer) {
-        return { snapshot: null, error: new Error('Identitetsnummer mangler') };
+        return { snapshot: null };
     }
     if (brukerMock) {
         const { default: snapshot } = (await import('@/lib/mocks/snapshot.json', {

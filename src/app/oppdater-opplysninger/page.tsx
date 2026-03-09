@@ -9,6 +9,11 @@ import { OppdaterOpplysningerWrapper } from './components/OppdaterOpplysningerWr
 
 export default async function OppdaterOpplysningerPage() {
     const modiaContext = await hentModiaContext();
+
+    if (!modiaContext.fnr) {
+        return <ManglerPersonEllerEnhet />;
+    }
+
     const snapshotPromise = getSnapshot(modiaContext.fnr);
     const sisteArbeidsforholdPromise = getSisteArbeidsforholdFraAareg(modiaContext.fnr);
 

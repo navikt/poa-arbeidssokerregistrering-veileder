@@ -82,7 +82,7 @@ async function konverterStyrk98TilStyrk08(
  */
 async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): Promise<SisteArbeidsforholdResult> {
     if (!identitetsnummer) {
-        return { sisteArbeidsforhold: null, error: { message: 'Identitetsnummer mangler' } };
+        return { sisteArbeidsforhold: null };
     }
 
     if (brukerMock) {

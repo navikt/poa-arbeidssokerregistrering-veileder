@@ -15,6 +15,8 @@ export function useServerData<T>(initialPromise: Promise<T>, fetchFn: (fnr: stri
             return;
         }
 
+        if (!fnr) return;
+
         startTransition(() => {
             setDataPromise(fetchFn(fnr));
         });

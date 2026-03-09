@@ -12,7 +12,7 @@ export type PeriodeResult = { perioder: Periode[] | null; error?: Error };
 
 async function getPerioder(identitetsnummer: string | null): Promise<PeriodeResult> {
     if (!identitetsnummer) {
-        return { perioder: null, error: new Error('Identitetsnummer mangler') };
+        return { perioder: null };
     }
     if (brukerMock) {
         const { default: perioder } = (await import('@/lib/mocks/perioder.json', {

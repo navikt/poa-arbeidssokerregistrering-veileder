@@ -11,6 +11,11 @@ import { RegistreringsWrapper } from './components/RegistreringsWrapper';
 
 export default async function RegistreringArbeidsokerPage() {
     const modiaContext = await hentModiaContext();
+
+    if (!modiaContext.fnr) {
+        return <ManglerPersonEllerEnhet />;
+    }
+
     const flagVisHvaSomErNyttPromise = isFeatureEnabled('arbeidssokerregistrering-for-veileder.vis-hva-er-nytt');
     const snapshotPromise = getSnapshot(modiaContext.fnr);
     const sisteArbeidsforholdPromise = getSisteArbeidsforholdFraAareg(modiaContext.fnr);

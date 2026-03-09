@@ -21,9 +21,13 @@ const DEFAULT_RESPONSE: ModiaContext = {
 async function hentModiaContext(): Promise<ModiaContext> {
     if (brukerMock) {
         return {
-            fnr: '01237890',
-            enhetId: '123456789',
+            fnr: null,
+            enhetId: null,
         };
+        // return {
+        //     fnr: '01237890',
+        //     enhetId: '123456789',
+        // };
     }
 
     const headerList = await headers();

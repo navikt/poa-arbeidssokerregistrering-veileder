@@ -9,6 +9,10 @@ import { HistorikkWrapper } from './components/HistorikkWrapper';
 
 export default async function HistorikkPage() {
     const modiaContext = await hentModiaContext();
+    if (!modiaContext.fnr) {
+        return <ManglerPersonEllerEnhet />;
+    }
+
     const perioderPromise = getPerioder(modiaContext.fnr);
 
     return (

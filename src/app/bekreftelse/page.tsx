@@ -9,6 +9,11 @@ import { BekreftelseWrapper } from './components/BekreftelseWrapper';
 
 export default async function BekreftelsePage() {
     const modiaContext = await hentModiaContext();
+
+    if (!modiaContext.fnr) {
+        return <ManglerPersonEllerEnhet />;
+    }
+
     const bekreftelserPromise = getBekreftelser(modiaContext.fnr);
 
     return (

@@ -22,7 +22,6 @@ async function getBekreftelser(identitetsnummer: string | null): Promise<Bekreft
     if (!identitetsnummer) {
         return {
             bekreftelser: null,
-            error: new Error('Identitetsnummer mangler'),
         };
     }
 

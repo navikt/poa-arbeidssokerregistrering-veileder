@@ -9,6 +9,11 @@ import { hentModiaContext } from '@/lib/modia-context-api';
 
 export default async function TidslinjerPage() {
     const modiaContext = await hentModiaContext();
+
+    if (!modiaContext.fnr) {
+        return <ManglerPersonEllerEnhet />;
+    }
+
     const perioderPromise = getPerioder(modiaContext.fnr);
 
     return (
