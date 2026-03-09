@@ -3,9 +3,9 @@
 import { Alert, Box, Button } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { BekreftValgPanel } from '@/app/components/bekreft-valg-panel';
 import { useModiaContext } from '@/app/contexts/modia-context';
 import { slettPeriode } from '@/app/lib/api/inngang-slett-periode';
-import BekreftValgPanel from '@/components/bekreft-valg-panel';
 
 function SlettPeriode() {
     const { fnr } = useModiaContext();

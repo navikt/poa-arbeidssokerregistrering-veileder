@@ -1,7 +1,7 @@
 'use client';
 
 import type { ComponentType } from 'react';
-import NAVSPA from '../../components/navspa';
+import NAVSPA from '@/app/components/navspa';
 import type { DecoratorProps, Environment, UrlFormat } from '../../model/internflate-decorator';
 import { useModiaContext } from '../contexts/modia-context';
 

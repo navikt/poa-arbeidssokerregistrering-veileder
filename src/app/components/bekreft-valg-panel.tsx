@@ -1,5 +1,4 @@
-import React from 'react';
-import { Checkbox, Box } from '@navikt/ds-react';
+import { Box, Checkbox } from '@navikt/ds-react';
 
 interface PanelProps {
     label: React.ReactNode;
@@ -12,10 +11,10 @@ function BekreftValgPanel(props: PanelProps) {
     const { label } = props;
 
     return (
-        <Box paddingBlock="space-16 space-24">
+        <Box paddingBlock='space-16 space-24'>
             <Checkbox {...props}>{label}</Checkbox>
         </Box>
     );
 }
 
-export default BekreftValgPanel;
+export { BekreftValgPanel };

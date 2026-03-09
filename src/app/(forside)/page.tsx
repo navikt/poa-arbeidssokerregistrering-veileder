@@ -1,14 +1,14 @@
 import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { ForsideWrapper } from '@/app/(forside)/components/ForsideWrapper';
+import { DemoLabel } from '@/app/components/demo-label';
+import { DemoPanel } from '@/app/components/demo-panel';
 import { HvaErNytt } from '@/app/components/HvaErNytt';
 import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
 import { getBekreftelser } from '@/app/lib/api/bekreftelse';
 import { getSnapshot } from '@/app/lib/api/oppslag-snapshot';
 import { hentModiaContext } from '@/app/lib/modia-context-api';
 import { isFeatureEnabled } from '@/app/lib/unleash/feature-flags';
-import DemoLabel from '@/components/demo-label';
-import DemoPanel from '@/components/demo-panel';
 
 export default async function ForsidePage() {
     const modiaContext = await hentModiaContext();

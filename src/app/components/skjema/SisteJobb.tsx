@@ -9,8 +9,8 @@ import {
 } from '@navikt/arbeidssokerregisteret-utils';
 import { BodyLong, Box, Button, Heading, ReadMore } from '@navikt/ds-react';
 import { useState } from 'react';
+import { RadioGruppe } from '@/app/components/radio-gruppe/radio-gruppe';
 import { StillingsSok } from '@/app/components/skjema/StillingsSok';
-import RadioGruppe from '@/components/radio-gruppe/radio-gruppe';
 import type { RegistreringState } from '@/model/registrering';
 
 type SisteJobbProps = {
