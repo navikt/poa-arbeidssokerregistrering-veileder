@@ -12,7 +12,7 @@ type TokenValidationFailure = {
     error: Error;
 };
 
-export type TokenValidationResult = TokenValidationSuccess | TokenValidationFailure;
+type TokenValidationResult = TokenValidationSuccess | TokenValidationFailure;
 
 async function validateToken(bearerToken: string | null): Promise<TokenValidationResult> {
     if (brukerMock) {

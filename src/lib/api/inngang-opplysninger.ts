@@ -15,7 +15,7 @@ const INNGANG_OPPLYSNINGER_URL = `${process.env.OPPLYSNINGER_API_URL}/api/v1/arb
 const OPPLYSNINGER_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
-export type OpplysningerResult =
+type OpplysningerResult =
     | {
           ok: true;
       }

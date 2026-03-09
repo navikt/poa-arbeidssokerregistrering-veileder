@@ -16,7 +16,7 @@ export type BekreftelseApiResult = {
     error?: Error;
 };
 
-export type SendBekreftelseResult = { ok: true } | { ok: false; error?: string };
+type SendBekreftelseResult = { ok: true } | { ok: false; error?: string };
 
 async function getBekreftelser(identitetsnummer: string | null): Promise<BekreftelseApiResult> {
     if (!identitetsnummer) {

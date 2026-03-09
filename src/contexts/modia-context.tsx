@@ -2,7 +2,7 @@
 
 import { createContext, type ReactNode, useContext, useState } from 'react';
 
-export type ModiaContextType = {
+type ModiaContextType = {
     fnr: string | null;
     enhetId: string | null;
     setFnr: (fnr: string | null) => void;

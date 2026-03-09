@@ -11,7 +11,7 @@ import type { KanStartePeriodeFeil } from '@/lib/models/kan-starte-periode';
 
 export type PeriodeTilstand = 'STARTET' | 'STOPPET';
 
-export type FeilrettingType = 'FeilTidspunkt' | 'Feilregistrering';
+type FeilrettingType = 'FeilTidspunkt' | 'Feilregistrering';
 
 // --- Composite types ---
 

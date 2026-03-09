@@ -55,4 +55,3 @@ async function getOboTokenFromRequest(headerList: Headers | ReadonlyHeaders, sco
 }
 
 export { getOboTokenFromRequest };
-export type { OboTokenResult };

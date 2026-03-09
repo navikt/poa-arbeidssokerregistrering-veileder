@@ -28,7 +28,7 @@ export type ApiRegelId =
     | 'ER_EU_EOES_STATSBORGER_MED_STATUS_IKKE_BOSATT'
     | 'UKJENT_ALDER';
 
-export type Opplysning =
+type Opplysning =
     | 'FORHAANDSGODKJENT_AV_ANSATT'
     | 'SAMME_SOM_INNLOGGET_BRUKER'
     | 'IKKE_SAMME_SOM_INNLOGGER_BRUKER'
@@ -73,7 +73,7 @@ export type Opplysning =
 
 // --- Composite types ---
 
-export type ApiRegel = {
+type ApiRegel = {
     id: ApiRegelId;
     beskrivelse: string;
 };
