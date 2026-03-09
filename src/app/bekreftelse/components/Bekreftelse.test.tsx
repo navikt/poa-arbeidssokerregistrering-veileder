@@ -53,8 +53,8 @@ vi.mock('@/lib/api/bekreftelse', () => ({
 import type { TilgjengeligBekreftelse } from '@navikt/arbeidssokerregisteret-utils';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
-import flereBekreftelser from '@/app/mocks/bekreftelser-flere.json';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
+import flereBekreftelser from '@/lib/mocks/bekreftelser-flere.json';
 import { Bekreftelse } from './Bekreftelse';
 
 // ———————————————————————————————————————————————————

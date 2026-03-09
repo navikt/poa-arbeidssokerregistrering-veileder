@@ -1,6 +1,6 @@
 import type { TilgjengeligBekreftelse } from '@navikt/arbeidssokerregisteret-utils';
 import { describe, expect, it } from 'vitest';
-import flereBekreftelser from '@/app/mocks/bekreftelser-flere.json';
+import flereBekreftelser from '@/lib/mocks/bekreftelser-flere.json';
 import { sorterBekreftelser } from './sorter-bekreftelser';
 
 describe('sorterBekreftelser', () => {

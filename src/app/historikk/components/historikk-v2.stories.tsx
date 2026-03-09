@@ -1,8 +1,8 @@
 import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import perioderMock from '@/app/mocks/perioder.json';
 import { VisningsTypeProvider } from '@/contexts/hendelse-visning-context';
 import { ModiaProvider } from '@/contexts/modia-context';
+import perioderMock from '@/lib/mocks/perioder.json';
 import { samplePeriode } from './__mocks__/tidslinje-mock-data';
 import { Historikk } from './Historikk';
 

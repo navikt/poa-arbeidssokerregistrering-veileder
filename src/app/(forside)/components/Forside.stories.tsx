@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import bekreftelserMock from '@/app/mocks/bekreftelser.json';
-import snapshotMock from '@/app/mocks/snapshot.json';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
+import bekreftelserMock from '@/lib/mocks/bekreftelser.json';
+import snapshotMock from '@/lib/mocks/snapshot.json';
 import { Forside } from './Forside';
 
 const happySnapshot: SnapshotResult = {

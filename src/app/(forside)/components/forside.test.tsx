@@ -34,12 +34,12 @@ vi.mock('@/lib/api/bekreftelse', () => ({
 import type { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { act, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
-import bekreftelserMock from '@/app/mocks/bekreftelser.json';
-import snapshotMock from '@/app/mocks/snapshot.json';
-import snapshotMockAvsluttet from '@/app/mocks/snapshot-med-avsluttet.json';
 import { ModiaProvider } from '@/contexts/modia-context';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
+import bekreftelserMock from '@/lib/mocks/bekreftelser.json';
+import snapshotMock from '@/lib/mocks/snapshot.json';
+import snapshotMockAvsluttet from '@/lib/mocks/snapshot-med-avsluttet.json';
 import { Forside } from './Forside';
 import { ForsideWrapper } from './ForsideWrapper';
 

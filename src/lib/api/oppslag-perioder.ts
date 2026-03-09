@@ -15,7 +15,7 @@ async function getPerioder(identitetsnummer: string | null): Promise<PeriodeResu
         return { perioder: null, error: new Error('Identitetsnummer mangler') };
     }
     if (brukerMock) {
-        const { default: perioder } = (await import('@/app/mocks/perioder.json', {
+        const { default: perioder } = (await import('@/lib/mocks/perioder.json', {
             with: { type: 'json' },
         })) as { default: Periode[] };
         await new Promise((res) => setTimeout(res, 500));
