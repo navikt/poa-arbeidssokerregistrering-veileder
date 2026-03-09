@@ -1,41 +1,15 @@
 import {
     DinSituasjon,
     type JaEllerNei,
+    type JobbsituasjonBeskrivelse,
+    type JobbsituasjonDetaljer,
+    mapUtdanningsnivaaTilNusKode,
+    NUS,
     SisteStillingValg,
     SporsmalId,
     type UtdanningGodkjentValg,
-    Utdanningsnivaa,
 } from '@navikt/arbeidssokerregisteret-utils';
 import type { RegistreringState } from '@/model/registrering';
-
-// temp - eksporter i utils
-enum NUS {
-    INGEN_UTDANNING = '0',
-    GRUNNSKOLE = '2',
-    VIDEREGAENDE_GRUNNUTDANNING = '3',
-    VIDEREGAENDE_FAGBREV_SVENNEBREV = '4',
-    VIDEREGAENDE_PAABYGGING = '5',
-    HOYERE_UTDANNING_1_TIL_4 = '6',
-    HOYERE_UTDANNING_5_ELLER_MER = '7',
-    INGEN_SVAR = '9',
-}
-
-type JobbsituasjonBeskrivelse =
-    | 'UKJENT_VERDI'
-    | 'UDEFINERT'
-    | 'HAR_SAGT_OPP'
-    | 'HAR_BLITT_SAGT_OPP'
-    | 'ER_PERMITTERT'
-    | 'ALDRI_HATT_JOBB'
-    | 'IKKE_VAERT_I_JOBB_SISTE_2_AAR'
-    | 'AKKURAT_FULLFORT_UTDANNING'
-    | 'VIL_BYTTE_JOBB'
-    | 'USIKKER_JOBBSITUASJON'
-    | 'MIDLERTIDIG_JOBB'
-    | 'DELTIDSJOBB_VIL_MER'
-    | 'NY_JOBB'
-    | 'KONKURS'
-    | 'ANNET';
 
 type Payload = {
     utdanning: {
@@ -47,33 +21,13 @@ type Payload = {
         helsetilstandHindrerArbeid: JaEllerNei;
     };
     jobbsituasjon: {
-        beskrivelser: [{ beskrivelse: JobbsituasjonBeskrivelse; detaljer?: any }];
+        beskrivelser: [{ beskrivelse: JobbsituasjonBeskrivelse; detaljer?: JobbsituasjonDetaljer }];
     };
     annet: {
         andreForholdHindrerArbeid: JaEllerNei;
     };
 };
 
-function mapUtdanningsnivaaTilNusKode(utdanning?: Utdanningsnivaa): NUS {
-    switch (utdanning) {
-        case Utdanningsnivaa.INGEN_UTDANNING:
-            return NUS.INGEN_UTDANNING;
-        case Utdanningsnivaa.GRUNNSKOLE:
-            return NUS.GRUNNSKOLE;
-        case Utdanningsnivaa.VIDEREGAENDE_GRUNNUTDANNING:
-            return NUS.VIDEREGAENDE_GRUNNUTDANNING;
-        case Utdanningsnivaa.VIDEREGAENDE_FAGBREV_SVENNEBREV:
-            return NUS.VIDEREGAENDE_FAGBREV_SVENNEBREV;
-        case Utdanningsnivaa.HOYERE_UTDANNING_1_TIL_4:
-            return NUS.HOYERE_UTDANNING_1_TIL_4;
-        case Utdanningsnivaa.HOYERE_UTDANNING_5_ELLER_MER:
-            return NUS.HOYERE_UTDANNING_5_ELLER_MER;
-        case Utdanningsnivaa.INGEN_SVAR:
-            return NUS.INGEN_SVAR;
-        default:
-            return NUS.INGEN_SVAR;
-    }
-}
 function mapUtdanning(skjema: RegistreringState): Payload['utdanning'] {
     const nus = mapUtdanningsnivaaTilNusKode(skjema[SporsmalId.utdanning]);
     if ([NUS.INGEN_SVAR, NUS.INGEN_UTDANNING, NUS.GRUNNSKOLE].includes(nus)) {
