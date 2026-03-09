@@ -121,10 +121,4 @@ function validateRegistrering(registrering: RegistreringState): boolean {
     );
 }
 
-export {
-    validateRegistrering,
-    harAllePakrevdeSvarUnntattStilling,
-    harStillingSvar,
-    erSisteJobbGyldig,
-    erUtdanningSvarGyldig,
-};
+export { validateRegistrering };
