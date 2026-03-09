@@ -1,52 +1,55 @@
 {
-    "lsp": {
-        "vscode-css-language-server": {
-            "settings": {
-                "css": {
-                    "lint": {
-                        "unknownAtRules": "ignore",
-                    },
-                },
-            },
+  "lsp": {
+    "vscode-css-language-server": {
+      "settings": {
+        "css": {
+          "lint": {
+            "unknownAtRules": "ignore",
+          },
         },
-        "eslint": {
-            "settings": {
-                "options": {
-                    "flags": ["--no-warn-ignored"],
-                },
-            },
-        },
-        "typescript-language-server": {
-            "settings": {
-                "typescript": {
-                    "preferences": {
-                        "importModuleSpecifier": "non-relative",
-                    },
-                },
-                "javascript": {
-                    "preferences": {
-                        "importModuleSpecifier": "non-relative",
-                    },
-                },
-            },
-        },
+      },
     },
-    "languages": {
-        "TypeScript": {
-            "formatter": {
-                "external": {
-                    "command": "npx",
-                    "arguments": ["biome", "format", "--stdin-file-path", "{buffer_path}"],
-                },
-            },
+    "typescript-language-server": {
+      "settings": {
+        "typescript": {
+          "preferences": {
+            "importModuleSpecifier": "non-relative",
+          },
         },
-        "TSX": {
-            "formatter": {
-                "external": {
-                    "command": "npx",
-                    "arguments": ["biome", "format", "--stdin-file-path", "{buffer_path}"],
-                },
-            },
+        "javascript": {
+          "preferences": {
+            "importModuleSpecifier": "non-relative",
+          },
         },
+      },
     },
+  },
+  "languages": {
+    "TypeScript": {
+      "formatter": {
+        "external": {
+          "command": "npx",
+          "arguments": [
+            "biome",
+            "format",
+            "--stdin-file-path",
+            "{buffer_path}",
+          ],
+        },
+      },
+    },
+    "TSX": {
+      "formatter": {
+        "external": {
+          "command": "npx",
+          "arguments": [
+            "biome",
+            "format",
+            "--stdin-file-path",
+            "{buffer_path}",
+          ],
+        },
+      },
+    },
+  },
 }
