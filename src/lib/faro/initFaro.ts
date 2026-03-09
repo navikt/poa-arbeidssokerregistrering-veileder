@@ -27,6 +27,11 @@ const TELEMETRY_URL = {
     development: 'https://telemetry.ekstern.dev.nav.no/collect',
     production: 'https://telemetry.nav.no/collect',
     demo: '',
+    // TODO: de url'ene over er fra pages tiden, men pr nå gir de
+    // cors-problemer. Tror det er urlene under som er riktig.
+    // Vurder å bytt
+    // development: 'https://telemetry.intern.dev.nav.no/collect',
+    // production: 'https://telemetry.nav.no/collect',
 };
 
 export const initFaro = (): Faro | null => {
