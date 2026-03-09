@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { validateToken } from '@/app/lib/auth/validateToken';
 import { logger } from '@navikt/next-logger';
+import { type NextRequest, NextResponse } from 'next/server';
+import { validateToken } from '@/app/lib/auth/validateToken';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 

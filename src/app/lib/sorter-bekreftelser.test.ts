@@ -9,9 +9,14 @@ describe('sorterBekreftelser', () => {
 
         const result = sorterBekreftelser(reversed);
 
-        expect(result[0].bekreftelseId).toBe(flereBekreftelser[0].bekreftelseId);
-        expect(result[1].bekreftelseId).toBe(flereBekreftelser[1].bekreftelseId);
-        expect(new Date(result[0].gjelderTil).getTime()).toBeLessThan(new Date(result[1].gjelderTil).getTime());
+        const first = result[0] as TilgjengeligBekreftelse;
+        const second = result[1] as TilgjengeligBekreftelse;
+        const expectedFirst = flereBekreftelser[0] as TilgjengeligBekreftelse;
+        const expectedSecond = flereBekreftelser[1] as TilgjengeligBekreftelse;
+
+        expect(first.bekreftelseId).toBe(expectedFirst.bekreftelseId);
+        expect(second.bekreftelseId).toBe(expectedSecond.bekreftelseId);
+        expect(new Date(first.gjelderTil).getTime()).toBeLessThan(new Date(second.gjelderTil).getTime());
     });
 
     it('returnerer en ny array uten å mutere input', () => {
@@ -32,7 +37,10 @@ describe('sorterBekreftelser', () => {
         const single = [flereBekreftelser[0]] as TilgjengeligBekreftelse[];
         const result = sorterBekreftelser(single);
 
+        const first = result[0] as TilgjengeligBekreftelse;
+        const expected = flereBekreftelser[0] as TilgjengeligBekreftelse;
+
         expect(result).toHaveLength(1);
-        expect(result[0].bekreftelseId).toBe(flereBekreftelser[0].bekreftelseId);
+        expect(first.bekreftelseId).toBe(expected.bekreftelseId);
     });
 });

@@ -1,5 +1,14 @@
 {
     "lsp": {
+        "vscode-css-language-server": {
+            "settings": {
+                "css": {
+                    "lint": {
+                        "unknownAtRules": "ignore",
+                    },
+                },
+            },
+        },
         "eslint": {
             "settings": {
                 "options": {

@@ -87,6 +87,7 @@ export function importer<P>(config: AsyncSpaConfig): React.ComponentType<P> {
     const loader = config.loader || <></>;
     const lazyKomponent = (props: P) => (
         <React.Suspense fallback={loader}>
+            {/* @ts-ignore - strictNullChecks: P is not constrained to IntrinsicAttributes */}
             <LazyComponent {...props} />
         </React.Suspense>
     );
