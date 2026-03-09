@@ -6,17 +6,15 @@
         "dev": "next dev | pino-pretty",
         "build": "next build",
         "start": "next start",
-        "lint": "eslint .",
-        "test": "npm run lint && jest --watch",
-        "test:app": "vitest --run",
-        "test:app:watch": "vitest",
-        "test:ci": "npm run lint && jest && vitest --run",
+        "lint": "biome check",
+        "test": "vitest --run",
+        "test:watch": "vitest",
+        "test:ci": "vitest --run",
         "refresh": "rm -rf node_modules && rm package-lock.json && npm i --ignore-scripts",
         "prepare": "husky",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build",
-        "format:app": "biome check --write src/app",
-        "format:legacy": "prettier --write 'src/!(app)/**/*.{js,jsx,ts,tsx,json,md}'"
+        "format:app": "biome check --write src"
     },
     "dependencies": {
         "@grafana/faro-web-sdk": "2.2.0",
@@ -73,8 +71,7 @@
         "tabWidth": 4
     },
     "lint-staged": {
-        "src/app/**/*.{js,jsx,json,ts,tsx}": "biome check --write",
-        "src/!(app)/**/*.{js,jsx,json,ts,tsx}": "prettier --write"
+        "src/app/**/*.{js,jsx,json,ts,tsx}": "biome check --write"
     },
     "engines": {
         "node": ">=24.13.0"
