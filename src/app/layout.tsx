@@ -50,7 +50,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                         data-website-id={umamiTrackingId}
                     />
                 )}
-                {visittkortUrl && <Script src={visittkortUrl} strategy='afterInteractive' type='module' />}
+                {visittkortUrl && (
+                    <Script src={visittkortUrl} strategy='afterInteractive' type='module' crossOrigin='anonymous' />
+                )}
                 <ModiaProvider initFnr={modiaContext.fnr} initEnhetId={modiaContext.enhetId}>
                     {!enableMock && <InternflateDecorator decoratorEnv={decoratorEnv} />}
                     <Visittkort brukerMock={enableMock} />
