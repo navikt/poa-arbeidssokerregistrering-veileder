@@ -23,11 +23,11 @@ vi.mock('@/lib/tracking', () => ({
 
 // Mocker server-action-modulene som ForsideWrapper importerer.
 // Disse har 'use server' og importerer next/headers som ikke finnes i jsdom.
-vi.mock('@/app/lib/api/oppslag-snapshot', () => ({
+vi.mock('@/lib/api/oppslag-snapshot', () => ({
     getSnapshot: vi.fn(),
 }));
 
-vi.mock('@/app/lib/api/bekreftelse', () => ({
+vi.mock('@/lib/api/bekreftelse', () => ({
     getBekreftelser: vi.fn(),
 }));
 

@@ -42,11 +42,11 @@ vi.mock('@/app/contexts/modia-context', () => ({
 }));
 
 // Mock server actions that use 'use server' / next/headers
-vi.mock('@/app/lib/api/inngang-opplysninger', () => ({
+vi.mock('@/lib/api/inngang-opplysninger', () => ({
     registrerOpplysninger: vi.fn(),
 }));
 
-vi.mock('@/app/lib/api/inngang-start-periode', () => ({
+vi.mock('@/lib/api/inngang-start-periode', () => ({
     startPeriode: vi.fn(),
 }));
 

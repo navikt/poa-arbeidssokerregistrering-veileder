@@ -5,7 +5,7 @@ vi.mock('@navikt/next-logger', () => ({
     logger: { info: vi.fn(), error: vi.fn() },
 }));
 
-vi.mock('@/app/lib/auth/validateToken', () => ({
+vi.mock('@/lib/auth/validateToken', () => ({
     validateToken: vi.fn(),
 }));
 

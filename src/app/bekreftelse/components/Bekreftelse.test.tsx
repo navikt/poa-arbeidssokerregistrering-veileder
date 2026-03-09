@@ -42,7 +42,7 @@ vi.mock('@/app/contexts/modia-context', () => ({
 
 const sendBekreftelseMock = vi.fn();
 
-vi.mock('@/app/lib/api/bekreftelse', () => ({
+vi.mock('@/lib/api/bekreftelse', () => ({
     sendBekreftelse: (...args: unknown[]) => sendBekreftelseMock(...args),
 }));
 

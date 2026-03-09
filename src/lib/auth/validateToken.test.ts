@@ -1,7 +1,5 @@
 import { beforeEach, expect, vi } from 'vitest';
 
-vi.mock('server-only', () => ({}));
-
 vi.mock('@navikt/oasis', () => ({
     validateAzureToken: vi.fn(),
 }));
@@ -58,7 +56,6 @@ describe('validateToken (på localhost)', () => {
     it('skal returnere ok når ENABLE_MOCK er aktivt', async () => {
         vi.resetModules();
         vi.stubEnv('ENABLE_MOCK', 'enabled');
-        vi.mock('server-only', () => ({}));
         vi.mock('@navikt/oasis', () => ({ validateAzureToken: vi.fn() }));
 
         const { validateToken: validateTokenMocked } = await import('@/lib/auth/validateToken');

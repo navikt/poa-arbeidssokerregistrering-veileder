@@ -49,11 +49,11 @@ vi.mock('@/lib/tracking', () => ({
 const mockRegistrerOpplysninger = vi.fn<(...args: unknown[]) => Promise<{ ok: boolean; error?: string }>>();
 const mockStartPeriode = vi.fn<(...args: unknown[]) => Promise<{ ok: boolean; error?: string }>>();
 
-vi.mock('@/app/lib/api/inngang-opplysninger', () => ({
+vi.mock('@/lib/api/inngang-opplysninger', () => ({
     registrerOpplysninger: (...args: unknown[]) => mockRegistrerOpplysninger(...args),
 }));
 
-vi.mock('@/app/lib/api/inngang-start-periode', () => ({
+vi.mock('@/lib/api/inngang-start-periode', () => ({
     startPeriode: (...args: unknown[]) => mockStartPeriode(...args),
 }));
 
