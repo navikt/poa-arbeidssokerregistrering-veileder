@@ -1,10 +1,10 @@
 import { Heading } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
+import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
 import { getPerioder } from '@/app/lib/api/oppslag-perioder';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
 import { TidslinjeWrapper } from '@/app/tidslinjer/components/TidslinjeWrapper';
-import TilbakeTilForside from '@/components/tilbake-til-forside';
 import { hentModiaContext } from '../lib/modia-context-api';
 
 export default async function TidslinjerPage() {

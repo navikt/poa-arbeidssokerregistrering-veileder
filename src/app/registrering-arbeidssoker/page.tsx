@@ -2,11 +2,11 @@ import { Heading, Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { HvaErNytt } from '@/app/components/HvaErNytt';
 import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
+import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
 import { getSisteArbeidsforholdFraAareg } from '@/app/lib/api/aareg';
 import { getSnapshot } from '@/app/lib/api/oppslag-snapshot';
 import { hentModiaContext } from '@/app/lib/modia-context-api';
 import { isFeatureEnabled } from '@/app/lib/unleash/feature-flags';
-import TilbakeTilForside from '@/components/tilbake-til-forside';
 import { RegistreringsWrapper } from './components/RegistreringsWrapper';
 
 export default async function RegistreringArbeidsokerPage() {

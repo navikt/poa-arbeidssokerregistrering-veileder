@@ -1,23 +1,22 @@
 import { logger } from '@navikt/next-logger';
 import { evaluateFlags, flagsClient, getDefinitions } from '@unleash/nextjs';
-import { featureMocks } from '@/pages/api/mocks/features';
 import 'server-only';
 
 const REVALIDATE_SECONDS = 15;
+const EMPTY_DEFINITIONS = { version: 1, features: [] };
+const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
 async function getServerSideDefinitions() {
-    const brukerMock = process.env.ENABLE_MOCK === 'enabled';
-    if (brukerMock) {
-        return featureMocks;
-    }
-
     try {
+        if (brukerMock) {
+            return EMPTY_DEFINITIONS;
+        }
         return await getDefinitions({
             fetchOptions: { next: { revalidate: REVALIDATE_SECONDS } },
         });
     } catch (error) {
         logger.error(error, 'Feil ved henting av feature toggles fra unleash');
-        return featureMocks;
+        return EMPTY_DEFINITIONS;
     }
 }
 

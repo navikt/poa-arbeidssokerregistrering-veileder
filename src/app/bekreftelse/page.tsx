@@ -1,10 +1,10 @@
 import { Heading } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
+import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
 import { getBekreftelser } from '@/app/lib/api/bekreftelse';
 import { hentModiaContext } from '@/app/lib/modia-context-api';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
-import TilbakeTilForside from '@/components/tilbake-til-forside';
 import { BekreftelseWrapper } from './components/BekreftelseWrapper';
 
 export default async function BekreftelsePage() {

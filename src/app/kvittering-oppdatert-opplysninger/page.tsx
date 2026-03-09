@@ -1,6 +1,6 @@
 import { Alert, BodyLong, Heading } from '@navikt/ds-react';
 import { TrackPageView } from '@/app/components/TrackPageView';
-import TilbakeTilForside from '@/components/tilbake-til-forside';
+import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
 
 export default function KvitteringOppdatertOpplysninger() {
     return (

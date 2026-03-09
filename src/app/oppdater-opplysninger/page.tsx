@@ -1,10 +1,10 @@
 import { Heading, Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
+import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
 import { getSisteArbeidsforholdFraAareg } from '@/app/lib/api/aareg';
 import { getSnapshot } from '@/app/lib/api/oppslag-snapshot';
 import { hentModiaContext } from '@/app/lib/modia-context-api';
-import TilbakeTilForside from '@/components/tilbake-til-forside';
 import { OppdaterOpplysningerWrapper } from './components/OppdaterOpplysningerWrapper';
 
 export default async function OppdaterOpplysningerPage() {

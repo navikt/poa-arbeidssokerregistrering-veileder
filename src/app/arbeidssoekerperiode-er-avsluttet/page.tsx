@@ -1,6 +1,6 @@
 import { lagHentTekstForSprak, type Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { Alert, BodyLong, Heading } from '@navikt/ds-react';
-import TilbakeTilForside from '@/components/tilbake-til-forside';
+import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
 import { TrackPageView } from '../components/TrackPageView';
 
 const TEKSTER: Tekster<string> = {

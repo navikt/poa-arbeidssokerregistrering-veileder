@@ -1,8 +1,8 @@
 import { lagHentTekstForSprak, type Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { Alert, Box, Heading, List } from '@navikt/ds-react';
 import { ListItem } from '@navikt/ds-react/List';
+import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
 import { SlettPeriode } from '@/app/slett-arbeidssoekerperiode/components/SlettPeriode';
-import TilbakeTilForside from '@/components/tilbake-til-forside';
 import { TrackPageView } from '../components/TrackPageView';
 
 const TEKSTER: Tekster<string> = {

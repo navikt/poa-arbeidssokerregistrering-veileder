@@ -3,6 +3,7 @@
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Alert, BodyShort, Box, Button, Heading, Switch } from '@navikt/ds-react';
 import { use, useMemo, useRef } from 'react';
+import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
 import { FilterProvider } from '@/app/contexts/filter-hendelse-context';
 import { useVisningTypeContext } from '@/app/contexts/hendelse-visning-context';
 import { useModiaContext } from '@/app/contexts/modia-context';
@@ -12,7 +13,6 @@ import { HistorikkPeriode } from '@/app/historikk/components/HistorikkPeriode';
 import PrintInfoHeader from '@/app/historikk/components/PrintInfoHeader';
 import { useScrollSpy } from '@/app/hooks/useScrollSpy';
 import type { PeriodeResult } from '@/app/lib/api/oppslag-perioder';
-import TilbakeTilForside from '@/components/tilbake-til-forside';
 
 type HistorikkProps = {
     perioderPromise: Promise<PeriodeResult>;
