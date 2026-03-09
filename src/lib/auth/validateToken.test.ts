@@ -7,7 +7,7 @@ vi.mock('@navikt/oasis', () => ({
 }));
 
 import { validateAzureToken } from '@navikt/oasis';
-import { validateToken } from '@/app/lib/auth/validateToken';
+import { validateToken } from '@/lib/auth/validateToken';
 
 const mockeValidatedAzureToken = vi.mocked(validateAzureToken);
 
@@ -61,7 +61,7 @@ describe('validateToken (på localhost)', () => {
         vi.mock('server-only', () => ({}));
         vi.mock('@navikt/oasis', () => ({ validateAzureToken: vi.fn() }));
 
-        const { validateToken: validateTokenMocked } = await import('@/app/lib/auth/validateToken');
+        const { validateToken: validateTokenMocked } = await import('@/lib/auth/validateToken');
         const result = await validateTokenMocked(null);
 
         expect(result.ok).toBe(true);

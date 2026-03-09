@@ -2,7 +2,7 @@
 
 import type { Snapshot } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { headers } from 'next/headers';
-import { authenticatedFetch } from '../authenticatedFetch';
+import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import type { ProblemDetails } from '../types/problem-details';
 
 export type SnapshotResult = {

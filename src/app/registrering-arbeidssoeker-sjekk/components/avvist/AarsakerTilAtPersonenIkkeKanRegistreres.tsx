@@ -1,5 +1,5 @@
 import { BodyLong, Box, Heading, List } from '@navikt/ds-react';
-import type { KanStartePeriodeFeil } from '@/app/lib/models/kan-starte-periode';
+import type { KanStartePeriodeFeil } from '@/lib/models/kan-starte-periode';
 
 interface AarsakerProps {
     feilmelding: KanStartePeriodeFeil;

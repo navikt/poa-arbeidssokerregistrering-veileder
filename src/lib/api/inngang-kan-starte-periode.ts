@@ -2,9 +2,9 @@
 
 import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
-import { authenticatedFetch } from '@/app/lib/authenticatedFetch';
-import type { KanStartePeriodeFeil, KanStartePeriodeResult } from '@/app/lib/models/kan-starte-periode';
 import kanStartePeriodeMock from '@/app/mocks/kan-starte-periode.json';
+import { authenticatedFetch } from '@/lib/authenticatedFetch';
+import type { KanStartePeriodeFeil, KanStartePeriodeResult } from '@/lib/models/kan-starte-periode';
 
 const KAN_STARTE_PERIODE_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/kanStartePeriode`;
 const INNGANG_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;

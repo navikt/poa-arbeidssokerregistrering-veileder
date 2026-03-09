@@ -5,10 +5,10 @@ import { DemoLabel } from '@/app/components/demo-label';
 import { DemoPanel } from '@/app/components/demo-panel';
 import { HvaErNytt } from '@/app/components/HvaErNytt';
 import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
-import { getBekreftelser } from '@/app/lib/api/bekreftelse';
-import { getSnapshot } from '@/app/lib/api/oppslag-snapshot';
-import { hentModiaContext } from '@/app/lib/modia-context-api';
-import { isFeatureEnabled } from '@/app/lib/unleash/feature-flags';
+import { getBekreftelser } from '@/lib/api/bekreftelse';
+import { getSnapshot } from '@/lib/api/oppslag-snapshot';
+import { hentModiaContext } from '@/lib/modia-context-api';
+import { isFeatureEnabled } from '@/lib/unleash/feature-flags';
 
 export default async function ForsidePage() {
     const modiaContext = await hentModiaContext();

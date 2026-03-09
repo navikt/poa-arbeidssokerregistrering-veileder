@@ -1,9 +1,9 @@
 import { Heading } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
-import { getPerioder } from '@/app/lib/api/oppslag-perioder';
-import { hentModiaContext } from '@/app/lib/modia-context-api';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
+import { getPerioder } from '@/lib/api/oppslag-perioder';
+import { hentModiaContext } from '@/lib/modia-context-api';
 import { ManglerPersonEllerEnhet } from '../components/ManglerPersonEllerEnhet';
 import { HistorikkWrapper } from './components/HistorikkWrapper';
 

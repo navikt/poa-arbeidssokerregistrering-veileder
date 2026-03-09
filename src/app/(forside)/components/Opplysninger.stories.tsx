@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import type { SnapshotResult } from '@/app/lib/api/oppslag-snapshot';
 import snapshotMock from '@/app/mocks/snapshot.json';
+import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import { Opplysninger } from './Opplysninger';
 
 const snapshot = snapshotMock as unknown as NonNullable<SnapshotResult['snapshot']>;

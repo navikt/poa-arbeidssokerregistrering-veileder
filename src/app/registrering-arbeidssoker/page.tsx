@@ -3,10 +3,10 @@ import { Suspense } from 'react';
 import { HvaErNytt } from '@/app/components/HvaErNytt';
 import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
 import { TilbakeTilForside } from '@/app/components/tilbake-til-forside';
-import { getSisteArbeidsforholdFraAareg } from '@/app/lib/api/aareg';
-import { getSnapshot } from '@/app/lib/api/oppslag-snapshot';
-import { hentModiaContext } from '@/app/lib/modia-context-api';
-import { isFeatureEnabled } from '@/app/lib/unleash/feature-flags';
+import { getSisteArbeidsforholdFraAareg } from '@/lib/api/aareg';
+import { getSnapshot } from '@/lib/api/oppslag-snapshot';
+import { hentModiaContext } from '@/lib/modia-context-api';
+import { isFeatureEnabled } from '@/lib/unleash/feature-flags';
 import { RegistreringsWrapper } from './components/RegistreringsWrapper';
 
 export default async function RegistreringArbeidsokerPage() {

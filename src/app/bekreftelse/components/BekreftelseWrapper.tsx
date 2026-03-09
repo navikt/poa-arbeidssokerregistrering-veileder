@@ -4,7 +4,7 @@ import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { Bekreftelse } from '@/app/bekreftelse/components/Bekreftelse';
 import { useServerData } from '@/app/hooks/useServerData';
-import { type BekreftelseApiResult, getBekreftelser } from '@/app/lib/api/bekreftelse';
+import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
 
 type BekreftelseWrapperProps = {
     initialBekreftelserPromise: Promise<BekreftelseApiResult>;

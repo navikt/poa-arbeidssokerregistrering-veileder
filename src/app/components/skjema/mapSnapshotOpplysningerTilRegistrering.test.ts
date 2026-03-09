@@ -7,7 +7,7 @@ import {
 } from '@navikt/arbeidssokerregisteret-utils';
 import type { Snapshot } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { describe, expect, it } from 'vitest';
-import type { SisteArbeidsforholdResult } from '@/app/lib/api/aareg';
+import type { SisteArbeidsforholdResult } from '@/lib/api/aareg';
 import { mapOpplysningerTilInitState } from './mapSnapshotOpplysningerTilRegistrering';
 
 // ———————————————————————————————————————————————————

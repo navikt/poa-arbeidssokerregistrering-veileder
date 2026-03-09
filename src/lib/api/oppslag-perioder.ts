@@ -2,7 +2,7 @@
 
 import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { headers } from 'next/headers';
-import { authenticatedFetch } from '@/app/lib/authenticatedFetch';
+import { authenticatedFetch } from '@/lib/authenticatedFetch';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const OPPSLAG_V2_URL = process.env.OPPSLAG_API_V2_URL;

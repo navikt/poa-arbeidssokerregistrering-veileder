@@ -7,7 +7,7 @@ import {
     UtdanningGodkjentValg,
 } from '@navikt/arbeidssokerregisteret-utils';
 import type { Beskrivelse, OpplysningerHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import type { SisteArbeidsforholdResult } from '@/app/lib/api/aareg';
+import type { SisteArbeidsforholdResult } from '@/lib/api/aareg';
 import type { RegistreringState } from '@/model/registrering';
 import { buildSisteJobb } from './buildSisteJobb';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { Alert, BodyLong, Box, CopyButton, Heading, Link, List, ReadMore } from '@navikt/ds-react';
-import type { KanStartePeriodeFeil } from '@/app/lib/models/kan-starte-periode';
+import type { KanStartePeriodeFeil } from '@/lib/models/kan-starte-periode';
 import { loggAktivitet } from '@/lib/tracking';
 import type { AvvisningKlassifisering } from './klassifiserAvvisning';
 

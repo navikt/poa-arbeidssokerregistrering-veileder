@@ -1,12 +1,12 @@
 import Script from 'next/script';
 import '../styles/globals.css';
 import type { Metadata } from 'next';
+import { hentModiaContext } from '@/lib/modia-context-api';
+import { hentVisittkortScriptUrl } from '@/lib/visittkort-url';
 import { InternflateDecorator } from './components/decorator-intern';
 import { InitFaro } from './components/InitFaro';
 import { Visittkort } from './components/visittkort';
 import { ModiaProvider } from './contexts/modia-context';
-import { hentModiaContext } from './lib/modia-context-api';
-import { hentVisittkortScriptUrl } from './lib/visittkort-url';
 
 const enableMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const decoratorEnv = process.env.DEKORATOR_ENV ?? 'q2';

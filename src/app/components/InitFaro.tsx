@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { initFaro } from '@/faro/initFaro';
+import { initFaro } from '@/lib/faro/initFaro';
 
 function InitFaro() {
     useEffect(() => {

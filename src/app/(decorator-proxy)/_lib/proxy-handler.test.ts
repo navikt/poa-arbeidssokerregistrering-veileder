@@ -9,7 +9,7 @@ vi.mock('@/app/lib/modia-headers', () => ({ hentModiaHeaders: vi.fn(() => ({})) 
 
 import { NextRequest } from 'next/server';
 import { lagProxyKall } from '@/app/(decorator-proxy)/_lib/proxy-handler';
-import { getOboTokenFromRequest } from '@/app/lib/auth/oboToken';
+import { getOboTokenFromRequest } from '@/lib/auth/oboToken';
 
 const mockGetOboToken = vi.mocked(getOboTokenFromRequest);
 

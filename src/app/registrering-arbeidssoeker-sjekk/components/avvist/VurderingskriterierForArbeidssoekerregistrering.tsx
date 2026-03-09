@@ -1,5 +1,5 @@
 import { BodyLong, Box, Heading, List } from '@navikt/ds-react';
-import type { ApiRegelId } from '@/app/lib/models/kan-starte-periode';
+import type { ApiRegelId } from '@/lib/models/kan-starte-periode';
 
 interface VurderingskriterierProps {
     regler: ApiRegelId[];

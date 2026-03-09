@@ -4,7 +4,7 @@ import { Alert, Box, Button } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useModiaContext } from '@/app/contexts/modia-context';
-import { stoppPeriode } from '@/app/lib/api/inngang-stopp-periode';
+import { stoppPeriode } from '@/lib/api/inngang-stopp-periode';
 import { loggAktivitet } from '@/lib/tracking';
 
 function AvsluttPeriode() {

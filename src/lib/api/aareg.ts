@@ -4,7 +4,7 @@ import { logger } from '@navikt/next-logger';
 import { nanoid } from 'nanoid';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { authenticatedFetch } from '../authenticatedFetch';
+import { authenticatedFetch } from '@/lib/authenticatedFetch';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 

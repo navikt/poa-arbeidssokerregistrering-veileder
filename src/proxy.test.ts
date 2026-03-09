@@ -9,7 +9,7 @@ vi.mock('@/app/lib/auth/validateToken', () => ({
     validateToken: vi.fn(),
 }));
 
-import { validateToken } from '@/app/lib/auth/validateToken';
+import { validateToken } from '@/lib/auth/validateToken';
 import { proxy } from '@/proxy';
 
 const mockValidateToken = vi.mocked(validateToken);

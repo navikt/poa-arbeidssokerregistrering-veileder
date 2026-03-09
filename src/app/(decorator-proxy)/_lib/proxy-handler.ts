@@ -2,9 +2,9 @@ import { logger } from '@navikt/next-logger';
 import { nanoid } from 'nanoid';
 import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
-import { getOboTokenFromRequest } from '@/app/lib/auth/oboToken';
+import { getOboTokenFromRequest } from '@/lib/auth/oboToken';
 import 'server-only';
-import { hentModiaHeaders } from '../../lib/modia-headers';
+import { hentModiaHeaders } from '@/lib/modia-headers';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 

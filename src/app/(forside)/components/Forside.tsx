@@ -5,8 +5,8 @@ import { HistorikkLenke } from '@/app/(forside)/components/HistorikkLenke';
 import { mapUtfoertAvType } from '@/app/(forside)/components/mapUtfoertAvType';
 import { Opplysninger } from '@/app/(forside)/components/Opplysninger';
 import { TidslinjerLenke } from '@/app/(forside)/components/TidslinjerLenke';
-import type { BekreftelseApiResult } from '@/app/lib/api/bekreftelse';
-import type { SnapshotResult } from '@/app/lib/api/oppslag-snapshot';
+import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
+import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import { prettyPrintDatoOgKlokkeslett } from '@/lib/date-utils';
 import { IkkeAktivPeriode } from './IkkeAktivPeriode';
 

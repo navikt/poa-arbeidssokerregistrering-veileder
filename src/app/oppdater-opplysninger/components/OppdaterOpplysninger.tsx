@@ -2,8 +2,8 @@ import { Alert } from '@navikt/ds-react';
 import { use } from 'react';
 import { mapOpplysningerTilInitState } from '@/app/components/skjema/mapSnapshotOpplysningerTilRegistrering';
 import { OpplysningerSkjema } from '@/app/components/skjema/OpplysningerSkjema';
-import type { SisteArbeidsforholdResult } from '@/app/lib/api/aareg';
-import type { SnapshotResult } from '@/app/lib/api/oppslag-snapshot';
+import type { SisteArbeidsforholdResult } from '@/lib/api/aareg';
+import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
 
 type OppdaterOpplysningerProps = {
     snapshotPromise: Promise<SnapshotResult>;

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Suspense } from 'react';
-import type { KanStartePeriodeFeil, KanStartePeriodeResult } from '@/app/lib/models/kan-starte-periode';
+import type { KanStartePeriodeFeil, KanStartePeriodeResult } from '@/lib/models/kan-starte-periode';
 import { RegistreringSjekk } from './RegistreringSjekk';
 
 function avvistResult(feil: KanStartePeriodeFeil): KanStartePeriodeResult {

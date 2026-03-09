@@ -35,11 +35,11 @@ import type { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/
 import { act, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
 import { ModiaProvider } from '@/app/contexts/modia-context';
-import type { BekreftelseApiResult } from '@/app/lib/api/bekreftelse';
-import type { SnapshotResult } from '@/app/lib/api/oppslag-snapshot';
 import bekreftelserMock from '@/app/mocks/bekreftelser.json';
 import snapshotMock from '@/app/mocks/snapshot.json';
 import snapshotMockAvsluttet from '@/app/mocks/snapshot-med-avsluttet.json';
+import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
+import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import { Forside } from './Forside';
 import { ForsideWrapper } from './ForsideWrapper';
 

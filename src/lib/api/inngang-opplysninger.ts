@@ -2,8 +2,8 @@
 
 import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
-import { authenticatedFetch } from '@/app/lib/authenticatedFetch';
-import byggOpplysningerPayload from '@/app/lib/bygg-opplysninger-payload';
+import { authenticatedFetch } from '@/lib/authenticatedFetch';
+import byggOpplysningerPayload from '@/lib/bygg-opplysninger-payload';
 import type { RegistreringState } from '@/model/registrering';
 
 /**

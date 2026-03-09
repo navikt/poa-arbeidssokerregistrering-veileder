@@ -1,4 +1,4 @@
-import type { ApiRegelId, KanStartePeriodeFeil } from '@/app/lib/models/kan-starte-periode';
+import type { ApiRegelId, KanStartePeriodeFeil } from '@/lib/models/kan-starte-periode';
 import { REGLER_SOM_KAN_OVERSTYRES } from '@/model/regler-for-avvisning';
 
 /**

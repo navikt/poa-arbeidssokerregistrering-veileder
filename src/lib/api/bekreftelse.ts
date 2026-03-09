@@ -3,8 +3,8 @@
 import type { TilgjengeligBekreftelse } from '@navikt/arbeidssokerregisteret-utils';
 import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
-import { authenticatedFetch } from '@/app/lib/authenticatedFetch';
-import { sorterBekreftelser } from '@/app/lib/sorter-bekreftelser';
+import { authenticatedFetch } from '@/lib/authenticatedFetch';
+import { sorterBekreftelser } from '@/lib/sorter-bekreftelser';
 import type { ProblemDetails } from '../types/problem-details';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
