@@ -39,9 +39,23 @@ async function startPeriode(
     });
 
     if (!result.ok) {
-        const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: PeriodeFeil };
-        logger.error(`start periode kall feilet: ${error.message}`);
-        return { ok: false, error: error.message, feil: problemDetails };
+        const { error, status, problemDetails } = result;
+
+        logger.error({
+            message: 'start periode kall feilet',
+            httpStatus: status,
+            errorMessage: error.message,
+            feilKode: problemDetails?.feilKode,
+            melding: problemDetails?.melding,
+            avvisningsRegler: problemDetails?.aarsakTilAvvisning?.regler?.map((r) => r.id),
+            avvisningsDetaljer: problemDetails?.aarsakTilAvvisning?.detaljer,
+        });
+
+        const errorMessage = problemDetails?.melding
+            ? `${problemDetails.feilKode}: ${problemDetails.melding}`
+            : error.message;
+
+        return { ok: false, error: errorMessage, feil: problemDetails };
     }
 
     return { ok: true };
