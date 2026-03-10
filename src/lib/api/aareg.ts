@@ -81,14 +81,14 @@ async function konverterStyrk98TilStyrk08(
  * Returnerer null dersom bruker ikke har noen arbeidsforhold eller konvertering feiler.
  */
 async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): Promise<SisteArbeidsforholdResult> {
-    logger.debug(`Henter siste arbeidsforhold for ${identitetsnummer}`);
-    logger.warn(`Henter siste arbeidsforhold for ${identitetsnummer}`);
-    logger.info(`Henter siste arbeidsforhold for ${identitetsnummer}`);
+    logger.info(`Starter forsøke på å hente siste arbeidsforhold`);
     if (!identitetsnummer) {
+        logger.warn(`Ingen identitetsnummer, ikke mulig å hente siste arbeidsforhold`);
         return { sisteArbeidsforhold: null };
     }
 
     if (brukerMock) {
+        logger.info(`Mock: returnerer hardkodet arbeidsforhold`);
         await new Promise((res) => setTimeout(res, 300));
         return {
             sisteArbeidsforhold: {
@@ -113,6 +113,7 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
     if (!result.ok) {
         const { error, status } = result;
         if (status === 403) {
+            logger.warn(`Ingen tilgang til aareg, omdirigerer til veiledning`);
             redirect('/veiledning/mangler-tilgang-til-aa-registeret');
         }
         logger.error(`Feil fra ${AAREG_API_URL}: ${error?.message ?? 'Ukjent feil'}`);
@@ -120,7 +121,7 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
     }
 
     const data = result.data[0];
-    logger.debug(`Siste arbeidsforhold fra AAREG: ${JSON.stringify(data)}`);
+    logger.warn(`Siste arbeidsforhold fra AAREG: ${JSON.stringify(data)}`);
     if (!data) {
         return { sisteArbeidsforhold: null };
     }
