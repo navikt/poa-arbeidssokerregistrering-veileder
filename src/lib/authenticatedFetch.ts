@@ -73,7 +73,9 @@ async function authenticatedFetch<T, E = ProblemDetails>(
         }
         return { ok: true, data: (await response.json()) as T };
     } catch (e) {
-        return { ok: false, error: new Error(`Fetch failed`, { cause: e }) };
+        const cause = e instanceof Error ? e.message : String(e);
+        logger.error(`Fetch mot ${url} kastet exception: ${cause}`);
+        return { ok: false, error: new Error(`Fetch failed: ${cause}`, { cause: e }) };
     }
 }
 
