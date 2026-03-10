@@ -145,4 +145,30 @@ describe('authenticatedFetch', () => {
             expect.objectContaining({ message: expect.stringContaining(`Feil fra ${defaultOptions.url}:`) }),
         );
     });
+
+    it('skal håndtere 200 med tom body som vellykket resultat', async () => {
+        mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+        vi.mocked(fetch).mockResolvedValue(new Response('', { status: 200 }));
+
+        const result = await authenticatedFetch({
+            ...defaultOptions,
+            method: 'PUT',
+            body: { identitetsnummer: '12345678901', periodeTilstand: 'STARTET' },
+        });
+
+        expect(result.ok).toBe(true);
+    });
+
+    it('skal håndtere 204 No Content (tom body) som vellykket resultat', async () => {
+        mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+        vi.mocked(fetch).mockResolvedValue(new Response(null, { status: 204 }));
+
+        const result = await authenticatedFetch({
+            ...defaultOptions,
+            method: 'PUT',
+            body: { identitetsnummer: '12345678901', periodeTilstand: 'STARTET' },
+        });
+
+        expect(result.ok).toBe(true);
+    });
 });
