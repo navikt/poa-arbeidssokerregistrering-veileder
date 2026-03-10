@@ -82,6 +82,8 @@ async function konverterStyrk98TilStyrk08(
  */
 async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): Promise<SisteArbeidsforholdResult> {
     logger.debug(`Henter siste arbeidsforhold for ${identitetsnummer}`);
+    logger.warn(`Henter siste arbeidsforhold for ${identitetsnummer}`);
+    logger.info(`Henter siste arbeidsforhold for ${identitetsnummer}`);
     if (!identitetsnummer) {
         return { sisteArbeidsforhold: null };
     }
