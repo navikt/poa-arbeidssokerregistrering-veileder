@@ -108,14 +108,16 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
     });
 
     if (!result.ok) {
-        const { error, status } = result as { ok: false; error: Error; status?: number };
+        const { error, status } = result;
         if (status === 403) {
             redirect('/veiledning/mangler-tilgang-til-aa-registeret');
         }
+        logger.error(`Feil fra ${AAREG_API_URL}: ${error?.message ?? 'Ukjent feil'}`);
         return { sisteArbeidsforhold: null, error: { message: error?.message ?? 'Ukjent feil', status } };
     }
 
     const data = result.data[0];
+    logger.debug(`Siste arbeidsforhold fra AAREG: ${JSON.stringify(data)}`);
     if (!data) {
         return { sisteArbeidsforhold: null };
     }
