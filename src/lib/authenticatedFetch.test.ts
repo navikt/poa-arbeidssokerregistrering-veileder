@@ -167,4 +167,76 @@ describe('authenticatedFetch', () => {
 
         expect(result.ok).toBe(true);
     });
+
+    it('skal logge error ved feilrespons med JSON som ikke er ProblemDetails (f.eks. 404 fra aareg)', async () => {
+        mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+        vi.mocked(fetch).mockResolvedValue(
+            new Response(JSON.stringify({ message: 'Not Found' }), {
+                status: 404,
+                statusText: 'Not Found',
+                headers: { 'Content-Type': 'application/json' },
+            }),
+        );
+
+        const result = await authenticatedFetch(defaultOptions);
+
+        expect(result.ok).toBe(false);
+        if (!result.ok) {
+            expect(result.status).toBe(404);
+        }
+        expect(logger.error).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: expect.stringContaining('404'),
+                httpStatus: 404,
+            }),
+        );
+    });
+
+    it('skal logge error ved feilrespons med tom JSON-objekt', async () => {
+        mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+        vi.mocked(fetch).mockResolvedValue(
+            new Response(JSON.stringify({}), {
+                status: 502,
+                statusText: 'Bad Gateway',
+                headers: { 'Content-Type': 'application/json' },
+            }),
+        );
+
+        const result = await authenticatedFetch(defaultOptions);
+
+        expect(result.ok).toBe(false);
+        if (!result.ok) {
+            expect(result.status).toBe(502);
+        }
+        expect(logger.error).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: expect.stringContaining('502'),
+                httpStatus: 502,
+            }),
+        );
+    });
+
+    it('skal logge error ved feilrespons med JSON-array som body', async () => {
+        mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+        vi.mocked(fetch).mockResolvedValue(
+            new Response(JSON.stringify([{ error: 'something went wrong' }]), {
+                status: 500,
+                statusText: 'Internal Server Error',
+                headers: { 'Content-Type': 'application/json' },
+            }),
+        );
+
+        const result = await authenticatedFetch(defaultOptions);
+
+        expect(result.ok).toBe(false);
+        if (!result.ok) {
+            expect(result.status).toBe(500);
+        }
+        expect(logger.error).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: expect.stringContaining('500'),
+                httpStatus: 500,
+            }),
+        );
+    });
 });
