@@ -81,6 +81,19 @@ async function konverterStyrk98TilStyrk08(
  * Returnerer null dersom bruker ikke har noen arbeidsforhold eller konvertering feiler.
  */
 async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): Promise<SisteArbeidsforholdResult> {
+    logger.warn({
+        message: 'Test av strukturert logging i dev',
+        identitetsnummerFinnes: !!identitetsnummer,
+        brukerMock,
+        aaregUrl: AAREG_API_URL,
+        nested: {
+            felt1: 'verdi1',
+            felt2: 42,
+            felt3: true,
+            liste: ['a', 'b', 'c'],
+        },
+        tidspunkt: new Date().toISOString(),
+    });
     logger.info(`Starter forsøke på å hente siste arbeidsforhold`);
     if (!identitetsnummer) {
         logger.warn(`Ingen identitetsnummer, ikke mulig å hente siste arbeidsforhold`);
