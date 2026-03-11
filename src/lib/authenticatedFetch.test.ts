@@ -1,9 +1,5 @@
 import { beforeEach, expect, vi } from 'vitest';
 
-vi.mock('@navikt/next-logger', () => ({
-    logger: { info: vi.fn(), error: vi.fn() },
-}));
-
 vi.mock('@/lib/auth/oboToken', () => ({
     getOboTokenFromRequest: vi.fn(),
 }));

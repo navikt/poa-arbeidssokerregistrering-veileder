@@ -1,9 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('@navikt/next-logger', () => ({
-    logger: { info: vi.fn(), error: vi.fn() },
-}));
-
 vi.mock('@navikt/oasis', () => ({
     getToken: vi.fn(),
     requestAzureOboToken: vi.fn(),

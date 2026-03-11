@@ -12,6 +12,7 @@ export default defineConfig({
         alias: {
             '@': path.resolve(__dirname, './src'),
             'server-only': path.resolve(__dirname, './src/test/server-only-stub.ts'),
+            '@navikt/next-logger': path.resolve(__dirname, './src/test/next-logger-stub.ts'),
         },
     },
 });
