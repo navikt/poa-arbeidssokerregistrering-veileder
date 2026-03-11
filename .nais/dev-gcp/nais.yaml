@@ -89,7 +89,7 @@ spec:
     - name: OBO_UNLEASH_URL
       value: http://obo-unleash.obo.svc.cluster.local
     - name: AAREG_REST_API
-      value: https://aareg-services-q1.dev-fss-pub.nais.io/api
+      value: https://aareg-services-q2.dev-fss-pub.nais.io/api
     - name: AAREG_CLUSTER
       value: dev-fss
     - name: AAREG_APPNAME
