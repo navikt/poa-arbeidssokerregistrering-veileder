@@ -93,7 +93,7 @@ spec:
     - name: AAREG_CLUSTER
       value: dev-fss
     - name: AAREG_APPNAME
-      value: aareg-services-nais-q2
+      value: aareg-services-nais
     - name: INNGANG_API_URL
       value: http://paw-arbeidssokerregisteret-api-inngang
     - name: OPPLYSNINGER_API_URL
@@ -159,7 +159,7 @@ spec:
         - application: veilarbvedtaksstotte
           namespace: obo
           cluster: dev-gcp
-        - application: aareg-services-nais-q2
+        - application: aareg-services-nais
           namespace: arbeidsforhold
           cluster: dev-fss
 
