@@ -14,13 +14,15 @@ async function startPeriode(
     erForhandsgodkjent: boolean = false,
 ): Promise<PeriodeResult> {
     if (!identitetsnummer) {
+        logger.warn('Mangler identitetsnummer, kan ikke starte periode');
         return { ok: false, error: 'Mangler identitetsnummer' };
     }
     if (brukerMock) {
+        logger.info(`Mock: starter periode`);
         return { ok: true };
     }
     if (!INNGANG_API_URL || !process.env.INNGANG_API_URL) {
-        logger.error('Api-url (periode) er ikke konfigurert');
+        logger.error('Api-url (start-periode) er ikke konfigurert');
         return { ok: false, error: 'API URL mangler i konfigurasjon' };
     }
 
@@ -39,20 +41,19 @@ async function startPeriode(
     });
 
     if (!result.ok) {
-        const { error, status, problemDetails } = result;
+        const { error, problemDetails } = result;
 
         const regler = problemDetails?.aarsakTilAvvisning?.regler?.map((r) => r.id);
         const detaljer = problemDetails?.aarsakTilAvvisning?.detaljer;
 
-        logger.error(
-            `start periode kall feilet: ` +
-                `httpStatus=${status ?? 'ukjent'}, ` +
-                `feilKode=${problemDetails?.feilKode ?? 'ingen'}, ` +
-                `melding=${problemDetails?.melding ?? 'ingen'}, ` +
-                `errorMessage=${error.message}` +
-                (regler?.length ? `, avvisningsRegler=[${regler.join(', ')}]` : '') +
-                (detaljer?.length ? `, avvisningsDetaljer=[${detaljer.join(', ')}]` : ''),
-        );
+        if (regler?.length || detaljer?.length) {
+            logger.warn({
+                message: 'start periode ble avvist',
+                feilKode: problemDetails?.feilKode,
+                avvisningsRegler: regler,
+                avvisningsDetaljer: detaljer,
+            });
+        }
 
         const errorMessage = problemDetails?.melding
             ? `${problemDetails.feilKode}: ${problemDetails.melding}`

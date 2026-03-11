@@ -23,9 +23,11 @@ function isKanStartePeriodeFeil(value: unknown): value is KanStartePeriodeFeil {
 
 async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanStartePeriodeResult> {
     if (!identitetsnummer) {
+        logger.warn(`Ingen identitetsnummer, ikke mulig å sjekke om periode kan starte`);
         return { ok: false, error: 'Identitetsnummer mangler' };
     }
     if (brukerMock) {
+        logger.info(`Mock: sjekke om periode kan starte`);
         const feil = kanStartePeriodeMock as KanStartePeriodeFeil;
         return { ok: false, error: feil.melding, feil };
     }
@@ -46,8 +48,20 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
     if (!result.ok) {
         const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: KanStartePeriodeFeil };
         const feil = isKanStartePeriodeFeil(problemDetails) ? problemDetails : undefined;
-        logger.error(`kanStartePeriode kall feilet: ${feil ? feil : error.message}`);
-        return { ok: false, error: error.message, feil: problemDetails };
+
+        if (feil) {
+            const regler = feil.aarsakTilAvvisning?.regler?.map((r) => r.id);
+            const detaljer = feil.aarsakTilAvvisning?.detaljer;
+            logger.warn({
+                message: 'kanStartePeriode ble avvist',
+                feilKode: feil.feilKode,
+                melding: feil.melding,
+                avvisningsRegler: regler,
+                avvisningsDetaljer: detaljer,
+            });
+        }
+
+        return { ok: false, error: error.message, feil };
     }
 
     return { ok: true };

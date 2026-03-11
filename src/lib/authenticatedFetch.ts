@@ -50,6 +50,8 @@ async function authenticatedFetch<T, E = ProblemDetails>(
                 if (isProblemDetails(problemDetails)) {
                     logger.error({
                         message: `Feil fra ${url}: ${problemDetails.status} ${problemDetails.title} - ${problemDetails.detail || 'ingen detaljer gitt'}`,
+                        httpStatus: problemDetails.status,
+                        problemType: problemDetails.type,
                     });
                 }
             } catch (_e) {} // Ignore JSON parse errors
@@ -58,6 +60,7 @@ async function authenticatedFetch<T, E = ProblemDetails>(
             if (!problemDetails) {
                 logger.error({
                     message: `Feil fra ${url}: ${response.status} ${response.statusText}`,
+                    httpStatus: response.status,
                 });
             }
             const errorMsg = problemDetails?.detail

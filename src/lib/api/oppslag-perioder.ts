@@ -1,6 +1,7 @@
 'use server';
 
 import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
 
@@ -12,9 +13,11 @@ export type PeriodeResult = { perioder: Periode[] | null; error?: Error };
 
 async function getPerioder(identitetsnummer: string | null): Promise<PeriodeResult> {
     if (!identitetsnummer) {
+        logger.warn(`Ingen identitetsnummer, ikke mulig å hente perioder`);
         return { perioder: null };
     }
     if (brukerMock) {
+        logger.info(`BrukerMock er aktiv, henter perioder fra mock`);
         const { default: perioder } = (await import('@/lib/mocks/perioder.json', {
             with: { type: 'json' },
         })) as { default: Periode[] };
@@ -23,6 +26,7 @@ async function getPerioder(identitetsnummer: string | null): Promise<PeriodeResu
     }
 
     if (!OPPSLAG_V2_URL) {
+        logger.error(`Url til oppslag v2 mangler, ikke mulig å hente perioder`);
         return { perioder: null, error: new Error('url til oppslag v2 mangler') };
     }
 
@@ -37,7 +41,7 @@ async function getPerioder(identitetsnummer: string | null): Promise<PeriodeResu
     });
 
     if (!result.ok) {
-        const { error } = result as { ok: false; error: Error };
+        const { error } = result;
         return { perioder: null, error };
     }
     return {

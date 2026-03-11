@@ -116,11 +116,11 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
             logger.warn(`Ingen tilgang til aareg, omdirigerer til veiledning`);
             redirect('/veiledning/mangler-tilgang-til-aa-registeret');
         }
-        logger.error(`Feil fra ${AAREG_API_URL}: ${error?.message ?? 'Ukjent feil'}`);
         return { sisteArbeidsforhold: null, error: { message: error?.message ?? 'Ukjent feil', status } };
     }
 
     const data = result.data[0];
+    // TODO: Denne skal slettes etter feilsøking er ferdig!
     logger.warn(`Siste arbeidsforhold fra AAREG: ${JSON.stringify(data)}`);
     if (!data) {
         return { sisteArbeidsforhold: null };

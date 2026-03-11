@@ -61,8 +61,8 @@ async function registrerOpplysninger(
     });
 
     if (!result.ok) {
-        const { error, feilKode } = result as { ok: false; error: Error; feilKode: string };
-        logger.error(`registrerOpplysninger feilet: ${error.message}. Feilkode: ${feilKode}`);
+        // TODO: FIX THIS, må sette riktig feiltype i authfetch
+        const { error } = result as { ok: false; error: Error };
         return { ok: false, error: error.message };
     }
 

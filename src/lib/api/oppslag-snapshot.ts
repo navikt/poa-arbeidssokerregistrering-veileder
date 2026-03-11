@@ -1,9 +1,9 @@
 'use server';
 
 import type { Snapshot } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
-import type { ProblemDetails } from '../../model/problem-details';
 
 export type SnapshotResult = {
     snapshot: Snapshot | null;
@@ -17,6 +17,7 @@ const OPPSLAG_V2_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeids
 
 async function getSnapshot(identitetsnummer: string | null): Promise<SnapshotResult> {
     if (!identitetsnummer) {
+        logger.warn('identitetsnummer mangler, kan ikke hente snapshot');
         return { snapshot: null };
     }
     if (brukerMock) {
@@ -28,6 +29,7 @@ async function getSnapshot(identitetsnummer: string | null): Promise<SnapshotRes
     }
 
     if (!OPPSLAG_V2_URL) {
+        logger.error('url til oppslag v2 mangler');
         return { snapshot: null, error: new Error('url til oppslag v2 mangler') };
     }
 
@@ -42,7 +44,7 @@ async function getSnapshot(identitetsnummer: string | null): Promise<SnapshotRes
     });
 
     if (!result.ok) {
-        const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: ProblemDetails };
+        const { error, problemDetails } = result;
         if (problemDetails?.type === 'urn:paw:perioder:periode-ikke-funnet') {
             return {
                 snapshot: null,

@@ -11,13 +11,15 @@ const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
 async function slettPeriode(identitetsnummer?: string | null): Promise<PeriodeResult> {
     if (!identitetsnummer) {
+        logger.warn(`Ingen identitetsnummer, ikke mulig å slette periode`);
         return { ok: false, error: 'Mangler identitetsnummer' };
     }
     if (brukerMock) {
+        logger.info(`Mock: sletter periode`);
         return { ok: true };
     }
     if (!INNGANG_SLETT_PERIODE_URL || !process.env.INNGANG_API_URL) {
-        logger.error('Api-url (periode) er ikke konfigurert');
+        logger.error('URL for slett-url-api er ikke konfigurert');
         return { ok: false, error: 'API URL mangler i konfigurasjon' };
     }
     const body: StartStoppPeriodeRequest = {
@@ -36,8 +38,7 @@ async function slettPeriode(identitetsnummer?: string | null): Promise<PeriodeRe
     });
 
     if (!result.ok) {
-        const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: PeriodeFeil };
-        logger.error(`slett periode kall feilet: ${error.message}`);
+        const { error, problemDetails } = result;
         return { ok: false, error: error.message, feil: problemDetails };
     }
 

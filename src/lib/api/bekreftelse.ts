@@ -20,12 +20,14 @@ type SendBekreftelseResult = { ok: true } | { ok: false; error?: string };
 
 async function getBekreftelser(identitetsnummer: string | null): Promise<BekreftelseApiResult> {
     if (!identitetsnummer) {
+        logger.warn(`Ingen identitetsnummer, ikke mulig å hente bekreftelser`);
         return {
             bekreftelser: null,
         };
     }
 
     if (brukerMock) {
+        logger.info(`Mock: returnerer hardkodet bekreftelser`);
         const { default: bekreftelser } = (await import('@/lib/mocks/bekreftelser-flere.json', {
             with: { type: 'json' },
         })) as { default: TilgjengeligBekreftelse[] };
@@ -34,6 +36,7 @@ async function getBekreftelser(identitetsnummer: string | null): Promise<Bekreft
     }
 
     if (!BEKREFTELSER_API_URL) {
+        logger.error(`Bekreftelse API URL mangler`);
         return { error: new Error('Bekreftelse API URL mangler'), bekreftelser: null };
     }
 
@@ -46,7 +49,7 @@ async function getBekreftelser(identitetsnummer: string | null): Promise<Bekreft
     });
 
     if (!result.ok) {
-        const { error } = result as { ok: false; error: Error };
+        const { error } = result;
         return { bekreftelser: null, error };
     }
     return {
@@ -66,10 +69,12 @@ async function sendBekreftelse({
     vilFortsetteSomArbeidssoeker: boolean;
 }): Promise<SendBekreftelseResult> {
     if (!identitetsnummer) {
+        logger.warn(`Ingen identitetsnummer, ikke mulig å sende bekreftelse`);
         return { ok: false, error: 'Identitetsnummer mangler' };
     }
 
     if (brukerMock) {
+        logger.info(`Mock: sende bekreftelse ${bekreftelseId}`);
         await new Promise((res) => setTimeout(res, 500));
         return { ok: true };
     }
@@ -93,9 +98,8 @@ async function sendBekreftelse({
     });
 
     if (!result.ok) {
-        const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: ProblemDetails };
+        const { error, problemDetails } = result;
         const errorMessage = problemDetails?.detail ?? error?.message ?? 'Ukjent feil ved innsending av bekreftelse';
-        logger.error({ message: `Feil ved innsending av bekreftelse: ${errorMessage}` });
         return { ok: false, error: errorMessage };
     }
 
