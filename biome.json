@@ -1,7 +1,7 @@
 {
     "$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
     "files": {
-        "includes": ["src/**", "!src/app/components/navspa"]
+        "includes": ["src/**", "!src/components/navspa"]
     },
     "formatter": {
         "enabled": true,
