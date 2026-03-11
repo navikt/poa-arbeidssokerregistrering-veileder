@@ -81,19 +81,6 @@ async function konverterStyrk98TilStyrk08(
  * Returnerer null dersom bruker ikke har noen arbeidsforhold eller konvertering feiler.
  */
 async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): Promise<SisteArbeidsforholdResult> {
-    logger.warn({
-        message: 'Test av strukturert logging i dev',
-        identitetsnummerFinnes: !!identitetsnummer,
-        brukerMock,
-        aaregUrl: AAREG_API_URL,
-        nested: {
-            felt1: 'verdi1',
-            felt2: 42,
-            felt3: true,
-            liste: ['a', 'b', 'c'],
-        },
-        tidspunkt: new Date().toISOString(),
-    });
     logger.info(`Starter forsøke på å hente siste arbeidsforhold`);
     if (!identitetsnummer) {
         logger.warn(`Ingen identitetsnummer, ikke mulig å hente siste arbeidsforhold`);
@@ -111,45 +98,65 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
             },
         };
     }
+    try {
+        logger.info(`Henter headers for aareg-kall`);
+        const requestHeaders = await headers();
+        logger.info(`Headers hentet OK, kaller authenticatedFetch mot aareg`);
 
-    const result = await authenticatedFetch<{ arbeidsforholdoversikter: Arbeidsforhold[] }[]>({
-        url: AAREG_API_URL,
-        scope: AAREG_API_SCOPE,
-        headers: await headers(),
-        method: 'POST',
-        body: {
-            arbeidstakerId: identitetsnummer,
-            arbeidsforholdstatuser: ['AKTIV', 'AVSLUTTET'],
-        },
-    });
+        const result = await authenticatedFetch<{ arbeidsforholdoversikter: Arbeidsforhold[] }[]>({
+            url: AAREG_API_URL,
+            scope: AAREG_API_SCOPE,
+            headers: requestHeaders,
+            method: 'POST',
+            body: {
+                arbeidstakerId: identitetsnummer,
+                arbeidsforholdstatuser: ['AKTIV', 'AVSLUTTET'],
+            },
+        });
+        logger.info(`authenticatedFetch returnerte, ok=${result.ok}`);
 
-    if (!result.ok) {
-        const { error, status } = result;
-        if (status === 403) {
-            logger.warn(`Ingen tilgang til aareg, omdirigerer til veiledning`);
-            redirect('/veiledning/mangler-tilgang-til-aa-registeret');
+        if (!result.ok) {
+            const { error, status } = result;
+            if (status === 403) {
+                logger.warn(`Ingen tilgang til aareg, omdirigerer til veiledning`);
+                redirect('/veiledning/mangler-tilgang-til-aa-registeret');
+            }
+            logger.warn(`Feil fra aareg: ${error?.message}, status: ${status}`);
+            return { sisteArbeidsforhold: null, error: { message: error?.message ?? 'Ukjent feil', status } };
         }
-        return { sisteArbeidsforhold: null, error: { message: error?.message ?? 'Ukjent feil', status } };
-    }
 
-    const data = result.data[0];
-    // TODO: Denne skal slettes etter feilsøking er ferdig!
-    logger.warn(`Siste arbeidsforhold fra AAREG: ${JSON.stringify(data)}`);
-    if (!data) {
-        return { sisteArbeidsforhold: null };
-    }
+        const data = result.data[0];
+        // TODO: Denne skal slettes etter feilsøking er ferdig!
+        logger.warn(`Siste arbeidsforhold fra AAREG: ${JSON.stringify(data)}`);
+        if (!data) {
+            return { sisteArbeidsforhold: null };
+        }
 
-    const styrk98 = hentSisteArbeidsforhold(data);
-    if (!styrk98) {
-        return { sisteArbeidsforhold: null };
-    }
+        const styrk98 = hentSisteArbeidsforhold(data);
+        if (!styrk98) {
+            return { sisteArbeidsforhold: null };
+        }
 
-    const konsept = await konverterStyrk98TilStyrk08(styrk98);
-    if (!konsept) {
-        return { sisteArbeidsforhold: null };
-    }
+        const konsept = await konverterStyrk98TilStyrk08(styrk98);
+        if (!konsept) {
+            return { sisteArbeidsforhold: null };
+        }
 
-    return { sisteArbeidsforhold: konsept };
+        return { sisteArbeidsforhold: konsept };
+    } catch (e) {
+        // Re-throw Next.js redirect errors
+        if (
+            e &&
+            typeof e === 'object' &&
+            'digest' in e &&
+            typeof (e as any).digest === 'string' &&
+            (e as any).digest.startsWith('NEXT_REDIRECT')
+        ) {
+            throw e;
+        }
+        logger.error(e, `Uventet feil i getSisteArbeidsforholdFraAareg`);
+        return { sisteArbeidsforhold: null, error: { message: 'Uventet feil' } };
+    }
 }
 
 export { getSisteArbeidsforholdFraAareg, type SisteArbeidsforholdResult };
