@@ -12,12 +12,16 @@ type OboTokenResult = OboTokenSuccess | OboTokenFailure;
 
 async function getOboTokenFromRequest(headerList: Headers | ReadonlyHeaders, scope: string): Promise<OboTokenResult> {
     if (brukerMock) {
+        logger.info(`Mocked token for scope ${scope}`);
         return {
             ok: true,
             token: 'mocked-token',
         };
     }
     if (!headerList) {
+        logger.warn({
+            message: `Headers mangler for scope ${scope}`,
+        });
         return {
             ok: false,
             error: new Error('Ingen token funnet'),
@@ -26,6 +30,9 @@ async function getOboTokenFromRequest(headerList: Headers | ReadonlyHeaders, sco
 
     const incommingToken = getToken(headerList);
     if (!incommingToken) {
+        logger.warn({
+            message: `Innkommende token mangler i headers for scope ${scope}`,
+        });
         return {
             ok: false,
             error: new Error('Ingen token funnet'),
@@ -33,7 +40,7 @@ async function getOboTokenFromRequest(headerList: Headers | ReadonlyHeaders, sco
     }
     const validation = await validateToken(incommingToken);
     if (!validation.ok) {
-        logger.info('Ugyldig token');
+        logger.info('Token ble ikke validert');
         return {
             ok: false,
             error: new Error('Ugyldig token'),

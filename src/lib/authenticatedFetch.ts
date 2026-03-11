@@ -29,6 +29,10 @@ async function authenticatedFetch<T, E = ProblemDetails>(
     const oboToken = await getOboTokenFromRequest(headers, scope);
 
     if (!oboToken.ok) {
+        logger.warn({
+            message: `Feil ved henting av OBO token for scope ${scope}`,
+            error: oboToken.error,
+        });
         const { error } = oboToken as { ok: false; error: Error };
         return { ok: false, error };
     }
