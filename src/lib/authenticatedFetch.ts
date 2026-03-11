@@ -61,7 +61,7 @@ async function authenticatedFetch<T, E = ProblemDetails>(
             } catch (_e) {} // Ignore JSON parse errors
 
             // - Dersom det ikke er RFC 9457, logg generisk error
-            if (!problemDetails) {
+            if (!isProblemDetails(problemDetails)) {
                 logger.error({
                     message: `Feil fra ${url}: ${response.status} ${response.statusText}`,
                     httpStatus: response.status,
