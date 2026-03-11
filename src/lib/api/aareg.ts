@@ -103,7 +103,7 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
         const requestHeaders = await headers();
         logger.info(`Headers hentet OK, kaller authenticatedFetch mot aareg`);
 
-        const result = await authenticatedFetch<{ arbeidsforholdoversikter: Arbeidsforhold[] }[]>({
+        const result = await authenticatedFetch<{ arbeidsforholdoversikter: Arbeidsforhold[] }>({
             url: AAREG_API_URL,
             scope: AAREG_API_SCOPE,
             headers: requestHeaders,
@@ -111,6 +111,9 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
             body: {
                 arbeidstakerId: identitetsnummer,
                 arbeidsforholdstatuser: ['AKTIV', 'AVSLUTTET'],
+            },
+            extraHeaders: {
+                'Nav-Aareg-Kontekst': 'SAKSBEHANDLER',
             },
         });
         logger.info(`authenticatedFetch returnerte, ok=${result.ok}`);
@@ -125,10 +128,8 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
             return { sisteArbeidsforhold: null, error: { message: error?.message ?? 'Ukjent feil', status } };
         }
 
-        const data = result.data[0];
-        // TODO: Denne skal slettes etter feilsøking er ferdig!
-        logger.warn(`Siste arbeidsforhold fra AAREG: ${JSON.stringify(data)}`);
-        if (!data) {
+        const data = result.data;
+        if (!data?.arbeidsforholdoversikter?.length) {
             return { sisteArbeidsforhold: null };
         }
 

@@ -19,12 +19,13 @@ type AuthenticatedFetchOptions = {
     headers: Headers;
     method?: 'GET' | 'POST' | 'PUT';
     body?: unknown;
+    extraHeaders?: Record<string, string>;
 };
 
 async function authenticatedFetch<T, E = ProblemDetails>(
     options: AuthenticatedFetchOptions,
 ): Promise<FetchResult<T, E>> {
-    const { url, scope, headers, method = 'GET', body } = options;
+    const { url, scope, headers, method = 'GET', body, extraHeaders } = options;
 
     const oboToken = await getOboTokenFromRequest(headers, scope);
 
@@ -44,7 +45,7 @@ async function authenticatedFetch<T, E = ProblemDetails>(
         const response = await fetch(url, {
             method,
             body: body ? JSON.stringify(body) : null,
-            headers: modiaHeader,
+            headers: { ...modiaHeader, ...extraHeaders },
         });
 
         if (!response.ok) {
