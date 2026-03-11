@@ -98,66 +98,46 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
             },
         };
     }
-    try {
-        logger.info(`Henter headers for aareg-kall`);
-        const requestHeaders = await headers();
-        logger.info(`Headers hentet OK, kaller authenticatedFetch mot aareg`);
 
-        const result = await authenticatedFetch<{ arbeidsforholdoversikter: Arbeidsforhold[] }>({
-            url: AAREG_API_URL,
-            scope: AAREG_API_SCOPE,
-            headers: requestHeaders,
-            method: 'POST',
-            body: {
-                arbeidstakerId: identitetsnummer,
-                arbeidsforholdstatuser: ['AKTIV', 'AVSLUTTET'],
-            },
-            extraHeaders: {
-                'Nav-Aareg-Kontekst': 'SAKSBEHANDLER',
-            },
-        });
-        logger.info(`authenticatedFetch returnerte, ok=${result.ok}`);
+    const result = await authenticatedFetch<{ arbeidsforholdoversikter: Arbeidsforhold[] }>({
+        url: AAREG_API_URL,
+        scope: AAREG_API_SCOPE,
+        headers: await headers(),
+        method: 'POST',
+        body: {
+            arbeidstakerId: identitetsnummer,
+            arbeidsforholdstatuser: ['AKTIV', 'AVSLUTTET'],
+        },
+        extraHeaders: {
+            'Nav-Aareg-Kontekst': 'SAKSBEHANDLER',
+        },
+    });
 
-        if (!result.ok) {
-            const { error, status } = result;
-            if (status === 403) {
-                logger.warn(`Ingen tilgang til aareg, omdirigerer til veiledning`);
-                redirect('/veiledning/mangler-tilgang-til-aa-registeret');
-            }
-            logger.warn(`Feil fra aareg: ${error?.message}, status: ${status}`);
-            return { sisteArbeidsforhold: null, error: { message: error?.message ?? 'Ukjent feil', status } };
+    if (!result.ok) {
+        const { error, status } = result;
+        if (status === 403) {
+            logger.warn(`Ingen tilgang til aareg, omdirigerer til veiledning`);
+            redirect('/veiledning/mangler-tilgang-til-aa-registeret');
         }
-
-        const data = result.data;
-        if (!data?.arbeidsforholdoversikter?.length) {
-            return { sisteArbeidsforhold: null };
-        }
-
-        const styrk98 = hentSisteArbeidsforhold(data);
-        if (!styrk98) {
-            return { sisteArbeidsforhold: null };
-        }
-
-        const konsept = await konverterStyrk98TilStyrk08(styrk98);
-        if (!konsept) {
-            return { sisteArbeidsforhold: null };
-        }
-
-        return { sisteArbeidsforhold: konsept };
-    } catch (e) {
-        // Re-throw Next.js redirect errors
-        if (
-            e &&
-            typeof e === 'object' &&
-            'digest' in e &&
-            typeof (e as any).digest === 'string' &&
-            (e as any).digest.startsWith('NEXT_REDIRECT')
-        ) {
-            throw e;
-        }
-        logger.error(e, `Uventet feil i getSisteArbeidsforholdFraAareg`);
-        return { sisteArbeidsforhold: null, error: { message: 'Uventet feil' } };
+        return { sisteArbeidsforhold: null, error: { message: error?.message ?? 'Ukjent feil', status } };
     }
+
+    const data = result.data;
+    if (!data?.arbeidsforholdoversikter?.length) {
+        return { sisteArbeidsforhold: null };
+    }
+
+    const styrk98 = hentSisteArbeidsforhold(data);
+    if (!styrk98) {
+        return { sisteArbeidsforhold: null };
+    }
+
+    const konsept = await konverterStyrk98TilStyrk08(styrk98);
+    if (!konsept) {
+        return { sisteArbeidsforhold: null };
+    }
+
+    return { sisteArbeidsforhold: konsept };
 }
 
 export { getSisteArbeidsforholdFraAareg, type SisteArbeidsforholdResult };
