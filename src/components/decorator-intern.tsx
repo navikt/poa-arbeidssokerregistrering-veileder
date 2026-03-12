@@ -21,11 +21,12 @@ const InternflateDecorator: React.FC<{
     const onFnrChanged = (fnr: unknown) => {
         if (typeof fnr === 'string' && fnr.length > 0) {
             setFnr(fnr);
-        } else {
-            setFnr(null);
             if (redirectPaths.includes(pathname)) {
                 router.push('/');
             }
+        } else {
+            setFnr(null);
+            router.push('/');
         }
     };
 
