@@ -4,7 +4,6 @@ import { ForsideWrapper } from '@/app/(forside)/components/ForsideWrapper';
 import { DemoLabel } from '@/components/demo-label';
 import { DemoPanel } from '@/components/demo-panel';
 import { HvaErNytt } from '@/components/HvaErNytt';
-import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import { getBekreftelser } from '@/lib/api/bekreftelse';
 import { getSnapshot } from '@/lib/api/oppslag-snapshot';
 import { hentModiaContext } from '@/lib/modia-context-api';
@@ -12,11 +11,6 @@ import { isFeatureEnabled } from '@/lib/unleash/feature-flags';
 
 export default async function ForsidePage() {
     const modiaContext = await hentModiaContext();
-
-    if (!modiaContext.fnr) {
-        return <ManglerPersonEllerEnhet />;
-    }
-
     const flagVisHvaSomErNyttPromise = isFeatureEnabled('arbeidssokerregistrering-for-veileder.vis-hva-er-nytt');
     const snapshotPromise = getSnapshot(modiaContext.fnr);
     const bekreftelserPromise = getBekreftelser(modiaContext.fnr);
@@ -28,7 +22,6 @@ export default async function ForsidePage() {
             <DemoLabel />
             {flagVisHvaSomErNytt && <HvaErNytt />}
             <Suspense fallback={<Loader />}>
-                <ManglerPersonEllerEnhet />
                 <ForsideWrapper
                     initialSnapshotPromise={snapshotPromise}
                     initialBekreftelserPromise={bekreftelserPromise}

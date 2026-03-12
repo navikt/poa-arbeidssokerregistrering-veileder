@@ -2,6 +2,8 @@
 
 import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
+import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
+import { useModiaContext } from '@/contexts/modia-context';
 import { useServerData } from '@/hooks/useServerData';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
 import { getSnapshot, type SnapshotResult } from '@/lib/api/oppslag-snapshot';
@@ -13,11 +15,16 @@ type ForsideWrapperProps = {
 };
 
 function ForsideWrapper({ initialSnapshotPromise, initialBekreftelserPromise }: ForsideWrapperProps) {
+    const { fnr } = useModiaContext();
     const { dataPromise, isPending: snapshotIsPending } = useServerData(initialSnapshotPromise, getSnapshot);
     const { dataPromise: bekreftelserPromise, isPending: bekreftelserIsPending } = useServerData(
         initialBekreftelserPromise,
         getBekreftelser,
     );
+
+    if (!fnr) {
+        return <ManglerPersonEllerEnhet />;
+    }
 
     return (
         <div>
