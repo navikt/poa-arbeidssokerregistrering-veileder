@@ -2,6 +2,8 @@
 
 import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
+import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
+import { useModiaContext } from '@/contexts/modia-context';
 import { useServerData } from '@/hooks/useServerData';
 import { getSisteArbeidsforholdFraAareg, type SisteArbeidsforholdResult } from '@/lib/api/aareg';
 import { getSnapshot, type SnapshotResult } from '@/lib/api/oppslag-snapshot';
@@ -16,6 +18,7 @@ function RegistreringsWrapper({
     initialSnapshotPromise,
     initialSisteArbeidsforholdPromise,
 }: RegistreringsWrapperProps) {
+    const { fnr } = useModiaContext();
     const { dataPromise: snapshotPromise, isPending: snapshotIsPending } = useServerData(
         initialSnapshotPromise,
         getSnapshot,
@@ -26,6 +29,11 @@ function RegistreringsWrapper({
     );
 
     const isPending = snapshotIsPending || aaregIsPending;
+
+    if (!fnr) {
+        return <ManglerPersonEllerEnhet />;
+    }
+
     return (
         <Suspense fallback={<Loader />}>
             {isPending && <Loader size='medium' title='Henter informasjon' />}

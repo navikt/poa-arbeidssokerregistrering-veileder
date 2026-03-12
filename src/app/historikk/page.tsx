@@ -1,7 +1,6 @@
 import { Heading } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
-import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import { TilbakeTilForside } from '@/components/tilbake-til-forside';
 import { getPerioder } from '@/lib/api/oppslag-perioder';
 import { hentModiaContext } from '@/lib/modia-context-api';
@@ -9,10 +8,6 @@ import { HistorikkWrapper } from './components/HistorikkWrapper';
 
 export default async function HistorikkPage() {
     const modiaContext = await hentModiaContext();
-    if (!modiaContext.fnr) {
-        return <ManglerPersonEllerEnhet />;
-    }
-
     const perioderPromise = getPerioder(modiaContext.fnr);
 
     return (
@@ -23,7 +18,6 @@ export default async function HistorikkPage() {
             </Heading>
             <div className={'flex flex-col max-w-3xl'}>
                 <Suspense fallback={<LoaderSkeleton />}>
-                    <ManglerPersonEllerEnhet />
                     <HistorikkWrapper initialPerioderPromise={perioderPromise} />
                 </Suspense>
             </div>

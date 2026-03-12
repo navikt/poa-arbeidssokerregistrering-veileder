@@ -1,6 +1,5 @@
 import { Heading, Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
-import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import { TilbakeTilForside } from '@/components/tilbake-til-forside';
 import { getSisteArbeidsforholdFraAareg } from '@/lib/api/aareg';
 import { getSnapshot } from '@/lib/api/oppslag-snapshot';
@@ -9,11 +8,6 @@ import { OppdaterOpplysningerWrapper } from './components/OppdaterOpplysningerWr
 
 export default async function OppdaterOpplysningerPage() {
     const modiaContext = await hentModiaContext();
-
-    if (!modiaContext.fnr) {
-        return <ManglerPersonEllerEnhet />;
-    }
-
     const snapshotPromise = getSnapshot(modiaContext.fnr);
     const sisteArbeidsforholdPromise = getSisteArbeidsforholdFraAareg(modiaContext.fnr);
 
@@ -24,7 +18,6 @@ export default async function OppdaterOpplysningerPage() {
                 Oppdater opplysninger
             </Heading>
             <Suspense fallback={<Loader />}>
-                <ManglerPersonEllerEnhet />
                 <OppdaterOpplysningerWrapper
                     initialSnapshotPromise={snapshotPromise}
                     initialSisteArbeidsforholdPromise={sisteArbeidsforholdPromise}
