@@ -16,14 +16,14 @@ const InternflateDecorator: React.FC<{
     const pathname = usePathname();
     const router = useRouter();
 
+    const redirectPaths = ['/registrering-arbeidssoeker-sjekk', '/registrering-arbeidssoker', '/oppdater-opplysninger'];
+
     const onFnrChanged = (fnr: unknown) => {
         if (typeof fnr === 'string' && fnr.length > 0) {
             setFnr(fnr);
         } else {
             setFnr(null);
-            if (pathname === '/') {
-                router.refresh();
-            } else {
+            if (redirectPaths.includes(pathname)) {
                 router.push('/');
             }
         }
