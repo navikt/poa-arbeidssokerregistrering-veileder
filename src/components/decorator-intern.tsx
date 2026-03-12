@@ -19,14 +19,10 @@ const InternflateDecorator: React.FC<{
     const redirectPaths = ['/registrering-arbeidssoeker-sjekk', '/registrering-arbeidssoker', '/oppdater-opplysninger'];
 
     const onFnrChanged = (fnr: unknown) => {
-        // biome-ignore lint/suspicious/noConsole: <test for dev>
-        console.log('onFnrChanged called with:', fnr, 'pathname:', pathname);
         if (typeof fnr === 'string' && fnr.length > 0) {
             setFnr(fnr);
         } else {
             setFnr(null);
-            // biome-ignore lint/suspicious/noConsole: <test for dev>
-            console.log('redirectPaths check:', redirectPaths.includes(pathname), pathname);
             if (redirectPaths.includes(pathname)) {
                 router.push('/');
             }
