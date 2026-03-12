@@ -20,8 +20,7 @@ const InternflateDecorator: React.FC<{
 
     const onFnrChanged = (nyttFnr: unknown) => {
         if (typeof nyttFnr === 'string' && nyttFnr.length > 0) {
-            // biome-ignore lint/suspicious/noConsole: <test for dev>
-            console.log('old fnr:', fnr, '. And new is: ', nyttFnr);
+            if (nyttFnr === fnr) return;
             setFnr(nyttFnr);
             if (redirectPaths.includes(pathname)) {
                 router.push('/');
