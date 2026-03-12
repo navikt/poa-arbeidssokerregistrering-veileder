@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname, useRouter } from 'next/navigation';
 import type { ComponentType } from 'react';
 import NAVSPA from '@/components/navspa';
 import { useModiaContext } from '../contexts/modia-context';
@@ -12,10 +13,19 @@ const InternflateDecorator: React.FC<{
 }> = (props) => {
     const { decoratorEnv } = props;
     const { setFnr } = useModiaContext();
+    const pathname = usePathname();
+    const router = useRouter();
 
     const onFnrChanged = (fnr: unknown) => {
-        if (typeof fnr === 'string') {
+        if (typeof fnr === 'string' && fnr.length > 0) {
             setFnr(fnr);
+        } else {
+            setFnr(null);
+            if (pathname === '/') {
+                router.refresh();
+            } else {
+                router.push('/');
+            }
         }
     };
 
