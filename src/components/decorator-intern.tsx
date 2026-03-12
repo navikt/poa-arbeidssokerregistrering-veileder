@@ -12,15 +12,17 @@ const InternflateDecorator: React.FC<{
     decoratorEnv: string;
 }> = (props) => {
     const { decoratorEnv } = props;
-    const { setFnr } = useModiaContext();
+    const { fnr, setFnr } = useModiaContext();
     const pathname = usePathname();
     const router = useRouter();
 
     const redirectPaths = ['/registrering-arbeidssoeker-sjekk', '/registrering-arbeidssoker', '/oppdater-opplysninger'];
 
-    const onFnrChanged = (fnr: unknown) => {
-        if (typeof fnr === 'string' && fnr.length > 0) {
-            setFnr(fnr);
+    const onFnrChanged = (nyttFnr: unknown) => {
+        if (typeof nyttFnr === 'string' && nyttFnr.length > 0) {
+            // biome-ignore lint/suspicious/noConsole: <test for dev>
+            console.log('old fnr:', fnr, '. And new is: ', nyttFnr);
+            setFnr(nyttFnr);
             if (redirectPaths.includes(pathname)) {
                 router.push('/');
             }
