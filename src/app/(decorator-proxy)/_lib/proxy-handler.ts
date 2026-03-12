@@ -43,7 +43,7 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
         try {
             const response = await fetch(targetUrl, {
                 method: request.method,
-                body: request.method === 'POST' ? await request.text() : null,
+                body: request.method !== 'GET' ? await request.text() : null,
                 headers: hentModiaHeaders(oboToken.token, callId),
             });
 
