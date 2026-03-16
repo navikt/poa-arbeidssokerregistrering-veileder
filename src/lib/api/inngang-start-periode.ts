@@ -49,7 +49,7 @@ async function startPeriode(
         if (regler?.length || detaljer?.length) {
             logger.warn({
                 message: 'start periode ble avvist',
-                event: 'start_periode_avvist',
+                event: erForhandsgodkjent ? 'start_periode_avvist_forhandsgodkjent' : 'start_periode_avvist',
                 feilKode: problemDetails?.feilKode,
                 avvisningsRegler: regler,
                 avvisningsDetaljer: detaljer,
@@ -62,7 +62,7 @@ async function startPeriode(
 
         logger.warn({
             message: 'startPeriode feilet',
-            event: 'start_periode_feilet',
+            event: erForhandsgodkjent ? 'start_periode_feilet_forhandsgodkjent' : 'start_periode_feilet',
         });
 
         return { ok: false, error: errorMessage, feil: problemDetails };
@@ -70,7 +70,7 @@ async function startPeriode(
 
     logger.info({
         message: 'startPeriode vellykket',
-        event: 'start_periode_ok',
+        event: erForhandsgodkjent ? 'start_periode_ok_forhandsgodkjent' : 'start_periode_ok',
     });
 
     return { ok: true };
