@@ -63,10 +63,17 @@ async function registrerOpplysninger(
     if (!result.ok) {
         // TODO: FIX THIS, må sette riktig feiltype i authfetch
         const { error } = result as { ok: false; error: Error };
+        logger.warn({
+            message: 'registrerOpplysninger feilet',
+            event: 'registrer_opplysninger_feilet',
+        });
         return { ok: false, error: error.message };
     }
 
-    logger.info('registrerOpplysninger: opplysninger registrert');
+    logger.info({
+        message: 'registrerOpplysninger vellykket',
+        event: 'registrer_opplysninger_ok',
+    });
     return { ok: true };
 }
 

@@ -54,15 +54,26 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
             const detaljer = feil.aarsakTilAvvisning?.detaljer;
             logger.warn({
                 message: 'kanStartePeriode ble avvist',
+                event: 'kan_starte_periode_avvist',
                 feilKode: feil.feilKode,
                 melding: feil.melding,
                 avvisningsRegler: regler,
                 avvisningsDetaljer: detaljer,
             });
+        } else {
+            logger.warn({
+                message: 'kanStartePeriode feilet',
+                event: 'kan_starte_periode_avvist',
+            });
         }
 
         return { ok: false, error: error.message, feil };
     }
+
+    logger.info({
+        message: 'kanStartePeriode vellykket',
+        event: 'kan_starte_periode_ok',
+    });
 
     return { ok: true };
 }

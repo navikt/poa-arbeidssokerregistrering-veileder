@@ -42,8 +42,17 @@ async function getPerioder(identitetsnummer: string | null): Promise<PeriodeResu
 
     if (!result.ok) {
         const { error } = result;
+        logger.warn({
+            message: 'getPerioder feilet',
+            event: 'hent_perioder_feilet',
+        });
         return { perioder: null, error };
     }
+
+    logger.info({
+        message: 'getPerioder vellykket',
+        event: 'hent_perioder_ok',
+    });
     return {
         perioder: result.data,
     };

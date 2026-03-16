@@ -46,13 +46,26 @@ async function getSnapshot(identitetsnummer: string | null): Promise<SnapshotRes
     if (!result.ok) {
         const { error, problemDetails } = result;
         if (problemDetails?.type === 'urn:paw:perioder:periode-ikke-funnet') {
+            logger.info({
+                message: 'getSnapshot: periode ikke funnet',
+                event: 'hent_snapshot_ikke_funnet',
+            });
             return {
                 snapshot: null,
                 notFound: true,
             };
         }
+        logger.warn({
+            message: 'getSnapshot feilet',
+            event: 'hent_snapshot_feilet',
+        });
         return { snapshot: null, error };
     }
+
+    logger.info({
+        message: 'getSnapshot vellykket',
+        event: 'hent_snapshot_ok',
+    });
     return {
         snapshot: result.data,
     };

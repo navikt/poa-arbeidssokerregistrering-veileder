@@ -116,9 +116,18 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
     if (!result.ok) {
         const { error, status } = result;
         if (status === 403) {
-            logger.warn(`Ingen tilgang til aareg, omdirigerer til veiledning`);
+            logger.warn({
+                message: 'Ingen tilgang til aareg, omdirigerer til veiledning',
+                event: 'hent_siste_arbeidsforhold_feilet',
+                status,
+            });
             redirect('/veiledning/mangler-tilgang-til-aa-registeret');
         }
+        logger.warn({
+            message: 'getSisteArbeidsforholdFraAareg feilet',
+            event: 'hent_siste_arbeidsforhold_feilet',
+            status,
+        });
         return { sisteArbeidsforhold: null, error: { message: error?.message ?? 'Ukjent feil', status } };
     }
 
@@ -136,6 +145,11 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
     if (!konsept) {
         return { sisteArbeidsforhold: null };
     }
+
+    logger.info({
+        message: 'getSisteArbeidsforholdFraAareg vellykket',
+        event: 'hent_siste_arbeidsforhold_ok',
+    });
 
     return { sisteArbeidsforhold: konsept };
 }

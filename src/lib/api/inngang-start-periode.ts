@@ -49,6 +49,7 @@ async function startPeriode(
         if (regler?.length || detaljer?.length) {
             logger.warn({
                 message: 'start periode ble avvist',
+                event: 'start_periode_avvist',
                 feilKode: problemDetails?.feilKode,
                 avvisningsRegler: regler,
                 avvisningsDetaljer: detaljer,
@@ -59,8 +60,18 @@ async function startPeriode(
             ? `${problemDetails.feilKode}: ${problemDetails.melding}`
             : error.message;
 
+        logger.warn({
+            message: 'startPeriode feilet',
+            event: 'start_periode_feilet',
+        });
+
         return { ok: false, error: errorMessage, feil: problemDetails };
     }
+
+    logger.info({
+        message: 'startPeriode vellykket',
+        event: 'start_periode_ok',
+    });
 
     return { ok: true };
 }

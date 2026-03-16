@@ -50,8 +50,17 @@ async function getBekreftelser(identitetsnummer: string | null): Promise<Bekreft
 
     if (!result.ok) {
         const { error } = result;
+        logger.warn({
+            message: 'getBekreftelser feilet',
+            event: 'hent_bekreftelser_feilet',
+        });
         return { bekreftelser: null, error };
     }
+
+    logger.info({
+        message: 'getBekreftelser vellykket',
+        event: 'hent_bekreftelser_ok',
+    });
     return {
         bekreftelser: sorterBekreftelser(result.data),
     };
@@ -100,9 +109,17 @@ async function sendBekreftelse({
     if (!result.ok) {
         const { error, problemDetails } = result;
         const errorMessage = problemDetails?.detail ?? error?.message ?? 'Ukjent feil ved innsending av bekreftelse';
+        logger.warn({
+            message: 'sendBekreftelse feilet',
+            event: 'send_bekreftelse_feilet',
+        });
         return { ok: false, error: errorMessage };
     }
 
+    logger.info({
+        message: 'sendBekreftelse vellykket',
+        event: 'send_bekreftelse_ok',
+    });
     return { ok: true };
 }
 

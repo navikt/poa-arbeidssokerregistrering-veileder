@@ -39,9 +39,17 @@ async function slettPeriode(identitetsnummer?: string | null): Promise<PeriodeRe
 
     if (!result.ok) {
         const { error, problemDetails } = result;
+        logger.warn({
+            message: 'slettPeriode feilet',
+            event: 'slett_periode_feilet',
+        });
         return { ok: false, error: error.message, feil: problemDetails };
     }
 
+    logger.info({
+        message: 'slettPeriode vellykket',
+        event: 'slett_periode_ok',
+    });
     return { ok: true };
 }
 
