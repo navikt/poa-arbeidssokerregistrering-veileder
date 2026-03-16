@@ -7,7 +7,6 @@ import { HendelseFilter } from '@/app/historikk/components/HendelseFilter';
 import { HistorikkListeTittel } from '@/app/historikk/components/HistorikkListeTittel';
 import { HistorikkPeriode } from '@/app/historikk/components/HistorikkPeriode';
 import PrintInfoHeader from '@/app/historikk/components/PrintInfoHeader';
-import { TilbakeTilForside } from '@/components/tilbake-til-forside';
 import { FilterProvider } from '@/contexts/filter-hendelse-context';
 import { useVisningTypeContext } from '@/contexts/hendelse-visning-context';
 import { useModiaContext } from '@/contexts/modia-context';
@@ -84,9 +83,8 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
                         <HistorikkListeTittel key={el.periodeId} periode={el} />
                     ))}
                 </div>
-                <div className='md:p-4'>
-                    <TilbakeTilForside sidenavn='Arbeidssøkerhistorikk' />
-                    <div className='py-4 mb-6'>
+                <div className='md:px-4'>
+                    <div>
                         <HendelseFilter />
                         <Switch onChange={toggleVisningsType}>Vis innhold ekspandert</Switch>
                     </div>
