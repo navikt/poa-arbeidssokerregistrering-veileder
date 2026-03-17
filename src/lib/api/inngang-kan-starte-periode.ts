@@ -4,6 +4,7 @@ import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import kanStartePeriodeMock from '@/lib/mocks/kan-starte-periode.json';
+import { tilgangNektetError } from '@/lib/tilgang';
 import type { KanStartePeriodeFeil, KanStartePeriodeResult } from '@/model/kan-starte-periode';
 
 const KAN_STARTE_PERIODE_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/kanStartePeriode`;
@@ -46,7 +47,10 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
     });
 
     if (!result.ok) {
-        const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: KanStartePeriodeFeil };
+        const { error, problemDetails, status } = result;
+        if (status === 403) {
+            return tilgangNektetError();
+        }
         const feil = isKanStartePeriodeFeil(problemDetails) ? problemDetails : undefined;
 
         if (feil) {

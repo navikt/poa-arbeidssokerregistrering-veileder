@@ -5,6 +5,7 @@ import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import { sorterBekreftelser } from '@/lib/sorter-bekreftelser';
+import { manglerTilgangResult, tilgangNektetError } from '@/lib/tilgang';
 import type { ProblemDetails } from '../../model/problem-details';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
@@ -14,9 +15,10 @@ const BEKREFTELSE_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-ar
 export type BekreftelseApiResult = {
     bekreftelser: TilgjengeligBekreftelse[] | null;
     error?: Error;
+    manglerTilgang?: boolean;
 };
 
-type SendBekreftelseResult = { ok: true } | { ok: false; error?: string };
+type SendBekreftelseResult = { ok: true } | { ok: false; error?: string; manglerTilgang?: boolean };
 
 async function getBekreftelser(identitetsnummer: string | null): Promise<BekreftelseApiResult> {
     if (!identitetsnummer) {
@@ -49,7 +51,10 @@ async function getBekreftelser(identitetsnummer: string | null): Promise<Bekreft
     });
 
     if (!result.ok) {
-        const { error } = result;
+        const { error, status } = result;
+        if (status === 403) {
+            return manglerTilgangResult('bekreftelser');
+        }
         logger.warn({
             message: 'getBekreftelser feilet',
             event: 'hent_bekreftelser_feilet',
@@ -107,7 +112,10 @@ async function sendBekreftelse({
     });
 
     if (!result.ok) {
-        const { error, problemDetails } = result;
+        const { error, problemDetails, status } = result;
+        if (status === 403) {
+            return tilgangNektetError();
+        }
         const errorMessage = problemDetails?.detail ?? error?.message ?? 'Ukjent feil ved innsending av bekreftelse';
         logger.warn({
             message: 'sendBekreftelse feilet',

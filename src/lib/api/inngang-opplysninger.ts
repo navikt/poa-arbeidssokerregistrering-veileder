@@ -4,6 +4,7 @@ import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import byggOpplysningerPayload from '@/lib/bygg-opplysninger-payload';
+import { tilgangNektetError } from '@/lib/tilgang';
 import type { RegistreringState } from '@/model/registrering';
 
 /**
@@ -61,8 +62,10 @@ async function registrerOpplysninger(
     });
 
     if (!result.ok) {
-        // TODO: FIX THIS, må sette riktig feiltype i authfetch
-        const { error } = result as { ok: false; error: Error };
+        const { error, status } = result;
+        if (status === 403) {
+            return tilgangNektetError();
+        }
         logger.warn({
             message: 'registrerOpplysninger feilet',
             event: 'registrer_opplysninger_feilet',

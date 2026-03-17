@@ -4,11 +4,13 @@ import type { Snapshot } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
+import { manglerTilgangResult } from '@/lib/tilgang';
 
 export type SnapshotResult = {
     snapshot: Snapshot | null;
     error?: Error;
     notFound?: boolean;
+    manglerTilgang?: boolean;
 };
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
@@ -44,7 +46,10 @@ async function getSnapshot(identitetsnummer: string | null): Promise<SnapshotRes
     });
 
     if (!result.ok) {
-        const { error, problemDetails } = result;
+        const { error, problemDetails, status } = result;
+        if (status === 403) {
+            return manglerTilgangResult('snapshot');
+        }
         if (problemDetails?.type === 'urn:paw:perioder:periode-ikke-funnet') {
             logger.info({
                 message: 'getSnapshot: periode ikke funnet',

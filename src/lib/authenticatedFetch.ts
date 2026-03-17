@@ -49,6 +49,18 @@ async function authenticatedFetch<T, E = ProblemDetails>(
         });
 
         if (!response.ok) {
+            if (response.status === 403) {
+                logger.warn({
+                    message: `Tilgang nektet fra ${url}: ${response.status} ${response.statusText}`,
+                    event: 'tilgang_nektet',
+                    httpStatus: 403,
+                });
+                return {
+                    ok: false,
+                    error: new Error(`Tilgang mangler`),
+                    status: 403,
+                };
+            }
             let problemDetails: ProblemDetails | null = null;
             try {
                 problemDetails = await response.json();

@@ -4,12 +4,13 @@ import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
+import { manglerTilgangResult } from '@/lib/tilgang';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const OPPSLAG_V2_URL = process.env.OPPSLAG_API_V2_URL;
 const OPPSLAG_V2_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oppslag-v2/.default`;
 
-export type PeriodeResult = { perioder: Periode[] | null; error?: Error };
+export type PeriodeResult = { perioder: Periode[] | null; error?: Error; manglerTilgang?: boolean };
 
 async function getPerioder(identitetsnummer: string | null): Promise<PeriodeResult> {
     if (!identitetsnummer) {
@@ -41,7 +42,10 @@ async function getPerioder(identitetsnummer: string | null): Promise<PeriodeResu
     });
 
     if (!result.ok) {
-        const { error } = result;
+        const { error, status } = result;
+        if (status === 403) {
+            return manglerTilgangResult('perioder');
+        }
         logger.warn({
             message: 'getPerioder feilet',
             event: 'hent_perioder_feilet',

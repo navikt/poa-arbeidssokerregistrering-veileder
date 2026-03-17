@@ -239,4 +239,115 @@ describe('authenticatedFetch', () => {
             }),
         );
     });
+
+    describe('403 Forbidden — tilgang nektet', () => {
+        it('skal returnere status 403', async () => {
+            mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+            vi.mocked(fetch).mockResolvedValue(
+                new Response(JSON.stringify({ message: 'NAV-ansatt har ikke LESE-tilgang til sluttbruker' }), {
+                    status: 403,
+                    statusText: 'Forbidden',
+                    headers: { 'Content-Type': 'application/json' },
+                }),
+            );
+
+            const result = await authenticatedFetch(defaultOptions);
+
+            expect(result.ok).toBe(false);
+            if (!result.ok) {
+                expect(result.status).toBe(403);
+            }
+        });
+
+        it('skal returnere en generisk feilmelding — ikke lekke sensitiv info fra backend', async () => {
+            mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+            vi.mocked(fetch).mockResolvedValue(
+                new Response(JSON.stringify({ message: 'NAV-ansatt har ikke LESE-tilgang til sluttbruker' }), {
+                    status: 403,
+                    statusText: 'Forbidden',
+                    headers: { 'Content-Type': 'application/json' },
+                }),
+            );
+
+            const result = await authenticatedFetch(defaultOptions);
+
+            expect(result.ok).toBe(false);
+            if (!result.ok) {
+                const { error } = result;
+                // Skal IKKE inneholde den rå backend-meldingen
+                expect(error.message).not.toContain('LESE-tilgang');
+                expect(error.message).not.toContain('sluttbruker');
+                // Skal inneholde en generisk, brukervennlig melding
+                expect(error.message).toMatch(/tilgang mangler/i);
+            }
+        });
+
+        it('skal ikke returnere problemDetails ved 403 — unngå informasjonslekkasje', async () => {
+            mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+            vi.mocked(fetch).mockResolvedValue(
+                new Response(
+                    JSON.stringify({
+                        type: 'urn:paw:sikkerhet:ikke-tilgang',
+                        status: 403,
+                        title: 'Forbidden',
+                        detail: 'Bruker har strengt fortrolig adresse og kan ikke vises',
+                    }),
+                    {
+                        status: 403,
+                        statusText: 'Forbidden',
+                        headers: { 'Content-Type': 'application/json' },
+                    },
+                ),
+            );
+
+            const result = await authenticatedFetch(defaultOptions);
+
+            expect(result.ok).toBe(false);
+            if (!result.ok) {
+                const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: unknown };
+                expect(problemDetails).toBeUndefined();
+                expect(error.message).not.toContain('fortrolig');
+                expect(error.message).not.toContain('adresse');
+            }
+        });
+
+        it('skal logge strukturert tilgang_nektet-event for Grafana', async () => {
+            mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+            vi.mocked(fetch).mockResolvedValue(
+                new Response(JSON.stringify({ message: 'NAV-ansatt har ikke LESE-tilgang til sluttbruker' }), {
+                    status: 403,
+                    statusText: 'Forbidden',
+                    headers: { 'Content-Type': 'application/json' },
+                }),
+            );
+
+            await authenticatedFetch(defaultOptions);
+
+            expect(logger.warn).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    event: 'tilgang_nektet',
+                    httpStatus: 403,
+                }),
+            );
+        });
+
+        it('skal håndtere 403 med tom body uten å krasje', async () => {
+            mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+            vi.mocked(fetch).mockResolvedValue(
+                new Response(null, {
+                    status: 403,
+                    statusText: 'Forbidden',
+                }),
+            );
+
+            const result = await authenticatedFetch(defaultOptions);
+
+            expect(result.ok).toBe(false);
+            if (!result.ok) {
+                expect(result.status).toBe(403);
+                const { error } = result as { ok: false; error: Error };
+                expect(error.message).toMatch(/tilgang mangler/i);
+            }
+        });
+    });
 });

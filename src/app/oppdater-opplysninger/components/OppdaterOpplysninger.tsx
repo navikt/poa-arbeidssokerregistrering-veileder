@@ -1,5 +1,6 @@
 import { Alert } from '@navikt/ds-react';
 import { use } from 'react';
+import { ManglerTilganger } from '@/components/ManglerTilganger';
 import { mapOpplysningerTilInitState } from '@/components/skjema/mapSnapshotOpplysningerTilRegistrering';
 import { OpplysningerSkjema } from '@/components/skjema/OpplysningerSkjema';
 import type { SisteArbeidsforholdResult } from '@/lib/api/aareg';
@@ -11,8 +12,12 @@ type OppdaterOpplysningerProps = {
 };
 
 function OppdaterOpplysninger({ snapshotPromise, sisteArbeidsforholdPromise }: OppdaterOpplysningerProps) {
-    const { snapshot, error: snapshotError, notFound } = use(snapshotPromise);
+    const { snapshot, error: snapshotError, notFound, manglerTilgang } = use(snapshotPromise);
     const aaregResult = use(sisteArbeidsforholdPromise);
+
+    if (manglerTilgang) {
+        return <ManglerTilganger />;
+    }
 
     if (snapshotError || notFound) {
         return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;

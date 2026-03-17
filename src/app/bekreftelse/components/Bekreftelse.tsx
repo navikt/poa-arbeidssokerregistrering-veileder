@@ -4,6 +4,7 @@ import type { TilgjengeligBekreftelse } from '@navikt/arbeidssokerregisteret-uti
 import { Alert } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import { use, useReducer } from 'react';
+import { ManglerTilganger } from '@/components/ManglerTilganger';
 import { useModiaContext } from '@/contexts/modia-context';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
 import { sendBekreftelse } from '@/lib/api/bekreftelse';
@@ -50,11 +51,15 @@ function bekreftelseReducer(state: BekreftelseState, action: BekreftelseAction):
 const initialState: BekreftelseState = { status: 'idle', queueIndex: 0 };
 
 function Bekreftelse({ bekreftelserPromise }: { bekreftelserPromise: Promise<BekreftelseApiResult> }) {
-    const { bekreftelser, error: bekreftelserError } = use(bekreftelserPromise);
+    const { bekreftelser, error: bekreftelserError, manglerTilgang } = use(bekreftelserPromise);
     const { fnr } = useModiaContext();
     const router = useRouter();
 
     const [state, dispatch] = useReducer(bekreftelseReducer, initialState);
+
+    if (manglerTilgang) {
+        return <ManglerTilganger />;
+    }
 
     if (bekreftelserError) {
         return <Alert variant='error'>Noe gikk dessverre galt. Prøv igjen senere</Alert>;

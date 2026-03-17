@@ -3,6 +3,7 @@
 import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
+import { tilgangNektetError } from '@/lib/tilgang';
 import type { PeriodeFeil, PeriodeResult, StartStoppPeriodeRequest } from '@/model/inngang-periode';
 
 const INNGANG_SLETT_PERIODE_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/periode`;
@@ -38,7 +39,10 @@ async function slettPeriode(identitetsnummer?: string | null): Promise<PeriodeRe
     });
 
     if (!result.ok) {
-        const { error, problemDetails } = result;
+        const { error, problemDetails, status } = result;
+        if (status === 403) {
+            return tilgangNektetError();
+        }
         logger.warn({
             message: 'slettPeriode feilet',
             event: 'slett_periode_feilet',

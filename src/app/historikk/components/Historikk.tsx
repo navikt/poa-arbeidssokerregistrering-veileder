@@ -7,6 +7,7 @@ import { HendelseFilter } from '@/app/historikk/components/HendelseFilter';
 import { HistorikkListeTittel } from '@/app/historikk/components/HistorikkListeTittel';
 import { HistorikkPeriode } from '@/app/historikk/components/HistorikkPeriode';
 import PrintInfoHeader from '@/app/historikk/components/PrintInfoHeader';
+import { ManglerTilganger } from '@/components/ManglerTilganger';
 import { FilterProvider } from '@/contexts/filter-hendelse-context';
 import { useVisningTypeContext } from '@/contexts/hendelse-visning-context';
 import { useModiaContext } from '@/contexts/modia-context';
@@ -19,7 +20,7 @@ type HistorikkProps = {
 
 const Historikk: React.FC<HistorikkProps> = (props) => {
     const { perioderPromise } = props;
-    const { perioder, error } = use(perioderPromise);
+    const { perioder, error, manglerTilgang } = use(perioderPromise);
     const { fnr } = useModiaContext();
     const { toggleVisningsType } = useVisningTypeContext();
     const sidebarRef = useRef<null | HTMLDivElement>(null);
@@ -32,6 +33,10 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
     useScrollSpy(sidebarRef, sectionIds);
 
     if (!fnr) return null;
+
+    if (manglerTilgang) {
+        return <ManglerTilganger />;
+    }
 
     if (error) return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere.</Alert>;
 

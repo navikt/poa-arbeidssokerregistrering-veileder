@@ -1,6 +1,7 @@
 import { SporsmalId } from '@navikt/arbeidssokerregisteret-utils';
 import { Alert } from '@navikt/ds-react';
 import { use, useState } from 'react';
+import { ManglerTilganger } from '@/components/ManglerTilganger';
 import { buildSisteJobb } from '@/components/skjema/buildSisteJobb';
 import { mapOpplysningerTilInitState } from '@/components/skjema/mapSnapshotOpplysningerTilRegistrering';
 import { OpplysningerSkjema } from '@/components/skjema/OpplysningerSkjema';
@@ -14,7 +15,7 @@ type RegistrerArbeidssoekerProps = {
 };
 
 function RegistrerArbeidssoeker({ snapshotPromise, sisteArbeidsforholdPromise }: RegistrerArbeidssoekerProps) {
-    const { snapshot, error: snapshotError } = use(snapshotPromise);
+    const { snapshot, error: snapshotError, manglerTilgang } = use(snapshotPromise);
     const aaregResult = use(sisteArbeidsforholdPromise);
     const [useGammelPeriode, setUseGammelPeriode] = useState(false);
 
@@ -26,6 +27,10 @@ function RegistrerArbeidssoeker({ snapshotPromise, sisteArbeidsforholdPromise }:
         : {
               [SporsmalId.sisteJobb]: buildSisteJobb(aaregResult, snapshot?.opplysning?.jobbsituasjon?.beskrivelser[0]),
           };
+
+    if (manglerTilgang) {
+        return <ManglerTilganger />;
+    }
 
     if (snapshotError) {
         return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;

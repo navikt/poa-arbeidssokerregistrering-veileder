@@ -3,6 +3,7 @@
 import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
+import { tilgangNektetError } from '@/lib/tilgang';
 import type { PeriodeFeil, PeriodeResult, StartStoppPeriodeRequest } from '@/model/inngang-periode';
 
 const INNGANG_API_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/periode`;
@@ -41,7 +42,11 @@ async function startPeriode(
     });
 
     if (!result.ok) {
-        const { error, problemDetails } = result;
+        const { error, problemDetails, status } = result;
+
+        if (status === 403) {
+            return tilgangNektetError();
+        }
 
         const regler = problemDetails?.aarsakTilAvvisning?.regler?.map((r) => r.id);
         const detaljer = problemDetails?.aarsakTilAvvisning?.detaljer;

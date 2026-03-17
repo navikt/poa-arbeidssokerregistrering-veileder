@@ -82,6 +82,11 @@ const problemDetailsSnapshot: SnapshotResult = {
     notFound: true,
 };
 
+const snapshotManglerTilganger: SnapshotResult = {
+    snapshot: null,
+    manglerTilgang: true,
+};
+
 const lagSnapshotMedEgenvurdering = (egenvurdering: ProfilertTil | undefined): SnapshotResult => ({
     snapshot: {
         ...snapshotMock,
@@ -238,6 +243,29 @@ describe('Forside', () => {
         it('Sjekk at egenvurderingsfeltet ikke vises når det er undefined', async () => {
             await renderForside(lagSnapshotMedEgenvurdering(undefined), emptyBekreftelser);
             expect(screen.queryByText('Hva slags veiledning ønsker du?')).toBeNull();
+        });
+    });
+
+    describe('Manglende tilganger (403)', () => {
+        it('Sjekk at kun info om manglende tilganger renderes', async () => {
+            await renderForside(snapshotManglerTilganger, emptyBekreftelser);
+            expect(screen.queryByText('Opplysninger')).toBeNull();
+            expect(screen.queryByText('Mangler tilgang')).toBeDefined();
+        });
+        it('Sjekk at kun manglende tilganger IKKE renderes ved feil (problem details)', async () => {
+            await renderForside(problemDetailsSnapshot, emptyBekreftelser);
+            expect(screen.queryByText('Opplysninger')).toBeNull();
+            expect(screen.queryByText('Mangler tilgang')).toBeNull();
+        });
+        it('Sjekk at kun manglende tilganger IKKE renderes ved null snapshots', async () => {
+            await renderForside(nullSnapshot, emptyBekreftelser);
+            expect(screen.queryByText('Opplysninger')).toBeNull();
+            expect(screen.queryByText('Mangler tilgang')).toBeNull();
+        });
+        it('Sjekk at kun manglende tilganger IKKE renderes ved happy path', async () => {
+            await renderForside(happySnapshotMedPaagaaende, emptyBekreftelser);
+            expect(screen.queryByText('Opplysninger')).toBeDefined();
+            expect(screen.queryByText('Mangler tilgang')).toBeNull();
         });
     });
 });
