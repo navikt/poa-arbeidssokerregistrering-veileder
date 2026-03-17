@@ -1,8 +1,8 @@
-import { exportEvent, importer } from './navspa';
 import { importer as importerAsync } from './async/async-navspa';
+import { exportEvent, importer } from './navspa';
 
-export { createAssetManifestParser } from './async/utils';
 export type { AsyncSpaConfig } from './async/async-navspa';
+export { createAssetManifestParser } from './async/utils';
 
 export const AsyncNavspa = {
     importer: importerAsync,

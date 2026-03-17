@@ -1,14 +1,13 @@
 import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { ForsideWrapper } from '@/app/(forside)/components/ForsideWrapper';
-import { HvaErNytt } from '@/app/components/HvaErNytt';
-import { ManglerPersonEllerEnhet } from '@/app/components/ManglerPersonEllerEnhet';
-import { getBekreftelser } from '@/app/lib/bekreftelser/bekreftelse';
-import { hentModiaContext } from '@/app/lib/modia-context-api';
-import { getSnapshot } from '@/app/lib/oppslag/snapshot';
-import { isFeatureEnabled } from '@/app/lib/unleash/feature-flags';
-import DemoLabel from '@/components/demo-label';
-import DemoPanel from '@/components/demo-panel';
+import { DemoLabel } from '@/components/demo-label';
+import { DemoPanel } from '@/components/demo-panel';
+import { HvaErNytt } from '@/components/HvaErNytt';
+import { getBekreftelser } from '@/lib/api/bekreftelse';
+import { getSnapshot } from '@/lib/api/oppslag-snapshot';
+import { hentModiaContext } from '@/lib/modia-context-api';
+import { isFeatureEnabled } from '@/lib/unleash/feature-flags';
 
 export default async function ForsidePage() {
     const modiaContext = await hentModiaContext();
@@ -23,7 +22,6 @@ export default async function ForsidePage() {
             <DemoLabel />
             {flagVisHvaSomErNytt && <HvaErNytt />}
             <Suspense fallback={<Loader />}>
-                <ManglerPersonEllerEnhet />
                 <ForsideWrapper
                     initialSnapshotPromise={snapshotPromise}
                     initialBekreftelserPromise={bekreftelserPromise}

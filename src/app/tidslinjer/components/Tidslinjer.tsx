@@ -1,33 +1,31 @@
 'use client';
 
-import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { Accordion, Alert, Table } from '@navikt/ds-react';
 import { AccordionContent, AccordionHeader, AccordionItem } from '@navikt/ds-react/Accordion';
 import { TableBody, TableHeader, TableHeaderCell, TableRow } from '@navikt/ds-react/Table';
 import { use } from 'react';
-import { useModiaContext } from '@/app/contexts/modia-context';
 import { HendelseVisning } from '@/app/tidslinjer/components/HendelseVisning';
+import { ManglerTilganger } from '@/components/ManglerTilganger';
+import type { PeriodeResult } from '@/lib/api/oppslag-perioder';
 import { formaterDato } from '@/lib/date-utils';
 import { TidslinjeVarsel } from './TidslinjeVarsel';
 
 type TidslinjerProps = {
-    perioderPromise: Promise<{
-        perioder: Periode[] | null;
-        error?: Error;
-    }>;
+    perioderPromise: Promise<PeriodeResult>;
 };
 
 const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
     const { perioderPromise } = props;
-    const { perioder, error } = use(perioderPromise);
-    const { fnr } = useModiaContext();
+    const { perioder, error, manglerTilgang } = use(perioderPromise);
 
     const hentAvsluttetDatoString = (avsluttetDato: string | undefined) => {
         if (!avsluttetDato) return 'fortsatt pågående';
         return formaterDato(avsluttetDato);
     };
 
-    if (!fnr) return null;
+    if (manglerTilgang) {
+        return <ManglerTilganger />;
+    }
 
     if (error) {
         return <Alert variant={'error'}>Noe gikk dessverre galt ved henting av tidslinjer</Alert>;

@@ -1,7 +1,7 @@
 {
     "$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
     "files": {
-        "includes": ["src/app/**"]
+        "includes": ["src/**", "!src/components/navspa"]
     },
     "formatter": {
         "enabled": true,
@@ -27,7 +27,18 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true
+            "recommended": true,
+            "correctness": {
+                "noUnusedImports": "error"
+            },
+            "suspicious": {
+                "noConsole": {
+                    "level": "error",
+                    "options": {
+                        "allow": ["error", "warn", "debug"]
+                    }
+                }
+            }
         }
     },
     "assist": {
@@ -37,5 +48,22 @@
                 "organizeImports": "on"
             }
         }
-    }
+    },
+    "css": {
+        "parser": {
+            "tailwindDirectives": true
+        }
+    },
+    "overrides": [
+        {
+            "includes": ["src/styles/globals.css"],
+            "linter": {
+                "rules": {
+                    "complexity": {
+                        "noImportantStyles": "off"
+                    }
+                }
+            }
+        }
+    ]
 }

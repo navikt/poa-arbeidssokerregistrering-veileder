@@ -36,6 +36,7 @@ export function importer<P>(name: string, config?: NAVSPAAppConfig): React.Compo
         feilmelding: config?.feilmelding === undefined ? <>Feil i {name}</> : config?.feilmelding,
     };
 
+    // @ts-ignore - strictNullChecks: indexed access may be undefined
     let app: NAVSPAApp = scopeV2[name];
     if (!app) {
         if (scope[name]) {
@@ -44,6 +45,7 @@ export function importer<P>(name: string, config?: NAVSPAAppConfig): React.Compo
             console.error(Feilmelding.ukjentApp(name));
         }
         app = {
+            // @ts-ignore - strictNullChecks: indexed access may be undefined
             mount: scope[name],
             unmount(element: HTMLElement) {
                 reactAdapter.unmount(element);

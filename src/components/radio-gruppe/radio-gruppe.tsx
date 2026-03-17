@@ -1,8 +1,5 @@
+import { lagHentTekstForSprak, type Tekster } from '@navikt/arbeidssokerregisteret-utils';
 import { Radio, RadioGroup } from '@navikt/ds-react';
-
-import useSprak from '../../hooks/useSprak';
-
-import { lagHentTekstForSprak, Tekster } from '@navikt/arbeidssokerregisteret-utils';
 
 interface RadioGruppeProps {
     valg: {
@@ -25,29 +22,21 @@ const TEKSTER: Tekster<string> = {
     },
 };
 
-const RadioGruppe = (props: RadioGruppeProps) => {
+function RadioGruppe(props: RadioGruppeProps) {
     const { valg, onSelect, valgt, visFeilmelding, legend, beskrivelse } = props;
-    const tekst = lagHentTekstForSprak(TEKSTER, useSprak());
+    const tekst = lagHentTekstForSprak(TEKSTER, 'nb');
     const error = visFeilmelding ? tekst('advarsel') : undefined;
     return (
-        <>
-            <RadioGroup
-                value={valgt ?? null}
-                legend={legend}
-                onChange={onSelect}
-                error={error}
-                description={beskrivelse}
-            >
-                {valg.map((alternativ) => {
-                    return (
-                        <Radio key={alternativ.value} value={alternativ.value}>
-                            {alternativ.tekst}
-                        </Radio>
-                    );
-                })}
-            </RadioGroup>
-        </>
+        <RadioGroup value={valgt ?? null} legend={legend} onChange={onSelect} error={error} description={beskrivelse}>
+            {valg.map((alternativ) => {
+                return (
+                    <Radio key={alternativ.value} value={alternativ.value}>
+                        {alternativ.tekst}
+                    </Radio>
+                );
+            })}
+        </RadioGroup>
     );
-};
+}
 
-export default RadioGruppe;
+export { RadioGruppe };

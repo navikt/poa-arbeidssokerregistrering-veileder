@@ -1,6 +1,6 @@
-import { ErrorTypes } from '../model/error';
-import { RegistreringType } from '../model/registrering';
-import { Feiltype } from '../model/feilsituasjonTyper';
+import type { ErrorTypes } from '../model/error';
+import type { Feiltype } from '../model/feilsituasjonTyper';
+import type { RegistreringType } from '../model/registrering';
 
 const isBrowser = () => typeof window !== 'undefined';
 const isDevelopment = () => isBrowser() && /^http:\/\/localhost/.test(window.location.href);
@@ -9,7 +9,7 @@ type EventData = SidevisningData | AktivitetData | FlytData | VisningsData | Sto
 
 type SidevisningData = { sidetittel: string };
 
-type AktivitetData =
+export type AktivitetData =
     | { aktivitet: KvitteringAktivitet }
     | { aktivitet: 'Går til servicerutine for friskmelding til arbeidsformidling'; registreringtype?: RegistreringType }
     | { aktivitet: 'Går til servicerutine for arbeids- og oppholdstillatelse'; aarsak?: Feiltype }
@@ -29,7 +29,7 @@ type AktivitetData =
     | { aktivitet: 'Sletter arbeidssøkerperiode' }
     | { aktivitet: 'Klikker på "Se alle arbeidssøkerperioder bruker har hatt"' };
 
-type VisningsData =
+export type VisningsData =
     | { viser: 'Kvittering for registrert arbeidssøker' }
     | { viser: 'Kvittering for reaktivert arbeidssøker' }
     | { viser: 'kvittering for mer sykmeldtoppfølging' }
@@ -79,15 +79,15 @@ type KvitteringAktivitet =
 function logUmamiEvent(eventName: string, data: EventData) {
     try {
         if (isBrowser() && !isDevelopment()) {
-            // @ts-ignore
+            // @ts-expect-error
             if (!window.umami) {
                 console.debug('umami ikke lastet');
                 return;
             }
-            // @ts-ignore
+            // @ts-expect-error
             window.umami.track(eventName, data);
         } else {
-            console.log(`Logger til umami: ${eventName}`, data);
+            console.debug(`Logger til umami: ${eventName}`, data);
         }
     } catch (error) {
         console.warn('Feil med umami', error);

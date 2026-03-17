@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { validateToken } from '@/app/lib/auth/validateToken';
 import { logger } from '@navikt/next-logger';
+import { type NextRequest, NextResponse } from 'next/server';
+import { validateToken } from '@/lib/auth/validateToken';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
@@ -31,5 +31,15 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/','/tidslinjer/:path*', '/historikk/:path*'],
+    matcher: [
+        /*
+         * Match all request paths except:
+         * - api/isalive (NAIS liveness probe)
+         * - api/isready (NAIS readiness probe)
+         * - _next/static (static files)
+         * - _next/image (image optimization)
+         * - favicon.ico and other static metadata files
+         */
+        '/((?!api/isalive|api/isready|_next/static|_next/image|favicon\\.ico).*)',
+    ],
 };

@@ -23,23 +23,23 @@ vi.mock('@/lib/tracking', () => ({
 
 // Mocker server-action-modulene som ForsideWrapper importerer.
 // Disse har 'use server' og importerer next/headers som ikke finnes i jsdom.
-vi.mock('@/app/lib/oppslag/snapshot', () => ({
+vi.mock('@/lib/api/oppslag-snapshot', () => ({
     getSnapshot: vi.fn(),
 }));
 
-vi.mock('@/app/lib/bekreftelser/bekreftelse', () => ({
+vi.mock('@/lib/api/bekreftelse', () => ({
     getBekreftelser: vi.fn(),
 }));
 
 import type { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { act, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
-import { ModiaProvider } from '@/app/contexts/modia-context';
-import type { BekreftelseApiResult } from '@/app/lib/bekreftelser/bekreftelse';
-import type { SnapshotResult } from '@/app/lib/oppslag/snapshot';
-import bekreftelserMock from '@/app/mocks/bekreftelser.json';
-import snapshotMock from '@/app/mocks/snapshot.json';
-import snapshotMockAvsluttet from '@/app/mocks/snapshot-med-avsluttet.json';
+import { ModiaProvider } from '@/contexts/modia-context';
+import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
+import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
+import bekreftelserMock from '@/lib/mocks/bekreftelser.json';
+import snapshotMock from '@/lib/mocks/snapshot.json';
+import snapshotMockAvsluttet from '@/lib/mocks/snapshot-med-avsluttet.json';
 import { Forside } from './Forside';
 import { ForsideWrapper } from './ForsideWrapper';
 
@@ -80,6 +80,11 @@ const nullSnapshot: SnapshotResult = {
 const problemDetailsSnapshot: SnapshotResult = {
     snapshot: null,
     notFound: true,
+};
+
+const snapshotManglerTilganger: SnapshotResult = {
+    snapshot: null,
+    manglerTilgang: true,
 };
 
 const lagSnapshotMedEgenvurdering = (egenvurdering: ProfilertTil | undefined): SnapshotResult => ({
@@ -238,6 +243,29 @@ describe('Forside', () => {
         it('Sjekk at egenvurderingsfeltet ikke vises når det er undefined', async () => {
             await renderForside(lagSnapshotMedEgenvurdering(undefined), emptyBekreftelser);
             expect(screen.queryByText('Hva slags veiledning ønsker du?')).toBeNull();
+        });
+    });
+
+    describe('Manglende tilganger (403)', () => {
+        it('Sjekk at kun info om manglende tilganger renderes', async () => {
+            await renderForside(snapshotManglerTilganger, emptyBekreftelser);
+            expect(screen.queryByText('Opplysninger')).toBeNull();
+            expect(screen.queryByText('Mangler tilgang')).toBeDefined();
+        });
+        it('Sjekk at kun manglende tilganger IKKE renderes ved feil (problem details)', async () => {
+            await renderForside(problemDetailsSnapshot, emptyBekreftelser);
+            expect(screen.queryByText('Opplysninger')).toBeNull();
+            expect(screen.queryByText('Mangler tilgang')).toBeNull();
+        });
+        it('Sjekk at kun manglende tilganger IKKE renderes ved null snapshots', async () => {
+            await renderForside(nullSnapshot, emptyBekreftelser);
+            expect(screen.queryByText('Opplysninger')).toBeNull();
+            expect(screen.queryByText('Mangler tilgang')).toBeNull();
+        });
+        it('Sjekk at kun manglende tilganger IKKE renderes ved happy path', async () => {
+            await renderForside(happySnapshotMedPaagaaende, emptyBekreftelser);
+            expect(screen.queryByText('Opplysninger')).toBeDefined();
+            expect(screen.queryByText('Mangler tilgang')).toBeNull();
         });
     });
 });

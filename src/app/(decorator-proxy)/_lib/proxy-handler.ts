@@ -2,9 +2,9 @@ import { logger } from '@navikt/next-logger';
 import { nanoid } from 'nanoid';
 import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
-import { getOboTokenFromRequest } from '@/app/lib/auth/oboToken';
+import { getOboTokenFromRequest } from '@/lib/auth/oboToken';
 import 'server-only';
-import { hentModiaHeaders } from '../../lib/modia-headers';
+import { hentModiaHeaders } from '@/lib/modia-headers';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
@@ -43,7 +43,7 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
         try {
             const response = await fetch(targetUrl, {
                 method: request.method,
-                body: request.method === 'POST' ? await request.text() : null,
+                body: request.method !== 'GET' ? await request.text() : null,
                 headers: hentModiaHeaders(oboToken.token, callId),
             });
 

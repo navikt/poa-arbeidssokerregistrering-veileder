@@ -1,12 +1,12 @@
 import Script from 'next/script';
 import '../styles/globals.css';
 import type { Metadata } from 'next';
-import { InternflateDecorator } from './components/decorator-intern';
-import { InitFaro } from './components/InitFaro';
-import { Visittkort } from './components/visittkort';
-import { ModiaProvider } from './contexts/modia-context';
-import { hentModiaContext } from './lib/modia-context-api';
-import { hentVisittkortScriptUrl } from './lib/visittkort-url';
+import { InternflateDecorator } from '@/components/decorator-intern';
+import { InitFaro } from '@/components/InitFaro';
+import { Visittkort } from '@/components/visittkort';
+import { hentModiaContext } from '@/lib/modia-context-api';
+import { hentVisittkortScriptUrl } from '@/lib/visittkort-url';
+import { ModiaProvider } from '../contexts/modia-context';
 
 const enableMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const decoratorEnv = process.env.DEKORATOR_ENV ?? 'q2';
@@ -50,7 +50,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                         data-website-id={umamiTrackingId}
                     />
                 )}
-                {visittkortUrl && <Script src={visittkortUrl} strategy='afterInteractive' type='module' />}
+                {visittkortUrl && (
+                    <Script src={visittkortUrl} strategy='afterInteractive' type='module' crossOrigin='anonymous' />
+                )}
                 <ModiaProvider initFnr={modiaContext.fnr} initEnhetId={modiaContext.enhetId}>
                     {!enableMock && <InternflateDecorator decoratorEnv={decoratorEnv} />}
                     <Visittkort brukerMock={enableMock} />

@@ -29,7 +29,7 @@ function Valgmeny(props: ValgmenyProps) {
                     <ActionMenu.Item
                         onSelect={() => loggAktivitet({ aktivitet: 'Går til endre opplysninger' })}
                         as='a'
-                        href={`/oppdater-opplysninger?periodeId=${sisteArbeidssoekerperiodeId}`}
+                        href={`/oppdater-opplysninger`}
                     >
                         {manglerOpplysninger ? 'Legg til opplysninger' : 'Endre opplysninger'}
                     </ActionMenu.Item>

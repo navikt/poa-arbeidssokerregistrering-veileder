@@ -1,7 +1,7 @@
 import { ReadMore } from '@navikt/ds-react';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { useVisningTypeContext } from '../../../contexts/hendelse-visning-context';
+import { useVisningTypeContext } from '../../../../contexts/hendelse-visning-context';
 
 type ReadMoreWrapperProps = {
     header: string;

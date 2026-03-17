@@ -1,4 +1,4 @@
-import { lagHentTekstForSprak, Sprak } from '@navikt/arbeidssokerregisteret-utils';
+import { lagHentTekstForSprak, type Sprak } from '@navikt/arbeidssokerregisteret-utils';
 
 const TEKSTER = {
     nb: {
@@ -27,7 +27,7 @@ const TEKSTER = {
 
 export function oversettSluttaarsak(sprak: Sprak) {
     const tekst = lagHentTekstForSprak(TEKSTER, sprak);
-    return function (tekststreng: string) {
+    return (tekststreng: string) => {
         const oversatt = tekst(tekststreng.toLocaleLowerCase());
         return oversatt || tekststreng;
     };

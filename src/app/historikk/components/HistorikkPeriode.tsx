@@ -1,7 +1,6 @@
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import type { Hendelse, Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import type React from 'react';
-import { useFilterContext } from '@/app/contexts/filter-hendelse-context';
 import { HistorikkHeading } from '@/app/historikk/components/HistorikkHeading';
 import { getSourceString } from '@/app/historikk/components/helpers';
 import { Bekreftelse } from '@/app/historikk/components/hendelseTyper/bekreftelse';
@@ -10,6 +9,7 @@ import { PeriodeAvsluttet } from '@/app/historikk/components/hendelseTyper/perio
 import { Profilering } from '@/app/historikk/components/hendelseTyper/profilering';
 import { Source } from '@/app/historikk/components/Source';
 import { TEKSTER } from '@/app/historikk/components/text';
+import { useFilterContext } from '@/contexts/filter-hendelse-context';
 import { prettyPrintDatoOgKlokkeslettKortform } from '@/lib/date-utils';
 
 type HistorikkProps = {

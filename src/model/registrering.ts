@@ -1,12 +1,11 @@
 import {
-    DinSituasjon,
-    JaEllerNei,
-    SisteStillingValg,
+    type DinSituasjon,
+    type JaEllerNei,
+    type SisteStillingValg,
     SporsmalId,
-    UtdanningGodkjentValg,
-    Utdanningsnivaa,
+    type UtdanningGodkjentValg,
+    type Utdanningsnivaa,
 } from '@navikt/arbeidssokerregisteret-utils';
-import { ErrorTypes } from './error';
 
 export enum RegistreringType {
     SPERRET = 'SPERRET',

@@ -1,0 +1,25 @@
+{
+    "melding": "Avvist, se 'aarsakTilAvvisning' for detaljer",
+    "feilKode": "AVVIST",
+    "aarsakTilAvvisning": {
+        "regler": [
+            {
+                "id": "UNDER_18_AAR",
+                "beskrivelse": "Er under 18 år"
+            }
+        ],
+        "detaljer": [
+            "ER_UNDER_18_AAR",
+            "HAR_NORSK_ADRESSE",
+            "HAR_REGISTRERT_ADRESSE_I_EU_EOES",
+            "ER_EU_EOES_STATSBORGER",
+            "ER_NORSK_STATSBORGER",
+            "BOSATT_ETTER_FREG_LOVEN",
+            "INGEN_INFORMASJON_OM_OPPHOLDSTILLATELSE",
+            "INGEN_FLYTTE_INFORMASJON",
+            "TOKENX_PID_IKKE_FUNNET",
+            "ANSATT_TILGANG",
+            "IKKE_SYSTEM"
+        ]
+    }
+}

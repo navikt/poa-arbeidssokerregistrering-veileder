@@ -1,21 +1,21 @@
-@import 'tailwindcss';
-@import '@navikt/ds-css' layer(components);
+@import "tailwindcss";
+@import "@navikt/ds-css" layer(components);
 
-@config '../../tailwind.config.ts';
+@config "../../tailwind.config.ts";
 
-main[data-route='/historikk'] {
+main[data-route="/historikk"] {
     @apply max-w-7xl;
 }
 
 @media print {
-    main[data-route='/historikk'] .navds-read-more__content {
+    main[data-route="/historikk"] .navds-read-more__content {
         display: block !important;
         max-height: none !important;
         opacity: 1 !important;
         visibility: visible !important;
     }
 
-    main[data-route='/historikk'] .navds-read-more__button {
+    main[data-route="/historikk"] .navds-read-more__button {
         display: none !important;
     }
 }

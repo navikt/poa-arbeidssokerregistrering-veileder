@@ -2,8 +2,8 @@ import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import type { HendelseType } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { Button, Chips } from '@navikt/ds-react';
 import type React from 'react';
-import { useFilterContext } from '@/app/contexts/filter-hendelse-context';
 import { TEKSTER } from '@/app/historikk/components/text';
+import { useFilterContext } from '@/contexts/filter-hendelse-context';
 import { ALLE_HENDELSER } from '@/lib/alle-hendelser';
 
 const HendelseFilter: React.FC = () => {

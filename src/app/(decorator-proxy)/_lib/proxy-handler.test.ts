@@ -1,15 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('server-only', () => ({}));
-vi.mock('@navikt/next-logger', () => ({ logger: { info: vi.fn(), error: vi.fn(), warn: vi.fn() } }));
 vi.mock('nanoid', () => ({ nanoid: () => 'test-call-id' }));
 vi.mock('next/headers', () => ({ headers: vi.fn().mockResolvedValue(new Headers()) }));
-vi.mock('@/app/lib/auth/oboToken', () => ({ getOboTokenFromRequest: vi.fn() }));
-vi.mock('@/app/lib/modia-headers', () => ({ hentModiaHeaders: vi.fn(() => ({})) }));
+vi.mock('@/lib/auth/oboToken', () => ({ getOboTokenFromRequest: vi.fn() }));
+vi.mock('@/lib/modia-headers', () => ({ hentModiaHeaders: vi.fn(() => ({})) }));
 
 import { NextRequest } from 'next/server';
 import { lagProxyKall } from '@/app/(decorator-proxy)/_lib/proxy-handler';
-import { getOboTokenFromRequest } from '@/app/lib/auth/oboToken';
+import { getOboTokenFromRequest } from '@/lib/auth/oboToken';
 
 const mockGetOboToken = vi.mocked(getOboTokenFromRequest);
 
