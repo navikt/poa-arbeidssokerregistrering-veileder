@@ -87,10 +87,15 @@ describe('authenticatedFetch', () => {
 
         expect(result.ok).toBe(false);
         if (!result.ok) {
-            const { error } = result as { ok: false; error: Error };
-            expect(error.message).toContain('500');
-            expect(error.message).toContain('Internal Server Error');
-            expect(error.message).toContain('Forespørsel feilet med ukjent feil');
+            expect(result.status).toBe(500);
+            expect(result.problemDetails).toEqual(
+                expect.objectContaining({
+                    type: 'urn:paw:default:ukjent-feil',
+                    status: 500,
+                    title: 'Internal Server Error',
+                    detail: 'Forespørsel feilet med ukjent feil',
+                }),
+            );
         }
     });
 
@@ -120,9 +125,15 @@ describe('authenticatedFetch', () => {
         expect(result.ok).toBe(false);
         if (!result.ok) {
             const { error } = result as { ok: false; error: Error };
-            expect(error.message).toContain('400');
-            expect(error.message).toContain('Bad Request');
-            expect(error.message).toContain('Kunne ikke tolke forespørsel');
+            expect(result.status).toBe(400);
+            expect(result.problemDetails).toEqual(
+                expect.objectContaining({
+                    type: 'urn:paw:http:kunne-ikke-tolke-forespoersel',
+                    status: 400,
+                    title: 'Bad Request',
+                    detail: 'Kunne ikke tolke forespørsel',
+                }),
+            );
         }
     });
 
@@ -134,11 +145,16 @@ describe('authenticatedFetch', () => {
         const result = await authenticatedFetch(defaultOptions);
         expect(result.ok).toBe(false);
         if (!result.ok) {
-            const { error } = result as { ok: false; error: Error };
-            expect(error.message).toBe('500 Internal Server Error');
+            expect(result.status).toBe(500);
         }
         expect(logger.error).toHaveBeenCalledWith(
             expect.objectContaining({ message: expect.stringContaining(`Feil fra ${defaultOptions.url}:`) }),
+        );
+        expect(logger.error).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: expect.stringContaining('404'),
+                httpStatus: 404,
+            }),
         );
     });
 
@@ -257,6 +273,12 @@ describe('authenticatedFetch', () => {
             if (!result.ok) {
                 expect(result.status).toBe(403);
             }
+            expect(logger.warn).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    event: 'tilgang_nektet',
+                    httpStatus: 403,
+                }),
+            );
         });
 
         it('skal returnere en generisk feilmelding — ikke lekke sensitiv info fra backend', async () => {
