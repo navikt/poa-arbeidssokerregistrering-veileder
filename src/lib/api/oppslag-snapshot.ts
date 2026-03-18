@@ -50,7 +50,7 @@ async function getSnapshot(identitetsnummer: string | null): Promise<SnapshotRes
         if (status === 403) {
             return manglerTilgangResult('snapshot');
         }
-        if (problemDetails?.type === 'urn:paw:perioder:periode-ikke-funnet') {
+        if (problemDetails?.type === 'urn:paw:perioder:periode-ikke-funnet' || status === 404) {
             logger.info({
                 message: 'getSnapshot: periode ikke funnet',
                 event: 'hent_snapshot_ikke_funnet',
