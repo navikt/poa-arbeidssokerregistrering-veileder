@@ -63,13 +63,9 @@ async function authenticatedFetch<T, E = ProblemDetails>(
             }
             let problemDetails: ProblemDetails | null = null;
             try {
-                problemDetails = await response.json();
-                if (isProblemDetails(problemDetails)) {
-                    logger.error({
-                        message: `Feil fra ${url}: ${problemDetails.status} ${problemDetails.title} - ${problemDetails.detail || 'ingen detaljer gitt'}`,
-                        httpStatus: problemDetails.status,
-                        problemType: problemDetails.type,
-                    });
+                const json = await response.json();
+                if (isProblemDetails(json)) {
+                    problemDetails = json;
                 }
             } catch (_e) {} // Ignore JSON parse errors
 
@@ -80,8 +76,9 @@ async function authenticatedFetch<T, E = ProblemDetails>(
                     httpStatus: response.status,
                 });
             }
-            const errorMsg = problemDetails?.detail
-                ? `${problemDetails.status} ${problemDetails.title} - ${problemDetails.detail}`
+
+            const errorMsg = isProblemDetails(problemDetails)
+                ? `${problemDetails.status} ${problemDetails.title} - ${problemDetails.type}${problemDetails.detail ? ` - ${problemDetails.detail}` : ''}`
                 : `${response.status} ${response.statusText}`;
 
             return {
