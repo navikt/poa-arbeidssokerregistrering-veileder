@@ -152,8 +152,8 @@ describe('authenticatedFetch', () => {
         );
         expect(logger.error).toHaveBeenCalledWith(
             expect.objectContaining({
-                message: expect.stringContaining('404'),
-                httpStatus: 404,
+                message: expect.stringContaining('500'),
+                httpStatus: 500,
             }),
         );
     });
