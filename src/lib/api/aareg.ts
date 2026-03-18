@@ -116,9 +116,9 @@ async function getSisteArbeidsforholdFraAareg(identitetsnummer: string | null): 
     if (!result.ok) {
         const { error, status } = result;
         if (status === 403) {
-            logger.warn({
+            logger.info({
                 message: 'Ingen tilgang til aareg, omdirigerer til veiledning',
-                event: 'hent_siste_arbeidsforhold_feilet',
+                event: 'hent_siste_arbeidsforhold_tilgang_nektet',
                 status,
             });
             redirect('/veiledning/mangler-tilgang-til-aa-registeret');
