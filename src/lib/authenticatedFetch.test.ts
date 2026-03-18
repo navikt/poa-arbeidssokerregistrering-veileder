@@ -124,7 +124,6 @@ describe('authenticatedFetch', () => {
 
         expect(result.ok).toBe(false);
         if (!result.ok) {
-            const { error } = result as { ok: false; error: Error };
             expect(result.status).toBe(400);
             expect(result.problemDetails).toEqual(
                 expect.objectContaining({
