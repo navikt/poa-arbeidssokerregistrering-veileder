@@ -9,14 +9,11 @@ export async function proxy(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // Extract headers
     const bearerToken = request.headers.get('authorization');
-
-    // Validate bearer token (azure)
     const tokenValidationResult = await validateToken(bearerToken);
 
     if (tokenValidationResult.ok === false) {
-        logger.error(
+        logger.warn(
             new Error(`Invalid JWT token found (cause: ${tokenValidationResult.errorType}), redirecting to login.`, {
                 cause: tokenValidationResult.error,
             }),
