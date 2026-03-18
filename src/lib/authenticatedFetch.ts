@@ -73,6 +73,7 @@ async function authenticatedFetch<T, E = ProblemDetails>(
             if (!isProblemDetails(problemDetails)) {
                 logger.error({
                     message: `Feil fra ${url}: ${response.status} ${response.statusText}`,
+                    event: 'uventet_feilrespons',
                     httpStatus: response.status,
                 });
             }
@@ -94,7 +95,10 @@ async function authenticatedFetch<T, E = ProblemDetails>(
         return { ok: true, data };
     } catch (e) {
         const cause = e instanceof Error ? e.message : String(e);
-        logger.error(`Fetch mot ${url} kastet exception: ${cause}`);
+        logger.error({
+            message: `Fetch mot ${url} kastet exception: ${cause}`,
+            event: 'fetch_exception',
+        });
         return { ok: false, error: new Error(`Fetch failed: ${cause}`, { cause: e }) };
     }
 }
