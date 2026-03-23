@@ -10,6 +10,7 @@ type FetchFailure<E = ProblemDetails> = {
     error: Error;
     status?: number;
     problemDetails?: E;
+    rawBody?: unknown;
 };
 type FetchResult<T, E = ProblemDetails> = FetchSuccess<T> | FetchFailure<E>;
 
@@ -50,15 +51,32 @@ async function authenticatedFetch<T, E = ProblemDetails>(
 
         if (!response.ok) {
             if (response.status === 403) {
+                // Les body (om den finnes) så kaller-koden kan skille mellom
+                // ekte tilgangsfeil og domene-avvisninger som backend sender på 403.
+                let rawJson: unknown = undefined;
+                try {
+                    rawJson = await response.json();
+                } catch (_e) {
+                    // Ignore — tom body eller ikke JSON
+                }
+
+                // Bare sett problemDetails dersom bodyen faktisk er RFC 9457
+                const problemDetails403: E | undefined = isProblemDetails(rawJson)
+                    ? (rawJson as unknown as E)
+                    : undefined;
+
                 logger.warn({
                     message: `Tilgang nektet fra ${url}: ${response.status} ${response.statusText}`,
                     event: 'tilgang_nektet',
                     httpStatus: 403,
                 });
+
                 return {
                     ok: false,
-                    error: new Error(`Tilgang mangler`),
+                    error: new Error('Tilgang mangler'),
                     status: 403,
+                    problemDetails: problemDetails403,
+                    rawBody: rawJson,
                 };
             }
             let problemDetails: ProblemDetails | null = null;
@@ -104,3 +122,4 @@ async function authenticatedFetch<T, E = ProblemDetails>(
 }
 
 export { authenticatedFetch };
+export type { FetchResult, FetchSuccess, FetchFailure, AuthenticatedFetchOptions };

@@ -6,21 +6,11 @@ import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import kanStartePeriodeMock from '@/lib/mocks/kan-starte-periode.json';
 import { tilgangNektetError } from '@/lib/tilgang';
 import type { KanStartePeriodeFeil, KanStartePeriodeResult } from '@/model/kan-starte-periode';
+import { isKanStartePeriodeFeil } from '@/model/kan-starte-periode';
 
 const KAN_STARTE_PERIODE_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/kanStartePeriode`;
 const INNGANG_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
-
-function isKanStartePeriodeFeil(value: unknown): value is KanStartePeriodeFeil {
-    return (
-        value !== null &&
-        typeof value === 'object' &&
-        'melding' in value &&
-        typeof (value as KanStartePeriodeFeil).melding === 'string' &&
-        'feilKode' in value &&
-        typeof (value as KanStartePeriodeFeil).feilKode === 'string'
-    );
-}
 
 async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanStartePeriodeResult> {
     if (!identitetsnummer) {
@@ -47,22 +37,30 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
     });
 
     if (!result.ok) {
-        const { error, problemDetails, status } = result;
+        const { error, problemDetails, rawBody, status } = result;
         if (status === 403) {
+            // Backend sender 403 både for ekte tilgangsfeil (feilKode: 'IKKE_TILGANG')
+            // og for domene-avvisninger (feilKode: 'AVVIST', f.eks. UNDER_18_AAR).
+            // Bruk rawBody (uvalidert JSON fra 403) — problemDetails er kun satt ved RFC 9457.
+            const feil403 = isKanStartePeriodeFeil(rawBody) ? rawBody : undefined;
+            if (feil403?.feilKode === 'AVVIST' && feil403.aarsakTilAvvisning) {
+                logger.warn({
+                    message: 'kanStartePeriode ble avvist (403)',
+                    event: 'kan_starte_periode_avvist',
+                    feilKode: feil403.feilKode,
+                });
+                return { ok: false, error: feil403.melding, feil: feil403 };
+            }
+            // Ekte tilgangsfeil — ingen strukturert avvisning
             return tilgangNektetError();
         }
         const feil = isKanStartePeriodeFeil(problemDetails) ? problemDetails : undefined;
 
         if (feil) {
-            const regler = feil.aarsakTilAvvisning?.regler?.map((r) => r.id);
-            const detaljer = feil.aarsakTilAvvisning?.detaljer;
             logger.warn({
                 message: 'kanStartePeriode ble avvist',
                 event: 'kan_starte_periode_avvist',
                 feilKode: feil.feilKode,
-                melding: feil.melding,
-                avvisningsRegler: regler,
-                avvisningsDetaljer: detaljer,
             });
         } else {
             logger.warn({

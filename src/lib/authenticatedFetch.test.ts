@@ -303,7 +303,7 @@ describe('authenticatedFetch', () => {
             }
         });
 
-        it('skal ikke returnere problemDetails ved 403 — unngå informasjonslekkasje', async () => {
+        it('skal returnere rawBody (ikke problemDetails) ved 403 når body ikke er RFC 9457', async () => {
             mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
             vi.mocked(fetch).mockResolvedValue(
                 new Response(
@@ -325,10 +325,84 @@ describe('authenticatedFetch', () => {
 
             expect(result.ok).toBe(false);
             if (!result.ok) {
-                const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: unknown };
-                expect(problemDetails).toBeUndefined();
-                expect(error.message).not.toContain('fortrolig');
-                expect(error.message).not.toContain('adresse');
+                // Body mangler id, instance, timestamp → ikke RFC 9457 → problemDetails undefined
+                expect(result.problemDetails).toBeUndefined();
+                // rawBody inneholder den rå JSON-bodyen
+                expect(result.rawBody).toBeDefined();
+                const raw = result.rawBody as Record<string, unknown>;
+                expect(raw.type).toBe('urn:paw:sikkerhet:ikke-tilgang');
+                expect(raw.detail).toBe('Bruker har strengt fortrolig adresse og kan ikke vises');
+                // error-meldingen lekker fortsatt IKKE sensitiv info til klienten
+                expect(result.error.message).not.toContain('fortrolig');
+                expect(result.error.message).not.toContain('adresse');
+                expect(result.error.message).toMatch(/tilgang mangler/i);
+            }
+        });
+
+        it('skal sette problemDetails ved 403 når body ER RFC 9457', async () => {
+            mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+            const rfc9457Body: ProblemDetails = {
+                id: 'abc-123',
+                type: 'urn:paw:sikkerhet:ikke-tilgang',
+                status: 403,
+                title: 'Forbidden',
+                detail: 'Bruker har strengt fortrolig adresse',
+                instance: '/api/v2/arbeidssoker/periode',
+                timestamp: '2026-02-12T09:45:40.319Z',
+            };
+            vi.mocked(fetch).mockResolvedValue(
+                new Response(JSON.stringify(rfc9457Body), {
+                    status: 403,
+                    statusText: 'Forbidden',
+                    headers: { 'Content-Type': 'application/json' },
+                }),
+            );
+
+            const result = await authenticatedFetch(defaultOptions);
+
+            expect(result.ok).toBe(false);
+            if (!result.ok) {
+                // RFC 9457-kompatibel body → problemDetails er satt
+                expect(result.problemDetails).toBeDefined();
+                expect(result.problemDetails?.type).toBe('urn:paw:sikkerhet:ikke-tilgang');
+                // rawBody er også satt (alltid på 403 med JSON-body)
+                expect(result.rawBody).toEqual(rfc9457Body);
+                expect(result.error.message).toMatch(/tilgang mangler/i);
+            }
+        });
+
+        it('skal returnere rawBody med FeilV2-body (feilKode AVVIST) ved 403 — ikke problemDetails', async () => {
+            mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+            const feilV2Body = {
+                melding: "Avvist, se 'aarsakTilAvvisning' for detaljer",
+                feilKode: 'AVVIST',
+                aarsakTilAvvisning: {
+                    regler: [{ id: 'UNDER_18_AAR', beskrivelse: 'Er under 18 år' }],
+                    detaljer: ['ER_UNDER_18_AAR', 'ANSATT_TILGANG'],
+                },
+            };
+            vi.mocked(fetch).mockResolvedValue(
+                new Response(JSON.stringify(feilV2Body), {
+                    status: 403,
+                    statusText: 'Forbidden',
+                    headers: { 'Content-Type': 'application/json' },
+                }),
+            );
+
+            const result = await authenticatedFetch(defaultOptions);
+
+            expect(result.ok).toBe(false);
+            if (!result.ok) {
+                expect(result.status).toBe(403);
+                // Generisk melding — ikke lekkasje
+                expect(result.error.message).toMatch(/tilgang mangler/i);
+                // FeilV2-body er IKKE RFC 9457 → problemDetails undefined
+                expect(result.problemDetails).toBeUndefined();
+                // rawBody inneholder den rå FeilV2-bodyen
+                expect(result.rawBody).toBeDefined();
+                const raw = result.rawBody as Record<string, unknown>;
+                expect(raw.feilKode).toBe('AVVIST');
+                expect(raw.aarsakTilAvvisning).toBeDefined();
             }
         });
 
@@ -366,8 +440,9 @@ describe('authenticatedFetch', () => {
             expect(result.ok).toBe(false);
             if (!result.ok) {
                 expect(result.status).toBe(403);
-                const { error } = result as { ok: false; error: Error };
-                expect(error.message).toMatch(/tilgang mangler/i);
+                expect(result.error.message).toMatch(/tilgang mangler/i);
+                expect(result.problemDetails).toBeUndefined();
+                expect(result.rawBody).toBeUndefined();
             }
         });
     });

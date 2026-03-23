@@ -95,6 +95,19 @@ export type KanStartePeriodeFeil = {
     aarsakTilAvvisning?: AarsakTilAvvisning;
 };
 
+/** Runtime type-guard for `KanStartePeriodeFeil` — safe to call on any `unknown` value. */
+export function isKanStartePeriodeFeil(value: unknown): value is KanStartePeriodeFeil {
+    return (
+        value !== null &&
+        typeof value === 'object' &&
+        !Array.isArray(value) &&
+        'melding' in value &&
+        typeof (value as KanStartePeriodeFeil).melding === 'string' &&
+        'feilKode' in value &&
+        typeof (value as KanStartePeriodeFeil).feilKode === 'string'
+    );
+}
+
 // --- Result type for the server action ---
 
 export type KanStartePeriodeResult = { ok: true } | { ok: false; error: string; feil?: KanStartePeriodeFeil };
