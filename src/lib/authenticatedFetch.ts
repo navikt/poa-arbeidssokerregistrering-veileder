@@ -53,7 +53,7 @@ async function authenticatedFetch<T, E = ProblemDetails>(
             if (response.status === 403) {
                 // Les body (om den finnes) så kaller-koden kan skille mellom
                 // ekte tilgangsfeil og domene-avvisninger som backend sender på 403.
-                let rawJson: unknown;
+                let rawJson: unknown = undefined;
                 try {
                     rawJson = await response.json();
                 } catch (_e) {
