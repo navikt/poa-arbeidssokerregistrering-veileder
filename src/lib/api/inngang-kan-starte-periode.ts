@@ -47,14 +47,13 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
     });
 
     if (!result.ok) {
-        const { error, problemDetails, status } = result;
+        const { error, problemDetails, rawBody, status } = result;
         if (status === 403) {
             // Backend sender 403 både for ekte tilgangsfeil (feilKode: 'IKKE_TILGANG')
             // og for domene-avvisninger (feilKode: 'AVVIST', f.eks. UNDER_18_AAR).
-            // Sjekk om bodyen inneholder en strukturert avvisning.
-            const feil403 = isKanStartePeriodeFeil(problemDetails) ? problemDetails : undefined;
+            // Bruk rawBody (uvalidert JSON fra 403) — problemDetails er kun satt ved RFC 9457.
+            const feil403 = isKanStartePeriodeFeil(rawBody) ? rawBody : undefined;
             if (feil403?.feilKode === 'AVVIST' && feil403.aarsakTilAvvisning) {
-                const regler = feil403.aarsakTilAvvisning.regler?.map((r) => r.id);
                 logger.warn({
                     message: 'kanStartePeriode ble avvist (403)',
                     event: 'kan_starte_periode_avvist',
@@ -68,7 +67,6 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
         const feil = isKanStartePeriodeFeil(problemDetails) ? problemDetails : undefined;
 
         if (feil) {
-            const regler = feil.aarsakTilAvvisning?.regler?.map((r) => r.id);
             logger.warn({
                 message: 'kanStartePeriode ble avvist',
                 event: 'kan_starte_periode_avvist',

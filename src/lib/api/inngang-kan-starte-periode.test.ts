@@ -53,7 +53,7 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            problemDetails: feilV2Body,
+            rawBody: feilV2Body,
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -91,7 +91,7 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            problemDetails: feilV2Body,
+            rawBody: feilV2Body,
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -119,7 +119,7 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            problemDetails: feilV2Body,
+            rawBody: feilV2Body,
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -148,7 +148,7 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            problemDetails: feilV2Body,
+            rawBody: feilV2Body,
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -162,12 +162,12 @@ describe('kanStartePeriode', () => {
         }
     });
 
-    it('returnerer tilgangNektetError ved 403 uten strukturert body (problemDetails undefined)', async () => {
+    it('returnerer tilgangNektetError ved 403 uten strukturert body (rawBody undefined)', async () => {
         mockAuthenticatedFetch.mockResolvedValue({
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            problemDetails: undefined,
+            rawBody: undefined,
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -185,7 +185,7 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            problemDetails: { message: 'NAV-ansatt har ikke LESE-tilgang til sluttbruker' } as unknown,
+            rawBody: { message: 'NAV-ansatt har ikke LESE-tilgang til sluttbruker' },
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -210,7 +210,7 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            problemDetails: feilV2Body,
+            rawBody: feilV2Body,
         });
 
         const kanStartePeriode = await importKanStartePeriode();

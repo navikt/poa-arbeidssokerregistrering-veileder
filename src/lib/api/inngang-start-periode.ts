@@ -42,27 +42,21 @@ async function startPeriode(
     });
 
     if (!result.ok) {
-        const { error, problemDetails, status } = result;
+        const { error, problemDetails, rawBody, status } = result;
 
         if (status === 403) {
             // Backend sender 403 både for ekte tilgangsfeil (feilKode: 'IKKE_TILGANG')
             // og for domene-avvisninger (feilKode: 'AVVIST', f.eks. UNDER_18_AAR).
-            // Sjekk om bodyen inneholder en strukturert avvisning.
-            if (
-                problemDetails &&
-                'feilKode' in problemDetails &&
-                problemDetails.feilKode === 'AVVIST' &&
-                problemDetails.aarsakTilAvvisning
-            ) {
+            // Bruk rawBody (uvalidert JSON fra 403) — problemDetails er kun satt ved RFC 9457.
+            const body403 = rawBody as PeriodeFeil | undefined;
+            if (body403 && 'feilKode' in body403 && body403.feilKode === 'AVVIST' && body403.aarsakTilAvvisning) {
                 logger.warn({
                     message: 'start periode ble avvist (403)',
                     event: erForhandsgodkjent ? 'start_periode_avvist_forhandsgodkjent' : 'start_periode_avvist',
-                    feilKode: problemDetails.feilKode,
+                    feilKode: body403.feilKode,
                 });
-                const errorMessage = problemDetails.melding
-                    ? `${problemDetails.feilKode}: ${problemDetails.melding}`
-                    : error.message;
-                return { ok: false, error: errorMessage, feil: problemDetails };
+                const errorMessage = body403.melding ? `${body403.feilKode}: ${body403.melding}` : error.message;
+                return { ok: false, error: errorMessage, feil: body403 };
             }
             // Ekte tilgangsfeil — ingen strukturert avvisning
             return tilgangNektetError();

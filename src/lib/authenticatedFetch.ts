@@ -10,6 +10,7 @@ type FetchFailure<E = ProblemDetails> = {
     error: Error;
     status?: number;
     problemDetails?: E;
+    rawBody?: unknown;
 };
 type FetchResult<T, E = ProblemDetails> = FetchSuccess<T> | FetchFailure<E>;
 
@@ -52,15 +53,17 @@ async function authenticatedFetch<T, E = ProblemDetails>(
             if (response.status === 403) {
                 // Les body (om den finnes) så kaller-koden kan skille mellom
                 // ekte tilgangsfeil og domene-avvisninger som backend sender på 403.
-                let problemDetails403: E | undefined;
+                let rawJson: unknown;
                 try {
-                    const json = await response.json();
-                    if (json !== null && typeof json === 'object') {
-                        problemDetails403 = json as E;
-                    }
+                    rawJson = await response.json();
                 } catch (_e) {
                     // Ignore — tom body eller ikke JSON
                 }
+
+                // Bare sett problemDetails dersom bodyen faktisk er RFC 9457
+                const problemDetails403: E | undefined = isProblemDetails(rawJson)
+                    ? (rawJson as unknown as E)
+                    : undefined;
 
                 logger.warn({
                     message: `Tilgang nektet fra ${url}: ${response.status} ${response.statusText}`,
@@ -70,10 +73,10 @@ async function authenticatedFetch<T, E = ProblemDetails>(
 
                 return {
                     ok: false,
-                    // Generisk melding — aldri rå backend-tekst til klient
                     error: new Error('Tilgang mangler'),
                     status: 403,
                     problemDetails: problemDetails403,
+                    rawBody: rawJson,
                 };
             }
             let problemDetails: ProblemDetails | null = null;
@@ -119,3 +122,4 @@ async function authenticatedFetch<T, E = ProblemDetails>(
 }
 
 export { authenticatedFetch };
+export type { FetchResult, FetchSuccess, FetchFailure, AuthenticatedFetchOptions };
