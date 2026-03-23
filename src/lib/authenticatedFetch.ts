@@ -50,15 +50,30 @@ async function authenticatedFetch<T, E = ProblemDetails>(
 
         if (!response.ok) {
             if (response.status === 403) {
+                // Les body (om den finnes) så kaller-koden kan skille mellom
+                // ekte tilgangsfeil og domene-avvisninger som backend sender på 403.
+                let problemDetails403: E | undefined;
+                try {
+                    const json = await response.json();
+                    if (json !== null && typeof json === 'object') {
+                        problemDetails403 = json as E;
+                    }
+                } catch (_e) {
+                    // Ignore — tom body eller ikke JSON
+                }
+
                 logger.warn({
                     message: `Tilgang nektet fra ${url}: ${response.status} ${response.statusText}`,
                     event: 'tilgang_nektet',
                     httpStatus: 403,
                 });
+
                 return {
                     ok: false,
-                    error: new Error(`Tilgang mangler`),
+                    // Generisk melding — aldri rå backend-tekst til klient
+                    error: new Error('Tilgang mangler'),
                     status: 403,
+                    problemDetails: problemDetails403,
                 };
             }
             let problemDetails: ProblemDetails | null = null;

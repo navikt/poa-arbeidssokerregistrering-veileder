@@ -303,7 +303,7 @@ describe('authenticatedFetch', () => {
             }
         });
 
-        it('skal ikke returnere problemDetails ved 403 — unngå informasjonslekkasje', async () => {
+        it('skal returnere problemDetails ved 403 når body inneholder strukturert JSON', async () => {
             mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
             vi.mocked(fetch).mockResolvedValue(
                 new Response(
@@ -326,9 +326,45 @@ describe('authenticatedFetch', () => {
             expect(result.ok).toBe(false);
             if (!result.ok) {
                 const { error, problemDetails } = result as { ok: false; error: Error; problemDetails?: unknown };
-                expect(problemDetails).toBeUndefined();
+                // problemDetails er nå tilgjengelig for kaller-koden (server-side)
+                expect(problemDetails).toBeDefined();
+                // Men error-meldingen lekker fortsatt IKKE sensitiv info til klienten
                 expect(error.message).not.toContain('fortrolig');
                 expect(error.message).not.toContain('adresse');
+                expect(error.message).toMatch(/tilgang mangler/i);
+            }
+        });
+
+        it('skal returnere problemDetails med FeilV2-body (feilKode AVVIST) ved 403', async () => {
+            mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
+            const feilV2Body = {
+                melding: "Avvist, se 'aarsakTilAvvisning' for detaljer",
+                feilKode: 'AVVIST',
+                aarsakTilAvvisning: {
+                    regler: [{ id: 'UNDER_18_AAR', beskrivelse: 'Er under 18 år' }],
+                    detaljer: ['ER_UNDER_18_AAR', 'ANSATT_TILGANG'],
+                },
+            };
+            vi.mocked(fetch).mockResolvedValue(
+                new Response(JSON.stringify(feilV2Body), {
+                    status: 403,
+                    statusText: 'Forbidden',
+                    headers: { 'Content-Type': 'application/json' },
+                }),
+            );
+
+            const result = await authenticatedFetch(defaultOptions);
+
+            expect(result.ok).toBe(false);
+            if (!result.ok) {
+                expect(result.status).toBe(403);
+                // Generisk melding — ikke lekkasje
+                expect(result.error.message).toMatch(/tilgang mangler/i);
+                // Men problemDetails er tilgjengelig for kaller-koden
+                expect(result.problemDetails).toBeDefined();
+                const pd = result.problemDetails as Record<string, unknown>;
+                expect(pd.feilKode).toBe('AVVIST');
+                expect(pd.aarsakTilAvvisning).toBeDefined();
             }
         });
 

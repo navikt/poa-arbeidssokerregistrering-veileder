@@ -45,19 +45,37 @@ async function startPeriode(
         const { error, problemDetails, status } = result;
 
         if (status === 403) {
+            // Backend sender 403 både for ekte tilgangsfeil (feilKode: 'IKKE_TILGANG')
+            // og for domene-avvisninger (feilKode: 'AVVIST', f.eks. UNDER_18_AAR).
+            // Sjekk om bodyen inneholder en strukturert avvisning.
+            if (
+                problemDetails &&
+                'feilKode' in problemDetails &&
+                problemDetails.feilKode === 'AVVIST' &&
+                problemDetails.aarsakTilAvvisning
+            ) {
+                logger.warn({
+                    message: 'start periode ble avvist (403)',
+                    event: erForhandsgodkjent ? 'start_periode_avvist_forhandsgodkjent' : 'start_periode_avvist',
+                    feilKode: problemDetails.feilKode,
+                });
+                const errorMessage = problemDetails.melding
+                    ? `${problemDetails.feilKode}: ${problemDetails.melding}`
+                    : error.message;
+                return { ok: false, error: errorMessage, feil: problemDetails };
+            }
+            // Ekte tilgangsfeil — ingen strukturert avvisning
             return tilgangNektetError();
         }
 
         const regler = problemDetails?.aarsakTilAvvisning?.regler?.map((r) => r.id);
-        const detaljer = problemDetails?.aarsakTilAvvisning?.detaljer;
 
-        if (regler?.length || detaljer?.length) {
+        if (regler?.length) {
             logger.warn({
                 message: 'start periode ble avvist',
                 event: erForhandsgodkjent ? 'start_periode_avvist_forhandsgodkjent' : 'start_periode_avvist',
                 feilKode: problemDetails?.feilKode,
                 avvisningsRegler: regler,
-                avvisningsDetaljer: detaljer,
             });
         }
 
