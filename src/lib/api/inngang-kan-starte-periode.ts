@@ -6,21 +6,11 @@ import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import kanStartePeriodeMock from '@/lib/mocks/kan-starte-periode.json';
 import { tilgangNektetError } from '@/lib/tilgang';
 import type { KanStartePeriodeFeil, KanStartePeriodeResult } from '@/model/kan-starte-periode';
+import { isKanStartePeriodeFeil } from '@/model/kan-starte-periode';
 
 const KAN_STARTE_PERIODE_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/kanStartePeriode`;
 const INNGANG_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
-
-function isKanStartePeriodeFeil(value: unknown): value is KanStartePeriodeFeil {
-    return (
-        value !== null &&
-        typeof value === 'object' &&
-        'melding' in value &&
-        typeof (value as KanStartePeriodeFeil).melding === 'string' &&
-        'feilKode' in value &&
-        typeof (value as KanStartePeriodeFeil).feilKode === 'string'
-    );
-}
 
 async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanStartePeriodeResult> {
     if (!identitetsnummer) {

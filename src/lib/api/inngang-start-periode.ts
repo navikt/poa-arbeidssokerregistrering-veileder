@@ -5,6 +5,7 @@ import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import { tilgangNektetError } from '@/lib/tilgang';
 import type { PeriodeFeil, PeriodeResult, StartStoppPeriodeRequest } from '@/model/inngang-periode';
+import { isKanStartePeriodeFeil } from '@/model/kan-starte-periode';
 
 const INNGANG_API_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/periode`;
 const INNGANG_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
@@ -48,8 +49,8 @@ async function startPeriode(
             // Backend sender 403 både for ekte tilgangsfeil (feilKode: 'IKKE_TILGANG')
             // og for domene-avvisninger (feilKode: 'AVVIST', f.eks. UNDER_18_AAR).
             // Bruk rawBody (uvalidert JSON fra 403) — problemDetails er kun satt ved RFC 9457.
-            const body403 = rawBody as PeriodeFeil | undefined;
-            if (body403 && 'feilKode' in body403 && body403.feilKode === 'AVVIST' && body403.aarsakTilAvvisning) {
+            const body403: PeriodeFeil | undefined = isKanStartePeriodeFeil(rawBody) ? rawBody : undefined;
+            if (body403?.feilKode === 'AVVIST' && body403.aarsakTilAvvisning) {
                 logger.warn({
                     message: 'start periode ble avvist (403)',
                     event: erForhandsgodkjent ? 'start_periode_avvist_forhandsgodkjent' : 'start_periode_avvist',
