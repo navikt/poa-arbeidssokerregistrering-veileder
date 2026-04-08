@@ -10,15 +10,15 @@ Siden noen av modulene hentes fra GitHubs package registry må du også gjøre l
 
 - Opprett et PAT (github => settings => developer settings => personal access tokens => tokens (classic)) med `read:packages` scope
 - Konfigurer SSO mot NAVIKT for tokenet
-- bruk tokenet som passord ved login `npm login --registry https://npm.pkg.github.com`
+- bruk tokenet som passord ved login `pnpm login --registry https://npm.pkg.github.com`
 
 Deretter fortsette du med
 
 ```sh
 git clone https://github.com/navikt/poa-arbeidssokerregistrering-veileder.git
 cd poa-arbeidssokerregistrering-veileder
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Åpne [http://localhost:3000](http://localhost:3000).
@@ -28,13 +28,13 @@ npm run dev
 Kjør alle tester med [Vitest](https://vitest.dev/):
 
 ```sh
-npm test
+pnpm test
 ```
 
 For watch-modus under utvikling:
 
 ```sh
-npm run test:watch
+pnpm run test:watch
 ```
 
 ## Deploye kun til dev

@@ -18,28 +18,47 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
+
+            - name: Set up pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  run_install: false
 
             - name: Set up node
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v5
               with:
                   node-version: '24.13.0'
-                  cache: 'npm'
                   registry-url: 'https://npm.pkg.github.com'
+                  scope: '@navikt'
 
-            - name: Install
-              run: npm install --no-save --no-audit --prefer-offline --ignore-scripts
+            - name: Get pnpm store directory
+              shell: bash
+              run: |
+                  echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+              id: pnpm-cache
+
+            - name: Setup pnpm cache
+              uses: actions/cache@v4
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
+
+            - name: Install dependencies
+              run: pnpm i --frozen-lockfile --ignore-scripts
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
             - name: Test
-              run: npm run test:ci
+              run: pnpm run test:ci
 
             - name: Knip
-              run: npx knip --no-exit-code --reporter=markdown >> "$GITHUB_STEP_SUMMARY"
+              run: pnpm exec knip --no-exit-code --reporter=markdown >> "$GITHUB_STEP_SUMMARY"
 
             - name: Build
-              run: npm run build
+              run: pnpm run build
               env:
                   NODE_ENV: production
                   NEXT_PUBLIC_ASSET_PREFIX: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
@@ -74,7 +93,7 @@ jobs:
         timeout-minutes: 7
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
             - name: Deploy
               uses: nais/deploy/actions/deploy@v2
               env:
@@ -93,7 +112,7 @@ jobs:
         timeout-minutes: 7
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
             - name: Deploy
               uses: nais/deploy/actions/deploy@v2
               env:
@@ -112,7 +131,7 @@ jobs:
         timeout-minutes: 7
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
             - name: Deploy
               uses: nais/deploy/actions/deploy@v2
               env:
@@ -130,7 +149,7 @@ jobs:
         needs: [test-and-build-cdn-docker]
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
             - name: deploy to dev
               uses: nais/deploy/actions/deploy@v2
               env:
