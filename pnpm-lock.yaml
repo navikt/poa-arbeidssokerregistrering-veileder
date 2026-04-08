@@ -30,8 +30,8 @@ importers:
         specifier: 4.4.4
         version: 4.4.4(next@16.1.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(pino@10.3.0)
       '@navikt/oasis':
-        specifier: 4.1.1
-        version: 4.1.1
+        specifier: 4.1.4
+        version: 4.1.4
       '@unleash/nextjs':
         specifier: 1.6.4
         version: 1.6.4(next@16.1.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -1289,8 +1289,8 @@ packages:
       next: 14 || 15 || 16
       pino: 8 || 9 || 10
 
-  '@navikt/oasis@4.1.1':
-    resolution: {integrity: sha512-WNAoUvK9z098/4lFzAD/09Q0Oz+Hf2mTTN8iAVi62xUgEXryq3am3t82cVfi3YttDKPrYrsrkEo8bJnte8qxbg==, tarball: https://npm.pkg.github.com/download/@navikt/oasis/4.1.1/970a0555b93c862b7c7b0919349f48fc8e7de53c}
+  '@navikt/oasis@4.1.4':
+    resolution: {integrity: sha512-v+LW8V5CTiHkfIXhceQ8RXRtrBktCK8wSFYmiR6hmzl9CJRYRLUpFC7YbLiC7jwHIuLHKUyl+Zawf8zQm6fDeQ==, tarball: https://npm.pkg.github.com/download/@navikt/oasis/4.1.4/0d9c93820b9b6d93b1bd9da134feb95461ad8a47}
     engines: {node: ^20.19.0 || >= 22.12.0 || 24.x || 25.x}
 
   '@navikt/pino-logger@4.5.1':
@@ -6077,7 +6077,7 @@ snapshots:
     optionalDependencies:
       pino-roll: 3.1.0
 
-  '@navikt/oasis@4.1.1':
+  '@navikt/oasis@4.1.4':
     dependencies:
       '@navikt/texas': 4.1.4
       '@opentelemetry/api': 1.9.1
