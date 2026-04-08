@@ -16,16 +16,16 @@ This is a **Next.js 16** application (App Router) that lets NAV counselors ("vei
 
 | Command | Purpose |
 |---|---|
-| `npm install` | Install dependencies (requires GitHub PAT for `@navikt` packages) |
-| `npm run build` | Production build |
-| `npm test` | Run all tests once (Vitest) |
-| `npm run test:watch` | Run tests in watch mode |
-| `npm run lint` | Run Biome linter — check for errors before committing |
-| `npm run format:app` | Auto-fix lint/format issues in `src/` |
-| `npm run dev` | Start dev server (with pino-pretty logging) |
-| `npm run storybook` | Start Storybook on port 6006 |
+| `pnpm install` | Install dependencies (requires GitHub PAT for `@navikt` packages) |
+| `pnpm run build` | Production build |
+| `pnpm test` | Run all tests once (Vitest) |
+| `pnpm run test:watch` | Run tests in watch mode |
+| `pnpm run lint` | Run Biome linter — check for errors before committing |
+| `pnpm run format:app` | Auto-fix lint/format issues in `src/` |
+| `pnpm run dev` | Start dev server (with pino-pretty logging) |
+| `pnpm run storybook` | Start Storybook on port 6006 |
 
-**Typical workflow:** make changes → `npm run lint` → `npm test`.
+**Typical workflow:** make changes → `pnpm run lint` → `pnpm test`.
 
 ## Tech Stack
 
@@ -162,7 +162,7 @@ The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome fo
 - **`main` branch** deploys to both dev and prod. Keep it green.
 - **`dev/*` branches** (e.g., `dev/my-feature`) deploy only to dev. Use this prefix for work-in-progress that needs a dev environment.
 - **All other branches** are not deployed automatically — CI runs tests and build only.
-- **Pull requests** should target `main`. Ensure `npm run lint`, `npm test`, and `npm run build` all pass before requesting review.
+- **Pull requests** should target `main`. Ensure `pnpm run lint`, `pnpm test`, and `pnpm run build` all pass before requesting review.
 - **Commit messages** should be descriptive and in English. Reference issue numbers where applicable.
 - **The pre-commit hook** runs `tsc` and `lint-staged` automatically — do not skip it.
 
@@ -243,7 +243,7 @@ The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome fo
 ## Boundaries
 
 ### ✅ Always do
-- Run `npm run lint` and `npm test` before considering work complete.
+- Run `pnpm run lint` and `pnpm test` before considering work complete.
 - Use `authenticatedFetch` for all backend API calls — it handles auth, Modia headers, tracing, and error parsing.
 - Follow the **Page → Wrapper → Component** data fetching pattern when creating or modifying pages.
 - Use the `@/` path alias for imports from `src/`.
@@ -253,7 +253,7 @@ The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome fo
 - Place test files next to the code they test with the `.test.ts` / `.test.tsx` suffix.
 
 ### ⚠️ Ask first
-- Adding new npm dependencies — check if an existing dependency or Aksel component already covers the need.
+- Adding new pnpm dependencies — check if an existing dependency or Aksel component already covers the need.
 - Modifying `authenticatedFetch.ts`, `proxy.ts`, or anything in `src/lib/auth/` — these are security-critical.
 - Changing the root layout (`src/app/layout.tsx`) — it wires up providers, the decorator, and visittkort.
 - Altering NAIS configuration (`.nais/`) or the CI pipeline (`.github/workflows/deploy.yml`).

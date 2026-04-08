@@ -1,1 +1,1 @@
-npx tsc && npx lint-staged
+pnpm exec tsc && pnpm exec lint-staged

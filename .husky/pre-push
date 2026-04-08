@@ -1,1 +1,1 @@
-npx tsc && npm run test:ci
+pnpm exec tsc && pnpm run test:ci
