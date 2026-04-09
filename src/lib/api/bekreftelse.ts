@@ -112,7 +112,7 @@ async function sendBekreftelse({
     });
 
     if (!result.ok) {
-        const { error, problemDetails, status } = result;
+        const { status } = result;
         if (status === 403) {
             return tilgangNektetError();
         }
