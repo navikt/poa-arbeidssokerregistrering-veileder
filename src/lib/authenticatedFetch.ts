@@ -53,7 +53,7 @@ async function authenticatedFetch<T, E = ProblemDetails>(
             if (response.status === 403) {
                 // Les body (om den finnes) så kaller-koden kan skille mellom
                 // ekte tilgangsfeil og domene-avvisninger som backend sender på 403.
-                let rawJson: unknown = undefined;
+                let rawJson: unknown;
                 try {
                     rawJson = await response.json();
                 } catch (_e) {
@@ -80,8 +80,10 @@ async function authenticatedFetch<T, E = ProblemDetails>(
                 };
             }
             let problemDetails: ProblemDetails | null = null;
+            let rawBody: unknown;
             try {
                 const json = await response.json();
+                rawBody = json;
                 if (isProblemDetails(json)) {
                     problemDetails = json;
                 }
@@ -112,6 +114,7 @@ async function authenticatedFetch<T, E = ProblemDetails>(
                 error: new Error(errorMsg),
                 status: response.status,
                 problemDetails: (problemDetails ?? undefined) as E | undefined,
+                rawBody,
             };
         }
         // All good, now parse the ok result
