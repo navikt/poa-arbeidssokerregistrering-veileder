@@ -234,7 +234,8 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('424 Failed Dependency'),
             status: 424,
-            problemDetails: feilV2Body,
+            // FeilV2 matcher ikke isProblemDetails → havner i rawBody, ikke problemDetails
+            rawBody: feilV2Body,
         });
 
         const kanStartePeriode = await importKanStartePeriode();

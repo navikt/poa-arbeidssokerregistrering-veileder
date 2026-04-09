@@ -43,12 +43,12 @@ async function startPeriode(
     });
 
     if (!result.ok) {
-        const { error, problemDetails, rawBody, status } = result;
+        const { error, rawBody, status } = result;
 
         if (status === 403) {
             // Backend sender 403 både for ekte tilgangsfeil (feilKode: 'IKKE_TILGANG')
             // og for domene-avvisninger (feilKode: 'AVVIST', f.eks. UNDER_18_AAR).
-            // Bruk rawBody (uvalidert JSON fra 403) — problemDetails er kun satt ved RFC 9457.
+            // Bruk rawBody (uvalidert JSON fra 403) — inngang-api returnerer FeilV2, ikke RFC 9457.
             const body403: PeriodeFeil | undefined = isKanStartePeriodeFeil(rawBody) ? rawBody : undefined;
             if (body403?.feilKode === 'AVVIST' && body403.aarsakTilAvvisning) {
                 logger.warn({
@@ -63,27 +63,26 @@ async function startPeriode(
             return tilgangNektetError();
         }
 
-        const regler = problemDetails?.aarsakTilAvvisning?.regler?.map((r) => r.id);
+        const feilData = isKanStartePeriodeFeil(rawBody) ? rawBody : undefined;
+        const regler = feilData?.aarsakTilAvvisning?.regler?.map((r) => r.id);
 
         if (regler?.length) {
             logger.warn({
                 message: 'start periode ble avvist',
                 event: erForhandsgodkjent ? 'start_periode_avvist_forhandsgodkjent' : 'start_periode_avvist',
-                feilKode: problemDetails?.feilKode,
+                feilKode: feilData?.feilKode,
                 avvisningsRegler: regler,
             });
         }
 
-        const errorMessage = problemDetails?.melding
-            ? `${problemDetails.feilKode}: ${problemDetails.melding}`
-            : error.message;
+        const errorMessage = feilData?.melding ? `${feilData.feilKode}: ${feilData.melding}` : error.message;
 
         logger.warn({
             message: 'startPeriode feilet',
             event: erForhandsgodkjent ? 'start_periode_feilet_forhandsgodkjent' : 'start_periode_feilet',
         });
 
-        return { ok: false, error: errorMessage, feil: problemDetails };
+        return { ok: false, error: errorMessage, feil: feilData };
     }
 
     logger.info({

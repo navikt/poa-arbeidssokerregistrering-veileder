@@ -37,11 +37,11 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
     });
 
     if (!result.ok) {
-        const { error, problemDetails, rawBody, status } = result;
+        const { error, rawBody, status } = result;
         if (status === 403) {
             // Backend sender 403 både for ekte tilgangsfeil (feilKode: 'IKKE_TILGANG')
             // og for domene-avvisninger (feilKode: 'AVVIST', f.eks. UNDER_18_AAR).
-            // Bruk rawBody (uvalidert JSON fra 403) — problemDetails er kun satt ved RFC 9457.
+            // Bruk rawBody (uvalidert JSON fra 403) — inngang-api returnerer FeilV2, ikke RFC 9457.
             const feil403 = isKanStartePeriodeFeil(rawBody) ? rawBody : undefined;
             if (feil403?.feilKode === 'AVVIST' && feil403.aarsakTilAvvisning) {
                 logger.warn({
@@ -54,7 +54,7 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
             // Ekte tilgangsfeil — ingen strukturert avvisning
             return tilgangNektetError();
         }
-        const feil = isKanStartePeriodeFeil(problemDetails) ? problemDetails : undefined;
+        const feil = isKanStartePeriodeFeil(rawBody) ? rawBody : undefined;
 
         if (feil) {
             logger.warn({
