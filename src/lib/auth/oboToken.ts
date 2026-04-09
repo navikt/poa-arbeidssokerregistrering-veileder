@@ -49,10 +49,14 @@ async function getOboTokenFromRequest(headerList: Headers | ReadonlyHeaders, sco
 
     const result = await requestAzureOboToken(incommingToken, scope);
     if (!result.ok) {
-        logger.error(`Tokenutveksling feilet for ${scope}`);
+        logger.error({
+            message: 'Tokenutveksling feilet',
+            event: 'obo_token_exchange_failed',
+            scope,
+        });
         return {
             ok: false,
-            error: new Error(`Tokenutveksling feilet for OBO med følgende scope: ${scope}`),
+            error: new Error('Autentisering feilet — prøv å laste siden på nytt'),
         };
     }
     return {

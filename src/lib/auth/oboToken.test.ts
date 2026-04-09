@@ -71,7 +71,7 @@ describe('getOboTokenFromRequest', () => {
         expect(result.ok).toBe(false);
         if (!result.ok) {
             const { error } = result as { ok: false; error: Error };
-            expect(error.message).toContain(scope);
+            expect(error.message).toBe('Autentisering feilet — prøv å laste siden på nytt');
         }
     });
 

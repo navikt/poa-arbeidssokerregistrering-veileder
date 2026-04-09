@@ -116,7 +116,7 @@ async function sendBekreftelse({
         if (status === 403) {
             return tilgangNektetError();
         }
-        const errorMessage = problemDetails?.detail ?? error?.message ?? 'Ukjent feil ved innsending av bekreftelse';
+        const errorMessage = 'Noe gikk galt ved innsending av bekreftelse. Prøv igjen senere.';
         logger.warn({
             message: 'sendBekreftelse feilet',
             event: 'send_bekreftelse_feilet',

@@ -87,8 +87,15 @@ async function authenticatedFetch<T, E = ProblemDetails>(
                 }
             } catch (_e) {} // Ignore JSON parse errors
 
-            // - Dersom det ikke er RFC 9457, logg generisk error
-            if (!isProblemDetails(problemDetails)) {
+            if (isProblemDetails(problemDetails)) {
+                logger.error({
+                    message: `Feil fra ${url}: ${problemDetails.status} ${problemDetails.title}`,
+                    event: 'feilrespons_med_problemdetails',
+                    httpStatus: response.status,
+                    problemType: problemDetails.type,
+                    problemDetail: problemDetails.detail,
+                });
+            } else {
                 logger.error({
                     message: `Feil fra ${url}: ${response.status} ${response.statusText}`,
                     event: 'uventet_feilrespons',
@@ -97,7 +104,7 @@ async function authenticatedFetch<T, E = ProblemDetails>(
             }
 
             const errorMsg = isProblemDetails(problemDetails)
-                ? `${problemDetails.status} ${problemDetails.title} - ${problemDetails.type}${problemDetails.detail ? ` - ${problemDetails.detail}` : ''}`
+                ? `${problemDetails.status} ${problemDetails.title}`
                 : `${response.status} ${response.statusText}`;
 
             return {
