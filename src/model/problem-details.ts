@@ -5,13 +5,13 @@ export type ProblemDetails = {
     status: number;
     detail?: string;
     instance: string;
-    timestamp: string;
+    timestamp?: string;
     [key: string]: unknown; // For custom extensions
 };
 
 /**
- * Type guard for å matche et object mot RFC 945 (problem details)
- * som er hva vi får fra oppslag-api
+ * Type guard for å matche et objekt mot RFC 9457 (Problem Details).
+ * Brukes for svar fra oppslag-api og bekreftelse-api.
  */
 export function isProblemDetails(error: unknown): error is ProblemDetails {
     if (error === null || typeof error !== 'object') return false;
@@ -21,7 +21,6 @@ export function isProblemDetails(error: unknown): error is ProblemDetails {
         typeof obj.type === 'string' &&
         typeof obj.title === 'string' &&
         typeof obj.status === 'number' &&
-        typeof obj.instance === 'string' &&
-        typeof obj.timestamp === 'string'
+        typeof obj.instance === 'string'
     );
 }
