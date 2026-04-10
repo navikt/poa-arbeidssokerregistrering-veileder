@@ -28,18 +28,19 @@ async function authenticatedFetch<T, E = ProblemDetails>(
 ): Promise<FetchResult<T, E>> {
     const { url, scope, headers, method = 'GET', body, extraHeaders } = options;
 
+    const traceId = headers.get('x-trace-id') ?? nanoid();
     const oboToken = await getOboTokenFromRequest(headers, scope);
 
     if (!oboToken.ok) {
         logger.warn({
             message: `Feil ved henting av OBO token for scope ${scope}`,
             error: oboToken.error,
+            traceId,
         });
         const { error } = oboToken as { ok: false; error: Error };
         return { ok: false, error };
     }
 
-    const traceId = headers.get('x-trace-id') ?? nanoid();
     const modiaHeader = hentModiaHeaders(oboToken.token, traceId);
 
     try {
@@ -69,6 +70,7 @@ async function authenticatedFetch<T, E = ProblemDetails>(
                     message: `Tilgang nektet fra ${url}: ${response.status} ${response.statusText}`,
                     event: 'tilgang_nektet',
                     httpStatus: 403,
+                    traceId,
                 });
 
                 return {
@@ -96,12 +98,14 @@ async function authenticatedFetch<T, E = ProblemDetails>(
                     httpStatus: response.status,
                     problemType: problemDetails.type,
                     problemDetail: problemDetails.detail,
+                    traceId,
                 });
             } else {
                 logger.error({
                     message: `Feil fra ${url}: ${response.status} ${response.statusText}`,
                     event: 'uventet_feilrespons',
                     httpStatus: response.status,
+                    traceId,
                 });
             }
 
@@ -126,6 +130,7 @@ async function authenticatedFetch<T, E = ProblemDetails>(
         logger.error({
             message: `Fetch mot ${url} kastet exception: ${cause}`,
             event: 'fetch_exception',
+            traceId,
         });
         return { ok: false, error: new Error(`Fetch failed: ${cause}`, { cause: e }) };
     }
