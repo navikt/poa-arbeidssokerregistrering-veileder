@@ -31,7 +31,13 @@ async function hentModiaContext(): Promise<ModiaContext> {
     const oboToken = await getOboTokenFromRequest(headerList, MODIACONTEXTHOLDER_SCOPE);
     if (!oboToken.ok) {
         const { error } = oboToken as { ok: false; error: Error };
-        logger.error(`${error}`);
+        logger.error({
+            message: 'OBO token feilet for modia context',
+            event: 'obo_token_exchange_failed',
+            scope: MODIACONTEXTHOLDER_SCOPE,
+            traceId: callId,
+            error,
+        });
         return DEFAULT_RESPONSE;
     }
 
