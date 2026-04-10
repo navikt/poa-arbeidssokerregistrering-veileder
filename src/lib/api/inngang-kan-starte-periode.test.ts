@@ -39,7 +39,7 @@ describe('kanStartePeriode', () => {
         expect(result).toEqual({ ok: true });
     });
 
-    it('returnerer feil-objekt ved 403 med feilKode AVVIST og UNDER_18_AAR', async () => {
+    it('returnerer avvisningsgrunn når personen er under 18 år', async () => {
         const feilV2Body: KanStartePeriodeFeil = {
             melding: "Avvist, se 'aarsakTilAvvisning' for detaljer",
             feilKode: 'AVVIST',
@@ -71,7 +71,7 @@ describe('kanStartePeriode', () => {
         }
     });
 
-    it('returnerer feil-objekt ved 403 med feilKode AVVIST og flere myke regler', async () => {
+    it('returnerer flere avvisningsregler når flere kriterier ikke er oppfylt', async () => {
         const feilV2Body: KanStartePeriodeFeil = {
             melding: "Avvist, se 'aarsakTilAvvisning' for detaljer",
             feilKode: 'AVVIST',
@@ -105,7 +105,7 @@ describe('kanStartePeriode', () => {
         }
     });
 
-    it('returnerer feil-objekt ved 403 med feilKode AVVIST og harde regler (DOED)', async () => {
+    it('returnerer avvisningsgrunn når personen er registrert som død', async () => {
         const feilV2Body: KanStartePeriodeFeil = {
             melding: "Avvist, se 'aarsakTilAvvisning' for detaljer",
             feilKode: 'AVVIST',
@@ -134,7 +134,7 @@ describe('kanStartePeriode', () => {
         }
     });
 
-    it('returnerer tilgangNektetError ved 403 med feilKode IKKE_TILGANG', async () => {
+    it('returnerer tilgang nektet når veileder ikke har tilgang til personen', async () => {
         const feilV2Body: KanStartePeriodeFeil = {
             melding: 'Ansatt har ikke tilgang til bruker',
             feilKode: 'IKKE_TILGANG',
@@ -162,7 +162,7 @@ describe('kanStartePeriode', () => {
         }
     });
 
-    it('returnerer tilgangNektetError ved 403 uten strukturert body (rawBody undefined)', async () => {
+    it('returnerer tilgang nektet ved 403 uten gjenkjennelig feilrespons', async () => {
         mockAuthenticatedFetch.mockResolvedValue({
             ok: false,
             error: new Error('Tilgang mangler'),
@@ -180,7 +180,7 @@ describe('kanStartePeriode', () => {
         }
     });
 
-    it('returnerer tilgangNektetError ved 403 med ugjenkjennelig body', async () => {
+    it('returnerer tilgang nektet ved 403 med ukjent responsformat', async () => {
         mockAuthenticatedFetch.mockResolvedValue({
             ok: false,
             error: new Error('Tilgang mangler'),
@@ -199,7 +199,7 @@ describe('kanStartePeriode', () => {
         }
     });
 
-    it('returnerer tilgangNektetError ved 403 med feilKode AVVIST men uten aarsakTilAvvisning', async () => {
+    it('returnerer tilgang nektet når avvisning mangler begrunnelse', async () => {
         const feilV2Body: KanStartePeriodeFeil = {
             melding: 'Avvist',
             feilKode: 'AVVIST',
@@ -224,7 +224,7 @@ describe('kanStartePeriode', () => {
         }
     });
 
-    it('håndterer ikke-403 feilresponser med FeilV2-body normalt', async () => {
+    it('returnerer feilkode og melding ved serverfeil fra backend', async () => {
         const feilV2Body: KanStartePeriodeFeil = {
             melding: 'Uventet feil mot ekstern tjeneste',
             feilKode: 'UVENTET_FEIL_MOT_EKSTERN_TJENESTE',
@@ -234,7 +234,7 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('424 Failed Dependency'),
             status: 424,
-            // FeilV2 matcher ikke isProblemDetails → havner i rawBody, ikke problemDetails
+            // Inngang-api bruker et annet responsformat enn RFC 9457 ProblemDetails
             rawBody: feilV2Body,
         });
 
