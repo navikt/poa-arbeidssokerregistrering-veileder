@@ -1,4 +1,4 @@
-import { Sprak } from '@navikt/arbeidssokerregisteret-utils';
+import type { Sprak } from '@navikt/arbeidssokerregisteret-utils';
 
 const norsk = [
     'januar',
