@@ -88,6 +88,7 @@ async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promis
                 // Ignore — tom body eller ikke JSON
             }
 
+            // 403 logges alltid uavhengig av suppressLogForStatuses — tilgangsfeil er alltid relevante.
             if (response.status === 403) {
                 logger.warn({
                     message: `Tilgang nektet fra ${url}: ${response.status} ${response.statusText}`,

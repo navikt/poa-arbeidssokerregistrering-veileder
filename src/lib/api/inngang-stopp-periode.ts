@@ -43,10 +43,6 @@ async function stoppPeriode(identitetsnummer?: string | null): Promise<PeriodeRe
         if (status === 403) {
             return tilgangNektetError();
         }
-        logger.warn({
-            message: 'stoppPeriode feilet',
-            event: 'stopp_periode_feilet',
-        });
         const feil = backendError?.kind === 'feilV2' ? (backendError.rawBody as KanStartePeriodeFeil) : undefined;
         return { ok: false, error: error.message, feil };
     }

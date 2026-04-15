@@ -62,14 +62,20 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
                 try {
                     return NextResponse.json(await response.json(), { status: response.status });
                 } catch (jsonError) {
-                    logger.error(`Kunne ikke parse JSON fra ${targetUrl}: ${jsonError}`);
+                    logger.error({
+                        message: `Kunne ikke parse JSON fra ${targetUrl}`,
+                        error: jsonError instanceof Error ? jsonError.message : String(jsonError),
+                    });
                     return new NextResponse(null, { status: response.status });
                 }
             }
 
             return new NextResponse(null, { status: response.status });
         } catch (error) {
-            logger.error(`Fetch til ${targetUrl} feilet: ${error}`);
+            logger.error({
+                message: `Fetch til ${targetUrl} feilet`,
+                error: error instanceof Error ? error.message : String(error),
+            });
             return NextResponse.json({ message: 'Proxy request feilet', callId }, { status: 502 });
         }
     };
