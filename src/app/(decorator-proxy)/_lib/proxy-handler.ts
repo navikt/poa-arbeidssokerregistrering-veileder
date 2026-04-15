@@ -31,7 +31,7 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
             });
             return NextResponse.json(
                 {
-                    message: `Klarte ikke å hente obo token: ${error}`,
+                    message: 'Autentisering feilet',
                 },
                 { status: 500 },
             );
