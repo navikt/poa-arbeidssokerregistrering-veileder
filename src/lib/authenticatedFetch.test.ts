@@ -88,7 +88,8 @@ describe('authenticatedFetch', () => {
         expect(result.ok).toBe(false);
         if (!result.ok) {
             expect(result.status).toBe(500);
-            expect(result.problemDetails).toEqual(
+            const pd = result.backendError?.kind === 'problemDetails' ? result.backendError.problemDetails : undefined;
+            expect(pd).toEqual(
                 expect.objectContaining({
                     type: 'urn:paw:default:ukjent-feil',
                     status: 500,
@@ -125,7 +126,8 @@ describe('authenticatedFetch', () => {
         expect(result.ok).toBe(false);
         if (!result.ok) {
             expect(result.status).toBe(400);
-            expect(result.problemDetails).toEqual(
+            const pd = result.backendError?.kind === 'problemDetails' ? result.backendError.problemDetails : undefined;
+            expect(pd).toEqual(
                 expect.objectContaining({
                     type: 'urn:paw:http:kunne-ikke-tolke-forespoersel',
                     status: 400,
@@ -303,7 +305,7 @@ describe('authenticatedFetch', () => {
             }
         });
 
-        it('skal returnere rawBody (ikke problemDetails) ved 403 når body ikke er RFC 9457', async () => {
+        it('skal returnere backendError (kind=ukjent) ved 403 når body ikke er RFC 9457 eller FeilV2', async () => {
             mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
             vi.mocked(fetch).mockResolvedValue(
                 new Response(
@@ -325,13 +327,14 @@ describe('authenticatedFetch', () => {
 
             expect(result.ok).toBe(false);
             if (!result.ok) {
-                // Body mangler id, instance, timestamp → ikke RFC 9457 → problemDetails undefined
-                expect(result.problemDetails).toBeUndefined();
-                // rawBody inneholder den rå JSON-bodyen
-                expect(result.rawBody).toBeDefined();
-                const raw = result.rawBody as Record<string, unknown>;
-                expect(raw.type).toBe('urn:paw:sikkerhet:ikke-tilgang');
-                expect(raw.detail).toBe('Bruker har strengt fortrolig adresse og kan ikke vises');
+                // Body mangler id, instance, timestamp → ikke RFC 9457 → kind=ukjent
+                expect(result.backendError?.kind).toBe('ukjent');
+                const raw =
+                    result.backendError?.kind === 'ukjent'
+                        ? (result.backendError.rawBody as Record<string, unknown>)
+                        : undefined;
+                expect(raw?.type).toBe('urn:paw:sikkerhet:ikke-tilgang');
+                expect(raw?.detail).toBe('Bruker har strengt fortrolig adresse og kan ikke vises');
                 // error-meldingen lekker fortsatt IKKE sensitiv info til klienten
                 expect(result.error.message).not.toContain('fortrolig');
                 expect(result.error.message).not.toContain('adresse');
@@ -339,7 +342,7 @@ describe('authenticatedFetch', () => {
             }
         });
 
-        it('skal sette problemDetails ved 403 når body ER RFC 9457', async () => {
+        it('skal sette backendError (kind=problemDetails) ved 403 når body ER RFC 9457', async () => {
             mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
             const rfc9457Body: ProblemDetails = {
                 id: 'abc-123',
@@ -362,16 +365,16 @@ describe('authenticatedFetch', () => {
 
             expect(result.ok).toBe(false);
             if (!result.ok) {
-                // RFC 9457-kompatibel body → problemDetails er satt
-                expect(result.problemDetails).toBeDefined();
-                expect(result.problemDetails?.type).toBe('urn:paw:sikkerhet:ikke-tilgang');
-                // rawBody er også satt (alltid på 403 med JSON-body)
-                expect(result.rawBody).toEqual(rfc9457Body);
+                // RFC 9457-kompatibel body → kind=problemDetails
+                expect(result.backendError?.kind).toBe('problemDetails');
+                const pd =
+                    result.backendError?.kind === 'problemDetails' ? result.backendError.problemDetails : undefined;
+                expect(pd?.type).toBe('urn:paw:sikkerhet:ikke-tilgang');
                 expect(result.error.message).toMatch(/tilgang mangler/i);
             }
         });
 
-        it('skal returnere rawBody med FeilV2-body (feilKode AVVIST) ved 403 — ikke problemDetails', async () => {
+        it('skal returnere backendError (kind=feilV2) med FeilV2-body (feilKode AVVIST) ved 403', async () => {
             mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
             const feilV2Body = {
                 melding: "Avvist, se 'aarsakTilAvvisning' for detaljer",
@@ -396,13 +399,11 @@ describe('authenticatedFetch', () => {
                 expect(result.status).toBe(403);
                 // Generisk melding — ikke lekkasje
                 expect(result.error.message).toMatch(/tilgang mangler/i);
-                // FeilV2-body er IKKE RFC 9457 → problemDetails undefined
-                expect(result.problemDetails).toBeUndefined();
-                // rawBody inneholder den rå FeilV2-bodyen
-                expect(result.rawBody).toBeDefined();
-                const raw = result.rawBody as Record<string, unknown>;
-                expect(raw.feilKode).toBe('AVVIST');
-                expect(raw.aarsakTilAvvisning).toBeDefined();
+                // FeilV2-body → kind=feilV2
+                expect(result.backendError?.kind).toBe('feilV2');
+                const fe = result.backendError?.kind === 'feilV2' ? result.backendError : undefined;
+                expect(fe?.feilKode).toBe('AVVIST');
+                expect(fe?.rawBody).toBeDefined();
             }
         });
 
@@ -441,8 +442,7 @@ describe('authenticatedFetch', () => {
             if (!result.ok) {
                 expect(result.status).toBe(403);
                 expect(result.error.message).toMatch(/tilgang mangler/i);
-                expect(result.problemDetails).toBeUndefined();
-                expect(result.rawBody).toBeUndefined();
+                expect(result.backendError).toBeUndefined();
             }
         });
     });

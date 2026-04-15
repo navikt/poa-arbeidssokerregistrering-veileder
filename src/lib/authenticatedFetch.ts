@@ -4,15 +4,44 @@ import { getOboTokenFromRequest } from '@/lib/auth/oboToken';
 import { hentModiaHeaders } from '@/lib/modia-headers';
 import { isProblemDetails, type ProblemDetails } from '@/model/problem-details';
 
+// --- BackendError discriminated union ---
+// Backends i dette prosjektet returnerer to ulike feilformater:
+//   - FeilV2: brukt av inngang-api (api-start-stopp-perioder)
+//   - ProblemDetails (RFC 9457): brukt av bekreftelse-api og oppslag-api
+
+export type FeilV2Shape = { feilKode: string; melding: string };
+
+export function isFeilV2(value: unknown): value is FeilV2Shape {
+    if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
+    const obj = value as Record<string, unknown>;
+    return typeof obj.feilKode === 'string' && typeof obj.melding === 'string';
+}
+
+export type BackendError =
+    | { kind: 'feilV2'; feilKode: string; melding: string; rawBody: FeilV2Shape }
+    | { kind: 'problemDetails'; problemDetails: ProblemDetails }
+    | { kind: 'ukjent'; rawBody: unknown };
+
+function classifyError(json: unknown): BackendError {
+    if (isProblemDetails(json)) {
+        return { kind: 'problemDetails', problemDetails: json };
+    }
+    if (isFeilV2(json)) {
+        return { kind: 'feilV2', feilKode: json.feilKode, melding: json.melding, rawBody: json };
+    }
+    return { kind: 'ukjent', rawBody: json };
+}
+
+// --- Result types ---
+
 type FetchSuccess<T> = { ok: true; data: T };
-type FetchFailure<E = ProblemDetails> = {
+type FetchFailure = {
     ok: false;
     error: Error;
     status?: number;
-    problemDetails?: E;
-    rawBody?: unknown;
+    backendError?: BackendError;
 };
-type FetchResult<T, E = ProblemDetails> = FetchSuccess<T> | FetchFailure<E>;
+type FetchResult<T> = FetchSuccess<T> | FetchFailure;
 
 type AuthenticatedFetchOptions = {
     url: string;
@@ -23,9 +52,7 @@ type AuthenticatedFetchOptions = {
     extraHeaders?: Record<string, string>;
 };
 
-async function authenticatedFetch<T, E = ProblemDetails>(
-    options: AuthenticatedFetchOptions,
-): Promise<FetchResult<T, E>> {
+async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promise<FetchResult<T>> {
     const { url, scope, headers, method = 'GET', body, extraHeaders } = options;
 
     const traceId = headers.get('x-trace-id') ?? nanoid();
@@ -51,53 +78,44 @@ async function authenticatedFetch<T, E = ProblemDetails>(
         });
 
         if (!response.ok) {
+            let backendError: BackendError | undefined;
+            try {
+                backendError = classifyError(await response.json());
+            } catch (_e) {
+                // Ignore — tom body eller ikke JSON
+            }
+
             if (response.status === 403) {
-                // Les body (om den finnes) så kaller-koden kan skille mellom
-                // ekte tilgangsfeil og domene-avvisninger som backend sender på 403.
-                let rawJson: unknown;
-                try {
-                    rawJson = await response.json();
-                } catch (_e) {
-                    // Ignore — tom body eller ikke JSON
-                }
-
-                // Bare sett problemDetails dersom bodyen faktisk er RFC 9457
-                const problemDetails403: E | undefined = isProblemDetails(rawJson)
-                    ? (rawJson as unknown as E)
-                    : undefined;
-
                 logger.warn({
                     message: `Tilgang nektet fra ${url}: ${response.status} ${response.statusText}`,
                     event: 'tilgang_nektet',
                     httpStatus: 403,
+                    feilKode: backendError?.kind === 'feilV2' ? backendError.feilKode : undefined,
                     traceId,
                 });
-
                 return {
                     ok: false,
                     error: new Error('Tilgang mangler'),
                     status: 403,
-                    problemDetails: problemDetails403,
-                    rawBody: rawJson,
+                    backendError,
                 };
             }
-            let problemDetails: ProblemDetails | null = null;
-            let rawBody: unknown;
-            try {
-                const json = await response.json();
-                rawBody = json;
-                if (isProblemDetails(json)) {
-                    problemDetails = json;
-                }
-            } catch (_e) {} // Ignore JSON parse errors
 
-            if (isProblemDetails(problemDetails)) {
+            if (backendError?.kind === 'problemDetails') {
+                const pd = backendError.problemDetails;
                 logger.error({
-                    message: `Feil fra ${url}: ${problemDetails.status} ${problemDetails.title}`,
+                    message: `Feil fra ${url}: ${pd.status} ${pd.title}`,
                     event: 'feilrespons_med_problemdetails',
                     httpStatus: response.status,
-                    problemType: problemDetails.type,
-                    problemDetail: problemDetails.detail,
+                    problemType: pd.type,
+                    traceId,
+                });
+            } else if (backendError?.kind === 'feilV2') {
+                logger.error({
+                    message: `Feil fra ${url}: ${response.status} ${response.statusText}`,
+                    event: 'feilrespons_feilv2',
+                    httpStatus: response.status,
+                    feilKode: backendError.feilKode,
                     traceId,
                 });
             } else {
@@ -109,19 +127,20 @@ async function authenticatedFetch<T, E = ProblemDetails>(
                 });
             }
 
-            const errorMsg = isProblemDetails(problemDetails)
-                ? `${problemDetails.status} ${problemDetails.title}`
-                : `${response.status} ${response.statusText}`;
+            const errorMsg =
+                backendError?.kind === 'problemDetails'
+                    ? `${backendError.problemDetails.status} ${backendError.problemDetails.title}`
+                    : `${response.status} ${response.statusText}`;
 
             return {
                 ok: false,
                 error: new Error(errorMsg),
                 status: response.status,
-                problemDetails: (problemDetails ?? undefined) as E | undefined,
-                rawBody,
+                backendError,
             };
         }
-        // All good, now parse the ok result
+
+        // All good, parse the success response
         const text = await response.text();
         const data = text ? (JSON.parse(text) as T) : ({} as T);
         return { ok: true, data };
