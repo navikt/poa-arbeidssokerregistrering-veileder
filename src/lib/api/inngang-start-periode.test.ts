@@ -80,7 +80,12 @@ describe('startPeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            rawBody: feilV2Body,
+            backendError: {
+                kind: 'feilV2',
+                feilKode: feilV2Body.feilKode,
+                melding: feilV2Body.melding,
+                rawBody: feilV2Body,
+            },
         });
 
         const startPeriode = await importStartPeriode();
@@ -114,7 +119,12 @@ describe('startPeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            rawBody: feilV2Body,
+            backendError: {
+                kind: 'feilV2',
+                feilKode: feilV2Body.feilKode,
+                melding: feilV2Body.melding,
+                rawBody: feilV2Body,
+            },
         });
 
         const startPeriode = await importStartPeriode();
@@ -132,7 +142,7 @@ describe('startPeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            rawBody: undefined,
+            backendError: undefined,
         });
 
         const startPeriode = await importStartPeriode();
@@ -157,7 +167,12 @@ describe('startPeriode', () => {
             ok: false,
             error: new Error('424 Failed Dependency'),
             status: 424,
-            rawBody: feilV2Body,
+            backendError: {
+                kind: 'feilV2',
+                feilKode: feilV2Body.feilKode,
+                melding: feilV2Body.melding,
+                rawBody: feilV2Body,
+            },
         });
 
         const startPeriode = await importStartPeriode();
@@ -182,7 +197,12 @@ describe('startPeriode', () => {
             ok: false,
             error: new Error('400 Bad Request'),
             status: 400,
-            rawBody: feilV2Body,
+            backendError: {
+                kind: 'feilV2',
+                feilKode: feilV2Body.feilKode,
+                melding: feilV2Body.melding,
+                rawBody: feilV2Body,
+            },
         });
 
         const startPeriode = await importStartPeriode();
@@ -206,7 +226,12 @@ describe('startPeriode', () => {
             ok: false,
             error: new Error('500 Internal Server Error'),
             status: 500,
-            rawBody: feilV2Body,
+            backendError: {
+                kind: 'feilV2',
+                feilKode: feilV2Body.feilKode,
+                melding: feilV2Body.melding,
+                rawBody: feilV2Body,
+            },
         });
 
         const startPeriode = await importStartPeriode();
@@ -225,7 +250,7 @@ describe('startPeriode', () => {
             ok: false,
             error: new Error('500 Internal Server Error'),
             status: 500,
-            rawBody: { unexpected: 'format' },
+            backendError: { kind: 'ukjent', rawBody: { unexpected: 'format' } },
         });
 
         const startPeriode = await importStartPeriode();
@@ -243,7 +268,7 @@ describe('startPeriode', () => {
             ok: false,
             error: new Error('500 Internal Server Error'),
             status: 500,
-            rawBody: undefined,
+            backendError: undefined,
         });
 
         const startPeriode = await importStartPeriode();

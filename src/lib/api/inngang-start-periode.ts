@@ -4,8 +4,8 @@ import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import { tilgangNektetError } from '@/lib/tilgang';
-import type { PeriodeFeil, PeriodeResult, StartStoppPeriodeRequest } from '@/model/inngang-periode';
-import { isKanStartePeriodeFeil } from '@/model/kan-starte-periode';
+import type { PeriodeResult, StartStoppPeriodeRequest } from '@/model/inngang-periode';
+import type { KanStartePeriodeFeil } from '@/model/kan-starte-periode';
 
 const INNGANG_API_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/periode`;
 const INNGANG_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
@@ -34,7 +34,7 @@ async function startPeriode(
         registreringForhaandsGodkjentAvAnsatt: erForhandsgodkjent,
     };
 
-    const result = await authenticatedFetch<Record<string, never>, PeriodeFeil>({
+    const result = await authenticatedFetch<Record<string, never>>({
         url: INNGANG_API_URL,
         scope: INNGANG_API_SCOPE,
         headers: await headers(),
@@ -43,13 +43,13 @@ async function startPeriode(
     });
 
     if (!result.ok) {
-        const { error, rawBody, status } = result;
+        const { error, backendError, status } = result;
 
         if (status === 403) {
-            // Backend sender 403 både for ekte tilgangsfeil (feilKode: 'IKKE_TILGANG')
-            // og for domene-avvisninger (feilKode: 'AVVIST', f.eks. UNDER_18_AAR).
-            // Bruk rawBody (uvalidert JSON fra 403) — inngang-api returnerer FeilV2, ikke RFC 9457.
-            const body403: PeriodeFeil | undefined = isKanStartePeriodeFeil(rawBody) ? rawBody : undefined;
+            // inngang-api sender 403 både for ekte tilgangsfeil (feilKode: IKKE_TILGANG)
+            // og for domene-avvisninger (feilKode: AVVIST, f.eks. UNDER_18_AAR).
+            const body403 =
+                backendError?.kind === 'feilV2' ? (backendError.rawBody as KanStartePeriodeFeil) : undefined;
             if (body403?.feilKode === 'AVVIST' && body403.aarsakTilAvvisning) {
                 logger.warn({
                     message: 'start periode ble avvist (403)',
@@ -59,11 +59,10 @@ async function startPeriode(
                 const errorMessage = body403.melding ? `${body403.feilKode}: ${body403.melding}` : error.message;
                 return { ok: false, error: errorMessage, feil: body403 };
             }
-            // Ekte tilgangsfeil — ingen strukturert avvisning
             return tilgangNektetError();
         }
 
-        const feilData = isKanStartePeriodeFeil(rawBody) ? rawBody : undefined;
+        const feilData = backendError?.kind === 'feilV2' ? (backendError.rawBody as KanStartePeriodeFeil) : undefined;
         const regler = feilData?.aarsakTilAvvisning?.regler?.map((r) => r.id);
 
         if (regler?.length) {
@@ -76,11 +75,6 @@ async function startPeriode(
         }
 
         const errorMessage = feilData?.melding ? `${feilData.feilKode}: ${feilData.melding}` : error.message;
-
-        logger.warn({
-            message: 'startPeriode feilet',
-            event: erForhandsgodkjent ? 'start_periode_feilet_forhandsgodkjent' : 'start_periode_feilet',
-        });
 
         return { ok: false, error: errorMessage, feil: feilData };
     }

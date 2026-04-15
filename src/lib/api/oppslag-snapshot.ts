@@ -46,11 +46,13 @@ async function getSnapshot(identitetsnummer: string | null): Promise<SnapshotRes
     });
 
     if (!result.ok) {
-        const { error, problemDetails, status } = result;
+        const { error, backendError, status } = result;
         if (status === 403) {
             return manglerTilgangResult('snapshot');
         }
-        if (problemDetails?.type === 'urn:paw:perioder:periode-ikke-funnet' || status === 404) {
+        const problemDetailsType =
+            backendError?.kind === 'problemDetails' ? backendError.problemDetails.type : undefined;
+        if (problemDetailsType === 'urn:paw:perioder:periode-ikke-funnet' || status === 404) {
             logger.info({
                 message: 'getSnapshot: periode ikke funnet',
                 event: 'hent_snapshot_ikke_funnet',

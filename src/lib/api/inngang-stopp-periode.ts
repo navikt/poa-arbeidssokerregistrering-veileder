@@ -4,9 +4,10 @@ import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import { tilgangNektetError } from '@/lib/tilgang';
-import type { PeriodeFeil, PeriodeResult, StartStoppPeriodeRequest } from '@/model/inngang-periode';
+import type { PeriodeResult, StartStoppPeriodeRequest } from '@/model/inngang-periode';
+import type { KanStartePeriodeFeil } from '@/model/kan-starte-periode';
 
-const INNGANG_SLETT_PERIODE_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/periode`;
+const INNGANG_STOPP_PERIODE_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/periode`;
 const INNGANG_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
@@ -19,7 +20,7 @@ async function stoppPeriode(identitetsnummer?: string | null): Promise<PeriodeRe
         logger.info(`Mock: stopper periode`);
         return { ok: true };
     }
-    if (!INNGANG_SLETT_PERIODE_URL || !process.env.INNGANG_API_URL) {
+    if (!INNGANG_STOPP_PERIODE_URL || !process.env.INNGANG_API_URL) {
         logger.error('Api-url (stopp-periode) er ikke konfigurert');
         return { ok: false, error: 'API URL mangler i konfigurasjon' };
     }
@@ -29,8 +30,8 @@ async function stoppPeriode(identitetsnummer?: string | null): Promise<PeriodeRe
         periodeTilstand: 'STOPPET',
     };
 
-    const result = await authenticatedFetch<Record<string, never>, PeriodeFeil>({
-        url: INNGANG_SLETT_PERIODE_URL,
+    const result = await authenticatedFetch<Record<string, never>>({
+        url: INNGANG_STOPP_PERIODE_URL,
         scope: INNGANG_API_SCOPE,
         headers: await headers(),
         method: 'PUT',
@@ -38,7 +39,7 @@ async function stoppPeriode(identitetsnummer?: string | null): Promise<PeriodeRe
     });
 
     if (!result.ok) {
-        const { error, problemDetails, status } = result;
+        const { error, backendError, status } = result;
         if (status === 403) {
             return tilgangNektetError();
         }
@@ -46,7 +47,8 @@ async function stoppPeriode(identitetsnummer?: string | null): Promise<PeriodeRe
             message: 'stoppPeriode feilet',
             event: 'stopp_periode_feilet',
         });
-        return { ok: false, error: error.message, feil: problemDetails };
+        const feil = backendError?.kind === 'feilV2' ? (backendError.rawBody as KanStartePeriodeFeil) : undefined;
+        return { ok: false, error: error.message, feil };
     }
 
     logger.info({

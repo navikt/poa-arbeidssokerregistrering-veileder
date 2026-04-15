@@ -53,7 +53,12 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            rawBody: feilV2Body,
+            backendError: {
+                kind: 'feilV2',
+                feilKode: feilV2Body.feilKode,
+                melding: feilV2Body.melding,
+                rawBody: feilV2Body,
+            },
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -91,7 +96,12 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            rawBody: feilV2Body,
+            backendError: {
+                kind: 'feilV2',
+                feilKode: feilV2Body.feilKode,
+                melding: feilV2Body.melding,
+                rawBody: feilV2Body,
+            },
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -119,7 +129,12 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            rawBody: feilV2Body,
+            backendError: {
+                kind: 'feilV2',
+                feilKode: feilV2Body.feilKode,
+                melding: feilV2Body.melding,
+                rawBody: feilV2Body,
+            },
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -148,7 +163,12 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            rawBody: feilV2Body,
+            backendError: {
+                kind: 'feilV2',
+                feilKode: feilV2Body.feilKode,
+                melding: feilV2Body.melding,
+                rawBody: feilV2Body,
+            },
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -167,7 +187,7 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            rawBody: undefined,
+            backendError: undefined,
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -185,7 +205,7 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            rawBody: { message: 'NAV-ansatt har ikke LESE-tilgang til sluttbruker' },
+            backendError: { kind: 'ukjent', rawBody: { message: 'NAV-ansatt har ikke LESE-tilgang til sluttbruker' } },
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -210,7 +230,12 @@ describe('kanStartePeriode', () => {
             ok: false,
             error: new Error('Tilgang mangler'),
             status: 403,
-            rawBody: feilV2Body,
+            backendError: {
+                kind: 'feilV2',
+                feilKode: feilV2Body.feilKode,
+                melding: feilV2Body.melding,
+                rawBody: feilV2Body,
+            },
         });
 
         const kanStartePeriode = await importKanStartePeriode();
@@ -235,7 +260,12 @@ describe('kanStartePeriode', () => {
             error: new Error('424 Failed Dependency'),
             status: 424,
             // Inngang-api bruker et annet responsformat enn RFC 9457 ProblemDetails
-            rawBody: feilV2Body,
+            backendError: {
+                kind: 'feilV2',
+                feilKode: feilV2Body.feilKode,
+                melding: feilV2Body.melding,
+                rawBody: feilV2Body,
+            },
         });
 
         const kanStartePeriode = await importKanStartePeriode();

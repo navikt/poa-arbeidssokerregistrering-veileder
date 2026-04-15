@@ -6,7 +6,6 @@ import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import kanStartePeriodeMock from '@/lib/mocks/kan-starte-periode.json';
 import { tilgangNektetError } from '@/lib/tilgang';
 import type { KanStartePeriodeFeil, KanStartePeriodeResult } from '@/model/kan-starte-periode';
-import { isKanStartePeriodeFeil } from '@/model/kan-starte-periode';
 
 const KAN_STARTE_PERIODE_URL = `${process.env.INNGANG_API_URL}/api/v2/arbeidssoker/kanStartePeriode`;
 const INNGANG_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssokerregisteret-api-inngang/.default`;
@@ -28,7 +27,7 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
         return { ok: false, error: 'API URL mangler i konfigurasjon' };
     }
 
-    const result = await authenticatedFetch<Record<string, never>, KanStartePeriodeFeil>({
+    const result = await authenticatedFetch<Record<string, never>>({
         url: KAN_STARTE_PERIODE_URL,
         scope: INNGANG_API_SCOPE,
         headers: await headers(),
@@ -37,12 +36,12 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
     });
 
     if (!result.ok) {
-        const { error, rawBody, status } = result;
+        const { error, backendError, status } = result;
         if (status === 403) {
-            // Backend sender 403 både for ekte tilgangsfeil (feilKode: 'IKKE_TILGANG')
-            // og for domene-avvisninger (feilKode: 'AVVIST', f.eks. UNDER_18_AAR).
-            // Bruk rawBody (uvalidert JSON fra 403) — inngang-api returnerer FeilV2, ikke RFC 9457.
-            const feil403 = isKanStartePeriodeFeil(rawBody) ? rawBody : undefined;
+            // inngang-api sender 403 både for ekte tilgangsfeil (feilKode: IKKE_TILGANG)
+            // og for domene-avvisninger (feilKode: AVVIST, f.eks. UNDER_18_AAR).
+            const feil403 =
+                backendError?.kind === 'feilV2' ? (backendError.rawBody as KanStartePeriodeFeil) : undefined;
             if (feil403?.feilKode === 'AVVIST' && feil403.aarsakTilAvvisning) {
                 logger.warn({
                     message: 'kanStartePeriode ble avvist (403)',
@@ -51,21 +50,15 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
                 });
                 return { ok: false, error: feil403.melding, feil: feil403 };
             }
-            // Ekte tilgangsfeil — ingen strukturert avvisning
             return tilgangNektetError();
         }
-        const feil = isKanStartePeriodeFeil(rawBody) ? rawBody : undefined;
+        const feil = backendError?.kind === 'feilV2' ? (backendError.rawBody as KanStartePeriodeFeil) : undefined;
 
         if (feil) {
             logger.warn({
                 message: 'kanStartePeriode ble avvist',
                 event: 'kan_starte_periode_avvist',
                 feilKode: feil.feilKode,
-            });
-        } else {
-            logger.warn({
-                message: 'kanStartePeriode feilet',
-                event: 'kan_starte_periode_avvist',
             });
         }
 

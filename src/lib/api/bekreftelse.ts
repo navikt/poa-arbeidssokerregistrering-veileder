@@ -6,7 +6,6 @@ import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import { sorterBekreftelser } from '@/lib/sorter-bekreftelser';
 import { manglerTilgangResult, tilgangNektetError } from '@/lib/tilgang';
-import type { ProblemDetails } from '../../model/problem-details';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const BEKREFTELSER_API_URL = process.env.BEKREFTELSE_API_URL;
@@ -98,7 +97,7 @@ async function sendBekreftelse({
         return { ok: false, error: 'Bekreftelse API URL mangler' };
     }
 
-    const result = await authenticatedFetch<void, ProblemDetails>({
+    const result = await authenticatedFetch<void>({
         url: `${BEKREFTELSER_API_URL}/api/v1/bekreftelse`,
         scope: BEKREFTELSE_API_SCOPE,
         headers: await headers(),
