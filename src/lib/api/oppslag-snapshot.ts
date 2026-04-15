@@ -43,6 +43,7 @@ async function getSnapshot(identitetsnummer: string | null): Promise<SnapshotRes
         headers: await headers(),
         method: 'POST',
         body: { identitetsnummer: identitetsnummer, type: 'IDENTITETSNUMMER' },
+        suppressLogForStatuses: [404],
     });
 
     if (!result.ok) {

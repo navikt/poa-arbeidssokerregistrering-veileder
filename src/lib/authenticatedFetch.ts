@@ -50,10 +50,13 @@ type AuthenticatedFetchOptions = {
     method?: 'GET' | 'POST' | 'PUT';
     body?: unknown;
     extraHeaders?: Record<string, string>;
+    // HTTP-statuskoder som er forventet og ikke skal logges som feil.
+    // Kalleren tar ansvar for logging av disse statusene.
+    suppressLogForStatuses?: number[];
 };
 
 async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promise<FetchResult<T>> {
-    const { url, scope, headers, method = 'GET', body, extraHeaders } = options;
+    const { url, scope, headers, method = 'GET', body, extraHeaders, suppressLogForStatuses = [] } = options;
 
     const traceId = headers.get('x-trace-id') ?? nanoid();
     const oboToken = await getOboTokenFromRequest(headers, scope);
@@ -103,28 +106,34 @@ async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promis
 
             if (backendError?.kind === 'problemDetails') {
                 const pd = backendError.problemDetails;
-                logger.error({
-                    message: `Feil fra ${url}: ${pd.status} ${pd.title}`,
-                    event: 'feilrespons_med_problemdetails',
-                    httpStatus: response.status,
-                    problemType: pd.type,
-                    traceId,
-                });
+                if (!suppressLogForStatuses.includes(response.status)) {
+                    logger.error({
+                        message: `Feil fra ${url}: ${pd.status} ${pd.title}`,
+                        event: 'feilrespons_med_problemdetails',
+                        httpStatus: response.status,
+                        problemType: pd.type,
+                        traceId,
+                    });
+                }
             } else if (backendError?.kind === 'feilV2') {
-                logger.error({
-                    message: `Feil fra ${url}: ${response.status} ${response.statusText}`,
-                    event: 'feilrespons_feilv2',
-                    httpStatus: response.status,
-                    feilKode: backendError.feilKode,
-                    traceId,
-                });
+                if (!suppressLogForStatuses.includes(response.status)) {
+                    logger.error({
+                        message: `Feil fra ${url}: ${response.status} ${response.statusText}`,
+                        event: 'feilrespons_feilv2',
+                        httpStatus: response.status,
+                        feilKode: backendError.feilKode,
+                        traceId,
+                    });
+                }
             } else {
-                logger.error({
-                    message: `Feil fra ${url}: ${response.status} ${response.statusText}`,
-                    event: 'uventet_feilrespons',
-                    httpStatus: response.status,
-                    traceId,
-                });
+                if (!suppressLogForStatuses.includes(response.status)) {
+                    logger.error({
+                        message: `Feil fra ${url}: ${response.status} ${response.statusText}`,
+                        event: 'uventet_feilrespons',
+                        httpStatus: response.status,
+                        traceId,
+                    });
+                }
             }
 
             const errorMsg =
