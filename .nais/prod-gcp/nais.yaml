@@ -33,46 +33,24 @@ spec:
   env:
     - name: SELF_URL
       value: https://arbeidssokerregistrering-for-veileder.intern.nav.no
-    - name: DEKORATOR_URL
-      value: https://dekoratoren.nav.no/
     - name: DEKORATOR_ENV
       value: prod
-    - name: NEXT_PUBLIC_SELF_URL
-      value: https://arbeidssokerregistrering-for-veileder.intern.nav.no
-    - name: NEXT_PUBLIC_AMPLITUDE_API_KEY
-      value: 913768927b84cde5eac0d0d18c737561
-    - name: NEXT_PUBLIC_AMPLITUDE_ENDPOINT
-      value: https://amplitude.nav.no/collect
     - name: NEXT_PUBLIC_ENABLE_MOCK
       value: disabled
     - name: ENABLE_MOCK
       value: disabled
-    - name: NEXT_PUBLIC_DITTNAV_URL
-      value: https://www.nav.no/minside
-    - name: NEXT_PUBLIC_DAGPENGESOKNAD_URL
-      value: https://arbeid.nav.no/dagpenger/dialog/soknad
-    - name: NEXT_PUBLIC_DIALOG_URL
-      value: https://www.nav.no/arbeid/dialog
     - name: PAM_ONTOLOGI_URL
       value: http://pam-ontologi.teampam/rest
     - name: NODE_ENV
       value: production
-    - name: HENT_PROFILERING_URL
-      value: http://veilarbregistrering/veilarbregistrering/api/profilering/
     - name: UNLEASH_SERVER_API_URL
       value: https://paw-unleash-api.nav.cloud.nais.io/api
-    - name: ARBEIDSSOKER_PERIODER_URL
-      value: http://veilarbregistrering/veilarbregistrering/api/arbeidssoker/perioder/niva3
     - name: MODIACONTEXTHOLDER_URL
       value: https://modiacontextholder.intern.nav.no
     - name: MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID
       value: prod-gcp.personoversikt.modiacontextholder
-    - name: INTERNARBEIDSFLATEDEKORATOR_URL
-      value: https://internarbeidsflatedecorator.prod-fss-pub.nais.io
     - name: NEXT_PUBLIC_ASSET_PREFIX
       value: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
-    - name: DECORATOR_URL
-      value: https://internarbeidsflatedecorator.intern.nav.no
     - name: VEILARBOPPFOLGING_URL
       value: http://veilarboppfolging.poao/veilarboppfolging
     - name: VEILARBDIALOG_URL
@@ -95,8 +73,6 @@ spec:
       value: http://paw-arbeidssokerregisteret-api-inngang
     - name: OPPLYSNINGER_API_URL
       value: http://paw-arbeidssokerregisteret-api-inngang
-    - name: OPPSLAG_API_URL
-      value: http://paw-arbeidssoekerregisteret-api-oppslag
     - name: OPPSLAG_API_V2_URL
       value: http://paw-arbeidssoekerregisteret-api-oppslag-v2
     - name: BEKREFTELSE_API_URL

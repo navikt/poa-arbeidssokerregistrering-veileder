@@ -45,7 +45,7 @@ describe('proxy', () => {
     });
 
     it('skal sette riktig redirect-url', async () => {
-        vi.stubEnv('NEXT_PUBLIC_SELF_URL', 'https://www.nav.no');
+        vi.stubEnv('SELF_URL', 'https://www.nav.no');
         mockValidateToken.mockResolvedValue({
             ok: false,
             error: new Error('Expired'),

@@ -18,7 +18,7 @@ export async function proxy(request: NextRequest) {
                 cause: tokenValidationResult.error,
             }),
         );
-        const selfUrl = process.env.NEXT_PUBLIC_SELF_URL || request.nextUrl.origin;
+        const selfUrl = process.env.SELF_URL || request.nextUrl.origin;
         const loginUrl = new URL(`/oauth2/login`, request.url);
         loginUrl.searchParams.set('redirect', selfUrl);
         return NextResponse.redirect(loginUrl);
