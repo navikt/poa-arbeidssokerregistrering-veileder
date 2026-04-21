@@ -47,6 +47,17 @@ const nextConfig = {
                 has: [
                     {
                         type: 'host',
+                        value: 'arbeidssokerregistrering-for-veileder.ansatt.dev.nav.no',
+                    },
+                ],
+                destination: 'https://veilarbportefoljeflate.intern.dev.nav.no/:path*',
+                permanent: true,
+            },
+            {
+                source: '/veilarbportefoljeflatefs/:path*',
+                has: [
+                    {
+                        type: 'host',
                         value: 'arbeidssokerregistrering-for-veileder.intern.nav.no',
                     },
                 ],
