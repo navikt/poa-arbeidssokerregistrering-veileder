@@ -1,6 +1,7 @@
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import type { Hendelse, Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import type React from 'react';
+import { HendelseHelpText } from '@/app/historikk/components/HendelseHelpText';
 import { HistorikkHeading } from '@/app/historikk/components/HistorikkHeading';
 import { getSourceString } from '@/app/historikk/components/helpers';
 import { Bekreftelse } from '@/app/historikk/components/hendelseTyper/bekreftelse';
@@ -15,6 +16,14 @@ import { prettyPrintDatoOgKlokkeslettKortform } from '@/lib/date-utils';
 type HistorikkProps = {
     periode: Periode;
 };
+
+function getHendelseModifier(hendelse: Hendelse): string | undefined {
+    if (hendelse.type === 'PAA_VEGNE_AV_STOPP_V1' && hendelse.fristBrutt) {
+        return 'FRIST_BRUTT';
+    }
+    return undefined;
+}
+
 /**
  * Historikk viser alle hendelser som har skjedd for en person baset på data fra perioder
  */
@@ -53,6 +62,11 @@ const HistorikkPeriode: React.FC<HistorikkProps> = (props) => {
                             <h3 className='whitespace-nowrap ax-sm:border-l-2 border-ax-neutral-700 ax-sm:pl-3 flex items-center gap-2'>
                                 {getItemTitle(hendelse)}
                             </h3>
+                            <HendelseHelpText
+                                type={hendelse.type}
+                                source={getSourceString(hendelse)}
+                                modifier={getHendelseModifier(hendelse)}
+                            />
                             <Source source={getSourceString(hendelse)} />
                         </div>
                         {hendelse.type === 'OPPLYSNINGER_V4' && <Opplysninger opplysninger={hendelse} />}
