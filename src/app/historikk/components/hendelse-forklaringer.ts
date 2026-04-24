@@ -32,7 +32,7 @@ const HENDELSE_FORKLARINGER: Record<string, string> = {
 
     // --- På vegne av stoppet (frist brutt) ---
     'PAA_VEGNE_AV_STOPP_V1::DAGPENGER::FRIST_BRUTT':
-        'Bekreftelsesfristen ble brutt. Personen bekreftet ikke arbeidssøkerstatusen via meldekortet til Dagpenger innen fristen. Dagpenger har gitt tilbake ansvaret til Arbeidssøkerregisteret, og arbeidssøkerperioden kan ha blitt avsluttet som følge av dette.',
+        'Bekreftelsesfristen ble brutt. Personen bekreftet ikke arbeidssøkerstatusen via meldekortet til Dagpenger innen fristen. Dagpenger har gitt tilbake ansvaret til Arbeidssøkerregisteret, og arbeidssøkerperioden har blitt avsluttet som følge av dette.',
 
     'PAA_VEGNE_AV_STOPP_V1::FRISKMELDT_TIL_ARBEIDSFORMIDLING::FRIST_BRUTT':
         'Bekreftelsesfristen ble brutt. Personen bekreftet ikke arbeidssøkerstatusen via Sykepenger innen fristen. Sykepenger har gitt tilbake ansvaret til Arbeidssøkerregisteret, og arbeidssøkerperioden kan ha blitt avsluttet som følge av dette.',
