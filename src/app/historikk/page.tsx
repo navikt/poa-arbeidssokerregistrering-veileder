@@ -16,7 +16,7 @@ export default async function HistorikkPage() {
             <Heading size={'large'} className='mb-4'>
                 Historikk for arbeidssøker
             </Heading>
-            <div className={'flex flex-col max-w-3xl'}>
+            <div className={'flex flex-col'}>
                 <Suspense fallback={<LoaderSkeleton />}>
                     <HistorikkWrapper initialPerioderPromise={perioderPromise} />
                 </Suspense>
