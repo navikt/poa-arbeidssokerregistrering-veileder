@@ -1,11 +1,88 @@
 version: 2
 updates:
-  # Enable version updates for npm
-  - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/"
-    # Check the npm registry for updates once a week.
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Oslo
     cooldown:
       default-days: 7
+      semver-major-days: 14
+    open-pull-requests-limit: 10
+    groups:
+      # NAV-pakker (Aksel, utils) — beveger seg ofte i takt
+      nav-pakker:
+        patterns:
+          - "@navikt/*"
+        update-types:
+          - minor
+          - patch
+      # Storybook og komponentutvikling
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - "storybook"
+          - "@chromatic-com/*"
+          - "msw-storybook-addon"
+        update-types:
+          - minor
+          - patch
+      # Testverktøy
+      testing:
+        patterns:
+          - "vitest"
+          - "@testing-library/*"
+          - "jsdom"
+          - "msw"
+        update-types:
+          - minor
+          - patch
+      # CSS-pipeline
+      styling:
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/*"
+          - "postcss"
+        update-types:
+          - minor
+          - patch
+      # TypeScript og type-definisjoner
+      typescript-og-typer:
+        patterns:
+          - "typescript"
+          - "@types/*"
+        update-types:
+          - minor
+          - patch
+      # Dev-verktøy uten runtime-påvirkning
+      dev-verktoy:
+        patterns:
+          - "@biomejs/biome"
+          - "husky"
+          - "lint-staged"
+          - "knip"
+          - "pino-pretty"
+          - "loadjs"
+          - "nanoid"
+        update-types:
+          - minor
+          - patch
+    # next, react, react-dom, @grafana/faro-web-sdk og @unleash/nextjs
+    # er bevisst ikke gruppert — vurderes individuelt pga. breaking changes
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Oslo
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        patterns:
+          - "*"
