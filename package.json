@@ -28,7 +28,7 @@
         "@unleash/nextjs": "1.6.4",
         "loadjs": "4.3.0",
         "nanoid": "5.1.6",
-        "next": "16.2.3",
+        "next": "16.2.4",
         "pino": "10.3.1",
         "react": "19.2.4",
         "react-dom": "19.2.4"
