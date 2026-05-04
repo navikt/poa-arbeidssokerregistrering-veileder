@@ -100,7 +100,7 @@ async function renderBekreftelse(result: BekreftelseApiResult) {
 }
 
 function velgRadio(legend: string | RegExp, value: string) {
-    const fieldset = screen.getByRole('group', { name: legend });
+    const fieldset = screen.getByRole('radiogroup', { name: legend });
     const radio = Array.from(fieldset.querySelectorAll('input[type="radio"]')).find(
         (r) => (r as HTMLInputElement).value === value,
     ) as HTMLInputElement;
