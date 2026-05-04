@@ -1,6 +1,7 @@
 import {
     type DinSituasjon,
     type JaEllerNei,
+    type SisteJobb,
     type SisteStillingValg,
     SporsmalId,
     type UtdanningGodkjentValg,
@@ -13,12 +14,6 @@ export enum RegistreringType {
     SYKMELDT_REGISTRERING = 'SYKMELDT_REGISTRERING',
     ORDINAER_REGISTRERING = 'ORDINAER_REGISTRERING',
 }
-
-type SisteJobb = {
-    label: string;
-    konseptId: any;
-    styrk08: string;
-};
 
 export interface RegistreringState {
     [SporsmalId.dinSituasjon]?: DinSituasjon;
