@@ -43,10 +43,10 @@ const prettyPrintDato = (dato: string, locale?: Sprak, visAar?: boolean) => {
     const month = monthNames[valgtSprak][date.getMonth()];
 
     if (valgtSprak === 'en') {
-        return `${month} ${date.getDate()}.${visAar || thisYear !== year ? ' ' + year : ''}`;
+        return `${month} ${date.getDate()}.${visAar || thisYear !== year ? ` ${year}` : ''}`;
     }
 
-    return `${date.getDate()}. ${month}${visAar || thisYear !== year ? ' ' + year : ''}`;
+    return `${date.getDate()}. ${month}${visAar || thisYear !== year ? ` ${year}` : ''}`;
 };
 
 function formaterDato(
@@ -70,10 +70,10 @@ function prettyPrintDatoOgKlokkeslett(dato: string, locale?: Sprak, visAar?: boo
     const month = monthNames[valgtSprak][date.getMonth()];
 
     if (valgtSprak === 'en') {
-        return `${month} ${date.getDate()}.${visAar || thisYear !== year ? ' ' + year : ''} at {timer.toString().length === 1 ? '0': ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
+        return `${month} ${date.getDate()}.${visAar || thisYear !== year ? ` ${year}` : ''} at {timer.toString().length === 1 ? '0': ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
     }
 
-    return `${date.getDate()}. ${month}${visAar || thisYear !== year ? ' ' + year : ''} klokken ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
+    return `${date.getDate()}. ${month}${visAar || thisYear !== year ? ` ${year}` : ''} klokken ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
 }
 
 function prettyPrintDatoOgKlokkeslettKortform(dato: string, locale?: Sprak, visAar?: boolean) {
@@ -88,10 +88,10 @@ function prettyPrintDatoOgKlokkeslettKortform(dato: string, locale?: Sprak, visA
     const maaned = date.getMonth() + 1;
 
     if (valgtSprak === 'en') {
-        return `${month} ${date.getDate()}.${visAar || thisYear !== year ? ' ' + year : ''} at {timer.toString().length === 1 ? '0': ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
+        return `${month} ${date.getDate()}.${visAar || thisYear !== year ? ` ${year}` : ''} at {timer.toString().length === 1 ? '0': ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
     }
 
-    return `${date.getDate().toString().padStart(2, '0')}.${maaned.toString().padStart(2, '0')}${visAar || thisYear !== year ? '.' + year : ''} ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
+    return `${date.getDate().toString().padStart(2, '0')}.${maaned.toString().padStart(2, '0')}${visAar || thisYear !== year ? `.${year}` : ''} ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
 }
 
 export { prettyPrintDato, prettyPrintDatoOgKlokkeslett, prettyPrintDatoOgKlokkeslettKortform, formaterDato };
