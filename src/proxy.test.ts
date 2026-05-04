@@ -53,7 +53,9 @@ describe('proxy', () => {
         });
         const request = createRequest('/tidslinjer');
         const response = await proxy(request);
-        const location = new URL(response.headers.get('location')!);
+        const locationHeader = response.headers.get('location');
+        expect(locationHeader).not.toBeNull();
+        const location = new URL(locationHeader ?? '');
         expect(location.pathname).toBe('/oauth2/login');
         expect(location.searchParams.get('redirect')).toBe('https://www.nav.no');
     });
