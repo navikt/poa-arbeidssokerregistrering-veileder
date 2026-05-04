@@ -17,7 +17,7 @@
         "format:app": "biome check --write src"
     },
     "dependencies": {
-        "@grafana/faro-web-sdk": "2.2.0",
+        "@grafana/faro-web-sdk": "2.4.0",
         "@navikt/aksel-icons": "8.10.2",
         "@navikt/arbeidssokerregisteret-utils": "2.1.0",
         "@navikt/ds-css": "8.10.2",
