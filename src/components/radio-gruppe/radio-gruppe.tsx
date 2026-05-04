@@ -6,7 +6,7 @@ interface RadioGruppeProps {
         tekst: string;
         value: string;
     }[];
-    onSelect?: (val: any) => void;
+    onSelect?: (val: string) => void;
     valgt?: string;
     visFeilmelding?: boolean;
     legend?: string;
