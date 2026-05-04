@@ -1,3 +1,19 @@
+# ──────────────────────────────────────────────────────────────
+# Dependabot-strategi
+#
+# Pakker grupperes etter domene (minor + patch) → færre PRer.
+# Major-oppdateringer er bevisst ikke gruppert → individuell
+# vurdering av breaking changes.
+#
+# Kjernerammeverk (next, react, react-dom, unleash, faro) er
+# ikke gruppert — disse bør alltid vurderes for seg selv.
+#
+# Dersom én pakke i en gruppe-PR feiler i CI:
+#   1. Finn pakken i CI-loggen
+#   2. Kommenter i PR-en: @dependabot exclude [pakkenavn]
+#   3. Dependabot trekker pakken ut som egen PR
+#   4. Merge gruppe-PR-en, løs den separate PR-en for seg
+# ──────────────────────────────────────────────────────────────
 version: 2
 updates:
   - package-ecosystem: npm
