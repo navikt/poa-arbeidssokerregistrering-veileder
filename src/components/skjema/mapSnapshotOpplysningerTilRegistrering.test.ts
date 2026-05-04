@@ -210,9 +210,10 @@ describe('mapOpplysningerTilInitState', () => {
         });
 
         it('faller tilbake til INGEN_SVAR når jobbsituasjon.beskrivelser er tom', () => {
-            const opplysning = lagOpplysning({ beskrivelse: 'HAR_BLITT_SAGT_OPP' });
-            // Override to have no beskrivelser
-            (opplysning as any).jobbsituasjon.beskrivelser = [];
+            const opplysning = {
+                ...lagOpplysning({ beskrivelse: 'HAR_BLITT_SAGT_OPP' }),
+                jobbsituasjon: { beskrivelser: [] },
+            } as unknown as OpplysningerHendelse;
 
             const result = mapOpplysningerTilInitState(opplysning, aaregUtenData);
             expect(result[SporsmalId.dinSituasjon]).toBe(DinSituasjon.INGEN_SVAR);
@@ -239,9 +240,10 @@ describe('mapOpplysningerTilInitState', () => {
         });
 
         it('faller tilbake til INGEN_SVAR for manglende utdanning-felter', () => {
-            const opplysning = lagOpplysning({ beskrivelse: 'HAR_BLITT_SAGT_OPP' });
-            // Override utdanning to be missing godkjent/bestaatt
-            (opplysning as any).utdanning = { nus: '9' };
+            const opplysning = {
+                ...lagOpplysning({ beskrivelse: 'HAR_BLITT_SAGT_OPP' }),
+                utdanning: { nus: '9' },
+            } as unknown as OpplysningerHendelse;
 
             const result = mapOpplysningerTilInitState(opplysning, aaregUtenData);
 
