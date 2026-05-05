@@ -5,8 +5,11 @@
 # Major-oppdateringer er bevisst ikke gruppert → individuell
 # vurdering av breaking changes.
 #
-# Kjernerammeverk (next, react, react-dom, unleash, faro) er
-# ikke gruppert — disse bør alltid vurderes for seg selv.
+# react og react-dom versjonerer alltid i lockstep og er gruppert
+# sammen med sine @types-pakker. De bør aldri oppdateres separat.
+#
+# next, @unleash/nextjs og @grafana/faro-web-sdk er ikke gruppert
+# — disse bør alltid vurderes for seg selv pga. breaking changes.
 #
 # Dersom én pakke i en gruppe-PR feiler i CI:
 #   1. Finn pakken i CI-loggen
@@ -28,6 +31,17 @@ updates:
       semver-major-days: 14
     open-pull-requests-limit: 10
     groups:
+      # React-pakker — react og react-dom versjonerer alltid i lockstep
+      # og må aldri havne på ulike versjoner
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+        update-types:
+          - minor
+          - patch
       # NAV-pakker (Aksel, utils) — beveger seg ofte i takt
       nav-pakker:
         patterns:
@@ -85,7 +99,7 @@ updates:
         update-types:
           - minor
           - patch
-    # next, react, react-dom, @grafana/faro-web-sdk og @unleash/nextjs
+    # next, @grafana/faro-web-sdk og @unleash/nextjs
     # er bevisst ikke gruppert — vurderes individuelt pga. breaking changes
 
   - package-ecosystem: github-actions
