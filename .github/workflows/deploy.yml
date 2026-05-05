@@ -18,15 +18,15 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
 
             - name: Set up pnpm
-              uses: pnpm/action-setup@v4
+              uses: pnpm/action-setup@v6.0.3
               with:
                   run_install: false
 
             - name: Set up node
-              uses: actions/setup-node@v5
+              uses: actions/setup-node@v6
               with:
                   node-version: '24.13.0'
                   registry-url: 'https://npm.pkg.github.com'
@@ -39,7 +39,7 @@ jobs:
               id: pnpm-cache
 
             - name: Setup pnpm cache
-              uses: actions/cache@v4
+              uses: actions/cache@v5
               with:
                   path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
                   key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -93,7 +93,7 @@ jobs:
         timeout-minutes: 7
         steps:
             - name: Checkout
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
             - name: Deploy
               uses: nais/deploy/actions/deploy@v2
               env:
@@ -112,7 +112,7 @@ jobs:
         timeout-minutes: 7
         steps:
             - name: Checkout
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
             - name: Deploy
               uses: nais/deploy/actions/deploy@v2
               env:
@@ -131,7 +131,7 @@ jobs:
         timeout-minutes: 7
         steps:
             - name: Checkout
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
             - name: Deploy
               uses: nais/deploy/actions/deploy@v2
               env:
@@ -149,7 +149,7 @@ jobs:
         needs: [test-and-build-cdn-docker]
         steps:
             - name: Checkout code
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
             - name: deploy to dev
               uses: nais/deploy/actions/deploy@v2
               env:
