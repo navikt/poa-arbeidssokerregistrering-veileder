@@ -37,4 +37,5 @@ function HvaErNytt() {
         </ReadMore>
     );
 }
+
 export { HvaErNytt };

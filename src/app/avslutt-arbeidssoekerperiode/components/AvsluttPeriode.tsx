@@ -45,4 +45,5 @@ function AvsluttPeriode() {
         </Box>
     );
 }
+
 export { AvsluttPeriode };

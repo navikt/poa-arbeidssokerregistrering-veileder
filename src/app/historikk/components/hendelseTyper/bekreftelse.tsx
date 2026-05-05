@@ -9,7 +9,7 @@ type SporsmalSvar = {
 };
 
 function mapBekreftelse(bekreftelse: BekreftelseHendelse): SporsmalSvar[] {
-    if (!bekreftelse || !bekreftelse.svar) {
+    if (!bekreftelse?.svar) {
         return [];
     }
     const arr: SporsmalSvar[] = [

@@ -50,4 +50,5 @@ function IkkeAktivPeriode({ avsluttetHendelse }: IkkeAktivPeriodeProps) {
         </>
     );
 }
+
 export { IkkeAktivPeriode };

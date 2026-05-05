@@ -12,4 +12,5 @@ function TilbakeTilForside(props: TilbakeTilForsideProps) {
         </BodyLong>
     );
 }
+
 export { TilbakeTilForside };

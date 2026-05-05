@@ -51,4 +51,5 @@ function RegistrerArbeidssoeker({ snapshotPromise, sisteArbeidsforholdPromise }:
         </div>
     );
 }
+
 export { RegistrerArbeidssoeker };

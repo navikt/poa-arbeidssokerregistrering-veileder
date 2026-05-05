@@ -50,9 +50,9 @@ const HistorikkPeriode: React.FC<HistorikkProps> = (props) => {
             <HistorikkHeading periode={periode} />
             {periode.hendelser
                 .filter((hendelse) => filters.includes(hendelse.type))
-                .map((hendelse, index) => (
+                .map((hendelse) => (
                     <article
-                        key={`${index}-${hendelse.tidspunkt}`}
+                        key={`${hendelse.tidspunkt}_${hendelse.type}`}
                         className='flex flex-col gap-2 bg-ax-neutral-100/40 mb-4 p-4 rounded-md shadow print:border-b print:rounded-none'
                     >
                         <div className='grid ax-sm:flex ax-sm:flex-wrap gap-2'>

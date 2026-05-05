@@ -13,7 +13,7 @@ type TilbyOpplysningerFraGammelPeriodeProps = {
 function TilbyOpplysningerFraGammelPeriode({ snapshot, onBrukSistPeriode }: TilbyOpplysningerFraGammelPeriodeProps) {
     // TODO: skal du kunne hente fra pågående periode, aka kan du registrere ny periode mens du har en pågående?
     // Dette sjekkes vel også i registrering-arbeidssoeker-sjekk
-    if (!snapshot || !snapshot.avsluttet) return null;
+    if (!snapshot?.avsluttet) return null;
 
     return (
         <Alert variant={'info'} className={'mb-4'}>
@@ -30,4 +30,5 @@ function TilbyOpplysningerFraGammelPeriode({ snapshot, onBrukSistPeriode }: Tilb
         </Alert>
     );
 }
+
 export { TilbyOpplysningerFraGammelPeriode };

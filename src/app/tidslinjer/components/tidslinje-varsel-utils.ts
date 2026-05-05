@@ -31,4 +31,4 @@ function skalHaSoppelbotte(hendelser: Hendelse[]) {
     return hendelser.some((el) => el.type === 'PERIODE_AVSLUTTET_V1' && el.sendtInnAv.aarsak === PERIODE_SLETTET);
 }
 
-export { skalHaVarseltrekant, skalHaSoppelbotte };
+export { skalHaSoppelbotte, skalHaVarseltrekant };

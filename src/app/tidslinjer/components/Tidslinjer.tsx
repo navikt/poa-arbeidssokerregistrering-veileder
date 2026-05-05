@@ -56,8 +56,11 @@ const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {periode.hendelser.toReversed().map((hendelse, i) => (
-                                    <HendelseVisning key={`${periode.periodeId}_${i}`} hendelse={hendelse} />
+                                {periode.hendelser.toReversed().map((hendelse) => (
+                                    <HendelseVisning
+                                        key={`${periode.periodeId}_${hendelse.type}_${hendelse.tidspunkt}`}
+                                        hendelse={hendelse}
+                                    />
                                 ))}
                             </TableBody>
                         </Table>

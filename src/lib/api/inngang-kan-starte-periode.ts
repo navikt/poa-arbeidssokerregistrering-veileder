@@ -72,4 +72,5 @@ async function kanStartePeriode(identitetsnummer?: string | null): Promise<KanSt
 
     return { ok: true };
 }
+
 export { kanStartePeriode };
