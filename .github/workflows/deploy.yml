@@ -18,15 +18,17 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v6
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+              with:
+                  persist-credentials: false
 
             - name: Set up pnpm
-              uses: pnpm/action-setup@v6.0.3
+              uses: pnpm/action-setup@903f9c1a6ebcba6cf41d87230be49611ac97822e # v6.0.3
               with:
                   run_install: false
 
             - name: Set up node
-              uses: actions/setup-node@v6
+              uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
               with:
                   node-version: '24.13.0'
                   registry-url: 'https://npm.pkg.github.com'
@@ -39,7 +41,7 @@ jobs:
               id: pnpm-cache
 
             - name: Setup pnpm cache
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
               with:
                   path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
                   key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -64,7 +66,7 @@ jobs:
                   NEXT_PUBLIC_ASSET_PREFIX: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
 
             - name: Upload static files to NAV CDN
-              uses: nais/deploy/actions/cdn-upload/v2@master
+              uses: nais/deploy/actions/cdn-upload/v2@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
               with:
                   team: paw
                   source: ./.next/static
@@ -73,7 +75,7 @@ jobs:
                   project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
             - name: docker-build-push
-              uses: nais/docker-build-push@v0
+              uses: nais/docker-build-push@be85229e81c0293c265c646c084f05317fb6e0d2 # v0
               id: docker-build-push
               with:
                   team: paw
@@ -93,9 +95,11 @@ jobs:
         timeout-minutes: 7
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+              with:
+                  persist-credentials: false
             - name: Deploy
-              uses: nais/deploy/actions/deploy@v2
+              uses: nais/deploy/actions/deploy@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
               env:
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/dev-gcp/nais.yaml
@@ -112,9 +116,11 @@ jobs:
         timeout-minutes: 7
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+              with:
+                  persist-credentials: false
             - name: Deploy
-              uses: nais/deploy/actions/deploy@v2
+              uses: nais/deploy/actions/deploy@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
               env:
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/demo.yaml
@@ -131,9 +137,11 @@ jobs:
         timeout-minutes: 7
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+              with:
+                  persist-credentials: false
             - name: Deploy
-              uses: nais/deploy/actions/deploy@v2
+              uses: nais/deploy/actions/deploy@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
               env:
                   CLUSTER: prod-gcp
                   RESOURCE: .nais/prod-gcp/nais.yaml
@@ -149,14 +157,16 @@ jobs:
         needs: [test-and-build-cdn-docker]
         steps:
             - name: Checkout code
-              uses: actions/checkout@v6
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+              with:
+                  persist-credentials: false
             - name: deploy to dev
-              uses: nais/deploy/actions/deploy@v2
+              uses: nais/deploy/actions/deploy@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
               env:
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/dev-gcp/unleash-apitoken.yaml
             - name: deploy to prod
-              uses: nais/deploy/actions/deploy@v2
+              uses: nais/deploy/actions/deploy@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
               env:
                   CLUSTER: prod-gcp
                   RESOURCE: .nais/prod-gcp/unleash-apitoken.yaml
