@@ -43,4 +43,5 @@ function OppdaterOpplysningerWrapper({
         </Suspense>
     );
 }
+
 export { OppdaterOpplysningerWrapper };

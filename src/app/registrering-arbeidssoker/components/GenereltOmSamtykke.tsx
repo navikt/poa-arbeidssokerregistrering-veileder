@@ -22,4 +22,5 @@ function GenereltOmSamtykke() {
         </Box>
     );
 }
+
 export { GenereltOmSamtykke };

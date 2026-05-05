@@ -94,4 +94,4 @@ function prettyPrintDatoOgKlokkeslettKortform(dato: string, locale?: Sprak, visA
     return `${date.getDate().toString().padStart(2, '0')}.${maaned.toString().padStart(2, '0')}${visAar || thisYear !== year ? `.${year}` : ''} ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
 }
 
-export { prettyPrintDato, prettyPrintDatoOgKlokkeslett, prettyPrintDatoOgKlokkeslettKortform, formaterDato };
+export { formaterDato, prettyPrintDato, prettyPrintDatoOgKlokkeslett, prettyPrintDatoOgKlokkeslettKortform };

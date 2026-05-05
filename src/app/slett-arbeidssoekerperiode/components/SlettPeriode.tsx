@@ -55,4 +55,5 @@ function SlettPeriode() {
         </Box>
     );
 }
+
 export { SlettPeriode };

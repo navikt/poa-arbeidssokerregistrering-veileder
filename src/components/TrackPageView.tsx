@@ -14,4 +14,5 @@ function TrackPageView({ data }: TrackPageViewProps) {
     }, [viser]);
     return null;
 }
+
 export { TrackPageView };

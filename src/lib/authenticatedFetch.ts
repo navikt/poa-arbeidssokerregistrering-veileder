@@ -165,5 +165,5 @@ async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promis
     }
 }
 
+export type { AuthenticatedFetchOptions, FetchFailure, FetchResult, FetchSuccess };
 export { authenticatedFetch };
-export type { FetchResult, FetchSuccess, FetchFailure, AuthenticatedFetchOptions };

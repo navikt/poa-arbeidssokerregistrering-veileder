@@ -27,4 +27,5 @@ function OppdaterOpplysninger({ snapshotPromise, sisteArbeidsforholdPromise }: O
 
     return <OpplysningerSkjema initState={initState} mode='oppdater' />;
 }
+
 export { OppdaterOpplysninger };

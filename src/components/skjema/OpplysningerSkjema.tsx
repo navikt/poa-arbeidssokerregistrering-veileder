@@ -141,4 +141,5 @@ function OpplysningerSkjema({ initState, mode }: OpplysningerSkjemaProps) {
         </div>
     );
 }
+
 export { OpplysningerSkjema };

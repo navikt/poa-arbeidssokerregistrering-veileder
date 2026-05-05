@@ -38,7 +38,7 @@ function isValidDate(value: unknown): value is Date {
 }
 
 export const getFormatedDateString = (timestamp: string | null | undefined): string | null => {
-    if (!timestamp || !timestamp.trim()) return null;
+    if (!timestamp?.trim()) return null;
     const date = new Date(timestamp);
     return isValidDate(date) ? NORSK_DATO_FORMAT.format(date) : null;
 };
