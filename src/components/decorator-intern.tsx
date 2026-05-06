@@ -23,7 +23,6 @@ const InternflateDecorator: React.FC<{
 
     const handleFnrChanged = useCallback(
         (event: CustomEvent<FnrChangedDetail>) => {
-            // 🔴 Rød sone — forstå denne logikken grundig:
             const { fnr: nyttFnr } = event.detail;
             if (typeof nyttFnr === 'string' && nyttFnr.length > 0) {
                 setFnr(nyttFnr);
