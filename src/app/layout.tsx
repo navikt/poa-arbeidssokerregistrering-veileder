@@ -10,6 +10,8 @@ import { ModiaProvider } from '../contexts/modia-context';
 
 const enableMock = process.env.NEXT_PUBLIC_ENABLE_MOCK === 'enabled';
 const decoratorEnv = process.env.DEKORATOR_ENV ?? 'q2';
+const cdnEnv = decoratorEnv === 'prod' ? 'prod' : 'dev';
+const decoratorScriptUrl = `https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/${cdnEnv}/latest/dist/internarbeidsflate-decorator.wc.js`;
 const umamiTrackingId = process.env.NEXT_PUBLIC_UMAMI_TRACKING_ID;
 
 // NB: tidliger hadde vi engelsk også på meta.
@@ -24,20 +26,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     const [modiaContext, visittkortUrl] = await Promise.all([hentModiaContext(), hentVisittkortScriptUrl()]);
     return (
         <html lang='no'>
-            <head>
-                {!enableMock && (
-                    <>
-                        <link
-                            rel='stylesheet'
-                            href='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/index.css'
-                        />
-                        <Script
-                            src='https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js'
-                            strategy='beforeInteractive'
-                        />
-                    </>
-                )}
-            </head>
+            <head>{!enableMock && <Script src={decoratorScriptUrl} strategy='beforeInteractive' type='module' />}</head>
 
             <body>
                 <InitFaro />
