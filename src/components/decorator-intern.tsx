@@ -52,11 +52,11 @@ const InternflateDecorator: React.FC<{
             app-name='Arbeidssøkerregisteret'
             environment={decoratorEnv}
             url-format='NAV_NO'
-            show-enheter=''
-            show-search-area=''
-            show-hotkeys=''
-            fetch-active-user-on-mount=''
-            include-credentials=''
+            show-enheter={'true'}
+            show-search-area={'true'}
+            show-hotkeys={'false'}
+            fetch-active-user-on-mount={'true'}
+            include-credentials={'true'}
             proxy='/modiacontextholder'
         />
     );
