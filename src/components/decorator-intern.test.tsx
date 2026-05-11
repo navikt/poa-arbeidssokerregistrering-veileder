@@ -15,8 +15,8 @@ vi.mock('next/navigation', () => ({
 
 function renderDecorator(initFnr: string | null = '10108000398') {
     const result = render(
-        <ModiaProvider initFnr={initFnr} initEnhetId="0219">
-            <InternflateDecorator decoratorEnv="q2" />
+        <ModiaProvider initFnr={initFnr} initEnhetId='0219'>
+            <InternflateDecorator decoratorEnv='q2' />
         </ModiaProvider>,
     );
     const element = result.container.querySelector('internarbeidsflate-decorator');
