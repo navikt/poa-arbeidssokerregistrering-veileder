@@ -10,7 +10,7 @@ const InternflateDecorator: React.FC<{
     decoratorEnv: string;
 }> = (props) => {
     const { decoratorEnv } = props;
-    const { fnr, setFnr } = useModiaContext();
+    const { fnr, setFnr, enhetId, setEnhetId } = useModiaContext();
     const pathname = usePathname();
     const router = useRouter();
     const decoratorRef = useRef<InternarbeidsflateDecoratorElement>(null);
@@ -37,14 +37,23 @@ const InternflateDecorator: React.FC<{
         [setFnr, router],
     );
 
+    const handleEnhetChanged = useCallback(
+        (event: CustomEvent<EnhetChangedDetail>) => {
+            setEnhetId(event.detail.enhet ?? null);
+        },
+        [setEnhetId],
+    );
+
     useLayoutEffect(() => {
         const el = decoratorRef.current;
         if (!el) return;
         el.addEventListener('fnr-changed', handleFnrChanged);
+        el.addEventListener('enhet-changed', handleEnhetChanged);
         return () => {
             el.removeEventListener('fnr-changed', handleFnrChanged);
+            el.removeEventListener('enhet-changed', handleEnhetChanged);
         };
-    }, [handleFnrChanged]);
+    }, [handleFnrChanged, handleEnhetChanged]);
 
     return (
         <internarbeidsflate-decorator
@@ -58,6 +67,7 @@ const InternflateDecorator: React.FC<{
             fetch-active-user-on-mount={'true'}
             include-credentials={'true'}
             proxy='/modiacontextholder'
+            enhet={enhetId ?? undefined}
         />
     );
 };

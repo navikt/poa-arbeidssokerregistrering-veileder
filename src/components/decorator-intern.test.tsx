@@ -2,7 +2,7 @@
 
 import { act, render } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ModiaProvider } from '@/contexts/modia-context';
+import { ModiaProvider, useModiaContext } from '@/contexts/modia-context';
 import { InternflateDecorator } from './decorator-intern';
 
 const mockPush = vi.fn();
@@ -24,8 +24,35 @@ function renderDecorator(initFnr: string | null = '10108000398') {
     return { ...result, element };
 }
 
+function renderDecoratorWithEnhet(initEnhetId: string, initFnr: string | null = '10108000398') {
+    let capturedEnhetId: string | null = initEnhetId;
+
+    const EnhetSpy = () => {
+        const { enhetId } = useModiaContext();
+        capturedEnhetId = enhetId;
+        return null;
+    };
+
+    const result = render(
+        <ModiaProvider initFnr={initFnr} initEnhetId={initEnhetId}>
+            <InternflateDecorator decoratorEnv='q2' />
+            <EnhetSpy />
+        </ModiaProvider>,
+    );
+    const element = result.container.querySelector('internarbeidsflate-decorator');
+    if (!element) throw new Error('Decorator element not found');
+    return { ...result, element, getEnhetId: () => capturedEnhetId };
+}
+
 function dispatchFnrChanged(element: Element, fnr: string | null) {
     const event = new CustomEvent('fnr-changed', { detail: { fnr } });
+    act(() => {
+        element.dispatchEvent(event);
+    });
+}
+
+function dispatchEnhetChanged(element: Element, enhet: string | null) {
+    const event = new CustomEvent('enhet-changed', { detail: { enhet } });
     act(() => {
         element.dispatchEvent(event);
     });
@@ -93,5 +120,27 @@ describe('InternflateDecorator', () => {
         dispatchFnrChanged(element, null);
 
         expect(mockPush).toHaveBeenCalledWith('/');
+    });
+
+    it('sender enhetId som enhet-attributt til dekoratøren', () => {
+        const { element } = renderDecoratorWithEnhet('4154');
+
+        expect(element.getAttribute('enhet')).toBe('4154');
+    });
+
+    it('oppdaterer enhetId i context når enhet-changed fires', () => {
+        const { element, getEnhetId } = renderDecoratorWithEnhet('4154');
+
+        dispatchEnhetChanged(element, '1824');
+
+        expect(getEnhetId()).toBe('1824');
+    });
+
+    it('setter enhetId til null i context når enhet-changed fires med null', () => {
+        const { element, getEnhetId } = renderDecoratorWithEnhet('4154');
+
+        dispatchEnhetChanged(element, null);
+
+        expect(getEnhetId()).toBeNull();
     });
 });
