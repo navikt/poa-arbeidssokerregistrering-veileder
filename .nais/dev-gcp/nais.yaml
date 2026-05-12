@@ -29,10 +29,10 @@ spec:
     enabled: false
   resources:
     limits:
-      memory: "256Mi"
+      memory: "128Mi"
     requests:
-      cpu: "200m"
-      memory: "256Mi"
+      cpu: "50m"
+      memory: "128Mi"
   env:
     - name: SELF_URL
       value: https://arbeidssokerregistrering-for-veileder.intern.dev.nav.no

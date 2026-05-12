@@ -20,15 +20,15 @@ spec:
     initialDelay: 3
   replicas:
     min: 2
-    max: 2
-    cpuThresholdPercentage: 50
+    max: 4
+    cpuThresholdPercentage: 70
   prometheus:
     enabled: false
   resources:
     limits:
-      memory: "256Mi"
+      memory: "384Mi"
     requests:
-      cpu: "200m"
+      cpu: "50m"
       memory: "256Mi"
   env:
     - name: SELF_URL
