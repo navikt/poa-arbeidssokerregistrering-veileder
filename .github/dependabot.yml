@@ -112,6 +112,13 @@ updates:
     cooldown:
       default-days: 7
     open-pull-requests-limit: 5
+    ignore:
+      # Nais-actions bruker floating major tags (v2, v0) uten semver-releases.
+      # Ignorer patch/minor (SHA-endringer), men la major (v2→v3) trigge.
+      - dependency-name: "nais/deploy"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+      - dependency-name: "nais/docker-build-push"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
     groups:
       github-actions:
         patterns:
