@@ -23,7 +23,7 @@ jobs:
                   persist-credentials: false
 
             - name: Set up pnpm
-              uses: pnpm/action-setup@8912a9102ac27614460f54aedde9e1e7f9aec20d # v6.0.5
+              uses: pnpm/action-setup@739bfe42ca9233c5e6aca07c1a25a9d34aca49b0 # v6.0.7
               with:
                   run_install: false
 
@@ -66,7 +66,7 @@ jobs:
                   NEXT_PUBLIC_ASSET_PREFIX: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
 
             - name: Upload static files to NAV CDN
-              uses: nais/deploy/actions/cdn-upload/v2@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
+              uses: nais/deploy/actions/cdn-upload/v2@a7f8690f9b367fcbf5348a0a1e21d44f1aae50eb # v2
               with:
                   team: paw
                   source: ./.next/static
@@ -75,7 +75,7 @@ jobs:
                   project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
             - name: docker-build-push
-              uses: nais/docker-build-push@be85229e81c0293c265c646c084f05317fb6e0d2 # v0
+              uses: nais/docker-build-push@751a312f0803eb96a05a41fadf51be19b7be362c # v0
               id: docker-build-push
               with:
                   team: paw
@@ -99,7 +99,7 @@ jobs:
               with:
                   persist-credentials: false
             - name: Deploy
-              uses: nais/deploy/actions/deploy@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
+              uses: nais/deploy/actions/deploy@a7f8690f9b367fcbf5348a0a1e21d44f1aae50eb # v2
               env:
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/dev-gcp/nais.yaml
@@ -120,7 +120,7 @@ jobs:
               with:
                   persist-credentials: false
             - name: Deploy
-              uses: nais/deploy/actions/deploy@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
+              uses: nais/deploy/actions/deploy@a7f8690f9b367fcbf5348a0a1e21d44f1aae50eb # v2
               env:
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/demo.yaml
@@ -141,7 +141,7 @@ jobs:
               with:
                   persist-credentials: false
             - name: Deploy
-              uses: nais/deploy/actions/deploy@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
+              uses: nais/deploy/actions/deploy@a7f8690f9b367fcbf5348a0a1e21d44f1aae50eb # v2
               env:
                   CLUSTER: prod-gcp
                   RESOURCE: .nais/prod-gcp/nais.yaml
@@ -161,12 +161,12 @@ jobs:
               with:
                   persist-credentials: false
             - name: deploy to dev
-              uses: nais/deploy/actions/deploy@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
+              uses: nais/deploy/actions/deploy@a7f8690f9b367fcbf5348a0a1e21d44f1aae50eb # v2
               env:
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/dev-gcp/unleash-apitoken.yaml
             - name: deploy to prod
-              uses: nais/deploy/actions/deploy@823ec9b7e305ce7cf911d0f9a25f7da9d7486cf2 # v2
+              uses: nais/deploy/actions/deploy@a7f8690f9b367fcbf5348a0a1e21d44f1aae50eb # v2
               env:
                   CLUSTER: prod-gcp
                   RESOURCE: .nais/prod-gcp/unleash-apitoken.yaml
