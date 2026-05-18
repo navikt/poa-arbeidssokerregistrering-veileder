@@ -29,8 +29,8 @@
         "nanoid": "5.1.11",
         "next": "16.2.6",
         "pino": "10.3.1",
-        "react": "19.2.5",
-        "react-dom": "19.2.5"
+        "react": "19.2.6",
+        "react-dom": "19.2.6"
     },
     "devDependencies": {
         "@biomejs/biome": "2.4.14",
