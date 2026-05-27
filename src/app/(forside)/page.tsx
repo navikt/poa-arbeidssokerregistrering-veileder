@@ -5,6 +5,7 @@ import { DemoLabel } from '@/components/demo-label';
 import { DemoPanel } from '@/components/demo-panel';
 import { HvaErNytt } from '@/components/HvaErNytt';
 import { getBekreftelser } from '@/lib/api/bekreftelse';
+import { getNokkeltall } from '@/lib/api/nokkeltall';
 import { getSnapshot } from '@/lib/api/oppslag-snapshot';
 import { hentModiaContext } from '@/lib/modia-context-api';
 import { isFeatureEnabled } from '@/lib/unleash/feature-flags';
@@ -14,6 +15,7 @@ export default async function ForsidePage() {
     const flagVisHvaSomErNyttPromise = isFeatureEnabled('arbeidssokerregistrering-for-veileder.vis-hva-er-nytt');
     const snapshotPromise = getSnapshot(modiaContext.fnr);
     const bekreftelserPromise = getBekreftelser(modiaContext.fnr);
+    const nokkeltallPromise = getNokkeltall(modiaContext.fnr);
 
     const flagVisHvaSomErNytt = await flagVisHvaSomErNyttPromise;
 
@@ -25,6 +27,7 @@ export default async function ForsidePage() {
                 <ForsideWrapper
                     initialSnapshotPromise={snapshotPromise}
                     initialBekreftelserPromise={bekreftelserPromise}
+                    initialNokkeltallPromise={nokkeltallPromise}
                 />
             </Suspense>
             <DemoPanel />
