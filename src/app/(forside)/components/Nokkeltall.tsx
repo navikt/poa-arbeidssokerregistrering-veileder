@@ -59,10 +59,17 @@ function Nokkeltall({ nokkeltall, snapshot }: NokkeltallProps) {
                 <Wrapper>
                     <div className='flex items-center gap-1'>
                         <div>Ønsker veileder</div>
-                        <Detail>({prettyPrintDato(nokkeltall.onskerHjelp?.dato || '')})</Detail>
+                        {/* Hva skal vi vise dersom det ikke finnes en egenvurdering? */}
+                        {nokkeltall.onskerHjelp?.dato && (
+                            <Detail>({prettyPrintDato(nokkeltall.onskerHjelp?.dato)})</Detail>
+                        )}
                     </div>
                     <div>
-                        <Tag data-color='success'>Nei</Tag>
+                        {nokkeltall.onskerHjelp && (
+                            <Tag data-color={nokkeltall.onskerHjelp.svar ? 'warning' : 'success'}>
+                                {nokkeltall.onskerHjelp?.svar ? 'Ja' : 'Nei'}
+                            </Tag>
+                        )}
                     </div>
                 </Wrapper>
                 <Wrapper>

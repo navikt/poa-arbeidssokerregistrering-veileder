@@ -8,7 +8,7 @@ import type {
     Hendelse,
     PaaVegneAvStoppHendelse,
 } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { daysSinceDate, prettyPrintDato, toMidnight } from '../date-utils';
+import { daysSinceDate, toMidnight } from '../date-utils';
 import { getPerioder } from './oppslag-perioder';
 import { getSnapshot } from './oppslag-snapshot';
 
@@ -51,10 +51,10 @@ function finnTilhorighet(hendelser?: Hendelse[]): Bekreftelsesloesning[] {
 }
 
 function formaterEgenvurdering(egenvurdering?: EgenvurderingHendelse) {
-    if (!egenvurdering?.egenvurdering)
-        return `Ikke oppgitt (${prettyPrintDato(egenvurdering?.sendtInnAv.tidspunkt || '')})`;
-    const svar = egenvurdering.egenvurdering === ProfilertTil.ANTATT_GODE_MULIGHETER ? 'Nei' : 'Ja';
-    return `${svar} (${prettyPrintDato(egenvurdering.sendtInnAv.tidspunkt)})`;
+    if (!egenvurdering?.egenvurdering) {
+        return null;
+    }
+    return egenvurdering.egenvurdering === ProfilertTil.ANTATT_GODE_MULIGHETER;
 }
 
 function finnDagerLedig(alleBekreftelser?: BekreftelseHendelse[]): number {
@@ -112,10 +112,12 @@ async function getNokkeltall(ident: string | null): Promise<NokkeltallResult | n
     return {
         dagerUtenArbeid: finnDagerLedig(alleBekreftelser),
         tilhorighet: finnTilhorighet(perioder.perioder?.[0]?.hendelser),
-        onskerHjelp: {
-            svar: formaterEgenvurdering(snapshot.snapshot?.egenvurdering),
-            dato: snapshot.snapshot?.egenvurdering?.tidspunkt,
-        },
+        onskerHjelp: snapshot.snapshot?.egenvurdering
+            ? {
+                  svar: formaterEgenvurdering(snapshot.snapshot?.egenvurdering),
+                  dato: snapshot.snapshot?.egenvurdering?.tidspunkt,
+              }
+            : null,
         bekreftelse: perioder.perioder?.[0]?.hendelser.find((e) => e.type === 'BEKREFTELSE_V1'),
     };
 }
@@ -124,7 +126,7 @@ export type NokkeltallResult = {
     dagerUtenArbeid: number | null;
     tilhorighet: Bekreftelsesloesning[];
     onskerHjelp: {
-        svar: string;
+        svar: boolean | null;
         dato: string | undefined;
     } | null;
     bekreftelse: BekreftelseHendelse | undefined;
