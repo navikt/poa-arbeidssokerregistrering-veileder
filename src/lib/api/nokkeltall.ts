@@ -54,7 +54,7 @@ function formaterEgenvurdering(egenvurdering?: EgenvurderingHendelse) {
     if (!egenvurdering?.egenvurdering) {
         return null;
     }
-    return egenvurdering.egenvurdering === ProfilertTil.ANTATT_GODE_MULIGHETER;
+    return egenvurdering.egenvurdering === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING;
 }
 
 function finnDagerLedig(alleBekreftelser?: BekreftelseHendelse[]): number {

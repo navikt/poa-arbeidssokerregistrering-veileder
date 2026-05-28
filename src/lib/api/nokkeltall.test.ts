@@ -386,7 +386,7 @@ describe('Nøkkeltall', () => {
         it('returnerer riktig tekst om egenvurdering når man ønsker hjelp', async () => {
             const result = await getNokkeltall('12345678901');
             expect(result).toMatchObject({
-                onskerHjelp: { dato: snapshotMock.egenvurdering.tidspunkt, svar: 'Ja (24. februar)' },
+                onskerHjelp: { dato: snapshotMock.egenvurdering.tidspunkt, svar: true },
             });
         });
         it('returnerer riktig tekst om egenvurdering når man klarer seg selv', async () => {
@@ -403,7 +403,7 @@ describe('Nøkkeltall', () => {
             });
             const result = await getNokkeltall('12345678901');
             expect(result).toMatchObject({
-                onskerHjelp: { dato: snapshotMock.egenvurdering.tidspunkt, svar: 'Nei (24. februar)' },
+                onskerHjelp: { dato: snapshotMock.egenvurdering.tidspunkt, svar: false },
             });
         });
     });
