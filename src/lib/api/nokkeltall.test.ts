@@ -7,6 +7,12 @@ import { getNokkeltall } from './nokkeltall';
 import { getPerioder } from './oppslag-perioder';
 import { getSnapshot } from './oppslag-snapshot';
 
+const MOCK_IDENT = '12345678901';
+const MOCK_ENHETS_ID = 4154;
+
+const hentNokkeltall = (ident: string | null = MOCK_IDENT, enhetsId: number = MOCK_ENHETS_ID) =>
+    getNokkeltall(ident, enhetsId);
+
 type BekreftelseOverride = Partial<
     Pick<BekreftelseHendelse['svar'], 'harJobbetIDennePerioden' | 'vilFortsetteSomArbeidssoeker'>
 >;
@@ -80,7 +86,7 @@ describe('Nøkkeltall', () => {
                 },
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedBekreftelser as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
 
             const eldsteBekreftelse = bekreftelser.at(-1);
             const startDate = eldsteBekreftelse?.svar.gjelderFra;
@@ -103,7 +109,7 @@ describe('Nøkkeltall', () => {
                 },
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedBekreftelser as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             expect(result).toMatchObject({ dagerUtenArbeid: 0 });
         });
 
@@ -116,7 +122,7 @@ describe('Nøkkeltall', () => {
                 },
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedBekreftelser as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
 
             const eldsteBekreftelse = bekreftelser.at(-1);
             const startDate = eldsteBekreftelse?.svar.gjelderFra;
@@ -137,7 +143,7 @@ describe('Nøkkeltall', () => {
                 },
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedBekreftelser as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             const forventetStreakStart = bekreftelser.at(-1)?.svar.gjelderFra ?? '';
             expect(result).toMatchObject({ dagerUtenArbeid: daysSinceDate(forventetStreakStart) });
         });
@@ -154,7 +160,7 @@ describe('Nøkkeltall', () => {
                 },
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedBekreftelser as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             const forventetStreakStart = periodeEn.at(-1)?.svar.gjelderFra || '';
             expect(result).toMatchObject({ dagerUtenArbeid: daysSinceDate(forventetStreakStart) });
         });
@@ -177,7 +183,7 @@ describe('Nøkkeltall', () => {
                 },
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedBekreftelser as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             expect(result).toMatchObject({ dagerUtenArbeid: 0 });
         });
 
@@ -196,7 +202,7 @@ describe('Nøkkeltall', () => {
                 },
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedBekreftelser as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             const forventetStreakStart = bekreftelser.at(1)?.svar.gjelderFra || '';
             expect(result).toMatchObject({ dagerUtenArbeid: daysSinceDate(forventetStreakStart) });
         });
@@ -204,7 +210,7 @@ describe('Nøkkeltall', () => {
 
     describe('Tilhørighet', () => {
         it('returnerer riktig tilhørighet', async () => {
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             expect(result).toMatchObject({ tilhorighet: ['ARBEIDSSOEKERREGISTERET'] });
         });
         it('2 ulike løsninger har anvaret', async () => {
@@ -234,7 +240,7 @@ describe('Nøkkeltall', () => {
                 ...perioderMock.slice(1),
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedTrickyTilhorighet as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             expect(result).toMatchObject({ tilhorighet: ['DAGPENGER', 'FRISKMELDT_TIL_ARBEIDSFORMIDLING'] });
         });
         it('2 ulike løsninger har en startet, én av de har avsluttet', async () => {
@@ -272,7 +278,7 @@ describe('Nøkkeltall', () => {
                 ...perioderMock.slice(1),
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedTrickyTilhorighet as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             expect(result).toMatchObject({ tilhorighet: ['FRISKMELDT_TIL_ARBEIDSFORMIDLING'] });
         });
         it('ignorer alle på vegene av stopp som er tidligere enn start', async () => {
@@ -334,7 +340,7 @@ describe('Nøkkeltall', () => {
                 ...perioderMock.slice(1),
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedTrickyTilhorighet as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             expect(result).toMatchObject({ tilhorighet: ['DAGPENGER'] });
         });
         it('returnerer riktig tilhørighet når personen er hos dagpenger', async () => {
@@ -356,7 +362,7 @@ describe('Nøkkeltall', () => {
                 ...perioderMock.slice(1),
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedDagpenger as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             expect(result).toMatchObject({ tilhorighet: ['DAGPENGER'] });
         });
         it('returnerer riktig tilhørighet når personen er hos sykepenger', async () => {
@@ -378,13 +384,13 @@ describe('Nøkkeltall', () => {
                 ...perioderMock.slice(1),
             ];
             vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedDagpenger as Periode[] });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             expect(result).toMatchObject({ tilhorighet: ['FRISKMELDT_TIL_ARBEIDSFORMIDLING'] });
         });
     });
     describe('Egenvurdering', () => {
         it('returnerer riktig tekst om egenvurdering når man ønsker hjelp', async () => {
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             expect(result).toMatchObject({
                 onskerHjelp: { dato: snapshotMock.egenvurdering.tidspunkt, svar: true },
             });
@@ -401,14 +407,18 @@ describe('Nøkkeltall', () => {
             vi.mocked(getSnapshot).mockResolvedValueOnce({
                 snapshot: snapshotMedEgenvurderingGodeMuligheter as Snapshot,
             });
-            const result = await getNokkeltall('12345678901');
+            const result = await hentNokkeltall();
             expect(result).toMatchObject({
                 onskerHjelp: { dato: snapshotMock.egenvurdering.tidspunkt, svar: false },
             });
         });
     });
     it('returnerer riktig tekst basert på bekreftelse', async () => {
-        const result = await getNokkeltall('12345678901');
+        const result = await hentNokkeltall();
         expect(result).toMatchObject({ bekreftelse: snapshotMock.bekreftelse });
+    });
+    it('returnerer ingen nøkkeltall dersom du ikke tilhører kontor 4154', async () => {
+        const result = await hentNokkeltall('12345678912', 1234);
+        expect(result).toBeNull();
     });
 });

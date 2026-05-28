@@ -15,7 +15,7 @@ export default async function ForsidePage() {
     const flagVisHvaSomErNyttPromise = isFeatureEnabled('arbeidssokerregistrering-for-veileder.vis-hva-er-nytt');
     const snapshotPromise = getSnapshot(modiaContext.fnr);
     const bekreftelserPromise = getBekreftelser(modiaContext.fnr);
-    const nokkeltallPromise = getNokkeltall(modiaContext.fnr);
+    const nokkeltallPromise = getNokkeltall(modiaContext.fnr, parseInt(modiaContext.enhetId || '0', 10));
 
     const flagVisHvaSomErNytt = await flagVisHvaSomErNyttPromise;
 

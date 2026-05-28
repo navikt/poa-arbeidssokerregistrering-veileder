@@ -93,9 +93,10 @@ function finnDagerLedig(alleBekreftelser?: BekreftelseHendelse[]): number {
     return streakStart ? daysSinceDate(streakStart) : 0;
 }
 
-async function getNokkeltall(ident: string | null): Promise<NokkeltallResult | null> {
+async function getNokkeltall(ident: string | null, enhetsId?: number): Promise<NokkeltallResult | null> {
     // Har du ikke aktiv periode, så retunerer vi ingenting
     if (!ident) return null;
+    if (enhetsId !== 4154) return null;
 
     const snapshot = await getSnapshot(ident);
     if (!snapshot || snapshot.snapshot?.avsluttet || snapshot.notFound) {
