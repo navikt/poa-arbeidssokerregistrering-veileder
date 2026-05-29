@@ -28,7 +28,7 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 function Dager({ dager }: { dager: number | null }) {
     if (!dager) return <Tag>0 dager</Tag>;
     if (dager >= 130) return <Tag data-color='danger'>{dager} dager</Tag>;
-    if (dager >= 190) return <Tag data-color='warning'>{dager} dager</Tag>;
+    if (dager >= 90) return <Tag data-color='warning'>{dager} dager</Tag>;
     return <Tag>{dager} dager</Tag>;
 }
 
