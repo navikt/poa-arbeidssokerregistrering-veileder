@@ -76,16 +76,17 @@ function Nokkeltall({ nokkeltall, snapshot }: NokkeltallProps) {
                 <Wrapper>
                     <div className='flex items-center gap-1'>
                         <div>Ønsker veileder</div>
-                        {/* Hva skal vi vise dersom det ikke finnes en egenvurdering? */}
                         {nokkeltall.onskerHjelp?.dato && (
                             <Detail>({prettyPrintDato(nokkeltall.onskerHjelp?.dato)})</Detail>
                         )}
                     </div>
                     <div>
-                        {nokkeltall.onskerHjelp && (
+                        {nokkeltall.onskerHjelp ? (
                             <Tag data-color={nokkeltall.onskerHjelp.svar ? 'warning' : 'success'}>
                                 {nokkeltall.onskerHjelp?.svar ? 'Ja' : 'Nei'}
                             </Tag>
+                        ) : (
+                            <span>Ingen egenvurdering funnet</span>
                         )}
                     </div>
                 </Wrapper>
@@ -97,12 +98,15 @@ function Nokkeltall({ nokkeltall, snapshot }: NokkeltallProps) {
                         )}
                     </div>
                     <div>
-                        {nokkeltall.bekreftelse &&
-                            (nokkeltall.bekreftelse?.svar.harJobbetIDennePerioden ? (
+                        {nokkeltall.bekreftelse ? (
+                            nokkeltall.bekreftelse?.svar.harJobbetIDennePerioden ? (
                                 <Tag data-color='success'>Ja</Tag>
                             ) : (
                                 <Tag data-color='warning'>Nei</Tag>
-                            ))}
+                            )
+                        ) : (
+                            <span>Ingen bekreftelse funnet</span>
+                        )}
                     </div>
                 </Wrapper>
             </InfoCardContent>
