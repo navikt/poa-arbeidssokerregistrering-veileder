@@ -1,6 +1,6 @@
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import type { Snapshot } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { BodyShort, Detail, InfoCard, Tag } from '@navikt/ds-react';
+import { Alert, BodyShort, Detail, Heading, InfoCard, Tag } from '@navikt/ds-react';
 import { InfoCardContent, InfoCardHeader, InfoCardTitle } from '@navikt/ds-react/InfoCard';
 import type { NokkeltallResult } from '@/lib/api/nokkeltall';
 import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '@/lib/date-utils';
@@ -28,7 +28,18 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 function Nokkeltall({ nokkeltall, snapshot }: NokkeltallProps) {
     const tekst = lagHentTekstForSprak(KILDER, 'nb');
 
-    if (!nokkeltall) return null;
+    if (!nokkeltall)
+        return (
+            <Alert variant={'info'} className={'mb-4'}>
+                <Heading level={'3'} size={'small'}>
+                    Personen er registrert som arbeidssøker
+                </Heading>
+                <BodyShort textColor={'subtle'}>
+                    Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
+                    {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
+                </BodyShort>
+            </Alert>
+        );
     return (
         <InfoCard data-color='info' className='mb-4'>
             <InfoCardHeader>
