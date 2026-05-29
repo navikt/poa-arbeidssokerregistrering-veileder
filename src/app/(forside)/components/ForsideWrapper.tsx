@@ -21,7 +21,7 @@ function ForsideWrapper({
     initialBekreftelserPromise,
     initialNokkeltallPromise,
 }: ForsideWrapperProps) {
-    const { fnr } = useModiaContext();
+    const { fnr, enhetId } = useModiaContext();
     const { dataPromise, isPending: snapshotIsPending } = useServerData(initialSnapshotPromise, getSnapshot);
     const { dataPromise: bekreftelserPromise, isPending: bekreftelserIsPending } = useServerData(
         initialBekreftelserPromise,
@@ -29,7 +29,7 @@ function ForsideWrapper({
     );
     const { dataPromise: nokkeltallPromise } = useServerData(initialNokkeltallPromise, getNokkeltall);
 
-    if (!fnr) {
+    if (!fnr || !enhetId) {
         return <ManglerPersonEllerEnhet />;
     }
 
