@@ -108,9 +108,12 @@ async function getNokkeltall(ident: string | null, enhetsId?: string | null): Pr
     }
 
     const perioder = await getPerioder(ident);
+    if (!perioder.perioder || perioder.manglerTilgang) {
+        return null;
+    }
 
     const alleBekreftelser = perioder.perioder
-        ?.flatMap((periode) => periode.hendelser)
+        .flatMap((periode) => periode.hendelser)
         .filter((hedelse) => hedelse.type === 'BEKREFTELSE_V1')
         .sort((a, b) => b.tidspunkt.localeCompare(a.tidspunkt));
 
