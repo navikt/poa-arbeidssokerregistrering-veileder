@@ -1,28 +1,30 @@
-import { Alert, BodyShort, Box, Heading } from '@navikt/ds-react';
+import { Alert, Box } from '@navikt/ds-react';
 import { use } from 'react';
 import { Bekreftelse } from '@/app/(forside)/components/Bekreftelse';
 import { HistorikkLenke } from '@/app/(forside)/components/HistorikkLenke';
-import { mapUtfoertAvType } from '@/app/(forside)/components/mapUtfoertAvType';
 import { Opplysninger } from '@/app/(forside)/components/Opplysninger';
 import { TidslinjerLenke } from '@/app/(forside)/components/TidslinjerLenke';
 import { ManglerTilganger } from '@/components/ManglerTilganger';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
+import type { NokkeltallResult } from '@/lib/api/nokkeltall';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
-import { prettyPrintDatoOgKlokkeslett } from '@/lib/date-utils';
 import { IkkeAktivPeriode } from './IkkeAktivPeriode';
+import { Nokkeltall } from './Nokkeltall';
 
 type ForsideProps = {
     snapshotPromise: Promise<SnapshotResult>;
     bekreftelserPromise: Promise<BekreftelseApiResult>;
+    nokkeltallPromise: Promise<NokkeltallResult | null>;
 };
 
-function Forside({ snapshotPromise, bekreftelserPromise }: ForsideProps) {
+function Forside({ snapshotPromise, bekreftelserPromise, nokkeltallPromise }: ForsideProps) {
     const { snapshot, error: snapshotError, notFound, manglerTilgang: manglerSnapTilgang } = use(snapshotPromise);
     const {
         bekreftelser,
         error: bekreftelserError,
         manglerTilgang: manglerBekreftelseTilgang,
     } = use(bekreftelserPromise);
+    const nottektall = use(nokkeltallPromise);
 
     if (manglerBekreftelseTilgang || manglerSnapTilgang) {
         return <ManglerTilganger />;
@@ -38,15 +40,7 @@ function Forside({ snapshotPromise, bekreftelserPromise }: ForsideProps) {
 
     return (
         <div>
-            <Alert variant={'info'} className={'mb-4'}>
-                <Heading level={'3'} size={'small'}>
-                    Personen er registrert som arbeidssøker
-                </Heading>
-                <BodyShort textColor={'subtle'}>
-                    Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
-                    {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
-                </BodyShort>
-            </Alert>
+            <Nokkeltall nokkeltall={nottektall} snapshot={snapshot} />
             <Opplysninger
                 opplysninger={snapshot.opplysning}
                 sisteArbeidssoekerperiodeId={snapshot.id}

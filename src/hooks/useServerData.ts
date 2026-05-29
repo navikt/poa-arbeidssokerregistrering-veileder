@@ -3,8 +3,11 @@
 import { useEffect, useRef, useState, useTransition } from 'react';
 import { useModiaContext } from '@/contexts/modia-context';
 
-export function useServerData<T>(initialPromise: Promise<T>, fetchFn: (fnr: string | null) => Promise<T>) {
-    const { fnr } = useModiaContext();
+export function useServerData<T>(
+    initialPromise: Promise<T>,
+    fetchFn: (fnr: string | null, enhetId: string | null) => Promise<T>,
+) {
+    const { fnr, enhetId } = useModiaContext();
     const [dataPromise, setDataPromise] = useState(initialPromise);
     const [isPending, startTransition] = useTransition();
     const isInitialMount = useRef(true);
@@ -16,9 +19,9 @@ export function useServerData<T>(initialPromise: Promise<T>, fetchFn: (fnr: stri
         }
 
         startTransition(() => {
-            setDataPromise(fetchFn(fnr));
+            setDataPromise(fetchFn(fnr, enhetId));
         });
-    }, [fnr, fetchFn]);
+    }, [fnr, enhetId, fetchFn]);
 
     return { dataPromise, isPending };
 }

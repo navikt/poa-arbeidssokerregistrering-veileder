@@ -94,4 +94,26 @@ function prettyPrintDatoOgKlokkeslettKortform(dato: string, locale?: Sprak, visA
     return `${date.getDate().toString().padStart(2, '0')}.${maaned.toString().padStart(2, '0')}${visAar || thisYear !== year ? `.${year}` : ''} ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
 }
 
-export { formaterDato, prettyPrintDato, prettyPrintDatoOgKlokkeslett, prettyPrintDatoOgKlokkeslettKortform };
+function daysSinceDate(dateStr: string | Date): number {
+    if (!dateStr) return 0;
+    const startingDate = toMidnight(dateStr);
+    if (!startingDate) return 0;
+    const today = toMidnight(new Date());
+    const diff = today.getTime() - startingDate.getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24));
+}
+
+function toMidnight(date: string | Date): Date {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    return d;
+}
+
+export {
+    daysSinceDate,
+    formaterDato,
+    prettyPrintDato,
+    prettyPrintDatoOgKlokkeslett,
+    prettyPrintDatoOgKlokkeslettKortform,
+    toMidnight,
+};
