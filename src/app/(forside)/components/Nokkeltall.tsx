@@ -25,6 +25,13 @@ function Wrapper({ children }: { children: React.ReactNode }) {
     );
 }
 
+function Dager({ dager }: { dager: number | null }) {
+    if (!dager) return <Tag>0 dager</Tag>;
+    if (dager >= 130) return <Tag data-color='danger'>{dager} dager</Tag>;
+    if (dager >= 190) return <Tag data-color='warning'>{dager} dager</Tag>;
+    return <Tag>{dager} dager</Tag>;
+}
+
 function Nokkeltall({ nokkeltall, snapshot }: NokkeltallProps) {
     const tekst = lagHentTekstForSprak(KILDER, 'nb');
 
@@ -55,8 +62,7 @@ function Nokkeltall({ nokkeltall, snapshot }: NokkeltallProps) {
                 <Wrapper>
                     <div>Dager helt ledig</div>
                     <div>
-                        {/*lag variant med 182 (terskel) -> rød */}
-                        <Tag>{nokkeltall.dagerUtenArbeid} dager</Tag>
+                        <Dager dager={nokkeltall.dagerUtenArbeid} />
                     </div>
                 </Wrapper>
                 <Wrapper>
