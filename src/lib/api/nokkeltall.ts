@@ -94,17 +94,13 @@ function finnDagerLedig(alleBekreftelser?: BekreftelseHendelse[]): number {
     return streakStart ? daysSinceDate(streakStart) : 0;
 }
 
-async function getNokkeltall(ident: string | null, enhetsId?: number): Promise<NokkeltallResult | null> {
-    // Har du ikke aktiv periode, så retunerer vi ingenting
-    const erNoe = enhetsId === 4154;
+async function getNokkeltall(ident: string | null, enhetsId?: string | null): Promise<NokkeltallResult | null> {
+    const parsedEnhetsId = enhetsId ? parseInt(enhetsId, 10) : undefined;
+    const erNoe = parsedEnhetsId === 4154;
     if (!ident || !erNoe) {
-        logger.warn(
-            `Mangler: ${!ident && 'ident'} ${!ident && !enhetsId && ' og '} ${!enhetsId && 'enhetsId'}, ikke mulig å hente bekreftelser`,
-        );
+        logger.warn(`Mangler ident eller enhetsId, ikke mulig å hente nøkkeltall`);
         return null;
     }
-
-    // if (enhetsId !== 4154) return null;
 
     const snapshot = await getSnapshot(ident);
     if (!snapshot || snapshot.snapshot?.avsluttet || snapshot.notFound) {

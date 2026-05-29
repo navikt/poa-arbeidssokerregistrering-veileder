@@ -8,9 +8,9 @@ import { getPerioder } from './oppslag-perioder';
 import { getSnapshot } from './oppslag-snapshot';
 
 const MOCK_IDENT = '12345678901';
-const MOCK_ENHETS_ID = 4154;
+const MOCK_ENHETS_ID = '4154';
 
-const hentNokkeltall = (ident: string | null = MOCK_IDENT, enhetsId: number = MOCK_ENHETS_ID) =>
+const hentNokkeltall = (ident: string | null = MOCK_IDENT, enhetsId: string | null = MOCK_ENHETS_ID) =>
     getNokkeltall(ident, enhetsId);
 
 type BekreftelseOverride = Partial<
@@ -418,7 +418,7 @@ describe('Nøkkeltall', () => {
         expect(result).toMatchObject({ bekreftelse: snapshotMock.bekreftelse });
     });
     it('returnerer ingen nøkkeltall dersom du ikke tilhører kontor 4154', async () => {
-        const result = await hentNokkeltall('12345678912', 1234);
+        const result = await hentNokkeltall('12345678912', '1234');
         expect(result).toBeNull();
     });
 });
