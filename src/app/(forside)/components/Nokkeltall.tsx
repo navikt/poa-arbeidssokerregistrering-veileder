@@ -86,14 +86,17 @@ function Nokkeltall({ nokkeltall, snapshot }: NokkeltallProps) {
                 <Wrapper>
                     <div className='flex items-center gap-1'>
                         <div>Rapportert arbeid på siste bekreftelse</div>
-                        <Detail>({prettyPrintDato(nokkeltall.bekreftelse?.tidspunkt || '')})</Detail>
+                        {nokkeltall.bekreftelse?.tidspunkt && (
+                            <Detail>({prettyPrintDato(nokkeltall.bekreftelse.tidspunkt)})</Detail>
+                        )}
                     </div>
                     <div>
-                        {nokkeltall.bekreftelse?.svar.harJobbetIDennePerioden ? (
-                            <Tag data-color='success'>Ja</Tag>
-                        ) : (
-                            <Tag data-color='warning'>Nei</Tag>
-                        )}
+                        {nokkeltall.bekreftelse &&
+                            (nokkeltall.bekreftelse?.svar.harJobbetIDennePerioden ? (
+                                <Tag data-color='success'>Ja</Tag>
+                            ) : (
+                                <Tag data-color='warning'>Nei</Tag>
+                            ))}
                     </div>
                 </Wrapper>
             </InfoCardContent>
