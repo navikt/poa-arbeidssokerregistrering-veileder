@@ -8,6 +8,7 @@ import type {
     Hendelse,
     PaaVegneAvStoppHendelse,
 } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { logger } from '@navikt/next-logger';
 import { daysSinceDate, toMidnight } from '../date-utils';
 import { getPerioder } from './oppslag-perioder';
 import { getSnapshot } from './oppslag-snapshot';
@@ -95,8 +96,15 @@ function finnDagerLedig(alleBekreftelser?: BekreftelseHendelse[]): number {
 
 async function getNokkeltall(ident: string | null, enhetsId?: number): Promise<NokkeltallResult | null> {
     // Har du ikke aktiv periode, så retunerer vi ingenting
-    if (!ident) return null;
-    if (enhetsId !== 4154) return null;
+    const erNoe = enhetsId === 4154;
+    if (!ident || !erNoe) {
+        logger.warn(
+            `Mangler: ${!ident && 'ident'} ${!ident && !enhetsId && ' og '} ${!enhetsId && 'enhetsId'}, ikke mulig å hente bekreftelser`,
+        );
+        return null;
+    }
+
+    // if (enhetsId !== 4154) return null;
 
     const snapshot = await getSnapshot(ident);
     if (!snapshot || snapshot.snapshot?.avsluttet || snapshot.notFound) {
