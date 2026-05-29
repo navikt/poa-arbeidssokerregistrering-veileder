@@ -10,13 +10,13 @@ const Visittkort: React.FC<VisittkortProps> = (props) => {
     const { brukerMock } = props;
     const modia = useModiaContext();
 
-    if (brukerMock || !modia.fnr) {
+    if (brukerMock || !modia.fnr || !modia.enhetId) {
         return null;
     }
 
     return (
         <ao-visittkort
-            enhet={modia.enhetId || undefined}
+            enhet={modia.enhetId}
             fnr={modia.fnr}
             tilbakeTilFlate={'veilarbportefoljeflatefs'}
             visVeilederVerktoy={'false'}
