@@ -34,16 +34,16 @@ async function getOversikten(ident: string | null, enhetsId: string | null): Pro
     const erVeileder = true;
     const erNoe = enhetsId === '4154';
     if (!erVeileder || !erNoe) return { oversikt: null };
-    if (brukerMock) {
-        logger.info('brukerMock er aktiv, henter mockdata');
-        const { default: oversikt } = (await import('@/lib/mocks/oversikten.json', {
-            with: { type: 'json' },
-        })) as { default: OversiktType[] };
-        return { oversikt };
-    }
-    return {
-        oversikt: null,
-    };
+    // if (brukerMock) {
+    logger.info('brukerMock er aktiv, henter mockdata');
+    const { default: oversikt } = (await import('@/lib/mocks/oversikten.json', {
+        with: { type: 'json' },
+    })) as { default: OversiktType[] };
+    return { oversikt };
+    // }
+    // return {
+    // oversikt: null,
+    // };
 }
 
 export { getOversikten };
