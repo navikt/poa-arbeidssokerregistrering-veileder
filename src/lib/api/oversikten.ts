@@ -13,6 +13,7 @@ export type OversiktType = {
 };
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
+const isDev = process.env.NAIS_CLUSTER_NAME === 'dev-gcp';
 
 export type OversiktenApiResult = {
     oversikt: OversiktType[] | null;
@@ -28,22 +29,19 @@ export type OversiktenApiResult = {
  * @returns
  */
 async function getOversikten(ident: string | null, enhetsId: string | null): Promise<OversiktenApiResult> {
-    // Dersom ident finnes, så er vi ikke liste-modus, og skal uansett ikke vise noe data.
     if (ident) return { oversikt: null };
-    // TODO: Trenger vi å finne ut hvilken veileder du er her? Evt lage en noe sjekk?
-    const erVeileder = true;
     const erNoe = enhetsId === '4154';
-    if (!erVeileder || !erNoe) return { oversikt: null };
-    // if (brukerMock) {
-    logger.info('brukerMock er aktiv, henter mockdata');
-    const { default: oversikt } = (await import('@/lib/mocks/oversikten.json', {
-        with: { type: 'json' },
-    })) as { default: OversiktType[] };
-    return { oversikt };
-    // }
-    // return {
-    // oversikt: null,
-    // };
+    if (!erNoe) return { oversikt: null };
+    if (brukerMock || isDev) {
+        logger.info('Is localhost or dev, using mock data');
+        const { default: oversikt } = (await import('@/lib/mocks/oversikten.json', {
+            with: { type: 'json' },
+        })) as { default: OversiktType[] };
+        return { oversikt };
+    }
+    return {
+        oversikt: null,
+    };
 }
 
 export { getOversikten };
