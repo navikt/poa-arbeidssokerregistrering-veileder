@@ -165,6 +165,10 @@ function FilteredTableView({ oversikten }: { oversikten: OversiktenApiResult }) 
 function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<OversiktenApiResult> }) {
     const data = use(oversiktenPromise);
 
+    if (!data.oversikt) {
+        return <div>Fant ingen data</div>;
+    }
+
     return (
         <>
             <Heading size='medium' level='2'>
