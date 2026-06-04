@@ -111,7 +111,7 @@ function FilteredTableView({ oversikten }: { oversikten: OversiktenApiResult }) 
                         onClick={() => handleFilterChange('moderat')}
                         data-color='warning'
                     >
-                        {`${LANGTIDSLEDIG_MAX}-${LANGTIDSLEDIG_MELLOM} dager (${oversikten.oversikt?.filter((b) => b.dagerLedig >= LANGTIDSLEDIG_MELLOM && b.dagerLedig < LANGTIDSLEDIG_MAX).length})`}
+                        {`${LANGTIDSLEDIG_MELLOM}-${LANGTIDSLEDIG_MAX - 1} dager (${oversikten.oversikt?.filter((b) => b.dagerLedig >= LANGTIDSLEDIG_MELLOM && b.dagerLedig < LANGTIDSLEDIG_MAX).length})`}
                     </Chips.Toggle>
                     <Chips.Toggle selected={filter === 'lav'} onClick={() => handleFilterChange('lav')}>
                         {`<${LANGTIDSLEDIG_MELLOM} dager (${oversikten.oversikt?.filter((b) => b.dagerLedig < LANGTIDSLEDIG_MELLOM).length})`}
