@@ -1,6 +1,7 @@
 'use server';
 
 import type { Bekreftelsesloesning } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { logger } from '@navikt/next-logger';
 import { isFeatureEnabledWithContext } from '../unleash/feature-flags';
 
 export type OversiktType = {
@@ -43,6 +44,7 @@ async function getOversikten(ident: string | null, enhetsId: string | null): Pro
         enhetsId: enhetsId,
     });
     if (!erAktivert) return { oversikt: null, manglerTilgang: true };
+    logger.info({ enhetsId }, 'arbeidssokerregistrering-for-veileder.oversikten');
     const { default: oversikt } = (await import('@/lib/mocks/oversikten.json', {
         with: { type: 'json' },
     })) as { default: OversiktType[] };
