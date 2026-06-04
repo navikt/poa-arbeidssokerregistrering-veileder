@@ -122,7 +122,7 @@ describe('Oversikten', () => {
 
         // Kritisk og moderat skal vise (0) i chip-teksten
         expect(screen.getByRole('button', { name: /≥180 dager \(0\)/ })).toBeDefined();
-        expect(screen.getByRole('button', { name: /180-150 dager \(0\)/ })).toBeDefined();
+        expect(screen.getByRole('button', { name: /150-179 dager \(0\)/ })).toBeDefined();
 
         // Klikk på kritisk-filter (som har 0 brukere)
         const kritiskChip = screen.getByRole('button', { name: /≥180 dager \(0\)/ });
