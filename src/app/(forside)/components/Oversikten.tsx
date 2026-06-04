@@ -166,7 +166,7 @@ function FilteredTableView({ oversikten }: { oversikten: OversiktenApiResult }) 
 function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<OversiktenApiResult> }) {
     const data = use(oversiktenPromise);
 
-    if (data.manglerTilgang || (!data.oversikt && !data.error)) {
+    if (data.manglerTilgang && !data.error) {
         return <ManglerPersonEllerEnhet />;
     }
 

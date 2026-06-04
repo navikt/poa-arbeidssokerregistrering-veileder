@@ -366,7 +366,7 @@ describe('ForsideWrapper', () => {
                             initialSnapshotPromise={Promise.resolve(nullSnapshot)}
                             initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
                             initialNokkeltallPromise={Promise.resolve(null)}
-                            initOversiktenPromise={Promise.resolve({ oversikt: null })}
+                            initOversiktenPromise={Promise.resolve({ manglerTilgang: true, oversikt: null })}
                         />
                     </Suspense>
                 </ModiaProvider>,

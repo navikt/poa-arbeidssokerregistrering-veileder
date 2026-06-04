@@ -12,8 +12,7 @@ export type OversiktType = {
     rapportertArbeid: { svar: boolean; dato: string };
 };
 
-// const brukerMock = process.env.ENABLE_MOCK === 'enabled';
-// const isDev = process.env.NAIS_CLUSTER_NAME === 'dev-gcp';
+const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
 export type OversiktenApiResult = {
     oversikt: OversiktType[] | null;
@@ -29,22 +28,25 @@ export type OversiktenApiResult = {
  * @returns
  */
 async function getOversikten(ident: string | null, enhetsId: string | null): Promise<OversiktenApiResult> {
-    if (ident || !enhetsId) return { oversikt: null, manglerTilgang: true };
+    if (ident || !enhetsId) {
+        return { oversikt: null, manglerTilgang: true };
+    }
+
+    if (brukerMock) {
+        const { default: oversikt } = (await import('@/lib/mocks/oversikten.json', {
+            with: { type: 'json' },
+        })) as { default: OversiktType[] };
+        return { oversikt };
+    }
 
     const erAktivert = await isFeatureEnabledWithContext('arbeidssokerregistrering-for-veileder.oversikten', {
         enhetsId: enhetsId,
     });
     if (!erAktivert) return { oversikt: null, manglerTilgang: true };
-    // if (brukerMock || isDev) {
     const { default: oversikt } = (await import('@/lib/mocks/oversikten.json', {
         with: { type: 'json' },
     })) as { default: OversiktType[] };
     return { oversikt };
-    // }
-    // TODO: hent og returner ekte data - bruker mock frem til endepunkt er på plass
-    // return {
-    //     oversikt: null,
-    // };
 }
 
 export { getOversikten };
