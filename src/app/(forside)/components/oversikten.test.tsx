@@ -49,7 +49,7 @@ async function renderOversikten(oversiktenResult: OversiktenApiResult) {
 describe('Oversikten', () => {
     it('Har tilgang, men ingen resultater', async () => {
         await renderOversikten(emptyOversikt);
-        expect(screen.getByText('Fant ingen data')).toBeDefined();
+        expect(screen.getByText('Ingen tilgjengelig data')).toBeDefined();
     });
 
     it('Rendrer heading med antall brukere og paginert tabell med 10 rader', async () => {

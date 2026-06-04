@@ -1,6 +1,6 @@
 'use client';
 
-import { Chips, Detail, Heading, Pagination, Table, Tag, VStack } from '@navikt/ds-react';
+import { Chips, Detail, Heading, InlineMessage, Pagination, Table, Tag, VStack } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
 import type { OversiktenApiResult } from '@/lib/api/oversikten';
 
@@ -165,16 +165,16 @@ function FilteredTableView({ oversikten }: { oversikten: OversiktenApiResult }) 
 function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<OversiktenApiResult> }) {
     const data = use(oversiktenPromise);
 
-    if (!data.oversikt) {
-        return <div>Fant ingen data</div>;
-    }
-
     return (
         <>
             <Heading size='medium' level='2'>
-                Arbeidssøkere ({data.oversikt?.length} brukere)
+                Arbeidssøkere {data.oversikt && `(${data.oversikt.length} brukere)`}
             </Heading>
-            <FilteredTableView oversikten={data} />
+            {data.oversikt && data.oversikt?.length > 0 ? (
+                <FilteredTableView oversikten={data} />
+            ) : (
+                <InlineMessage status='info'>Ingen tilgjengelig data</InlineMessage>
+            )}
         </>
     );
 }
