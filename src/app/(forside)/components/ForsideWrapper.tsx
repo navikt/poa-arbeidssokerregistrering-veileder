@@ -22,7 +22,7 @@ function ForsideWrapper({
     initialSnapshotPromise,
     initialBekreftelserPromise,
     initialNokkeltallPromise,
-    initialOversiktenPromise: initOversiktenPromise,
+    initialOversiktenPromise,
 }: ForsideWrapperProps) {
     const { fnr } = useModiaContext();
     const { dataPromise, isPending: snapshotIsPending } = useServerData(initialSnapshotPromise, getSnapshot);
@@ -31,7 +31,7 @@ function ForsideWrapper({
         getBekreftelser,
     );
     const { dataPromise: nokkeltallPromise } = useServerData(initialNokkeltallPromise, getNokkeltall);
-    const { dataPromise: oversiktenPromise } = useServerData(initOversiktenPromise, getOversikten);
+    const { dataPromise: oversiktenPromise } = useServerData(initialOversiktenPromise, getOversikten);
 
     if (!fnr) {
         return <Oversikten oversiktenPromise={oversiktenPromise} />;
