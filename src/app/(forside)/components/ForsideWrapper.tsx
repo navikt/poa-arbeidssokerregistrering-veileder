@@ -2,7 +2,6 @@
 
 import { Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
-import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import { useModiaContext } from '@/contexts/modia-context';
 import { useServerData } from '@/hooks/useServerData';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
@@ -25,7 +24,7 @@ function ForsideWrapper({
     initialNokkeltallPromise,
     initOversiktenPromise,
 }: ForsideWrapperProps) {
-    const { fnr, enhetId } = useModiaContext();
+    const { fnr } = useModiaContext();
     const { dataPromise, isPending: snapshotIsPending } = useServerData(initialSnapshotPromise, getSnapshot);
     const { dataPromise: bekreftelserPromise, isPending: bekreftelserIsPending } = useServerData(
         initialBekreftelserPromise,
@@ -34,11 +33,8 @@ function ForsideWrapper({
     const { dataPromise: nokkeltallPromise } = useServerData(initialNokkeltallPromise, getNokkeltall);
     const { dataPromise: oversiktenPromise } = useServerData(initOversiktenPromise, getOversikten);
 
-    if (!fnr && enhetId === '4154') {
-        return <Oversikten oversiktenPromise={oversiktenPromise} />;
-    }
     if (!fnr) {
-        return <ManglerPersonEllerEnhet />;
+        return <Oversikten oversiktenPromise={oversiktenPromise} />;
     }
 
     return (

@@ -32,4 +32,11 @@ async function isFeatureEnabled(flagName: string): Promise<boolean> {
     return flags.isEnabled(flagName);
 }
 
-export { isFeatureEnabled };
+async function isFeatureEnabledWithContext(flagName: string, properties: Record<string, string>): Promise<boolean> {
+    const definitions = await getServerSideDefinitions();
+    const { toggles } = evaluateFlags(definitions, { properties });
+    const client = flagsClient(toggles);
+    return client.isEnabled(flagName);
+}
+
+export { isFeatureEnabled, isFeatureEnabledWithContext };

@@ -2,6 +2,7 @@
 
 import { Chips, Detail, Heading, InlineMessage, Pagination, Table, Tag, VStack } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
+import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import type { OversiktenApiResult } from '@/lib/api/oversikten';
 
 type Bekreftelsesloesning = 'ARBEIDSSOEKERREGISTERET' | 'DAGPENGER' | 'FRISKMELDT_TIL_ARBEIDSFORMIDLING';
@@ -164,6 +165,10 @@ function FilteredTableView({ oversikten }: { oversikten: OversiktenApiResult }) 
 
 function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<OversiktenApiResult> }) {
     const data = use(oversiktenPromise);
+
+    if (data.manglerTilgang || (!data.oversikt && !data.error)) {
+        return <ManglerPersonEllerEnhet />;
+    }
 
     return (
         <>

@@ -1,7 +1,7 @@
 'use server';
 
 import type { Bekreftelsesloesning } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { logger } from '@navikt/next-logger';
+import { isFeatureEnabledWithContext } from '../unleash/feature-flags';
 
 export type OversiktType = {
     id: number;
@@ -12,8 +12,8 @@ export type OversiktType = {
     rapportertArbeid: { svar: boolean; dato: string };
 };
 
-const brukerMock = process.env.ENABLE_MOCK === 'enabled';
-const isDev = process.env.NAIS_CLUSTER_NAME === 'dev-gcp';
+// const brukerMock = process.env.ENABLE_MOCK === 'enabled';
+// const isDev = process.env.NAIS_CLUSTER_NAME === 'dev-gcp';
 
 export type OversiktenApiResult = {
     oversikt: OversiktType[] | null;
@@ -29,19 +29,22 @@ export type OversiktenApiResult = {
  * @returns
  */
 async function getOversikten(ident: string | null, enhetsId: string | null): Promise<OversiktenApiResult> {
-    if (ident) return { oversikt: null };
-    const erNoe = enhetsId === '4154';
-    if (!erNoe) return { oversikt: null };
-    if (brukerMock || isDev) {
-        logger.info('Is localhost or dev, using mock data');
-        const { default: oversikt } = (await import('@/lib/mocks/oversikten.json', {
-            with: { type: 'json' },
-        })) as { default: OversiktType[] };
-        return { oversikt };
-    }
-    return {
-        oversikt: null,
-    };
+    if (ident || !enhetsId) return { oversikt: null, manglerTilgang: true };
+
+    const erAktivert = await isFeatureEnabledWithContext('arbeidssokerregistrering-for-veileder.oversikten', {
+        enhetsId: enhetsId,
+    });
+    if (!erAktivert) return { oversikt: null, manglerTilgang: true };
+    // if (brukerMock || isDev) {
+    const { default: oversikt } = (await import('@/lib/mocks/oversikten.json', {
+        with: { type: 'json' },
+    })) as { default: OversiktType[] };
+    return { oversikt };
+    // }
+    // TODO: hent og returner ekte data - bruker mock frem til endepunkt er på plass
+    // return {
+    //     oversikt: null,
+    // };
 }
 
 export { getOversikten };
