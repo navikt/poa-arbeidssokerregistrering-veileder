@@ -15,14 +15,14 @@ type ForsideWrapperProps = {
     initialSnapshotPromise: Promise<SnapshotResult>;
     initialBekreftelserPromise: Promise<BekreftelseApiResult>;
     initialNokkeltallPromise: Promise<NokkeltallResult | null>;
-    initOversiktenPromise: Promise<OversiktenApiResult>;
+    initialOversiktenPromise: Promise<OversiktenApiResult>;
 };
 
 function ForsideWrapper({
     initialSnapshotPromise,
     initialBekreftelserPromise,
     initialNokkeltallPromise,
-    initOversiktenPromise,
+    initialOversiktenPromise: initOversiktenPromise,
 }: ForsideWrapperProps) {
     const { fnr } = useModiaContext();
     const { dataPromise, isPending: snapshotIsPending } = useServerData(initialSnapshotPromise, getSnapshot);

@@ -37,7 +37,7 @@ export default async function ForsidePage() {
                     initialSnapshotPromise={snapshotPromise}
                     initialBekreftelserPromise={bekreftelserPromise}
                     initialNokkeltallPromise={nokkeltallPromise}
-                    initOversiktenPromise={oversiktenPromise}
+                    initialOversiktenPromise={oversiktenPromise}
                 />
             </Suspense>
             <DemoPanel />

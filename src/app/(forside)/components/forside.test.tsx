@@ -148,7 +148,7 @@ async function renderForsideWrapper(
                         initialSnapshotPromise={Promise.resolve(snapshotResult)}
                         initialBekreftelserPromise={Promise.resolve(bekreftelserResult)}
                         initialNokkeltallPromise={Promise.resolve(nokkeltallResult)}
-                        initOversiktenPromise={Promise.resolve({ oversikt: null })}
+                        initialOversiktenPromise={Promise.resolve({ oversikt: null })}
                     />
                 </Suspense>
             </ModiaProvider>,
@@ -348,7 +348,7 @@ describe('ForsideWrapper', () => {
                             initialSnapshotPromise={Promise.resolve(nullSnapshot)}
                             initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
                             initialNokkeltallPromise={Promise.resolve(null)}
-                            initOversiktenPromise={Promise.resolve(oversiktenResult)}
+                            initialOversiktenPromise={Promise.resolve(oversiktenResult)}
                         />
                     </Suspense>
                 </ModiaProvider>,
@@ -366,7 +366,7 @@ describe('ForsideWrapper', () => {
                             initialSnapshotPromise={Promise.resolve(nullSnapshot)}
                             initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
                             initialNokkeltallPromise={Promise.resolve(null)}
-                            initOversiktenPromise={Promise.resolve({ manglerTilgang: true, oversikt: null })}
+                            initialOversiktenPromise={Promise.resolve({ manglerTilgang: true, oversikt: null })}
                         />
                     </Suspense>
                 </ModiaProvider>,
