@@ -1,0 +1,210 @@
+[
+    {
+        "id": 1,
+        "navn": "Kari Nordmann",
+        "dagerLedig": 14,
+        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET",
+        "onskerVeileder": { "svar": false, "dato": "2026-05-01" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-15" }
+    },
+    {
+        "id": 2,
+        "navn": "Ola Hansen",
+        "dagerLedig": 45,
+        "bekreftelsesloesning": "DAGPENGER",
+        "onskerVeileder": { "svar": true, "dato": "2026-04-20" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-10" }
+    },
+    {
+        "id": 3,
+        "navn": "Ingrid Larsen",
+        "dagerLedig": 182,
+        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET",
+        "onskerVeileder": { "svar": true, "dato": "2026-03-15" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-12" }
+    },
+    {
+        "id": 4,
+        "navn": "Per Johansen",
+        "dagerLedig": 7,
+        "bekreftelsesloesning": "FRISKMELDT_TIL_ARBEIDSFORMIDLING",
+        "onskerVeileder": { "svar": false, "dato": "2026-05-20" },
+        "rapportertArbeid": { "svar": true, "dato": "2026-05-18" }
+    },
+    {
+        "id": 5,
+        "navn": "Anna Olsen",
+        "dagerLedig": 90,
+        "bekreftelsesloesning": "DAGPENGER",
+        "onskerVeileder": { "svar": true, "dato": "2026-04-01" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-14" }
+    },
+    {
+        "id": 6,
+        "navn": "Erik Pedersen",
+        "dagerLedig": 210,
+        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET",
+        "onskerVeileder": { "svar": true, "dato": "2026-02-10" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-11" }
+    },
+    {
+        "id": 7,
+        "navn": "Maja Berg",
+        "dagerLedig": 30,
+        "bekreftelsesloesning": "DAGPENGER",
+        "onskerVeileder": { "svar": false, "dato": "2026-05-05" },
+        "rapportertArbeid": { "svar": true, "dato": "2026-05-16" }
+    },
+    {
+        "id": 8,
+        "navn": "Thomas Eriksen",
+        "dagerLedig": 120,
+        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET",
+        "onskerVeileder": { "svar": true, "dato": "2026-03-28" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-09" }
+    },
+    {
+        "id": 9,
+        "navn": "Sofie Andersen",
+        "dagerLedig": 3,
+        "bekreftelsesloesning": "FRISKMELDT_TIL_ARBEIDSFORMIDLING",
+        "onskerVeileder": { "svar": false, "dato": "2026-05-24" },
+        "rapportertArbeid": { "svar": true, "dato": "2026-05-22" }
+    },
+    {
+        "id": 10,
+        "navn": "Magnus Nilsen",
+        "dagerLedig": 60,
+        "bekreftelsesloesning": "DAGPENGER",
+        "onskerVeileder": { "svar": true, "dato": "2026-04-15" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-13" }
+    },
+    {
+        "id": 11,
+        "navn": "Hilde Svendsen",
+        "dagerLedig": 150,
+        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET",
+        "onskerVeileder": { "svar": true, "dato": "2026-03-01" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-08" }
+    },
+    {
+        "id": 12,
+        "navn": "Jonas Kristiansen",
+        "dagerLedig": 22,
+        "bekreftelsesloesning": "DAGPENGER",
+        "onskerVeileder": { "svar": false, "dato": "2026-05-10" },
+        "rapportertArbeid": { "svar": true, "dato": "2026-05-20" }
+    },
+    {
+        "id": 13,
+        "navn": "Lena Haugen",
+        "dagerLedig": 200,
+        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET",
+        "onskerVeileder": { "svar": true, "dato": "2026-02-20" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-07" }
+    },
+    {
+        "id": 14,
+        "navn": "Fredrik Solberg",
+        "dagerLedig": 5,
+        "bekreftelsesloesning": "FRISKMELDT_TIL_ARBEIDSFORMIDLING",
+        "onskerVeileder": { "svar": false, "dato": "2026-05-22" },
+        "rapportertArbeid": { "svar": true, "dato": "2026-05-21" }
+    },
+    {
+        "id": 15,
+        "navn": "Camilla Bakke",
+        "dagerLedig": 75,
+        "bekreftelsesloesning": "DAGPENGER",
+        "onskerVeileder": { "svar": true, "dato": "2026-04-08" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-12" }
+    },
+    {
+        "id": 16,
+        "navn": "Anders Lund",
+        "dagerLedig": 183,
+        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET",
+        "onskerVeileder": { "svar": true, "dato": "2026-02-28" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-06" }
+    },
+    {
+        "id": 17,
+        "navn": "Marte Dahl",
+        "dagerLedig": 10,
+        "bekreftelsesloesning": "DAGPENGER",
+        "onskerVeileder": { "svar": false, "dato": "2026-05-18" },
+        "rapportertArbeid": { "svar": true, "dato": "2026-05-17" }
+    },
+    {
+        "id": 18,
+        "navn": "Kristian Aasen",
+        "dagerLedig": 95,
+        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET",
+        "onskerVeileder": { "svar": true, "dato": "2026-04-02" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-10" }
+    },
+    {
+        "id": 19,
+        "navn": "Silje Moen",
+        "dagerLedig": 250,
+        "bekreftelsesloesning": "DAGPENGER",
+        "onskerVeileder": { "svar": true, "dato": "2026-01-15" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-05" }
+    },
+    {
+        "id": 20,
+        "navn": "Håkon Gulbrandsen",
+        "dagerLedig": 28,
+        "bekreftelsesloesning": "FRISKMELDT_TIL_ARBEIDSFORMIDLING",
+        "onskerVeileder": { "svar": false, "dato": "2026-05-08" },
+        "rapportertArbeid": { "svar": true, "dato": "2026-05-19" }
+    },
+    {
+        "id": 21,
+        "navn": "Emilie Strand",
+        "dagerLedig": 140,
+        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET",
+        "onskerVeileder": { "svar": true, "dato": "2026-03-10" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-09" }
+    },
+    {
+        "id": 22,
+        "navn": "Vegard Brekke",
+        "dagerLedig": 55,
+        "bekreftelsesloesning": "DAGPENGER",
+        "onskerVeileder": { "svar": false, "dato": "2026-04-25" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-14" }
+    },
+    {
+        "id": 23,
+        "navn": "Ida Fossum",
+        "dagerLedig": 185,
+        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET",
+        "onskerVeileder": { "svar": true, "dato": "2026-02-14" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-04" }
+    },
+    {
+        "id": 24,
+        "navn": "Lars Henriksen",
+        "dagerLedig": 0,
+        "bekreftelsesloesning": "DAGPENGER",
+        "onskerVeileder": { "svar": false, "dato": "2026-05-26" },
+        "rapportertArbeid": { "svar": true, "dato": "2026-05-25" }
+    },
+    {
+        "id": 25,
+        "navn": "Nora Aas",
+        "dagerLedig": 100,
+        "bekreftelsesloesning": "FRISKMELDT_TIL_ARBEIDSFORMIDLING",
+        "onskerVeileder": { "svar": true, "dato": "2026-03-20" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-11" }
+    },
+    {
+        "id": 26,
+        "navn": "Steffen Skjærgaard",
+        "dagerLedig": 167,
+        "bekreftelsesloesning": "FRISKMELDT_TIL_ARBEIDSFORMIDLING",
+        "onskerVeileder": { "svar": true, "dato": "2026-03-20" },
+        "rapportertArbeid": { "svar": false, "dato": "2026-05-11" }
+    }
+]

@@ -33,6 +33,9 @@ vi.mock('@/lib/api/bekreftelse', () => ({
 vi.mock('@/lib/api/nokkeltall', () => ({
     getNokkeltall: vi.fn(),
 }));
+vi.mock('@/lib/api/oversikten', () => ({
+    getOversikten: vi.fn(),
+}));
 
 import type { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { act, render, screen } from '@testing-library/react';
@@ -41,6 +44,7 @@ import { ModiaProvider } from '@/contexts/modia-context';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
 import type { NokkeltallResult } from '@/lib/api/nokkeltall';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
+import type { OversiktenApiResult } from '@/lib/api/oversikten';
 import bekreftelserMock from '@/lib/mocks/bekreftelser.json';
 import snapshotMock from '@/lib/mocks/snapshot.json';
 import snapshotMockAvsluttet from '@/lib/mocks/snapshot-med-avsluttet.json';
@@ -144,6 +148,7 @@ async function renderForsideWrapper(
                         initialSnapshotPromise={Promise.resolve(snapshotResult)}
                         initialBekreftelserPromise={Promise.resolve(bekreftelserResult)}
                         initialNokkeltallPromise={Promise.resolve(nokkeltallResult)}
+                        initialOversiktenPromise={Promise.resolve({ oversikt: null })}
                     />
                 </Suspense>
             </ModiaProvider>,
@@ -320,5 +325,53 @@ describe('ForsideWrapper', () => {
         expect(screen.getByText('Personen er registrert som arbeidssøker')).toBeDefined();
         expect(screen.getByText('Opplysninger')).toBeDefined();
         expect(screen.queryByText('Personen har en ubekreftet arbeidssøkerperiode')).toBeNull();
+    });
+
+    it('rendrer listevisning (Oversikten) når fnr er null og enhetId er 4154', async () => {
+        const oversiktenResult: OversiktenApiResult = {
+            oversikt: [
+                {
+                    id: 1,
+                    navn: 'Test',
+                    dagerLedig: 14,
+                    bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
+                    onskerVeileder: { svar: false, dato: '2026-05-01' },
+                    rapportertArbeid: { svar: false, dato: '2026-05-01' },
+                },
+            ],
+        };
+        await act(async () => {
+            render(
+                <ModiaProvider initFnr={null} initEnhetId='4154'>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <ForsideWrapper
+                            initialSnapshotPromise={Promise.resolve(nullSnapshot)}
+                            initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
+                            initialNokkeltallPromise={Promise.resolve(null)}
+                            initialOversiktenPromise={Promise.resolve(oversiktenResult)}
+                        />
+                    </Suspense>
+                </ModiaProvider>,
+            );
+        });
+        expect(screen.getByText(/Arbeidssøkere/)).toBeDefined();
+    });
+
+    it('rendrer ManglerPersonEllerEnhet når fnr er null og enhetId ikke er 4154', async () => {
+        await act(async () => {
+            render(
+                <ModiaProvider initFnr={null} initEnhetId='0219'>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <ForsideWrapper
+                            initialSnapshotPromise={Promise.resolve(nullSnapshot)}
+                            initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
+                            initialNokkeltallPromise={Promise.resolve(null)}
+                            initialOversiktenPromise={Promise.resolve({ manglerTilgang: true, oversikt: null })}
+                        />
+                    </Suspense>
+                </ModiaProvider>,
+            );
+        });
+        expect(screen.getByText('Fødselsnummer mangler')).toBeDefined();
     });
 });
