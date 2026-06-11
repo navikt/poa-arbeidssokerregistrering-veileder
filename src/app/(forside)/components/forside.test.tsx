@@ -48,6 +48,7 @@ import type { OversiktenApiResult } from '@/lib/api/oversikten';
 import bekreftelserMock from '@/lib/mocks/bekreftelser.json';
 import snapshotMock from '@/lib/mocks/snapshot.json';
 import snapshotMockAvsluttet from '@/lib/mocks/snapshot-med-avsluttet.json';
+import type { Arbeidssoker } from '@/model/oversikt-api';
 import { Forside } from './Forside';
 import { ForsideWrapper } from './ForsideWrapper';
 
@@ -148,7 +149,7 @@ async function renderForsideWrapper(
                         initialSnapshotPromise={Promise.resolve(snapshotResult)}
                         initialBekreftelserPromise={Promise.resolve(bekreftelserResult)}
                         initialNokkeltallPromise={Promise.resolve(nokkeltallResult)}
-                        initialOversiktenPromise={Promise.resolve({ oversikt: null })}
+                        initialOversiktenPromise={Promise.resolve(null)}
                     />
                 </Suspense>
             </ModiaProvider>,
@@ -329,16 +330,18 @@ describe('ForsideWrapper', () => {
 
     it('rendrer listevisning (Oversikten) når fnr er null og enhetId er 4154', async () => {
         const oversiktenResult: OversiktenApiResult = {
-            oversikt: [
+            arbeidssoekere: [
                 {
-                    id: 1,
-                    navn: 'Test',
-                    dagerLedig: 14,
-                    bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
-                    onskerVeileder: { svar: false, dato: '2026-05-01' },
-                    rapportertArbeid: { svar: false, dato: '2026-05-01' },
+                    arbeidssoeker_id: 1,
+                    identitetsnummer: '12345678901',
+                    fornavn: 'TEST',
+                    etternavn: 'BRUKER',
+                    ledig_siden: '2026-05-28T00:00:00Z',
+                    periode: { id: 'per-1', startet: '2026-05-28T00:00:00Z' },
+                    bekreftelse_paa_vegne_av: [],
+                    tilknyttet_kontor: [],
                 },
-            ],
+            ] as Arbeidssoker[],
         };
         await act(async () => {
             render(
@@ -366,7 +369,7 @@ describe('ForsideWrapper', () => {
                             initialSnapshotPromise={Promise.resolve(nullSnapshot)}
                             initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
                             initialNokkeltallPromise={Promise.resolve(null)}
-                            initialOversiktenPromise={Promise.resolve({ manglerTilgang: true, oversikt: null })}
+                            initialOversiktenPromise={Promise.resolve({ manglerTilgang: true, arbeidssoekere: [] })}
                         />
                     </Suspense>
                 </ModiaProvider>,

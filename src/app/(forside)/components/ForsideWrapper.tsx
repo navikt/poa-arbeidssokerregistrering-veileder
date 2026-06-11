@@ -15,7 +15,7 @@ type ForsideWrapperProps = {
     initialSnapshotPromise: Promise<SnapshotResult>;
     initialBekreftelserPromise: Promise<BekreftelseApiResult>;
     initialNokkeltallPromise: Promise<NokkeltallResult | null>;
-    initialOversiktenPromise: Promise<OversiktenApiResult>;
+    initialOversiktenPromise: Promise<OversiktenApiResult | null>;
 };
 
 function ForsideWrapper({

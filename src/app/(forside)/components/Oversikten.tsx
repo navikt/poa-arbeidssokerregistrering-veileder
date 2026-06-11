@@ -1,24 +1,32 @@
-'use client';
-
-import { Chips, Detail, Heading, InlineMessage, Pagination, Table, Tag, VStack } from '@navikt/ds-react';
+import { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
+import type { Bekreftelsesloesning } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { Chips, Heading, InlineMessage, Pagination, Table, Tag } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
 import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import type { OversiktenApiResult } from '@/lib/api/oversikten';
+import { daysSinceDate } from '@/lib/date-utils';
+import type { Arbeidssoker } from '@/model/oversikt-api';
 
-type Bekreftelsesloesning = 'ARBEIDSSOEKERREGISTERET' | 'DAGPENGER' | 'FRISKMELDT_TIL_ARBEIDSFORMIDLING';
+const LANGTIDSLEDIG_MAX = 180;
+const LANGTIDSLEDIG_MELLOM = 150;
+const ITEMS_PER_PAGE = 15;
 
-const BEKREFTELSE_LABEL: Record<Bekreftelsesloesning, string> = {
+type LocalCustomBekreftelsesloesning = Extract<
+    Bekreftelsesloesning,
+    'ARBEIDSSOEKERREGISTERET' | 'DAGPENGER' | 'FRISKMELDT_TIL_ARBEIDSFORMIDLING'
+>;
+
+const BEKREFTELSE_LABEL: Record<LocalCustomBekreftelsesloesning, string> = {
     ARBEIDSSOEKERREGISTERET: 'Arbeidssøkerregisteret',
     DAGPENGER: 'Dagpenger',
     FRISKMELDT_TIL_ARBEIDSFORMIDLING: 'Sykepenger',
 };
+type DagerFilter = 'alle' | 'kritisk' | 'moderat' | 'lav';
 
 type SortState = {
     orderBy: string;
     direction: 'ascending' | 'descending';
 };
-const LANGTIDSLEDIG_MAX = 180;
-const LANGTIDSLEDIG_MELLOM = 150;
 
 function DagerTag({ dager }: { dager: number }) {
     if (dager >= LANGTIDSLEDIG_MAX)
@@ -36,7 +44,7 @@ function DagerTag({ dager }: { dager: number }) {
     return <Tag size='small'>{dager} dager</Tag>;
 }
 
-function JaNeiTag({ svar }: { svar: boolean }) {
+function JaNeiTag({ svar }: { svar: boolean | undefined }) {
     return svar ? (
         <Tag data-color='success' size='small'>
             Ja
@@ -47,37 +55,80 @@ function JaNeiTag({ svar }: { svar: boolean }) {
         </Tag>
     );
 }
+function Filters({
+    arbeidsokere,
+    currentFilter,
+    onFilterChange,
+}: {
+    arbeidsokere: Arbeidssoker[];
+    currentFilter: DagerFilter;
+    onFilterChange: (selectedFilter: DagerFilter) => void;
+}) {
+    return (
+        <Chips size='small' className='mb-4'>
+            <Chips.Toggle selected={currentFilter === 'alle'} onClick={() => onFilterChange('alle')}>
+                {`Alle (${arbeidsokere.length})`}
+            </Chips.Toggle>
+            <Chips.Toggle
+                selected={currentFilter === 'kritisk'}
+                onClick={() => onFilterChange('kritisk')}
+                data-color='danger'
+            >
+                {`≥${LANGTIDSLEDIG_MAX} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledig_siden) >= LANGTIDSLEDIG_MAX).length})`}
+            </Chips.Toggle>
+            <Chips.Toggle
+                selected={currentFilter === 'moderat'}
+                onClick={() => onFilterChange('moderat')}
+                data-color='warning'
+            >
+                {`${LANGTIDSLEDIG_MELLOM}-${LANGTIDSLEDIG_MAX - 1} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledig_siden) >= LANGTIDSLEDIG_MELLOM && daysSinceDate(b.ledig_siden) < LANGTIDSLEDIG_MAX).length})`}
+            </Chips.Toggle>
+            <Chips.Toggle selected={currentFilter === 'lav'} onClick={() => onFilterChange('lav')}>
+                {`<${LANGTIDSLEDIG_MELLOM} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledig_siden) < LANGTIDSLEDIG_MELLOM).length})`}
+            </Chips.Toggle>
+        </Chips>
+    );
+}
 
-type DagerFilter = 'alle' | 'kritisk' | 'moderat' | 'lav';
+function firstToUppercase(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
 
-const ITEMS_PER_PAGE = 10;
-
-function FilteredTableView({ oversikten }: { oversikten: OversiktenApiResult }) {
+function TabellOversikt({ oversikten }: { oversikten: OversiktenApiResult }) {
+    const [page, setPage] = useState(1);
     const [sort, setSort] = useState<SortState>({ orderBy: 'dagerLedig', direction: 'descending' });
     const [filter, setFilter] = useState<DagerFilter>('alle');
-    const [page, setPage] = useState(1);
 
-    const filteredBrukere = useMemo(() => {
-        if (!oversikten.oversikt) return [];
-        let result = [...oversikten.oversikt];
+    const filteredArbeidssokere = useMemo<Arbeidssoker[]>(() => {
+        if (!oversikten.arbeidssoekere) return [];
+        let result = [...oversikten.arbeidssoekere];
+        // Er det verdt å vurdere å dra denne ut i en egne funksjon?
 
-        if (filter === 'kritisk') result = result.filter((b) => b.dagerLedig >= LANGTIDSLEDIG_MAX);
-        else if (filter === 'moderat')
-            result = result.filter((b) => b.dagerLedig >= LANGTIDSLEDIG_MELLOM && b.dagerLedig < LANGTIDSLEDIG_MAX);
-        else if (filter === 'lav') result = result.filter((b) => b.dagerLedig < LANGTIDSLEDIG_MELLOM);
+        // FILTERING
+        if (filter === 'kritisk') {
+            result = result.filter((i) => daysSinceDate(i.ledig_siden) >= LANGTIDSLEDIG_MAX);
+        } else if (filter === 'moderat') {
+            result = result.filter((i) => {
+                const iLedig = daysSinceDate(i.ledig_siden);
+                return iLedig >= LANGTIDSLEDIG_MELLOM && iLedig < LANGTIDSLEDIG_MAX;
+            });
+        } else if (filter === 'lav') {
+            result = result.filter((i) => daysSinceDate(i.ledig_siden) < LANGTIDSLEDIG_MELLOM);
+        }
 
+        // SORTING
         result.sort((a, b) => {
             const modifier = sort.direction === 'ascending' ? 1 : -1;
-            if (sort.orderBy === 'dagerLedig') return (a.dagerLedig - b.dagerLedig) * modifier;
-            if (sort.orderBy === 'navn') return a.navn.localeCompare(b.navn) * modifier;
+            if (sort.orderBy === 'dagerLedig') {
+                return (daysSinceDate(a.ledig_siden) - daysSinceDate(b.ledig_siden)) * modifier;
+            }
             return 0;
         });
-
         return result;
     }, [oversikten, filter, sort]);
 
-    const totalPages = Math.ceil(filteredBrukere.length / ITEMS_PER_PAGE);
-    const paginatedBrukere = filteredBrukere.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(filteredArbeidssokere.length / ITEMS_PER_PAGE);
+    const paginatedBrukere = filteredArbeidssokere.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
     const handleFilterChange = (newFilter: DagerFilter) => {
         setFilter(newFilter);
@@ -93,37 +144,16 @@ function FilteredTableView({ oversikten }: { oversikten: OversiktenApiResult }) 
     };
 
     return (
-        <VStack gap='space-16'>
-            <div className='flex flex-wrap items-center gap-4'>
-                <Chips size='small'>
-                    <Chips.Toggle selected={filter === 'alle'} onClick={() => handleFilterChange('alle')}>
-                        {`Alle (${oversikten.oversikt?.length})`}
-                    </Chips.Toggle>
-                    <Chips.Toggle
-                        selected={filter === 'kritisk'}
-                        onClick={() => handleFilterChange('kritisk')}
-                        data-color='danger'
-                    >
-                        {`≥${LANGTIDSLEDIG_MAX} dager (${oversikten.oversikt?.filter((b) => b.dagerLedig >= LANGTIDSLEDIG_MAX).length})`}
-                    </Chips.Toggle>
-                    <Chips.Toggle
-                        selected={filter === 'moderat'}
-                        onClick={() => handleFilterChange('moderat')}
-                        data-color='warning'
-                    >
-                        {`${LANGTIDSLEDIG_MELLOM}-${LANGTIDSLEDIG_MAX - 1} dager (${oversikten.oversikt?.filter((b) => b.dagerLedig >= LANGTIDSLEDIG_MELLOM && b.dagerLedig < LANGTIDSLEDIG_MAX).length})`}
-                    </Chips.Toggle>
-                    <Chips.Toggle selected={filter === 'lav'} onClick={() => handleFilterChange('lav')}>
-                        {`<${LANGTIDSLEDIG_MELLOM} dager (${oversikten.oversikt?.filter((b) => b.dagerLedig < LANGTIDSLEDIG_MELLOM).length})`}
-                    </Chips.Toggle>
-                </Chips>
-            </div>
+        <div>
+            <Filters
+                arbeidsokere={oversikten.arbeidssoekere}
+                currentFilter={filter}
+                onFilterChange={handleFilterChange}
+            />
             <Table size='medium' zebraStripes sort={sort} onSortChange={handleSort}>
                 <Table.Header>
                     <Table.Row>
-                        <Table.ColumnHeader sortKey='navn' sortable>
-                            Navn
-                        </Table.ColumnHeader>
+                        <Table.ColumnHeader>Navn</Table.ColumnHeader>
                         <Table.ColumnHeader sortKey='dagerLedig' sortable>
                             Dager ledig
                         </Table.ColumnHeader>
@@ -133,38 +163,51 @@ function FilteredTableView({ oversikten }: { oversikten: OversiktenApiResult }) 
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {paginatedBrukere.map((bruker) => (
-                        <Table.Row key={bruker.id}>
-                            <Table.DataCell>{bruker.navn}</Table.DataCell>
+                    {paginatedBrukere.map((arbeidssoker) => (
+                        <Table.Row key={arbeidssoker.arbeidssoeker_id}>
                             <Table.DataCell>
-                                <DagerTag dager={bruker.dagerLedig} />
+                                {firstToUppercase(arbeidssoker.fornavn)} {firstToUppercase(arbeidssoker.etternavn)}
                             </Table.DataCell>
                             <Table.DataCell>
-                                <Tag size='small'>{BEKREFTELSE_LABEL[bruker.bekreftelsesloesning]}</Tag>
+                                <DagerTag dager={daysSinceDate(arbeidssoker.ledig_siden)} />
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {arbeidssoker.bekreftelse_paa_vegne_av.map((e) => (
+                                    <Tag key={e} size='small'>
+                                        {BEKREFTELSE_LABEL[e]}
+                                    </Tag>
+                                ))}
                             </Table.DataCell>
                             <Table.DataCell>
                                 <div className='flex items-center gap-1'>
-                                    <JaNeiTag svar={bruker.onskerVeileder.svar} />
-                                    <Detail>({bruker.onskerVeileder.dato})</Detail>
+                                    <JaNeiTag
+                                        svar={
+                                            arbeidssoker.egenvurdering?.egenvurdert_til ===
+                                            ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING
+                                        }
+                                    />
                                 </div>
                             </Table.DataCell>
                             <Table.DataCell>
                                 <div className='flex items-center gap-1'>
-                                    <JaNeiTag svar={bruker.rapportertArbeid.svar} />
-                                    <Detail>({bruker.rapportertArbeid.dato})</Detail>
+                                    <JaNeiTag svar={arbeidssoker.bekreftelse?.har_jobbet} />
                                 </div>
                             </Table.DataCell>
                         </Table.Row>
                     ))}
                 </Table.Body>
             </Table>
-            {totalPages > 1 && <Pagination page={page} onPageChange={setPage} count={totalPages} size='small' />}
-        </VStack>
+            <div className='py-4'>
+                {totalPages > 1 && <Pagination page={page} onPageChange={setPage} count={totalPages} size='small' />}
+            </div>
+        </div>
     );
 }
 
-function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<OversiktenApiResult> }) {
+function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<OversiktenApiResult | null> }) {
     const data = use(oversiktenPromise);
+
+    if (!data) return null;
 
     if (data.manglerTilgang && !data.error) {
         return <ManglerPersonEllerEnhet />;
@@ -172,11 +215,11 @@ function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<Oversikt
 
     return (
         <>
-            <Heading size='medium' level='2'>
-                Arbeidssøkere {data.oversikt && `(${data.oversikt.length} brukere)`}
+            <Heading size='medium' level='2' className='mb-4'>
+                Arbeidssøkere {data.arbeidssoekere && `(${data.arbeidssoekere.length} brukere)`}
             </Heading>
-            {data.oversikt && data.oversikt?.length > 0 ? (
-                <FilteredTableView oversikten={data} />
+            {data.arbeidssoekere && data.arbeidssoekere?.length > 0 ? (
+                <TabellOversikt oversikten={data} />
             ) : (
                 <InlineMessage status='info'>Ingen tilgjengelig data</InlineMessage>
             )}

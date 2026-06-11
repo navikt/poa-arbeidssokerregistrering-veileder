@@ -1,38 +1,45 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Suspense } from 'react';
 import { ModiaProvider } from '@/contexts/modia-context';
-import type { OversiktenApiResult, OversiktType } from '@/lib/api/oversikten';
+import type { OversiktenApiResult } from '@/lib/api/oversikten';
 import oversiktenMock from '@/lib/mocks/oversikten.json';
+import type { Arbeidssoker, OversiktApiResponse } from '@/model/oversikt-api';
 import { Oversikten } from './Oversikten';
 
-const alleBrukere = oversiktenMock as OversiktType[];
+const typedMock = oversiktenMock as unknown as OversiktApiResponse;
+const alleBrukere = typedMock.arbeidssoekere;
+const fåBrukere = alleBrukere.slice(0, 4);
 
-const fåBrukere: OversiktType[] = alleBrukere.slice(0, 4);
-
-const kunKritiskeBrukere: OversiktType[] = [
+const kunKritiskeBrukere: Arbeidssoker[] = [
     {
-        id: 101,
-        navn: 'Silje Langvarig',
-        dagerLedig: 200,
-        bekreftelsesloesning: 'ARBEIDSSOEKERREGISTERET',
-        onskerVeileder: { svar: true, dato: '2026-01-15' },
-        rapportertArbeid: { svar: false, dato: '2026-05-10' },
+        arbeidssoeker_id: 101,
+        identitetsnummer: '12345678901',
+        fornavn: 'SILJE',
+        etternavn: 'LANGVARIG',
+        ledig_siden: '2025-12-23T00:00:00Z',
+        periode: { id: 'per-101', startet: '2025-12-23T00:00:00Z' },
+        bekreftelse_paa_vegne_av: ['ARBEIDSSOEKERREGISTERET'],
+        tilknyttet_kontor: [],
     },
     {
-        id: 102,
-        navn: 'Erik Over Grensen',
-        dagerLedig: 250,
-        bekreftelsesloesning: 'DAGPENGER',
-        onskerVeileder: { svar: false, dato: '2026-02-01' },
-        rapportertArbeid: { svar: false, dato: '2026-05-12' },
+        arbeidssoeker_id: 102,
+        identitetsnummer: '12345678902',
+        fornavn: 'ERIK',
+        etternavn: 'OVER GRENSEN',
+        ledig_siden: '2025-10-04T00:00:00Z',
+        periode: { id: 'per-102', startet: '2025-10-04T00:00:00Z' },
+        bekreftelse_paa_vegne_av: ['DAGPENGER'],
+        tilknyttet_kontor: [],
     },
     {
-        id: 103,
-        navn: 'Marte Veldig Lang',
-        dagerLedig: 182,
-        bekreftelsesloesning: 'FRISKMELDT_TIL_ARBEIDSFORMIDLING',
-        onskerVeileder: { svar: true, dato: '2026-02-20' },
-        rapportertArbeid: { svar: false, dato: '2026-05-08' },
+        arbeidssoeker_id: 103,
+        identitetsnummer: '12345678903',
+        fornavn: 'MARTE',
+        etternavn: 'VELDIG LANG',
+        ledig_siden: '2025-12-12T00:00:00Z',
+        periode: { id: 'per-103', startet: '2025-12-12T00:00:00Z' },
+        bekreftelse_paa_vegne_av: ['FRISKMELDT_TIL_ARBEIDSFORMIDLING'],
+        tilknyttet_kontor: [],
     },
 ];
 
@@ -79,41 +86,41 @@ type Story = StoryObj<typeof meta>;
 export const MedMangeBrukere: Story = {
     name: 'Med mange brukere (paginering)',
     args: {
-        result: { oversikt: alleBrukere },
+        result: { arbeidssoekere: alleBrukere },
     },
 };
 
 export const MedFåBrukere: Story = {
     name: 'Med få brukere (ingen paginering)',
     args: {
-        result: { oversikt: fåBrukere },
+        result: { arbeidssoekere: fåBrukere },
     },
 };
 
 export const TomListe: Story = {
     name: 'Tom liste (ingen arbeidssøkere)',
     args: {
-        result: { oversikt: [] },
+        result: { arbeidssoekere: [] },
     },
 };
 
 export const ManglerTilgang: Story = {
     name: 'Mangler tilgang (ingen enhet valgt)',
     args: {
-        result: { oversikt: null, manglerTilgang: true },
+        result: { arbeidssoekere: [], manglerTilgang: true },
     },
 };
 
 export const Feil: Story = {
     name: 'Feil ved henting av data',
     args: {
-        result: { oversikt: null, error: new Error('Feil ved henting av oversikt') },
+        result: { arbeidssoekere: [], error: new Error('Feil ved henting av oversikt') },
     },
 };
 
 export const KunKritiskeBrukere: Story = {
     name: 'Kun kritiske brukere (≥180 dager ledig)',
     args: {
-        result: { oversikt: kunKritiskeBrukere },
+        result: { arbeidssoekere: kunKritiskeBrukere },
     },
 };

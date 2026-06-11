@@ -82,6 +82,8 @@ spec:
       value: http://paw-arbeidssoekerregisteret-api-bekreftelse
     - name: NEXT_PUBLIC_UMAMI_TRACKING_ID
       value: 48b3cabd-5a11-4024-bb0a-119f44dea3b9
+    - name: OVERSIKT_API_URL
+      value: http://paw-arbeidssoekerregisteret-api-oversikt
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
@@ -112,6 +114,7 @@ spec:
         - application: paw-arbeidssokerregisteret-api-inngang
         - application: paw-arbeidssoekerregisteret-api-oppslag-v2
         - application: paw-arbeidssoekerregisteret-api-bekreftelse
+        - application: paw-arbeidssoekerregisteret-api-oversikt
         - application: modiacontextholder
           namespace: personoversikt
         - application: pam-ontologi

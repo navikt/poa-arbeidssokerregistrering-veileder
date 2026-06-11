@@ -1,54 +1,89 @@
 'use server';
 
-import type { Bekreftelsesloesning } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { logger } from '@navikt/next-logger';
+import { headers } from 'next/headers';
+import type { ApiPaging, Arbeidssoker, OversiktApiResponse } from '@/model/oversikt-api';
+import { authenticatedFetch } from '../authenticatedFetch';
 import { isFeatureEnabledWithContext } from '../unleash/feature-flags';
 
-export type OversiktType = {
-    id: number;
-    navn: string;
-    dagerLedig: number;
-    bekreftelsesloesning: Bekreftelsesloesning;
-    onskerVeileder: { svar: boolean; dato: string };
-    rapportertArbeid: { svar: boolean; dato: string };
-};
-
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
+const isProd = process.env.NAIS_CLUSTER_NAME === 'prod-gcp';
 
 export type OversiktenApiResult = {
-    oversikt: OversiktType[] | null;
+    arbeidssoekere: Arbeidssoker[];
+    paging?: ApiPaging;
     error?: Error;
     manglerTilgang?: boolean;
 };
 
+async function hentMockData(): Promise<OversiktApiResponse> {
+    return (await import('@/lib/mocks/oversikten.json')).default as unknown as OversiktApiResponse;
+}
+
 /**
- *
- * @param enhetsId siden denne kan bli satt/endret på klienten uten av det
- * gjøres en refresh, så må den komme som param fremfor at vi selv henter
- * modia-context inne i getOversikten
- * @returns
+ * Hvem skal se hva?
+ * - lokalt viser vi statisk mock data
+ * - i dev bruker vi unleash og ekte api data
+ * - i prod bruker vi unleash og mock data (kun kontor 4154 i starten)
  */
-async function getOversikten(ident: string | null, enhetsId: string | null): Promise<OversiktenApiResult> {
+const noDataAndNoAccess = { arbeidssoekere: [], manglerTilgang: true };
+const OVERSIKT_API_URL = process.env.OVERSIKT_API_URL;
+const OVERSIKT_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oversikt/.default`;
+
+async function getOversikten(ident: string | null, enhetsId: string | null): Promise<OversiktenApiResult | null> {
+    // Oversikten gjelder kun enhetsnivå – ikke ved person-kontekst.
     if (ident || !enhetsId) {
-        return { oversikt: null, manglerTilgang: true };
+        return null;
     }
 
+    // Lokalt: alltid vis mock uten feature flag-sjekk
     if (brukerMock) {
-        const { default: oversikt } = (await import('@/lib/mocks/oversikten.json', {
-            with: { type: 'json' },
-        })) as { default: OversiktType[] };
-        return { oversikt };
+        return hentMockData();
     }
 
+    // Dev og prod: sjekk feature flag
     const erAktivert = await isFeatureEnabledWithContext('arbeidssokerregistrering-for-veileder.oversikten', {
-        enhetsId: enhetsId,
+        enhetsId,
     });
-    if (!erAktivert) return { oversikt: null, manglerTilgang: true };
-    logger.info({ enhetsId }, 'arbeidssokerregistrering-for-veileder.oversikten');
-    const { default: oversikt } = (await import('@/lib/mocks/oversikten.json', {
-        with: { type: 'json' },
-    })) as { default: OversiktType[] };
-    return { oversikt };
+
+    if (!erAktivert) {
+        return null;
+    }
+
+    logger.info({ enhetsId, event: 'oversikten_aktivert' }, 'Oversikten er aktivert for kontor');
+
+    // Prod: bruk mock data inntil videre (kun kontor 4154 i starten)
+    if (isProd) {
+        return hentMockData();
+    }
+
+    // Dev: hent fra ekte API
+    if (!OVERSIKT_API_URL) {
+        logger.error('Feil ved henting av oversikt api url');
+        return {
+            ...noDataAndNoAccess,
+            error: new Error('Klarte ikke å hente oversikt api url'),
+        };
+    }
+    const result = await authenticatedFetch<OversiktApiResponse>({
+        url: `${OVERSIKT_API_URL}/api/v1/oversikt`,
+        scope: OVERSIKT_API_SCOPE,
+        headers: await headers(),
+        method: 'POST',
+        body: {
+            identitetsnummer: enhetsId,
+            paging: {
+                page: 1,
+                page_size: 10,
+                sort_order: 'ASC',
+            },
+        },
+    });
+    if (!result.ok) {
+        logger.error({ event: 'oversikt_feil', httpStatus: result.status }, 'Feil ved henting av oversikt');
+        return { ...noDataAndNoAccess, error: result.error };
+    }
+    return result.data;
 }
 
 export { getOversikten };
