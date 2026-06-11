@@ -94,13 +94,15 @@ function prettyPrintDatoOgKlokkeslettKortform(dato: string, locale?: Sprak, visA
     return `${date.getDate().toString().padStart(2, '0')}.${maaned.toString().padStart(2, '0')}${visAar || thisYear !== year ? `.${year}` : ''} ${timer.toString().length === 1 ? '0' : ''}${timer}:${minutter.toString().length === 1 ? '0' : ''}${minutter}`;
 }
 
-function daysSinceDate(dateStr: string | Date): number {
+const MS_PR_DAY = 1000 * 60 * 60 * 24;
+
+function daysSinceDate(dateStr: string | Date | undefined): number {
     if (!dateStr) return 0;
     const startingDate = toMidnight(dateStr);
     if (!startingDate) return 0;
     const today = toMidnight(new Date());
     const diff = today.getTime() - startingDate.getTime();
-    return Math.floor(diff / (1000 * 60 * 60 * 24));
+    return Math.floor(diff / MS_PR_DAY);
 }
 
 function toMidnight(date: string | Date): Date {
