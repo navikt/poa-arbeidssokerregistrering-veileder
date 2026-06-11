@@ -207,9 +207,7 @@ function TabellOversikt({ oversikten }: { oversikten: OversiktenApiResult }) {
 function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<OversiktenApiResult | null> }) {
     const data = use(oversiktenPromise);
 
-    if (!data) return null;
-
-    if (data.manglerTilgang && !data.error) {
+    if (!data || (data.manglerTilgang && !data.error)) {
         return <ManglerPersonEllerEnhet />;
     }
 
