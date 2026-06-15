@@ -2,7 +2,7 @@
 
 import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
-import type { ApiPaging, Arbeidssoker, OversiktApiResponse } from '@/model/oversikt-api';
+import type { ApiPaging, Arbeidssoker, OversiktApiResponse, OversiktenPayload } from '@/model/oversikt-api';
 import { authenticatedFetch } from '../authenticatedFetch';
 import { isFeatureEnabledWithContext } from '../unleash/feature-flags';
 
@@ -26,7 +26,6 @@ async function hentMockData(): Promise<OversiktApiResponse> {
  * - i dev bruker vi unleash og ekte api data
  * - i prod bruker vi unleash og mock data (kun kontor 4154 i starten)
  */
-const noDataAndNoAccess = { arbeidssoekere: [], manglerTilgang: true };
 const OVERSIKT_API_URL = process.env.OVERSIKT_API_URL;
 const OVERSIKT_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oversikt/.default`;
 
@@ -53,7 +52,7 @@ async function getOversikten(ident: string | null, enhetsId: string | null): Pro
     logger.info({ enhetsId, event: 'oversikten_aktivert' }, 'Oversikten er aktivert for kontor');
 
     // Prod: bruk mock data inntil videre (kun kontor 4154 i starten)
-    if (isProd) {
+    if (isProd && erAktivert) {
         return hentMockData();
     }
 
@@ -61,27 +60,29 @@ async function getOversikten(ident: string | null, enhetsId: string | null): Pro
     if (!OVERSIKT_API_URL) {
         logger.error('Feil ved henting av oversikt api url');
         return {
-            ...noDataAndNoAccess,
+            arbeidssoekere: [],
             error: new Error('Klarte ikke å hente oversikt api url'),
         };
     }
-    const result = await authenticatedFetch<OversiktApiResponse>({
+
+    const result = await authenticatedFetch<OversiktApiResponse, OversiktenPayload>({
         url: `${OVERSIKT_API_URL}/api/v1/oversikt`,
         scope: OVERSIKT_API_SCOPE,
         headers: await headers(),
         method: 'POST',
         body: {
-            identitetsnummer: enhetsId,
+            type: 'TILKNYTTET_KONTOR',
+            kontorId: enhetsId,
             paging: {
                 page: 1,
-                page_size: 10,
-                sort_order: 'ASC',
+                pageSize: 10,
+                sortOrder: 'ASC',
             },
         },
     });
     if (!result.ok) {
         logger.error({ event: 'oversikt_feil', httpStatus: result.status }, 'Feil ved henting av oversikt');
-        return { ...noDataAndNoAccess, error: result.error };
+        return { arbeidssoekere: [], error: result.error };
     }
     return result.data;
 }

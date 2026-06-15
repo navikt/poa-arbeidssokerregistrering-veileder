@@ -1,6 +1,6 @@
 import { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
 import type { Bekreftelsesloesning } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { Chips, Heading, InlineMessage, Pagination, Table, Tag } from '@navikt/ds-react';
+import { Chips, Heading, InlineMessage, LocalAlert, Pagination, Table, Tag } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
 import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import type { OversiktenApiResult } from '@/lib/api/oversikten';
@@ -74,17 +74,17 @@ function Filters({
                 onClick={() => onFilterChange('kritisk')}
                 data-color='danger'
             >
-                {`≥${LANGTIDSLEDIG_MAX} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledig_siden) >= LANGTIDSLEDIG_MAX).length})`}
+                {`≥${LANGTIDSLEDIG_MAX} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledigSiden) >= LANGTIDSLEDIG_MAX).length})`}
             </Chips.Toggle>
             <Chips.Toggle
                 selected={currentFilter === 'moderat'}
                 onClick={() => onFilterChange('moderat')}
                 data-color='warning'
             >
-                {`${LANGTIDSLEDIG_MELLOM}-${LANGTIDSLEDIG_MAX - 1} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledig_siden) >= LANGTIDSLEDIG_MELLOM && daysSinceDate(b.ledig_siden) < LANGTIDSLEDIG_MAX).length})`}
+                {`${LANGTIDSLEDIG_MELLOM}-${LANGTIDSLEDIG_MAX - 1} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledigSiden) >= LANGTIDSLEDIG_MELLOM && daysSinceDate(b.ledigSiden) < LANGTIDSLEDIG_MAX).length})`}
             </Chips.Toggle>
             <Chips.Toggle selected={currentFilter === 'lav'} onClick={() => onFilterChange('lav')}>
-                {`<${LANGTIDSLEDIG_MELLOM} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledig_siden) < LANGTIDSLEDIG_MELLOM).length})`}
+                {`<${LANGTIDSLEDIG_MELLOM} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledigSiden) < LANGTIDSLEDIG_MELLOM).length})`}
             </Chips.Toggle>
         </Chips>
     );
@@ -106,21 +106,21 @@ function TabellOversikt({ oversikten }: { oversikten: OversiktenApiResult }) {
 
         // FILTERING
         if (filter === 'kritisk') {
-            result = result.filter((i) => daysSinceDate(i.ledig_siden) >= LANGTIDSLEDIG_MAX);
+            result = result.filter((i) => daysSinceDate(i.ledigSiden) >= LANGTIDSLEDIG_MAX);
         } else if (filter === 'moderat') {
             result = result.filter((i) => {
-                const iLedig = daysSinceDate(i.ledig_siden);
+                const iLedig = daysSinceDate(i.ledigSiden);
                 return iLedig >= LANGTIDSLEDIG_MELLOM && iLedig < LANGTIDSLEDIG_MAX;
             });
         } else if (filter === 'lav') {
-            result = result.filter((i) => daysSinceDate(i.ledig_siden) < LANGTIDSLEDIG_MELLOM);
+            result = result.filter((i) => daysSinceDate(i.ledigSiden) < LANGTIDSLEDIG_MELLOM);
         }
 
         // SORTING
         result.sort((a, b) => {
             const modifier = sort.direction === 'ascending' ? 1 : -1;
             if (sort.orderBy === 'dagerLedig') {
-                return (daysSinceDate(a.ledig_siden) - daysSinceDate(b.ledig_siden)) * modifier;
+                return (daysSinceDate(a.ledigSiden) - daysSinceDate(b.ledigSiden)) * modifier;
             }
             return 0;
         });
@@ -164,15 +164,15 @@ function TabellOversikt({ oversikten }: { oversikten: OversiktenApiResult }) {
                 </Table.Header>
                 <Table.Body>
                     {paginatedBrukere.map((arbeidssoker) => (
-                        <Table.Row key={arbeidssoker.arbeidssoeker_id}>
+                        <Table.Row key={arbeidssoker.arbeidssoekerId}>
                             <Table.DataCell>
                                 {firstToUppercase(arbeidssoker.fornavn)} {firstToUppercase(arbeidssoker.etternavn)}
                             </Table.DataCell>
                             <Table.DataCell>
-                                <DagerTag dager={daysSinceDate(arbeidssoker.ledig_siden)} />
+                                <DagerTag dager={daysSinceDate(arbeidssoker.ledigSiden)} />
                             </Table.DataCell>
                             <Table.DataCell>
-                                {arbeidssoker.bekreftelse_paa_vegne_av.map((e) => (
+                                {arbeidssoker.bekreftelsePaaVegneAv.map((e) => (
                                     <Tag key={e} size='small'>
                                         {BEKREFTELSE_LABEL[e]}
                                     </Tag>
@@ -182,7 +182,7 @@ function TabellOversikt({ oversikten }: { oversikten: OversiktenApiResult }) {
                                 <div className='flex items-center gap-1'>
                                     <JaNeiTag
                                         svar={
-                                            arbeidssoker.egenvurdering?.egenvurdert_til ===
+                                            arbeidssoker.egenvurdering?.egenvurdertTil ===
                                             ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING
                                         }
                                     />
@@ -190,7 +190,7 @@ function TabellOversikt({ oversikten }: { oversikten: OversiktenApiResult }) {
                             </Table.DataCell>
                             <Table.DataCell>
                                 <div className='flex items-center gap-1'>
-                                    <JaNeiTag svar={arbeidssoker.bekreftelse?.har_jobbet} />
+                                    <JaNeiTag svar={arbeidssoker.bekreftelse?.harJobbet} />
                                 </div>
                             </Table.DataCell>
                         </Table.Row>
@@ -213,6 +213,15 @@ function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<Oversikt
 
     return (
         <>
+            <LocalAlert status='warning' className='mb-4'>
+                <LocalAlert.Header>
+                    <LocalAlert.Title>Beta - Oversiktsvisning</LocalAlert.Title>
+                </LocalAlert.Header>
+                <LocalAlert.Content>
+                    Listen under viser kun statisk test-data, dette er ikke ekte data. Formålet er å kunne se hvordan
+                    den nye oversikten kan se ut.
+                </LocalAlert.Content>
+            </LocalAlert>
             <Heading size='medium' level='2' className='mb-4'>
                 Arbeidssøkere {data.arbeidssoekere && `(${data.arbeidssoekere.length} brukere)`}
             </Heading>

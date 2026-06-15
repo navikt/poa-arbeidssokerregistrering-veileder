@@ -43,19 +43,19 @@ type FetchFailure = {
 };
 type FetchResult<T> = FetchSuccess<T> | FetchFailure;
 
-type AuthenticatedFetchOptions = {
+type AuthenticatedFetchOptions<B = unknown> = {
     url: string;
     scope: string;
     headers: Headers;
     method?: 'GET' | 'POST' | 'PUT';
-    body?: unknown;
+    body?: B;
     extraHeaders?: Record<string, string>;
     // HTTP-statuskoder som er forventet og ikke skal logges som feil.
     // Kalleren tar ansvar for logging av disse statusene.
     suppressLogForStatuses?: number[];
 };
 
-async function authenticatedFetch<T>(options: AuthenticatedFetchOptions): Promise<FetchResult<T>> {
+async function authenticatedFetch<T, B = unknown>(options: AuthenticatedFetchOptions<B>): Promise<FetchResult<T>> {
     const { url, scope, headers, method = 'GET', body, extraHeaders, suppressLogForStatuses = [] } = options;
 
     const traceId = headers.get('x-trace-id') ?? nanoid();

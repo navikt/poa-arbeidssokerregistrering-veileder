@@ -1,5 +1,15 @@
 import type { Bekreftelsesloesning, ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-
+export type OversiktenPayload = {
+    type: 'TILKNYTTET_KONTOR';
+    kontorId: string;
+    kontorType?: 'ARBEIDSOPPFOLGING';
+    ledigSide?: string;
+    paging: {
+        page: number;
+        pageSize: number;
+        sortOrder: 'DESC' | 'ASC';
+    };
+};
 type Periode = {
     id: string;
     startet: string;
@@ -9,18 +19,18 @@ type Periode = {
 type SortOrder = 'ASC' | 'DESC';
 
 export type TilknyttetKontor = {
-    kontor_id: string;
-    kontor_navn: string;
-    kontor_type: string;
+    kontorId: string;
+    kontorNavn: string;
+    kontorType: string;
 };
 
 export type Arbeidssoker = {
-    arbeidssoeker_id: number;
+    arbeidssoekerId: number;
     identitetsnummer: string;
     fornavn: string;
     mellomnavn?: string;
     etternavn: string;
-    ledig_siden?: string;
+    ledigSiden?: string;
     periode: Periode;
     opplysninger?: {
         id: string;
@@ -28,31 +38,31 @@ export type Arbeidssoker = {
     };
     profilering?: {
         id: string;
-        profilert_til: ProfilertTil;
+        profilertTil: ProfilertTil;
         tidspunkt: string;
     };
     egenvurdering?: {
         id: string;
-        egenvurdert_til: ProfilertTil;
+        egenvurdertTil: ProfilertTil;
         tidspunkt: string;
     };
     bekreftelse?: {
         id: string;
-        gjelder_fra: string;
-        gjelder_til: string;
-        har_jobbet: boolean;
-        vil_fortsette: boolean;
+        gjelderFra: string;
+        gjelderTil: string;
+        harJobbet: boolean;
+        vilFortsette: boolean;
         bekreftelsesloesning: Bekreftelsesloesning;
     };
-    bekreftelse_paa_vegne_av: Bekreftelsesloesning[];
-    tilknyttet_kontor: TilknyttetKontor[];
+    bekreftelsePaaVegneAv: Bekreftelsesloesning[];
+    tilknyttetKontor: TilknyttetKontor[];
 };
 
 export type ApiPaging = {
     page: number;
-    page_size: number;
-    total_items: number;
-    sort_order: SortOrder;
+    pageSize: number;
+    totalItems: number;
+    sortOrder: SortOrder;
 };
 
 export type OversiktApiResponse = {

@@ -332,14 +332,14 @@ describe('ForsideWrapper', () => {
         const oversiktenResult: OversiktenApiResult = {
             arbeidssoekere: [
                 {
-                    arbeidssoeker_id: 1,
+                    arbeidssoekerId: 1,
                     identitetsnummer: '12345678901',
                     fornavn: 'TEST',
                     etternavn: 'BRUKER',
-                    ledig_siden: '2026-05-28T00:00:00Z',
+                    ledigSiden: '2026-05-28T00:00:00Z',
                     periode: { id: 'per-1', startet: '2026-05-28T00:00:00Z' },
-                    bekreftelse_paa_vegne_av: [],
-                    tilknyttet_kontor: [],
+                    bekreftelsePaaVegneAv: [],
+                    tilknyttetKontor: [],
                 },
             ] as Arbeidssoker[],
         };

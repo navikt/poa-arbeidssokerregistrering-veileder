@@ -26,24 +26,24 @@ const fullOversikt: OversiktenApiResult = {
 const kunLaveBrukere: OversiktenApiResult = {
     arbeidssoekere: [
         {
-            arbeidssoeker_id: 1,
+            arbeidssoekerId: 1,
             identitetsnummer: '12345678901',
             fornavn: 'TEST',
             etternavn: 'BRUKER',
-            ledig_siden: '2026-05-12T00:00:00Z',
+            ledigSiden: '2026-05-12T00:00:00Z',
             periode: { id: 'per-1', startet: '2026-05-12T00:00:00Z' },
-            bekreftelse_paa_vegne_av: [],
-            tilknyttet_kontor: [],
+            bekreftelsePaaVegneAv: [],
+            tilknyttetKontor: [],
         },
         {
-            arbeidssoeker_id: 2,
+            arbeidssoekerId: 2,
             identitetsnummer: '12345678902',
             fornavn: 'ANDRE',
             etternavn: 'BRUKER',
-            ledig_siden: '2026-03-03T00:00:00Z',
+            ledigSiden: '2026-03-03T00:00:00Z',
             periode: { id: 'per-2', startet: '2026-03-03T00:00:00Z' },
-            bekreftelse_paa_vegne_av: [],
-            tilknyttet_kontor: [],
+            bekreftelsePaaVegneAv: [],
+            tilknyttetKontor: [],
         },
     ] as Arbeidssoker[],
 };
@@ -63,7 +63,7 @@ describe('Oversikten', () => {
     it('Rendrer heading med antall brukere og paginert tabell med 15 rader', async () => {
         await renderOversikten(fullOversikt);
 
-        expect(screen.getByRole('heading', { level: 2 }).textContent).toContain('26 brukere');
+        expect(screen.getByRole('heading', { level: 2, name: /Arbeidssøkere/ }).textContent).toContain('26 brukere');
 
         const rows = screen.getAllByRole('row');
         // 1 header-rad + 15 data-rader (paginert)
@@ -73,7 +73,7 @@ describe('Oversikten', () => {
     it('Filtrering på kritisk (≥180 dager) viser kun riktige brukere', async () => {
         await renderOversikten(fullOversikt);
 
-        const kritiskBrukere = typedMock.arbeidssoekere.filter((b) => daysSinceDate(b.ledig_siden) >= 180);
+        const kritiskBrukere = typedMock.arbeidssoekere.filter((b) => daysSinceDate(b.ledigSiden) >= 180);
         const kritiskChip = screen.getByRole('button', {
             name: new RegExp(`≥180 dager \\(${kritiskBrukere.length}\\)`),
         });
