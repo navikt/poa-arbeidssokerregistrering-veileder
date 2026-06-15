@@ -30,8 +30,10 @@ const InternflateDecorator: React.FC<{
                     router.push('/');
                 }
             } else {
-                setFnr(null);
-                router.push('/');
+                if (fnrRef.current !== null) {
+                    setFnr(null);
+                    router.push('/');
+                }
             }
         },
         [setFnr, router],

@@ -122,6 +122,16 @@ describe('InternflateDecorator', () => {
         expect(mockPush).toHaveBeenCalledWith('/');
     });
 
+    it('gjør ingenting når fnr allerede er null og decorator emitter null (idle-tilstand)', () => {
+        mockPathname = '/';
+        const { element } = renderDecorator(null);
+
+        dispatchFnrChanged(element, null);
+        dispatchFnrChanged(element, '');
+
+        expect(mockPush).not.toHaveBeenCalled();
+    });
+
     it('sender enhetId som enhet-attributt til dekoratøren', () => {
         const { element } = renderDecoratorWithEnhet('4154');
 

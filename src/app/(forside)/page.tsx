@@ -24,7 +24,7 @@ export default async function ForsidePage() {
     const nokkeltallPromise = modiaContext.fnr
         ? getNokkeltall(modiaContext.fnr, modiaContext.enhetId)
         : Promise.resolve(null);
-    const oversiktenPromise = getOversikten(modiaContext.fnr, modiaContext.enhetId);
+    const oversiktenPromise = modiaContext.fnr ? Promise.resolve(null) : getOversikten(modiaContext.enhetId);
 
     const flagVisHvaSomErNytt = await flagVisHvaSomErNyttPromise;
 

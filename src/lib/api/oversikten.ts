@@ -17,7 +17,8 @@ export type OversiktenApiResult = {
 };
 
 async function hentMockData(): Promise<OversiktApiResponse> {
-    return (await import('@/lib/mocks/oversikten.json')).default as unknown as OversiktApiResponse;
+    return (await import('@/lib/mocks/oversikten.json', { with: { type: 'json' } }))
+        .default as unknown as OversiktApiResponse;
 }
 
 /**
@@ -29,9 +30,8 @@ async function hentMockData(): Promise<OversiktApiResponse> {
 const OVERSIKT_API_URL = process.env.OVERSIKT_API_URL;
 const OVERSIKT_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oversikt/.default`;
 
-async function getOversikten(ident: string | null, enhetsId: string | null): Promise<OversiktenApiResult | null> {
-    // Oversikten gjelder kun enhetsnivå – ikke ved person-kontekst.
-    if (ident || !enhetsId) {
+async function getOversikten(enhetsId: string | null): Promise<OversiktenApiResult | null> {
+    if (!enhetsId) {
         return null;
     }
 

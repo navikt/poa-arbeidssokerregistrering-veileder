@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader } from '@navikt/ds-react';
-import { Suspense } from 'react';
+import { Suspense, useCallback } from 'react';
 import { useModiaContext } from '@/contexts/modia-context';
 import { useServerData } from '@/hooks/useServerData';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
@@ -31,7 +31,8 @@ function ForsideWrapper({
         getBekreftelser,
     );
     const { dataPromise: nokkeltallPromise } = useServerData(initialNokkeltallPromise, getNokkeltall);
-    const { dataPromise: oversiktenPromise } = useServerData(initialOversiktenPromise, getOversikten);
+    const fetchOversikten = useCallback((_fnr: string | null, enhetsId: string | null) => getOversikten(enhetsId), []);
+    const { dataPromise: oversiktenPromise } = useServerData(initialOversiktenPromise, fetchOversikten);
 
     if (!fnr) {
         return <Oversikten oversiktenPromise={oversiktenPromise} />;
