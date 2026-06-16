@@ -29,7 +29,7 @@ export default async function ForsidePage() {
     const flagVisHvaSomErNytt = await flagVisHvaSomErNyttPromise;
 
     return (
-        <div className={'flex flex-col max-w-3xl'}>
+        <div className={'flex flex-col'}>
             <DemoLabel />
             {flagVisHvaSomErNytt && <HvaErNytt />}
             <Suspense fallback={<Loader />}>

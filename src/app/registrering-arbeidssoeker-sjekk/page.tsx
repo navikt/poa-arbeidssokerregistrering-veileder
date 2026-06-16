@@ -11,7 +11,7 @@ export default async function ForsidePage() {
     const kanStartePeriodePromise = kanStartePeriode(modiaContext.fnr);
 
     return (
-        <div className={'flex flex-col max-w-3xl'}>
+        <div className={'flex flex-col'}>
             <TilbakeTilForside sidenavn='Arbeidssøkerregistrering' />
             <Heading level='1' size='large' className='mb-8 text-left'>
                 Arbeidssøkerregistrering

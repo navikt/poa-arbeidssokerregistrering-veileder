@@ -14,7 +14,7 @@ export default async function BekreftelsePage() {
         <>
             <TilbakeTilForside sidenavn='Bekreftelse' />
             <Heading size={'large'}>Bekreftelse</Heading>
-            <div className={'flex flex-col max-w-3xl'}>
+            <div className={'flex flex-col'}>
                 <Suspense fallback={<LoaderSkeleton />}>
                     <BekreftelseWrapper initialBekreftelserPromise={bekreftelserPromise} />
                 </Suspense>

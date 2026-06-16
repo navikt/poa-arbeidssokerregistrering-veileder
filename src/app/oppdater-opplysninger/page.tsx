@@ -12,7 +12,7 @@ export default async function OppdaterOpplysningerPage() {
     const sisteArbeidsforholdPromise = getSisteArbeidsforholdFraAareg(modiaContext.fnr);
 
     return (
-        <div className={'flex flex-col max-w-3xl'}>
+        <div className={'flex flex-col'}>
             <TilbakeTilForside sidenavn='Oppdater opplysninger' />
             <Heading size='medium' level='1' className='mb-8'>
                 Oppdater opplysninger

@@ -16,7 +16,7 @@ export default async function TidslinjerPage() {
             <Heading size={'large'} className='mb-4'>
                 Tidslinjer for arbeidssøker
             </Heading>
-            <div className={'flex flex-col max-w-3xl'}>
+            <div className={'flex flex-col'}>
                 <Suspense fallback={<LoaderSkeleton />}>
                     <TidslinjeWrapper initialPerioderPromise={perioderPromise} />
                 </Suspense>
