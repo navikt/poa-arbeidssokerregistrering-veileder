@@ -207,7 +207,61 @@ describe('Nøkkeltall', () => {
             expect(result).toMatchObject({ dagerUtenArbeid: daysSinceDate(forventetStreakStart) });
         });
     });
+    describe('Antall dager helt arbiedledig med forvirrende på vegne av', () => {
+        it('Tilbakekomst fra dagpenger med langt tidsgap', async () => {
+            // Nyeste bekreftelse er 25 dager gammel (over 14-dagersgrensen).
+            // Unntaket gjelder: bekreftelsesloesning === 'DAGPENGER' (paaVegneAv).
+            const PAA_VEGNE_AV_OFFSET = 25;
+            const INTERVAL = 15;
 
+            const dagpengerGjelderTil = new Date();
+            dagpengerGjelderTil.setDate(dagpengerGjelderTil.getDate() - PAA_VEGNE_AV_OFFSET);
+            dagpengerGjelderTil.setHours(22, 0, 0, 0);
+
+            const dagpengerGjelderFra = new Date(dagpengerGjelderTil);
+            dagpengerGjelderFra.setDate(dagpengerGjelderFra.getDate() - INTERVAL);
+            dagpengerGjelderFra.setHours(8, 0, 0, 0);
+
+            const dagpengerTidspunkt = new Date(dagpengerGjelderTil);
+            dagpengerTidspunkt.setDate(dagpengerTidspunkt.getDate() + 1);
+
+            const dagpengerBekreftelse: BekreftelseHendelse = {
+                id: crypto.randomUUID(),
+                bekreftelsesloesning: 'DAGPENGER',
+                status: 'GYLDIG',
+                svar: {
+                    sendtInnAv: {
+                        tidspunkt: dagpengerTidspunkt.toISOString(),
+                        utfoertAv: { type: 'SLUTTBRUKER', id: MOCK_IDENT },
+                        kilde: 'dagpenger',
+                        aarsak: 'Bekreftelse levert',
+                    },
+                    gjelderFra: dagpengerGjelderFra.toISOString(),
+                    gjelderTil: dagpengerGjelderTil.toISOString(),
+                    harJobbetIDennePerioden: false,
+                    vilFortsetteSomArbeidssoeker: true,
+                },
+                tidspunkt: dagpengerTidspunkt.toISOString(),
+                type: 'BEKREFTELSE_V1',
+            };
+
+            // 3 normale bekreftelser direkte forut for DAGPENGER-perioden
+            const tidligereBekreftelser = lagBekreftelser(PAA_VEGNE_AV_OFFSET + INTERVAL, 3);
+
+            const perioderMedBekreftelser = [
+                {
+                    ...perioderMock[0],
+                    hendelser: [dagpengerBekreftelse, ...tidligereBekreftelser],
+                },
+            ];
+
+            vi.mocked(getPerioder).mockResolvedValueOnce({ perioder: perioderMedBekreftelser as Periode[] });
+            const result = await hentNokkeltall();
+
+            const forventetStreakStart = tidligereBekreftelser.at(-1)?.svar.gjelderFra ?? '';
+            expect(result).toMatchObject({ dagerUtenArbeid: daysSinceDate(forventetStreakStart) });
+        });
+    });
     describe('Tilhørighet', () => {
         it('returnerer riktig tilhørighet', async () => {
             const result = await hentNokkeltall();

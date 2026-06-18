@@ -7,11 +7,18 @@ import type {
     EgenvurderingHendelse,
     Hendelse,
     PaaVegneAvStoppHendelse,
+    Periode,
 } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { logger } from '@navikt/next-logger';
 import { daysSinceDate, toMidnight } from '../date-utils';
 import { getPerioder } from './oppslag-perioder';
 import { getSnapshot } from './oppslag-snapshot';
+
+function diffInDays(a: string | Date, b: string | Date): number {
+    const _a = toMidnight(a);
+    const _b = toMidnight(b);
+    return (_a.getTime() - _b.getTime()) / (1000 * 60 * 60 * 24);
+}
 
 /**
  * FINN TILHØRIGHET
@@ -58,40 +65,64 @@ function formaterEgenvurdering(egenvurdering?: EgenvurderingHendelse) {
     return egenvurdering.egenvurdering === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING;
 }
 
-function finnDagerLedig(alleBekreftelser?: BekreftelseHendelse[]): number {
-    // Regel 1: Startdato er første bekreftelse du svarte "nei" på jobbet i.
-    // Regel 2: det kan ikke være lengre enn 14 dager mellom 2 bekreftelser,
-    // Regel 3: er det mer enn 14 dager siden den første "gyldige" bekreftelsen, så returner 0
-    // finn eldste gyldige bekreftelse, og kapp lista på den
-    if (!alleBekreftelser || alleBekreftelser?.length === 0 || alleBekreftelser.at(0)?.svar.harJobbetIDennePerioden) {
+function finnAntallDagerLangtidsledig(perioder: Periode[]): number {
+    /**
+     * Antall dager langtidsledig
+     * ===========================
+     * Hvor lenge du sammenhengende har sendt inn gyldige bekreftelser
+     * - Gyldig bekreftelse === svar "nei" på hvorvidt du har jobbet i perioden
+     * - Det kan ikke være mer enn 14* dager mellom 2 bekrftelser
+     *
+     * - === *UNNTAKET ===
+     * Dersom siste bekreftelse ikke kommer fra oss (arbeidssøkerregisstet), så kan det være
+     * forsinkelser i system, og vi godtar opphold lengre enn 14 dager, gitt at perioden fortsatt
+     * er pågående.
+     *
+     * TODO:
+     * Er det mulig at to bekreftelser som ligger lengre bak i historikken, altså ikke siste(nyeste)
+     * kan ha mer enn 14 dager i mellom seg og likevel være gyldige. Eller er denne
+     * "forsinkelsen" i systemet kun tilstede på den siste bekreftelse?
+     * DERSOM så er tilfelle kan vi sjekke en sprik på over 14 opp mot periodeID også.
+     */
+
+    // Dersom siste periode er avsluttet er du IKKE i registeret -> 0 dager ledig
+    if (perioder.at(0)?.avsluttet) {
         return 0;
     }
 
-    const gyldigeBekreftelser: BekreftelseHendelse[] = [];
-    let eldsteGyldigeDato = toMidnight(new Date());
-    for (const bekreftelse of alleBekreftelser) {
-        const currentSluttdato = bekreftelse.svar.gjelderTil;
-        if (currentSluttdato) {
-            const diffInDays =
-                (eldsteGyldigeDato.getTime() - toMidnight(currentSluttdato).getTime()) / (1000 * 60 * 60 * 24);
-            if (diffInDays >= 14) {
-                break;
-            }
-            eldsteGyldigeDato = toMidnight(bekreftelse.svar.gjelderFra);
-            gyldigeBekreftelser.push(bekreftelse);
-        }
+    // Sjekk at du i det hele tatt har bekreftelser og at den siste er gyldig, ellers -> 0 dager ledig
+    const alleBekreftelser = perioder
+        .flatMap((e) => e.hendelser)
+        .filter((e) => e.type === 'BEKREFTELSE_V1')
+        .sort((a, b) => b.tidspunkt.localeCompare(a.tidspunkt));
+    const sisteBekreftelse = alleBekreftelser.at(0);
+    if (!sisteBekreftelse || sisteBekreftelse.svar.harJobbetIDennePerioden) {
+        return 0;
     }
 
-    const indexOfLastTimeWorked = gyldigeBekreftelser?.findIndex(
-        (bekreftelse) => bekreftelse.svar.harJobbetIDennePerioden,
-    );
+    let oldetsValidDate = toMidnight(new Date());
+    let isFirst = true;
 
-    const streakStart =
-        indexOfLastTimeWorked === -1
-            ? gyldigeBekreftelser.at(-1)?.svar.gjelderFra // Alltid arbeidsledig → eldste bekreftelse
-            : gyldigeBekreftelser.at(indexOfLastTimeWorked - 1)?.svar.gjelderFra;
+    for (const bekreftelse of alleBekreftelser) {
+        if (bekreftelse.svar.harJobbetIDennePerioden) {
+            break;
+        }
 
-    return streakStart ? daysSinceDate(streakStart) : 0;
+        // Dersom nyeste bekreftelse er en "på vegne av" gjelder andre regler
+        const paaVegneAv = bekreftelse.bekreftelsesloesning !== 'ARBEIDSSOEKERREGISTERET';
+        if (isFirst && paaVegneAv) {
+            oldetsValidDate = toMidnight(bekreftelse.svar.gjelderFra);
+        } else {
+            const validUntilDate = bekreftelse.svar.gjelderTil;
+            if (diffInDays(oldetsValidDate, validUntilDate) >= 14) {
+                break;
+            }
+            oldetsValidDate = toMidnight(bekreftelse.svar.gjelderFra);
+        }
+        isFirst = false;
+    }
+
+    return daysSinceDate(oldetsValidDate);
 }
 
 async function getNokkeltall(ident: string | null, enhetsId?: string | null): Promise<NokkeltallResult | null> {
@@ -112,13 +143,8 @@ async function getNokkeltall(ident: string | null, enhetsId?: string | null): Pr
         return null;
     }
 
-    const alleBekreftelser = perioder.perioder
-        .flatMap((periode) => periode.hendelser)
-        .filter((hedelse) => hedelse.type === 'BEKREFTELSE_V1')
-        .sort((a, b) => b.tidspunkt.localeCompare(a.tidspunkt));
-
     return {
-        dagerUtenArbeid: finnDagerLedig(alleBekreftelser),
+        dagerUtenArbeid: finnAntallDagerLangtidsledig(perioder.perioder),
         tilhorighet: finnTilhorighet(perioder.perioder?.[0]?.hendelser),
         onskerHjelp: snapshot.snapshot?.egenvurdering
             ? {
