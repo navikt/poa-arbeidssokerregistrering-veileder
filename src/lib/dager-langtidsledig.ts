@@ -40,6 +40,12 @@ function finnAntallDagerLangtidsledig(perioder: Periode[]): number {
         return 0;
     }
 
+    // Finn ut om det finnes en periode med avsluttet som er nyere enn nyeste bekreftelse
+    const nyesteAvsluttet = perioder.find((p) => p.avsluttet)?.avsluttet;
+    if (nyesteAvsluttet && diffInDays(nyesteAvsluttet, nyesteBekreftelse.tidspunkt) > 0) {
+        return 0;
+    }
+
     let firstValidatedStartDate = toMidnight(new Date());
     let prevPeriodeId = nyesteBekreftelse.periodeId;
 

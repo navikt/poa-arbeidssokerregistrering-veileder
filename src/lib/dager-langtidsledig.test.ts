@@ -112,4 +112,52 @@ describe('finnAntallDagerLangtidsledig', () => {
             expect(finnAntallDagerLangtidsledig(perioder)).toBe(0);
         });
     });
+    describe('Mange perioder som ikke inneholder bekreftelser før det til slutt kommer noe', () => {
+        it('ignorerer tomme perioder og teller riktig fra perioden med bekreftelser', () => {
+            const perioder = lagPerioder(
+                {
+                    periodeId: 'med-bekreftelser',
+                    bekreftelser: [
+                        { gjelderFra: 28, gjelderTil: 14 },
+                        { gjelderFra: 14, gjelderTil: 0 },
+                    ],
+                },
+                { periodeId: 'tom-1', bekreftelser: [] },
+                { periodeId: 'tom-2', bekreftelser: [] },
+            );
+
+            expect(finnAntallDagerLangtidsledig(perioder)).toBe(28);
+        });
+
+        it('returnerer 0 når avsluttede perioder uten bekreftelser er nyere enn siste bekreftelse', () => {
+            // Realistisk scenario (DESC-sortert):
+            // Periode 1: aktiv, ingen bekreftelser (ny pågående periode)
+            // Periode 2 & 3: avsluttet i dag, ingen bekreftelser
+            // Periode 4 & 5: eldre perioder med gyldige bekreftelser
+            //
+            // nyesteAvsluttet = i dag, nyesteBekreftelse.tidspunkt = 14 dager siden
+            // → diffInDays(i dag, 14 dager siden) = 14 > 0 → tidlig exit returnerer 0
+            const perioder = lagPerioder(
+                { periodeId: 'aktiv-tom', bekreftelser: [] },
+                { periodeId: 'avsluttet-tom-1', avsluttet: true, bekreftelser: [] },
+                { periodeId: 'avsluttet-tom-2', avsluttet: true, bekreftelser: [] },
+                {
+                    periodeId: 'gammel-med-bekreftelser-1',
+                    bekreftelser: [
+                        { gjelderFra: 42, gjelderTil: 28 },
+                        { gjelderFra: 28, gjelderTil: 14 },
+                    ],
+                },
+                {
+                    periodeId: 'gammel-med-bekreftelser-2',
+                    bekreftelser: [
+                        { gjelderFra: 70, gjelderTil: 56 },
+                        { gjelderFra: 56, gjelderTil: 42 },
+                    ],
+                },
+            );
+
+            expect(finnAntallDagerLangtidsledig(perioder)).toBe(0);
+        });
+    });
 });
