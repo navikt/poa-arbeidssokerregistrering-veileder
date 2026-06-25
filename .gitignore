@@ -19,6 +19,8 @@
 .DS_Store
 *.pem
 .idea
+.vscode
+.zed
 
 # debug
 npm-debug.log*
