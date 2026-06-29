@@ -5,9 +5,9 @@ import { DemoLabel } from '@/components/demo-label';
 import { DemoPanel } from '@/components/demo-panel';
 import { HvaErNytt } from '@/components/HvaErNytt';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
+import { getKartlegging } from '@/lib/api/kartlegging';
 import { getNokkeltall } from '@/lib/api/nokkeltall';
 import { getSnapshot, type SnapshotResult } from '@/lib/api/oppslag-snapshot';
-import { getOversikten } from '@/lib/api/oversikten';
 import { hentModiaContext } from '@/lib/modia-context-api';
 import { isFeatureEnabled } from '@/lib/unleash/feature-flags';
 
@@ -24,7 +24,7 @@ export default async function ForsidePage() {
     const nokkeltallPromise = modiaContext.fnr
         ? getNokkeltall(modiaContext.fnr, modiaContext.enhetId)
         : Promise.resolve(null);
-    const oversiktenPromise = modiaContext.fnr ? Promise.resolve(null) : getOversikten(modiaContext.enhetId);
+    const kartleggingPromise = modiaContext.fnr ? Promise.resolve(null) : getKartlegging(modiaContext.enhetId);
 
     const flagVisHvaSomErNytt = await flagVisHvaSomErNyttPromise;
 
@@ -37,7 +37,7 @@ export default async function ForsidePage() {
                     initialSnapshotPromise={snapshotPromise}
                     initialBekreftelserPromise={bekreftelserPromise}
                     initialNokkeltallPromise={nokkeltallPromise}
-                    initialOversiktenPromise={oversiktenPromise}
+                    initialKartleggingPromise={kartleggingPromise}
                 />
             </Suspense>
             <DemoPanel />

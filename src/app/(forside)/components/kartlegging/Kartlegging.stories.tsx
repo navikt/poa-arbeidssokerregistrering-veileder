@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Suspense } from 'react';
+import { Kartlegging } from '@/app/(forside)/components/kartlegging';
 import { ModiaProvider } from '@/contexts/modia-context';
-import type { OversiktenApiResult } from '@/lib/api/oversikten';
-import oversiktenMock from '@/lib/mocks/oversikten.json';
-import type { Arbeidssoker, OversiktApiResponse } from '@/model/oversikt-api';
-import { Oversikten } from './Oversikten';
+import type { KartleggingApiResult } from '@/lib/api/kartlegging';
+import kartleggingMock from '@/lib/mocks/kartlegging.json';
+import type { Arbeidssoker, KartleggingApiResponse } from '@/model/kartlegging-api';
 
-const typedMock = oversiktenMock as unknown as OversiktApiResponse;
+const typedMock = kartleggingMock as unknown as KartleggingApiResponse;
 const alleBrukere = typedMock.arbeidssoekere;
 const fåBrukere = alleBrukere.slice(0, 4);
 
@@ -44,21 +44,21 @@ const kunKritiskeBrukere: Arbeidssoker[] = [
 ];
 
 /**
- * Wrapper som konverterer plain OversiktenApiResult til Promise for Storybook-stories.
+ * Wrapper som konverterer plain KartleggingApiResult til Promise for Storybook-stories.
  * Unngår at Promise-objektet hamner i Storybook args (og dermed JSON-serialisering),
  * som elles gir sirkulær referanse-feil med React.
  */
-function OversiktenPreview({ result }: { result: OversiktenApiResult }) {
+function KartleggingPreview({ result }: { result: KartleggingApiResult }) {
     return (
         <Suspense>
-            <Oversikten oversiktenPromise={Promise.resolve(result)} />
+            <Kartlegging kartleggingPromise={Promise.resolve(result)} />
         </Suspense>
     );
 }
 
 const meta = {
-    title: 'Forside/Oversikten',
-    component: OversiktenPreview,
+    title: 'Forside/Kartlegging',
+    component: KartleggingPreview,
     decorators: [
         (Story) => (
             <ModiaProvider initFnr={null} initEnhetId='9999'>
@@ -74,11 +74,11 @@ const meta = {
         docs: {
             description: {
                 component:
-                    'Oversikt over arbeidssøkere på enheten. Viser tabell med filtrering, sortering og paginering. Bruker dager-ledig-tags for å markere langtidsledige.',
+                    'Kartlegging av arbeidssøkere på enheten. Viser tabell med filtrering, sortering og paginering. Bruker dager-ledig-tags for å markere langtidsledige.',
             },
         },
     },
-} satisfies Meta<typeof OversiktenPreview>;
+} satisfies Meta<typeof KartleggingPreview>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -114,7 +114,7 @@ export const ManglerTilgang: Story = {
 export const Feil: Story = {
     name: 'Feil ved henting av data',
     args: {
-        result: { arbeidssoekere: [], error: new Error('Feil ved henting av oversikt') },
+        result: { arbeidssoekere: [], error: new Error('Feil ved henting av kartlegging') },
     },
 };
 

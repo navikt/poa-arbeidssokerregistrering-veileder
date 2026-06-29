@@ -1,29 +1,29 @@
 // @vitest-environment jsdom
 import { expect, vi } from 'vitest';
 
-vi.mock('@/lib/api/oversikten', () => ({
-    getOversikten: vi.fn(),
+vi.mock('@/lib/api/kartlegging', () => ({
+    getKartlegging: vi.fn(),
 }));
 
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
-import type { OversiktenApiResult } from '@/lib/api/oversikten';
+import type { KartleggingApiResult } from '@/lib/api/kartlegging';
 import { daysSinceDate } from '@/lib/date-utils';
-import oversiktenMock from '@/lib/mocks/oversikten.json';
-import type { Arbeidssoker, OversiktApiResponse } from '@/model/oversikt-api';
-import { Oversikten } from './Oversikten';
+import kartleggingMock from '@/lib/mocks/kartlegging.json';
+import type { Arbeidssoker, KartleggingApiResponse } from '@/model/kartlegging-api';
+import { Kartlegging } from './Kartlegging';
 
-const typedMock = oversiktenMock as unknown as OversiktApiResponse;
+const typedMock = kartleggingMock as unknown as KartleggingApiResponse;
 
-const emptyOversikt: OversiktenApiResult = {
+const emptyKartlegging: KartleggingApiResult = {
     arbeidssoekere: [],
 };
 
-const fullOversikt: OversiktenApiResult = {
+const fullKartlegging: KartleggingApiResult = {
     arbeidssoekere: typedMock.arbeidssoekere,
 };
 
 // Testdata der kun "lav"-kategorien (<150 dager) har brukere
-const kunLaveBrukere: OversiktenApiResult = {
+const kunLaveBrukere: KartleggingApiResult = {
     arbeidssoekere: [
         {
             arbeidssoekerId: 1,
@@ -48,20 +48,20 @@ const kunLaveBrukere: OversiktenApiResult = {
     ] as Arbeidssoker[],
 };
 
-async function renderOversikten(oversiktenResult: OversiktenApiResult) {
+async function renderKartlegging(kartleggingResult: KartleggingApiResult) {
     await act(async () => {
-        render(<Oversikten oversiktenPromise={Promise.resolve(oversiktenResult)} />);
+        render(<Kartlegging kartleggingPromise={Promise.resolve(kartleggingResult)} />);
     });
 }
 
-describe('Oversikten', () => {
+describe('Kartlegging', () => {
     it('Har tilgang, men ingen resultater', async () => {
-        await renderOversikten(emptyOversikt);
+        await renderKartlegging(emptyKartlegging);
         expect(screen.getByText('Ingen tilgjengelig data')).toBeDefined();
     });
 
     it('Rendrer heading med antall brukere og paginert tabell med 15 rader', async () => {
-        await renderOversikten(fullOversikt);
+        await renderKartlegging(fullKartlegging);
 
         expect(screen.getByRole('heading', { level: 2, name: /Arbeidssøkere/ }).textContent).toContain('26 brukere');
 
@@ -71,7 +71,7 @@ describe('Oversikten', () => {
     });
 
     it('Filtrering på kritisk (≥180 dager) viser kun riktige brukere', async () => {
-        await renderOversikten(fullOversikt);
+        await renderKartlegging(fullKartlegging);
 
         const kritiskBrukere = typedMock.arbeidssoekere.filter((b) => daysSinceDate(b.ledigSiden) >= 180);
         const kritiskChip = screen.getByRole('button', {
@@ -95,7 +95,7 @@ describe('Oversikten', () => {
     });
 
     it('Paginering viser side 2 med resterende brukere', async () => {
-        await renderOversikten(fullOversikt);
+        await renderKartlegging(fullKartlegging);
 
         // Finn paginering-nav og klikk side 2
         const paginering = screen.getByRole('navigation');
@@ -110,7 +110,7 @@ describe('Oversikten', () => {
     });
 
     it('DagerTag viser riktig fargekode basert på antall dager', async () => {
-        await renderOversikten(fullOversikt);
+        await renderKartlegging(fullKartlegging);
 
         // Brukere med ≥180 dager skal ha danger-tag
         const dangerTags = screen.getAllByText(/dager/).filter((el) => el.getAttribute('data-color') === 'danger');
@@ -130,7 +130,7 @@ describe('Oversikten', () => {
     });
 
     it('Filtrering med tom kategori viser kun header-rad i tabellen', async () => {
-        await renderOversikten(kunLaveBrukere);
+        await renderKartlegging(kunLaveBrukere);
 
         // Kritisk og moderat skal vise (0) i chip-teksten
         expect(screen.getByRole('button', { name: /≥180 dager \(0\)/ })).toBeDefined();

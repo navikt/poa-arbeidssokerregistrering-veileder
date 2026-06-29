@@ -3,9 +3,9 @@ import type { Bekreftelsesloesning } from '@navikt/arbeidssokerregisteret-utils/
 import { Chips, Heading, InlineMessage, LocalAlert, Pagination, Table, Tag } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
 import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
-import type { OversiktenApiResult } from '@/lib/api/oversikten';
+import type { KartleggingApiResult } from '@/lib/api/kartlegging';
 import { daysSinceDate } from '@/lib/date-utils';
-import type { Arbeidssoker } from '@/model/oversikt-api';
+import type { Arbeidssoker } from '@/model/kartlegging-api';
 
 const LANGTIDSLEDIG_MAX = 180;
 const LANGTIDSLEDIG_MELLOM = 150;
@@ -94,14 +94,14 @@ function firstToUppercase(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
-function TabellOversikt({ oversikten }: { oversikten: OversiktenApiResult }) {
+function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }) {
     const [page, setPage] = useState(1);
     const [sort, setSort] = useState<SortState>({ orderBy: 'dagerLedig', direction: 'descending' });
     const [filter, setFilter] = useState<DagerFilter>('alle');
 
     const filteredArbeidssokere = useMemo<Arbeidssoker[]>(() => {
-        if (!oversikten.arbeidssoekere) return [];
-        let result = [...oversikten.arbeidssoekere];
+        if (!kartlegging.arbeidssoekere) return [];
+        let result = [...kartlegging.arbeidssoekere];
         // Er det verdt å vurdere å dra denne ut i en egne funksjon?
 
         // FILTERING
@@ -125,7 +125,7 @@ function TabellOversikt({ oversikten }: { oversikten: OversiktenApiResult }) {
             return 0;
         });
         return result;
-    }, [oversikten, filter, sort]);
+    }, [kartlegging, filter, sort]);
 
     const totalPages = Math.ceil(filteredArbeidssokere.length / ITEMS_PER_PAGE);
     const paginatedBrukere = filteredArbeidssokere.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
@@ -146,7 +146,7 @@ function TabellOversikt({ oversikten }: { oversikten: OversiktenApiResult }) {
     return (
         <div>
             <Filters
-                arbeidsokere={oversikten.arbeidssoekere}
+                arbeidsokere={kartlegging.arbeidssoekere}
                 currentFilter={filter}
                 onFilterChange={handleFilterChange}
             />
@@ -204,8 +204,8 @@ function TabellOversikt({ oversikten }: { oversikten: OversiktenApiResult }) {
     );
 }
 
-function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<OversiktenApiResult | null> }) {
-    const data = use(oversiktenPromise);
+function Kartlegging({ kartleggingPromise }: { kartleggingPromise: Promise<KartleggingApiResult | null> }) {
+    const data = use(kartleggingPromise);
 
     if (!data || (data.manglerTilgang && !data.error)) {
         return <ManglerPersonEllerEnhet />;
@@ -215,18 +215,18 @@ function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<Oversikt
         <>
             <LocalAlert status='warning' className='mb-4'>
                 <LocalAlert.Header>
-                    <LocalAlert.Title>Beta - Oversiktsvisning</LocalAlert.Title>
+                    <LocalAlert.Title>Beta - Kartlegging</LocalAlert.Title>
                 </LocalAlert.Header>
                 <LocalAlert.Content>
                     Listen under viser kun statisk test-data, dette er ikke ekte data. Formålet er å kunne se hvordan
-                    den nye oversikten kan se ut.
+                    kartleggingen kan se ut.
                 </LocalAlert.Content>
             </LocalAlert>
             <Heading size='medium' level='2' className='mb-4'>
                 Arbeidssøkere {data.arbeidssoekere && `(${data.arbeidssoekere.length} brukere)`}
             </Heading>
             {data.arbeidssoekere && data.arbeidssoekere?.length > 0 ? (
-                <TabellOversikt oversikten={data} />
+                <KartleggingListe kartlegging={data} />
             ) : (
                 <InlineMessage status='info'>Ingen tilgjengelig data</InlineMessage>
             )}
@@ -234,4 +234,4 @@ function Oversikten({ oversiktenPromise }: { oversiktenPromise: Promise<Oversikt
     );
 }
 
-export { Oversikten };
+export { Kartlegging };

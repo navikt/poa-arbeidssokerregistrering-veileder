@@ -33,8 +33,8 @@ vi.mock('@/lib/api/bekreftelse', () => ({
 vi.mock('@/lib/api/nokkeltall', () => ({
     getNokkeltall: vi.fn(),
 }));
-vi.mock('@/lib/api/oversikten', () => ({
-    getOversikten: vi.fn(),
+vi.mock('@/lib/api/kartlegging', () => ({
+    getKartlegging: vi.fn(),
 }));
 
 import type { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
@@ -42,13 +42,13 @@ import { act, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
 import { ModiaProvider } from '@/contexts/modia-context';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
+import type { KartleggingApiResult } from '@/lib/api/kartlegging';
 import type { NokkeltallResult } from '@/lib/api/nokkeltall';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
-import type { OversiktenApiResult } from '@/lib/api/oversikten';
 import bekreftelserMock from '@/lib/mocks/bekreftelser.json';
 import snapshotMock from '@/lib/mocks/snapshot.json';
 import snapshotMockAvsluttet from '@/lib/mocks/snapshot-med-avsluttet.json';
-import type { Arbeidssoker } from '@/model/oversikt-api';
+import type { Arbeidssoker } from '@/model/kartlegging-api';
 import { Forside } from './Forside';
 import { ForsideWrapper } from './ForsideWrapper';
 
@@ -149,7 +149,7 @@ async function renderForsideWrapper(
                         initialSnapshotPromise={Promise.resolve(snapshotResult)}
                         initialBekreftelserPromise={Promise.resolve(bekreftelserResult)}
                         initialNokkeltallPromise={Promise.resolve(nokkeltallResult)}
-                        initialOversiktenPromise={Promise.resolve(null)}
+                        initialKartleggingPromise={Promise.resolve(null)}
                     />
                 </Suspense>
             </ModiaProvider>,
@@ -328,8 +328,8 @@ describe('ForsideWrapper', () => {
         expect(screen.queryByText('Personen har en ubekreftet arbeidssøkerperiode')).toBeNull();
     });
 
-    it('rendrer listevisning (Oversikten) når fnr er null og enhetId er 4154', async () => {
-        const oversiktenResult: OversiktenApiResult = {
+    it('rendrer kartlegging når fnr er null og enhetId er 4154', async () => {
+        const kartleggingResult: KartleggingApiResult = {
             arbeidssoekere: [
                 {
                     arbeidssoekerId: 1,
@@ -351,7 +351,7 @@ describe('ForsideWrapper', () => {
                             initialSnapshotPromise={Promise.resolve(nullSnapshot)}
                             initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
                             initialNokkeltallPromise={Promise.resolve(null)}
-                            initialOversiktenPromise={Promise.resolve(oversiktenResult)}
+                            initialKartleggingPromise={Promise.resolve(kartleggingResult)}
                         />
                     </Suspense>
                 </ModiaProvider>,
@@ -369,7 +369,7 @@ describe('ForsideWrapper', () => {
                             initialSnapshotPromise={Promise.resolve(nullSnapshot)}
                             initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
                             initialNokkeltallPromise={Promise.resolve(null)}
-                            initialOversiktenPromise={Promise.resolve({ manglerTilgang: true, arbeidssoekere: [] })}
+                            initialKartleggingPromise={Promise.resolve({ manglerTilgang: true, arbeidssoekere: [] })}
                         />
                     </Suspense>
                 </ModiaProvider>,

@@ -1,5 +1,5 @@
 import type { Bekreftelsesloesning, ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-export type OversiktenPayload = {
+export type KartleggingPayload = {
     type: 'TILKNYTTET_KONTOR';
     kontorId: string;
     kontorType?: 'ARBEIDSOPPFOLGING';
@@ -65,7 +65,7 @@ export type ApiPaging = {
     sortOrder: SortOrder;
 };
 
-export type OversiktApiResponse = {
+export type KartleggingApiResponse = {
     arbeidssoekere: Arbeidssoker[];
     paging: ApiPaging;
 };

@@ -2,23 +2,23 @@
 
 import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
-import type { ApiPaging, Arbeidssoker, OversiktApiResponse, OversiktenPayload } from '@/model/oversikt-api';
-import { authenticatedFetch } from '../authenticatedFetch';
-import { isFeatureEnabledWithContext } from '../unleash/feature-flags';
+import { authenticatedFetch } from '@/lib/authenticatedFetch';
+import { isFeatureEnabledWithContext } from '@/lib/unleash/feature-flags';
+import type { ApiPaging, Arbeidssoker, KartleggingApiResponse, KartleggingPayload } from '@/model/kartlegging-api';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const isProd = process.env.NAIS_CLUSTER_NAME === 'prod-gcp';
 
-export type OversiktenApiResult = {
+export type KartleggingApiResult = {
     arbeidssoekere: Arbeidssoker[];
     paging?: ApiPaging;
     error?: Error;
     manglerTilgang?: boolean;
 };
 
-async function hentMockData(): Promise<OversiktApiResponse> {
-    return (await import('@/lib/mocks/oversikten.json', { with: { type: 'json' } }))
-        .default as unknown as OversiktApiResponse;
+async function hentMockData(): Promise<KartleggingApiResponse> {
+    return (await import('@/lib/mocks/kartlegging.json', { with: { type: 'json' } }))
+        .default as unknown as KartleggingApiResponse;
 }
 
 /**
@@ -30,7 +30,7 @@ async function hentMockData(): Promise<OversiktApiResponse> {
 const OVERSIKT_API_URL = process.env.OVERSIKT_API_URL;
 const OVERSIKT_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oversikt/.default`;
 
-async function getOversikten(enhetsId: string | null): Promise<OversiktenApiResult | null> {
+async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiResult | null> {
     if (!enhetsId) {
         return null;
     }
@@ -65,7 +65,7 @@ async function getOversikten(enhetsId: string | null): Promise<OversiktenApiResu
         };
     }
 
-    const result = await authenticatedFetch<OversiktApiResponse, OversiktenPayload>({
+    const result = await authenticatedFetch<KartleggingApiResponse, KartleggingPayload>({
         url: `${OVERSIKT_API_URL}/api/v1/oversikt`,
         scope: OVERSIKT_API_SCOPE,
         headers: await headers(),
@@ -87,4 +87,4 @@ async function getOversikten(enhetsId: string | null): Promise<OversiktenApiResu
     return result.data;
 }
 
-export { getOversikten };
+export { getKartlegging };
