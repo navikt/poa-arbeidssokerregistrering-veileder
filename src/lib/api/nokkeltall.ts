@@ -58,11 +58,9 @@ function formaterEgenvurdering(egenvurdering?: EgenvurderingHendelse) {
     return egenvurdering.egenvurdering === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING;
 }
 
-async function getNokkeltall(ident: string | null, enhetsId?: string | null): Promise<NokkeltallResult | null> {
-    const parsedEnhetsId = enhetsId ? parseInt(enhetsId, 10) : undefined;
-    const erNoe = parsedEnhetsId === 4154;
-    if (!ident || !erNoe) {
-        logger.warn(`Mangler ident eller enhetsId, ikke mulig å hente nøkkeltall`);
+async function getNokkeltall(ident: string | null): Promise<NokkeltallResult | null> {
+    if (!ident) {
+        logger.warn(`Mangler ident, ikke mulig å hente nøkkeltall`);
         return null;
     }
 
