@@ -1,60 +1,17 @@
-import { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
-import type { Bekreftelsesloesning } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { Chips, Heading, InlineMessage, LocalAlert, Pagination, Table, Tag } from '@navikt/ds-react';
+import { Chips, Heading, InlineMessage, LocalAlert, Pagination, Table } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
 import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import type { KartleggingApiResult } from '@/lib/api/kartlegging';
 import { daysSinceDate } from '@/lib/date-utils';
 import type { Arbeidssoker } from '@/model/kartlegging-api';
-
-const LANGTIDSLEDIG_MAX = 180;
-const LANGTIDSLEDIG_MELLOM = 150;
-const ITEMS_PER_PAGE = 15;
-
-type LocalCustomBekreftelsesloesning = Extract<
-    Bekreftelsesloesning,
-    'ARBEIDSSOEKERREGISTERET' | 'DAGPENGER' | 'FRISKMELDT_TIL_ARBEIDSFORMIDLING'
->;
-
-const BEKREFTELSE_LABEL: Record<LocalCustomBekreftelsesloesning, string> = {
-    ARBEIDSSOEKERREGISTERET: 'Arbeidssøkerregisteret',
-    DAGPENGER: 'Dagpenger',
-    FRISKMELDT_TIL_ARBEIDSFORMIDLING: 'Sykepenger',
-};
-type DagerFilter = 'alle' | 'kritisk' | 'moderat' | 'lav';
+import { ArbeidssokerRad } from './ArbeidssokerRad';
+import { type DagerFilter, ITEMS_PER_PAGE, LANGTIDSLEDIG_MAX, LANGTIDSLEDIG_MELLOM } from './constants';
 
 type SortState = {
     orderBy: string;
     direction: 'ascending' | 'descending';
 };
 
-function DagerTag({ dager }: { dager: number }) {
-    if (dager >= LANGTIDSLEDIG_MAX)
-        return (
-            <Tag data-color='danger' size='small'>
-                {dager} dager
-            </Tag>
-        );
-    if (dager >= LANGTIDSLEDIG_MELLOM)
-        return (
-            <Tag data-color='warning' size='small'>
-                {dager} dager
-            </Tag>
-        );
-    return <Tag size='small'>{dager} dager</Tag>;
-}
-
-function JaNeiTag({ svar }: { svar: boolean | undefined }) {
-    return svar ? (
-        <Tag data-color='success' size='small'>
-            Ja
-        </Tag>
-    ) : (
-        <Tag data-color='warning' size='small'>
-            Nei
-        </Tag>
-    );
-}
 function Filters({
     arbeidsokere,
     currentFilter,
@@ -88,10 +45,6 @@ function Filters({
             </Chips.Toggle>
         </Chips>
     );
-}
-
-function firstToUppercase(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
 function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }) {
@@ -164,36 +117,7 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }
                 </Table.Header>
                 <Table.Body>
                     {paginatedBrukere.map((arbeidssoker) => (
-                        <Table.Row key={arbeidssoker.arbeidssoekerId}>
-                            <Table.DataCell>
-                                {firstToUppercase(arbeidssoker.fornavn)} {firstToUppercase(arbeidssoker.etternavn)}
-                            </Table.DataCell>
-                            <Table.DataCell>
-                                <DagerTag dager={daysSinceDate(arbeidssoker.ledigSiden)} />
-                            </Table.DataCell>
-                            <Table.DataCell>
-                                {arbeidssoker.bekreftelsePaaVegneAv.map((e) => (
-                                    <Tag key={e} size='small'>
-                                        {BEKREFTELSE_LABEL[e]}
-                                    </Tag>
-                                ))}
-                            </Table.DataCell>
-                            <Table.DataCell>
-                                <div className='flex items-center gap-1'>
-                                    <JaNeiTag
-                                        svar={
-                                            arbeidssoker.egenvurdering?.egenvurdertTil ===
-                                            ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING
-                                        }
-                                    />
-                                </div>
-                            </Table.DataCell>
-                            <Table.DataCell>
-                                <div className='flex items-center gap-1'>
-                                    <JaNeiTag svar={arbeidssoker.bekreftelse?.harJobbet} />
-                                </div>
-                            </Table.DataCell>
-                        </Table.Row>
+                        <ArbeidssokerRad key={arbeidssoker.arbeidssoekerId} arbeidssoker={arbeidssoker} />
                     ))}
                 </Table.Body>
             </Table>

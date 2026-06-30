@@ -6,6 +6,7 @@ vi.mock('@/lib/api/kartlegging', () => ({
 }));
 
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
+import { ModiaProvider } from '@/contexts/modia-context';
 import type { KartleggingApiResult } from '@/lib/api/kartlegging';
 import { daysSinceDate } from '@/lib/date-utils';
 import kartleggingMock from '@/lib/mocks/kartlegging.json';
@@ -50,7 +51,11 @@ const kunLaveBrukere: KartleggingApiResult = {
 
 async function renderKartlegging(kartleggingResult: KartleggingApiResult) {
     await act(async () => {
-        render(<Kartlegging kartleggingPromise={Promise.resolve(kartleggingResult)} />);
+        render(
+            <ModiaProvider initFnr={null} initEnhetId='4154'>
+                <Kartlegging kartleggingPromise={Promise.resolve(kartleggingResult)} />
+            </ModiaProvider>,
+        );
     });
 }
 
