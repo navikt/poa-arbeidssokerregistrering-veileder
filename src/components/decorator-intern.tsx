@@ -70,6 +70,7 @@ const InternflateDecorator: React.FC<{
             include-credentials={'true'}
             proxy='/modiacontextholder'
             enhet={enhetId ?? undefined}
+            fnr={fnr ?? undefined}
         />
     );
 };
