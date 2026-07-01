@@ -21,10 +21,14 @@ const baseArbeidssoker: Arbeidssoker = {
     identitetsnummer: '12345678901',
     fornavn: 'OLA',
     etternavn: 'NORDMANN',
-    ledigSiden: '2026-01-01T00:00:00Z',
-    periode: { id: 'per-1', startet: '2026-01-01T00:00:00Z' },
-    bekreftelsePaaVegneAv: [],
-    tilknyttetKontor: [],
+    ledighetsperioder: [
+        {
+            periode: { id: 'per-1', startet: '2026-01-01T00:00:00Z' },
+            ledigSiden: '2026-01-01T00:00:00Z',
+            bekreftelsePaaVegneAv: [],
+        },
+    ],
+    kontortilknytninger: [],
 };
 
 async function renderRad(arbeidssoker: Arbeidssoker) {

@@ -16,30 +16,42 @@ const kunKritiskeBrukere: Arbeidssoker[] = [
         identitetsnummer: '12345678901',
         fornavn: 'SILJE',
         etternavn: 'LANGVARIG',
-        ledigSiden: '2025-12-23T00:00:00Z',
-        periode: { id: 'per-101', startet: '2025-12-23T00:00:00Z' },
-        bekreftelsePaaVegneAv: ['ARBEIDSSOEKERREGISTERET'],
-        tilknyttetKontor: [],
+        ledighetsperioder: [
+            {
+                periode: { id: 'per-101', startet: '2025-12-23T00:00:00Z' },
+                ledigSiden: '2025-12-23T00:00:00Z',
+                bekreftelsePaaVegneAv: ['ARBEIDSSOEKERREGISTERET'],
+            },
+        ],
+        kontortilknytninger: [],
     },
     {
         arbeidssoekerId: 102,
         identitetsnummer: '12345678902',
         fornavn: 'ERIK',
         etternavn: 'OVER GRENSEN',
-        ledigSiden: '2025-10-04T00:00:00Z',
-        periode: { id: 'per-102', startet: '2025-10-04T00:00:00Z' },
-        bekreftelsePaaVegneAv: ['DAGPENGER'],
-        tilknyttetKontor: [],
+        ledighetsperioder: [
+            {
+                periode: { id: 'per-102', startet: '2025-10-04T00:00:00Z' },
+                ledigSiden: '2025-10-04T00:00:00Z',
+                bekreftelsePaaVegneAv: ['DAGPENGER'],
+            },
+        ],
+        kontortilknytninger: [],
     },
     {
         arbeidssoekerId: 103,
         identitetsnummer: '12345678903',
         fornavn: 'MARTE',
         etternavn: 'VELDIG LANG',
-        ledigSiden: '2025-12-12T00:00:00Z',
-        periode: { id: 'per-103', startet: '2025-12-12T00:00:00Z' },
-        bekreftelsePaaVegneAv: ['FRISKMELDT_TIL_ARBEIDSFORMIDLING'],
-        tilknyttetKontor: [],
+        ledighetsperioder: [
+            {
+                periode: { id: 'per-103', startet: '2025-12-12T00:00:00Z' },
+                ledigSiden: '2025-12-12T00:00:00Z',
+                bekreftelsePaaVegneAv: ['FRISKMELDT_TIL_ARBEIDSFORMIDLING'],
+            },
+        ],
+        kontortilknytninger: [],
     },
 ];
 

@@ -1,15 +1,17 @@
 import type { Bekreftelsesloesning, ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+
 export type KartleggingPayload = {
     type: 'TILKNYTTET_KONTOR';
     kontorId: string;
     kontorType?: 'ARBEIDSOPPFOLGING';
-    ledigSide?: string;
+    ledigSiden?: string;
     paging: {
         page: number;
         pageSize: number;
         sortOrder: 'DESC' | 'ASC';
     };
 };
+
 type Periode = {
     id: string;
     startet: string;
@@ -18,18 +20,13 @@ type Periode = {
 
 type SortOrder = 'ASC' | 'DESC';
 
-export type TilknyttetKontor = {
+export type Kontortilknytning = {
     kontorId: string;
     kontorNavn: string;
     kontorType: string;
 };
 
-export type Arbeidssoker = {
-    arbeidssoekerId: number;
-    identitetsnummer: string;
-    fornavn: string;
-    mellomnavn?: string;
-    etternavn: string;
+export type Ledighetsperiode = {
     ledigSiden?: string;
     periode: Periode;
     opplysninger?: {
@@ -55,13 +52,23 @@ export type Arbeidssoker = {
         bekreftelsesloesning: Bekreftelsesloesning;
     };
     bekreftelsePaaVegneAv: Bekreftelsesloesning[];
-    tilknyttetKontor: TilknyttetKontor[];
+};
+
+export type Arbeidssoker = {
+    arbeidssoekerId: number;
+    identitetsnummer: string;
+    fornavn: string;
+    mellomnavn?: string;
+    etternavn: string;
+    ledighetsperioder: Ledighetsperiode[];
+    kontortilknytninger: Kontortilknytning[];
 };
 
 export type ApiPaging = {
     page: number;
     pageSize: number;
-    totalItems: number;
+    hitSize: number;
+    totalCount: number;
     sortOrder: SortOrder;
 };
 

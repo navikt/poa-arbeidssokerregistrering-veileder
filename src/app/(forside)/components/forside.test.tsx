@@ -336,10 +336,14 @@ describe('ForsideWrapper', () => {
                     identitetsnummer: '12345678901',
                     fornavn: 'TEST',
                     etternavn: 'BRUKER',
-                    ledigSiden: '2026-05-28T00:00:00Z',
-                    periode: { id: 'per-1', startet: '2026-05-28T00:00:00Z' },
-                    bekreftelsePaaVegneAv: [],
-                    tilknyttetKontor: [],
+                    ledighetsperioder: [
+                        {
+                            periode: { id: 'per-1', startet: '2026-05-28T00:00:00Z' },
+                            ledigSiden: '2026-05-28T00:00:00Z',
+                            bekreftelsePaaVegneAv: [],
+                        },
+                    ],
+                    kontortilknytninger: [],
                 },
             ] as Arbeidssoker[],
         };

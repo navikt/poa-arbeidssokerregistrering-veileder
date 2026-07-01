@@ -31,20 +31,28 @@ const kunLaveBrukere: KartleggingApiResult = {
             identitetsnummer: '12345678901',
             fornavn: 'TEST',
             etternavn: 'BRUKER',
-            ledigSiden: '2026-05-12T00:00:00Z',
-            periode: { id: 'per-1', startet: '2026-05-12T00:00:00Z' },
-            bekreftelsePaaVegneAv: [],
-            tilknyttetKontor: [],
+            ledighetsperioder: [
+                {
+                    periode: { id: 'per-1', startet: '2026-05-12T00:00:00Z' },
+                    ledigSiden: '2026-05-12T00:00:00Z',
+                    bekreftelsePaaVegneAv: [],
+                },
+            ],
+            kontortilknytninger: [],
         },
         {
             arbeidssoekerId: 2,
             identitetsnummer: '12345678902',
             fornavn: 'ANDRE',
             etternavn: 'BRUKER',
-            ledigSiden: '2026-03-03T00:00:00Z',
-            periode: { id: 'per-2', startet: '2026-03-03T00:00:00Z' },
-            bekreftelsePaaVegneAv: [],
-            tilknyttetKontor: [],
+            ledighetsperioder: [
+                {
+                    periode: { id: 'per-2', startet: '2026-03-03T00:00:00Z' },
+                    ledigSiden: '2026-03-03T00:00:00Z',
+                    bekreftelsePaaVegneAv: [],
+                },
+            ],
+            kontortilknytninger: [],
         },
     ] as Arbeidssoker[],
 };
@@ -78,7 +86,9 @@ describe('Kartlegging', () => {
     it('Filtrering på kritisk (≥180 dager) viser kun riktige brukere', async () => {
         await renderKartlegging(fullKartlegging);
 
-        const kritiskBrukere = typedMock.arbeidssoekere.filter((b) => daysSinceDate(b.ledigSiden) >= 180);
+        const kritiskBrukere = typedMock.arbeidssoekere.filter(
+            (b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) >= 180,
+        );
         const kritiskChip = screen.getByRole('button', {
             name: new RegExp(`≥180 dager \\(${kritiskBrukere.length}\\)`),
         });

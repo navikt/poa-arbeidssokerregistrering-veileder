@@ -41,6 +41,9 @@ function firstToUppercase(str: string): string {
 
 function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: Arbeidssoker }) {
     const { setFnr } = useModiaContext();
+    // Bruker første ledighetsperiode som aktiv periode
+    const aktivPeriode = arbeidssoker.ledighetsperioder[0];
+
     function handleRowClick() {
         if (!arbeidssoker.identitetsnummer) return;
         setFnr(arbeidssoker.identitetsnummer.toString());
@@ -54,10 +57,10 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: Arbeidssoker }) {
                 </button>
             </Table.DataCell>
             <Table.DataCell>
-                <DagerTag dager={daysSinceDate(arbeidssoker.ledigSiden)} />
+                <DagerTag dager={daysSinceDate(aktivPeriode?.ledigSiden)} />
             </Table.DataCell>
             <Table.DataCell>
-                {arbeidssoker.bekreftelsePaaVegneAv.map((e) => (
+                {aktivPeriode?.bekreftelsePaaVegneAv.map((e) => (
                     <Tag key={e} size='small'>
                         {BEKREFTELSE_LABEL[e]}
                     </Tag>
@@ -66,13 +69,13 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: Arbeidssoker }) {
             <Table.DataCell>
                 <div className='flex items-center gap-1'>
                     <JaNeiTag
-                        svar={arbeidssoker.egenvurdering?.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING}
+                        svar={aktivPeriode?.egenvurdering?.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING}
                     />
                 </div>
             </Table.DataCell>
             <Table.DataCell>
                 <div className='flex items-center gap-1'>
-                    <JaNeiTag svar={arbeidssoker.bekreftelse?.harJobbet} />
+                    <JaNeiTag svar={aktivPeriode?.bekreftelse?.harJobbet} />
                 </div>
             </Table.DataCell>
         </Table.Row>

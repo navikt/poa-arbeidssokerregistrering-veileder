@@ -107,6 +107,7 @@ spec:
       rules:
         - application: paw-arbeidssokerregisteret-api-inngang
         - application: paw-arbeidssoekerregisteret-api-oppslag-v2
+        - application: paw-arbeidssoekerregisteret-api-kartlegging
         - application: paw-arbeidssoekerregisteret-api-bekreftelse
         - application: modiacontextholder
           namespace: personoversikt

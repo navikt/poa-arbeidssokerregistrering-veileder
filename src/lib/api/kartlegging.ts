@@ -27,8 +27,8 @@ async function hentMockData(): Promise<KartleggingApiResponse> {
  * - i dev bruker vi unleash og ekte api data
  * - i prod bruker vi unleash og mock data (kun kontor 4154 i starten)
  */
-const OVERSIKT_API_URL = process.env.OVERSIKT_API_URL;
-const OVERSIKT_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-oversikt/.default`;
+const KARTLEGGING_API_URL = process.env.KARTLEGGING_API_URL;
+const KARTLEGGING_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-kartlegging/.default`;
 
 async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiResult | null> {
     if (!enhetsId) {
@@ -49,7 +49,7 @@ async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiRe
         return null;
     }
 
-    logger.info({ enhetsId, event: 'oversikten_aktivert' }, 'Oversikten er aktivert for kontor');
+    logger.info({ enhetsId, event: 'kartlegging_aktivert' }, 'Kartlegging er aktivert for kontor');
 
     // Prod: bruk mock data inntil videre (kun kontor 4154 i starten)
     if (isProd && erAktivert) {
@@ -57,17 +57,17 @@ async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiRe
     }
 
     // Dev: hent fra ekte API
-    if (!OVERSIKT_API_URL) {
-        logger.error('Feil ved henting av oversikt api url');
+    if (!KARTLEGGING_API_URL) {
+        logger.error('Feil ved henting av kartlegging api url');
         return {
             arbeidssoekere: [],
-            error: new Error('Klarte ikke å hente oversikt api url'),
+            error: new Error('Klarte ikke å hente kartlegging api url'),
         };
     }
 
     const result = await authenticatedFetch<KartleggingApiResponse, KartleggingPayload>({
-        url: `${OVERSIKT_API_URL}/api/v1/oversikt`,
-        scope: OVERSIKT_API_SCOPE,
+        url: `${KARTLEGGING_API_URL}/api/v1/kartlegging`,
+        scope: KARTLEGGING_API_SCOPE,
         headers: await headers(),
         method: 'POST',
         body: {
@@ -81,7 +81,7 @@ async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiRe
         },
     });
     if (!result.ok) {
-        logger.error({ event: 'oversikt_feil', httpStatus: result.status }, 'Feil ved henting av oversikt');
+        logger.error({ event: 'kartlegging_feil', httpStatus: result.status }, 'Feil ved henting av kartlegging');
         return { arbeidssoekere: [], error: result.error };
     }
     return result.data;

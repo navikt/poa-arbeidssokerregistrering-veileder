@@ -31,17 +31,17 @@ function Filters({
                 onClick={() => onFilterChange('kritisk')}
                 data-color='danger'
             >
-                {`≥${LANGTIDSLEDIG_MAX} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledigSiden) >= LANGTIDSLEDIG_MAX).length})`}
+                {`≥${LANGTIDSLEDIG_MAX} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) >= LANGTIDSLEDIG_MAX).length})`}
             </Chips.Toggle>
             <Chips.Toggle
                 selected={currentFilter === 'moderat'}
                 onClick={() => onFilterChange('moderat')}
                 data-color='warning'
             >
-                {`${LANGTIDSLEDIG_MELLOM}-${LANGTIDSLEDIG_MAX - 1} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledigSiden) >= LANGTIDSLEDIG_MELLOM && daysSinceDate(b.ledigSiden) < LANGTIDSLEDIG_MAX).length})`}
+                {`${LANGTIDSLEDIG_MELLOM}-${LANGTIDSLEDIG_MAX - 1} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) >= LANGTIDSLEDIG_MELLOM && daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) < LANGTIDSLEDIG_MAX).length})`}
             </Chips.Toggle>
             <Chips.Toggle selected={currentFilter === 'lav'} onClick={() => onFilterChange('lav')}>
-                {`<${LANGTIDSLEDIG_MELLOM} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledigSiden) < LANGTIDSLEDIG_MELLOM).length})`}
+                {`<${LANGTIDSLEDIG_MELLOM} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) < LANGTIDSLEDIG_MELLOM).length})`}
             </Chips.Toggle>
         </Chips>
     );
@@ -55,25 +55,26 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }
     const filteredArbeidssokere = useMemo<Arbeidssoker[]>(() => {
         if (!kartlegging.arbeidssoekere) return [];
         let result = [...kartlegging.arbeidssoekere];
-        // Er det verdt å vurdere å dra denne ut i en egne funksjon?
+
+        const ledigSiden = (a: Arbeidssoker) => a.ledighetsperioder[0]?.ledigSiden;
 
         // FILTERING
         if (filter === 'kritisk') {
-            result = result.filter((i) => daysSinceDate(i.ledigSiden) >= LANGTIDSLEDIG_MAX);
+            result = result.filter((i) => daysSinceDate(ledigSiden(i)) >= LANGTIDSLEDIG_MAX);
         } else if (filter === 'moderat') {
             result = result.filter((i) => {
-                const iLedig = daysSinceDate(i.ledigSiden);
+                const iLedig = daysSinceDate(ledigSiden(i));
                 return iLedig >= LANGTIDSLEDIG_MELLOM && iLedig < LANGTIDSLEDIG_MAX;
             });
         } else if (filter === 'lav') {
-            result = result.filter((i) => daysSinceDate(i.ledigSiden) < LANGTIDSLEDIG_MELLOM);
+            result = result.filter((i) => daysSinceDate(ledigSiden(i)) < LANGTIDSLEDIG_MELLOM);
         }
 
         // SORTING
         result.sort((a, b) => {
             const modifier = sort.direction === 'ascending' ? 1 : -1;
             if (sort.orderBy === 'dagerLedig') {
-                return (daysSinceDate(a.ledigSiden) - daysSinceDate(b.ledigSiden)) * modifier;
+                return (daysSinceDate(ledigSiden(a)) - daysSinceDate(ledigSiden(b))) * modifier;
             }
             return 0;
         });

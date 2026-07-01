@@ -5,30 +5,34 @@
             "identitetsnummer": "24849098329",
             "fornavn": "SUNN",
             "etternavn": "VESTIBYLE",
-            "ledigSiden": "2026-04-30T08:02:54Z",
-            "periode": {
-                "id": "db8270e6-ea64-469f-93b4-69fb07a472c2",
-                "startet": "2026-04-30T08:02:54Z"
-            },
-            "opplysninger": {
-                "id": "45995166-15f8-4e49-9f3e-0e19fd1a4672",
-                "tidspunkt": "2026-05-21T10:04:29Z"
-            },
-            "profilering": {
-                "id": "873241b0-7d0f-4c9c-a442-13fa100870da",
-                "profilertTil": "OPPGITT_HINDRINGER",
-                "tidspunkt": "2026-05-21T10:04:29Z"
-            },
-            "bekreftelse": {
-                "id": "0150ca6d-0bb3-492a-b1fc-6b73d4deba06",
-                "gjelderFra": "2026-05-10T22:00:00Z",
-                "gjelderTil": "2026-05-24T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "db8270e6-ea64-469f-93b4-69fb07a472c2",
+                        "startet": "2026-04-30T08:02:54Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-04-30T08:02:54Z",
+                    "opplysninger": {
+                        "id": "45995166-15f8-4e49-9f3e-0e19fd1a4672",
+                        "tidspunkt": "2026-05-21T10:04:29Z"
+                    },
+                    "profilering": {
+                        "id": "873241b0-7d0f-4c9c-a442-13fa100870da",
+                        "profilertTil": "OPPGITT_HINDRINGER",
+                        "tidspunkt": "2026-05-21T10:04:29Z"
+                    },
+                    "bekreftelse": {
+                        "id": "0150ca6d-0bb3-492a-b1fc-6b73d4deba06",
+                        "gjelderFra": "2026-05-10T22:00:00Z",
+                        "gjelderTil": "2026-05-24T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "4154",
                     "kontorNavn": "Nasjonal oppfølgingsenhet",
@@ -46,30 +50,34 @@
             "identitetsnummer": "12038512345",
             "fornavn": "KARI",
             "etternavn": "NORDMANN",
-            "ledigSiden": "2026-01-15T09:00:00Z",
-            "periode": {
-                "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-                "startet": "2026-01-15T09:00:00Z"
-            },
-            "opplysninger": {
-                "id": "b2c3d4e5-f6a7-8901-bcde-f01234567891",
-                "tidspunkt": "2026-02-01T11:30:00Z"
-            },
-            "profilering": {
-                "id": "c3d4e5f6-a7b8-9012-cdef-012345678902",
-                "profilertTil": "ANTATT_GODE_MULIGHETER",
-                "tidspunkt": "2026-02-01T11:30:00Z"
-            },
-            "bekreftelse": {
-                "id": "d4e5f6a7-b8c9-0123-defa-123456789013",
-                "gjelderFra": "2026-05-01T22:00:00Z",
-                "gjelderTil": "2026-05-15T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                        "startet": "2026-01-15T09:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-01-15T09:00:00Z",
+                    "opplysninger": {
+                        "id": "b2c3d4e5-f6a7-8901-bcde-f01234567891",
+                        "tidspunkt": "2026-02-01T11:30:00Z"
+                    },
+                    "profilering": {
+                        "id": "c3d4e5f6-a7b8-9012-cdef-012345678902",
+                        "profilertTil": "ANTATT_GODE_MULIGHETER",
+                        "tidspunkt": "2026-02-01T11:30:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "d4e5f6a7-b8c9-0123-defa-123456789013",
+                        "gjelderFra": "2026-05-01T22:00:00Z",
+                        "gjelderTil": "2026-05-15T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "0315",
                     "kontorNavn": "Nav Grünerløkka",
@@ -88,26 +96,30 @@
             "fornavn": "OLE",
             "mellomnavn": "GUNNAR",
             "etternavn": "HANSEN",
-            "ledigSiden": "2025-11-20T07:30:00Z",
-            "periode": {
-                "id": "e5f6a7b8-c9d0-1234-efab-234567890124",
-                "startet": "2025-11-20T07:30:00Z"
-            },
-            "profilering": {
-                "id": "f6a7b8c9-d0e1-2345-fabc-345678901235",
-                "profilertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
-                "tidspunkt": "2025-12-05T13:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "a7b8c9d0-e1f2-3456-abcd-456789012346",
-                "gjelderFra": "2026-05-15T22:00:00Z",
-                "gjelderTil": "2026-05-29T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "DAGPENGER"
-            },
-            "bekreftelsePaaVegneAv": ["DAGPENGER"],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "e5f6a7b8-c9d0-1234-efab-234567890124",
+                        "startet": "2025-11-20T07:30:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": ["DAGPENGER"],
+                    "ledigSiden": "2025-11-20T07:30:00Z",
+                    "profilering": {
+                        "id": "f6a7b8c9-d0e1-2345-fabc-345678901235",
+                        "profilertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
+                        "tidspunkt": "2025-12-05T13:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "a7b8c9d0-e1f2-3456-abcd-456789012346",
+                        "gjelderFra": "2026-05-15T22:00:00Z",
+                        "gjelderTil": "2026-05-29T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "DAGPENGER"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "1201",
                     "kontorNavn": "Nav Bergen",
@@ -125,22 +137,26 @@
             "identitetsnummer": "15059934567",
             "fornavn": "ANNE",
             "etternavn": "LARSEN",
-            "ledigSiden": "2026-03-01T10:15:00Z",
-            "periode": {
-                "id": "b8c9d0e1-f2a3-4567-bcde-567890123457",
-                "startet": "2026-03-01T10:15:00Z"
-            },
-            "opplysninger": {
-                "id": "c9d0e1f2-a3b4-5678-cdef-678901234568",
-                "tidspunkt": "2026-03-10T09:45:00Z"
-            },
-            "egenvurdering": {
-                "id": "d0e1f2a3-b4c5-6789-defa-789012345679",
-                "egenvurdertTil": "ANTATT_GODE_MULIGHETER",
-                "tidspunkt": "2026-03-10T09:45:00Z"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "b8c9d0e1-f2a3-4567-bcde-567890123457",
+                        "startet": "2026-03-01T10:15:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-03-01T10:15:00Z",
+                    "opplysninger": {
+                        "id": "c9d0e1f2-a3b4-5678-cdef-678901234568",
+                        "tidspunkt": "2026-03-10T09:45:00Z"
+                    },
+                    "egenvurdering": {
+                        "id": "d0e1f2a3-b4c5-6789-defa-789012345679",
+                        "egenvurdertTil": "ANTATT_GODE_MULIGHETER",
+                        "tidspunkt": "2026-03-10T09:45:00Z"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "0602",
                     "kontorNavn": "Nav Drammen",
@@ -158,30 +174,34 @@
             "identitetsnummer": "23118845678",
             "fornavn": "ERIK",
             "etternavn": "JOHANSEN",
-            "ledigSiden": "2026-02-14T08:00:00Z",
-            "periode": {
-                "id": "e1f2a3b4-c5d6-7890-efab-890123456780",
-                "startet": "2026-02-14T08:00:00Z"
-            },
-            "opplysninger": {
-                "id": "f2a3b4c5-d6e7-8901-fabc-901234567891",
-                "tidspunkt": "2026-02-20T14:00:00Z"
-            },
-            "profilering": {
-                "id": "a3b4c5d6-e7f8-9012-abcd-012345678902",
-                "profilertTil": "UDEFINERT",
-                "tidspunkt": "2026-02-20T14:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "b4c5d6e7-f8a9-0123-bcde-123456789013",
-                "gjelderFra": "2026-04-28T22:00:00Z",
-                "gjelderTil": "2026-05-12T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": false,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "e1f2a3b4-c5d6-7890-efab-890123456780",
+                        "startet": "2026-02-14T08:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-02-14T08:00:00Z",
+                    "opplysninger": {
+                        "id": "f2a3b4c5-d6e7-8901-fabc-901234567891",
+                        "tidspunkt": "2026-02-20T14:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "a3b4c5d6-e7f8-9012-abcd-012345678902",
+                        "profilertTil": "UDEFINERT",
+                        "tidspunkt": "2026-02-20T14:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "b4c5d6e7-f8a9-0123-bcde-123456789013",
+                        "gjelderFra": "2026-04-28T22:00:00Z",
+                        "gjelderTil": "2026-05-12T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": false,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "5001",
                     "kontorNavn": "Nav Trondheim",
@@ -199,35 +219,39 @@
             "identitetsnummer": "04048956789",
             "fornavn": "INGRID",
             "etternavn": "BERG",
-            "ledigSiden": "2025-10-01T06:00:00Z",
-            "periode": {
-                "id": "c5d6e7f8-a9b0-1234-cdef-234567890124",
-                "startet": "2025-10-01T06:00:00Z"
-            },
-            "opplysninger": {
-                "id": "d6e7f8a9-b0c1-2345-defa-345678901235",
-                "tidspunkt": "2025-10-15T10:00:00Z"
-            },
-            "profilering": {
-                "id": "e7f8a9b0-c1d2-3456-efab-456789012346",
-                "profilertTil": "OPPGITT_HINDRINGER",
-                "tidspunkt": "2025-10-15T10:00:00Z"
-            },
-            "egenvurdering": {
-                "id": "f8a9b0c1-d2e3-4567-fabc-567890123457",
-                "egenvurdertTil": "OPPGITT_HINDRINGER",
-                "tidspunkt": "2025-10-16T08:30:00Z"
-            },
-            "bekreftelse": {
-                "id": "a9b0c1d2-e3f4-5678-abcd-678901234568",
-                "gjelderFra": "2026-05-15T22:00:00Z",
-                "gjelderTil": "2026-05-29T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "c5d6e7f8-a9b0-1234-cdef-234567890124",
+                        "startet": "2025-10-01T06:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2025-10-01T06:00:00Z",
+                    "opplysninger": {
+                        "id": "d6e7f8a9-b0c1-2345-defa-345678901235",
+                        "tidspunkt": "2025-10-15T10:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "e7f8a9b0-c1d2-3456-efab-456789012346",
+                        "profilertTil": "OPPGITT_HINDRINGER",
+                        "tidspunkt": "2025-10-15T10:00:00Z"
+                    },
+                    "egenvurdering": {
+                        "id": "f8a9b0c1-d2e3-4567-fabc-567890123457",
+                        "egenvurdertTil": "OPPGITT_HINDRINGER",
+                        "tidspunkt": "2025-10-16T08:30:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "a9b0c1d2-e3f4-5678-abcd-678901234568",
+                        "gjelderFra": "2026-05-15T22:00:00Z",
+                        "gjelderTil": "2026-05-29T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "4154",
                     "kontorNavn": "Nasjonal oppfølgingsenhet",
@@ -245,12 +269,16 @@
             "identitetsnummer": "18067867890",
             "fornavn": "MAGNUS",
             "etternavn": "KRISTIANSEN",
-            "periode": {
-                "id": "b0c1d2e3-f4a5-6789-bcde-789012345679",
-                "startet": "2026-04-01T12:00:00Z"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "b0c1d2e3-f4a5-6789-bcde-789012345679",
+                        "startet": "2026-04-01T12:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": []
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "1103",
                     "kontorNavn": "Nav Stavanger",
@@ -268,30 +296,34 @@
             "identitetsnummer": "29019078901",
             "fornavn": "SILJE",
             "etternavn": "ANDREASSEN",
-            "ledigSiden": "2026-01-05T08:30:00Z",
-            "periode": {
-                "id": "c1d2e3f4-a5b6-7890-cdef-890123456780",
-                "startet": "2026-01-05T08:30:00Z"
-            },
-            "opplysninger": {
-                "id": "d2e3f4a5-b6c7-8901-defa-901234567891",
-                "tidspunkt": "2026-01-20T09:00:00Z"
-            },
-            "profilering": {
-                "id": "e3f4a5b6-c7d8-9012-efab-012345678902",
-                "profilertTil": "ANTATT_GODE_MULIGHETER",
-                "tidspunkt": "2026-01-20T09:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "f4a5b6c7-d8e9-0123-fabc-123456789013",
-                "gjelderFra": "2026-05-01T22:00:00Z",
-                "gjelderTil": "2026-05-15T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "FRISKMELDT_TIL_ARBEIDSFORMIDLING"
-            },
-            "bekreftelsePaaVegneAv": ["FRISKMELDT_TIL_ARBEIDSFORMIDLING"],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "c1d2e3f4-a5b6-7890-cdef-890123456780",
+                        "startet": "2026-01-05T08:30:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": ["FRISKMELDT_TIL_ARBEIDSFORMIDLING"],
+                    "ledigSiden": "2026-01-05T08:30:00Z",
+                    "opplysninger": {
+                        "id": "d2e3f4a5-b6c7-8901-defa-901234567891",
+                        "tidspunkt": "2026-01-20T09:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "e3f4a5b6-c7d8-9012-efab-012345678902",
+                        "profilertTil": "ANTATT_GODE_MULIGHETER",
+                        "tidspunkt": "2026-01-20T09:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "f4a5b6c7-d8e9-0123-fabc-123456789013",
+                        "gjelderFra": "2026-05-01T22:00:00Z",
+                        "gjelderTil": "2026-05-15T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "FRISKMELDT_TIL_ARBEIDSFORMIDLING"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "0218",
                     "kontorNavn": "Nav Bærum",
@@ -310,13 +342,17 @@
             "fornavn": "TOBIAS",
             "mellomnavn": "ANDRÉ",
             "etternavn": "MOEN",
-            "ledigSiden": "2026-05-01T07:00:00Z",
-            "periode": {
-                "id": "a5b6c7d8-e9f0-1234-abcd-234567890124",
-                "startet": "2026-05-01T07:00:00Z"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "a5b6c7d8-e9f0-1234-abcd-234567890124",
+                        "startet": "2026-05-01T07:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-05-01T07:00:00Z"
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "0315",
                     "kontorNavn": "Nav Grünerløkka",
@@ -334,30 +370,34 @@
             "identitetsnummer": "22118100123",
             "fornavn": "HANNE",
             "etternavn": "OLSEN",
-            "ledigSiden": "2025-12-10T11:00:00Z",
-            "periode": {
-                "id": "b6c7d8e9-f0a1-2345-bcde-345678901235",
-                "startet": "2025-12-10T11:00:00Z"
-            },
-            "opplysninger": {
-                "id": "c7d8e9f0-a1b2-3456-cdef-456789012346",
-                "tidspunkt": "2025-12-20T08:00:00Z"
-            },
-            "profilering": {
-                "id": "d8e9f0a1-b2c3-4567-defa-567890123457",
-                "profilertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
-                "tidspunkt": "2025-12-20T08:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "e9f0a1b2-c3d4-5678-efab-678901234568",
-                "gjelderFra": "2026-05-08T22:00:00Z",
-                "gjelderTil": "2026-05-22T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "b6c7d8e9-f0a1-2345-bcde-345678901235",
+                        "startet": "2025-12-10T11:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2025-12-10T11:00:00Z",
+                    "opplysninger": {
+                        "id": "c7d8e9f0-a1b2-3456-cdef-456789012346",
+                        "tidspunkt": "2025-12-20T08:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "d8e9f0a1-b2c3-4567-defa-567890123457",
+                        "profilertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
+                        "tidspunkt": "2025-12-20T08:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "e9f0a1b2-c3d4-5678-efab-678901234568",
+                        "gjelderFra": "2026-05-08T22:00:00Z",
+                        "gjelderTil": "2026-05-22T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "0602",
                     "kontorNavn": "Nav Drammen",
@@ -375,31 +415,35 @@
             "identitetsnummer": "03079211234",
             "fornavn": "LARS",
             "etternavn": "PEDERSEN",
-            "ledigSiden": "2026-04-05T09:30:00Z",
-            "periode": {
-                "id": "f0a1b2c3-d4e5-6789-fabc-789012345679",
-                "startet": "2026-04-05T09:30:00Z"
-            },
-            "opplysninger": {
-                "id": "a1b2c3d4-e5f6-7890-abcd-890123456780",
-                "startet": "2026-04-15T12:00:00Z",
-                "tidspunkt": "2026-04-15T12:00:00Z"
-            },
-            "profilering": {
-                "id": "b2c3d4e5-f6a7-8901-bcde-901234567891",
-                "profilertTil": "UKJENT_VERDI",
-                "tidspunkt": "2026-04-15T12:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "c3d4e5f6-a7b8-9012-cdef-012345678902",
-                "gjelderFra": "2026-05-10T22:00:00Z",
-                "gjelderTil": "2026-05-24T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "DAGPENGER"
-            },
-            "bekreftelsePaaVegneAv": ["DAGPENGER"],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "f0a1b2c3-d4e5-6789-fabc-789012345679",
+                        "startet": "2026-04-05T09:30:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": ["DAGPENGER"],
+                    "ledigSiden": "2026-04-05T09:30:00Z",
+                    "opplysninger": {
+                        "id": "a1b2c3d4-e5f6-7890-abcd-890123456780",
+                        "startet": "2026-04-15T12:00:00Z",
+                        "tidspunkt": "2026-04-15T12:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "b2c3d4e5-f6a7-8901-bcde-901234567891",
+                        "profilertTil": "UKJENT_VERDI",
+                        "tidspunkt": "2026-04-15T12:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "c3d4e5f6-a7b8-9012-cdef-012345678902",
+                        "gjelderFra": "2026-05-10T22:00:00Z",
+                        "gjelderTil": "2026-05-24T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "DAGPENGER"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "1501",
                     "kontorNavn": "Nav Ålesund",
@@ -417,21 +461,25 @@
             "identitetsnummer": "16038522345",
             "fornavn": "MARTE",
             "etternavn": "HAUGEN",
-            "ledigSiden": "2026-03-16T10:00:00Z",
-            "periode": {
-                "id": "d4e5f6a7-b8c9-0123-defa-123456789013",
-                "startet": "2026-03-16T10:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "e5f6a7b8-c9d0-1234-efab-234567890124",
-                "gjelderFra": "2026-05-01T22:00:00Z",
-                "gjelderTil": "2026-05-15T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "d4e5f6a7-b8c9-0123-defa-123456789013",
+                        "startet": "2026-03-16T10:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-03-16T10:00:00Z",
+                    "bekreftelse": {
+                        "id": "e5f6a7b8-c9d0-1234-efab-234567890124",
+                        "gjelderFra": "2026-05-01T22:00:00Z",
+                        "gjelderTil": "2026-05-15T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "4154",
                     "kontorNavn": "Nasjonal oppfølgingsenhet",
@@ -450,35 +498,39 @@
             "fornavn": "BJØRN",
             "mellomnavn": "IVAR",
             "etternavn": "DAHL",
-            "ledigSiden": "2025-09-01T07:45:00Z",
-            "periode": {
-                "id": "f6a7b8c9-d0e1-2345-fabc-345678901235",
-                "startet": "2025-09-01T07:45:00Z"
-            },
-            "opplysninger": {
-                "id": "a7b8c9d0-e1f2-3456-abcd-456789012346",
-                "tidspunkt": "2025-09-15T09:00:00Z"
-            },
-            "profilering": {
-                "id": "b8c9d0e1-f2a3-4567-bcde-567890123457",
-                "profilertTil": "OPPGITT_HINDRINGER",
-                "tidspunkt": "2025-09-15T09:00:00Z"
-            },
-            "egenvurdering": {
-                "id": "c9d0e1f2-a3b4-5678-cdef-678901234568",
-                "egenvurdertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
-                "tidspunkt": "2025-09-16T11:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "d0e1f2a3-b4c5-6789-defa-789012345679",
-                "gjelderFra": "2026-05-15T22:00:00Z",
-                "gjelderTil": "2026-05-29T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "f6a7b8c9-d0e1-2345-fabc-345678901235",
+                        "startet": "2025-09-01T07:45:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2025-09-01T07:45:00Z",
+                    "opplysninger": {
+                        "id": "a7b8c9d0-e1f2-3456-abcd-456789012346",
+                        "tidspunkt": "2025-09-15T09:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "b8c9d0e1-f2a3-4567-bcde-567890123457",
+                        "profilertTil": "OPPGITT_HINDRINGER",
+                        "tidspunkt": "2025-09-15T09:00:00Z"
+                    },
+                    "egenvurdering": {
+                        "id": "c9d0e1f2-a3b4-5678-cdef-678901234568",
+                        "egenvurdertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
+                        "tidspunkt": "2025-09-16T11:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "d0e1f2a3-b4c5-6789-defa-789012345679",
+                        "gjelderFra": "2026-05-15T22:00:00Z",
+                        "gjelderTil": "2026-05-29T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "1201",
                     "kontorNavn": "Nav Bergen",
@@ -496,30 +548,34 @@
             "identitetsnummer": "27077744567",
             "fornavn": "CAMILLA",
             "etternavn": "SØRENSEN",
-            "ledigSiden": "2026-02-01T09:00:00Z",
-            "periode": {
-                "id": "e1f2a3b4-c5d6-7890-efab-890123456780",
-                "startet": "2026-02-01T09:00:00Z"
-            },
-            "opplysninger": {
-                "id": "f2a3b4c5-d6e7-8901-fabc-901234567891",
-                "tidspunkt": "2026-02-10T10:30:00Z"
-            },
-            "profilering": {
-                "id": "a3b4c5d6-e7f8-9012-abcd-012345678902",
-                "profilertTil": "ANTATT_GODE_MULIGHETER",
-                "tidspunkt": "2026-02-10T10:30:00Z"
-            },
-            "bekreftelse": {
-                "id": "b4c5d6e7-f8a9-0123-bcde-123456789013",
-                "gjelderFra": "2026-04-24T22:00:00Z",
-                "gjelderTil": "2026-05-08T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "e1f2a3b4-c5d6-7890-efab-890123456780",
+                        "startet": "2026-02-01T09:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-02-01T09:00:00Z",
+                    "opplysninger": {
+                        "id": "f2a3b4c5-d6e7-8901-fabc-901234567891",
+                        "tidspunkt": "2026-02-10T10:30:00Z"
+                    },
+                    "profilering": {
+                        "id": "a3b4c5d6-e7f8-9012-abcd-012345678902",
+                        "profilertTil": "ANTATT_GODE_MULIGHETER",
+                        "tidspunkt": "2026-02-10T10:30:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "b4c5d6e7-f8a9-0123-bcde-123456789013",
+                        "gjelderFra": "2026-04-24T22:00:00Z",
+                        "gjelderTil": "2026-05-08T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "0315",
                     "kontorNavn": "Nav Grünerløkka",
@@ -537,13 +593,17 @@
             "identitetsnummer": "14047755678",
             "fornavn": "HENRIK",
             "etternavn": "NILSEN",
-            "ledigSiden": "2026-04-14T13:00:00Z",
-            "periode": {
-                "id": "c5d6e7f8-a9b0-1234-cdef-234567890124",
-                "startet": "2026-04-14T13:00:00Z"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "c5d6e7f8-a9b0-1234-cdef-234567890124",
+                        "startet": "2026-04-14T13:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-04-14T13:00:00Z"
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "5001",
                     "kontorNavn": "Nav Trondheim",
@@ -561,35 +621,39 @@
             "identitetsnummer": "02028866789",
             "fornavn": "ASTRID",
             "etternavn": "BAKKE",
-            "ledigSiden": "2025-08-15T06:30:00Z",
-            "periode": {
-                "id": "d6e7f8a9-b0c1-2345-defa-345678901235",
-                "startet": "2025-08-15T06:30:00Z"
-            },
-            "opplysninger": {
-                "id": "e7f8a9b0-c1d2-3456-efab-456789012346",
-                "tidspunkt": "2025-08-25T14:00:00Z"
-            },
-            "profilering": {
-                "id": "f8a9b0c1-d2e3-4567-fabc-567890123457",
-                "profilertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
-                "tidspunkt": "2025-08-25T14:00:00Z"
-            },
-            "egenvurdering": {
-                "id": "a9b0c1d2-e3f4-5678-abcd-678901234568",
-                "egenvurdertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
-                "tidspunkt": "2025-08-26T09:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "b0c1d2e3-f4a5-6789-bcde-789012345679",
-                "gjelderFra": "2026-05-01T22:00:00Z",
-                "gjelderTil": "2026-05-15T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "DAGPENGER"
-            },
-            "bekreftelsePaaVegneAv": ["DAGPENGER"],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "d6e7f8a9-b0c1-2345-defa-345678901235",
+                        "startet": "2025-08-15T06:30:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": ["DAGPENGER"],
+                    "ledigSiden": "2025-08-15T06:30:00Z",
+                    "opplysninger": {
+                        "id": "e7f8a9b0-c1d2-3456-efab-456789012346",
+                        "tidspunkt": "2025-08-25T14:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "f8a9b0c1-d2e3-4567-fabc-567890123457",
+                        "profilertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
+                        "tidspunkt": "2025-08-25T14:00:00Z"
+                    },
+                    "egenvurdering": {
+                        "id": "a9b0c1d2-e3f4-5678-abcd-678901234568",
+                        "egenvurdertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
+                        "tidspunkt": "2025-08-26T09:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "b0c1d2e3-f4a5-6789-bcde-789012345679",
+                        "gjelderFra": "2026-05-01T22:00:00Z",
+                        "gjelderTil": "2026-05-15T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "DAGPENGER"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "1804",
                     "kontorNavn": "Nav Bodø",
@@ -608,17 +672,21 @@
             "fornavn": "RUNE",
             "mellomnavn": "KRISTOFFER",
             "etternavn": "THORSEN",
-            "ledigSiden": "2026-05-14T08:00:00Z",
-            "periode": {
-                "id": "c1d2e3f4-a5b6-7890-cdef-890123456780",
-                "startet": "2026-05-14T08:00:00Z"
-            },
-            "opplysninger": {
-                "id": "d2e3f4a5-b6c7-8901-defa-901234567891",
-                "tidspunkt": "2026-05-14T10:00:00Z"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "c1d2e3f4-a5b6-7890-cdef-890123456780",
+                        "startet": "2026-05-14T08:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-05-14T08:00:00Z",
+                    "opplysninger": {
+                        "id": "d2e3f4a5-b6c7-8901-defa-901234567891",
+                        "tidspunkt": "2026-05-14T10:00:00Z"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "0602",
                     "kontorNavn": "Nav Drammen",
@@ -636,30 +704,34 @@
             "identitetsnummer": "07038288901",
             "fornavn": "MARIANNE",
             "etternavn": "HOLM",
-            "ledigSiden": "2026-03-07T11:15:00Z",
-            "periode": {
-                "id": "e3f4a5b6-c7d8-9012-efab-012345678902",
-                "startet": "2026-03-07T11:15:00Z"
-            },
-            "opplysninger": {
-                "id": "f4a5b6c7-d8e9-0123-fabc-123456789013",
-                "tidspunkt": "2026-03-20T09:00:00Z"
-            },
-            "profilering": {
-                "id": "a5b6c7d8-e9f0-1234-abcd-234567890124",
-                "profilertTil": "ANTATT_GODE_MULIGHETER",
-                "tidspunkt": "2026-03-20T09:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "b6c7d8e9-f0a1-2345-bcde-345678901235",
-                "gjelderFra": "2026-05-10T22:00:00Z",
-                "gjelderTil": "2026-05-24T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "e3f4a5b6-c7d8-9012-efab-012345678902",
+                        "startet": "2026-03-07T11:15:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-03-07T11:15:00Z",
+                    "opplysninger": {
+                        "id": "f4a5b6c7-d8e9-0123-fabc-123456789013",
+                        "tidspunkt": "2026-03-20T09:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "a5b6c7d8-e9f0-1234-abcd-234567890124",
+                        "profilertTil": "ANTATT_GODE_MULIGHETER",
+                        "tidspunkt": "2026-03-20T09:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "b6c7d8e9-f0a1-2345-bcde-345678901235",
+                        "gjelderFra": "2026-05-10T22:00:00Z",
+                        "gjelderTil": "2026-05-24T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "1103",
                     "kontorNavn": "Nav Stavanger",
@@ -677,30 +749,34 @@
             "identitetsnummer": "21057699012",
             "fornavn": "ANDERS",
             "etternavn": "STRAND",
-            "ledigSiden": "2025-07-01T07:00:00Z",
-            "periode": {
-                "id": "c7d8e9f0-a1b2-3456-cdef-456789012346",
-                "startet": "2025-07-01T07:00:00Z"
-            },
-            "opplysninger": {
-                "id": "d8e9f0a1-b2c3-4567-defa-567890123457",
-                "tidspunkt": "2025-07-15T13:00:00Z"
-            },
-            "profilering": {
-                "id": "e9f0a1b2-c3d4-5678-efab-678901234568",
-                "profilertTil": "OPPGITT_HINDRINGER",
-                "tidspunkt": "2025-07-15T13:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "f0a1b2c3-d4e5-6789-fabc-789012345679",
-                "gjelderFra": "2026-05-15T22:00:00Z",
-                "gjelderTil": "2026-05-29T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "FRISKMELDT_TIL_ARBEIDSFORMIDLING"
-            },
-            "bekreftelsePaaVegneAv": ["FRISKMELDT_TIL_ARBEIDSFORMIDLING"],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "c7d8e9f0-a1b2-3456-cdef-456789012346",
+                        "startet": "2025-07-01T07:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": ["FRISKMELDT_TIL_ARBEIDSFORMIDLING"],
+                    "ledigSiden": "2025-07-01T07:00:00Z",
+                    "opplysninger": {
+                        "id": "d8e9f0a1-b2c3-4567-defa-567890123457",
+                        "tidspunkt": "2025-07-15T13:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "e9f0a1b2-c3d4-5678-efab-678901234568",
+                        "profilertTil": "OPPGITT_HINDRINGER",
+                        "tidspunkt": "2025-07-15T13:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "f0a1b2c3-d4e5-6789-fabc-789012345679",
+                        "gjelderFra": "2026-05-15T22:00:00Z",
+                        "gjelderTil": "2026-05-29T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "FRISKMELDT_TIL_ARBEIDSFORMIDLING"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "0218",
                     "kontorNavn": "Nav Bærum",
@@ -718,30 +794,34 @@
             "identitetsnummer": "10108910123",
             "fornavn": "LENA",
             "etternavn": "LIE",
-            "ledigSiden": "2026-04-10T10:30:00Z",
-            "periode": {
-                "id": "a1b2c3d4-e5f6-4321-abcd-fedcba987654",
-                "startet": "2026-04-10T10:30:00Z"
-            },
-            "opplysninger": {
-                "id": "b2c3d4e5-f6a7-5432-bcde-fedcba876543",
-                "tidspunkt": "2026-04-20T08:15:00Z"
-            },
-            "profilering": {
-                "id": "c3d4e5f6-a7b8-6543-cdef-fedcba765432",
-                "profilertTil": "UDEFINERT",
-                "tidspunkt": "2026-04-20T08:15:00Z"
-            },
-            "bekreftelse": {
-                "id": "d4e5f6a7-b8c9-7654-defa-fedcba654321",
-                "gjelderFra": "2026-05-01T22:00:00Z",
-                "gjelderTil": "2026-05-15T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "a1b2c3d4-e5f6-4321-abcd-fedcba987654",
+                        "startet": "2026-04-10T10:30:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-04-10T10:30:00Z",
+                    "opplysninger": {
+                        "id": "b2c3d4e5-f6a7-5432-bcde-fedcba876543",
+                        "tidspunkt": "2026-04-20T08:15:00Z"
+                    },
+                    "profilering": {
+                        "id": "c3d4e5f6-a7b8-6543-cdef-fedcba765432",
+                        "profilertTil": "UDEFINERT",
+                        "tidspunkt": "2026-04-20T08:15:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "d4e5f6a7-b8c9-7654-defa-fedcba654321",
+                        "gjelderFra": "2026-05-01T22:00:00Z",
+                        "gjelderTil": "2026-05-15T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "1501",
                     "kontorNavn": "Nav Ålesund",
@@ -759,13 +839,17 @@
             "identitetsnummer": "25036421234",
             "fornavn": "SIGRID",
             "etternavn": "AUNE",
-            "ledigSiden": "2026-05-20T09:00:00Z",
-            "periode": {
-                "id": "e5f6a7b8-c9d0-8765-efab-fedcba543210",
-                "startet": "2026-05-20T09:00:00Z"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "e5f6a7b8-c9d0-8765-efab-fedcba543210",
+                        "startet": "2026-05-20T09:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-05-20T09:00:00Z"
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "5001",
                     "kontorNavn": "Nav Trondheim",
@@ -784,35 +868,39 @@
             "fornavn": "JØRGEN",
             "mellomnavn": "TOBIAS",
             "etternavn": "VOLD",
-            "ledigSiden": "2025-11-13T08:00:00Z",
-            "periode": {
-                "id": "f6a7b8c9-d0e1-9876-fabc-fedcba432109",
-                "startet": "2025-11-13T08:00:00Z"
-            },
-            "opplysninger": {
-                "id": "a7b8c9d0-e1f2-0987-abcd-fedcba321098",
-                "tidspunkt": "2025-12-01T10:00:00Z"
-            },
-            "profilering": {
-                "id": "b8c9d0e1-f2a3-1098-bcde-fedcba210987",
-                "profilertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
-                "tidspunkt": "2025-12-01T10:00:00Z"
-            },
-            "egenvurdering": {
-                "id": "c9d0e1f2-a3b4-2109-cdef-fedcba109876",
-                "egenvurdertTil": "ANTATT_GODE_MULIGHETER",
-                "tidspunkt": "2025-12-02T11:30:00Z"
-            },
-            "bekreftelse": {
-                "id": "d0e1f2a3-b4c5-3210-defa-fedcba098765",
-                "gjelderFra": "2026-05-08T22:00:00Z",
-                "gjelderTil": "2026-05-22T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "f6a7b8c9-d0e1-9876-fabc-fedcba432109",
+                        "startet": "2025-11-13T08:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2025-11-13T08:00:00Z",
+                    "opplysninger": {
+                        "id": "a7b8c9d0-e1f2-0987-abcd-fedcba321098",
+                        "tidspunkt": "2025-12-01T10:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "b8c9d0e1-f2a3-1098-bcde-fedcba210987",
+                        "profilertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
+                        "tidspunkt": "2025-12-01T10:00:00Z"
+                    },
+                    "egenvurdering": {
+                        "id": "c9d0e1f2-a3b4-2109-cdef-fedcba109876",
+                        "egenvurdertTil": "ANTATT_GODE_MULIGHETER",
+                        "tidspunkt": "2025-12-02T11:30:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "d0e1f2a3-b4c5-3210-defa-fedcba098765",
+                        "gjelderFra": "2026-05-08T22:00:00Z",
+                        "gjelderTil": "2026-05-22T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "4154",
                     "kontorNavn": "Nasjonal oppfølgingsenhet",
@@ -830,30 +918,34 @@
             "identitetsnummer": "06026553456",
             "fornavn": "HEIDI",
             "etternavn": "JAKOBSEN",
-            "ledigSiden": "2026-02-06T07:30:00Z",
-            "periode": {
-                "id": "e1f2a3b4-c5d6-4321-efab-fedcba987654",
-                "startet": "2026-02-06T07:30:00Z"
-            },
-            "opplysninger": {
-                "id": "f2a3b4c5-d6e7-5432-fabc-fedcba876543",
-                "tidspunkt": "2026-02-18T09:00:00Z"
-            },
-            "profilering": {
-                "id": "a3b4c5d6-e7f8-6543-abcd-fedcba765432",
-                "profilertTil": "ANTATT_GODE_MULIGHETER",
-                "tidspunkt": "2026-02-18T09:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "b4c5d6e7-f8a9-7654-bcde-fedcba654321",
-                "gjelderFra": "2026-05-10T22:00:00Z",
-                "gjelderTil": "2026-05-24T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": false,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "e1f2a3b4-c5d6-4321-efab-fedcba987654",
+                        "startet": "2026-02-06T07:30:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-02-06T07:30:00Z",
+                    "opplysninger": {
+                        "id": "f2a3b4c5-d6e7-5432-fabc-fedcba876543",
+                        "tidspunkt": "2026-02-18T09:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "a3b4c5d6-e7f8-6543-abcd-fedcba765432",
+                        "profilertTil": "ANTATT_GODE_MULIGHETER",
+                        "tidspunkt": "2026-02-18T09:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "b4c5d6e7-f8a9-7654-bcde-fedcba654321",
+                        "gjelderFra": "2026-05-10T22:00:00Z",
+                        "gjelderTil": "2026-05-24T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": false,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "1201",
                     "kontorNavn": "Nav Bergen",
@@ -871,30 +963,34 @@
             "identitetsnummer": "20098764567",
             "fornavn": "FRANK",
             "etternavn": "EIDE",
-            "ledigSiden": "2025-09-20T10:00:00Z",
-            "periode": {
-                "id": "c5d6e7f8-a9b0-5432-cdef-fedcba543210",
-                "startet": "2025-09-20T10:00:00Z"
-            },
-            "opplysninger": {
-                "id": "d6e7f8a9-b0c1-6543-defa-fedcba432109",
-                "tidspunkt": "2025-10-01T12:00:00Z"
-            },
-            "profilering": {
-                "id": "e7f8a9b0-c1d2-7654-efab-fedcba321098",
-                "profilertTil": "UKJENT_VERDI",
-                "tidspunkt": "2025-10-01T12:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "f8a9b0c1-d2e3-8765-fabc-fedcba210987",
-                "gjelderFra": "2026-04-24T22:00:00Z",
-                "gjelderTil": "2026-05-08T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "DAGPENGER"
-            },
-            "bekreftelsePaaVegneAv": ["DAGPENGER"],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "c5d6e7f8-a9b0-5432-cdef-fedcba543210",
+                        "startet": "2025-09-20T10:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": ["DAGPENGER"],
+                    "ledigSiden": "2025-09-20T10:00:00Z",
+                    "opplysninger": {
+                        "id": "d6e7f8a9-b0c1-6543-defa-fedcba432109",
+                        "tidspunkt": "2025-10-01T12:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "e7f8a9b0-c1d2-7654-efab-fedcba321098",
+                        "profilertTil": "UKJENT_VERDI",
+                        "tidspunkt": "2025-10-01T12:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "f8a9b0c1-d2e3-8765-fabc-fedcba210987",
+                        "gjelderFra": "2026-04-24T22:00:00Z",
+                        "gjelderTil": "2026-05-08T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "DAGPENGER"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "1103",
                     "kontorNavn": "Nav Stavanger",
@@ -912,21 +1008,25 @@
             "identitetsnummer": "17037475678",
             "fornavn": "GRETE",
             "etternavn": "HALVORSEN",
-            "ledigSiden": "2026-03-17T09:00:00Z",
-            "periode": {
-                "id": "a9b0c1d2-e3f4-9876-abcd-fedcba109876",
-                "startet": "2026-03-17T09:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "b0c1d2e3-f4a5-0987-bcde-fedcba098765",
-                "gjelderFra": "2026-05-01T22:00:00Z",
-                "gjelderTil": "2026-05-15T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "a9b0c1d2-e3f4-9876-abcd-fedcba109876",
+                        "startet": "2026-03-17T09:00:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-03-17T09:00:00Z",
+                    "bekreftelse": {
+                        "id": "b0c1d2e3-f4a5-0987-bcde-fedcba098765",
+                        "gjelderFra": "2026-05-01T22:00:00Z",
+                        "gjelderTil": "2026-05-15T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "0315",
                     "kontorNavn": "Nav Grünerløkka",
@@ -945,35 +1045,39 @@
             "fornavn": "VEGARD",
             "mellomnavn": "ALEKSANDER",
             "etternavn": "NYGAARD",
-            "ledigSiden": "2026-04-28T08:45:00Z",
-            "periode": {
-                "id": "c1d2e3f4-a5b6-1234-cdef-abcdef012345",
-                "startet": "2026-04-28T08:45:00Z"
-            },
-            "opplysninger": {
-                "id": "d2e3f4a5-b6c7-2345-defa-abcdef123456",
-                "tidspunkt": "2026-05-05T10:00:00Z"
-            },
-            "profilering": {
-                "id": "e3f4a5b6-c7d8-3456-efab-abcdef234567",
-                "profilertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
-                "tidspunkt": "2026-05-05T10:00:00Z"
-            },
-            "egenvurdering": {
-                "id": "f4a5b6c7-d8e9-4567-fabc-abcdef345678",
-                "egenvurdertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
-                "tidspunkt": "2026-05-06T09:00:00Z"
-            },
-            "bekreftelse": {
-                "id": "a5b6c7d8-e9f0-5678-abcd-abcdef456789",
-                "gjelderFra": "2026-05-15T22:00:00Z",
-                "gjelderTil": "2026-05-29T22:00:00Z",
-                "harJobbet": false,
-                "vilFortsette": true,
-                "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
-            },
-            "bekreftelsePaaVegneAv": [],
-            "tilknyttetKontor": [
+            "ledighetsperioder": [
+                {
+                    "periode": {
+                        "id": "c1d2e3f4-a5b6-1234-cdef-abcdef012345",
+                        "startet": "2026-04-28T08:45:00Z"
+                    },
+                    "bekreftelsePaaVegneAv": [],
+                    "ledigSiden": "2026-04-28T08:45:00Z",
+                    "opplysninger": {
+                        "id": "d2e3f4a5-b6c7-2345-defa-abcdef123456",
+                        "tidspunkt": "2026-05-05T10:00:00Z"
+                    },
+                    "profilering": {
+                        "id": "e3f4a5b6-c7d8-3456-efab-abcdef234567",
+                        "profilertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
+                        "tidspunkt": "2026-05-05T10:00:00Z"
+                    },
+                    "egenvurdering": {
+                        "id": "f4a5b6c7-d8e9-4567-fabc-abcdef345678",
+                        "egenvurdertTil": "ANTATT_BEHOV_FOR_VEILEDNING",
+                        "tidspunkt": "2026-05-06T09:00:00Z"
+                    },
+                    "bekreftelse": {
+                        "id": "a5b6c7d8-e9f0-5678-abcd-abcdef456789",
+                        "gjelderFra": "2026-05-15T22:00:00Z",
+                        "gjelderTil": "2026-05-29T22:00:00Z",
+                        "harJobbet": false,
+                        "vilFortsette": true,
+                        "bekreftelsesloesning": "ARBEIDSSOEKERREGISTERET"
+                    }
+                }
+            ],
+            "kontortilknytninger": [
                 {
                     "kontorId": "0602",
                     "kontorNavn": "Nav Drammen",
