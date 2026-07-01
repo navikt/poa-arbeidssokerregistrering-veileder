@@ -76,7 +76,7 @@ async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiRe
             paging: {
                 page: 1,
                 pageSize: 10,
-                sortOrder: 'ASC',
+                sortOrder: 'DESC',
             },
         },
     });
