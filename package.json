@@ -26,7 +26,7 @@
         "@navikt/ds-tailwind": "8.12.1",
         "@navikt/next-logger": "5.0.0",
         "@navikt/oasis": "4.1.4",
-        "@unleash/nextjs": "1.6.4",
+        "@unleash/nextjs": "1.6.7",
         "nanoid": "5.1.11",
         "next": "16.2.9",
         "pino": "10.3.1",
