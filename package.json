@@ -55,7 +55,7 @@
         "postcss": "8.5.16",
         "storybook": "10.4.6",
         "tailwindcss": "4.3.2",
-        "typescript": "5.9.3",
+        "typescript": "6.0.3",
         "vitest": "4.1.9"
     },
     "lint-staged": {
