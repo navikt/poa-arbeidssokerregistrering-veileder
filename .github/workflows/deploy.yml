@@ -30,7 +30,7 @@ jobs:
             - name: Set up node
               uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
               with:
-                  node-version: '24.18.0'
+                  node-version: '24.19.0'
                   registry-url: 'https://npm.pkg.github.com'
                   scope: '@navikt'
 
@@ -49,18 +49,18 @@ jobs:
                       ${{ runner.os }}-pnpm-store-
 
             - name: Install dependencies
-              run: pnpm i --frozen-lockfile --ignore-scripts
+              run: pnpm ci
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
             - name: Test
-              run: pnpm run test:ci
+              run: pnpm test:ci
 
             - name: Knip
               run: pnpm exec knip --no-exit-code --reporter=markdown >> "$GITHUB_STEP_SUMMARY"
 
             - name: Build
-              run: pnpm run build
+              run: pnpm build
               env:
                   NODE_ENV: production
                   NEXT_PUBLIC_ASSET_PREFIX: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
