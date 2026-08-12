@@ -23,6 +23,13 @@ const fullKartlegging: KartleggingApiResult = {
     arbeidssoekere: typedMock.arbeidssoekere,
 };
 
+function daysAgoIso(days: number): string {
+    const d = new Date();
+    d.setDate(d.getDate() - days);
+    d.setHours(0, 0, 0, 0);
+    return d.toISOString();
+}
+
 // Testdata der kun "lav"-kategorien (<150 dager) har brukere
 const kunLaveBrukere: KartleggingApiResult = {
     arbeidssoekere: [
@@ -33,8 +40,8 @@ const kunLaveBrukere: KartleggingApiResult = {
             etternavn: 'BRUKER',
             ledighetsperioder: [
                 {
-                    periode: { id: 'per-1', startet: '2026-05-12T00:00:00Z' },
-                    ledigSiden: '2026-05-12T00:00:00Z',
+                    periode: { id: 'per-1', startet: daysAgoIso(30) },
+                    ledigSiden: daysAgoIso(30),
                     bekreftelsePaaVegneAv: [],
                 },
             ],
@@ -47,8 +54,8 @@ const kunLaveBrukere: KartleggingApiResult = {
             etternavn: 'BRUKER',
             ledighetsperioder: [
                 {
-                    periode: { id: 'per-2', startet: '2026-03-03T00:00:00Z' },
-                    ledigSiden: '2026-03-03T00:00:00Z',
+                    periode: { id: 'per-2', startet: daysAgoIso(60) },
+                    ledigSiden: daysAgoIso(60),
                     bekreftelsePaaVegneAv: [],
                 },
             ],
