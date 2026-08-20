@@ -68,6 +68,7 @@ const nextConfig = {
     },
     reactStrictMode: true,
     output: 'standalone',
+    productionBrowserSourceMaps: true,
     assetPrefix: isProd ? process.env.NEXT_PUBLIC_ASSET_PREFIX : undefined,
 };
 
