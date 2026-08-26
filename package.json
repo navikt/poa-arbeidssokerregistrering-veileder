@@ -30,8 +30,8 @@
         "nanoid": "5.1.16",
         "next": "16.3.0",
         "pino": "10.3.1",
-        "react": "19.2.7",
-        "react-dom": "19.2.7"
+        "react": "19.2.8",
+        "react-dom": "19.2.8"
     },
     "devDependencies": {
         "@biomejs/biome": "2.5.1",
@@ -43,8 +43,8 @@
         "@tailwindcss/postcss": "4.3.2",
         "@testing-library/react": "16.3.2",
         "@types/node": "26.2.0",
-        "@types/react": "19.2.17",
-        "@types/react-dom": "19.2.3",
+        "@types/react": "19.2.18",
+        "@types/react-dom": "19.2.4",
         "husky": "9.1.7",
         "jsdom": "29.1.1",
         "knip": "6.23.0",
