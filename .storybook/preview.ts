@@ -1,9 +1,6 @@
-import { initialize, mswLoader } from 'msw-storybook-addon';
+import { mswLoader } from "msw-storybook-addon/csf3";
 import type { Preview } from '@storybook/nextjs';
 import '../src/styles/globals.css';
-
-// Initialize MSW
-initialize();
 
 const preview: Preview = {
     parameters: {
@@ -15,7 +12,7 @@ const preview: Preview = {
         },
     },
     // Provide the MSW addon loader globally
-    loaders: [mswLoader],
+    loaders: [mswLoader()],
 };
 
 export default preview;
