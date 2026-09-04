@@ -75,6 +75,15 @@ async function renderKartlegging(kartleggingResult: KartleggingApiResult) {
 }
 
 describe('Kartlegging', () => {
+    beforeAll(() => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date('2026-06-01T00:00:00Z'));
+    });
+
+    afterAll(() => {
+        vi.useRealTimers();
+    });
+
     it('Har tilgang, men ingen resultater', async () => {
         await renderKartlegging(emptyKartlegging);
         expect(screen.getByText('Ingen tilgjengelig data')).toBeDefined();
