@@ -332,7 +332,7 @@ describe('ForsideWrapper', () => {
         const kartleggingResult: KartleggingApiResult = {
             arbeidssoekere: [
                 {
-                    arbeidssoekerId: 1,
+                    id: 1,
                     identitetsnummer: '12345678901',
                     fornavn: 'TEST',
                     etternavn: 'BRUKER',

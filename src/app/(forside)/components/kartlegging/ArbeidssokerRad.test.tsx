@@ -17,7 +17,7 @@ import type { Arbeidssoker } from '@/model/kartlegging-api';
 import { ArbeidssokerRad } from './ArbeidssokerRad';
 
 const baseArbeidssoker: Arbeidssoker = {
-    arbeidssoekerId: 1,
+    id: 1,
     identitetsnummer: '12345678901',
     fornavn: 'OLA',
     etternavn: 'NORDMANN',

@@ -55,7 +55,7 @@ export type Ledighetsperiode = {
 };
 
 export type Arbeidssoker = {
-    arbeidssoekerId: number;
+    id: number;
     identitetsnummer: string;
     fornavn: string;
     mellomnavn?: string;

@@ -34,7 +34,7 @@ function daysAgoIso(days: number): string {
 const kunLaveBrukere: KartleggingApiResult = {
     arbeidssoekere: [
         {
-            arbeidssoekerId: 1,
+            id: 1,
             identitetsnummer: '12345678901',
             fornavn: 'TEST',
             etternavn: 'BRUKER',
@@ -48,7 +48,7 @@ const kunLaveBrukere: KartleggingApiResult = {
             kontortilknytninger: [],
         },
         {
-            arbeidssoekerId: 2,
+            id: 2,
             identitetsnummer: '12345678902',
             fornavn: 'ANDRE',
             etternavn: 'BRUKER',

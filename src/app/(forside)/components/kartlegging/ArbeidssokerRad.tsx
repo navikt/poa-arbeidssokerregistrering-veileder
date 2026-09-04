@@ -50,7 +50,7 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: Arbeidssoker }) {
     }
 
     return (
-        <Table.Row key={arbeidssoker.arbeidssoekerId}>
+        <Table.Row key={arbeidssoker.id}>
             <Table.DataCell>
                 <button type='button' onClick={handleRowClick}>
                     {firstToUppercase(arbeidssoker.fornavn)} {firstToUppercase(arbeidssoker.etternavn)}

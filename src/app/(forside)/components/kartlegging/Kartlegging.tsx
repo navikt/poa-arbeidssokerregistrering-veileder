@@ -118,7 +118,7 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }
                 </Table.Header>
                 <Table.Body>
                     {paginatedBrukere.map((arbeidssoker) => (
-                        <ArbeidssokerRad key={arbeidssoker.arbeidssoekerId} arbeidssoker={arbeidssoker} />
+                        <ArbeidssokerRad key={arbeidssoker.id} arbeidssoker={arbeidssoker} />
                     ))}
                 </Table.Body>
             </Table>

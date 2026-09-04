@@ -12,7 +12,7 @@ const fåBrukere = alleBrukere.slice(0, 4);
 
 const kunKritiskeBrukere: Arbeidssoker[] = [
     {
-        arbeidssoekerId: 101,
+        id: 101,
         identitetsnummer: '12345678901',
         fornavn: 'SILJE',
         etternavn: 'LANGVARIG',
@@ -26,7 +26,7 @@ const kunKritiskeBrukere: Arbeidssoker[] = [
         kontortilknytninger: [],
     },
     {
-        arbeidssoekerId: 102,
+        id: 102,
         identitetsnummer: '12345678902',
         fornavn: 'ERIK',
         etternavn: 'OVER GRENSEN',
@@ -40,7 +40,7 @@ const kunKritiskeBrukere: Arbeidssoker[] = [
         kontortilknytninger: [],
     },
     {
-        arbeidssoekerId: 103,
+        id: 103,
         identitetsnummer: '12345678903',
         fornavn: 'MARTE',
         etternavn: 'VELDIG LANG',

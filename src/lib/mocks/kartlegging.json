@@ -1,7 +1,7 @@
 {
     "arbeidssoekere": [
         {
-            "arbeidssoekerId": 545,
+            "id": 545,
             "identitetsnummer": "24849098329",
             "fornavn": "SUNN",
             "etternavn": "VESTIBYLE",
@@ -46,7 +46,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 601,
+            "id": 601,
             "identitetsnummer": "12038512345",
             "fornavn": "KARI",
             "etternavn": "NORDMANN",
@@ -91,7 +91,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 602,
+            "id": 602,
             "identitetsnummer": "07076612233",
             "fornavn": "OLE",
             "mellomnavn": "GUNNAR",
@@ -133,7 +133,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 603,
+            "id": 603,
             "identitetsnummer": "15059934567",
             "fornavn": "ANNE",
             "etternavn": "LARSEN",
@@ -170,7 +170,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 604,
+            "id": 604,
             "identitetsnummer": "23118845678",
             "fornavn": "ERIK",
             "etternavn": "JOHANSEN",
@@ -215,7 +215,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 605,
+            "id": 605,
             "identitetsnummer": "04048956789",
             "fornavn": "INGRID",
             "etternavn": "BERG",
@@ -265,7 +265,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 606,
+            "id": 606,
             "identitetsnummer": "18067867890",
             "fornavn": "MAGNUS",
             "etternavn": "KRISTIANSEN",
@@ -292,7 +292,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 607,
+            "id": 607,
             "identitetsnummer": "29019078901",
             "fornavn": "SILJE",
             "etternavn": "ANDREASSEN",
@@ -337,7 +337,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 608,
+            "id": 608,
             "identitetsnummer": "11118989012",
             "fornavn": "TOBIAS",
             "mellomnavn": "ANDRÉ",
@@ -366,7 +366,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 609,
+            "id": 609,
             "identitetsnummer": "22118100123",
             "fornavn": "HANNE",
             "etternavn": "OLSEN",
@@ -411,7 +411,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 610,
+            "id": 610,
             "identitetsnummer": "03079211234",
             "fornavn": "LARS",
             "etternavn": "PEDERSEN",
@@ -457,7 +457,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 611,
+            "id": 611,
             "identitetsnummer": "16038522345",
             "fornavn": "MARTE",
             "etternavn": "HAUGEN",
@@ -493,7 +493,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 612,
+            "id": 612,
             "identitetsnummer": "09059033456",
             "fornavn": "BJØRN",
             "mellomnavn": "IVAR",
@@ -544,7 +544,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 613,
+            "id": 613,
             "identitetsnummer": "27077744567",
             "fornavn": "CAMILLA",
             "etternavn": "SØRENSEN",
@@ -589,7 +589,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 614,
+            "id": 614,
             "identitetsnummer": "14047755678",
             "fornavn": "HENRIK",
             "etternavn": "NILSEN",
@@ -617,7 +617,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 615,
+            "id": 615,
             "identitetsnummer": "02028866789",
             "fornavn": "ASTRID",
             "etternavn": "BAKKE",
@@ -667,7 +667,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 616,
+            "id": 616,
             "identitetsnummer": "30056577890",
             "fornavn": "RUNE",
             "mellomnavn": "KRISTOFFER",
@@ -700,7 +700,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 617,
+            "id": 617,
             "identitetsnummer": "07038288901",
             "fornavn": "MARIANNE",
             "etternavn": "HOLM",
@@ -745,7 +745,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 618,
+            "id": 618,
             "identitetsnummer": "21057699012",
             "fornavn": "ANDERS",
             "etternavn": "STRAND",
@@ -790,7 +790,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 619,
+            "id": 619,
             "identitetsnummer": "10108910123",
             "fornavn": "LENA",
             "etternavn": "LIE",
@@ -835,7 +835,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 620,
+            "id": 620,
             "identitetsnummer": "25036421234",
             "fornavn": "SIGRID",
             "etternavn": "AUNE",
@@ -863,7 +863,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 621,
+            "id": 621,
             "identitetsnummer": "13118032345",
             "fornavn": "JØRGEN",
             "mellomnavn": "TOBIAS",
@@ -914,7 +914,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 622,
+            "id": 622,
             "identitetsnummer": "06026553456",
             "fornavn": "HEIDI",
             "etternavn": "JAKOBSEN",
@@ -959,7 +959,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 623,
+            "id": 623,
             "identitetsnummer": "20098764567",
             "fornavn": "FRANK",
             "etternavn": "EIDE",
@@ -1004,7 +1004,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 624,
+            "id": 624,
             "identitetsnummer": "17037475678",
             "fornavn": "GRETE",
             "etternavn": "HALVORSEN",
@@ -1040,7 +1040,7 @@
             ]
         },
         {
-            "arbeidssoekerId": 625,
+            "id": 625,
             "identitetsnummer": "28047186789",
             "fornavn": "VEGARD",
             "mellomnavn": "ALEKSANDER",
