@@ -62,7 +62,7 @@
         "src/app/**/*.{js,jsx,json,ts,tsx}": "biome check --write"
     },
     "engines": {
-        "node": ">=24.20.0"
+        "node": ">=24.21.0"
     },
     "msw": {
         "workerDirectory": [
