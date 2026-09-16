@@ -80,10 +80,14 @@ async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiRe
             },
         },
     });
+
     if (!result.ok) {
         logger.error({ event: 'kartlegging_feil', httpStatus: result.status }, 'Feil ved henting av kartlegging');
         return { arbeidssoekere: [], error: result.error };
     }
+
+    logger.info({ enhetsId, event: 'kartlegging_suksess' }, 'Kartleggingdata er hentet');
+    
     return result.data;
 }
 
