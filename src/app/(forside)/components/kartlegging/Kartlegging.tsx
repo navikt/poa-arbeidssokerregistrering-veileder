@@ -1,4 +1,4 @@
-import { Chips, Heading, InlineMessage, LocalAlert, Pagination, Table } from '@navikt/ds-react';
+import { Chips, Heading, InlineMessage, Pagination, Table } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
 import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import type { KartleggingApiResult } from '@/lib/api/kartlegging';
@@ -138,15 +138,6 @@ function Kartlegging({ kartleggingPromise }: { kartleggingPromise: Promise<Kartl
 
     return (
         <>
-            <LocalAlert status='warning' className='mb-4'>
-                <LocalAlert.Header>
-                    <LocalAlert.Title>Beta - Kartlegging</LocalAlert.Title>
-                </LocalAlert.Header>
-                <LocalAlert.Content>
-                    Listen under viser kun statisk test-data, dette er ikke ekte data. Formålet er å kunne se hvordan
-                    kartleggingen kan se ut.
-                </LocalAlert.Content>
-            </LocalAlert>
             <Heading size='medium' level='2' className='mb-4'>
                 Arbeidssøkere {data.arbeidssoekere && `(${data.arbeidssoekere.length} brukere)`}
             </Heading>

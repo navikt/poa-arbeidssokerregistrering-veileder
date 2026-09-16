@@ -87,7 +87,7 @@ async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiRe
     }
 
     logger.info({ enhetsId, event: 'kartlegging_suksess' }, 'Kartleggingdata er hentet');
-    
+
     return result.data;
 }
 
