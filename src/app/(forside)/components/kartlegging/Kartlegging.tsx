@@ -113,7 +113,7 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }
                         </Table.ColumnHeader>
                         <Table.ColumnHeader>Bekreftelsesløsning</Table.ColumnHeader>
                         <Table.ColumnHeader>Ønsker veileder</Table.ColumnHeader>
-                        <Table.ColumnHeader>Rapportert arbeid</Table.ColumnHeader>
+                        <Table.ColumnHeader>Rapportert arbeid ({paginatedBrukere.length})</Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
