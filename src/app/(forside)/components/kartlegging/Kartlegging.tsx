@@ -133,18 +133,19 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }
 
 function Kartlegging({ kartleggingPromise }: { kartleggingPromise: Promise<KartleggingApiResult | null> }) {
     const data = use(kartleggingPromise);
+    const stableData = useMemo(() => data, [data]);
 
-    if (!data || (data.manglerTilgang && !data.error)) {
+    if (!stableData || (stableData.manglerTilgang && !stableData.error)) {
         return <ManglerPersonEllerEnhet />;
     }
 
     return (
         <>
             <Heading size='medium' level='2' className='mb-4'>
-                Arbeidssøkere {data.arbeidssoekere && `(${data.arbeidssoekere.length} brukere)`}
+                Arbeidssøkere {stableData.arbeidssoekere && `(${stableData.arbeidssoekere.length} brukere)`}
             </Heading>
-            {data.arbeidssoekere && data.arbeidssoekere?.length > 0 ? (
-                <KartleggingListe kartlegging={data} />
+            {stableData.arbeidssoekere && stableData.arbeidssoekere?.length > 0 ? (
+                <KartleggingListe kartlegging={stableData} />
             ) : (
                 <InlineMessage status='info'>Ingen tilgjengelig data</InlineMessage>
             )}
