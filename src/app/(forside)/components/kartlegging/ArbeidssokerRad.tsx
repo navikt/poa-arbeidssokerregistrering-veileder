@@ -55,7 +55,6 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: Arbeidssoker }) {
                 <button type='button' onClick={handleRowClick}>
                     {firstToUppercase(arbeidssoker.fornavn)} {firstToUppercase(arbeidssoker.etternavn)}
                 </button>
-                &nbsp;({arbeidssoker.id})
             </Table.DataCell>
             <Table.DataCell>
                 <DagerTag dager={daysSinceDate(aktivPeriode?.ledigSiden)} />
