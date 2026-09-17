@@ -86,7 +86,6 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }
 
     const handleFilterChange = (newFilter: DagerFilter) => {
         setFilter(newFilter);
-        setPage(1);
     };
 
     const handleSort = (sortKey: string) => {
@@ -95,6 +94,7 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }
                 ? { orderBy: sortKey, direction: prev.direction === 'ascending' ? 'descending' : 'ascending' }
                 : { orderBy: sortKey, direction: 'ascending' },
         );
+        setPage(1);
     };
 
     return (

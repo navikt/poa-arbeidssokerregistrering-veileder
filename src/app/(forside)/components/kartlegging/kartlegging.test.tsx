@@ -64,6 +64,32 @@ const kunLaveBrukere: KartleggingApiResult = {
     ] as Arbeidssoker[],
 };
 
+function createArbeidssoker(id: number, daysAgo: number): Arbeidssoker {
+    return {
+        id,
+        identitetsnummer: `${10000000000 + id}`,
+        fornavn: `TEST${id}`,
+        etternavn: 'BRUKER',
+        ledighetsperioder: [
+            {
+                periode: { id: `per-${id}`, startet: daysAgoIso(daysAgo) },
+                ledigSiden: daysAgoIso(daysAgo),
+                bekreftelsePaaVegneAv: [],
+            },
+        ],
+        kontortilknytninger: [],
+    };
+}
+
+function createStorKartlegging(): KartleggingApiResult {
+    return {
+        arbeidssoekere: [
+            ...Array.from({ length: 20 }, (_, index) => createArbeidssoker(index + 1, 200 + index)),
+            ...Array.from({ length: 10 }, (_, index) => createArbeidssoker(index + 21, 20 + index)),
+        ],
+    };
+}
+
 async function renderKartlegging(kartleggingResult: KartleggingApiResult) {
     await act(async () => {
         render(
@@ -138,6 +164,42 @@ describe('Kartlegging', () => {
         const rows = screen.getAllByRole('row');
         // header + 11 rader (side 2 av 26 totalt med 15 per side = 11 rader)
         expect(rows).toHaveLength(12);
+    });
+
+    it('Sortering nullstiller paginering til første side', async () => {
+        await renderKartlegging(fullKartlegging);
+
+        const paginering = screen.getByRole('navigation');
+        const side2Knapp = within(paginering).getByRole('button', { name: /2/ });
+        await act(async () => {
+            fireEvent.click(side2Knapp);
+        });
+
+        const sortHeader = screen.getByRole('button', { name: /dager ledig/i });
+        await act(async () => {
+            fireEvent.click(sortHeader);
+        });
+
+        const rows = screen.getAllByRole('row');
+        expect(rows).toHaveLength(16);
+    });
+
+    it('Filtrering beholder gjeldende side', async () => {
+        await renderKartlegging(createStorKartlegging());
+
+        const paginering = screen.getByRole('navigation');
+        const side2Knapp = within(paginering).getByRole('button', { name: /2/ });
+        await act(async () => {
+            fireEvent.click(side2Knapp);
+        });
+
+        const kritiskChip = screen.getByRole('button', { name: /≥180 dager \(20\)/ });
+        await act(async () => {
+            fireEvent.click(kritiskChip);
+        });
+
+        const rows = screen.getAllByRole('row');
+        expect(rows).toHaveLength(6);
     });
 
     it('DagerTag viser riktig fargekode basert på antall dager', async () => {
