@@ -75,7 +75,7 @@ async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiRe
             kontorId: enhetsId,
             paging: {
                 page: 1,
-                pageSize: 10,
+                pageSize: 500,
                 sortOrder: 'DESC',
             },
         },
