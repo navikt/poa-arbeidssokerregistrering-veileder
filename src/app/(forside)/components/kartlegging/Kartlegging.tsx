@@ -1,5 +1,3 @@
-'use client';
-
 import { Chips, Heading, InlineMessage, Pagination, Table } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
 import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
@@ -133,19 +131,18 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }
 
 function Kartlegging({ kartleggingPromise }: { kartleggingPromise: Promise<KartleggingApiResult | null> }) {
     const data = use(kartleggingPromise);
-    const stableData = useMemo(() => data, [data]);
 
-    if (!stableData || (stableData.manglerTilgang && !stableData.error)) {
+    if (!data || (data.manglerTilgang && !data.error)) {
         return <ManglerPersonEllerEnhet />;
     }
 
     return (
         <>
             <Heading size='medium' level='2' className='mb-4'>
-                Arbeidssøkere {stableData.arbeidssoekere && `(${stableData.arbeidssoekere.length} brukere)`}
+                Arbeidssøkere {data.arbeidssoekere && `(${data.arbeidssoekere.length} brukere)`}
             </Heading>
-            {stableData.arbeidssoekere && stableData.arbeidssoekere?.length > 0 ? (
-                <KartleggingListe kartlegging={stableData} />
+            {data.arbeidssoekere && data.arbeidssoekere?.length > 0 ? (
+                <KartleggingListe kartlegging={data} />
             ) : (
                 <InlineMessage status='info'>Ingen tilgjengelig data</InlineMessage>
             )}
