@@ -1,3 +1,5 @@
+'use client';
+
 import { Chips, Heading, InlineMessage, Pagination, Table } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
 import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
