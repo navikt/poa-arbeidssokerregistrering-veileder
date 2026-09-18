@@ -184,7 +184,7 @@ describe('Kartlegging', () => {
         expect(rows).toHaveLength(16);
     });
 
-    it('Filtrering beholder gjeldende side', async () => {
+    it('Filtrering nullstiller paginering til første side', async () => {
         await renderKartlegging(createStorKartlegging());
 
         const paginering = screen.getByRole('navigation');
@@ -199,7 +199,7 @@ describe('Kartlegging', () => {
         });
 
         const rows = screen.getAllByRole('row');
-        expect(rows).toHaveLength(6);
+        expect(rows).toHaveLength(16);
     });
 
     it('DagerTag viser riktig fargekode basert på antall dager', async () => {

@@ -86,6 +86,7 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }
 
     const handleFilterChange = (newFilter: DagerFilter) => {
         setFilter(newFilter);
+        setPage(1);
     };
 
     const handleSort = (sortKey: string) => {
