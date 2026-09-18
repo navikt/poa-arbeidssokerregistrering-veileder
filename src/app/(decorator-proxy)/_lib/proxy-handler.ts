@@ -58,7 +58,8 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
                 logger.warn(`Proxy failed: ${response.status} - ${targetUrl}`);
             }
 
-            if (response.status >= 300 && response.status < 400) {
+            // Egen håndtering av redirects
+            if ([301, 302, 303, 307, 308].includes(response.status)) {
                 const location = response.headers.get('location');
                 if (!location) {
                     logger.error(`Redirect uten Location fra ${targetUrl}`);
