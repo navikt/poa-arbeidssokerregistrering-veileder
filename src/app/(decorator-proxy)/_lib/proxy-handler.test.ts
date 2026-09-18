@@ -16,12 +16,11 @@ beforeEach(() => {
     mockGetOboToken.mockResolvedValue({ ok: true, token: 'obo-token' });
     vi.stubGlobal(
         'fetch',
-        vi.fn().mockResolvedValue({
-            ok: true,
-            status: 200,
-            headers: new Headers({ 'content-type': 'application/json' }),
-            json: () => Promise.resolve({}),
-        }),
+        vi
+            .fn()
+            .mockResolvedValue(
+                new Response(JSON.stringify({}), { status: 200, headers: { 'content-type': 'application/json' } }),
+            ),
     );
 });
 
@@ -34,6 +33,10 @@ function callHandler(baseUrl: string, scope: string, slug: string[], query?: str
 
 function getCalledUrl() {
     return vi.mocked(fetch).mock.calls.at(0)?.at(0) as string;
+}
+
+function mockFetchResponse(status: number, headers: HeadersInit = {}) {
+    vi.mocked(fetch).mockResolvedValue(new Response(null, { status, headers }));
 }
 
 /**
@@ -103,5 +106,34 @@ describe('Proxy-ruter i prod', () => {
         );
 
         expect(getCalledUrl()).toBe('https://fiktiv-base-url.intern.nav.no/api/context/heipådeg?enhet=0219');
+    });
+
+    it.each([301, 302, 303, 307, 308])('skal videresende redirect %s med Location-header', async (status) => {
+        mockFetchResponse(status, { location: 'https://ekstern.nav.no/videre' });
+
+        const response = await callHandler(
+            'https://fiktiv-base-url.intern.nav.no',
+            'api://prod-gcp.seriøst-api/.default',
+            ['api', 'redirect'],
+        );
+
+        expect(response.status).toBe(status);
+        expect(response.headers.get('location')).toBe('https://ekstern.nav.no/videre');
+    });
+
+    it.each([301, 302, 303, 307, 308])('skal returnere 502 når redirect %s mangler Location-header', async (status) => {
+        mockFetchResponse(status);
+
+        const response = await callHandler(
+            'https://fiktiv-base-url.intern.nav.no',
+            'api://prod-gcp.seriøst-api/.default',
+            ['api', 'redirect'],
+        );
+
+        expect(response.status).toBe(502);
+        await expect(response.json()).resolves.toEqual({
+            message: 'Proxy request feilet',
+            callId: 'test-call-id',
+        });
     });
 });

@@ -51,10 +51,24 @@ function lagProxyKall({ baseUrl, scope }: { baseUrl: string; scope: string }) {
                 method: request.method,
                 body: request.method !== 'GET' ? await request.text() : null,
                 headers: hentModiaHeaders(oboToken.token, callId),
+                redirect: 'manual',
             });
 
             if (!response.ok) {
                 logger.warn(`Proxy failed: ${response.status} - ${targetUrl}`);
+            }
+
+            // Egen håndtering av redirects
+            if ([301, 302, 303, 307, 308].includes(response.status)) {
+                const location = response.headers.get('location');
+                if (!location) {
+                    logger.error(`Redirect uten Location fra ${targetUrl}`);
+                    return NextResponse.json({ message: 'Proxy request feilet', callId }, { status: 502 });
+                }
+                return new NextResponse(null, {
+                    status: response.status,
+                    headers: { location },
+                });
             }
 
             const contentType = response.headers.get('content-type');
