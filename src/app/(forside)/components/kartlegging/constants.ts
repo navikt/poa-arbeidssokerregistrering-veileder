@@ -2,7 +2,7 @@ import type { Bekreftelsesloesning } from '@navikt/arbeidssokerregisteret-utils/
 
 export const LANGTIDSLEDIG_MAX = 180;
 export const LANGTIDSLEDIG_MELLOM = 150;
-export const ITEMS_PER_PAGE = 15;
+export const ITEMS_PER_PAGE = 500;
 
 export type LocalCustomBekreftelsesloesning = Extract<
     Bekreftelsesloesning,

@@ -11,6 +11,7 @@ import type { KartleggingApiResult } from '@/lib/api/kartlegging';
 import { daysSinceDate } from '@/lib/date-utils';
 import kartleggingMock from '@/lib/mocks/kartlegging.json';
 import type { Arbeidssoker, KartleggingApiResponse } from '@/model/kartlegging-api';
+import { ITEMS_PER_PAGE } from './constants';
 import { Kartlegging } from './Kartlegging';
 
 const typedMock = kartleggingMock as unknown as KartleggingApiResponse;
@@ -81,11 +82,31 @@ function createArbeidssoker(id: number, daysAgo: number): Arbeidssoker {
     };
 }
 
-function createStorKartlegging(): KartleggingApiResult {
+function createStorKartlegging(totalArbeidssokere = ITEMS_PER_PAGE + 1): KartleggingApiResult {
+    return {
+        arbeidssoekere: Array.from({ length: totalArbeidssokere }, (_, index) => {
+            if (index < 20) {
+                return createArbeidssoker(index + 1, 200 + index);
+            }
+
+            if (index < 30) {
+                return createArbeidssoker(index + 1, 20 + index - 20);
+            }
+
+            return createArbeidssoker(index + 1, 5 + index - 30);
+        }),
+    };
+}
+
+function createFilterKartlegging(): KartleggingApiResult {
     return {
         arbeidssoekere: [
-            ...Array.from({ length: 20 }, (_, index) => createArbeidssoker(index + 1, 200 + index)),
-            ...Array.from({ length: 10 }, (_, index) => createArbeidssoker(index + 21, 20 + index)),
+            createArbeidssoker(1, 210),
+            createArbeidssoker(2, 190),
+            createArbeidssoker(3, 170),
+            createArbeidssoker(4, 155),
+            createArbeidssoker(5, 120),
+            createArbeidssoker(6, 45),
         ],
     };
 }
@@ -115,20 +136,22 @@ describe('Kartlegging', () => {
         expect(screen.getByText('Ingen tilgjengelig data')).toBeDefined();
     });
 
-    it('Rendrer heading med antall brukere og paginert tabell med 15 rader', async () => {
+    it('Rendrer heading med antall brukere og riktig antall rader', async () => {
         await renderKartlegging(fullKartlegging);
 
-        expect(screen.getByRole('heading', { level: 2, name: /Arbeidssøkere/ }).textContent).toContain('26 brukere');
+        expect(screen.getByRole('heading', { level: 2, name: /Arbeidssøkere/ }).textContent).toContain(
+            `${fullKartlegging.arbeidssoekere.length} brukere`,
+        );
 
         const rows = screen.getAllByRole('row');
-        // 1 header-rad + 15 data-rader (paginert)
-        expect(rows).toHaveLength(16);
+        expect(rows).toHaveLength(Math.min(fullKartlegging.arbeidssoekere.length, ITEMS_PER_PAGE) + 1);
     });
 
     it('Filtrering på kritisk (≥180 dager) viser kun riktige brukere', async () => {
-        await renderKartlegging(fullKartlegging);
+        const kartlegging = createFilterKartlegging();
+        await renderKartlegging(kartlegging);
 
-        const kritiskBrukere = typedMock.arbeidssoekere.filter(
+        const kritiskBrukere = kartlegging.arbeidssoekere.filter(
             (b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) >= 180,
         );
         const kritiskChip = screen.getByRole('button', {
@@ -140,10 +163,8 @@ describe('Kartlegging', () => {
         });
 
         const rows = screen.getAllByRole('row');
-        // header + filtrerte rader
         expect(rows).toHaveLength(kritiskBrukere.length + 1);
 
-        // Verifiser at alle viste brukere har ≥180 dager
         const toDisplayName = (b: Arbeidssoker) =>
             `${b.fornavn.charAt(0).toUpperCase()}${b.fornavn.slice(1).toLowerCase()} ${b.etternavn.charAt(0).toUpperCase()}${b.etternavn.slice(1).toLowerCase()}`;
         for (const bruker of kritiskBrukere) {
@@ -152,7 +173,8 @@ describe('Kartlegging', () => {
     });
 
     it('Paginering viser side 2 med resterende brukere', async () => {
-        await renderKartlegging(fullKartlegging);
+        const storKartlegging = createStorKartlegging();
+        await renderKartlegging(storKartlegging);
 
         // Finn paginering-nav og klikk side 2
         const paginering = screen.getByRole('navigation');
@@ -162,12 +184,12 @@ describe('Kartlegging', () => {
         });
 
         const rows = screen.getAllByRole('row');
-        // header + 11 rader (side 2 av 26 totalt med 15 per side = 11 rader)
-        expect(rows).toHaveLength(12);
+        expect(rows).toHaveLength(storKartlegging.arbeidssoekere.length - ITEMS_PER_PAGE + 1);
     });
 
     it('Sortering nullstiller paginering til første side', async () => {
-        await renderKartlegging(fullKartlegging);
+        const storKartlegging = createStorKartlegging();
+        await renderKartlegging(storKartlegging);
 
         const paginering = screen.getByRole('navigation');
         const side2Knapp = within(paginering).getByRole('button', { name: /2/ });
@@ -181,11 +203,12 @@ describe('Kartlegging', () => {
         });
 
         const rows = screen.getAllByRole('row');
-        expect(rows).toHaveLength(16);
+        expect(rows).toHaveLength(Math.min(storKartlegging.arbeidssoekere.length, ITEMS_PER_PAGE) + 1);
     });
 
     it('Filtrering nullstiller paginering til første side', async () => {
-        await renderKartlegging(createStorKartlegging());
+        const storKartlegging = createStorKartlegging();
+        await renderKartlegging(storKartlegging);
 
         const paginering = screen.getByRole('navigation');
         const side2Knapp = within(paginering).getByRole('button', { name: /2/ });
@@ -193,13 +216,18 @@ describe('Kartlegging', () => {
             fireEvent.click(side2Knapp);
         });
 
-        const kritiskChip = screen.getByRole('button', { name: /≥180 dager \(20\)/ });
+        const kritiskBrukere = storKartlegging.arbeidssoekere.filter(
+            (b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) >= 180,
+        );
+        const kritiskChip = screen.getByRole('button', {
+            name: new RegExp(`≥180 dager \\(${kritiskBrukere.length}\\)`),
+        });
         await act(async () => {
             fireEvent.click(kritiskChip);
         });
 
         const rows = screen.getAllByRole('row');
-        expect(rows).toHaveLength(16);
+        expect(rows).toHaveLength(kritiskBrukere.length + 1);
     });
 
     it('DagerTag viser riktig fargekode basert på antall dager', async () => {
