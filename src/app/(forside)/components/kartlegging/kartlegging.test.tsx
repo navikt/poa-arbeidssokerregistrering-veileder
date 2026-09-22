@@ -111,6 +111,19 @@ function createFilterKartlegging(): KartleggingApiResult {
     };
 }
 
+function createDagerTagKartlegging(): KartleggingApiResult {
+    return {
+        arbeidssoekere: [
+            createArbeidssoker(1, 220),
+            createArbeidssoker(2, 165),
+            createArbeidssoker(3, 40),
+            ...Array.from({ length: Math.max(ITEMS_PER_PAGE - 3, 0) }, (_, index) =>
+                createArbeidssoker(index + 4, 10 + index),
+            ),
+        ],
+    };
+}
+
 async function renderKartlegging(kartleggingResult: KartleggingApiResult) {
     await act(async () => {
         render(
@@ -227,11 +240,11 @@ describe('Kartlegging', () => {
         });
 
         const rows = screen.getAllByRole('row');
-        expect(rows).toHaveLength(kritiskBrukere.length + 1);
+        expect(rows).toHaveLength(Math.min(kritiskBrukere.length, ITEMS_PER_PAGE) + 1);
     });
 
     it('DagerTag viser riktig fargekode basert på antall dager', async () => {
-        await renderKartlegging(fullKartlegging);
+        await renderKartlegging(createDagerTagKartlegging());
 
         // Brukere med ≥180 dager skal ha danger-tag
         const dangerTags = screen.getAllByText(/dager/).filter((el) => el.getAttribute('data-color') === 'danger');
