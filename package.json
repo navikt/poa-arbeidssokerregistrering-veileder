@@ -28,7 +28,7 @@
         "@navikt/oasis": "4.2.2",
         "@unleash/nextjs": "1.6.7",
         "nanoid": "5.1.16",
-        "next": "16.3.4",
+        "next": "16.3.5",
         "pino": "10.3.1",
         "react": "19.2.8",
         "react-dom": "19.2.8"
