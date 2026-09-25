@@ -4,7 +4,7 @@ import { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
 import { Table, Tag } from '@navikt/ds-react';
 import { useModiaContext } from '@/contexts/modia-context';
 import { daysSinceDate } from '@/lib/date-utils';
-import type { Arbeidssoker } from '@/model/kartlegging-api';
+import type { ArbeidssokerKompakt } from '@/model/kartlegging-api';
 import { BEKREFTELSE_LABEL, LANGTIDSLEDIG_MAX, LANGTIDSLEDIG_MELLOM } from './constants';
 
 function JaNeiTag({ svar }: { svar: boolean | undefined }) {
@@ -39,7 +39,7 @@ function firstToUppercase(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
-function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: Arbeidssoker }) {
+function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }) {
     const { setFnr } = useModiaContext();
     // Bruker første ledighetsperiode som aktiv periode
     const aktivPeriode = arbeidssoker.ledighetsperioder[0];
@@ -60,7 +60,7 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: Arbeidssoker }) {
                 <DagerTag dager={daysSinceDate(aktivPeriode?.ledigSiden)} />
             </Table.DataCell>
             <Table.DataCell>
-                {aktivPeriode?.bekreftelsePaaVegneAv.map((e) => (
+                {aktivPeriode?.bekreftelseAnsvar.map((e) => (
                     <Tag key={e} size='small'>
                         {BEKREFTELSE_LABEL[e]}
                     </Tag>
@@ -68,14 +68,12 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: Arbeidssoker }) {
             </Table.DataCell>
             <Table.DataCell>
                 <div className='flex items-center gap-1'>
-                    <JaNeiTag
-                        svar={aktivPeriode?.egenvurdering?.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING}
-                    />
+                    <JaNeiTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING} />
                 </div>
             </Table.DataCell>
             <Table.DataCell>
                 <div className='flex items-center gap-1'>
-                    <JaNeiTag svar={aktivPeriode?.bekreftelse?.harJobbet} />
+                    <JaNeiTag svar={aktivPeriode?.bekreftelseHarJobbet} />
                 </div>
             </Table.DataCell>
         </Table.Row>

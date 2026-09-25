@@ -1,9 +1,9 @@
 import { Chips, Heading, InlineMessage, Pagination, Table } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
 import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
-import type { KartleggingApiResult } from '@/lib/api/kartlegging';
+import type { KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
 import { daysSinceDate } from '@/lib/date-utils';
-import type { Arbeidssoker } from '@/model/kartlegging-api';
+import type { ArbeidssokerKompakt } from '@/model/kartlegging-api';
 import { ArbeidssokerRad } from './ArbeidssokerRad';
 import { type DagerFilter, ITEMS_PER_PAGE, LANGTIDSLEDIG_MAX, LANGTIDSLEDIG_MELLOM } from './constants';
 
@@ -17,7 +17,7 @@ function Filters({
     currentFilter,
     onFilterChange,
 }: {
-    arbeidsokere: Arbeidssoker[];
+    arbeidsokere: ArbeidssokerKompakt[];
     currentFilter: DagerFilter;
     onFilterChange: (selectedFilter: DagerFilter) => void;
 }) {
@@ -47,16 +47,16 @@ function Filters({
     );
 }
 
-function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }) {
+function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiKompaktResult }) {
     const [page, setPage] = useState(1);
     const [sort, setSort] = useState<SortState>({ orderBy: 'dagerLedig', direction: 'descending' });
     const [filter, setFilter] = useState<DagerFilter>('alle');
 
-    const filteredArbeidssokere = useMemo<Arbeidssoker[]>(() => {
+    const filteredArbeidssokere = useMemo<ArbeidssokerKompakt[]>(() => {
         if (!kartlegging.arbeidssoekere) return [];
         let result = [...kartlegging.arbeidssoekere];
 
-        const ledigSiden = (a: Arbeidssoker) => a.ledighetsperioder[0]?.ledigSiden;
+        const ledigSiden = (a: ArbeidssokerKompakt) => a.ledighetsperioder[0]?.ledigSiden;
 
         // FILTERING
         if (filter === 'kritisk') {
@@ -130,7 +130,7 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiResult }
     );
 }
 
-function Kartlegging({ kartleggingPromise }: { kartleggingPromise: Promise<KartleggingApiResult | null> }) {
+function Kartlegging({ kartleggingPromise }: { kartleggingPromise: Promise<KartleggingApiKompaktResult | null> }) {
     const data = use(kartleggingPromise);
 
     if (!data || (data.manglerTilgang && !data.error)) {

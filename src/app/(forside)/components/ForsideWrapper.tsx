@@ -6,7 +6,7 @@ import { Kartlegging } from '@/app/(forside)/components/kartlegging';
 import { useModiaContext } from '@/contexts/modia-context';
 import { useServerData } from '@/hooks/useServerData';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
-import { getKartlegging, type KartleggingApiResult } from '@/lib/api/kartlegging';
+import { getKartlegging, type KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
 import { getNokkeltall, type NokkeltallResult } from '@/lib/api/nokkeltall';
 import { getSnapshot, type SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import { Forside } from './Forside';
@@ -15,7 +15,7 @@ type ForsideWrapperProps = {
     initialSnapshotPromise: Promise<SnapshotResult>;
     initialBekreftelserPromise: Promise<BekreftelseApiResult>;
     initialNokkeltallPromise: Promise<NokkeltallResult | null>;
-    initialKartleggingPromise: Promise<KartleggingApiResult | null>;
+    initialKartleggingPromise: Promise<KartleggingApiKompaktResult | null>;
 };
 
 function ForsideWrapper({

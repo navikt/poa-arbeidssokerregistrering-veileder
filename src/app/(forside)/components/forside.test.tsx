@@ -42,13 +42,12 @@ import { act, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
 import { ModiaProvider } from '@/contexts/modia-context';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
-import type { KartleggingApiResult } from '@/lib/api/kartlegging';
+import type { KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
 import type { NokkeltallResult } from '@/lib/api/nokkeltall';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import bekreftelserMock from '@/lib/mocks/bekreftelser.json';
 import snapshotMock from '@/lib/mocks/snapshot.json';
 import snapshotMockAvsluttet from '@/lib/mocks/snapshot-med-avsluttet.json';
-import type { Arbeidssoker } from '@/model/kartlegging-api';
 import { Forside } from './Forside';
 import { ForsideWrapper } from './ForsideWrapper';
 
@@ -329,23 +328,24 @@ describe('ForsideWrapper', () => {
     });
 
     it('rendrer kartlegging når fnr er null og enhetId er 4154', async () => {
-        const kartleggingResult: KartleggingApiResult = {
+        const kartleggingResult: KartleggingApiKompaktResult = {
             arbeidssoekere: [
                 {
                     id: 1,
+                    aktorId: '123',
                     identitetsnummer: '12345678901',
                     fornavn: 'TEST',
                     etternavn: 'BRUKER',
                     ledighetsperioder: [
                         {
-                            periode: { id: 'per-1', startet: '2026-05-28T00:00:00Z' },
+                            periodeStartet: '2026-05-28T00:00:00Z',
                             ledigSiden: '2026-05-28T00:00:00Z',
-                            bekreftelsePaaVegneAv: [],
+                            bekreftelseAnsvar: [],
                         },
                     ],
                     kontortilknytninger: [],
                 },
-            ] as Arbeidssoker[],
+            ],
         };
         await act(async () => {
             render(

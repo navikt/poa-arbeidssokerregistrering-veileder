@@ -4,21 +4,26 @@ import { logger } from '@navikt/next-logger';
 import { headers } from 'next/headers';
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import { isFeatureEnabledWithContext } from '@/lib/unleash/feature-flags';
-import type { ApiPaging, Arbeidssoker, KartleggingApiResponse, KartleggingPayload } from '@/model/kartlegging-api';
+import type {
+    ApiPaging,
+    ArbeidssokerKompakt,
+    KartleggingApiKompaktResponse,
+    KartleggingPayload,
+} from '@/model/kartlegging-api';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 const isProd = process.env.NAIS_CLUSTER_NAME === 'prod-gcp';
 
-export type KartleggingApiResult = {
-    arbeidssoekere: Arbeidssoker[];
+export type KartleggingApiKompaktResult = {
+    arbeidssoekere: ArbeidssokerKompakt[];
     paging?: ApiPaging;
     error?: Error;
     manglerTilgang?: boolean;
 };
 
-async function hentMockData(): Promise<KartleggingApiResponse> {
-    return (await import('@/lib/mocks/kartlegging.json', { with: { type: 'json' } }))
-        .default as unknown as KartleggingApiResponse;
+async function hentMockData(): Promise<KartleggingApiKompaktResponse> {
+    return (await import('@/lib/mocks/kartlegging-kompakt.json', { with: { type: 'json' } }))
+        .default as unknown as KartleggingApiKompaktResponse;
 }
 
 /**
@@ -30,7 +35,7 @@ async function hentMockData(): Promise<KartleggingApiResponse> {
 const KARTLEGGING_API_URL = process.env.KARTLEGGING_API_URL;
 const KARTLEGGING_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-kartlegging/.default`;
 
-async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiResult | null> {
+async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiKompaktResult | null> {
     if (!enhetsId) {
         return null;
     }
@@ -65,8 +70,8 @@ async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiRe
         };
     }
 
-    const result = await authenticatedFetch<KartleggingApiResponse, KartleggingPayload>({
-        url: `${KARTLEGGING_API_URL}/api/v1/kartlegging`,
+    const result = await authenticatedFetch<KartleggingApiKompaktResponse, KartleggingPayload>({
+        url: `${KARTLEGGING_API_URL}/api/v1/arbeidsledighet`,
         scope: KARTLEGGING_API_SCOPE,
         headers: await headers(),
         method: 'POST',

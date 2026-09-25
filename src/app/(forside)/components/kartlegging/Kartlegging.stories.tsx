@@ -2,53 +2,56 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Suspense } from 'react';
 import { Kartlegging } from '@/app/(forside)/components/kartlegging';
 import { ModiaProvider } from '@/contexts/modia-context';
-import type { KartleggingApiResult } from '@/lib/api/kartlegging';
-import kartleggingMock from '@/lib/mocks/kartlegging.json';
-import type { Arbeidssoker, KartleggingApiResponse } from '@/model/kartlegging-api';
+import type { KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
+import kartleggingMock from '@/lib/mocks/kartlegging-kompakt.json';
+import type { ArbeidssokerKompakt, KartleggingApiKompaktResponse } from '@/model/kartlegging-api';
 
-const typedMock = kartleggingMock as unknown as KartleggingApiResponse;
+const typedMock = kartleggingMock as unknown as KartleggingApiKompaktResponse;
 const alleBrukere = typedMock.arbeidssoekere;
 const fåBrukere = alleBrukere.slice(0, 4);
 
-const kunKritiskeBrukere: Arbeidssoker[] = [
+const kunKritiskeBrukere: ArbeidssokerKompakt[] = [
     {
         id: 101,
+        aktorId: '101',
         identitetsnummer: '12345678901',
         fornavn: 'SILJE',
         etternavn: 'LANGVARIG',
         ledighetsperioder: [
             {
-                periode: { id: 'per-101', startet: '2025-12-23T00:00:00Z' },
+                periodeStartet: '2025-12-23T00:00:00Z',
                 ledigSiden: '2025-12-23T00:00:00Z',
-                bekreftelsePaaVegneAv: ['ARBEIDSSOEKERREGISTERET'],
+                bekreftelseAnsvar: ['ARBEIDSSOEKERREGISTERET'],
             },
         ],
         kontortilknytninger: [],
     },
     {
         id: 102,
+        aktorId: '102',
         identitetsnummer: '12345678902',
         fornavn: 'ERIK',
         etternavn: 'OVER GRENSEN',
         ledighetsperioder: [
             {
-                periode: { id: 'per-102', startet: '2025-10-04T00:00:00Z' },
+                periodeStartet: '2025-10-04T00:00:00Z',
                 ledigSiden: '2025-10-04T00:00:00Z',
-                bekreftelsePaaVegneAv: ['DAGPENGER'],
+                bekreftelseAnsvar: ['DAGPENGER'],
             },
         ],
         kontortilknytninger: [],
     },
     {
         id: 103,
+        aktorId: '103',
         identitetsnummer: '12345678903',
         fornavn: 'MARTE',
         etternavn: 'VELDIG LANG',
         ledighetsperioder: [
             {
-                periode: { id: 'per-103', startet: '2025-12-12T00:00:00Z' },
+                periodeStartet: '2025-12-12T00:00:00Z',
                 ledigSiden: '2025-12-12T00:00:00Z',
-                bekreftelsePaaVegneAv: ['FRISKMELDT_TIL_ARBEIDSFORMIDLING'],
+                bekreftelseAnsvar: ['FRISKMELDT_TIL_ARBEIDSFORMIDLING'],
             },
         ],
         kontortilknytninger: [],
@@ -56,11 +59,11 @@ const kunKritiskeBrukere: Arbeidssoker[] = [
 ];
 
 /**
- * Wrapper som konverterer plain KartleggingApiResult til Promise for Storybook-stories.
+ * Wrapper som konverterer plain KartleggingApiKompaktResult til Promise for Storybook-stories.
  * Unngår at Promise-objektet hamner i Storybook args (og dermed JSON-serialisering),
  * som elles gir sirkulær referanse-feil med React.
  */
-function KartleggingPreview({ result }: { result: KartleggingApiResult }) {
+function KartleggingPreview({ result }: { result: KartleggingApiKompaktResult }) {
     return (
         <Suspense>
             <Kartlegging kartleggingPromise={Promise.resolve(result)} />

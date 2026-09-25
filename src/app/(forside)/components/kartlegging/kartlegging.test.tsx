@@ -7,20 +7,20 @@ vi.mock('@/lib/api/kartlegging', () => ({
 
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { ModiaProvider } from '@/contexts/modia-context';
-import type { KartleggingApiResult } from '@/lib/api/kartlegging';
+import type { KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
 import { daysSinceDate } from '@/lib/date-utils';
-import kartleggingMock from '@/lib/mocks/kartlegging.json';
-import type { Arbeidssoker, KartleggingApiResponse } from '@/model/kartlegging-api';
+import kartleggingKompaktMock from '@/lib/mocks/kartlegging-kompakt.json';
+import type { ArbeidssokerKompakt, KartleggingApiKompaktResponse } from '@/model/kartlegging-api';
 import { ITEMS_PER_PAGE } from './constants';
 import { Kartlegging } from './Kartlegging';
 
-const typedMock = kartleggingMock as unknown as KartleggingApiResponse;
+const typedMock = kartleggingKompaktMock as unknown as KartleggingApiKompaktResponse;
 
-const emptyKartlegging: KartleggingApiResult = {
+const emptyKartlegging: KartleggingApiKompaktResult = {
     arbeidssoekere: [],
 };
 
-const fullKartlegging: KartleggingApiResult = {
+const fullKartlegging: KartleggingApiKompaktResult = {
     arbeidssoekere: typedMock.arbeidssoekere,
 };
 
@@ -32,57 +32,60 @@ function daysAgoIso(days: number): string {
 }
 
 // Testdata der kun "lav"-kategorien (<150 dager) har brukere
-const kunLaveBrukere: KartleggingApiResult = {
+const kunLaveBrukere: KartleggingApiKompaktResult = {
     arbeidssoekere: [
         {
             id: 1,
+            aktorId: '123',
             identitetsnummer: '12345678901',
             fornavn: 'TEST',
             etternavn: 'BRUKER',
             ledighetsperioder: [
                 {
-                    periode: { id: 'per-1', startet: daysAgoIso(30) },
+                    periodeStartet: daysAgoIso(30),
                     ledigSiden: daysAgoIso(30),
-                    bekreftelsePaaVegneAv: [],
+                    bekreftelseAnsvar: ['ARBEIDSSOEKERREGISTERET'],
                 },
             ],
             kontortilknytninger: [],
         },
         {
             id: 2,
+            aktorId: '456',
             identitetsnummer: '12345678902',
             fornavn: 'ANDRE',
             etternavn: 'BRUKER',
             ledighetsperioder: [
                 {
-                    periode: { id: 'per-2', startet: daysAgoIso(60) },
+                    periodeStartet: daysAgoIso(60),
                     ledigSiden: daysAgoIso(60),
-                    bekreftelsePaaVegneAv: [],
+                    bekreftelseAnsvar: ['ARBEIDSSOEKERREGISTERET'],
                 },
             ],
             kontortilknytninger: [],
         },
-    ] as Arbeidssoker[],
+    ] as ArbeidssokerKompakt[],
 };
 
-function createArbeidssoker(id: number, daysAgo: number): Arbeidssoker {
+function createArbeidssoker(id: number, daysAgo: number): ArbeidssokerKompakt {
     return {
         id,
+        aktorId: `${10000000000 + id}`,
         identitetsnummer: `${10000000000 + id}`,
         fornavn: `TEST${id}`,
         etternavn: 'BRUKER',
         ledighetsperioder: [
             {
-                periode: { id: `per-${id}`, startet: daysAgoIso(daysAgo) },
+                periodeStartet: daysAgoIso(daysAgo),
                 ledigSiden: daysAgoIso(daysAgo),
-                bekreftelsePaaVegneAv: [],
+                bekreftelseAnsvar: ['ARBEIDSSOEKERREGISTERET'],
             },
         ],
         kontortilknytninger: [],
     };
 }
 
-function createStorKartlegging(totalArbeidssokere = ITEMS_PER_PAGE + 1): KartleggingApiResult {
+function createStorKartlegging(totalArbeidssokere = ITEMS_PER_PAGE + 1): KartleggingApiKompaktResult {
     return {
         arbeidssoekere: Array.from({ length: totalArbeidssokere }, (_, index) => {
             if (index < 20) {
@@ -98,7 +101,7 @@ function createStorKartlegging(totalArbeidssokere = ITEMS_PER_PAGE + 1): Kartleg
     };
 }
 
-function createFilterKartlegging(): KartleggingApiResult {
+function createFilterKartlegging(): KartleggingApiKompaktResult {
     return {
         arbeidssoekere: [
             createArbeidssoker(1, 210),
@@ -111,7 +114,7 @@ function createFilterKartlegging(): KartleggingApiResult {
     };
 }
 
-function createDagerTagKartlegging(): KartleggingApiResult {
+function createDagerTagKartlegging(): KartleggingApiKompaktResult {
     return {
         arbeidssoekere: [
             createArbeidssoker(1, 220),
@@ -124,7 +127,7 @@ function createDagerTagKartlegging(): KartleggingApiResult {
     };
 }
 
-async function renderKartlegging(kartleggingResult: KartleggingApiResult) {
+async function renderKartlegging(kartleggingResult: KartleggingApiKompaktResult) {
     await act(async () => {
         render(
             <ModiaProvider initFnr={null} initEnhetId='4154'>
@@ -178,7 +181,7 @@ describe('Kartlegging', () => {
         const rows = screen.getAllByRole('row');
         expect(rows).toHaveLength(kritiskBrukere.length + 1);
 
-        const toDisplayName = (b: Arbeidssoker) =>
+        const toDisplayName = (b: ArbeidssokerKompakt) =>
             `${b.fornavn.charAt(0).toUpperCase()}${b.fornavn.slice(1).toLowerCase()} ${b.etternavn.charAt(0).toUpperCase()}${b.etternavn.slice(1).toLowerCase()}`;
         for (const bruker of kritiskBrukere) {
             expect(screen.getByText(toDisplayName(bruker))).toBeDefined();

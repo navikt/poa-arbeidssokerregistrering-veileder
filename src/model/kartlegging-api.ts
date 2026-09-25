@@ -54,6 +54,16 @@ export type Ledighetsperiode = {
     bekreftelsePaaVegneAv: Bekreftelsesloesning[];
 };
 
+export type LedighetsperiodeKompakt = {
+    ledigSiden?: string;
+    periodeStartet: string;
+    periodeAvsluttet?: string;
+    egenvurdertTil?: ProfilertTil;
+    bekreftelseHarJobbet?: boolean;
+    bekreftelseVilFortsette?: boolean;
+    bekreftelseAnsvar: Bekreftelsesloesning[];
+};
+
 export type Arbeidssoker = {
     id: number;
     identitetsnummer: string;
@@ -61,6 +71,17 @@ export type Arbeidssoker = {
     mellomnavn?: string;
     etternavn: string;
     ledighetsperioder: Ledighetsperiode[];
+    kontortilknytninger: Kontortilknytning[];
+};
+
+export type ArbeidssokerKompakt = {
+    id: number;
+    aktorId: string;
+    identitetsnummer: string;
+    fornavn: string;
+    mellomnavn?: string;
+    etternavn: string;
+    ledighetsperioder: LedighetsperiodeKompakt[];
     kontortilknytninger: Kontortilknytning[];
 };
 
@@ -74,5 +95,10 @@ export type ApiPaging = {
 
 export type KartleggingApiResponse = {
     arbeidssoekere: Arbeidssoker[];
+    paging: ApiPaging;
+};
+
+export type KartleggingApiKompaktResponse = {
+    arbeidssoekere: ArbeidssokerKompakt[];
     paging: ApiPaging;
 };

@@ -13,25 +13,26 @@ vi.mock('@/contexts/modia-context', () => ({
 }));
 
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import type { Arbeidssoker } from '@/model/kartlegging-api';
+import type { ArbeidssokerKompakt } from '@/model/kartlegging-api';
 import { ArbeidssokerRad } from './ArbeidssokerRad';
 
-const baseArbeidssoker: Arbeidssoker = {
+const baseArbeidssoker: ArbeidssokerKompakt = {
     id: 1,
+    aktorId: '123',
     identitetsnummer: '12345678901',
     fornavn: 'OLA',
     etternavn: 'NORDMANN',
     ledighetsperioder: [
         {
-            periode: { id: 'per-1', startet: '2026-01-01T00:00:00Z' },
+            periodeStartet: '2026-01-01T00:00:00Z',
             ledigSiden: '2026-01-01T00:00:00Z',
-            bekreftelsePaaVegneAv: [],
+            bekreftelseAnsvar: ['ARBEIDSSOEKERREGISTERET'],
         },
     ],
     kontortilknytninger: [],
 };
 
-async function renderRad(arbeidssoker: Arbeidssoker) {
+async function renderRad(arbeidssoker: ArbeidssokerKompakt) {
     await act(async () => {
         render(
             <table>
@@ -60,7 +61,7 @@ describe('ArbeidssokerRad', () => {
     });
 
     it('kaller ikke setFnr når identitetsnummer mangler', async () => {
-        const utenIdent = { ...baseArbeidssoker, identitetsnummer: undefined } as unknown as Arbeidssoker;
+        const utenIdent = { ...baseArbeidssoker, identitetsnummer: undefined } as unknown as ArbeidssokerKompakt;
         await renderRad(utenIdent);
 
         await act(async () => {
