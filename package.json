@@ -13,6 +13,7 @@
         "test": "vitest --run",
         "test:watch": "vitest",
         "test:ci": "vitest --run",
+        "typecheck": "tsc ",
         "refresh": "rm -rf node_modules && rm pnpm-lock.yaml && pnpm install --ignore-scripts",
         "prepare": "husky",
         "storybook": "storybook dev -p 6006",

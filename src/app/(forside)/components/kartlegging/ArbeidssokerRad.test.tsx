@@ -26,7 +26,7 @@ const baseArbeidssoker: ArbeidssokerKompakt = {
         {
             periodeStartet: '2026-01-01T00:00:00Z',
             ledigSiden: '2026-01-01T00:00:00Z',
-            bekreftelseAnsvar: ['ARBEIDSSOEKERREGISTERET'],
+            bekreftelsePaaVegneAv: ['ARBEIDSSOEKERREGISTERET'],
         },
     ],
     kontortilknytninger: [],

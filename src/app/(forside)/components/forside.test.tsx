@@ -340,7 +340,7 @@ describe('ForsideWrapper', () => {
                         {
                             periodeStartet: '2026-05-28T00:00:00Z',
                             ledigSiden: '2026-05-28T00:00:00Z',
-                            bekreftelseAnsvar: [],
+                            bekreftelsePaaVegneAv: [],
                         },
                     ],
                     kontortilknytninger: [],

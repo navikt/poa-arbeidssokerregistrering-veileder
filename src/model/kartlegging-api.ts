@@ -61,7 +61,7 @@ export type LedighetsperiodeKompakt = {
     egenvurdertTil?: ProfilertTil;
     bekreftelseHarJobbet?: boolean;
     bekreftelseVilFortsette?: boolean;
-    bekreftelseAnsvar: Bekreftelsesloesning[];
+    bekreftelsePaaVegneAv: Bekreftelsesloesning[];
 };
 
 export type Arbeidssoker = {

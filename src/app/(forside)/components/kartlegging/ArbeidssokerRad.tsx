@@ -60,7 +60,7 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }
                 <DagerTag dager={daysSinceDate(aktivPeriode?.ledigSiden)} />
             </Table.DataCell>
             <Table.DataCell>
-                {aktivPeriode?.bekreftelseAnsvar.map((e) => (
+                {aktivPeriode?.bekreftelsePaaVegneAv.map((e) => (
                     <Tag key={e} size='small'>
                         {BEKREFTELSE_LABEL[e]}
                     </Tag>

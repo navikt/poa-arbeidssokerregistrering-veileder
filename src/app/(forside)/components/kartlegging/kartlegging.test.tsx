@@ -44,7 +44,7 @@ const kunLaveBrukere: KartleggingApiKompaktResult = {
                 {
                     periodeStartet: daysAgoIso(30),
                     ledigSiden: daysAgoIso(30),
-                    bekreftelseAnsvar: ['ARBEIDSSOEKERREGISTERET'],
+                    bekreftelsePaaVegneAv: ['ARBEIDSSOEKERREGISTERET'],
                 },
             ],
             kontortilknytninger: [],
@@ -59,7 +59,7 @@ const kunLaveBrukere: KartleggingApiKompaktResult = {
                 {
                     periodeStartet: daysAgoIso(60),
                     ledigSiden: daysAgoIso(60),
-                    bekreftelseAnsvar: ['ARBEIDSSOEKERREGISTERET'],
+                    bekreftelsePaaVegneAv: ['ARBEIDSSOEKERREGISTERET'],
                 },
             ],
             kontortilknytninger: [],
@@ -78,7 +78,7 @@ function createArbeidssoker(id: number, daysAgo: number): ArbeidssokerKompakt {
             {
                 periodeStartet: daysAgoIso(daysAgo),
                 ledigSiden: daysAgoIso(daysAgo),
-                bekreftelseAnsvar: ['ARBEIDSSOEKERREGISTERET'],
+                bekreftelsePaaVegneAv: ['ARBEIDSSOEKERREGISTERET'],
             },
         ],
         kontortilknytninger: [],

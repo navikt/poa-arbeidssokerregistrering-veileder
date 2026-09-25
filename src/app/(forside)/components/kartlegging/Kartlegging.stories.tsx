@@ -21,7 +21,7 @@ const kunKritiskeBrukere: ArbeidssokerKompakt[] = [
             {
                 periodeStartet: '2025-12-23T00:00:00Z',
                 ledigSiden: '2025-12-23T00:00:00Z',
-                bekreftelseAnsvar: ['ARBEIDSSOEKERREGISTERET'],
+                bekreftelsePaaVegneAv: ['ARBEIDSSOEKERREGISTERET'],
             },
         ],
         kontortilknytninger: [],
@@ -36,7 +36,7 @@ const kunKritiskeBrukere: ArbeidssokerKompakt[] = [
             {
                 periodeStartet: '2025-10-04T00:00:00Z',
                 ledigSiden: '2025-10-04T00:00:00Z',
-                bekreftelseAnsvar: ['DAGPENGER'],
+                bekreftelsePaaVegneAv: ['DAGPENGER'],
             },
         ],
         kontortilknytninger: [],
@@ -51,7 +51,7 @@ const kunKritiskeBrukere: ArbeidssokerKompakt[] = [
             {
                 periodeStartet: '2025-12-12T00:00:00Z',
                 ledigSiden: '2025-12-12T00:00:00Z',
-                bekreftelseAnsvar: ['FRISKMELDT_TIL_ARBEIDSFORMIDLING'],
+                bekreftelsePaaVegneAv: ['FRISKMELDT_TIL_ARBEIDSFORMIDLING'],
             },
         ],
         kontortilknytninger: [],
