@@ -56,7 +56,7 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiKompaktR
         if (!kartlegging.arbeidssoekere) return [];
         let result = [...kartlegging.arbeidssoekere];
 
-        const ledigSiden = (a: ArbeidssokerKompakt) => a.ledighetsperioder[0]?.ledigSiden;
+        const ledigSiden = (a: ArbeidssokerKompakt) => a.ledighetsperioder[0]?.ledigSiden || new Date();
 
         // FILTERING
         if (filter === 'kritisk') {

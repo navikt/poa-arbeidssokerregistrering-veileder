@@ -57,23 +57,28 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }
                 </button>
             </Table.DataCell>
             <Table.DataCell>
-                <DagerTag dager={daysSinceDate(aktivPeriode?.ledigSiden)} />
+                <DagerTag dager={daysSinceDate(aktivPeriode?.ledigSiden || new Date())} />
             </Table.DataCell>
             <Table.DataCell>
-                {aktivPeriode?.bekreftelsePaaVegneAv.map((e) => (
-                    <Tag key={e} size='small'>
-                        {BEKREFTELSE_LABEL[e]}
-                    </Tag>
-                ))}
+                {aktivPeriode &&
+                    aktivPeriode?.bekreftelsePaaVegneAv.map((e) => (
+                        <Tag key={e} size='small'>
+                            {BEKREFTELSE_LABEL[e]}
+                        </Tag>
+                    ))}
             </Table.DataCell>
             <Table.DataCell>
                 <div className='flex items-center gap-1'>
-                    <JaNeiTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING} />
+                    {aktivPeriode ? (
+                        <JaNeiTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING} />
+                    ) : (
+                        'PERIODE MANGLER'
+                    )}
                 </div>
             </Table.DataCell>
             <Table.DataCell>
                 <div className='flex items-center gap-1'>
-                    <JaNeiTag svar={aktivPeriode?.bekreftelseHarJobbet} />
+                    {aktivPeriode ? <JaNeiTag svar={aktivPeriode?.bekreftelseHarJobbet} /> : 'PERIODE MANGLER'}
                 </div>
             </Table.DataCell>
         </Table.Row>
