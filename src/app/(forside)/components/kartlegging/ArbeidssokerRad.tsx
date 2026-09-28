@@ -53,7 +53,8 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }
         <Table.Row key={arbeidssoker.id}>
             <Table.DataCell>
                 <button type='button' onClick={handleRowClick}>
-                    {firstToUppercase(arbeidssoker.fornavn)} {firstToUppercase(arbeidssoker.etternavn)}
+                    {arbeidssoker.fornavn && firstToUppercase(arbeidssoker.fornavn)}{' '}
+                    {arbeidssoker.etternavn && firstToUppercase(arbeidssoker.etternavn)}
                 </button>
             </Table.DataCell>
             <Table.DataCell>
@@ -72,13 +73,13 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }
                     {aktivPeriode ? (
                         <JaNeiTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING} />
                     ) : (
-                        'PERIODE MANGLER'
+                        'MANGLER DATA'
                     )}
                 </div>
             </Table.DataCell>
             <Table.DataCell>
                 <div className='flex items-center gap-1'>
-                    {aktivPeriode ? <JaNeiTag svar={aktivPeriode?.bekreftelseHarJobbet} /> : 'PERIODE MANGLER'}
+                    {aktivPeriode ? <JaNeiTag svar={aktivPeriode?.bekreftelseHarJobbet} /> : 'MANGLER DATA'}
                 </div>
             </Table.DataCell>
         </Table.Row>
