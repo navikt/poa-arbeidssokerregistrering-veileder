@@ -36,7 +36,7 @@
         "react-dom": "19.3.0"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.5.13",
+        "@biomejs/biome": "2.5.14",
         "@chromatic-com/storybook": "5.3.1",
         "@storybook/addon-docs": "10.6.0",
         "@storybook/addon-onboarding": "10.6.0",
@@ -49,7 +49,7 @@
         "@types/react-dom": "19.3.0",
         "husky": "9.1.7",
         "jsdom": "30.1.0",
-        "knip": "6.35.1",
+        "knip": "6.37.0",
         "lint-staged": "17.5.1",
         "msw": "2.15.0",
         "msw-storybook-addon": "3.0.3",
