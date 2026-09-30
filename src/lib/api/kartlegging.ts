@@ -56,11 +56,6 @@ async function getKartlegging(enhetsId: string | null): Promise<KartleggingApiKo
 
     logger.info({ enhetsId, event: 'kartlegging_aktivert' }, 'Kartlegging er aktivert for kontor');
 
-    // Prod: bruk mock data inntil videre (kun kontor 4154 i starten)
-    if (isProd && erAktivert) {
-        return hentMockData();
-    }
-
     // Dev: hent fra ekte API
     if (!KARTLEGGING_API_URL) {
         logger.error('Feil ved henting av kartlegging api url');
