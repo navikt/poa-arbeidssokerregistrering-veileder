@@ -1,4 +1,4 @@
-import { Chips, Heading, InlineMessage, Pagination, Table } from '@navikt/ds-react';
+import { Chips, Heading, InlineMessage, LocalAlert, Pagination, Table } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
 import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import type { KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
@@ -142,6 +142,14 @@ function Kartlegging({ kartleggingPromise }: { kartleggingPromise: Promise<Kartl
             <Heading size='medium' level='2' className='mb-4'>
                 Arbeidssøkere {data.arbeidssoekere && `(${data.arbeidssoekere.length} brukere)`}
             </Heading>
+            <LocalAlert status='warning' className='mb-8'>
+                <LocalAlert.Header>
+                    <LocalAlert.Title>Denne siden er under utvikling</LocalAlert.Title>
+                </LocalAlert.Header>
+                <LocalAlert.Content>
+                    Data skal være korrekte, men vi viser kun de 500 registrerte arbeidssøkerne med lengst ledighet.
+                </LocalAlert.Content>
+            </LocalAlert>
             {data.arbeidssoekere && data.arbeidssoekere?.length > 0 ? (
                 <KartleggingListe kartlegging={data} />
             ) : (
