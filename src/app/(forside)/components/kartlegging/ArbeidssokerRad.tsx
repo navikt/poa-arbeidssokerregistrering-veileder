@@ -19,6 +19,18 @@ function JaNeiTag({ svar }: { svar: boolean | undefined }) {
     );
 }
 
+function NeiJaTag({ svar }: { svar: boolean | undefined }) {
+    return svar ? (
+        <Tag data-color='success' size='small'>
+            Nei
+        </Tag>
+    ) : (
+        <Tag data-color='warning' size='small'>
+            Ja
+        </Tag>
+    );
+}
+
 function DagerTag({ dager }: { dager: number }) {
     if (dager >= LANGTIDSLEDIG_MAX)
         return (
@@ -71,7 +83,7 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }
             <Table.DataCell>
                 <div className='flex items-center gap-1'>
                     {aktivPeriode ? (
-                        <JaNeiTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING} />
+                        <NeiJaTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING} />
                     ) : (
                         'MANGLER DATA'
                     )}
