@@ -52,7 +52,7 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }
     return (
         <Table.Row key={arbeidssoker.id}>
             <Table.DataCell>
-                <button type='button' onClick={handleRowClick}>
+                <button type='button' onClick={handleRowClick} className='cursor-pointer'>
                     {arbeidssoker.fornavn && firstToUppercase(arbeidssoker.fornavn)}{' '}
                     {arbeidssoker.etternavn && firstToUppercase(arbeidssoker.etternavn)}
                 </button>
