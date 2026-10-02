@@ -1,11 +1,14 @@
 import type { Bekreftelsesloesning, ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
+type KartleggingsType = 'IDENTITETSNUMMER' | 'TILKNYTTET_KONTOR'
+
 export type KartleggingPayload = {
-    type: 'TILKNYTTET_KONTOR';
-    kontorId: string;
+    type: KartleggingsType;
+    identitetsnummer?: string;
+    kontorId?: string;
     kontorType?: 'ARBEIDSOPPFOLGING';
     ledigSiden?: string;
-    paging: {
+    paging?: {
         page: number;
         pageSize: number;
         sortOrder: 'DESC' | 'ASC';

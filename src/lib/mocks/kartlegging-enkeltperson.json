@@ -1,0 +1,40 @@
+{
+	"arbeidssoekere": [
+		{
+			"id": 545,
+			"aktorId": 123,
+			"identitetsnummer": "24849098329",
+			"fornavn": "SUNN",
+			"etternavn": "VESTIBYLE",
+			"ledighetsperioder": [
+				{
+					"ledigSiden": "2026-04-30T08:02:54Z",
+					"periodeStartet": "2026-04-30T08:02:54Z",
+					"bekreftelsePaaVegneAv": ["ARBEIDSSOEKERREGISTERET"],
+					"bekreftelseHarJobbet": false,
+					"bekreftelseVilFortsette": true,
+					"egenvurdertTil": "ANTATT_GODE_MULIGHETER"
+				}
+			],
+			"kontortilknytninger": [
+				{
+					"kontorId": "4154",
+					"kontorNavn": "Nasjonal oppfølgingsenhet",
+					"kontorType": "ARBEIDSOPPFOLGING"
+				},
+				{
+					"kontorId": "0617",
+					"kontorNavn": "Nav Hallingdal",
+					"kontorType": "GEOGRAFISK_TILKNYTNING"
+				}
+			]
+		}
+	],
+	"paging": {
+		"page": 1,
+		"pageSize": 1,
+		"hitSize": 1,
+		"totalCount": 1,
+		"sortOrder": "DESC"
+	}
+}
