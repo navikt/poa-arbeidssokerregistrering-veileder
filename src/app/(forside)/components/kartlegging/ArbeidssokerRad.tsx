@@ -98,4 +98,4 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }
     );
 }
 
-export { ArbeidssokerRad };
+export { ArbeidssokerRad, DagerTag, JaNeiTag, NeiJaTag };
