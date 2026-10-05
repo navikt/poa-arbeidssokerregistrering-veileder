@@ -91,11 +91,11 @@ importers:
         specifier: 30.1.0
         version: 30.1.0
       knip:
-        specifier: 6.37.0
-        version: 6.37.0
+        specifier: 6.38.0
+        version: 6.38.0
       lint-staged:
-        specifier: 17.5.1
-        version: 17.5.1
+        specifier: 17.6.0
+        version: 17.6.0
       msw:
         specifier: 2.15.0
         version: 2.15.0(@types/node@26.6.2)(typescript@6.0.3)
@@ -2372,9 +2372,6 @@ packages:
   '@types/mdx@2.0.14':
     resolution: {integrity: sha512-T48PeuJtvLosNTPVhfnIp3i/n3a4g4Bad7YCq5k64D4u7NwDrAotikQ+5+sjtUvBmxCMlbo3dVL+C2dP0rWHzg==}
 
-  '@types/node@26.5.1':
-    resolution: {integrity: sha512-CzNm2FezW4VR/LjG6yUdiEgLE/rAQ9Slj5gCu/C2VrdcW7I0ahNZ8DRbHT7zOZ6r3ONgd/bsQIeSaoDGrd1C6g==}
-
   '@types/node@26.6.2':
     resolution: {integrity: sha512-X1P21scMv4zGKLYqjdGjaKa7COa0RKVYYZZN/NfvLQ1JegxFhdhpZG/Lyn8AXx6CDUavKAd11v6BvfpkDByK8g==}
 
@@ -3565,8 +3562,8 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  knip@6.37.0:
-    resolution: {integrity: sha512-NKCYuoGKJ+o2AuoCuV1mDvfMYnSSWfDXqxwmzxeHyd8fftjNRl8TBUg3fbSrtJjhm7Vj6sc1PX3WZnZhECs9EQ==}
+  knip@6.38.0:
+    resolution: {integrity: sha512-umytiMCaZf02MV9SOO1FEDgbDf6h20VZk3ruJE0kh52kkGjYZFRUAXHJWYoLhvhoHGINO/7GXVJmQ2vxTBvl6A==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -3725,8 +3722,8 @@ packages:
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
-  lint-staged@17.5.1:
-    resolution: {integrity: sha512-7EDuco1xnBMeVpvAbeMq1U5KXwJGLmY8q6l+Ye78r36C4mPc+Vg1Z2SK8gHyRTyvPro90A0q5/FAZ+Au23d6QQ==}
+  lint-staged@17.6.0:
+    resolution: {integrity: sha512-nOhBfYkZEwkFtNzD5pK9s9LkcWoxJ+whLzEnhqi9nl7zTB5n7tg8+9iYgMGx2Wm3VlLu8cbNj0RACzY+nWi5iQ==}
     engines: {node: '>=22.22.1'}
     hasBin: true
 
@@ -7383,10 +7380,6 @@ snapshots:
 
   '@types/mdx@2.0.14': {}
 
-  '@types/node@26.5.1':
-    dependencies:
-      undici-types: 8.9.0
-
   '@types/node@26.6.2':
     dependencies:
       undici-types: 8.9.0
@@ -8597,7 +8590,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 26.5.1
+      '@types/node': 26.6.2
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -8662,7 +8655,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  knip@6.37.0:
+  knip@6.38.0:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.7)
       formatly: 0.7.0
@@ -8780,7 +8773,7 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
-  lint-staged@17.5.1:
+  lint-staged@17.6.0:
     dependencies:
       picomatch: 4.0.7
       string-argv: 0.3.2
