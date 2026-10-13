@@ -1,6 +1,6 @@
 import type { Bekreftelsesloesning, ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 
-type KartleggingsType = 'IDENTITETSNUMMER' | 'TILKNYTTET_KONTOR'
+type KartleggingsType = 'IDENTITETSNUMMER' | 'TILKNYTTET_KONTOR';
 
 export type KartleggingPayload = {
     type: KartleggingsType;

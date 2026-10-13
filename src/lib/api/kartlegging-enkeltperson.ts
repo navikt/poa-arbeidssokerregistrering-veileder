@@ -27,7 +27,9 @@ async function hentMockData(): Promise<KartleggingApiKompaktResponse> {
 const KARTLEGGING_API_URL = process.env.KARTLEGGING_API_URL;
 const KARTLEGGING_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-arbeidssoekerregisteret-api-kartlegging/.default`;
 
-async function getKartleggingForEnkeltperson(identitetsnummer: string | null): Promise<KartleggingApiKompaktResult | null> {
+async function getKartleggingForEnkeltperson(
+    identitetsnummer: string | null,
+): Promise<KartleggingApiKompaktResult | null> {
     if (!identitetsnummer) {
         return null;
     }
@@ -56,7 +58,10 @@ async function getKartleggingForEnkeltperson(identitetsnummer: string | null): P
     });
 
     if (!result.ok) {
-        logger.error({ event: 'kartlegging_feil', httpStatus: result.status }, 'Feil ved henting av kartlegging for person');
+        logger.error(
+            { event: 'kartlegging_feil', httpStatus: result.status },
+            'Feil ved henting av kartlegging for person',
+        );
         return { arbeidssoekere: [], error: result.error };
     }
 
