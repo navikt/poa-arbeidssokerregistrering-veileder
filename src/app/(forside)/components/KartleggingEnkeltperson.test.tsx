@@ -33,7 +33,7 @@ const arbeidssoker: ArbeidssokerKompakt = {
     ledighetsperioder: [
         {
             periodeStartet: '2026-01-01T00:00:00Z',
-            ledigSiden: new Date(2026, 0, 1, 12).toISOString(),
+            ledigSiden: new Date(2026, 6, 1, 12).toISOString(),
             bekreftelsePaaVegneAv: ['ARBEIDSSOEKERREGISTERET', 'DAGPENGER'],
             egenvurdertTil: 'ANTATT_BEHOV_FOR_VEILEDNING',
             bekreftelseHarJobbet: false,
@@ -57,12 +57,12 @@ describe('KartleggingEnkeltperson', () => {
 
     it('viser data fra arbeidssøkerens aktive periode', () => {
         vi.useFakeTimers();
-        vi.setSystemTime(new Date(2026, 5, 1, 12));
+        vi.setSystemTime(new Date(2026, 6, 21, 12));
 
         render(<KartleggingEnkeltperson arbeidssoker={arbeidssoker} snapshot={snapshot} />);
 
         expect(screen.getByText('Dager helt ledig')).toBeDefined();
-        expect(screen.getByText('150 dager')).toBeDefined();
+        expect(screen.getByText('20 dager')).toBeDefined();
         expect(screen.getByText('Bekreftelser kommer fra')).toBeDefined();
         expect(screen.getByText('Arbeidssøkerregisteret')).toBeDefined();
         expect(screen.getByText('Dagpenger')).toBeDefined();
