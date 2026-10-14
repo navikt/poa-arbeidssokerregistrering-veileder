@@ -78,8 +78,8 @@ describe('KartleggingGrid', () => {
             expect(dayCell).not.toBeNull();
             expect(dayCell?.contains(dayText)).toBe(true);
             expect(dayText.tagName).toBe('SPAN');
-            expect(Array.from(dayText.attributes, ({ name }) => name)).toEqual(status ? ['data-dager-status'] : []);
-            expect(dayText.getAttribute('data-dager-status')).toBe(status ?? null);
+            expect(Array.from(dayText.attributes, ({ name }) => name)).toEqual(status ? ['data-color-status'] : []);
+            expect(dayText.getAttribute('data-color-status')).toBe(status ?? null);
         }
     });
 

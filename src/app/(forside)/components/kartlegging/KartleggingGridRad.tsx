@@ -34,7 +34,7 @@ function NeiJaTag({ svar }: { svar: boolean | undefined }) {
 function DagerTag({ dager }: { dager: number }) {
     const status = dager >= LANGTIDSLEDIG_MAX ? 'danger' : dager >= LANGTIDSLEDIG_MELLOM ? 'warning' : undefined;
 
-    return <span data-dager-status={status}>{dager} dager</span>;
+    return <span data-color-status={status}>{dager} dager</span>;
 }
 
 function firstToUppercase(str: string): string {
