@@ -1,6 +1,6 @@
 import { lagHentTekstForSprak, ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
 import type { Snapshot } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { Alert, BodyShort, Heading, InfoCard, Tag } from '@navikt/ds-react';
+import { BodyShort, InfoCard, Tag } from '@navikt/ds-react';
 import { InfoCardContent, InfoCardHeader, InfoCardTitle } from '@navikt/ds-react/InfoCard';
 import { daysSinceDate, prettyPrintDatoOgKlokkeslett } from '@/lib/date-utils';
 import type { ArbeidssokerKompakt } from '@/model/kartlegging-api';
@@ -33,15 +33,17 @@ function KartleggingEnkeltperson({ arbeidssoker, snapshot }: KartleggingProps) {
 
     if (!arbeidssoker)
         return (
-            <Alert variant={'info'} className={'mb-4'}>
-                <Heading level={'3'} size={'small'}>
-                    Personen er registrert som arbeidssøker
-                </Heading>
-                <BodyShort textColor={'subtle'}>
-                    Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
-                    {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
-                </BodyShort>
-            </Alert>
+            <InfoCard data-color='info' className='mb-4'>
+                <InfoCardHeader>
+                    <InfoCardTitle>
+                        Personen er registrert som arbeidssøker
+                        <BodyShort textColor={'subtle'}>
+                            Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
+                            {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
+                        </BodyShort>
+                    </InfoCardTitle>
+                </InfoCardHeader>
+            </InfoCard>
         );
     return (
         <InfoCard data-color='info' className='mb-4'>
