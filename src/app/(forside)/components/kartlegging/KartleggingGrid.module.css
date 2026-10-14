@@ -1,0 +1,9 @@
+.gridWrapper td:has([data-dager-status="danger"]) {
+    background-color: var(--ax-bg-danger-moderate);
+    color: black;
+}
+
+.gridWrapper td:has([data-dager-status="warning"]) {
+    background-color: var(--ax-bg-warning-moderate);
+    color: black;
+}

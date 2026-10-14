@@ -1,16 +1,38 @@
-import { Chips, Heading, InlineMessage, LocalAlert, Pagination, Table } from '@navikt/ds-react';
+import { Chips, Heading, InlineMessage, LocalAlert, Pagination } from '@navikt/ds-react';
+import { DataGrid } from '@navikt/ds-react/PREVIEW';
 import { use, useMemo, useState } from 'react';
 import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import type { KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
 import { daysSinceDate } from '@/lib/date-utils';
 import type { ArbeidssokerKompakt } from '@/model/kartlegging-api';
 import { type DagerFilter, ITEMS_PER_PAGE, LANGTIDSLEDIG_MAX, LANGTIDSLEDIG_MELLOM } from './constants';
+import styles from './KartleggingGrid.module.css';
 import { KartleggingGridRad } from './KartleggingGridRad';
 
-type SortState = {
-    orderBy: string;
-    direction: 'ascending' | 'descending';
-};
+const columns: DataGrid.Columns<ArbeidssokerKompakt> = [
+    {
+        id: 'navn',
+        header: 'Navn',
+        isRowHeader: true,
+        bodyCell: (arbeidssoker) => <KartleggingGridRad arbeidssoker={arbeidssoker} kolonne='navn' />,
+    },
+    {
+        id: 'dagerLedig',
+        header: 'Dager ledig',
+        isSortable: true,
+        bodyCell: (arbeidssoker) => <KartleggingGridRad arbeidssoker={arbeidssoker} kolonne='dagerLedig' />,
+    },
+    {
+        id: 'onskerVeileder',
+        header: 'Ønsker veileder',
+        bodyCell: (arbeidssoker) => <KartleggingGridRad arbeidssoker={arbeidssoker} kolonne='onskerVeileder' />,
+    },
+    {
+        id: 'bekreftelseslosning',
+        header: 'Bekreftelsesløsning',
+        bodyCell: (arbeidssoker) => <KartleggingGridRad arbeidssoker={arbeidssoker} kolonne='bekreftelseslosning' />,
+    },
+];
 
 function Filters({
     arbeidsokere,
@@ -49,7 +71,7 @@ function Filters({
 
 function KartleggingGrid({ kartlegging }: { kartlegging: KartleggingApiKompaktResult }) {
     const [page, setPage] = useState(1);
-    const [sort, setSort] = useState<SortState>({ orderBy: 'dagerLedig', direction: 'descending' });
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
     const [filter, setFilter] = useState<DagerFilter>('alle');
 
     const filteredArbeidssokere = useMemo<ArbeidssokerKompakt[]>(() => {
@@ -72,14 +94,11 @@ function KartleggingGrid({ kartlegging }: { kartlegging: KartleggingApiKompaktRe
 
         // SORTING
         result.sort((a, b) => {
-            const modifier = sort.direction === 'ascending' ? 1 : -1;
-            if (sort.orderBy === 'dagerLedig') {
-                return (daysSinceDate(ledigSiden(a)) - daysSinceDate(ledigSiden(b))) * modifier;
-            }
-            return 0;
+            const modifier = sortDirection === 'asc' ? 1 : -1;
+            return (daysSinceDate(ledigSiden(a)) - daysSinceDate(ledigSiden(b))) * modifier;
         });
         return result;
-    }, [kartlegging, filter, sort]);
+    }, [kartlegging, filter, sortDirection]);
 
     const totalPages = Math.ceil(filteredArbeidssokere.length / ITEMS_PER_PAGE);
     const paginatedBrukere = filteredArbeidssokere.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
@@ -89,12 +108,9 @@ function KartleggingGrid({ kartlegging }: { kartlegging: KartleggingApiKompaktRe
         setPage(1);
     };
 
-    const handleSort = (sortKey: string) => {
-        setSort((prev) =>
-            prev.orderBy === sortKey
-                ? { orderBy: sortKey, direction: prev.direction === 'ascending' ? 'descending' : 'ascending' }
-                : { orderBy: sortKey, direction: 'ascending' },
-        );
+    const handleSort = (_sortOrder: DataGrid.Table.SortEntry[], detail: DataGrid.Table.SortChangeDetail) => {
+        if (detail.columnId !== 'dagerLedig') return;
+        setSortDirection(detail.direction === 'desc' ? 'desc' : 'asc');
         setPage(1);
     };
 
@@ -105,24 +121,24 @@ function KartleggingGrid({ kartlegging }: { kartlegging: KartleggingApiKompaktRe
                 currentFilter={filter}
                 onFilterChange={handleFilterChange}
             />
-            <Table size='medium' zebraStripes sort={sort} onSortChange={handleSort}>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.ColumnHeader>Navn</Table.ColumnHeader>
-                        <Table.ColumnHeader sortKey='dagerLedig' sortable>
-                            Dager ledig
-                        </Table.ColumnHeader>
-                        <Table.ColumnHeader>Bekreftelsesløsning</Table.ColumnHeader>
-                        <Table.ColumnHeader>Ønsker veileder</Table.ColumnHeader>
-                        <Table.ColumnHeader>Rapportert arbeid</Table.ColumnHeader>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {paginatedBrukere.map((arbeidssoker) => (
-                        <KartleggingGridRad key={arbeidssoker.id} arbeidssoker={arbeidssoker} />
-                    ))}
-                </Table.Body>
-            </Table>
+            <div className={styles.gridWrapper}>
+                <DataGrid
+                    columns={columns}
+                    data={paginatedBrukere}
+                    getRowId={(arbeidssoker) => arbeidssoker.id.toString()}
+                    defaultSettings={{ zebraStripes: true }}
+                >
+                    <DataGrid.Table
+                        aria-label='Arbeidssøkere'
+                        layout='auto'
+                        sorting={{
+                            sortOrder: [{ columnId: 'dagerLedig', direction: sortDirection }],
+                            allowMultiSort: false,
+                            onSortOrderChange: handleSort,
+                        }}
+                    />
+                </DataGrid>
+            </div>
             <div className='py-4'>
                 {totalPages > 1 && <Pagination page={page} onPageChange={setPage} count={totalPages} size='small' />}
             </div>
