@@ -9,6 +9,6 @@
 }
 
 .gridWrapper td:has([data-color-status="success"]) {
-    background-color: var(--color-ax-bg-success-moderate);
+    background-color: var(--ax-bg-success-moderate);
     color: black;
 }

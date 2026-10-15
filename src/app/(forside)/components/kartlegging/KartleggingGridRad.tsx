@@ -1,34 +1,17 @@
 'use client';
 
 import { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
-import { Tag } from '@navikt/ds-react';
 import { useModiaContext } from '@/contexts/modia-context';
 import { daysSinceDate } from '@/lib/date-utils';
 import type { ArbeidssokerKompakt } from '@/model/kartlegging-api';
 import { BEKREFTELSE_LABEL, LANGTIDSLEDIG_MAX, LANGTIDSLEDIG_MELLOM } from './constants';
 
 function JaNeiTag({ svar }: { svar: boolean | undefined }) {
-    return svar ? (
-        <Tag data-color='success' size='small'>
-            Ja
-        </Tag>
-    ) : (
-        <Tag data-color='warning' size='small'>
-            Nei
-        </Tag>
-    );
+    return svar ? <span data-color-status='success'>Ja</span> : <span data-color-status='warning'>Nei</span>;
 }
 
 function NeiJaTag({ svar }: { svar: boolean | undefined }) {
-    return svar ? (
-        <Tag data-color='success' size='small'>
-            Nei
-        </Tag>
-    ) : (
-        <Tag data-color='warning' size='small'>
-            Ja
-        </Tag>
-    );
+    return svar ? <span data-color-status='success'>Nei</span> : <span data-color-status='warning'>Ja</span>;
 }
 
 function DagerTag({ dager }: { dager: number }) {
