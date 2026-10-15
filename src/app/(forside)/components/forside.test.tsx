@@ -30,9 +30,6 @@ vi.mock('@/lib/api/oppslag-snapshot', () => ({
 vi.mock('@/lib/api/bekreftelse', () => ({
     getBekreftelser: vi.fn(),
 }));
-vi.mock('@/lib/api/nokkeltall', () => ({
-    getNokkeltall: vi.fn(),
-}));
 vi.mock('@/lib/api/kartlegging', () => ({
     getKartlegging: vi.fn(),
 }));
@@ -43,7 +40,7 @@ import { Suspense } from 'react';
 import { ModiaProvider } from '@/contexts/modia-context';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
 import type { KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
-import type { NokkeltallResult } from '@/lib/api/nokkeltall';
+import type { KartleggingApiEnkeltpersonKompaktResult } from '@/lib/api/kartlegging-enkeltperson';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import bekreftelserMock from '@/lib/mocks/bekreftelser.json';
 import snapshotMock from '@/lib/mocks/snapshot.json';
@@ -102,11 +99,8 @@ const lagSnapshotMedEgenvurdering = (egenvurdering: ProfilertTil | undefined): S
     } as SnapshotResult['snapshot'],
 });
 
-const nokkeltallApiResult: NokkeltallResult = {
-    dagerUtenArbeid: null,
-    tilhorighet: [],
-    onskerHjelp: null,
-    bekreftelse: undefined,
+const emptyKartleggingEnkeltperson: KartleggingApiEnkeltpersonKompaktResult = {
+    arbeidssoekere: [],
 };
 
 // ———————————————————————————————————————————————————
@@ -117,29 +111,21 @@ const nokkeltallApiResult: NokkeltallResult = {
 // Wrappe render i "act" var visst løsningen.
 // ———————————————————————————————————————————————————
 
-async function renderForside(
-    snapshotResult: SnapshotResult,
-    bekreftelserResult: BekreftelseApiResult,
-    nokkeltallResult: NokkeltallResult,
-) {
+async function renderForside(snapshotResult: SnapshotResult, bekreftelserResult: BekreftelseApiResult) {
     await act(async () => {
         render(
             <Suspense fallback={<div>Loading...</div>}>
                 <Forside
                     snapshotPromise={Promise.resolve(snapshotResult)}
                     bekreftelserPromise={Promise.resolve(bekreftelserResult)}
-                    nokkeltallPromise={Promise.resolve(nokkeltallResult)}
+                    kartleggingEnkeltpersonPromise={Promise.resolve(emptyKartleggingEnkeltperson)}
                 />
             </Suspense>,
         );
     });
 }
 
-async function renderForsideWrapper(
-    snapshotResult: SnapshotResult,
-    bekreftelserResult: BekreftelseApiResult,
-    nokkeltallResult: NokkeltallResult,
-) {
+async function renderForsideWrapper(snapshotResult: SnapshotResult, bekreftelserResult: BekreftelseApiResult) {
     await act(async () => {
         render(
             <ModiaProvider initFnr='12345678910' initEnhetId='0219'>
@@ -147,8 +133,8 @@ async function renderForsideWrapper(
                     <ForsideWrapper
                         initialSnapshotPromise={Promise.resolve(snapshotResult)}
                         initialBekreftelserPromise={Promise.resolve(bekreftelserResult)}
-                        initialNokkeltallPromise={Promise.resolve(nokkeltallResult)}
                         initialKartleggingPromise={Promise.resolve(null)}
+                        initialKartleggingEnkeltpersonPromise={Promise.resolve(emptyKartleggingEnkeltperson)}
                     />
                 </Suspense>
             </ModiaProvider>,
@@ -162,7 +148,7 @@ async function renderForsideWrapper(
 describe('Forside', () => {
     describe('happy path — snapshot og bekreftelser lastes', () => {
         beforeEach(async () => {
-            await renderForside(happySnapshotMedPaagaaende, happyBekreftelser, nokkeltallApiResult);
+            await renderForside(happySnapshotMedPaagaaende, happyBekreftelser);
         });
 
         it('viser at personen er registrert som arbeidssøker', () => {
@@ -197,7 +183,7 @@ describe('Forside', () => {
 
     describe('ingen tilgjengelige bekreftelser', () => {
         it('viser ikke bekreftelse-seksjonen', async () => {
-            await renderForside(happySnapshotMedPaagaaende, emptyBekreftelser, nokkeltallApiResult);
+            await renderForside(happySnapshotMedPaagaaende, emptyBekreftelser);
             // Bekreftelse returnerer null når antall er 0/falsy
             expect(screen.getByText('Personen er registrert som arbeidssøker')).toBeDefined();
             expect(screen.queryByText('Bekreftelse')).toBeNull();
@@ -206,48 +192,48 @@ describe('Forside', () => {
 
     describe('feil ved henting av snapshot', () => {
         it('viser generell feilmelding', async () => {
-            await renderForside(errorSnapshot, happyBekreftelser, nokkeltallApiResult);
+            await renderForside(errorSnapshot, happyBekreftelser);
             expect(screen.getByText('Noe gikk dessverre galt. Prøv igjen senere')).toBeDefined();
         });
 
         it('viser ikke registreringsinformasjon', async () => {
-            await renderForside(errorSnapshot, happyBekreftelser, nokkeltallApiResult);
+            await renderForside(errorSnapshot, happyBekreftelser);
             expect(screen.queryByText('Personen er registrert som arbeidssøker')).toBeNull();
         });
     });
 
     describe('feil ved henting av bekreftelser', () => {
         it('viser generell feilmelding', async () => {
-            await renderForside(happySnapshotMedPaagaaende, errorBekreftelser, nokkeltallApiResult);
+            await renderForside(happySnapshotMedPaagaaende, errorBekreftelser);
             expect(screen.getByText('Noe gikk dessverre galt. Prøv igjen senere')).toBeDefined();
         });
     });
 
     describe('snapshot er null uten feil', () => {
         it('viser ikke-aktiv-forside', async () => {
-            await renderForside(nullSnapshot, happyBekreftelser, nokkeltallApiResult);
+            await renderForside(nullSnapshot, happyBekreftelser);
             expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
         });
     });
 
     describe('snapshot hvor periode er avsluttet', () => {
         it('viser ikke-aktiv-forside når person har gyldig snapshot, men perioden er avsluttet', async () => {
-            await renderForside(happySnapshotMedAvsluttet, emptyBekreftelser, nokkeltallApiResult);
+            await renderForside(happySnapshotMedAvsluttet, emptyBekreftelser);
             expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
         });
         it('viser ikke-aktiv-forside selvom bekreftelser finnes (det skal ikke finnes men...)', async () => {
-            await renderForside(happySnapshotMedAvsluttet, happyBekreftelser, nokkeltallApiResult);
+            await renderForside(happySnapshotMedAvsluttet, happyBekreftelser);
             expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
         });
     });
     describe('snapshot hvor person aldri har vært registrert før (problem details - periode-ikke-funnet)', () => {
         it('skal viser ikke-aktiv-forside', async () => {
-            await renderForside(problemDetailsSnapshot, emptyBekreftelser, nokkeltallApiResult);
+            await renderForside(problemDetailsSnapshot, emptyBekreftelser);
             expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
             expect(screen.getByText('Har ikke vært registrert som arbeidssøker')).toBeDefined();
         });
         it('skal viser ikke-aktiv-forside, gyldige bekreftelser skal ikke påvirke dette', async () => {
-            await renderForside(problemDetailsSnapshot, happyBekreftelser, nokkeltallApiResult);
+            await renderForside(problemDetailsSnapshot, happyBekreftelser);
             expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
             expect(screen.getByText('Har ikke vært registrert som arbeidssøker')).toBeDefined();
         });
@@ -255,48 +241,40 @@ describe('Forside', () => {
 
     describe('Egenvurdering', () => {
         it('Sjekk at egenvurderingsfeltet er synlig når det finnes', async () => {
-            await renderForside(
-                lagSnapshotMedEgenvurdering('ANTATT_BEHOV_FOR_VEILEDNING'),
-                emptyBekreftelser,
-                nokkeltallApiResult,
-            );
+            await renderForside(lagSnapshotMedEgenvurdering('ANTATT_BEHOV_FOR_VEILEDNING'), emptyBekreftelser);
             expect(screen.getByText('Hva slags veiledning ønsker du?')).toBeDefined();
             expect(screen.getByText('Jeg ønsker oppfølging fra Nav')).toBeDefined();
         });
         it('Sjekk at egenvurderingsfeltet er synlig når det finnes', async () => {
-            await renderForside(
-                lagSnapshotMedEgenvurdering('ANTATT_GODE_MULIGHETER'),
-                emptyBekreftelser,
-                nokkeltallApiResult,
-            );
+            await renderForside(lagSnapshotMedEgenvurdering('ANTATT_GODE_MULIGHETER'), emptyBekreftelser);
             expect(screen.getByText('Hva slags veiledning ønsker du?')).toBeDefined();
             expect(screen.getByText('Jeg ønsker å klare meg selv')).toBeDefined();
         });
 
         it('Sjekk at egenvurderingsfeltet ikke vises når det er undefined', async () => {
-            await renderForside(lagSnapshotMedEgenvurdering(undefined), emptyBekreftelser, nokkeltallApiResult);
+            await renderForside(lagSnapshotMedEgenvurdering(undefined), emptyBekreftelser);
             expect(screen.queryByText('Hva slags veiledning ønsker du?')).toBeNull();
         });
     });
 
     describe('Manglende tilganger (403)', () => {
         it('Sjekk at kun info om manglende tilganger renderes', async () => {
-            await renderForside(snapshotManglerTilganger, emptyBekreftelser, nokkeltallApiResult);
+            await renderForside(snapshotManglerTilganger, emptyBekreftelser);
             expect(screen.queryByText('Opplysninger')).toBeNull();
             expect(screen.queryByText('Mangler tilgang')).toBeDefined();
         });
         it('Sjekk at kun manglende tilganger IKKE renderes ved feil (problem details)', async () => {
-            await renderForside(problemDetailsSnapshot, emptyBekreftelser, nokkeltallApiResult);
+            await renderForside(problemDetailsSnapshot, emptyBekreftelser);
             expect(screen.queryByText('Opplysninger')).toBeNull();
             expect(screen.queryByText('Mangler tilgang')).toBeNull();
         });
         it('Sjekk at kun manglende tilganger IKKE renderes ved null snapshots', async () => {
-            await renderForside(nullSnapshot, emptyBekreftelser, nokkeltallApiResult);
+            await renderForside(nullSnapshot, emptyBekreftelser);
             expect(screen.queryByText('Opplysninger')).toBeNull();
             expect(screen.queryByText('Mangler tilgang')).toBeNull();
         });
         it('Sjekk at kun manglende tilganger IKKE renderes ved happy path', async () => {
-            await renderForside(happySnapshotMedPaagaaende, emptyBekreftelser, nokkeltallApiResult);
+            await renderForside(happySnapshotMedPaagaaende, emptyBekreftelser);
             expect(screen.queryByText('Opplysninger')).toBeDefined();
             expect(screen.queryByText('Mangler tilgang')).toBeNull();
         });
@@ -309,19 +287,19 @@ describe('Forside', () => {
 
 describe('ForsideWrapper', () => {
     it('rendrer Forside-innhold når promises resolver', async () => {
-        await renderForsideWrapper(happySnapshotMedPaagaaende, happyBekreftelser, nokkeltallApiResult);
+        await renderForsideWrapper(happySnapshotMedPaagaaende, happyBekreftelser);
         expect(screen.getByText('Personen er registrert som arbeidssøker')).toBeDefined();
         expect(screen.getByText('Opplysninger')).toBeDefined();
         expect(screen.getByText('Personen har en ubekreftet arbeidssøkerperiode')).toBeDefined();
     });
 
     it('rendrer feilmelding når snapshot feiler', async () => {
-        await renderForsideWrapper(errorSnapshot, happyBekreftelser, nokkeltallApiResult);
+        await renderForsideWrapper(errorSnapshot, happyBekreftelser);
         expect(screen.getByText('Noe gikk dessverre galt. Prøv igjen senere')).toBeDefined();
     });
 
     it('rendrer Forside-innhold når bekreftelser er tom', async () => {
-        await renderForsideWrapper(happySnapshotMedPaagaaende, emptyBekreftelser, nokkeltallApiResult);
+        await renderForsideWrapper(happySnapshotMedPaagaaende, emptyBekreftelser);
         expect(screen.getByText('Personen er registrert som arbeidssøker')).toBeDefined();
         expect(screen.getByText('Opplysninger')).toBeDefined();
         expect(screen.queryByText('Personen har en ubekreftet arbeidssøkerperiode')).toBeNull();
@@ -354,8 +332,8 @@ describe('ForsideWrapper', () => {
                         <ForsideWrapper
                             initialSnapshotPromise={Promise.resolve(nullSnapshot)}
                             initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
-                            initialNokkeltallPromise={Promise.resolve(null)}
                             initialKartleggingPromise={Promise.resolve(kartleggingResult)}
+                            initialKartleggingEnkeltpersonPromise={Promise.resolve(null)}
                         />
                     </Suspense>
                 </ModiaProvider>,
@@ -372,8 +350,8 @@ describe('ForsideWrapper', () => {
                         <ForsideWrapper
                             initialSnapshotPromise={Promise.resolve(nullSnapshot)}
                             initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
-                            initialNokkeltallPromise={Promise.resolve(null)}
                             initialKartleggingPromise={Promise.resolve({ manglerTilgang: true, arbeidssoekere: [] })}
+                            initialKartleggingEnkeltpersonPromise={Promise.resolve(null)}
                         />
                     </Suspense>
                 </ModiaProvider>,

@@ -6,31 +6,33 @@ import { Opplysninger } from '@/app/(forside)/components/Opplysninger';
 import { TidslinjerLenke } from '@/app/(forside)/components/TidslinjerLenke';
 import { ManglerTilganger } from '@/components/ManglerTilganger';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
-import type { NokkeltallResult } from '@/lib/api/nokkeltall';
+import type { KartleggingApiEnkeltpersonKompaktResult } from '@/lib/api/kartlegging-enkeltperson';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import { IkkeAktivPeriode } from './IkkeAktivPeriode';
-import { Nokkeltall } from './Nokkeltall';
+import { KartleggingEnkeltperson } from './KartleggingEnkeltperson';
 
 type ForsideProps = {
     snapshotPromise: Promise<SnapshotResult>;
     bekreftelserPromise: Promise<BekreftelseApiResult>;
-    nokkeltallPromise: Promise<NokkeltallResult | null>;
+    kartleggingEnkeltpersonPromise: Promise<KartleggingApiEnkeltpersonKompaktResult | null>;
 };
 
-function Forside({ snapshotPromise, bekreftelserPromise, nokkeltallPromise }: ForsideProps) {
+function Forside({ snapshotPromise, bekreftelserPromise, kartleggingEnkeltpersonPromise }: ForsideProps) {
     const { snapshot, error: snapshotError, notFound, manglerTilgang: manglerSnapTilgang } = use(snapshotPromise);
     const {
         bekreftelser,
         error: bekreftelserError,
         manglerTilgang: manglerBekreftelseTilgang,
     } = use(bekreftelserPromise);
-    const nottektall = use(nokkeltallPromise);
+    const kartleggingResult = use(kartleggingEnkeltpersonPromise);
+    const arbeidssoekere = kartleggingResult?.arbeidssoekere;
+    const arbeidssoeker = arbeidssoekere ? arbeidssoekere[0] : null;
 
-    if (manglerBekreftelseTilgang || manglerSnapTilgang) {
+    if (manglerBekreftelseTilgang || manglerSnapTilgang || kartleggingResult?.manglerTilgang) {
         return <ManglerTilganger />;
     }
 
-    if (snapshotError || bekreftelserError) {
+    if (snapshotError || bekreftelserError || kartleggingResult?.error) {
         return <Alert variant={'error'}>Noe gikk dessverre galt. Prøv igjen senere</Alert>;
     }
 
@@ -40,7 +42,7 @@ function Forside({ snapshotPromise, bekreftelserPromise, nokkeltallPromise }: Fo
 
     return (
         <div>
-            <Nokkeltall nokkeltall={nottektall} snapshot={snapshot} />
+            <KartleggingEnkeltperson arbeidssoker={arbeidssoeker ?? null} snapshot={snapshot} />
             <Opplysninger
                 opplysninger={snapshot.opplysning}
                 sisteArbeidssoekerperiodeId={snapshot.id}

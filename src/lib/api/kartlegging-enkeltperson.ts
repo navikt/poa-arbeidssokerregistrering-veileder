@@ -12,7 +12,7 @@ import type {
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
 
-export type KartleggingApiKompaktResult = {
+export type KartleggingApiEnkeltpersonKompaktResult = {
     arbeidssoekere: ArbeidssokerKompakt[];
     paging?: ApiPaging;
     error?: Error;
@@ -29,7 +29,7 @@ const KARTLEGGING_API_SCOPE = `api://${process.env.NAIS_CLUSTER_NAME}.paw.paw-ar
 
 async function getKartleggingForEnkeltperson(
     identitetsnummer: string | null,
-): Promise<KartleggingApiKompaktResult | null> {
+): Promise<KartleggingApiEnkeltpersonKompaktResult | null> {
     if (!identitetsnummer) {
         return null;
     }

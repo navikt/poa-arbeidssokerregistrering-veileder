@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
-import type { NokkeltallResult } from '@/lib/api/nokkeltall';
+import type { KartleggingApiEnkeltpersonKompaktResult } from '@/lib/api/kartlegging-enkeltperson';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import bekreftelserMock from '@/lib/mocks/bekreftelser.json';
 import snapshotMock from '@/lib/mocks/snapshot.json';
@@ -56,12 +56,10 @@ const notFoundSnapshot: SnapshotResult = {
     notFound: true,
 };
 
-const tomNokkeltall: NokkeltallResult = {
-    dagerUtenArbeid: null,
-    tilhorighet: [],
-    onskerHjelp: null,
-    bekreftelse: undefined,
+const tomKartleggingEnkeltperson: KartleggingApiEnkeltpersonKompaktResult = {
+    arbeidssoekere: [],
 };
+
 const meta = {
     title: 'Forside/Forside',
     component: Forside,
@@ -91,7 +89,7 @@ export const AktivArbeidssøkerMedOpplysninger: Story = {
     args: {
         snapshotPromise: Promise.resolve(happySnapshot),
         bekreftelserPromise: Promise.resolve(happyBekreftelser),
-        nokkeltallPromise: Promise.resolve(tomNokkeltall),
+        kartleggingEnkeltpersonPromise: Promise.resolve(tomKartleggingEnkeltperson),
     },
 };
 
@@ -100,7 +98,7 @@ export const AktivArbeidssøkerUtenBekreftelser: Story = {
     args: {
         snapshotPromise: Promise.resolve(happySnapshot),
         bekreftelserPromise: Promise.resolve(emptyBekreftelser),
-        nokkeltallPromise: Promise.resolve(tomNokkeltall),
+        kartleggingEnkeltpersonPromise: Promise.resolve(tomKartleggingEnkeltperson),
     },
 };
 
@@ -109,7 +107,7 @@ export const FlereTilgjengeligeBekreftelser: Story = {
     args: {
         snapshotPromise: Promise.resolve(happySnapshot),
         bekreftelserPromise: Promise.resolve(multipleBekreftelser),
-        nokkeltallPromise: Promise.resolve(tomNokkeltall),
+        kartleggingEnkeltpersonPromise: Promise.resolve(tomKartleggingEnkeltperson),
     },
 };
 
@@ -118,7 +116,7 @@ export const ManglerOpplysninger: Story = {
     args: {
         snapshotPromise: Promise.resolve(snapshotUtenOpplysninger),
         bekreftelserPromise: Promise.resolve(emptyBekreftelser),
-        nokkeltallPromise: Promise.resolve(tomNokkeltall),
+        kartleggingEnkeltpersonPromise: Promise.resolve(tomKartleggingEnkeltperson),
     },
 };
 
@@ -127,7 +125,7 @@ export const Feil: Story = {
     args: {
         snapshotPromise: Promise.resolve(errorSnapshot),
         bekreftelserPromise: Promise.resolve(happyBekreftelser),
-        nokkeltallPromise: Promise.resolve(tomNokkeltall),
+        kartleggingEnkeltpersonPromise: Promise.resolve(tomKartleggingEnkeltperson),
     },
 };
 
@@ -136,7 +134,7 @@ export const FeilVedBekreftelser: Story = {
     args: {
         snapshotPromise: Promise.resolve(happySnapshot),
         bekreftelserPromise: Promise.resolve(errorBekreftelser),
-        nokkeltallPromise: Promise.resolve(tomNokkeltall),
+        kartleggingEnkeltpersonPromise: Promise.resolve(tomKartleggingEnkeltperson),
     },
 };
 
@@ -145,7 +143,7 @@ export const IngenData: Story = {
     args: {
         snapshotPromise: Promise.resolve(nullSnapshot),
         bekreftelserPromise: Promise.resolve(emptyBekreftelser),
-        nokkeltallPromise: Promise.resolve(tomNokkeltall),
+        kartleggingEnkeltpersonPromise: Promise.resolve(tomKartleggingEnkeltperson),
     },
 };
 
@@ -154,6 +152,6 @@ export const IkkeRegistrert: Story = {
     args: {
         snapshotPromise: Promise.resolve(notFoundSnapshot),
         bekreftelserPromise: Promise.resolve(emptyBekreftelser),
-        nokkeltallPromise: Promise.resolve(tomNokkeltall),
+        kartleggingEnkeltpersonPromise: Promise.resolve(tomKartleggingEnkeltperson),
     },
 };
