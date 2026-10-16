@@ -8,7 +8,6 @@ vi.mock('@/lib/api/kartlegging', () => ({
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { ModiaProvider } from '@/contexts/modia-context';
 import type { KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
-import { daysSinceDate } from '@/lib/date-utils';
 import kartleggingKompaktMock from '@/lib/mocks/kartlegging-kompakt.json';
 import type { ArbeidssokerKompakt, KartleggingApiKompaktResponse } from '@/model/kartlegging-api';
 import { ITEMS_PER_PAGE } from './constants';
@@ -26,8 +25,8 @@ const fullKartlegging: KartleggingApiKompaktResult = {
 
 function daysAgoIso(days: number): string {
     const d = new Date();
-    d.setDate(d.getDate() - days);
-    d.setHours(0, 0, 0, 0);
+    d.setUTCDate(d.getUTCDate() - days);
+    d.setUTCHours(12, 0, 0, 0);
     return d.toISOString();
 }
 
@@ -105,10 +104,10 @@ function createFilterKartlegging(): KartleggingApiKompaktResult {
     return {
         arbeidssoekere: [
             createArbeidssoker(1, 210),
-            createArbeidssoker(2, 190),
-            createArbeidssoker(3, 170),
-            createArbeidssoker(4, 155),
-            createArbeidssoker(5, 120),
+            createArbeidssoker(2, 180),
+            createArbeidssoker(3, 179),
+            createArbeidssoker(4, 150),
+            createArbeidssoker(5, 149),
             createArbeidssoker(6, 45),
         ],
     };
@@ -139,12 +138,14 @@ async function renderKartlegging(kartleggingResult: KartleggingApiKompaktResult)
 
 describe('Kartlegging', () => {
     beforeAll(() => {
+        vi.stubEnv('TZ', 'UTC');
         vi.useFakeTimers();
-        vi.setSystemTime(new Date('2026-06-01T00:00:00Z'));
+        vi.setSystemTime(new Date('2026-06-01T12:00:00Z'));
     });
 
     afterAll(() => {
         vi.useRealTimers();
+        vi.unstubAllEnvs();
     });
 
     it('Har tilgang, men ingen resultater', async () => {
@@ -164,28 +165,22 @@ describe('Kartlegging', () => {
     });
 
     it('Filtrering på kritisk (≥180 dager) viser kun riktige brukere', async () => {
-        const kartlegging = createFilterKartlegging();
-        await renderKartlegging(kartlegging);
+        await renderKartlegging(createFilterKartlegging());
 
-        const kritiskBrukere = kartlegging.arbeidssoekere.filter(
-            (b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) >= 180,
-        );
-        const kritiskChip = screen.getByRole('button', {
-            name: new RegExp(`≥180 dager \\(${kritiskBrukere.length}\\)`),
-        });
+        const kritiskChip = screen.getByRole('button', { name: '≥180 dager (2)' });
 
         await act(async () => {
             fireEvent.click(kritiskChip);
         });
 
         const rows = screen.getAllByRole('row');
-        expect(rows).toHaveLength(kritiskBrukere.length + 1);
-
-        const toDisplayName = (b: ArbeidssokerKompakt) =>
-            `${b.fornavn.charAt(0).toUpperCase()}${b.fornavn.slice(1).toLowerCase()} ${b.etternavn.charAt(0).toUpperCase()}${b.etternavn.slice(1).toLowerCase()}`;
-        for (const bruker of kritiskBrukere) {
-            expect(screen.getByText(toDisplayName(bruker))).toBeDefined();
-        }
+        expect(rows).toHaveLength(3);
+        expect(screen.getByText('Test1 Bruker')).toBeDefined();
+        expect(screen.getByText('Test2 Bruker')).toBeDefined();
+        expect(screen.queryByText('Test3 Bruker')).toBeNull();
+        expect(screen.queryByText('Test4 Bruker')).toBeNull();
+        expect(screen.queryByText('Test5 Bruker')).toBeNull();
+        expect(screen.queryByText('Test6 Bruker')).toBeNull();
     });
 
     it('Paginering viser side 2 med resterende brukere', async () => {
@@ -206,12 +201,14 @@ describe('Kartlegging', () => {
     it('Sortering nullstiller paginering til første side', async () => {
         const storKartlegging = createStorKartlegging();
         await renderKartlegging(storKartlegging);
+        expect(screen.getAllByRole('row')[1]?.textContent).toContain('Test20 Bruker');
 
         const paginering = screen.getByRole('navigation');
         const side2Knapp = within(paginering).getByRole('button', { name: /2/ });
         await act(async () => {
             fireEvent.click(side2Knapp);
         });
+        expect(screen.getAllByRole('row')).toHaveLength(2);
 
         const sortHeader = screen.getByRole('button', { name: /dager ledig/i });
         await act(async () => {
@@ -220,6 +217,8 @@ describe('Kartlegging', () => {
 
         const rows = screen.getAllByRole('row');
         expect(rows).toHaveLength(Math.min(storKartlegging.arbeidssoekere.length, ITEMS_PER_PAGE) + 1);
+        expect(rows[1]?.textContent).toContain('Test31 Bruker');
+        expect(screen.queryByText('Test20 Bruker')).toBeNull();
     });
 
     it('Filtrering nullstiller paginering til første side', async () => {
@@ -232,18 +231,16 @@ describe('Kartlegging', () => {
             fireEvent.click(side2Knapp);
         });
 
-        const kritiskBrukere = storKartlegging.arbeidssoekere.filter(
-            (b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) >= 180,
-        );
-        const kritiskChip = screen.getByRole('button', {
-            name: new RegExp(`≥180 dager \\(${kritiskBrukere.length}\\)`),
-        });
+        const kritiskChip = screen.getByRole('button', { name: '≥180 dager (20)' });
         await act(async () => {
             fireEvent.click(kritiskChip);
         });
 
         const rows = screen.getAllByRole('row');
-        expect(rows).toHaveLength(Math.min(kritiskBrukere.length, ITEMS_PER_PAGE) + 1);
+        expect(rows).toHaveLength(21);
+        expect(rows[1]?.textContent).toContain('Test20 Bruker');
+        expect(screen.getByText('Test1 Bruker')).toBeDefined();
+        expect(screen.queryByText('Test21 Bruker')).toBeNull();
     });
 
     it('DagerTag viser riktig fargekode basert på antall dager', async () => {
