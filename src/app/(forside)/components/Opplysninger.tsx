@@ -72,7 +72,7 @@ function Opplysninger(props: OpplysningerProps) {
             </div>
 
             <Box borderWidth={'1'} padding={'space-16'}>
-                <HGrid columns={2}>
+                <HGrid columns={2} gap={'space-0 space-24'}>
                     {mappedeOpplysninger.map((o) => {
                         return <Opplysning {...o} key={o.sporsmal} />;
                     })}
