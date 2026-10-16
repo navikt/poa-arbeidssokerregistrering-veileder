@@ -342,8 +342,8 @@
             "etternavn": "DAHL",
             "ledighetsperioder": [
                 {
-                    "ledigSiden": "22025-09-01T07:45:00Z",
-                    "periodeStartet": "025-09-01T07:45:00Z",
+                    "ledigSiden": "2025-09-01T07:45:00Z",
+                    "periodeStartet": "2025-09-01T07:45:00Z",
                     "bekreftelsePaaVegneAv": ["ARBEIDSSOEKERREGISTERET"],
                     "bekreftelseHarJobbet": false,
                     "bekreftelseVilFortsette": true,
