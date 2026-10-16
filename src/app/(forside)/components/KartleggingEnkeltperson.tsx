@@ -79,9 +79,9 @@ function KartleggingEnkeltperson({ arbeidssoker, snapshot }: KartleggingProps) {
                     </div>
                     <div>
                         {aktivPeriode?.egenvurdertTil ? (
-                            <NeiJaTag svar={aktivPeriode.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING} />
+                            <NeiJaTag svar={aktivPeriode.egenvurdertTil === ProfilertTil.ANTATT_GODE_MULIGHETER} />
                         ) : (
-                            'IKKE SVART'
+                            'Mangler egenvurdering'
                         )}
                     </div>
                 </Wrapper>
