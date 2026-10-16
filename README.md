@@ -87,3 +87,6 @@ Spørsmål knyttet til koden eller prosjektet kan stilles via issues her på git
 # For NAV-ansatte
 
 Interne henvendelser kan sendes via Slack i kanalen [#team-paw-dev](https://nav-it.slack.com/archives/CLTFAEW75)
+
+# Lisens
+Dette prosjektet er lisensiert under MIT-lisensen. Se [LICENSE](LICENSE) for mer informasjon.
