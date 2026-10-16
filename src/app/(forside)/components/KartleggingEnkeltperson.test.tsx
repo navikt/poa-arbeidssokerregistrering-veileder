@@ -66,7 +66,8 @@ describe('KartleggingEnkeltperson', () => {
         expect(screen.getByText('Bekreftelser kommer fra')).toBeDefined();
         expect(screen.getByText('Arbeidssøkerregisteret')).toBeDefined();
         expect(screen.getByText('Dagpenger')).toBeDefined();
-        expect(screen.getAllByText('Nei')).toHaveLength(2);
+        expect(screen.getAllByText('Nei')).toHaveLength(1);
+        expect(screen.getAllByText('Ja')).toHaveLength(1);
     });
 
     it('viser fallback når arbeidssøkeren ikke har en aktiv periode', () => {
@@ -74,7 +75,7 @@ describe('KartleggingEnkeltperson', () => {
             <KartleggingEnkeltperson arbeidssoker={{ ...arbeidssoker, ledighetsperioder: [] }} snapshot={snapshot} />,
         );
 
-        expect(screen.getByText('IKKE SVART')).toBeDefined();
+        expect(screen.getByText('Mangler egenvurdering')).toBeDefined();
         expect(screen.getByText('MANGLER DATA')).toBeDefined();
     });
 });
