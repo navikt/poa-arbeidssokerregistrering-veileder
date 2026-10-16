@@ -338,9 +338,9 @@ describe('RegistreringSjekk', () => {
     });
 
     // -----------------------------------------------
-    // 204 OK → redirect
+    // Vellykket resultat → redirect
     // -----------------------------------------------
-    describe('204 OK — redirect', () => {
+    describe('vellykket resultat — redirect', () => {
         it('redirecter til /registrering-arbeidssoker når ok=true', async () => {
             await renderRegistreringSjekk(lagOkResult());
 

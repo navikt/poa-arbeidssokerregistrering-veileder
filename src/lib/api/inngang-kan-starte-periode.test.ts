@@ -8,6 +8,10 @@ vi.mock('@/lib/authenticatedFetch', () => ({
     authenticatedFetch: vi.fn(),
 }));
 
+vi.mock('@/lib/auth/oboToken', () => ({
+    getOboTokenFromRequest: vi.fn().mockResolvedValue({ ok: true, token: 'obo-token' }),
+}));
+
 import { authenticatedFetch } from '@/lib/authenticatedFetch';
 import type { KanStartePeriodeFeil } from '@/model/kan-starte-periode';
 
@@ -27,7 +31,7 @@ describe('kanStartePeriode', () => {
         vi.stubEnv('ENABLE_MOCK', 'disabled');
     });
 
-    it('returnerer ok: true ved 204 (vellykket sjekk)', async () => {
+    it('returnerer ok: true når authenticatedFetch lykkes', async () => {
         mockAuthenticatedFetch.mockResolvedValue({
             ok: true,
             data: {},
@@ -299,5 +303,34 @@ describe('kanStartePeriode', () => {
             expect(result.error).toBe('Identitetsnummer mangler');
         }
         expect(mockAuthenticatedFetch).not.toHaveBeenCalled();
+    });
+
+    it('returnerer ok og sender riktig PUT når backend svarer 204 uten body', async () => {
+        const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 204 }));
+        vi.stubGlobal('fetch', fetchMock);
+
+        try {
+            mockAuthenticatedFetch.mockImplementationOnce(async (options) => {
+                const { authenticatedFetch: realAuthenticatedFetch } =
+                    await vi.importActual<typeof import('@/lib/authenticatedFetch')>('@/lib/authenticatedFetch');
+                return realAuthenticatedFetch(options);
+            });
+
+            const kanStartePeriode = await importKanStartePeriode();
+            const result = await kanStartePeriode('12345678901');
+
+            expect(result).toEqual({ ok: true });
+            expect(fetchMock).toHaveBeenCalledOnce();
+            expect(fetchMock).toHaveBeenCalledWith(
+                'http://mock-inngang/api/v2/arbeidssoker/kanStartePeriode',
+                expect.objectContaining({
+                    method: 'PUT',
+                    body: JSON.stringify({ identitetsnummer: '12345678901' }),
+                    headers: expect.objectContaining({ Authorization: 'Bearer obo-token' }),
+                }),
+            );
+        } finally {
+            vi.unstubAllGlobals();
+        }
     });
 });
