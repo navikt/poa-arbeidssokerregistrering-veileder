@@ -33,7 +33,7 @@ vi.mock('next/link', () => ({
 
 vi.mock('@/contexts/modia-context', () => ({
     useModiaContext: () => ({
-        fnr: '12345678910',
+        fnr: 'test-ident',
         enhetId: '0219',
         setFnr: vi.fn(),
         setEnhetId: vi.fn(),
@@ -137,6 +137,18 @@ describe('Bekreftelse', () => {
     });
 
     describe('Én bekreftelse', () => {
+        it('sender ikke inn før begge radiosvarene er valgt', async () => {
+            await renderBekreftelse(happyResult);
+
+            fireEvent.click(hentSendInnKnapp());
+            expect(sendBekreftelseMock).not.toHaveBeenCalled();
+
+            velgRadio(/Har personen vært i arbeid i perioden/, 'ja');
+            fireEvent.click(hentSendInnKnapp());
+
+            expect(sendBekreftelseMock).not.toHaveBeenCalled();
+        });
+
         it('viser disabled skjema og suksess-kvittering etter vellykket innsending', async () => {
             sendBekreftelseMock.mockResolvedValue({ ok: true });
             await renderBekreftelse(happyResult);
@@ -148,6 +160,13 @@ describe('Bekreftelse', () => {
             // Send inn
             await act(async () => {
                 fireEvent.click(hentSendInnKnapp());
+            });
+
+            expect(sendBekreftelseMock).toHaveBeenCalledExactlyOnceWith({
+                identitetsnummer: 'test-ident',
+                bekreftelseId: enBekreftelse.bekreftelseId,
+                harJobbetIDennePerioden: true,
+                vilFortsetteSomArbeidssoeker: true,
             });
 
             // Skjema er fortsatt synlig men disabled
@@ -183,6 +202,13 @@ describe('Bekreftelse', () => {
                 fireEvent.click(hentSendInnKnapp());
             });
 
+            expect(sendBekreftelseMock).toHaveBeenCalledExactlyOnceWith({
+                identitetsnummer: 'test-ident',
+                bekreftelseId: enBekreftelse.bekreftelseId,
+                harJobbetIDennePerioden: true,
+                vilFortsetteSomArbeidssoeker: false,
+            });
+
             // Kvittering med advarsel vises ETTER innsending
             expect(screen.getByText('Bruker er ikke lenger registrert som arbeidssøker')).toBeDefined();
             expect(screen.getByText('Gå tilbake til forsiden')).toBeDefined();
@@ -201,6 +227,14 @@ describe('Bekreftelse', () => {
             await act(async () => {
                 fireEvent.click(hentSendInnKnapp());
             });
+
+            const expectedSubmission = {
+                identitetsnummer: 'test-ident',
+                bekreftelseId: enBekreftelse.bekreftelseId,
+                harJobbetIDennePerioden: true,
+                vilFortsetteSomArbeidssoeker: true,
+            };
+            expect(sendBekreftelseMock).toHaveBeenNthCalledWith(1, expectedSubmission);
 
             // Feilmelding vises
             expect(screen.getByText('Teknisk feil')).toBeDefined();
@@ -221,6 +255,8 @@ describe('Bekreftelse', () => {
                 fireEvent.click(hentSendInnKnapp());
             });
 
+            expect(sendBekreftelseMock).toHaveBeenNthCalledWith(2, expectedSubmission);
+
             // Feilmeldingen er borte, suksess vises
             expect(screen.queryByText('Teknisk feil')).toBeNull();
             expect(screen.getByText('Bekreftelsen er registrert')).toBeDefined();
@@ -231,6 +267,12 @@ describe('Bekreftelse', () => {
         it('lar bruker bekrefte flere perioder etter hverandre', async () => {
             sendBekreftelseMock.mockResolvedValue({ ok: true });
             await renderBekreftelse(flereResult);
+            const first = flereBekreftelser[0];
+            const second = flereBekreftelser[1];
+
+            if (!first || !second) {
+                throw new Error('Forventet to bekreftelser i test-fixturen');
+            }
 
             // Første bekreftelse — fyll ut og send inn
             velgRadio(/Har personen vært i arbeid i perioden/, 'ja');
@@ -238,6 +280,13 @@ describe('Bekreftelse', () => {
 
             await act(async () => {
                 fireEvent.click(hentSendInnKnapp());
+            });
+
+            expect(sendBekreftelseMock).toHaveBeenNthCalledWith(1, {
+                identitetsnummer: 'test-ident',
+                bekreftelseId: first.bekreftelseId,
+                harJobbetIDennePerioden: true,
+                vilFortsetteSomArbeidssoeker: true,
             });
 
             // "Svar for neste periode"-knappen vises
@@ -258,6 +307,13 @@ describe('Bekreftelse', () => {
 
             await act(async () => {
                 fireEvent.click(hentSendInnKnapp());
+            });
+
+            expect(sendBekreftelseMock).toHaveBeenNthCalledWith(2, {
+                identitetsnummer: 'test-ident',
+                bekreftelseId: second.bekreftelseId,
+                harJobbetIDennePerioden: false,
+                vilFortsetteSomArbeidssoeker: true,
             });
 
             // Ingen flere bekreftelser — viser endelig kvittering

@@ -21,7 +21,8 @@ This is a **Next.js 16** application (App Router) that lets NAV counselors ("vei
 | `pnpm test` | Run all tests once (Vitest) |
 | `pnpm run test:watch` | Run tests in watch mode |
 | `pnpm run lint` | Run Biome linter — check for errors before committing |
-| `pnpm run format:app` | Auto-fix lint/format issues in `src/` |
+| `pnpm run lint:fix` | Auto-fix lint/format issues in `src/` (`biome check --write src`) |
+| `pnpm run typecheck` | Run TypeScript type checking (`tsc`) |
 | `pnpm run dev` | Start dev server (with pino-pretty logging) |
 | `pnpm run storybook` | Start Storybook on port 6006 |
 
@@ -31,13 +32,13 @@ This is a **Next.js 16** application (App Router) that lets NAV counselors ("vei
 
 | Technology | Version | Purpose |
 |---|---|---|
-| Node.js | 24.13.0 | Runtime (see `.nvmrc`) |
+| Node.js | 24.21.0 | Runtime (see `.nvmrc`) |
 | Next.js | 16 | Framework (App Router, Server Components, Server Functions) |
 | React | 19 | UI library (uses `use()` hook for promise unwrapping) |
-| TypeScript | 5.9 | Type safety (`strictNullChecks: true`, `noUncheckedIndexedAccess: true`) |
+| TypeScript | 6.0 | Type safety (`strictNullChecks: true`, `noUncheckedIndexedAccess: true`) |
 | Tailwind CSS | 4 | Styling (with `@navikt/ds-tailwind` preset) |
-| Biome | 2.3 | Linting and formatting (replaces ESLint + Prettier) |
-| Vitest | 4 | Unit testing |
+| Biome | 2.5 | Linting and formatting (replaces ESLint + Prettier) |
+| Vitest | 5 | Unit testing |
 | Testing Library | 16 | Component testing |
 | MSW | 2 | API mocking (Storybook) |
 | Storybook | 10 | Component development |
@@ -49,24 +50,34 @@ This is a **Next.js 16** application (App Router) that lets NAV counselors ("vei
 
 ```
 src/
-├── app/                          # Next.js App Router pages
+├── app/                          # Next.js App Router pages (forenklet tre)
 │   ├── (decorator-proxy)/        # Route handlers proxying calls for Modia decorator
 │   ├── (forside)/                # Front page (route group)
-│   ├── api/                      # API route handlers (health checks, etc.)
+│   ├── api/                      # API route handlers (health checks, stillingssøk)
 │   ├── registrering-arbeidssoker/  # Registration flow
+│   ├── registrering-arbeidssoeker-sjekk/  # Eligibility check before registration
 │   ├── oppdater-opplysninger/    # Update details flow
 │   ├── tidslinjer/               # Timeline view
 │   ├── bekreftelse/              # Confirmation flow
 │   ├── historikk/                # History view
 │   ├── avslutt-arbeidssoekerperiode/
 │   ├── slett-arbeidssoekerperiode/
+│   ├── arbeidssoekerperiode-er-avsluttet/
+│   ├── arbeidssoekerperiode-er-slettet/
+│   ├── kvittering-arbeidssoker/
+│   ├── kvittering-oppdatert-opplysninger/
+│   ├── veiledning/               # Guidance pages (e.g. missing Aa-register access)
 │   ├── layout.tsx                # Root layout (providers, decorator, visittkort)
 │   ├── error.tsx                 # Global error boundary
 │   └── not-found.tsx
 ├── components/                   # Shared UI components
 │   ├── skjema/                   # Form components (registration/update)
 │   ├── radio-gruppe/             # Reusable radio group
-│   └── navspa/                   # NAV SPA integration
+│   ├── visittkort.tsx            # Person visittkort
+│   ├── decorator-intern.tsx      # Modia decorator integration
+│   ├── tilbake-til-forside.tsx
+│   ├── ManglerTilganger.tsx      # Missing-access UI
+│   └── TrackPageView.tsx         # Faro/analytics tracking
 ├── contexts/                     # React contexts
 │   ├── modia-context.tsx         # Modia fnr/enhetId context
 │   ├── filter-hendelse-context.tsx
@@ -80,6 +91,12 @@ src/
 │   ├── faro/                     # Grafana Faro initialization
 │   ├── mocks/                    # JSON mock data for tests/Storybook
 │   ├── unleash/                  # Feature flag definitions
+│   ├── alle-hendelser.ts         # Event aggregation for timeline/history
+│   ├── bygg-opplysninger-payload.ts
+│   ├── dager-langtidsledig.ts
+│   ├── oversett-sluttaarsak.ts
+│   ├── tilgang.ts                # Access checks
+│   ├── tracking.ts               # Analytics tracking
 │   ├── authenticatedFetch.ts     # Central authenticated fetch utility
 │   ├── modia-context-api.ts      # Modia context API client
 │   └── modia-headers.ts          # Modia request headers
@@ -154,8 +171,8 @@ All server-side calls use `authenticatedFetch` which handles OBO token exchange,
 
 This project uses **Biome** (not ESLint/Prettier). Configuration is in `biome.json`.
 
-### Pre-commit hook
-The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome format on staged files in `src/app/`). Ensure your changes pass both before committing.
+### Git hooks
+The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome format on staged files in `src/app/`). The pre-push hook additionally runs `tsc` and `pnpm run test:ci`. Ensure your changes pass both before pushing.
 
 ## Git Workflow
  
@@ -164,7 +181,7 @@ The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome fo
 - **All other branches** are not deployed automatically — CI runs tests and build only.
 - **Pull requests** should target `main`. Ensure `pnpm run lint`, `pnpm test`, and `pnpm run build` all pass before requesting review.
 - **Commit messages** should be descriptive and in English. Reference issue numbers where applicable.
-- **The pre-commit hook** runs `tsc` and `lint-staged` automatically — do not skip it.
+- **The pre-commit hook** runs `tsc` and `lint-staged` automatically, and the pre-push hook runs `tsc` and `pnpm run test:ci` — do not skip them.
 
 ## Best Practices
 
