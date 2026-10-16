@@ -1,3 +1,3 @@
-import { Kartlegging } from './Kartlegging';
+import { Kartlegging } from './KartleggingGrid';
 
 export { Kartlegging };
