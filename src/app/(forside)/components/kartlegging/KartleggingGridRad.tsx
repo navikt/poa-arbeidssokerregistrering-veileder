@@ -56,7 +56,7 @@ function KartleggingGridRad({
             return (
                 <div className='flex items-center gap-1'>
                     {aktivPeriode && aktivPeriode?.egenvurdertTil ? (
-                        <NeiJaTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING} />
+                        <NeiJaTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_GODE_MULIGHETER} />
                     ) : (
                         'Mangler egenvurdering'
                     )}

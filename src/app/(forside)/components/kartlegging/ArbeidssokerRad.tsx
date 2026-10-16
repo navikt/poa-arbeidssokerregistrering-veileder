@@ -83,7 +83,7 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }
             <Table.DataCell>
                 <div className='flex items-center gap-1'>
                     {aktivPeriode && aktivPeriode?.egenvurdertTil ? (
-                        <NeiJaTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_BEHOV_FOR_VEILEDNING} />
+                        <NeiJaTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_GODE_MULIGHETER} />
                     ) : (
                         'IKKE SVART'
                     )}
