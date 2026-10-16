@@ -7,22 +7,25 @@ import { useModiaContext } from '@/contexts/modia-context';
 import { useServerData } from '@/hooks/useServerData';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
 import { getKartlegging, type KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
-import { getNokkeltall, type NokkeltallResult } from '@/lib/api/nokkeltall';
+import {
+    getKartleggingForEnkeltperson,
+    type KartleggingApiEnkeltpersonKompaktResult,
+} from '@/lib/api/kartlegging-enkeltperson';
 import { getSnapshot, type SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import { Forside } from './Forside';
 
 type ForsideWrapperProps = {
     initialSnapshotPromise: Promise<SnapshotResult>;
     initialBekreftelserPromise: Promise<BekreftelseApiResult>;
-    initialNokkeltallPromise: Promise<NokkeltallResult | null>;
     initialKartleggingPromise: Promise<KartleggingApiKompaktResult | null>;
+    initialKartleggingEnkeltpersonPromise: Promise<KartleggingApiEnkeltpersonKompaktResult | null>;
 };
 
 function ForsideWrapper({
     initialSnapshotPromise,
     initialBekreftelserPromise,
-    initialNokkeltallPromise,
     initialKartleggingPromise,
+    initialKartleggingEnkeltpersonPromise,
 }: ForsideWrapperProps) {
     const { fnr } = useModiaContext();
     const { dataPromise, isPending: snapshotIsPending } = useServerData(initialSnapshotPromise, getSnapshot);
@@ -30,12 +33,18 @@ function ForsideWrapper({
         initialBekreftelserPromise,
         getBekreftelser,
     );
-    const { dataPromise: nokkeltallPromise } = useServerData(initialNokkeltallPromise, getNokkeltall);
     const fetchKartlegging = useCallback(
         (_fnr: string | null, enhetsId: string | null) => getKartlegging(enhetsId),
         [],
     );
+
+    const fetchKartleggingEnkeltperson = useCallback((fnr: string | null) => getKartleggingForEnkeltperson(fnr), []);
+
     const { dataPromise: kartleggingPromise } = useServerData(initialKartleggingPromise, fetchKartlegging);
+    const { dataPromise: kartleggingEnkeltpersonPromise } = useServerData(
+        initialKartleggingEnkeltpersonPromise,
+        fetchKartleggingEnkeltperson,
+    );
 
     if (!fnr) {
         return <Kartlegging kartleggingPromise={kartleggingPromise} />;
@@ -48,7 +57,7 @@ function ForsideWrapper({
                 <Forside
                     snapshotPromise={dataPromise}
                     bekreftelserPromise={bekreftelserPromise}
-                    nokkeltallPromise={nokkeltallPromise}
+                    kartleggingEnkeltpersonPromise={kartleggingEnkeltpersonPromise}
                 />
             </Suspense>
         </div>

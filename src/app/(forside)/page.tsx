@@ -6,7 +6,7 @@ import { DemoPanel } from '@/components/demo-panel';
 import { HvaErNytt } from '@/components/HvaErNytt';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
 import { getKartlegging } from '@/lib/api/kartlegging';
-import { getNokkeltall } from '@/lib/api/nokkeltall';
+import { getKartleggingForEnkeltperson } from '@/lib/api/kartlegging-enkeltperson';
 import { getSnapshot, type SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import { hentModiaContext } from '@/lib/modia-context-api';
 import { isFeatureEnabled } from '@/lib/unleash/feature-flags';
@@ -21,8 +21,10 @@ export default async function ForsidePage() {
     const bekreftelserPromise = modiaContext.fnr
         ? getBekreftelser(modiaContext.fnr)
         : Promise.resolve({ bekreftelser: null } satisfies BekreftelseApiResult);
-    const nokkeltallPromise = modiaContext.fnr ? getNokkeltall(modiaContext.fnr) : Promise.resolve(null);
     const kartleggingPromise = modiaContext.fnr ? Promise.resolve(null) : getKartlegging(modiaContext.enhetId);
+    const kartleggingEnkeltpersonPromise = modiaContext.fnr
+        ? getKartleggingForEnkeltperson(modiaContext.fnr)
+        : Promise.resolve(null);
 
     const flagVisHvaSomErNytt = await flagVisHvaSomErNyttPromise;
 
@@ -34,8 +36,8 @@ export default async function ForsidePage() {
                 <ForsideWrapper
                     initialSnapshotPromise={snapshotPromise}
                     initialBekreftelserPromise={bekreftelserPromise}
-                    initialNokkeltallPromise={nokkeltallPromise}
                     initialKartleggingPromise={kartleggingPromise}
+                    initialKartleggingEnkeltpersonPromise={kartleggingEnkeltpersonPromise}
                 />
             </Suspense>
             <DemoPanel />
