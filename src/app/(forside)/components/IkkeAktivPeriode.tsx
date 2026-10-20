@@ -6,6 +6,7 @@ import { mapUtfoertAvType } from '@/app/(forside)/components/mapUtfoertAvType';
 import { TidslinjerLenke } from '@/app/(forside)/components/TidslinjerLenke';
 import { prettyPrintDatoOgKlokkeslett } from '@/lib/date-utils';
 import { oversettSluttaarsak } from '@/lib/oversett-sluttaarsak';
+import { loggAktivitet } from '@/lib/tracking';
 
 type IkkeAktivPeriodeProps = {
     avsluttetHendelse?: PeriodeAvsluttetHendelse;
@@ -44,7 +45,12 @@ function IkkeAktivPeriode({ avsluttetHendelse }: IkkeAktivPeriodeProps) {
             </Box>
             <Box className={'mt-4'}>
                 <Link href='/registrering-arbeidssoeker-sjekk' passHref>
-                    <Button variant={'secondary'}>Start registrering som arbeidssøker</Button>
+                    <Button
+                        variant={'secondary'}
+                        onClick={() => loggAktivitet({ aktivitet: 'Går til registrer arbeidssøker' })}
+                    >
+                        Start registrering som arbeidssøker
+                    </Button>
                 </Link>
             </Box>
         </>

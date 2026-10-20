@@ -26,6 +26,7 @@ export type AktivitetData =
     | { aktivitet: 'Går til slett arbeidssøkerperiode' }
     | { aktivitet: 'Går til endre opplysninger' }
     | { aktivitet: 'Avslutter arbeidssøkerperiode' }
+    | { aktivitet: 'Går til registrer arbeidssøker' }
     | { aktivitet: 'Sletter arbeidssøkerperiode' }
     | { aktivitet: 'Klikker på "Se alle arbeidssøkerperioder bruker har hatt"' };
 
