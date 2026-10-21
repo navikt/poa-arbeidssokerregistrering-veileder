@@ -3,3 +3,5 @@ allowBuilds:
   esbuild: true
   msw: false
   sharp: true
+minimumReleaseAgeExclude:
+  - '@navikt/arbeidssokerregisteret-utils@3.0.1'
