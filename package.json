@@ -38,10 +38,10 @@
     "devDependencies": {
         "@biomejs/biome": "2.5.15",
         "@chromatic-com/storybook": "5.4.0",
-        "@storybook/addon-docs": "10.6.1",
-        "@storybook/addon-onboarding": "10.6.1",
-        "@storybook/nextjs": "10.6.1",
-        "@storybook/nextjs-vite": "10.6.1",
+        "@storybook/addon-docs": "10.6.3",
+        "@storybook/addon-onboarding": "10.6.3",
+        "@storybook/nextjs": "10.6.3",
+        "@storybook/nextjs-vite": "10.6.3",
         "@tailwindcss/postcss": "4.3.3",
         "@testing-library/react": "16.3.3",
         "@types/node": "26.6.4",
@@ -55,7 +55,7 @@
         "msw-storybook-addon": "3.0.3",
         "pino-pretty": "13.2.0",
         "postcss": "8.5.29",
-        "storybook": "10.6.1",
+        "storybook": "10.6.3",
         "tailwindcss": "4.3.3",
         "typescript": "7.0.2",
         "vitest": "5.0.3"
