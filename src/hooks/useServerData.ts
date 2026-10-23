@@ -7,12 +7,13 @@ export function useServerData<T>(
     initialPromise: Promise<T>,
     fetchFn: (fnr: string | null, enhetId: string | null) => Promise<T>,
     initialContext?: { fnr: string | null; enhetId: string | null },
+    refreshOnMount = false,
 ) {
     const { fnr, enhetId } = useModiaContext();
     const [data, setData] = useState(() => ({
         promise: initialPromise,
-        fnr: initialContext?.fnr ?? fnr,
-        enhetId: initialContext?.enhetId ?? enhetId,
+        fnr: refreshOnMount ? undefined : initialContext ? initialContext.fnr : fnr,
+        enhetId: refreshOnMount ? undefined : initialContext ? initialContext.enhetId : enhetId,
     }));
     const [isPending, startTransition] = useTransition();
     const isInitialMount = useRef(true);
@@ -20,7 +21,7 @@ export function useServerData<T>(
     useEffect(() => {
         if (isInitialMount.current) {
             isInitialMount.current = false;
-            if (data.fnr === fnr && data.enhetId === enhetId) return;
+            if (!refreshOnMount && data.fnr === fnr && data.enhetId === enhetId) return;
         }
 
         startTransition(() => {

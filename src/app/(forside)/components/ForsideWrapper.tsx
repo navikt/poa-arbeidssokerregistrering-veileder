@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader } from '@navikt/ds-react';
-import { Suspense, useCallback } from 'react';
+import { Suspense, useCallback, useState } from 'react';
 import { Kartlegging } from '@/app/(forside)/components/kartlegging';
 import { useModiaContext } from '@/contexts/modia-context';
 import { useServerData } from '@/hooks/useServerData';
@@ -22,59 +22,67 @@ type ForsideWrapperProps = {
     initialContext: { fnr: string | null; enhetId: string | null };
 };
 
-function ForsideWrapper({
+function KartleggingInnhold({
+    initialKartleggingPromise,
+    initialContext,
+    refreshOnMount,
+}: Pick<ForsideWrapperProps, 'initialKartleggingPromise' | 'initialContext'> & { refreshOnMount: boolean }) {
+    const { fnr, enhetId } = useModiaContext();
+    const fetchKartlegging = useCallback(
+        (_fnr: string | null, enhetsId: string | null) => getKartlegging(enhetsId),
+        [],
+    );
+    const { dataPromise: kartleggingPromise, dataContext: kartleggingContext } = useServerData(
+        initialKartleggingPromise,
+        fetchKartlegging,
+        initialContext,
+        refreshOnMount,
+    );
+    if (kartleggingContext.fnr !== fnr || kartleggingContext.enhetId !== enhetId) {
+        return <Loader title='Henter kartlegging' />;
+    }
+    return (
+        <Suspense fallback={<Loader title='Henter kartlegging' />}>
+            <Kartlegging kartleggingPromise={kartleggingPromise} />
+        </Suspense>
+    );
+}
+
+function PersonInnhold({
     initialSnapshotPromise,
     initialBekreftelserPromise,
-    initialKartleggingPromise,
     initialKartleggingEnkeltpersonPromise,
     initialContext,
-}: ForsideWrapperProps) {
+    refreshOnMount,
+}: Omit<ForsideWrapperProps, 'initialKartleggingPromise'> & { refreshOnMount: boolean }) {
     const { fnr, enhetId } = useModiaContext();
     const { dataPromise, dataContext: snapshotContext } = useServerData(
         initialSnapshotPromise,
         getSnapshot,
         initialContext,
+        refreshOnMount,
     );
     const { dataPromise: bekreftelserPromise, dataContext: bekreftelserContext } = useServerData(
         initialBekreftelserPromise,
         getBekreftelser,
         initialContext,
+        refreshOnMount,
     );
-    const fetchKartlegging = useCallback(
-        (_fnr: string | null, enhetsId: string | null) => getKartlegging(enhetsId),
-        [],
-    );
-
     const fetchKartleggingEnkeltperson = useCallback((fnr: string | null) => getKartleggingForEnkeltperson(fnr), []);
-
-    const { dataPromise: kartleggingPromise, dataContext: kartleggingContext } = useServerData(
-        initialKartleggingPromise,
-        fetchKartlegging,
-        initialContext,
-    );
     const { dataPromise: kartleggingEnkeltpersonPromise, dataContext: enkeltpersonContext } = useServerData(
         initialKartleggingEnkeltpersonPromise,
         fetchKartleggingEnkeltperson,
         initialContext,
+        refreshOnMount,
     );
 
-    const gjelderValgtKontekst = (context: { fnr: string | null; enhetId: string | null }) =>
-        context.fnr === fnr && context.enhetId === enhetId;
-
-    if (!fnr) {
-        return gjelderValgtKontekst(kartleggingContext) ? (
-            <Suspense fallback={<Loader title='Henter kartlegging' />}>
-                <Kartlegging kartleggingPromise={kartleggingPromise} />
-            </Suspense>
-        ) : (
-            <Loader title='Henter kartlegging' />
-        );
-    }
-
     if (
-        !gjelderValgtKontekst(snapshotContext) ||
-        !gjelderValgtKontekst(bekreftelserContext) ||
-        !gjelderValgtKontekst(enkeltpersonContext)
+        snapshotContext.fnr !== fnr ||
+        snapshotContext.enhetId !== enhetId ||
+        bekreftelserContext.fnr !== fnr ||
+        bekreftelserContext.enhetId !== enhetId ||
+        enkeltpersonContext.fnr !== fnr ||
+        enkeltpersonContext.enhetId !== enhetId
     ) {
         return <Loader title='Henter informasjon' />;
     }
@@ -89,6 +97,23 @@ function ForsideWrapper({
                 />
             </Suspense>
         </div>
+    );
+}
+
+function ForsideWrapper(props: ForsideWrapperProps) {
+    const { fnr, enhetId } = useModiaContext();
+    const contextKey = JSON.stringify([fnr, enhetId]);
+    const [contextState, setContextState] = useState({ key: contextKey, changed: false });
+
+    if (contextState.key !== contextKey) {
+        setContextState({ key: contextKey, changed: true });
+        return <Loader title={fnr ? 'Henter informasjon' : 'Henter kartlegging'} />;
+    }
+
+    return fnr ? (
+        <PersonInnhold key={contextKey} {...props} refreshOnMount={contextState.changed} />
+    ) : (
+        <KartleggingInnhold key={contextKey} {...props} refreshOnMount={contextState.changed} />
     );
 }
 

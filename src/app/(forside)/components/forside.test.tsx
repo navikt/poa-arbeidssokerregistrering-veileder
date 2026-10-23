@@ -110,6 +110,26 @@ const emptyKartleggingEnkeltperson: KartleggingApiEnkeltpersonKompaktResult = {
     arbeidssoekere: [],
 };
 
+const kartleggingMedNavn = (fornavn: string, etternavn: string): KartleggingApiKompaktResult => ({
+    arbeidssoekere: [
+        {
+            id: 1,
+            aktorId: '123',
+            identitetsnummer: '12345678901',
+            fornavn,
+            etternavn,
+            ledighetsperioder: [
+                {
+                    periodeStartet: '2026-05-28T00:00:00Z',
+                    ledigSiden: '2026-05-28T00:00:00Z',
+                    bekreftelsePaaVegneAv: [],
+                },
+            ],
+            kontortilknytninger: [],
+        },
+    ],
+});
+
 // ———————————————————————————————————————————————————
 // Hjelpere
 //
@@ -375,6 +395,9 @@ function ByttKontekst() {
     const { setFnr, setEnhetId } = useModiaContext();
     return (
         <>
+            <button type='button' onClick={() => setFnr('11111111111')}>
+                Velg første person
+            </button>
             <button type='button' onClick={() => setFnr('22222222222')}>
                 Velg ny person
             </button>
@@ -473,5 +496,88 @@ describe('ForsideWrapper ved endring av ident og enhet', () => {
 
         await act(async () => nesteListe.resolve(kartlegging));
         expect(screen.getByText('Ingen tilgjengelig data')).toBeDefined();
+    });
+
+    it('viser ikke initial enhetsliste som persondata når provider har valgt ident, men initialContext mangler ident', async () => {
+        const initialEnhetsliste = kartleggingMedNavn('IKKE', 'PERSONDATA');
+        vi.mocked(getSnapshot).mockResolvedValue(nullSnapshot);
+        vi.mocked(getBekreftelser).mockResolvedValue(emptyBekreftelser);
+        vi.mocked(getKartleggingForEnkeltperson).mockResolvedValue(emptyKartleggingEnkeltperson);
+
+        await act(async () => {
+            render(
+                <ModiaProvider initFnr='11111111111' initEnhetId='0219'>
+                    <Suspense fallback={<div>Laster første visning</div>}>
+                        <ForsideWrapper
+                            initialSnapshotPromise={Promise.resolve(nullSnapshot)}
+                            initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
+                            initialKartleggingPromise={Promise.resolve(initialEnhetsliste)}
+                            initialKartleggingEnkeltpersonPromise={Promise.resolve(null)}
+                            initialContext={{ fnr: null, enhetId: '0219' }}
+                        />
+                    </Suspense>
+                </ModiaProvider>,
+            );
+        });
+
+        expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
+        expect(screen.queryByRole('button', { name: 'Ikke Persondata' })).toBeNull();
+        expect(screen.queryByText(/Arbeidssøkere/)).toBeNull();
+    });
+
+    it('viser ikke svar for B etter raskt bytte A → B → A', async () => {
+        const svarForB = utsattSvar<SnapshotResult>();
+        const sisteSvarForA = utsattSvar<SnapshotResult>();
+        vi.mocked(getSnapshot).mockImplementation((fnr) =>
+            fnr === '22222222222' ? svarForB.promise : sisteSvarForA.promise,
+        );
+        vi.mocked(getBekreftelser).mockResolvedValue(emptyBekreftelser);
+        vi.mocked(getKartleggingForEnkeltperson).mockResolvedValue(emptyKartleggingEnkeltperson);
+
+        await visWrapper('11111111111', '0219');
+        expect(screen.getByText('Personen er registrert som arbeidssøker')).toBeDefined();
+
+        await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Velg ny person' })));
+        expect(screen.queryByText('Personen er registrert som arbeidssøker')).toBeNull();
+
+        await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Velg første person' })));
+        expect(screen.queryByText('Personen er registrert som arbeidssøker')).toBeNull();
+        expect(screen.getByTitle('Henter informasjon')).toBeDefined();
+
+        await act(async () => svarForB.resolve(happySnapshotMedPaagaaende));
+        expect(screen.queryByText('Personen er registrert som arbeidssøker')).toBeNull();
+        expect(screen.getByTitle('Henter informasjon')).toBeDefined();
+
+        await act(async () => {
+            sisteSvarForA.resolve(nullSnapshot);
+        });
+        expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
+        expect(screen.queryByText('Personen er registrert som arbeidssøker')).toBeNull();
+    });
+
+    it('viser bare siste enhetsliste når ident fjernes og enheten byttes mens første liste lastes', async () => {
+        const listeForGammelEnhet = utsattSvar<KartleggingApiKompaktResult | null>();
+        const listeForNyEnhet = utsattSvar<KartleggingApiKompaktResult | null>();
+        vi.mocked(getKartlegging)
+            .mockReturnValueOnce(listeForGammelEnhet.promise)
+            .mockReturnValueOnce(listeForNyEnhet.promise);
+        vi.mocked(getSnapshot).mockResolvedValue(nullSnapshot);
+        vi.mocked(getBekreftelser).mockResolvedValue(emptyBekreftelser);
+        vi.mocked(getKartleggingForEnkeltperson).mockResolvedValue(null);
+
+        await visWrapper('11111111111', '0219');
+        await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Fjern person' })));
+        expect(screen.getByTitle('Henter kartlegging')).toBeDefined();
+
+        await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Bytt enhet' })));
+        expect(screen.getByTitle('Henter kartlegging')).toBeDefined();
+
+        await act(async () => listeForGammelEnhet.resolve(kartleggingMedNavn('GAMMEL', 'ENHET')));
+        expect(screen.queryByRole('button', { name: 'Gammel Enhet' })).toBeNull();
+        expect(screen.getByTitle('Henter kartlegging')).toBeDefined();
+
+        await act(async () => listeForNyEnhet.resolve(kartleggingMedNavn('SISTE', 'ENHET')));
+        expect(screen.getByRole('button', { name: 'Siste Enhet' })).toBeDefined();
+        expect(screen.queryByRole('button', { name: 'Gammel Enhet' })).toBeNull();
     });
 });
