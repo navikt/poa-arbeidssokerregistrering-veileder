@@ -33,15 +33,22 @@ vi.mock('@/lib/api/bekreftelse', () => ({
 vi.mock('@/lib/api/kartlegging', () => ({
     getKartlegging: vi.fn(),
 }));
+vi.mock('@/lib/api/kartlegging-enkeltperson', () => ({
+    getKartleggingForEnkeltperson: vi.fn(),
+}));
 
 import type { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { act, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
-import { ModiaProvider } from '@/contexts/modia-context';
+import { ModiaProvider, useModiaContext } from '@/contexts/modia-context';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
+import { getBekreftelser } from '@/lib/api/bekreftelse';
 import type { KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
+import { getKartlegging } from '@/lib/api/kartlegging';
 import type { KartleggingApiEnkeltpersonKompaktResult } from '@/lib/api/kartlegging-enkeltperson';
+import { getKartleggingForEnkeltperson } from '@/lib/api/kartlegging-enkeltperson';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
+import { getSnapshot } from '@/lib/api/oppslag-snapshot';
 import bekreftelserMock from '@/lib/mocks/bekreftelser.json';
 import snapshotMock from '@/lib/mocks/snapshot.json';
 import snapshotMockAvsluttet from '@/lib/mocks/snapshot-med-avsluttet.json';
@@ -135,6 +142,7 @@ async function renderForsideWrapper(snapshotResult: SnapshotResult, bekreftelser
                         initialBekreftelserPromise={Promise.resolve(bekreftelserResult)}
                         initialKartleggingPromise={Promise.resolve(null)}
                         initialKartleggingEnkeltpersonPromise={Promise.resolve(emptyKartleggingEnkeltperson)}
+                        initialContext={{ fnr: '12345678910', enhetId: '0219' }}
                     />
                 </Suspense>
             </ModiaProvider>,
@@ -334,6 +342,7 @@ describe('ForsideWrapper', () => {
                             initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
                             initialKartleggingPromise={Promise.resolve(kartleggingResult)}
                             initialKartleggingEnkeltpersonPromise={Promise.resolve(null)}
+                            initialContext={{ fnr: null, enhetId: '4154' }}
                         />
                     </Suspense>
                 </ModiaProvider>,
@@ -352,11 +361,117 @@ describe('ForsideWrapper', () => {
                             initialBekreftelserPromise={Promise.resolve(emptyBekreftelser)}
                             initialKartleggingPromise={Promise.resolve({ manglerTilgang: true, arbeidssoekere: [] })}
                             initialKartleggingEnkeltpersonPromise={Promise.resolve(null)}
+                            initialContext={{ fnr: null, enhetId: '0219' }}
                         />
                     </Suspense>
                 </ModiaProvider>,
             );
         });
         expect(screen.getByText('Fødselsnummer mangler')).toBeDefined();
+    });
+});
+
+function ByttKontekst() {
+    const { setFnr, setEnhetId } = useModiaContext();
+    return (
+        <>
+            <button type='button' onClick={() => setFnr('22222222222')}>
+                Velg ny person
+            </button>
+            <button type='button' onClick={() => setFnr(null)}>
+                Fjern person
+            </button>
+            <button type='button' onClick={() => setEnhetId('4154')}>
+                Bytt enhet
+            </button>
+        </>
+    );
+}
+
+function utsattSvar<T>() {
+    let resolve!: (value: T) => void;
+    const promise = new Promise<T>((r) => {
+        resolve = r;
+    });
+    return { promise, resolve };
+}
+
+describe('ForsideWrapper ved endring av ident og enhet', () => {
+    const kartlegging: KartleggingApiKompaktResult = { arbeidssoekere: [] };
+
+    beforeEach(() => {
+        vi.mocked(getSnapshot).mockReset();
+        vi.mocked(getBekreftelser).mockReset();
+        vi.mocked(getKartlegging).mockReset();
+        vi.mocked(getKartleggingForEnkeltperson).mockReset();
+    });
+
+    async function visWrapper(fnr: string | null, enhetId: string | null) {
+        await act(async () => {
+            render(
+                <ModiaProvider initFnr={fnr} initEnhetId={enhetId}>
+                    <ByttKontekst />
+                    <Suspense fallback={<div>Laster første visning</div>}>
+                        <ForsideWrapper
+                            initialSnapshotPromise={Promise.resolve(fnr ? happySnapshotMedPaagaaende : nullSnapshot)}
+                            initialBekreftelserPromise={Promise.resolve(happyBekreftelser)}
+                            initialKartleggingPromise={Promise.resolve(fnr ? null : kartlegging)}
+                            initialKartleggingEnkeltpersonPromise={Promise.resolve(
+                                fnr ? emptyKartleggingEnkeltperson : null,
+                            )}
+                            initialContext={{ fnr, enhetId }}
+                        />
+                    </Suspense>
+                </ModiaProvider>,
+            );
+        });
+    }
+
+    it('skjuler persondata til alle svar for ny ident er klare', async () => {
+        const nySnapshot = utsattSvar<SnapshotResult>();
+        const nyeBekreftelser = utsattSvar<BekreftelseApiResult>();
+        const nyKartlegging = utsattSvar<KartleggingApiEnkeltpersonKompaktResult | null>();
+        vi.mocked(getSnapshot).mockReturnValue(nySnapshot.promise);
+        vi.mocked(getBekreftelser).mockReturnValue(nyeBekreftelser.promise);
+        vi.mocked(getKartleggingForEnkeltperson).mockReturnValue(nyKartlegging.promise);
+
+        await visWrapper('11111111111', '0219');
+        expect(screen.getByText('Personen er registrert som arbeidssøker')).toBeDefined();
+
+        await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Velg ny person' })));
+        expect(screen.queryByText('Personen er registrert som arbeidssøker')).toBeNull();
+        expect(screen.getByTitle('Henter informasjon')).toBeDefined();
+
+        await act(async () => {
+            nySnapshot.resolve(nullSnapshot);
+            nyeBekreftelser.resolve(emptyBekreftelser);
+            nyKartlegging.resolve(emptyKartleggingEnkeltperson);
+        });
+        expect(screen.getByText('Personen er ikke registrert som arbeidssøker')).toBeDefined();
+    });
+
+    it('viser ikke gammel person eller gammel enhetsliste når ident fjernes', async () => {
+        const nyListe = utsattSvar<KartleggingApiKompaktResult | null>();
+        vi.mocked(getKartlegging).mockReturnValue(nyListe.promise);
+        vi.mocked(getSnapshot).mockResolvedValue(nullSnapshot);
+        vi.mocked(getBekreftelser).mockResolvedValue(emptyBekreftelser);
+        vi.mocked(getKartleggingForEnkeltperson).mockResolvedValue(null);
+
+        await visWrapper('11111111111', '0219');
+        await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Fjern person' })));
+        expect(screen.queryByText('Personen er registrert som arbeidssøker')).toBeNull();
+        expect(screen.getByTitle('Henter kartlegging')).toBeDefined();
+
+        await act(async () => nyListe.resolve(kartlegging));
+        expect(screen.getByText('Ingen tilgjengelig data')).toBeDefined();
+
+        const nesteListe = utsattSvar<KartleggingApiKompaktResult | null>();
+        vi.mocked(getKartlegging).mockReturnValue(nesteListe.promise);
+        await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Bytt enhet' })));
+        expect(screen.queryByText('Ingen tilgjengelig data')).toBeNull();
+        expect(screen.getByTitle('Henter kartlegging')).toBeDefined();
+
+        await act(async () => nesteListe.resolve(kartlegging));
+        expect(screen.getByText('Ingen tilgjengelig data')).toBeDefined();
     });
 });

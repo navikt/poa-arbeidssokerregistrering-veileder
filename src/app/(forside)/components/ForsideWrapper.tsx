@@ -19,6 +19,7 @@ type ForsideWrapperProps = {
     initialBekreftelserPromise: Promise<BekreftelseApiResult>;
     initialKartleggingPromise: Promise<KartleggingApiKompaktResult | null>;
     initialKartleggingEnkeltpersonPromise: Promise<KartleggingApiEnkeltpersonKompaktResult | null>;
+    initialContext: { fnr: string | null; enhetId: string | null };
 };
 
 function ForsideWrapper({
@@ -26,12 +27,18 @@ function ForsideWrapper({
     initialBekreftelserPromise,
     initialKartleggingPromise,
     initialKartleggingEnkeltpersonPromise,
+    initialContext,
 }: ForsideWrapperProps) {
-    const { fnr } = useModiaContext();
-    const { dataPromise, isPending: snapshotIsPending } = useServerData(initialSnapshotPromise, getSnapshot);
-    const { dataPromise: bekreftelserPromise, isPending: bekreftelserIsPending } = useServerData(
+    const { fnr, enhetId } = useModiaContext();
+    const { dataPromise, dataContext: snapshotContext } = useServerData(
+        initialSnapshotPromise,
+        getSnapshot,
+        initialContext,
+    );
+    const { dataPromise: bekreftelserPromise, dataContext: bekreftelserContext } = useServerData(
         initialBekreftelserPromise,
         getBekreftelser,
+        initialContext,
     );
     const fetchKartlegging = useCallback(
         (_fnr: string | null, enhetsId: string | null) => getKartlegging(enhetsId),
@@ -40,20 +47,41 @@ function ForsideWrapper({
 
     const fetchKartleggingEnkeltperson = useCallback((fnr: string | null) => getKartleggingForEnkeltperson(fnr), []);
 
-    const { dataPromise: kartleggingPromise } = useServerData(initialKartleggingPromise, fetchKartlegging);
-    const { dataPromise: kartleggingEnkeltpersonPromise } = useServerData(
+    const { dataPromise: kartleggingPromise, dataContext: kartleggingContext } = useServerData(
+        initialKartleggingPromise,
+        fetchKartlegging,
+        initialContext,
+    );
+    const { dataPromise: kartleggingEnkeltpersonPromise, dataContext: enkeltpersonContext } = useServerData(
         initialKartleggingEnkeltpersonPromise,
         fetchKartleggingEnkeltperson,
+        initialContext,
     );
 
+    const gjelderValgtKontekst = (context: { fnr: string | null; enhetId: string | null }) =>
+        context.fnr === fnr && context.enhetId === enhetId;
+
     if (!fnr) {
-        return <Kartlegging kartleggingPromise={kartleggingPromise} />;
+        return gjelderValgtKontekst(kartleggingContext) ? (
+            <Suspense fallback={<Loader title='Henter kartlegging' />}>
+                <Kartlegging kartleggingPromise={kartleggingPromise} />
+            </Suspense>
+        ) : (
+            <Loader title='Henter kartlegging' />
+        );
+    }
+
+    if (
+        !gjelderValgtKontekst(snapshotContext) ||
+        !gjelderValgtKontekst(bekreftelserContext) ||
+        !gjelderValgtKontekst(enkeltpersonContext)
+    ) {
+        return <Loader title='Henter informasjon' />;
     }
 
     return (
         <div>
-            <Suspense fallback={<Loader />}>
-                {(snapshotIsPending || bekreftelserIsPending) && <Loader size='medium' title='Henter informasjon' />}
+            <Suspense fallback={<Loader title='Henter informasjon' />}>
                 <Forside
                     snapshotPromise={dataPromise}
                     bekreftelserPromise={bekreftelserPromise}

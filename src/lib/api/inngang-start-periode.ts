@@ -76,8 +76,8 @@ async function startPeriode(
             // Hvis feil ikke er 403 eller pga regler fra aarsakTilAvvisning
             logger.error({
                 message: 'startPeriode feilet',
-                feilKode: feilData?.feilKode
-            })
+                feilKode: feilData?.feilKode,
+            });
         }
 
         const errorMessage = feilData?.melding ? `${feilData.feilKode}: ${feilData.melding}` : error.message;
