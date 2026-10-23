@@ -64,12 +64,18 @@ async function registrerOpplysninger(
     if (!result.ok) {
         const { error, status } = result;
         if (status === 403) {
+            logger.warn({
+                message: 'registrerOpplysninger feilet (403)',
+                event: 'registrer_opplysninger_feilet',
+            });
             return tilgangNektetError();
+        } else {
+            logger.error({
+                message: 'registrerOpplysninger feilet',
+                feilKode: status,
+            });
         }
-        logger.warn({
-            message: 'registrerOpplysninger feilet',
-            event: 'registrer_opplysninger_feilet',
-        });
+        
         return { ok: false, error: error.message };
     }
 
