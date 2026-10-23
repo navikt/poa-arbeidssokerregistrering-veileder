@@ -63,6 +63,7 @@ Appen gir en veileder mulighet til å administrere en persons arbeidssøkerstatu
 **Dersom personen allerede har en pågående periode, kan veileder:**
 
 - Se opplysninger og status for perioden
+- Se data fra kartlegging
 - Endre opplysninger for personen
 - Bekrefte arbeidssøkerperioden på vegne av personen
 - Se tidslinje og historikk for personen
