@@ -38,6 +38,7 @@ export default async function ForsidePage() {
                     initialBekreftelserPromise={bekreftelserPromise}
                     initialKartleggingPromise={kartleggingPromise}
                     initialKartleggingEnkeltpersonPromise={kartleggingEnkeltpersonPromise}
+                    initialContext={{ fnr: modiaContext.fnr, enhetId: modiaContext.enhetId }}
                 />
             </Suspense>
             <DemoPanel />

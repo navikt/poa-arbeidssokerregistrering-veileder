@@ -75,7 +75,7 @@ async function registrerOpplysninger(
                 feilKode: status,
             });
         }
-        
+
         return { ok: false, error: error.message };
     }
 

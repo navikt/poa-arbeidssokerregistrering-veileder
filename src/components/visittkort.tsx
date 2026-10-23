@@ -15,13 +15,15 @@ const Visittkort: React.FC<VisittkortProps> = (props) => {
     }
 
     return (
-        <ao-visittkort
-            enhet={modia.enhetId}
-            fnr={modia.fnr}
-            tilbakeTilFlate={'veilarbportefoljeflatefs'}
-            visVeilederVerktoy={'false'}
-            key={modia.fnr}
-        ></ao-visittkort>
+        <div style={{ minHeight: '8rem' }}>
+            <ao-visittkort
+                enhet={modia.enhetId}
+                fnr={modia.fnr}
+                tilbakeTilFlate={'veilarbportefoljeflatefs'}
+                visVeilederVerktoy={'false'}
+                key={modia.fnr}
+            ></ao-visittkort>
+        </div>
     );
 };
 
