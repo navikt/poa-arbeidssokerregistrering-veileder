@@ -37,7 +37,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "2.5.15",
-        "@chromatic-com/storybook": "5.4.0",
+        "@chromatic-com/storybook": "5.5.1",
         "@storybook/addon-docs": "10.6.3",
         "@storybook/addon-onboarding": "10.6.3",
         "@storybook/nextjs": "10.6.3",
