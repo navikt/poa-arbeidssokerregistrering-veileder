@@ -29,7 +29,7 @@
         "@navikt/next-logger": "5.0.1",
         "@navikt/oasis": "4.2.2",
         "@unleash/nextjs": "1.6.7",
-        "nanoid": "5.1.16",
+        "nanoid": "6.0.2",
         "next": "16.4.2",
         "pino": "10.4.0",
         "react": "19.3.1",
