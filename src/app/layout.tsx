@@ -18,8 +18,8 @@ const umamiTrackingId = process.env.NEXT_PUBLIC_UMAMI_TRACKING_ID;
 // Vi kan mekke en generateMetadata (next-func) som kan
 // orkestrere dette. Men har droppet pr nå.
 export const metadata: Metadata = {
-    title: 'Arbeidssøkerregistrering',
-    description: 'Skjema for arbeidssøkerregistrering',
+    title: 'Modia - Arbeidssøkerregisteret',
+    description: 'Arbeidssøkerregisteret for veiledere',
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
