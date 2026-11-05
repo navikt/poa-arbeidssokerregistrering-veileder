@@ -30,7 +30,7 @@ Listen under beskriver de første applikasjonsrettelsene, som er komponenttestet
 
 Registreringsregler, innsending, API-payloads, auth, rotlayout og CI er ikke endret av disse rettelsene. Komponenttester i jsdom beviser ikke at reflow, skjermleseropplesning eller server-/klientsammensettingen fungerer i en ekte nettleser.
 
-Ved kontroll av demooppryddingen, før lint- og CI-endringene, bestod 390 enhets- og komponenttester og 22 hjelpetester for UU-riggen. Etter den separate lintoppryddingen består `pnpm lint` uten feil eller advarsler, og TypeScript-sjekken består. Den siste enhetstestkjøringen har 389 beståtte tester og én feil i testen av raskt person- og enhetsbytte i `forside.test.tsx`. Etter CI-endringen består alle 24 hjelpetester. `useServerData.ts` er ikke endret av lintoppryddingen eller CI-endringen, og testfeilen må følges opp separat.
+Etter en separat rettelse i `useServerData.ts` består alle 390 enhets- og komponenttester, alle 24 hjelpetester for UU-riggen og de fire testene av nettverksisoleringen. Lint og TypeScript-sjekken består også. Hooken leste tidligere kontekstverdier fra tilstanden som effekten selv oppdaterte, og disse verdiene var også effektavhengigheter. Det utløste ekstra hentinger. Initialkonteksten lagres nå i en ref, uten å endre kontrollene som hindrer at data fra forrige person eller enhet vises. Den eksisterende testen av raskt kontekstbytte er beholdt uendret og består. Nettlesertestene er ikke kjørt på nytt etter hookrettelsen.
 
 ### Funn som fortsatt må avklares
 
@@ -137,7 +137,7 @@ Test- og rapportjobbene har bare `contents: read`. Bygg og deploy beholder nødv
 
 En arvet begrensning må vurderes separat: `apply-apitoken-unleash` har fortsatt et prod-steg uten en egen main-betingelse. Jobben forsøker derfor å anvende prod-manifestet for Unleash også ved push til `dev/*`. Dette er ikke endret av testoppdelingen. Appens egen `deploy-prod` er fortsatt begrenset til `main`.
 
-Den kjente feilen i testen av raskt person- og enhetsbytte er ikke rettet av CI-endringen. Så lenge `pnpm test:ci` feiler, skal `build` og de etterfølgende deploy-jobbene stoppes. Workflowen er ikke kjørt i GitHub Actions som del av den lokale verifiseringen; første faktiske kjøring må også kontrollere tidsbruk, rapportopplasting og runnerkapasitet.
+Feilen i testen av raskt person- og enhetsbytte er rettet separat i hooken, og `pnpm test:ci` består lokalt. Bygg og deploy er fortsatt konfigurert til å stoppe hvis noen testjobb feiler. Workflowen er ikke kjørt i GitHub Actions som del av den lokale verifiseringen. Første faktiske kjøring må også kontrollere tidsbruk, rapportopplasting og runnerkapasitet.
 
 ## Testmiljø og avgrensning
 
