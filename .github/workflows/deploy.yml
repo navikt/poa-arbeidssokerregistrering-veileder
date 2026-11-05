@@ -247,7 +247,7 @@ jobs:
         permissions:
             contents: 'read'
             id-token: 'write'
-        needs: [build, apply-apitoken-unleash]
+        needs: [build, apply-apitoken-unleash-dev]
         if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
         runs-on: ubuntu-latest
         timeout-minutes: 7
@@ -268,7 +268,7 @@ jobs:
         permissions:
             contents: 'read'
             id-token: 'write'
-        needs: [build, apply-apitoken-unleash]
+        needs: [build, apply-apitoken-unleash-prod]
         if: github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
         timeout-minutes: 7
@@ -284,25 +284,41 @@ jobs:
                   RESOURCE: .nais/prod-gcp/nais.yaml
                   VAR: image=${{ needs.build.outputs.image }}
 
-    apply-apitoken-unleash:
-        name: Legger til ApiToken for Unleash
+    apply-apitoken-unleash-dev:
+        name: Legger til ApiToken for Unleash (dev)
         permissions:
             contents: 'read'
             id-token: 'write'
         runs-on: ubuntu-latest
         timeout-minutes: 7
         needs: [build]
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
         steps:
             - name: Checkout code
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
                   persist-credentials: false
-            - name: deploy to dev
+            - name: Deploy to dev
               uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
               env:
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/dev-gcp/unleash-apitoken.yaml
-            - name: deploy to prod
+
+    apply-apitoken-unleash-prod:
+        name: Legger til ApiToken for Unleash (prod)
+        permissions:
+            contents: 'read'
+            id-token: 'write'
+        runs-on: ubuntu-latest
+        timeout-minutes: 7
+        needs: [build]
+        if: github.ref == 'refs/heads/main'
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+            - name: Deploy to prod
               uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
               env:
                   CLUSTER: prod-gcp

@@ -133,9 +133,14 @@ Hvis GitHub-reglene for branchbeskyttelse viser til navnet på den gamle samlejo
 
 Byggejobben bruker egen checkout og installasjon. Bare pnpm-store mellomlagres; `.next` deles ikke fra UU-jobbene. Begge mockflaggene er eksplisitt satt til `disabled` i produksjonsbyggesteget. Dette hindrer at en mockbygget app brukes som grunnlag for publisering.
 
-Test- og rapportjobbene har bare `contents: read`. Bygg og deploy beholder nødvendige publiserings- og OIDC-rettigheter. Eksisterende branchbetingelser, deploymål og Unleash-jobbens rekkefølge er beholdt. Kjøringer for samme branch står i kø med `cancel-in-progress: false`, uten å avbryte en pågående kjøring. GitHub kan erstatte en eldre ventende kjøring med en nyere.
+Test- og rapportjobbene har bare `contents: read`. Bygg og deploy beholder nødvendige publiserings- og OIDC-rettigheter. Appens branchbetingelser og deploymål er beholdt. Kjøringer for samme branch står i kø med `cancel-in-progress: false`, uten å avbryte en pågående kjøring. GitHub kan erstatte en eldre ventende kjøring med en nyere.
 
-En arvet begrensning må vurderes separat: `apply-apitoken-unleash` har fortsatt et prod-steg uten en egen main-betingelse. Jobben forsøker derfor å anvende prod-manifestet for Unleash også ved push til `dev/*`. Dette er ikke endret av testoppdelingen. Appens egen `deploy-prod` er fortsatt begrenset til `main`.
+Token-jobbene for Unleash er delt per miljø. Begge krever et vellykket `build`:
+
+- `apply-apitoken-unleash-dev` har samme branchbetingelse som `deploy-dev` og bruker bare dev-manifestet. `deploy-dev` avhenger av `build` og denne token-jobben.
+- `apply-apitoken-unleash-prod` har samme `main`-betingelse som `deploy-prod` og bruker bare prod-manifestet. `deploy-prod` avhenger av `build` og denne token-jobben.
+
+På `dev/*` hoppes begge prod-jobbene over, uten å blokkere dev. På `main` er miljøløpene uavhengige: en feil i dev-token-jobben blokkerer bare dev-deploy, og en feil i prod-token-jobben blokkerer bare prod-deploy. Mislykket bygg blokkerer begge miljøene. Dette erstatter den tidligere samlejobben som også forsøkte å anvende prod-manifestet fra dev-brancher.
 
 Feilen i testen av raskt person- og enhetsbytte er rettet separat i hooken, og `pnpm test:ci` består lokalt. Bygg og deploy er fortsatt konfigurert til å stoppe hvis noen testjobb feiler. Workflowen er ikke kjørt i GitHub Actions som del av den lokale verifiseringen. Første faktiske kjøring må også kontrollere tidsbruk, rapportopplasting og runnerkapasitet.
 
