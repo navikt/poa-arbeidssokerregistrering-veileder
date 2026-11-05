@@ -51,17 +51,6 @@ export default defineConfig({
                 NODE_OPTIONS: `--import="${networkInterceptor}"`,
             },
         },
-        {
-            command:
-                'pnpm exec storybook dev --ci --no-open --disable-telemetry --host 127.0.0.1 --port 6106 --config-dir .storybook-uu',
-            url: 'http://127.0.0.1:6106/index.json',
-            reuseExistingServer: false,
-            timeout: 180_000,
-            env: {
-                STORYBOOK_DISABLE_TELEMETRY: '1',
-                NEXT_TELEMETRY_DISABLED: '1',
-            },
-        },
     ],
 });
 

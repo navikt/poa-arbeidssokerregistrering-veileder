@@ -1,6 +1,6 @@
 # UU-testing
 
-UU-testene skal finne tilgjengelighetsfeil før endringer tas i bruk. Testene kjører lokalt med Playwright og axe. De er foreløpig ikke koblet til CI. Eksisterende Vitest-tester og CI-kommandoer beholdes.
+UU-testene skal finne tilgjengelighetsfeil før endringer tas i bruk. Testene kjører lokalt med Playwright og axe. CI-oppsettet er konfigurert med en obligatorisk testgate før bygg og publisering, men den nye workflowen er ikke kjørt i GitHub Actions ennå. Eksisterende Vitest-tester beholdes.
 
 En grønn kjøring betyr at de automatiske kontrollene består i de testede tilstandene. Den betyr ikke at løsningen oppfyller alle WCAG-krav. Manuell testing og vurdering av brukerflytene er fortsatt nødvendig.
 
@@ -8,7 +8,7 @@ En grønn kjøring betyr at de automatiske kontrollene består i de testede tils
 
 Demokomponentene er fjernet fra appen. Testoppsettet har derfor ikke lenger en hjelper som skjuler dem, eller tester av denne hjelperen. Den særskilte nettlesertesten av demohurtigvalgene er også fjernet. Mockmodus og testene av appens funksjoner er beholdt.
 
-Etter oppryddingen registreres 52 nettlesertester og 22 hjelpetester, mot tidligere 53 og 29. Nedgangen skyldes at én nettlesertest av demohurtigvalgene og sju tester av den slettede hjelperen er fjernet, ikke at UU-kravene til appen er svekket. Testlisting er ikke en nettleserkjøring og sier ikke hvilke tester som består.
+Etter demooppryddingen ble det registrert 52 nettlesertester og 22 hjelpetester, mot tidligere 53 og 29. Nedgangen skyldtes at én nettlesertest av demohurtigvalgene og sju tester av den slettede hjelperen ble fjernet, ikke at UU-kravene til appen ble svekket. CI-endringen legger til to kontroller av Playwright-oppsettet, slik at det nå er 24 hjelpetester. Testlisting er ikke en nettleserkjøring og sier ikke hvilke tester som består.
 
 I en tidligere nettleserkjøring, før denne oppryddingen, bestod 50 av 53 tester. De tre gjenværende feilene gjaldt combobox-listens tilgjengelige navn og fokus etter navigasjon til sidene for avsluttet og slettet periode. Dette var før de siste rettelsene av listeboksnavn og kvitteringsfokus. Disse rettelsene er implementert og komponenttestet, men må verifiseres i en ny nettleserkjøring.
 
@@ -30,7 +30,7 @@ Listen under beskriver de første applikasjonsrettelsene, som er komponenttestet
 
 Registreringsregler, innsending, API-payloads, auth, rotlayout og CI er ikke endret av disse rettelsene. Komponenttester i jsdom beviser ikke at reflow, skjermleseropplesning eller server-/klientsammensettingen fungerer i en ekte nettleser.
 
-Ved kontroll av demooppryddingen bestod 390 enhets- og komponenttester og 22 hjelpetester for UU-riggen. Etter den separate lintoppryddingen består `pnpm lint` uten feil eller advarsler, og TypeScript-sjekken består. Den siste enhetstestkjøringen har 389 beståtte tester og én feil i testen av raskt person- og enhetsbytte i `forside.test.tsx`. Hjelpetestene består fortsatt. `useServerData.ts` er ikke endret av lintoppryddingen, og testfeilen må følges opp separat.
+Ved kontroll av demooppryddingen, før lint- og CI-endringene, bestod 390 enhets- og komponenttester og 22 hjelpetester for UU-riggen. Etter den separate lintoppryddingen består `pnpm lint` uten feil eller advarsler, og TypeScript-sjekken består. Den siste enhetstestkjøringen har 389 beståtte tester og én feil i testen av raskt person- og enhetsbytte i `forside.test.tsx`. Etter CI-endringen består alle 24 hjelpetester. `useServerData.ts` er ikke endret av lintoppryddingen eller CI-endringen, og testfeilen må følges opp separat.
 
 ### Funn som fortsatt må avklares
 
@@ -56,7 +56,7 @@ pnpm exec playwright install chromium
 pnpm test:uu
 ```
 
-Testene starter sine egne servere på `127.0.0.1:3100` (Next.js) og `127.0.0.1:6106` (isolert Storybook). Storybook-serveren brukes foreløpig ikke av noen implementert test. Portene må være ledige. Testene gjenbruker ikke en app du allerede har startet. Første kjøring bruker tid på kompilering.
+Testene starter sin egen Next.js-server på `127.0.0.1:3100`. Porten må være ledig. Testene gjenbruker ikke en app du allerede har startet. Første kjøring bruker tid på kompilering. Storybook startes ikke av UU-riggen, siden ingen av de implementerte nettlesertestene bruker den.
 
 ```bash
 # Vis hvilke tester som finnes, uten å starte servere eller nettleser.
@@ -87,6 +87,58 @@ UU_ALL_BROWSERS=1 pnpm test:uu
 
 Playwright WebKit erstatter ikke manuell testing i Safari med VoiceOver. Playwright Chromium erstatter heller ikke NVDA i et faktisk Windows-oppsett.
 
+## CI-kjøring
+
+Workflowen i `.github/workflows/deploy.yml` deler test og produksjonsbygg i separate jobber:
+
+```text
+test ────────────────┐
+                    ├──> build ──> eksisterende deploy-jobber
+uu-test (4 shards) ──┘
+       └───────────────> uu-report
+```
+
+`test` kjører lint, TypeScript, hjelpetestene for UU-riggen, nettverksisoleringens tester og den ordinære Vitest-suiten. Før typesjekken kjøres `pnpm exec next typegen`, slik at en ren checkout har `next-env.d.ts` og genererte rutetyper uten å bygge appen. `uu-test` kjører fire shards parallelt, med to workers per shard og bare Chromium. Til sammen kan åtte UU-workers kjøre samtidig, fordelt på fire runners. `fail-fast: false` gjør at en feil i én shard ikke avbryter de andre.
+
+Hver shard installerer Chromium med Linux-avhengigheter og kjører denne kommandoen med sitt eget shardnummer:
+
+```bash
+pnpm exec playwright install --with-deps chromium
+pnpm test:uu --project=chromium --shard=1/4 --workers=2 --fully-parallel --forbid-only --global-timeout=900000 --reporter=line,blob
+```
+
+`--fully-parallel` gjør at Playwright fordeler enkelttester, ikke bare hele filer, mellom shardene. Lokal testlisting med `--list` viste 13 tester i hver shard, med alle 52 tester dekket nøyaktig én gang. Dette er kontroll av oppdelingen, ikke en måling av kjøretid eller en bekreftelse på at nettlesertestene består. Tester med mange steg kan ta lengre tid enn andre, selv om antallet er likt.
+
+Lokal standard er fortsatt én worker og `fullyParallel: false`. CI overstyrer dette med kommandolinjeflagg. Ingen tester har fått ekstra retries. `--forbid-only` feiler kjøringen hvis noen har latt `test.only` ligge igjen. Playwrights globale tidsgrense er 15 minutter per shard; jobbens grense er 20 minutter for å gi rom for oppsett og rapportopplasting.
+
+### Rapporter og feil
+
+Hver shard laster opp `blob-report/` som `uu-blob-1` til `uu-blob-4`, også når tester feiler, så lenge kjøringen ikke er avbrutt. Ved ny kjøring av en shard erstattes dens tidligere artifact i samme workflowkjøring.
+
+`uu-report` venter på UU-matrisen og forsøker å samle rapportene selv om tester feiler. Jobben krever nøyaktig fire blob-rapporter før den bygger én HTML-rapport. Mangler en rapport, feiler rapportjobben i stedet for å presentere en delrapport som fullstendig. Blob-rapporter fra de ferdige shardene kan fortsatt lastes ned enkeltvis.
+
+HTML-rapporten lastes opp som `uu-report-<run_attempt>`. Både blob-rapporter og HTML-rapport lagres i sju dager. Last ned og pakk ut HTML-artifacten, og åpne den med:
+
+```bash
+pnpm exec playwright show-report <mappe-med-utpakket-rapport>
+```
+
+Repoet er offentlig. Rapporter og traces kan inneholde DOM, skjermbilder og nettverkstrafikk, og kan lastes ned av andre innloggede GitHub-brukere. Ved innføringen av CI-oppsettet bekreftet utvikleren at testdataene er fiktive og kan lagres som offentlige GitHub-artifacts i sju dager. Bruk aldri ekte personopplysninger eller tilgangstokener i disse testene. `READER_TOKEN` er bare tilgjengelig under installasjon av pakker, ikke i UU-teststeget eller testserveren. Rapportene publiseres ikke til Nav CDN eller GitHub Pages.
+
+### Testgate og produksjonsbygg
+
+`build` har `needs: [test, uu-test]`. Vanlige tester og alle fire UU-shards må bestå før appen bygges eller filer publiseres til CDN og Docker-registeret. Rapportjobben kan ikke gjøre feilede tester grønne, siden bygg avhenger av selve testjobbene og ikke rapportjobben.
+
+Hvis GitHub-reglene for branchbeskyttelse viser til navnet på den gamle samlejobben, må de gjennomgås ved innføringen. Jobbnavnene er endret, og eventuelle påkrevde statuskontroller må omfatte både ordinære tester og UU-testene. Repoets innstillinger endres ikke av workflowfilen.
+
+Byggejobben bruker egen checkout og installasjon. Bare pnpm-store mellomlagres; `.next` deles ikke fra UU-jobbene. Begge mockflaggene er eksplisitt satt til `disabled` i produksjonsbyggesteget. Dette hindrer at en mockbygget app brukes som grunnlag for publisering.
+
+Test- og rapportjobbene har bare `contents: read`. Bygg og deploy beholder nødvendige publiserings- og OIDC-rettigheter. Eksisterende branchbetingelser, deploymål og Unleash-jobbens rekkefølge er beholdt. Kjøringer for samme branch står i kø med `cancel-in-progress: false`, uten å avbryte en pågående kjøring. GitHub kan erstatte en eldre ventende kjøring med en nyere.
+
+En arvet begrensning må vurderes separat: `apply-apitoken-unleash` har fortsatt et prod-steg uten en egen main-betingelse. Jobben forsøker derfor å anvende prod-manifestet for Unleash også ved push til `dev/*`. Dette er ikke endret av testoppdelingen. Appens egen `deploy-prod` er fortsatt begrenset til `main`.
+
+Den kjente feilen i testen av raskt person- og enhetsbytte er ikke rettet av CI-endringen. Så lenge `pnpm test:ci` feiler, skal `build` og de etterfølgende deploy-jobbene stoppes. Workflowen er ikke kjørt i GitHub Actions som del av den lokale verifiseringen; første faktiske kjøring må også kontrollere tidsbruk, rapportopplasting og runnerkapasitet.
+
 ## Testmiljø og avgrensning
 
 Testene bruker ekte applikasjonskomponenter, ikke erstatninger for skjemafelt eller Aksel-komponenter.
@@ -94,7 +146,7 @@ Testene bruker ekte applikasjonskomponenter, ikke erstatninger for skjemafelt el
 - Next.js kjører med både `ENABLE_MOCK=enabled` og `NEXT_PUBLIC_ENABLE_MOCK=enabled`. Cluster-navnet er `local-uu`.
 - Serverkall bruker appens eksisterende mockgrener. En testspesifikk nettverksmodul erstatter oppslag av visittkortmanifestet og avviser andre eksterne server-fetch-kall.
 - Stillingssøk får kontrollerte nettverkssvar i nettlesertestene. Testene skal ikke sende søk til PAM Ontologi.
-- Storybook-konfigurasjonen i `.storybook-uu/` gjør flere tilstander tilgjengelige med testdata og erstatninger for serverfunksjonene. Den endrer ikke vanlig Storybook eller appens produksjonsoppsett.
+- Storybook-konfigurasjonen i `.storybook-uu/` gjør flere tilstander tilgjengelige med testdata og erstatninger for serverfunksjonene. Den kan brukes separat, men startes ikke av Playwright. Den endrer ikke vanlig Storybook eller appens produksjonsoppsett.
 - Dekoratør og visittkort vises ikke i mockmodus. Disse inngår derfor ikke i den lokale sidetestingen.
 - Next.js sitt utviklerpanel er verktøygrensesnitt, ikke produktinnhold. Testoppsettet skjuler dette panelet. Applikasjonsinnhold skal ikke skjules eller ekskluderes for å få testene grønne.
 - Aksel-fontene hentes fra en avgrenset CDN-adresse. Nettverks- og fontfeil skal ikke tolkes som en bestått UU-kontroll.
@@ -178,7 +230,7 @@ Noen visuelle kontroller er heuristikker: de finner mistenkelige forhold, men ka
 
 `pnpm test` kjører fortsatt de eksisterende enhets- og komponenttestene. Flere bruker roller og tilgjengelige navn. Disse er nyttige regresjonstester, men erstatter ikke nettlesertestene. Opplysningsskjemaets eksisterende orkestreringstest erstatter underkomponenter med stubber og undersøker derfor ikke de faktiske feltene.
 
-`pnpm lint` kjører Biome, inkludert anbefalte tilgjengelighetsregler. Statisk analyse kan ikke kontrollere ferdig sammensatt UI eller fokusflyt. Den eksisterende CI-workflowen endres ikke av UU-oppsettet.
+`pnpm lint` kjører Biome, inkludert anbefalte tilgjengelighetsregler. Statisk analyse kan ikke kontrollere ferdig sammensatt UI eller fokusflyt. Både lint, enhetstester og UU-testene inngår i CI-testgaten beskrevet over.
 
 ## Les og behandle resultatene
 
@@ -269,7 +321,7 @@ Når en side eller en ny UI-tilstand legges til, oppdater ruteregistret eller sc
 
 Hold Playwright-nettlesere og axe-versjon i samsvar med lockfilen. Endringer i regelsett kan avdekke nye feil selv om appkoden er uendret. Les funnene før du endrer forventningene.
 
-CI-integrasjon vurderes separat når den lokale riggen er verifisert og produktfunnene er håndtert. Ingen CI-, Nais- eller auth-endringer er en del av dette oppsettet.
+Følg opp tidsbruk og ressursbruk etter de første CI-kjøringene. Juster antall shards hvis oppstart og installasjon koster mer tid enn fordelingen sparer. Ved endring av shardantallet må både matrisen, `shardTotal` og fullstendighetssjekken i rapportjobben oppdateres. Nais-manifestene og appens auth-kode er ikke endret av CI-oppsettet.
 
 ## Kilder
 

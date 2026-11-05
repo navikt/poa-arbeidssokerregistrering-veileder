@@ -35,3 +35,27 @@ describe('Playwright reporter selection', () => {
         expect(config.reporter).toEqual([['list']]);
     });
 });
+
+describe('Playwright web server and local defaults', () => {
+    it('configures only the mocked Next.js web server', async () => {
+        const config = await loadPlaywrightConfig();
+        const webServers = Array.isArray(config.webServer) ? config.webServer : [config.webServer];
+
+        expect(webServers).toHaveLength(1);
+        expect(webServers[0]?.url).toBe('http://127.0.0.1:3100/api/isready');
+        expect(webServers[0]?.command).toContain('next dev');
+        expect(webServers[0]?.env).toMatchObject({
+            ENABLE_MOCK: 'enabled',
+            NEXT_PUBLIC_ENABLE_MOCK: 'enabled',
+            NAIS_CLUSTER_NAME: 'local-uu',
+        });
+        expect(webServers[0]?.command).not.toContain('storybook');
+    });
+
+    it('keeps single-worker non-parallel defaults for local runs', async () => {
+        const config = await loadPlaywrightConfig();
+
+        expect(config.workers).toBe(1);
+        expect(config.fullyParallel).toBe(false);
+    });
+});

@@ -28,7 +28,7 @@ export default async function ForsidePage() {
 
     return (
         <div className={'flex flex-col'}>
-            <Heading level='1' size='large' className='mb-4 [overflow-wrap:anywhere]'>
+            <Heading level='1' size='large' className='mb-4 wrap-anywhere'>
                 Arbeidssøkerregisteret
             </Heading>
             {flagVisHvaSomErNytt && <HvaErNytt />}
