@@ -51,7 +51,7 @@ vi.mock('@/lib/api/bekreftelse', () => ({
 // ———————————————————————————————————————————————————
 
 import type { TilgjengeligBekreftelse } from '@navikt/arbeidssokerregisteret-utils';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Suspense } from 'react';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
 import flereBekreftelser from '@/lib/mocks/bekreftelser-flere.json';
@@ -182,6 +182,8 @@ describe('Bekreftelse', () => {
             // Suksess-kvittering vises
             expect(screen.getByText('Bekreftelsen er registrert')).toBeDefined();
             expect(screen.getByText('Gå tilbake til forsiden')).toBeDefined();
+            const receiptHeading = screen.getByRole('heading', { level: 2, name: 'Bekreftelsen er registrert' });
+            await waitFor(() => expect(document.activeElement).toBe(receiptHeading));
         });
 
         it('viser advarsel-kvittering når bruker ikke vil fortsette som arbeidssøker', async () => {
@@ -212,6 +214,11 @@ describe('Bekreftelse', () => {
             // Kvittering med advarsel vises ETTER innsending
             expect(screen.getByText('Bruker er ikke lenger registrert som arbeidssøker')).toBeDefined();
             expect(screen.getByText('Gå tilbake til forsiden')).toBeDefined();
+            const receiptHeading = screen.getByRole('heading', {
+                level: 2,
+                name: 'Bruker er ikke lenger registrert som arbeidssøker',
+            });
+            await waitFor(() => expect(document.activeElement).toBe(receiptHeading));
 
             // Ingen "Svar for neste periode"-knapp
             expect(screen.queryByRole('button', { name: 'Svar for neste periode' })).toBeNull();
@@ -300,6 +307,12 @@ describe('Bekreftelse', () => {
 
             // Skjemaet er tilbakestilt — Send inn-knappen er synlig igjen
             expect(screen.getByRole('button', { name: 'Send inn' })).toBeDefined();
+            screen.getAllByRole('radio').forEach((radio) => {
+                expect((radio as HTMLInputElement).checked).toBe(false);
+            });
+            const firstRadio = screen.getAllByRole('radio')[0];
+            if (!firstRadio) throw new Error('Forventet første radio i neste periode');
+            await waitFor(() => expect(document.activeElement).toBe(firstRadio));
 
             // Andre bekreftelse — fyll ut og send inn
             velgRadio(/Har personen vært i arbeid i perioden/, 'nei');

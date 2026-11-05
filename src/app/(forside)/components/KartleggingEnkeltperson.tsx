@@ -1,4 +1,4 @@
-import { lagHentTekstForSprak, ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
+import { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
 import type { Snapshot } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
 import { BodyShort, InfoCard, Tag } from '@navikt/ds-react';
 import { InfoCardContent, InfoCardHeader, InfoCardTitle } from '@navikt/ds-react/InfoCard';
@@ -8,14 +8,6 @@ import { DagerTag, JaNeiTag, NeiJaTag } from './kartlegging/ArbeidssokerRad';
 import { BEKREFTELSE_LABEL } from './kartlegging/constants';
 import { mapUtfoertAvType } from './mapUtfoertAvType';
 
-const KILDER = {
-    nb: {
-        ARBEIDSSOEKERREGISTERET: 'Arbeidssøkerregisteret',
-        FRISKMELDT_TIL_ARBEIDSFORMIDLING: 'Sykepenger',
-        DAGPENGER: 'Dagpenger',
-    },
-};
-
 type KartleggingProps = {
     arbeidssoker: ArbeidssokerKompakt | null;
     snapshot: Snapshot;
@@ -23,49 +15,46 @@ type KartleggingProps = {
 
 function Wrapper({ children }: { children: React.ReactNode }) {
     return (
-        <div className='grid grid-cols-[1fr_210px] pb-2 mb-2 border-b border-b-ax-bg-neutral-moderate'>{children}</div>
+        <div className='grid grid-cols-1 gap-y-2 pb-2 mb-2 border-b border-b-ax-bg-neutral-moderate ax-md:grid-cols-[minmax(0,1fr)_210px]'>
+            {children}
+        </div>
     );
 }
 
 function KartleggingEnkeltperson({ arbeidssoker, snapshot }: KartleggingProps) {
-    const tekst = lagHentTekstForSprak(KILDER, 'nb');
     const aktivPeriode = arbeidssoker?.ledighetsperioder[0];
 
     if (!arbeidssoker)
         return (
             <InfoCard data-color='info' className='mb-4'>
                 <InfoCardHeader>
-                    <InfoCardTitle>
-                        Personen er registrert som arbeidssøker
-                        <BodyShort textColor={'subtle'}>
-                            Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
-                            {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
-                        </BodyShort>
-                    </InfoCardTitle>
+                    <InfoCardTitle>Personen er registrert som arbeidssøker</InfoCardTitle>
+                    <BodyShort textColor={'subtle'}>
+                        Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
+                        {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
+                    </BodyShort>
                 </InfoCardHeader>
             </InfoCard>
         );
     return (
         <InfoCard data-color='info' className='mb-4'>
             <InfoCardHeader>
-                <InfoCardTitle>
-                    Personen er registrert som arbeidssøker
-                    <BodyShort textColor={'subtle'}>
-                        Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
-                        {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
-                    </BodyShort>
-                </InfoCardTitle>
+                <InfoCardTitle>Personen er registrert som arbeidssøker</InfoCardTitle>
+                <BodyShort textColor={'subtle'}>
+                    Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
+                    {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
+                </BodyShort>
             </InfoCardHeader>
             <InfoCardContent>
                 <Wrapper>
-                    <div>Dager helt ledig</div>
-                    <div>
+                    <div className='min-w-0'>Dager helt ledig</div>
+                    <div className='min-w-0'>
                         <DagerTag dager={daysSinceDate(aktivPeriode?.ledigSiden || new Date())} />
                     </div>
                 </Wrapper>
                 <Wrapper>
-                    <div>Bekreftelser kommer fra</div>
-                    <div className='flex gap-2'>
+                    <div className='min-w-0'>Bekreftelser kommer fra</div>
+                    <div className='flex min-w-0 flex-wrap gap-2'>
                         {aktivPeriode?.bekreftelsePaaVegneAv.map((e) => (
                             <Tag key={e} size='small'>
                                 {BEKREFTELSE_LABEL[e]}
@@ -74,10 +63,10 @@ function KartleggingEnkeltperson({ arbeidssoker, snapshot }: KartleggingProps) {
                     </div>
                 </Wrapper>
                 <Wrapper>
-                    <div className='flex items-center gap-1'>
+                    <div className='flex min-w-0 items-center gap-1'>
                         <div>Ønsker veileder</div>
                     </div>
-                    <div>
+                    <div className='min-w-0'>
                         {aktivPeriode?.egenvurdertTil ? (
                             <NeiJaTag svar={aktivPeriode.egenvurdertTil === ProfilertTil.ANTATT_GODE_MULIGHETER} />
                         ) : (
@@ -86,10 +75,12 @@ function KartleggingEnkeltperson({ arbeidssoker, snapshot }: KartleggingProps) {
                     </div>
                 </Wrapper>
                 <Wrapper>
-                    <div className='flex items-center gap-1'>
+                    <div className='flex min-w-0 items-center gap-1'>
                         <div>Rapportert arbeid på siste bekreftelse</div>
                     </div>
-                    <div>{aktivPeriode ? <JaNeiTag svar={aktivPeriode?.bekreftelseHarJobbet} /> : 'MANGLER DATA'}</div>
+                    <div className='min-w-0'>
+                        {aktivPeriode ? <JaNeiTag svar={aktivPeriode?.bekreftelseHarJobbet} /> : 'MANGLER DATA'}
+                    </div>
                 </Wrapper>
             </InfoCardContent>
         </InfoCard>

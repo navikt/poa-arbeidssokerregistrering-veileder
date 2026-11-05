@@ -181,7 +181,7 @@ Use `authenticatedFetch` for new protected domain API calls. It handles OBO toke
 
 - `ENABLE_MOCK=enabled` activates server-side mock branches in API functions and Modia context, bypasses token validation in `proxy.ts`, and disables outgoing decorator proxy calls. It is for local development and demos, not production.
 - `NEXT_PUBLIC_ENABLE_MOCK=enabled` controls mock presentation in the root layout, including decorator visibility and the visittkort mock flag. Keep both flags aligned when running locally.
-- Mock fixtures live in `src/lib/mocks/`; `DemoLabel` and `DemoPanel` provide demo UI when server mock mode is enabled.
+- Mock fixtures live in `src/lib/mocks/` and are used by server-side mock branches and tests.
 - `src/instrumentation.ts` rejects `ENABLE_MOCK=enabled` when `NAIS_CLUSTER_NAME` starts with `prod-`. Do not remove or bypass this guard.
 
 ## Code Style and Formatting
@@ -303,3 +303,13 @@ The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome fo
 - **Do not add `vi.mock('server-only')` in tests** — it's handled globally by the Vitest alias config in `vitest.config.mts`.
 - **Do not expose secrets, tokens, or API keys in client-side code** — all token handling is server-side only.
 - **Do not commit directly to `main`** without passing lint, tests, and build.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

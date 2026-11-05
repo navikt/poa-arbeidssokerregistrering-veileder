@@ -2,6 +2,7 @@
 
 import { UNSAFE_Combobox } from '@navikt/ds-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { navngiComboboxListe } from '@/components/skjema/navngi-combobox-liste';
 import { loggAktivitet } from '@/lib/tracking';
 
 type StillingssokValue = {
@@ -16,6 +17,7 @@ type StillingsSokProps = {
 
 const ANNEN_STILLING: StillingssokValue = { konseptId: -1, label: 'Annen stilling', styrk08: '-1' };
 const DEBOUNCE_MS = 200;
+const SOKEFELT_NAVN = 'Søk etter stilling';
 
 function StillingsSok({ onClose }: StillingsSokProps) {
     const [stillinger, setStillinger] = useState<StillingssokValue[]>([]);
@@ -23,6 +25,13 @@ function StillingsSok({ onClose }: StillingsSokProps) {
     const [harEndret, setHarEndret] = useState(false);
     const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const wrapperRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!inputRef.current || !wrapperRef.current) return;
+        return navngiComboboxListe(inputRef.current, wrapperRef.current, SOKEFELT_NAVN);
+    }, []);
 
     useEffect(() => {
         return () => {
@@ -92,8 +101,6 @@ function StillingsSok({ onClose }: StillingsSokProps) {
         onClose(valgt ?? undefined);
     }
 
-    const wrapperRef = useRef<HTMLDivElement>(null);
-
     const handleBlurCapture = useCallback(
         (e: React.FocusEvent) => {
             // If focus moves to something outside the wrapper, close without selecting
@@ -107,7 +114,9 @@ function StillingsSok({ onClose }: StillingsSokProps) {
     return (
         <div ref={wrapperRef} onBlurCapture={handleBlurCapture}>
             <UNSAFE_Combobox
-                label='Søk etter stilling'
+                ref={inputRef}
+                label={SOKEFELT_NAVN}
+                autoFocus
                 options={comboboxOptions}
                 filteredOptions={comboboxOptions}
                 isLoading={isLoading}

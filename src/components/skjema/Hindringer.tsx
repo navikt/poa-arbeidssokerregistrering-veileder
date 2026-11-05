@@ -78,7 +78,7 @@ function AndreProblemer({ registrering, setRegistrering, doValidate }: Hindringe
 function Hindringer({ registrering, setRegistrering, doValidate }: HindringerProps) {
     return (
         <Box className='mb-8' borderWidth='1' padding='space-16' style={{ backgroundColor: 'var(--ax-neutral-100)' }}>
-            <Heading size='medium' spacing level='1'>
+            <Heading size='medium' spacing level='2'>
                 Hindringer
             </Heading>
             <Helseproblemer registrering={registrering} setRegistrering={setRegistrering} doValidate={doValidate} />

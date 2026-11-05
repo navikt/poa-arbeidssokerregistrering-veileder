@@ -3,7 +3,7 @@
 import { Alert, Button, HStack } from '@navikt/ds-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { GenereltOmSamtykke } from '@/app/registrering-arbeidssoker/components/GenereltOmSamtykke';
 import { DinSituasjon } from '@/components/skjema/DinSituasjon';
 import { Hindringer } from '@/components/skjema/Hindringer';
@@ -27,8 +27,10 @@ function OpplysningerSkjema({ initState, mode }: OpplysningerSkjemaProps) {
     const { fnr } = useModiaContext();
     const [registrering, setRegistreringRaw] = useState<RegistreringState>(initState);
     const [doValidate, setDoValidate] = useState(false);
+    const [invalidSubmitAttempt, setInvalidSubmitAttempt] = useState(0);
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const skjemaRef = useRef<HTMLDivElement>(null);
 
     const setRegistrering = (data: Partial<RegistreringState>) => {
         setRegistreringRaw((prevState) => ({ ...prevState, ...data }));
@@ -44,11 +46,26 @@ function OpplysningerSkjema({ initState, mode }: OpplysningerSkjemaProps) {
         }
     }, [mode]);
 
+    useEffect(() => {
+        if (invalidSubmitAttempt === 0) return;
+
+        const firstInvalidElement = skjemaRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]');
+        const firstInvalidField = firstInvalidElement?.matches('input, select, textarea')
+            ? firstInvalidElement
+            : firstInvalidElement?.querySelector<HTMLElement>(
+                  'input:not(:disabled), select:not(:disabled), textarea:not(:disabled)',
+              );
+        firstInvalidField?.focus();
+    }, [invalidSubmitAttempt]);
+
     const handleOnSkjemaSubmit = async () => {
         setDoValidate(true);
         setError(null);
 
         if (!isValid || !fnr) {
+            if (!isValid && fnr) {
+                setInvalidSubmitAttempt((attempt) => attempt + 1);
+            }
             return;
         }
 
@@ -119,7 +136,7 @@ function OpplysningerSkjema({ initState, mode }: OpplysningerSkjemaProps) {
     if (!fnr) return null;
 
     return (
-        <div>
+        <div ref={skjemaRef}>
             <DinSituasjon registrering={registrering} setRegistrering={setRegistrering} doValidate={doValidate} />
             <SisteJobb registrering={registrering} setRegistrering={setRegistrering} doValidate={doValidate} />
             <Utdanning registrering={registrering} setRegistrering={setRegistrering} doValidate={doValidate} />
@@ -131,9 +148,9 @@ function OpplysningerSkjema({ initState, mode }: OpplysningerSkjemaProps) {
             )}
             {mode === 'registrering' && <GenereltOmSamtykke />}
             <HStack style={{ justifyContent: 'space-between' }}>
-                <Link href='/' passHref>
-                    <Button variant={'secondary'}>Avbryt</Button>
-                </Link>
+                <Button as={Link} href='/' role='link' variant='secondary'>
+                    Avbryt
+                </Button>
                 <Button variant='primary' onClick={handleOnSkjemaSubmit} disabled={isPending} loading={isPending}>
                     {mode === 'registrering' ? 'Registrer' : 'Oppdater'}
                 </Button>

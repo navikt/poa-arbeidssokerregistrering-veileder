@@ -49,7 +49,7 @@ function Forside({ snapshotPromise, bekreftelserPromise, kartleggingEnkeltperson
                 egenvurderinger={snapshot.egenvurdering}
             />
             <Bekreftelse antallTilgjengeligBekreftelser={bekreftelser?.length} />
-            <Box className='flex justify-between'>
+            <Box className='flex flex-col gap-2 ax-md:flex-row ax-md:justify-between'>
                 <HistorikkLenke />
                 <TidslinjerLenke />
             </Box>

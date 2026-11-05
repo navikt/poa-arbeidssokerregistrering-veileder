@@ -2,7 +2,7 @@
     "name": "poa-arbeidssokerregistrering-veileder",
     "version": "1.0.0",
     "private": true,
-     "packageManager": "pnpm@11.28.6",
+    "packageManager": "pnpm@11.28.6",
     "scripts": {
         "biome:migrate": "biome migrate --write",
         "dev": "next dev | pino-pretty",
@@ -11,6 +11,10 @@
         "lint": "biome check ./src",
         "lint:fix": "biome check --write ./src",
         "test": "vitest --run",
+        "test:uu": "playwright test",
+        "test:uu:helpers": "vitest --run --config vitest.uu.config.mts",
+        "test:uu:ui": "playwright test --ui",
+        "test:uu:report": "playwright show-report",
         "test:watch": "vitest",
         "test:ci": "vitest --run",
         "typecheck": "tsc ",
@@ -36,7 +40,9 @@
         "react-dom": "19.3.1"
     },
     "devDependencies": {
+        "@axe-core/playwright": "4.14.0",
         "@biomejs/biome": "2.6.3",
+        "@playwright/test": "1.64.1",
         "@storybook/addon-docs": "10.6.3",
         "@storybook/addon-onboarding": "10.6.3",
         "@storybook/nextjs": "10.6.3",

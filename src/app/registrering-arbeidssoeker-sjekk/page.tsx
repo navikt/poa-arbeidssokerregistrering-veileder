@@ -1,6 +1,5 @@
 import { Heading, Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
-import { DemoPanel } from '@/components/demo-panel';
 import { TilbakeTilForside } from '@/components/tilbake-til-forside';
 import { hentModiaContext } from '@/lib/modia-context-api';
 import { kanStartePeriode } from '../../lib/api/inngang-kan-starte-periode';
@@ -19,7 +18,6 @@ export default async function ForsidePage() {
             <Suspense fallback={<Loader />}>
                 <RegistreringSjekkWrapper initialKanRegistreresPromise={kanStartePeriodePromise} />
             </Suspense>
-            <DemoPanel />
         </div>
     );
 }

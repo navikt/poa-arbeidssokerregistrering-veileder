@@ -27,7 +27,7 @@ export function useServerData<T>(
         startTransition(() => {
             setData({ promise: fetchFn(fnr, enhetId), fnr, enhetId });
         });
-    }, [fnr, enhetId, fetchFn]);
+    }, [fnr, enhetId, fetchFn, data.fnr, data.enhetId, refreshOnMount]);
 
     return { dataPromise: data.promise, dataContext: { fnr: data.fnr, enhetId: data.enhetId }, isPending };
 }
