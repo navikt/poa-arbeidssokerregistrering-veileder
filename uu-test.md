@@ -1,6 +1,6 @@
 # UU-testing
 
-UU-testene skal finne tilgjengelighetsfeil før endringer tas i bruk. Testene kjører lokalt med Playwright og axe. CI-oppsettet er konfigurert med en obligatorisk testgate før bygg og publisering, men den nye workflowen er ikke kjørt i GitHub Actions ennå. Eksisterende Vitest-tester beholdes.
+UU-testene skal finne tilgjengelighetsfeil før endringer tas i bruk. Testene kjører lokalt med Playwright og axe. CI-oppsettet har en obligatorisk testgate før bygg og publisering. Eksisterende Vitest-tester beholdes.
 
 En grønn kjøring betyr at de automatiske kontrollene består i de testede tilstandene. Den betyr ikke at løsningen oppfyller alle WCAG-krav. Manuell testing og vurdering av brukerflytene er fortsatt nødvendig.
 
@@ -8,9 +8,9 @@ En grønn kjøring betyr at de automatiske kontrollene består i de testede tils
 
 Demokomponentene er fjernet fra appen. Testoppsettet har derfor ikke lenger en hjelper som skjuler dem, eller tester av denne hjelperen. Den særskilte nettlesertesten av demohurtigvalgene er også fjernet. Mockmodus og testene av appens funksjoner er beholdt.
 
-Etter demooppryddingen ble det registrert 52 nettlesertester og 22 hjelpetester, mot tidligere 53 og 29. Nedgangen skyldtes at én nettlesertest av demohurtigvalgene og sju tester av den slettede hjelperen ble fjernet, ikke at UU-kravene til appen ble svekket. CI-endringen legger til to kontroller av Playwright-oppsettet, slik at det nå er 24 hjelpetester. Testlisting er ikke en nettleserkjøring og sier ikke hvilke tester som består.
+Etter demooppryddingen ble det registrert 52 nettlesertester og 22 hjelpetester, mot tidligere 53 og 29. Nedgangen skyldtes at én nettlesertest av demohurtigvalgene og sju tester av den slettede hjelperen ble fjernet, ikke at UU-kravene til appen ble svekket. CI-endringen la til to kontroller av Playwright-oppsettet. Etter serverrettelsen nedenfor er det 26 hjelpetester. Testlisting er ikke en nettleserkjøring og sier ikke hvilke tester som består.
 
-I en tidligere nettleserkjøring, før denne oppryddingen, bestod 50 av 53 tester. De tre gjenværende feilene gjaldt combobox-listens tilgjengelige navn og fokus etter navigasjon til sidene for avsluttet og slettet periode. Dette var før de siste rettelsene av listeboksnavn og kvitteringsfokus. Disse rettelsene er implementert og komponenttestet, men må verifiseres i en ny nettleserkjøring.
+I en tidligere nettleserkjøring, før denne oppryddingen, bestod 50 av 53 tester. De tre gjenværende feilene gjaldt combobox-listens tilgjengelige navn og fokus etter navigasjon til sidene for avsluttet og slettet periode. Dette var før de siste rettelsene av listeboksnavn og kvitteringsfokus. Disse rettelsene er senere verifisert i den lokale Chromium-kjøringen beskrevet under serverrettelsen nedenfor.
 
 Test-riggen hadde blant annet for strenge tekstselektorer, feil rolle for historikkens Aksel-bryter og en uriktig forventning om Tab-rekkefølgen. Disse forholdene må skilles fra produktfunn som manglende gruppenavn, fokustap og axe-brudd.
 
@@ -18,7 +18,7 @@ En tidligere rapport viste også at `/kvittering-arbeidssoker` krasjet i `TrackA
 
 ### Applikasjonsrettelser etter funnene
 
-Listen under beskriver de første applikasjonsrettelsene, som er komponenttestet og inngikk i nettleserkjøringen der 50 av 53 tester bestod. De siste rettelsene av listeboksnavn og fokus på kvitteringene for avsluttet og slettet periode omtales separat nedenfor. Dette er ikke en full manuell UU-vurdering.
+Listen under beskriver de første applikasjonsrettelsene, som er komponenttestet og inngikk i nettleserkjøringen der 50 av 53 tester bestod. De siste rettelsene av listeboksnavn og fokus på kvitteringene for avsluttet og slettet periode omtales separat nedenfor og er senere verifisert i Chromium. Dette er ikke en full manuell UU-vurdering.
 
 - Kvitteringslenken rendres direkte som en Aksel-lenke i klientkomponenten. Den inspiserer og kloner ikke lenger et barn som er sendt fra en serverkomponent. Lenketekst, mål og sporingshendelse er beholdt.
 - Forsiden har fått en hovedoverskrift. Skjemaseksjonene og historikkens sideoverskrift har fått riktige nivåer under sidens hovedoverskrift.
@@ -30,13 +30,23 @@ Listen under beskriver de første applikasjonsrettelsene, som er komponenttestet
 
 Registreringsregler, innsending, API-payloads, auth, rotlayout og CI er ikke endret av disse rettelsene. Komponenttester i jsdom beviser ikke at reflow, skjermleseropplesning eller server-/klientsammensettingen fungerer i en ekte nettleser.
 
-Etter en separat rettelse i `useServerData.ts` består alle 390 enhets- og komponenttester, alle 24 hjelpetester for UU-riggen og de fire testene av nettverksisoleringen. Lint og TypeScript-sjekken består også. Hooken leste tidligere kontekstverdier fra tilstanden som effekten selv oppdaterte, og disse verdiene var også effektavhengigheter. Det utløste ekstra hentinger. Initialkonteksten lagres nå i en ref, uten å endre kontrollene som hindrer at data fra forrige person eller enhet vises. Den eksisterende testen av raskt kontekstbytte er beholdt uendret og består. Nettlesertestene er ikke kjørt på nytt etter hookrettelsen.
+Etter en separat rettelse i `useServerData.ts` bestod alle 390 enhets- og komponenttester, alle 24 daværende hjelpetester for UU-riggen og de fire testene av nettverksisoleringen. Lint og TypeScript-sjekken bestod også. Hooken leste tidligere kontekstverdier fra tilstanden som effekten selv oppdaterte, og disse verdiene var også effektavhengigheter. Det utløste ekstra hentinger. Initialkonteksten lagres nå i en ref, uten å endre kontrollene som hindrer at data fra forrige person eller enhet vises. Den eksisterende testen av raskt kontekstbytte er beholdt uendret og består.
+
+### Serverrettelse etter CI-feil i shard 1 og 2
+
+Den nedlastede CI-rapporten viste 50 beståtte og to feilede nettlesertester. Begge tracene viste full sidelasting midt i testen. Registreringsskjemaet ble nullstilt mens siste radiovalg ble kontrollert. I historikktesten startet en ny sidelasting etter Fast Refresh, slik at «Nullstill filter» manglet da tastaturhjelperen telte treff. Tracene viser ikke HMR-meldingen som utløste sidelastingene.
+
+UU-serveren bruker nå `next build` og `next start` i stedet for `next dev`. Begge kommandoene får samme mock-flagg og nettverksisolering. Dette fjerner HMR fra testmiljøet. `tabTo` venter dessuten på nøyaktig ett treff med Playwrights `toHaveCount(1)` før synlighet og Tab-navigasjon kontrolleres. Manglende eller flertydige mål skal fortsatt feile. Ingen sleeps eller test-retries er lagt til.
+
+Begge feilede tester bestod først i en avgrenset lokal kjøring med to workers. Deretter bestod alle 52 Chromium-tester med `--workers=2 --fully-parallel --forbid-only`, uten retries, på 36,3 sekunder inkludert serveroppsett. Alle 390 ordinære tester, 26 hjelpetester og fire nettverkstester består også. Lint og TypeScript-sjekken består. Dette er lokal verifisering, ikke en ny GitHub Actions-kjøring.
+
+Kjøringene brukte `--reporter=line`, slik at den nedlastede rapporten i `playwright-report/` ble beholdt. Lokale testresultater ligger i `test-results/uu-mock-build/` og `test-results/uu-mock-build-all/`.
 
 ### Funn som fortsatt må avklares
 
-- Aksel 8.20 rendrer en `ul[role="listbox"]` uten tilgjengelig navn i `UNSAFE_Combobox` og tilbyr ingen prop for å navngi listen. Stillingssøket bruker nå en avgrenset kompatibilitetsrettelse. Den følger bare søkefeltets `aria-controls`, finner den tilhørende listeboksen og gir den samme tilgjengelige navn som søkefeltet hvis navneattributter mangler. Eksisterende navn og roller beholdes. Endringer i den tilhørende listen observeres lokalt, med opprydding når søket avmonteres. Axe-regelen er fortsatt aktiv. Testene bruker Aksels faktiske komponent og kontrollerer også at et annet søk ikke påvirkes og at listen beholder navnet ved søkefeil. Ved en senere Aksel-oppgradering må behovet vurderes på nytt og rettelsen fjernes hvis den ikke lenger trengs. Nettleserverifisering gjenstår.
+- Aksel 8.20 rendrer en `ul[role="listbox"]` uten tilgjengelig navn i `UNSAFE_Combobox` og tilbyr ingen prop for å navngi listen. Stillingssøket bruker nå en avgrenset kompatibilitetsrettelse. Den følger bare søkefeltets `aria-controls`, finner den tilhørende listeboksen og gir den samme tilgjengelige navn som søkefeltet hvis navneattributter mangler. Eksisterende navn og roller beholdes. Endringer i den tilhørende listen observeres lokalt, med opprydding når søket avmonteres. Axe-regelen er fortsatt aktiv. Testene bruker Aksels faktiske komponent og kontrollerer også at et annet søk ikke påvirkes og at listen beholder navnet ved søkefeil. Ved en senere Aksel-oppgradering må behovet vurderes på nytt og rettelsen fjernes hvis den ikke lenger trengs. Den automatiserte nettlesertesten består lokalt i Chromium. Manuell skjermlesertesting gjenstår.
 - Fokus på `body` etter full ruteendring er ikke alene bevis på et WCAG-brudd. I denne flyten har sidene samme dokumenttittel, mens den installerte Next.js-versjonens ruteannonsering bare reagerer på tittelendringer. Kvitteringene for avsluttet og slettet periode fokuserer derfor nå sin faktiske hovedoverskrift. Fokus flyttes når kvitteringen monteres eller teksten endres, ikke ved uendret gjengivelse. Dette er avgrenset til de to kvitteringene, ikke alle ruteendringer. Nettlesertestene krever nå fokus på den konkrete overskriften, ikke bare at fokus er borte fra `body`. Skjermleseropplesning og tastaturflyt må fortsatt vurderes manuelt.
-- Nettlesertestene må kjøres på nytt etter rettelsene av combobox-listen og kvitteringsfokus. Rapporten fra kjøringen med 50 beståtte tester er ikke en verifisering av disse siste endringene.
+- Den nye lokale Chromium-kjøringen med to workers dekker combobox-listen og kvitteringsfokus. Alle testene består lokalt. De eldre rapportene er ikke oppdatert av denne kjøringen, og manuell vurdering gjenstår.
 
 Nettleserrapporten i `playwright-report/` beskriver kjøringen som laget den. Endring av testkode oppdaterer ikke rapporten. Den må genereres på nytt med en ny nettleserkjøring før du vurderer resultatene etter endringer i riggen.
 
@@ -56,7 +66,9 @@ pnpm exec playwright install chromium
 pnpm test:uu
 ```
 
-Testene starter sin egen Next.js-server på `127.0.0.1:3100`. Porten må være ledig. Testene gjenbruker ikke en app du allerede har startet. Første kjøring bruker tid på kompilering. Storybook startes ikke av UU-riggen, siden ingen av de implementerte nettlesertestene bruker den.
+Testene lager et eget mock-bygg med `next build` før de starter Next.js-serveren med `next start` på `127.0.0.1:3100`. Porten må være ledig. Testene gjenbruker ikke en app du allerede har startet. Bygg og serverstart har en samlet oppstartsgrense på fem minutter. Grensene for selve testene er uendret. Storybook startes ikke av UU-riggen, siden ingen av de implementerte nettlesertestene bruker den.
+
+Mock-bygget skrives til `.next`. Kjør et nytt vanlig bygg med begge mock-flaggene avslått før du bruker `pnpm start` utenfor UU-riggen. Next.js varsler at appens `output: 'standalone'` er beregnet på den genererte `server.js`. Testserveren med `next start` fungerer mot hele `.next` i den lokale kontrollen, men testen verifiserer ikke det pakkede standalone-imaget.
 
 ```bash
 # Vis hvilke tester som finnes, uten å starte servere eller nettleser.
@@ -100,7 +112,7 @@ uu-test (4 shards) ──┘
 
 `test` kjører lint, TypeScript, hjelpetestene for UU-riggen, nettverksisoleringens tester og den ordinære Vitest-suiten. Før typesjekken kjøres `pnpm exec next typegen`, slik at en ren checkout har `next-env.d.ts` og genererte rutetyper uten å bygge appen. `uu-test` kjører fire shards parallelt, med to workers per shard og bare Chromium. Til sammen kan åtte UU-workers kjøre samtidig, fordelt på fire runners. `fail-fast: false` gjør at en feil i én shard ikke avbryter de andre.
 
-Hver shard installerer Chromium med Linux-avhengigheter og kjører denne kommandoen med sitt eget shardnummer:
+Hver shard installerer Chromium med Linux-avhengigheter og kjører denne kommandoen med sitt eget shardnummer. Playwright bygger mock-appen i shardens egen checkout før testserveren starter:
 
 ```bash
 pnpm exec playwright install --with-deps chromium

@@ -160,10 +160,7 @@ async function scanPage(page: Page, testInfo: TestInfo, state: string): Promise<
 }
 
 async function tabTo(page: Page, target: Locator): Promise<void> {
-    const targetCount = await target.count();
-    if (targetCount !== 1) {
-        throw new Error(`Keyboard Tab target must match exactly one element; found ${targetCount}`);
-    }
+    await expect(target, 'Keyboard Tab target must match exactly one element').toHaveCount(1);
     await expect(target).toBeVisible();
     if (await target.evaluate((element) => element === document.activeElement)) {
         return;

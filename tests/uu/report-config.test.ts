@@ -43,12 +43,25 @@ describe('Playwright web server and local defaults', () => {
 
         expect(webServers).toHaveLength(1);
         expect(webServers[0]?.url).toBe('http://127.0.0.1:3100/api/isready');
-        expect(webServers[0]?.command).toContain('next dev');
+        expect(webServers[0]?.command).toBe(
+            'pnpm exec next build && pnpm exec next start --hostname 127.0.0.1 --port 3100',
+        );
+        expect(webServers[0]?.command).not.toContain('next dev');
+        expect(webServers[0]?.reuseExistingServer).toBe(false);
+        expect(webServers[0]?.timeout).toBe(300_000);
         expect(webServers[0]?.env).toMatchObject({
+            NODE_ENV: 'production',
             ENABLE_MOCK: 'enabled',
             NEXT_PUBLIC_ENABLE_MOCK: 'enabled',
             NAIS_CLUSTER_NAME: 'local-uu',
+            NEXT_PUBLIC_ASSET_PREFIX: '',
+            NEXT_TELEMETRY_DISABLED: '1',
+            NEXT_PUBLIC_FARO_URL: '',
+            NEXT_PUBLIC_FARO_APP_NAME: '',
+            NEXT_PUBLIC_UMAMI_TRACKING_ID: '',
         });
+        expect(webServers[0]?.env?.NODE_OPTIONS).toContain('--import=');
+        expect(webServers[0]?.env?.NODE_OPTIONS).toContain('tests/uu/network.mjs');
         expect(webServers[0]?.command).not.toContain('storybook');
     });
 
@@ -57,5 +70,8 @@ describe('Playwright web server and local defaults', () => {
 
         expect(config.workers).toBe(1);
         expect(config.fullyParallel).toBe(false);
+        expect(config.retries).toBe(0);
+        expect(config.timeout).toBe(60_000);
+        expect(config.expect?.timeout).toBe(10_000);
     });
 });

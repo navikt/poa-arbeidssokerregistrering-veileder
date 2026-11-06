@@ -35,11 +35,12 @@ export default defineConfig({
     projects: browserProjects,
     webServer: [
         {
-            command: 'pnpm exec next dev --webpack --hostname 127.0.0.1 --port 3100',
+            command: 'pnpm exec next build && pnpm exec next start --hostname 127.0.0.1 --port 3100',
             url: 'http://127.0.0.1:3100/api/isready',
             reuseExistingServer: false,
-            timeout: 180_000,
+            timeout: 300_000,
             env: {
+                NODE_ENV: 'production',
                 ENABLE_MOCK: 'enabled',
                 NEXT_PUBLIC_ENABLE_MOCK: 'enabled',
                 NAIS_CLUSTER_NAME: 'local-uu',

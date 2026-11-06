@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const { matcherEvents, playwrightExpect } = vi.hoisted(() => {
     const matcherEvents: string[] = [];
-    const makeExpect = (actual: unknown) => {
+    const makeExpect = (actual: unknown, message?: string) => {
         const locator = actual as {
             description?: string;
             count?: () => Promise<number>;
@@ -14,7 +14,9 @@ const { matcherEvents, playwrightExpect } = vi.hoisted(() => {
             toHaveCount: async (expected: number) => {
                 matcherEvents.push(`count:${locator.description ?? 'value'}`);
                 const count = locator.count ? await locator.count() : Number(actual);
-                if (count !== expected) throw new Error(`expected count ${expected}, found ${count}`);
+                if (count !== expected) {
+                    throw new Error(`${message ? `${message}: ` : ''}expected count ${expected}, found ${count}`);
+                }
             },
             toBeVisible: async () => {
                 matcherEvents.push(`visible:${locator.description ?? 'value'}`);
@@ -142,6 +144,7 @@ describe('UU tastaturhjelpere', () => {
 
         await tabTo(page, makeElementLocator(target, 'active-target'));
 
+        expect(matcherEvents).toEqual(['count:active-target', 'visible:active-target']);
         expect(page.keyboardPress).not.toHaveBeenCalled();
     });
 
@@ -161,6 +164,7 @@ describe('UU tastaturhjelpere', () => {
 
         await tabTo(page, makeElementLocator(target, 'target'));
 
+        expect(matcherEvents.slice(0, 2)).toEqual(['count:target', 'visible:target']);
         expect(tabCount).toBe(3);
     });
 
@@ -182,8 +186,57 @@ describe('UU tastaturhjelpere', () => {
         } as FakeLocator;
         const page = makePage();
 
-        await expect(tabTo(page, target)).rejects.toThrow('Keyboard Tab target must match exactly one element; found 0');
+        await expect(tabTo(page, target)).rejects.toThrow(
+            'Keyboard Tab target must match exactly one element: expected count 1, found 0',
+        );
+        expect(matcherEvents).toEqual(['count:removed-target']);
         expect(page.keyboardPress).not.toHaveBeenCalled();
+    });
+
+    it('feiler før tastaturnavigering når målet har duplikater', async () => {
+        const target = {
+            ...makeElementLocator(document.createElement('button'), 'duplicate-target'),
+            count: async () => 2,
+        } as FakeLocator;
+        const page = makePage();
+
+        await expect(tabTo(page, target)).rejects.toThrow(
+            'Keyboard Tab target must match exactly one element: expected count 1, found 2',
+        );
+        expect(matcherEvents).toEqual(['count:duplicate-target']);
+        expect(page.keyboardPress).not.toHaveBeenCalled();
+    });
+
+    it('venter på at antallsmatcheren fullføres før tastaturnavigering', async () => {
+        let resolveCount: ((count: number) => void) | undefined;
+        let notifyCountStarted: (() => void) | undefined;
+        const countStarted = new Promise<void>((resolve) => {
+            notifyCountStarted = resolve;
+        });
+        const countResult = new Promise<number>((resolve) => {
+            resolveCount = resolve;
+        });
+        const targetElement = document.createElement('button');
+        document.body.append(targetElement);
+        const target = {
+            ...makeElementLocator(targetElement, 'deferred-target'),
+            count: () => {
+                notifyCountStarted?.();
+                return countResult;
+            },
+        } as FakeLocator;
+        const page = makePage([], targetElement);
+
+        const navigation = tabTo(page, target);
+        await countStarted;
+        expect(matcherEvents).toEqual(['count:deferred-target']);
+        expect(page.keyboardPress).not.toHaveBeenCalled();
+
+        resolveCount?.(1);
+        await navigation;
+
+        expect(matcherEvents).toEqual(['count:deferred-target', 'visible:deferred-target']);
+        expect(page.keyboardPress).toHaveBeenCalledTimes(1);
     });
 
     it('bruker det fullstendige tilgjengelige navnet for spørsmålet om andre problemer', () => {
