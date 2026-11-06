@@ -99,16 +99,20 @@ async function captureVisualAdvisory(page: Page, testInfo: TestInfo, state: stri
     const advisory = await collectClippedTextCandidates(page);
     await testInfo.attach(`visual-advisory-${safeName(state)}.json`, {
         body: JSON.stringify({
-            note: 'Advisory only. Review these clipped-text candidates and screenshot; this is not a compliance verdict.',
+            note: process.env.CI
+                ? 'Advisory only. Review these clipped-text candidates; this is not a compliance verdict.'
+                : 'Advisory only. Review these clipped-text candidates and screenshot; this is not a compliance verdict.',
             state,
             candidates: advisory,
         }, null, 2),
         contentType: 'application/json',
     });
-    await testInfo.attach(`visual-advisory-${safeName(state)}.png`, {
-        body: await page.screenshot({ fullPage: false, animations: 'disabled' }),
-        contentType: 'image/png',
-    });
+    if (!process.env.CI) {
+        await testInfo.attach(`visual-advisory-${safeName(state)}.png`, {
+            body: await page.screenshot({ fullPage: false, animations: 'disabled' }),
+            contentType: 'image/png',
+        });
+    }
 }
 
 async function collectClippedTextCandidates(page: Page): Promise<Array<Record<string, string | number>>> {

@@ -30,7 +30,7 @@ export default defineConfig({
     outputDir: 'test-results/uu',
     use: {
         baseURL: 'http://127.0.0.1:3100',
-        trace: 'retain-on-failure',
+        trace: process.env.CI ? { mode: 'retain-on-failure', screenshots: false } : 'retain-on-failure',
     },
     projects: browserProjects,
     webServer: [
