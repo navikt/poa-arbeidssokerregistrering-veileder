@@ -18,28 +18,34 @@ This is a **Next.js 16** application (App Router) that lets Nav counselors ("vei
 | Command | Purpose |
 |---|---|
 | `pnpm install` | Install dependencies (requires GitHub PAT for `@navikt` packages) |
-| `pnpm run build` | Production build |
-| `pnpm test` | Run all tests once (Vitest) |
-| `pnpm run test:watch` | Run tests in watch mode |
-| `pnpm run lint` | Run Biome linter — check for errors before committing |
-| `pnpm run lint:fix` | Auto-fix lint/format issues in `src/` (`biome check --write src`) |
-| `pnpm run typecheck` | Run TypeScript type checking (`tsc`) |
-| `pnpm run dev` | Start dev server (with pino-pretty logging) |
-| `pnpm run storybook` | Start Storybook on port 6006 |
+| `pnpm build` | Production build |
+| `pnpm test` | Run unit and component tests in `src/` once (Vitest) |
+| `pnpm test:uu` | Run browser accessibility tests (Playwright + axe) against a local mock build |
+| `pnpm test:uu:helpers` | Run UU test-rig helper tests (separate Vitest configuration) |
+| `node --test tests/uu/network.test.mjs` | Test the UU server's network isolation |
+| `pnpm test:uu:ui` | Open Playwright's interactive test UI |
+| `pnpm test:uu:report` | Open the latest Playwright HTML report |
+| `pnpm test:watch` | Run tests in watch mode |
+| `pnpm lint` | Run Biome linter — check for errors before committing |
+| `pnpm lint:fix` | Auto-fix lint/format issues in `src/` (`biome check --write src`) |
+| `pnpm typecheck` | Run TypeScript type checking (`tsc`) |
+| `pnpm dev` | Start dev server (with pino-pretty logging) |
+| `pnpm storybook` | Start Storybook on port 6006 |
 
-**Typical workflow:** make changes → `pnpm run lint` → `pnpm test`.
+**Typical workflow:** make changes → `pnpm lint` → `pnpm test`. For UI changes, also run `pnpm test:uu`; for UU test-rig changes, run the helper and network tests. On a clean checkout, run `pnpm exec next typegen` before `pnpm typecheck`.
 
 ## Tech Stack
 
 | Technology | Version | Purpose |
 |---|---|---|
-| Node.js | 24.22.1 | Runtime (see `.nvmrc`) |
+| Node.js | 26.13.0 | Runtime (see `.nvmrc`) |
 | Next.js | 16 | Framework (App Router, Server Components, Server Functions) |
 | React | 19 | UI library (uses `use()` hook for promise unwrapping) |
 | TypeScript | 7.0.2 | Type safety (`strictNullChecks: true`, `noUncheckedIndexedAccess: true`) |
 | Tailwind CSS | 4 | Styling (with `@navikt/ds-tailwind` preset) |
-| Biome | 2.5 | Linting and formatting (replaces ESLint + Prettier) |
+| Biome | 2.6.3 | Linting and formatting (replaces ESLint + Prettier) |
 | Vitest | 5 | Unit testing |
+| Playwright + axe | 1.64.1 / 4.14.0 | Browser accessibility testing |
 | Testing Library | 16 | Component testing |
 | MSW | 3 | API mocking (Storybook) |
 | Storybook | 10 | Component development |
@@ -189,16 +195,19 @@ Use `authenticatedFetch` for new protected domain API calls. It handles OBO toke
 This project uses **Biome** (not ESLint/Prettier). Configuration is in `biome.json`.
 
 ### Git hooks
-The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome format on staged files in `src/app/`). The pre-push hook additionally runs `tsc` and `pnpm run test:ci`. Ensure your changes pass both before pushing.
+The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome format on staged files in `src/app/`). The pre-push hook additionally runs `tsc` and `pnpm test:ci`. Ensure your changes pass both before pushing.
 
 ## Git Workflow
  
 - **`main` branch** deploys to both dev and prod. Keep it green.
 - **`dev/*` branches** (e.g., `dev/my-feature`) deploy only to dev. Use this prefix for work-in-progress that needs a dev environment.
 - **CI triggers** are push events to `main` and `dev/*` only. Other branches and pull request events do not trigger the current workflow. Run checks locally before review; do not assume a pull request has been tested by CI.
-- **Pull requests** should target `main`. Ensure `pnpm run lint`, `pnpm test`, and `pnpm run build` all pass before requesting review.
+- **Pull requests** should target `main`. Ensure `pnpm lint`, `pnpm test`, and `pnpm build` all pass before requesting review.
+- **CI test gate** runs lint, `next typegen`, type checking, UU helper and network tests, and the ordinary Vitest suite in the `test` job. The separate `uu-test` job runs Chromium tests in four shards with two workers per shard. Production build and publication require both test jobs to pass (`needs: [test, uu-test]`).
+- **UU reports** are merged from the four shard blob reports into one HTML artifact by `uu-report`. Reports are retained for seven days. The report job does not determine whether production build may proceed.
+- **Unleash token deployment** is split into `apply-apitoken-unleash-dev` and `apply-apitoken-unleash-prod`. Each app deploy depends on the successful build and its own environment's token job. The prod jobs run only on `main`; a failed dev token job does not block prod deployment.
 - **Commit messages** should be descriptive and in English. Reference issue numbers where applicable.
-- **The pre-commit hook** runs `tsc` and `lint-staged` automatically, and the pre-push hook runs `tsc` and `pnpm run test:ci` — do not skip them.
+- **The pre-commit hook** runs `tsc` and `lint-staged` automatically, and the pre-push hook runs `tsc` and `pnpm test:ci` — do not skip them.
 
 ## Best Practices
 
@@ -239,12 +248,21 @@ The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome fo
 
 ### Testing
 
-21. **Place test files next to the code they test** using the `.test.ts` / `.test.tsx` suffix (e.g., `authenticatedFetch.test.ts`).
+21. **Place unit and component test files next to the code they test** using the `.test.ts` / `.test.tsx` suffix (e.g., `authenticatedFetch.test.ts`). Browser UU tests use `tests/uu/*.spec.ts`; test-rig helper tests use `tests/uu/**/*.test.ts`.
 22. **Test environment is `node`** (not `jsdom`) by default. If a specific test needs a browser environment, configure it per-file with `// @vitest-environment jsdom`.
 23. **Vitest globals are enabled** — no need to import `describe`, `it`, `expect`, etc.
 24. **Use the test stubs** in `src/test/` — `server-only` and `@navikt/next-logger` are automatically stubbed via aliases in `vitest.config.mts`. Do NOT add manual `vi.mock('server-only')` calls.
 25. **Use mock data** from `src/lib/mocks/` for consistent test fixtures.
 26. **Use MSW** for mocking HTTP requests in integration tests and Storybook stories.
+
+### Accessibility testing (UU)
+
+- Read `uu-test.md` for setup, coverage, known limitations, and manual checks. Automated tests do not establish full WCAG compliance.
+- `pnpm run test:uu` builds the app with `next build` and starts it with `next start` on `127.0.0.1:3100`. Both mock flags are enabled and `NAIS_CLUSTER_NAME` is `local-uu`. The port must be free; an existing server is not reused. Storybook is not started by this rig.
+- The mock build writes to `.next`. Before using `pnpm start` outside the rig, make a new ordinary build with both mock flags disabled. CI production builds use a separate checkout and explicitly disable both flags.
+- Install Chromium with `pnpm exec playwright install chromium`. Local tests default to one worker and Chromium. To test Firefox and WebKit as well, install those browsers and set `UU_ALL_BROWSERS=1`.
+- `vitest.uu.config.mts` runs helper tests separately with `jsdom` and `globals: false`. These tests and the Node network tests are not included in `pnpm test`.
+- Use only fictional test data. Never run the UU rig against production or with real personal data or access tokens. Keep the test-specific network isolation in place. CI traces omit screenshots; local traces retain them. Reports and traces can still expose DOM and network data.
 
 ### Feature Toggles
 
@@ -278,14 +296,15 @@ The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome fo
 ## Boundaries
 
 ### ✅ Always do
-- Run `pnpm run lint` and `pnpm test` before considering work complete.
+- Run `pnpm lint` and `pnpm test` before considering work complete.
+- Run `pnpm test:uu` for UI changes, and the UU helper and network tests when changing the test rig. Complete the relevant manual accessibility checks described in `uu-test.md`.
 - Use `authenticatedFetch` for new protected domain API calls. Preserve the existing integration-specific handling documented under Authentication Model.
 - Follow the **Page → Wrapper → Component** data fetching pattern when creating or modifying pages.
 - Use the `@/` path alias for imports from `src/`.
 - Use Aksel (`@navikt/ds-react`) components for UI. Use Tailwind for layout and spacing.
 - Write user-facing strings in Norwegian.
 - Handle `undefined` from indexed access (`noUncheckedIndexedAccess` is enabled).
-- Place test files next to the code they test with the `.test.ts` / `.test.tsx` suffix.
+- Place unit and component tests next to the code they test with the `.test.ts` / `.test.tsx` suffix. Keep browser UU tests and test-rig helper tests in `tests/uu/`.
 
 ### ⚠️ Ask first
 - Adding new pnpm dependencies — check if an existing dependency or Aksel component already covers the need.
