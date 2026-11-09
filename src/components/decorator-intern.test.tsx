@@ -1,12 +1,19 @@
 // @vitest-environment jsdom
 
 import { act, render } from '@testing-library/react';
+import { useEffect } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ModiaProvider, useModiaContext } from '@/contexts/modia-context';
 import { InternflateDecorator } from './decorator-intern';
 
 const mockPush = vi.fn();
 let mockPathname = '/';
+
+function EnhetSpy({ onEnhetId }: { onEnhetId: (enhetId: string | null) => void }) {
+    const { enhetId } = useModiaContext();
+    useEffect(() => onEnhetId(enhetId), [enhetId, onEnhetId]);
+    return null;
+}
 
 vi.mock('next/navigation', () => ({
     useRouter: () => ({ push: mockPush }),
@@ -26,17 +33,14 @@ function renderDecorator(initFnr: string | null = '10108000398') {
 
 function renderDecoratorWithEnhet(initEnhetId: string, initFnr: string | null = '10108000398') {
     let capturedEnhetId: string | null = initEnhetId;
-
-    const EnhetSpy = () => {
-        const { enhetId } = useModiaContext();
+    const onEnhetId = (enhetId: string | null) => {
         capturedEnhetId = enhetId;
-        return null;
     };
 
     const result = render(
         <ModiaProvider initFnr={initFnr} initEnhetId={initEnhetId}>
             <InternflateDecorator decoratorEnv='q2' />
-            <EnhetSpy />
+            <EnhetSpy onEnhetId={onEnhetId} />
         </ModiaProvider>,
     );
     const element = result.container.querySelector('internarbeidsflate-decorator');

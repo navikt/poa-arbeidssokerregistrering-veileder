@@ -73,16 +73,15 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }
                 <DagerTag dager={daysSinceDate(aktivPeriode?.ledigSiden || new Date())} />
             </Table.DataCell>
             <Table.DataCell>
-                {aktivPeriode &&
-                    aktivPeriode?.bekreftelsePaaVegneAv.map((e) => (
-                        <Tag key={e} size='small'>
-                            {BEKREFTELSE_LABEL[e]}
-                        </Tag>
-                    ))}
+                {aktivPeriode?.bekreftelsePaaVegneAv.map((e) => (
+                    <Tag key={e} size='small'>
+                        {BEKREFTELSE_LABEL[e]}
+                    </Tag>
+                ))}
             </Table.DataCell>
             <Table.DataCell>
                 <div className='flex items-center gap-1'>
-                    {aktivPeriode && aktivPeriode?.egenvurdertTil ? (
+                    {aktivPeriode?.egenvurdertTil ? (
                         <NeiJaTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_GODE_MULIGHETER} />
                     ) : (
                         'IKKE SVART'

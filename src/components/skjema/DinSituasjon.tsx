@@ -73,7 +73,7 @@ function DinSituasjon({ registrering, setRegistrering, doValidate }: DinSituasjo
     return (
         <Box className='mb-8' borderWidth='1' padding='space-16' style={{ backgroundColor: 'var(--ax-neutral-100)' }}>
             <form>
-                <Heading size='medium' spacing level='1'>
+                <Heading size='medium' spacing level='2'>
                     Din arbeidssøkersituasjon
                 </Heading>
                 <RadioGruppe

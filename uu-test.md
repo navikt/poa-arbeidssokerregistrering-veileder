@@ -1,0 +1,350 @@
+# UU-testing
+
+UU-testene skal finne tilgjengelighetsfeil før endringer tas i bruk. Testene kjører lokalt med Playwright og axe. CI-oppsettet har en obligatorisk testgate før bygg og publisering. Eksisterende Vitest-tester beholdes.
+
+En grønn kjøring betyr at de automatiske kontrollene består i de testede tilstandene. Den betyr ikke at løsningen oppfyller alle WCAG-krav. Manuell testing og vurdering av brukerflytene er fortsatt nødvendig.
+
+## Status og gjennomgåtte resultater
+
+Demokomponentene er fjernet fra appen. Testoppsettet har derfor ikke lenger en hjelper som skjuler dem, eller tester av denne hjelperen. Den særskilte nettlesertesten av demohurtigvalgene er også fjernet. Mockmodus og testene av appens funksjoner er beholdt.
+
+Etter demooppryddingen ble det registrert 52 nettlesertester og 22 hjelpetester, mot tidligere 53 og 29. Nedgangen skyldtes at én nettlesertest av demohurtigvalgene og sju tester av den slettede hjelperen ble fjernet, ikke at UU-kravene til appen ble svekket. CI-endringen la til to kontroller av Playwright-oppsettet. Etter serverrettelsen nedenfor er det 26 hjelpetester. Testlisting er ikke en nettleserkjøring og sier ikke hvilke tester som består.
+
+I en tidligere nettleserkjøring, før denne oppryddingen, bestod 50 av 53 tester. De tre gjenværende feilene gjaldt combobox-listens tilgjengelige navn og fokus etter navigasjon til sidene for avsluttet og slettet periode. Dette var før de siste rettelsene av listeboksnavn og kvitteringsfokus. Disse rettelsene er senere verifisert i den lokale Chromium-kjøringen beskrevet under serverrettelsen nedenfor.
+
+Test-riggen hadde blant annet for strenge tekstselektorer, feil rolle for historikkens Aksel-bryter og en uriktig forventning om Tab-rekkefølgen. Disse forholdene må skilles fra produktfunn som manglende gruppenavn, fokustap og axe-brudd.
+
+En tidligere rapport viste også at `/kvittering-arbeidssoker` krasjet i `TrackAktivitet` med `Cannot read properties of undefined (reading 'onClick')`. Riggen skal stoppe testen med en tydelig melding ved en slik renderingsfeil, og ikke godta feilsiden som en bestått kvitteringstest.
+
+### Applikasjonsrettelser etter funnene
+
+Listen under beskriver de første applikasjonsrettelsene, som er komponenttestet og inngikk i nettleserkjøringen der 50 av 53 tester bestod. De siste rettelsene av listeboksnavn og fokus på kvitteringene for avsluttet og slettet periode omtales separat nedenfor og er senere verifisert i Chromium. Dette er ikke en full manuell UU-vurdering.
+
+- Kvitteringslenken rendres direkte som en Aksel-lenke i klientkomponenten. Den inspiserer og kloner ikke lenger et barn som er sendt fra en serverkomponent. Lenketekst, mål og sporingshendelse er beholdt.
+- Forsiden har fått en hovedoverskrift. Skjemaseksjonene og historikkens sideoverskrift har fått riktige nivåer under sidens hovedoverskrift.
+- Jobbvalgene har fått et gruppenavn. Feilmeldingen vises også når et påkrevd jobbvalg fortsatt har verdien `INGEN_SVAR`, i samsvar med den eksisterende registreringsvalideringen.
+- Ugyldig innsending flytter fokus til første ugyldige felt i skjemaet. Åpning av stillingssøk fokuserer søkefeltet, og valg av stilling gir fokus tilbake til «Endre». Vanlig Tab-navigasjon ut av søket skal ikke trekke fokus tilbake.
+- Bekreftelsens kvitteringsoverskrift får fokus når den erstatter innsendingshandlingen. Ved overgang til neste bekreftelsesperiode fokuseres det nye spørsmålets første radiovalg.
+- «Avbryt» og inngangen til bekreftelser rendres som én lenke hver, uten en knapp inni lenken.
+- Informasjonskortet og navigasjonslenkene på forsiden kan stables ved smal skjermbredde. Innhold skjules eller klippes ikke for å få breddetesten til å bestå.
+
+Registreringsregler, innsending, API-payloads, auth, rotlayout og CI er ikke endret av disse rettelsene. Komponenttester i jsdom beviser ikke at reflow, skjermleseropplesning eller server-/klientsammensettingen fungerer i en ekte nettleser.
+
+Etter en separat rettelse i `useServerData.ts` bestod alle 390 enhets- og komponenttester, alle 24 daværende hjelpetester for UU-riggen og de fire testene av nettverksisoleringen. Lint og TypeScript-sjekken bestod også. Hooken leste tidligere kontekstverdier fra tilstanden som effekten selv oppdaterte, og disse verdiene var også effektavhengigheter. Det utløste ekstra hentinger. Initialkonteksten lagres nå i en ref, uten å endre kontrollene som hindrer at data fra forrige person eller enhet vises. Den eksisterende testen av raskt kontekstbytte er beholdt uendret og består.
+
+### Serverrettelse etter CI-feil i shard 1 og 2
+
+Den nedlastede CI-rapporten viste 50 beståtte og to feilede nettlesertester. Begge tracene viste full sidelasting midt i testen. Registreringsskjemaet ble nullstilt mens siste radiovalg ble kontrollert. I historikktesten startet en ny sidelasting etter Fast Refresh, slik at «Nullstill filter» manglet da tastaturhjelperen telte treff. Tracene viser ikke HMR-meldingen som utløste sidelastingene.
+
+UU-serveren bruker nå `next build` og `next start` i stedet for `next dev`. Begge kommandoene får samme mock-flagg og nettverksisolering. Dette fjerner HMR fra testmiljøet. `tabTo` venter dessuten på nøyaktig ett treff med Playwrights `toHaveCount(1)` før synlighet og Tab-navigasjon kontrolleres. Manglende eller flertydige mål skal fortsatt feile. Ingen sleeps eller test-retries er lagt til.
+
+Begge feilede tester bestod først i en avgrenset lokal kjøring med to workers. Deretter bestod alle 52 Chromium-tester med `--workers=2 --fully-parallel --forbid-only`, uten retries, på 36,3 sekunder inkludert serveroppsett. Alle 390 ordinære tester, 26 hjelpetester og fire nettverkstester består også. Lint og TypeScript-sjekken består. Dette er lokal verifisering, ikke en ny GitHub Actions-kjøring.
+
+Kjøringene brukte `--reporter=line`, slik at den nedlastede rapporten i `playwright-report/` ble beholdt. Lokale testresultater ligger i `test-results/uu-mock-build/` og `test-results/uu-mock-build-all/`.
+
+### Funn som fortsatt må avklares
+
+- Aksel 8.20 rendrer en `ul[role="listbox"]` uten tilgjengelig navn i `UNSAFE_Combobox` og tilbyr ingen prop for å navngi listen. Stillingssøket bruker nå en avgrenset kompatibilitetsrettelse. Den følger bare søkefeltets `aria-controls`, finner den tilhørende listeboksen og gir den samme tilgjengelige navn som søkefeltet hvis navneattributter mangler. Eksisterende navn og roller beholdes. Endringer i den tilhørende listen observeres lokalt, med opprydding når søket avmonteres. Axe-regelen er fortsatt aktiv. Testene bruker Aksels faktiske komponent og kontrollerer også at et annet søk ikke påvirkes og at listen beholder navnet ved søkefeil. Ved en senere Aksel-oppgradering må behovet vurderes på nytt og rettelsen fjernes hvis den ikke lenger trengs. Den automatiserte nettlesertesten består lokalt i Chromium. Manuell skjermlesertesting gjenstår.
+- Fokus på `body` etter full ruteendring er ikke alene bevis på et WCAG-brudd. I denne flyten har sidene samme dokumenttittel, mens den installerte Next.js-versjonens ruteannonsering bare reagerer på tittelendringer. Kvitteringene for avsluttet og slettet periode fokuserer derfor nå sin faktiske hovedoverskrift. Fokus flyttes når kvitteringen monteres eller teksten endres, ikke ved uendret gjengivelse. Dette er avgrenset til de to kvitteringene, ikke alle ruteendringer. Nettlesertestene krever nå fokus på den konkrete overskriften, ikke bare at fokus er borte fra `body`. Skjermleseropplesning og tastaturflyt må fortsatt vurderes manuelt.
+- Den nye lokale Chromium-kjøringen med to workers dekker combobox-listen og kvitteringsfokus. Alle testene består lokalt. De eldre rapportene er ikke oppdatert av denne kjøringen, og manuell vurdering gjenstår.
+
+Nettleserrapporten i `playwright-report/` beskriver kjøringen som laget den. Endring av testkode oppdaterer ikke rapporten. Den må genereres på nytt med en ny nettleserkjøring før du vurderer resultatene etter endringer i riggen.
+
+Under en tidligere retting skrev Playwrights HTML-reporter utilsiktet over rapporten ved `--list`. En senere nettleserkjøring erstattet testlisten med nye resultater. Konfigurasjonen er rettet slik at vanlig testlisting bare bruker konsollrapportering og ikke skriver HTML. Trace- og feilkontekstfiler fra den siste nettleserkjøringen ligger i `test-results/uu/`.
+
+Implementerte Playwright-tester ligger i `forms.spec.ts`, `navigation.spec.ts`, `routes.spec.ts` og `layout.spec.ts` under `tests/uu/`. Storybook-scenarioene finnes som testgrunnlag, men egne automatiserte tilstandstester for dem er ikke implementert ennå. Det finnes heller ingen `states.spec.ts` eller `rig.spec.ts`. Kontoroversikt og person- og enhetsbytte er dermed ikke dekket av nettlesertestene ennå.
+
+## Kjør testene lokalt
+
+Bruk Node-versjonen fra `.nvmrc`. Ikke start testene mot et produksjonsmiljø eller med virkelige personopplysninger.
+
+```bash
+source "$HOME/.nvm/nvm.sh"
+nvm use
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+pnpm test:uu
+```
+
+Testene lager et eget mock-bygg med `next build` før de starter Next.js-serveren med `next start` på `127.0.0.1:3100`. Porten må være ledig. Testene gjenbruker ikke en app du allerede har startet. Bygg og serverstart har en samlet oppstartsgrense på fem minutter. Grensene for selve testene er uendret. Storybook startes ikke av UU-riggen, siden ingen av de implementerte nettlesertestene bruker den.
+
+Mock-bygget skrives til `.next`. Kjør et nytt vanlig bygg med begge mock-flaggene avslått før du bruker `pnpm start` utenfor UU-riggen. Next.js varsler at appens `output: 'standalone'` er beregnet på den genererte `server.js`. Testserveren med `next start` fungerer mot hele `.next` i den lokale kontrollen, men testen verifiserer ikke det pakkede standalone-imaget.
+
+```bash
+# Vis hvilke tester som finnes, uten å starte servere eller nettleser.
+pnpm test:uu --list
+
+# Kjør en del av testene.
+pnpm test:uu tests/uu/forms.spec.ts
+
+# Åpne den siste HTML-rapporten.
+pnpm test:uu:report
+
+# Kjør med Playwrights interaktive grensesnitt.
+pnpm test:uu:ui
+
+# Kontroller serverens testspesifikke nettverksmodul uten nettleser.
+node --test tests/uu/network.test.mjs
+
+# Kjør regresjonstestene for test-riggens hjelpere uten nettleser eller appserver.
+pnpm test:uu:helpers
+```
+
+Chromium er standard. Installer og velg flere nettlesere når du vil undersøke forskjeller mellom nettlesermotorene:
+
+```bash
+pnpm exec playwright install firefox webkit
+UU_ALL_BROWSERS=1 pnpm test:uu
+```
+
+Playwright WebKit erstatter ikke manuell testing i Safari med VoiceOver. Playwright Chromium erstatter heller ikke NVDA i et faktisk Windows-oppsett.
+
+## CI-kjøring
+
+Workflowen i `.github/workflows/deploy.yml` deler test og produksjonsbygg i separate jobber:
+
+```text
+test ────────────────┐
+                    ├──> build ──> eksisterende deploy-jobber
+uu-test (4 shards) ──┘
+       └───────────────> uu-report
+```
+
+`test` kjører lint, TypeScript, hjelpetestene for UU-riggen, nettverksisoleringens tester og den ordinære Vitest-suiten. Før typesjekken kjøres `pnpm exec next typegen`, slik at en ren checkout har `next-env.d.ts` og genererte rutetyper uten å bygge appen. `uu-test` kjører fire shards parallelt, med to workers per shard og bare Chromium. Til sammen kan åtte UU-workers kjøre samtidig, fordelt på fire runners. `fail-fast: false` gjør at en feil i én shard ikke avbryter de andre.
+
+Hver shard installerer Chromium med Linux-avhengigheter og kjører denne kommandoen med sitt eget shardnummer. Playwright bygger mock-appen i shardens egen checkout før testserveren starter:
+
+```bash
+pnpm exec playwright install --with-deps chromium
+pnpm test:uu --project=chromium --shard=1/4 --workers=2 --fully-parallel --forbid-only --global-timeout=900000 --reporter=line,blob
+```
+
+`--fully-parallel` gjør at Playwright fordeler enkelttester, ikke bare hele filer, mellom shardene. Lokal testlisting med `--list` viste 13 tester i hver shard, med alle 52 tester dekket nøyaktig én gang. Dette er kontroll av oppdelingen, ikke en måling av kjøretid eller en bekreftelse på at nettlesertestene består. Tester med mange steg kan ta lengre tid enn andre, selv om antallet er likt.
+
+Lokal standard er fortsatt én worker og `fullyParallel: false`. CI overstyrer dette med kommandolinjeflagg. Ingen tester har fått ekstra retries. `--forbid-only` feiler kjøringen hvis noen har latt `test.only` ligge igjen. Playwrights globale tidsgrense er 15 minutter per shard; jobbens grense er 20 minutter for å gi rom for oppsett og rapportopplasting.
+
+### Rapporter og feil
+
+Hver shard laster opp `blob-report/` som `uu-blob-1` til `uu-blob-4`, også når tester feiler, så lenge kjøringen ikke er avbrutt. Ved ny kjøring av en shard erstattes dens tidligere artifact i samme workflowkjøring.
+
+`uu-report` venter på UU-matrisen og forsøker å samle rapportene selv om tester feiler. Jobben krever nøyaktig fire blob-rapporter før den bygger én HTML-rapport. Mangler en rapport, feiler rapportjobben i stedet for å presentere en delrapport som fullstendig. Blob-rapporter fra de ferdige shardene kan fortsatt lastes ned enkeltvis.
+
+HTML-rapporten lastes opp som `uu-report-<run_attempt>`. Både blob-rapporter og HTML-rapport lagres i sju dager. Last ned og pakk ut HTML-artifacten, og åpne den med:
+
+```bash
+pnpm exec playwright show-report <mappe-med-utpakket-rapport>
+```
+
+Repoet er offentlig. Rapporter og traces kan inneholde DOM, skjermbilder og nettverkstrafikk, og kan lastes ned av andre innloggede GitHub-brukere. Ved innføringen av CI-oppsettet bekreftet utvikleren at testdataene er fiktive og kan lagres som offentlige GitHub-artifacts i sju dager. Bruk aldri ekte personopplysninger eller tilgangstokener i disse testene. `READER_TOKEN` er bare tilgjengelig under installasjon av pakker, ikke i UU-teststeget eller testserveren. Rapportene publiseres ikke til Nav CDN eller GitHub Pages.
+
+### Testgate og produksjonsbygg
+
+`build` har `needs: [test, uu-test]`. Vanlige tester og alle fire UU-shards må bestå før appen bygges eller filer publiseres til CDN og Docker-registeret. Rapportjobben kan ikke gjøre feilede tester grønne, siden bygg avhenger av selve testjobbene og ikke rapportjobben.
+
+Hvis GitHub-reglene for branchbeskyttelse viser til navnet på den gamle samlejobben, må de gjennomgås ved innføringen. Jobbnavnene er endret, og eventuelle påkrevde statuskontroller må omfatte både ordinære tester og UU-testene. Repoets innstillinger endres ikke av workflowfilen.
+
+Byggejobben bruker egen checkout og installasjon. Bare pnpm-store mellomlagres; `.next` deles ikke fra UU-jobbene. Begge mockflaggene er eksplisitt satt til `disabled` i produksjonsbyggesteget. Dette hindrer at en mockbygget app brukes som grunnlag for publisering.
+
+Test- og rapportjobbene har bare `contents: read`. Bygg og deploy beholder nødvendige publiserings- og OIDC-rettigheter. Appens branchbetingelser og deploymål er beholdt. Kjøringer for samme branch står i kø med `cancel-in-progress: false`, uten å avbryte en pågående kjøring. GitHub kan erstatte en eldre ventende kjøring med en nyere.
+
+Token-jobbene for Unleash er delt per miljø. Begge krever et vellykket `build`:
+
+- `apply-apitoken-unleash-dev` har samme branchbetingelse som `deploy-dev` og bruker bare dev-manifestet. `deploy-dev` avhenger av `build` og denne token-jobben.
+- `apply-apitoken-unleash-prod` har samme `main`-betingelse som `deploy-prod` og bruker bare prod-manifestet. `deploy-prod` avhenger av `build` og denne token-jobben.
+
+På `dev/*` hoppes begge prod-jobbene over, uten å blokkere dev. På `main` er miljøløpene uavhengige: en feil i dev-token-jobben blokkerer bare dev-deploy, og en feil i prod-token-jobben blokkerer bare prod-deploy. Mislykket bygg blokkerer begge miljøene. Dette erstatter den tidligere samlejobben som også forsøkte å anvende prod-manifestet fra dev-brancher.
+
+Feilen i testen av raskt person- og enhetsbytte er rettet separat i hooken, og `pnpm test:ci` består lokalt. Bygg og deploy er fortsatt konfigurert til å stoppe hvis noen testjobb feiler. Workflowen er ikke kjørt i GitHub Actions som del av den lokale verifiseringen. Første faktiske kjøring må også kontrollere tidsbruk, rapportopplasting og runnerkapasitet.
+
+## Testmiljø og avgrensning
+
+Testene bruker ekte applikasjonskomponenter, ikke erstatninger for skjemafelt eller Aksel-komponenter.
+
+- Next.js kjører med både `ENABLE_MOCK=enabled` og `NEXT_PUBLIC_ENABLE_MOCK=enabled`. Cluster-navnet er `local-uu`.
+- Serverkall bruker appens eksisterende mockgrener. En testspesifikk nettverksmodul erstatter oppslag av visittkortmanifestet og avviser andre eksterne server-fetch-kall.
+- Stillingssøk får kontrollerte nettverkssvar i nettlesertestene. Testene skal ikke sende søk til PAM Ontologi.
+- Storybook-konfigurasjonen i `.storybook-uu/` gjør flere tilstander tilgjengelige med testdata og erstatninger for serverfunksjonene. Den kan brukes separat, men startes ikke av Playwright. Den endrer ikke vanlig Storybook eller appens produksjonsoppsett.
+- Dekoratør og visittkort vises ikke i mockmodus. Disse inngår derfor ikke i den lokale sidetestingen.
+- Next.js sitt utviklerpanel er verktøygrensesnitt, ikke produktinnhold. Testoppsettet skjuler dette panelet. Applikasjonsinnhold skal ikke skjules eller ekskluderes for å få testene grønne.
+- Aksel-fontene hentes fra en avgrenset CDN-adresse. Nettverks- og fontfeil skal ikke tolkes som en bestått UU-kontroll.
+
+Bruk bare testdata. Rapporter, skjermbilder og traces kan inneholde alt som vises i grensesnittet, og traces kan også inneholde nettverkstrafikk. Resultatkatalogene er ignorert av Git. Ikke del rapporter fra andre miljøer uten å kontrollere innholdet.
+
+## Hva som testes automatisk
+
+### Axe-skanning
+
+Axe kjører mot ferdig rendret innhold og etter utvalgte tilstandsendringer. Skanningen bruker standardsettet med stabile regler og aktiverer i tillegg `target-size`. Denne regelen er stabil, men er ikke aktivert som standard i axe 4.14. Skanningen filtrerer ikke på alvorlighetsgrad og bruker ingen liste som godtar eksisterende brudd. Eksperimentelle, utgåtte og ekstra AAA-regler aktiveres ikke.
+
+Reglene omfatter blant annet:
+
+- manglende tilgjengelige navn på knapper og skjemafelt
+- ugyldige ARIA-attributter og enkelte feil i ARIA-relasjoner
+- tekstkontrast der verktøyet kan beregne den
+- enkelte feil i semantikk, tabeller, landemerker og dokumentstruktur
+- regler for minstestørrelse på pekermål som den installerte axe-versjonen støtter
+
+Regelsettet inneholder både WCAG-kontroller og beste praksis. WCAG 2.1 A/AA er utgangspunktet. Relevante automatiske WCAG 2.2-kontroller kommer i tillegg. Et funn må vurderes ut fra regelen og kriteriet det gjelder, ikke bare testnavnet.
+
+Hele axe-resultatet legges ved rapporten. `violations` gir testfeil. `incomplete` betyr at axe trenger en menneskelig vurdering. Disse resultatene skal gjennomgås, ikke regnes som bestått. `inapplicable` betyr at regelen ikke traff noe i den aktuelle tilstanden, ikke at hele WCAG-kriteriet er irrelevant for appen.
+
+### Sider og tilstander
+
+Sideregistret i `tests/uu/routes.ts` angir hvilke ruter testene besøker og hvilket innhold de venter på. En synlig sidetittel alene er ikke bevis på at dataene er ferdig lastet.
+
+| Side | Grunntilstand i den ekte appen |
+| --- | --- |
+| `/` | Personvisning med mockdata |
+| `/registrering-arbeidssoker` | Registreringsskjema |
+| `/registrering-arbeidssoeker-sjekk` | Avvisning med veilederens vurderinger |
+| `/oppdater-opplysninger` | Utfylt opplysningsskjema |
+| `/bekreftelse` | Bekreftelsesskjema |
+| `/tidslinjer` | Perioder med hendelser |
+| `/historikk` | Historikk med perioder og filtre |
+| `/avslutt-arbeidssoekerperiode` | Avslutning av periode |
+| `/slett-arbeidssoekerperiode` | Bekreftelse før sletting |
+| `/arbeidssoekerperiode-er-avsluttet` | Kvittering |
+| `/arbeidssoekerperiode-er-slettet` | Kvittering |
+| `/kvittering-arbeidssoker` | Kvittering |
+| `/kvittering-oppdatert-opplysninger` | Kvittering |
+| `/veiledning/mangler-tilgang-til-aa-registeret` | Veiledning |
+| Ukjent rute | 404-side |
+
+Den generelle feilkomponenten kan testes isolert i Storybook. Å rendre `error.tsx` der undersøker komponenten, ikke at en error boundary i Next.js faktisk fanger en serverfeil. `/feil` er ikke en egen feilrute i denne appen.
+
+Storybook-scenarioene gjør kontoroversikt, person- og enhetsbytte, tomme resultater, manglende tilgang, lesefeil, innsendingsfeil og lasting tilgjengelig for testing. De viser også innholdet i «Hva er nytt», som normalt er slått av i mockmodus. Scenarioene skannes foreløpig ikke av Playwright-testene. De er heller ikke en test av Unleash-integrasjonen.
+
+### Tastatur og fokus
+
+Interaksjonstestene bruker tastetrykk for å nå og betjene kontroller. De skal kontrollere ønsket oppførsel, ikke godta dagens fokustap som forventet resultat.
+
+| Område | Automatisk kontroll | Hva kontrollen ikke beviser |
+| --- | --- | --- |
+| Registrering og oppdatering | Betjening av faktiske felt, betingede spørsmål og innsending | At spørsmålene er forståelige for en veileder |
+| Feltfeil | Feiltilknytning og fokus ved ugyldig innsending | At skjermleseren formidler feilen tydelig |
+| Stillingssøk | Åpning, søk, valg, feil og fokus når feltet erstattes | Hele skjermleseropplevelsen i comboboxen |
+| Bekreftelser | Radiovalg, advarsel, innsending, kvittering og neste periode | At konsekvensen av svaret er forstått |
+| Avslutning og sletting | Tastaturbetjening og overgang til kvittering | At brukeren forstår forskjellen mellom handlingene |
+| Historikk og tidslinje | Menyer, filtre og utvidet innhold | At leserekkefølgen fungerer godt med hjelpemidler |
+| Kontoroversikt | Storybook-scenarioer med styrte testdata finnes, men skannes ikke ennå | Ingen automatisk UU-skanning eller tastaturflyt i nettleser er verifisert |
+
+Testene kontrollerer også utvalgte strukturelle egenskaper som positiv `tabindex`, nestede interaktive elementer, hovedområde og overskrifter. «Én hovedoverskrift» og et avtalt overskriftshierarki er prosjektets kvalitetsregler. Flere `h1` er ikke alene bevis på et WCAG-brudd.
+
+### Visning og tilpasning
+
+Visningstestene undersøker smal bredde og dokumentoverflyt. Tekstavstand, større tekst, tvungne farger og redusert bevegelse gir supplerende testgrunnlag og skjermbilder.
+
+Noen visuelle kontroller er heuristikker: de finner mistenkelige forhold, men kan ikke avgjøre om resultatet er tilgjengelig. Se vedleggene i rapporten og gjennomgå kandidatene manuelt.
+
+- Et viewport på 320 CSS-piksler undersøker reflow. Det er ikke en faktisk test av nettleserzoom på 400 %.
+- Dobbel rotfontstørrelse er en stresstest av tekst, ikke det samme som 200 % nettleserzoom. Tekst med andre størrelsesenheter påvirkes ikke nødvendigvis.
+- Tekstavstand testes med linjehøyde 1,5, bokstavavstand 0,12 em, ordavstand 0,16 em og avsnittsavstand 2 em.
+- `forced-colors` i Chromium er en emulering. Den beviser ikke at appen fungerer i Windows-kontrasttema.
+- En beregnet `outline` eller et skjermbilde beviser ikke at fokusmarkeringen er synlig og tydelig mot alle bakgrunner.
+- Tabeller kan ha legitim todimensjonal rulling. Dette gir ikke et generelt unntak for overflyt i resten av siden.
+
+### Eksisterende Vitest- og lintkontroller
+
+`pnpm test` kjører fortsatt de eksisterende enhets- og komponenttestene. Flere bruker roller og tilgjengelige navn. Disse er nyttige regresjonstester, men erstatter ikke nettlesertestene. Opplysningsskjemaets eksisterende orkestreringstest erstatter underkomponenter med stubber og undersøker derfor ikke de faktiske feltene.
+
+`pnpm lint` kjører Biome, inkludert anbefalte tilgjengelighetsregler. Statisk analyse kan ikke kontrollere ferdig sammensatt UI eller fokusflyt. Både lint, enhetstester og UU-testene inngår i CI-testgaten beskrevet over.
+
+## Les og behandle resultatene
+
+1. Åpne HTML-rapporten etter kjøringen.
+2. Skill mellom testmiljøfeil og produktfunn. Manglende nettleser, server som ikke starter, feil selektor eller manglende fixture er ikke et UU-funn.
+3. Les axe-regel, berørt element, tilstand og forslag til vurdering. Gjenskap produktfunnene i nettleseren.
+4. Gjennomgå alle `incomplete` og visuelle vedlegg. Registrer konklusjonen og begrunnelsen.
+5. Rett bekreftede produktfeil i en separat endring. Kjør den aktuelle testen på nytt og deretter hele UU-suiten.
+
+Ikke bruk `skip`, `fixme`, forventet testfeil eller brede ekskluderinger for å få en grønn rapport. Et nødvendig midlertidig unntak må beskrive nøyaktig element, regel, årsak, ansvarlig og tidspunkt for ny vurdering.
+
+Kildekodegjennomgangen før testoppsettet fant flere forhold som testene skal undersøke: knapp inni lenke, flere hovedoverskrifter, radiogruppe uten `legend`, generisk ikonnavn og mulig fokustap i stillingssøk og ved validering. Ikke behandle hele listen som ferdig verifiserte nettleserfunn. Rapporten fra den aktuelle kjøringen viser hva som faktisk ble undersøkt. Se statusdelen for skillet mellom testfeil og produktfunn.
+
+## Hva som må testes manuelt, og hvordan
+
+Bruk testpersoner i dev når du trenger den ekte Modia-integrasjonen. Test alle sentrale oppgaver: finne en person, registrere, endre opplysninger, bekrefte, lese historikk og tidslinje, avslutte og slette en periode. Ta med feil og veien tilbake til en fungerende tilstand.
+
+### Tastatur uten mus
+
+1. Last siden på nytt. Bruk bare Tab, Shift+Tab, Enter, mellomrom, piltaster og Escape.
+2. Gå fra dekoratøren og visittkortet til appens hovedinnhold. Kontroller eventuell hopp-lenke.
+3. Fullfør oppgaven. Åpne og lukk alle relevante menyer, hjelpetekster og søk.
+4. Utløs en feil og rett den. Kontroller også avbrudd, tilbake-navigasjon og kvittering.
+
+Bestått når alle handlinger er tilgjengelige, rekkefølgen er forståelig, fokus er synlig og ikke dekket, og det ikke finnes tastaturfeller. Etter at et felt eller en meny forsvinner, skal fokus være på et forståelig sted. Automatiske tastaturtester dekker bestemte sekvenser, ikke alle mulige veier gjennom UI-et.
+
+### Skjermleser
+
+Bruk NVDA med Chrome eller Firefox i Windows og VoiceOver med Safari på Mac. Registrer nøyaktige versjoner. På Mac aktiveres VoiceOver med Command+F5; kontroller også systemets innstilling for full tastaturnavigasjon.
+
+1. Les sidetittelen og naviger med overskrifter og landemerker.
+2. Gå gjennom feltene. Kontroller at navn, gruppespørsmål, valgt verdi, beskrivelse og feil blir formidlet i riktig sammenheng.
+3. Bruk stillingssøk med tastatur. Kontroller søkestatus, forslag, aktivt forslag og valgt stilling.
+4. Utløs valideringsfeil og en innsendingsfeil. Kontroller at du oppdager feilen uten å lete tilfeldig på siden.
+5. Send inn og gå til neste bekreftelse. Kontroller at kvitteringen og det nye spørsmålet blir oppdaget.
+6. Les kontoroversikten og historikken. Kontroller sammenhengen mellom rad, kolonne, sortering, filtervalg og innhold.
+7. Bytt person og enhet. Kontroller at kontekstendringen er forståelig, og at gammel informasjon ikke blir lest som den nye personens informasjon.
+
+Bestått når du kan forstå og fullføre oppgaven uten å se skjermen. At en live-region eller et ARIA-attributt finnes, beviser ikke at riktig informasjon blir lest opp til riktig tid.
+
+### Zoom, tekst og reflow
+
+1. Bruk en vanlig desktopbredde, for eksempel 1280 CSS-piksler, og test ekte nettleserzoom på 200 % og 400 %.
+2. Åpne menyer, skjemafeil, stillingssøk og historikk i den forstørrede visningen.
+3. Kontroller at tekst og kontroller ikke klippes, overlapper eller forsvinner. Kontroller at klebrige elementer ikke dekker innhold eller fokus.
+4. Test tekstavstandene beskrevet over, og større standardtekst i nettleseren.
+5. Undersøk tabeller separat. Eventuell todimensjonal rulling skal være nødvendig for innholdet og kunne betjenes med tastatur.
+
+Bestått når du fortsatt kan lese, nå og bruke innholdet. Skjermbilder og geometrimålinger er støtte, ikke en full vurdering.
+
+### Kontrast, farge og fokusmarkering
+
+Bruk et kontrastverktøy på tekst, men også på meningsbærende ikoner, feltgrenser og fokusmarkering. Sjekk vanlig, valgt, hover-, fokus- og feiltilstand. Tekst krever normalt minst 4,5:1; stor tekst minst 3:1. Relevante ikke-tekstlige komponenter og tilstander krever minst 3:1 mot tilstøtende farger.
+
+Undersøk at advarsler og status kan forstås uten farge alene. Test i et faktisk Windows-kontrasttema. Kontroller at knapper, radiovalg, valgt filter og fokus fortsatt kan skilles fra bakgrunnen. Vurder unntak ut fra WCAG-kriteriet, ikke ved å anvende kontrastkravet ukritisk på alle elementer.
+
+### Pekermål og innhold ved hover eller fokus
+
+Undersøk små ikonknapper, filterknapper og paginering med mus og berøring der det er relevant. WCAG 2.2s minstestørrelse på pekermål er 24 × 24 CSS-piksler, med definerte unntak, blant annet for avstand og lenker i løpende tekst. Mål og vurder unntaket før du registrerer et brudd.
+
+Åpne tooltips og annet ekstra innhold både med peker og tastatur. Kontroller at innholdet kan oppdages, holdes åpent og lukkes uten at du mister nødvendig kontekst. Kontroller at meningsbærende ikoninformasjon ikke bare finnes i en hover-tekst.
+
+### Språk, struktur og konsekvenser
+
+Les overskrifter, lenkenavn, feltetiketter og feilmeldinger i sammenheng. Vurder om navnene beskriver handlingen, om feil kan rettes, og om veilederen forstår forskjellen mellom avslutning og sletting. Kontroller at status og konsekvenser ikke bare uttrykkes med ikoner.
+
+Automatikk kan finne et manglende navn, men ikke avgjøre om et eksisterende navn er nyttig. Brukertesting med veiledere og brukere av hjelpemidler er nødvendig for å vurdere hele arbeidsflyten.
+
+### Områder som krever ny vurdering ved endringer
+
+Det nåværende testoppsettet er ikke en full gjennomgang av WCAG. Tidsgrenser, reautentisering, avbrudd, bevegelse, pekergester og eventuell dra-og-slipp må vurderes når de inngår i en brukerflyt. Appens innlogging og felles Modia-komponenter ligger utenfor de lokale mocktestene.
+
+For lyd, video og andre funksjoner som ikke er representert i testscenarioene, skal dere registrere om kriteriene er relevante. Fravær av en test er ikke dokumentasjon på at et kriterium ikke gjelder. Ved nye funksjoner må testmatrisen oppdateres.
+
+## Registrer manuelle resultater
+
+Bruk én rad per kontrollert oppgave eller funn. Ikke fyll ut «bestått» uten en gjennomført kontroll.
+
+| Dato og tester | Commit og miljø | Nettleser og hjelpemiddel | Rute og tilstand | Fremgangsmåte | Forventet og observert resultat | Funn eller oppfølging |
+| --- | --- | --- | --- | --- | --- | --- |
+| Ikke gjennomført | | | | | | |
+
+Kjør manuelle kontroller ved endringer i navigasjon, skjemaer, fokus, layout og felles komponenter, og før dere bruker testoppsettet som grunnlag for en tilgjengelighetsvurdering. Gjennomgå relevante `incomplete` etter hver automatisk kjøring.
+
+## Vedlikehold
+
+Når en side eller en ny UI-tilstand legges til, oppdater ruteregistret eller scenarioene og legg til forventninger for tastatur og fokus. En ny type tilgjengelighetsfeil bør få en regresjonstest dersom den kan kontrolleres automatisk.
+
+Hold Playwright-nettlesere og axe-versjon i samsvar med lockfilen. Endringer i regelsett kan avdekke nye feil selv om appkoden er uendret. Les funnene før du endrer forventningene.
+
+Følg opp tidsbruk og ressursbruk etter de første CI-kjøringene. Juster antall shards hvis oppstart og installasjon koster mer tid enn fordelingen sparer. Ved endring av shardantallet må både matrisen, `shardTotal` og fullstendighetssjekken i rapportjobben oppdateres. Nais-manifestene og appens auth-kode er ikke endret av CI-oppsettet.
+
+## Kilder
+
+- [Playwright: Accessibility testing](https://playwright.dev/docs/accessibility-testing)
+- [W3C: Evaluating Web Accessibility](https://www.w3.org/WAI/test-evaluate/)
+- [WCAG 2.1](https://www.w3.org/TR/WCAG21/)
+- [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+- [W3C: Understanding Reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html)
+- [W3C: Understanding Text Spacing](https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html)

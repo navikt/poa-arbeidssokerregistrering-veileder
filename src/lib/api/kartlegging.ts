@@ -12,7 +12,6 @@ import type {
 } from '@/model/kartlegging-api';
 
 const brukerMock = process.env.ENABLE_MOCK === 'enabled';
-const isProd = process.env.NAIS_CLUSTER_NAME === 'prod-gcp';
 
 export type KartleggingApiKompaktResult = {
     arbeidssoekere: ArbeidssokerKompakt[];

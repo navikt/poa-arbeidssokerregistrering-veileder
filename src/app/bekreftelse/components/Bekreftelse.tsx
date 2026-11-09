@@ -3,7 +3,7 @@
 import type { TilgjengeligBekreftelse } from '@navikt/arbeidssokerregisteret-utils';
 import { Alert } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
-import { use, useReducer } from 'react';
+import { use, useEffect, useReducer, useRef } from 'react';
 import { ManglerTilganger } from '@/components/ManglerTilganger';
 import { useModiaContext } from '@/contexts/modia-context';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
@@ -56,6 +56,13 @@ function Bekreftelse({ bekreftelserPromise }: { bekreftelserPromise: Promise<Bek
     const router = useRouter();
 
     const [state, dispatch] = useReducer(bekreftelseReducer, initialState);
+    const skjemaRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (state.queueIndex === 0 || state.status !== 'idle') return;
+
+        skjemaRef.current?.querySelector<HTMLInputElement>('input[type="radio"]')?.focus();
+    }, [state.queueIndex, state.status]);
 
     if (manglerTilgang) {
         return <ManglerTilganger />;
@@ -104,14 +111,16 @@ function Bekreftelse({ bekreftelserPromise }: { bekreftelserPromise: Promise<Bek
 
     return (
         <>
-            <BekreftelseSkjema
-                key={state.queueIndex}
-                bekreftelse={aktivBekreftelse}
-                onSubmit={handleSubmit}
-                onCancel={handleCancel}
-                isPending={state.status === 'submitting'}
-                disabled={isSubmitted}
-            />
+            <div ref={skjemaRef}>
+                <BekreftelseSkjema
+                    key={state.queueIndex}
+                    bekreftelse={aktivBekreftelse}
+                    onSubmit={handleSubmit}
+                    onCancel={handleCancel}
+                    isPending={state.status === 'submitting'}
+                    disabled={isSubmitted}
+                />
+            </div>
 
             {isSubmitted && (
                 <BekreftelseKvittering

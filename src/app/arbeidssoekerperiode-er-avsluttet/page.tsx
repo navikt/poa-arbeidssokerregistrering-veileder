@@ -1,5 +1,6 @@
 import { lagHentTekstForSprak, type Tekster } from '@navikt/arbeidssokerregisteret-utils';
-import { Alert, BodyLong, Heading } from '@navikt/ds-react';
+import { Alert, BodyLong } from '@navikt/ds-react';
+import { Kvitteringsoverskrift } from '@/components/Kvitteringsoverskrift';
 import { TrackPageView } from '@/components/TrackPageView';
 import { TilbakeTilForside } from '@/components/tilbake-til-forside';
 
@@ -18,9 +19,7 @@ export default function ArbeidssoekerperiodeErAvsluttetPage() {
             <TrackPageView data={{ viser: 'kvittering for avsluttet arbeidssøkerperiode' }} />
             <TilbakeTilForside sidenavn={'Arbeidssøkerperioden er avsluttet'} />
             <Alert variant='success'>
-                <Heading level='1' size='small' className={'mbl'}>
-                    {tekst('header')}
-                </Heading>
+                <Kvitteringsoverskrift>{tekst('header')}</Kvitteringsoverskrift>
                 <BodyLong>{tekst('informasjon')}</BodyLong>
             </Alert>
         </>

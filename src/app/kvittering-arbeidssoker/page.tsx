@@ -1,5 +1,5 @@
 import { lagHentTekstForSprak, type Tekster } from '@navikt/arbeidssokerregisteret-utils';
-import { Alert, BodyLong, Heading, Link } from '@navikt/ds-react';
+import { Alert, BodyLong, Heading } from '@navikt/ds-react';
 import { TrackAktivitet } from '@/components/TrackAktivitet';
 import { TrackPageView } from '@/components/TrackPageView';
 import { TilbakeTilForside } from '@/components/tilbake-til-forside';
@@ -25,10 +25,11 @@ export default function KvitteringArbeidssokerPage() {
                 </Heading>
                 <BodyLong>
                     {tekst('dagpenger')}{' '}
-                    <TrackAktivitet data={{ aktivitet: 'Går til skjema for dagpenger' }}>
-                        <Link href='https://www.nav.no/start/soknad-dagpenger?stegvalg=1'>
-                            Uinnlogget dagpengesøknad og papirsøknad finner du her.
-                        </Link>
+                    <TrackAktivitet
+                        data={{ aktivitet: 'Går til skjema for dagpenger' }}
+                        href='https://www.nav.no/start/soknad-dagpenger?stegvalg=1'
+                    >
+                        Uinnlogget dagpengesøknad og papirsøknad finner du her.
                     </TrackAktivitet>
                 </BodyLong>
             </Alert>

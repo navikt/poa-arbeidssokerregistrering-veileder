@@ -8,7 +8,7 @@ import {
     SporsmalId,
 } from '@navikt/arbeidssokerregisteret-utils';
 import { BodyLong, Box, Button, Heading, ReadMore } from '@navikt/ds-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RadioGruppe } from '@/components/radio-gruppe/radio-gruppe';
 import { StillingsSok } from '@/components/skjema/StillingsSok';
 import type { RegistreringState } from '@/model/registrering';
@@ -41,21 +41,34 @@ function normaliserStyrk08(value: StillingssokValue) {
 function SisteJobb({ registrering, setRegistrering, doValidate }: SisteJobbProps) {
     const tekst = lagHentTekstForSprak(SPORSMAL_TEKSTER, 'nb');
     const [visStillingsSok, setVisStillingsSok] = useState(false);
+    const endreButtonRef = useRef<HTMLButtonElement>(null);
+    const restoreEndreFocusRef = useRef(false);
 
     const dinSituasjon = registrering.dinSituasjon;
     const visSisteStilling = dinSituasjon !== undefined && SITUASJONER_MED_SISTE_STILLING.includes(dinSituasjon);
     const visSisteJobb = registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB;
-    const visFeilmeldingSisteStilling = doValidate && !Object.keys(registrering).includes(SporsmalId.sisteStilling);
+    const visFeilmeldingSisteStilling =
+        doValidate &&
+        registrering.sisteStilling !== SisteStillingValg.HAR_HATT_JOBB &&
+        registrering.sisteStilling !== SisteStillingValg.HAR_IKKE_HATT_JOBB;
+
+    useEffect(() => {
+        if (!visStillingsSok && restoreEndreFocusRef.current) {
+            restoreEndreFocusRef.current = false;
+            endreButtonRef.current?.focus();
+        }
+    }, [visStillingsSok]);
 
     const onCloseStillingssok = (value?: StillingssokValue) => {
         if (value) {
             setRegistrering({ [SporsmalId.sisteJobb]: normaliserStyrk08(value) });
+            restoreEndreFocusRef.current = true;
         }
         setVisStillingsSok(false);
     };
     return (
         <Box className='mb-8' borderWidth='1' padding='space-16' style={{ backgroundColor: 'var(--ax-neutral-100)' }}>
-            <Heading spacing size='medium' level='1'>
+            <Heading spacing size='medium' level='2'>
                 Hva er din siste jobb?
             </Heading>
 
@@ -69,6 +82,7 @@ function SisteJobb({ registrering, setRegistrering, doValidate }: SisteJobbProps
                                 value: SisteStillingValg.HAR_IKKE_HATT_JOBB,
                             },
                         ]}
+                        legend='Har du vært i jobb?'
                         valgt={registrering.sisteStilling}
                         onSelect={(val: SisteStillingValg) => setRegistrering({ [SporsmalId.sisteStilling]: val })}
                         visFeilmelding={visFeilmeldingSisteStilling}
@@ -78,7 +92,7 @@ function SisteJobb({ registrering, setRegistrering, doValidate }: SisteJobbProps
 
             {visSisteJobb && (
                 <div className='mb-4'>
-                    <Heading spacing size='small' level='2'>
+                    <Heading spacing size='small' level='3'>
                         Stilling
                     </Heading>
                     <BodyLong>Følgende informasjon er registrert i Aa-registeret om siste stilling.</BodyLong>
@@ -88,7 +102,12 @@ function SisteJobb({ registrering, setRegistrering, doValidate }: SisteJobbProps
                     ) : (
                         <div>
                             {registrering.sisteJobb?.label}
-                            <Button variant='tertiary' className='ml-2' onClick={() => setVisStillingsSok(true)}>
+                            <Button
+                                ref={endreButtonRef}
+                                variant='tertiary'
+                                className='ml-2'
+                                onClick={() => setVisStillingsSok(true)}
+                            >
                                 Endre
                             </Button>
                         </div>

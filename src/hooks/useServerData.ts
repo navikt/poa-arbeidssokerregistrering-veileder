@@ -17,17 +17,23 @@ export function useServerData<T>(
     }));
     const [isPending, startTransition] = useTransition();
     const isInitialMount = useRef(true);
+    const initialDataContext = useRef({ fnr: data.fnr, enhetId: data.enhetId });
 
     useEffect(() => {
         if (isInitialMount.current) {
             isInitialMount.current = false;
-            if (!refreshOnMount && data.fnr === fnr && data.enhetId === enhetId) return;
+            if (
+                !refreshOnMount &&
+                initialDataContext.current.fnr === fnr &&
+                initialDataContext.current.enhetId === enhetId
+            )
+                return;
         }
 
         startTransition(() => {
             setData({ promise: fetchFn(fnr, enhetId), fnr, enhetId });
         });
-    }, [fnr, enhetId, fetchFn]);
+    }, [fnr, enhetId, fetchFn, refreshOnMount]);
 
     return { dataPromise: data.promise, dataContext: { fnr: data.fnr, enhetId: data.enhetId }, isPending };
 }

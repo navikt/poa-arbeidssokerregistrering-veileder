@@ -18,14 +18,14 @@ function Bekreftelse({ antallTilgjengeligBekreftelser }: BekreftelseProps) {
             </Heading>
             {!harTilgjengeligBekreftelse && (
                 <div className={'flex'}>
-                    <CheckmarkCircleIcon title='a11y-title' fontSize='1.5rem' className={'mr-4'} />
+                    <CheckmarkCircleIcon aria-hidden='true' fontSize='1.5rem' className={'mr-4'} />
                     <BodyShort textColor={'subtle'}>Ingen ubekreftede arbeidssøkerperioder</BodyShort>
                 </div>
             )}
             {harTilgjengeligBekreftelse && (
                 <>
                     <div className={'flex mb-4'}>
-                        <TimerStartIcon title='a11y-title' fontSize='1.5rem' className={'mr-4'} />
+                        <TimerStartIcon aria-hidden='true' fontSize='1.5rem' className={'mr-4'} />
                         <BodyShort textColor={'subtle'}>
                             {antallTilgjengeligBekreftelser === 1 && (
                                 <>Personen har en ubekreftet arbeidssøkerperiode</>
@@ -35,14 +35,15 @@ function Bekreftelse({ antallTilgjengeligBekreftelser }: BekreftelseProps) {
                             )}
                         </BodyShort>
                     </div>
-                    <Link href='/bekreftelse' passHref>
-                        <Button
-                            variant={'secondary'}
-                            onClick={() => loggAktivitet({ aktivitet: 'Går til bekreftelser' })}
-                        >
-                            Bekreft arbeidssøkerperiode på vegne av bruker
-                        </Button>
-                    </Link>
+                    <Button
+                        as={Link}
+                        href='/bekreftelse'
+                        role='link'
+                        variant={'secondary'}
+                        onClick={() => loggAktivitet({ aktivitet: 'Går til bekreftelser' })}
+                    >
+                        Bekreft arbeidssøkerperiode på vegne av bruker
+                    </Button>
                 </>
             )}
         </Box>

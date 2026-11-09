@@ -207,6 +207,22 @@ describe('Forside', () => {
         it('viser lenke til tidslinjer', () => {
             expect(screen.getByText('Se tidslinjer for arbeidssøkerperioder')).toBeDefined();
         });
+
+        it('har lenker til historikk og tidslinjer i en responsiv footer', () => {
+            const historikkLenke = screen.getByRole('link', {
+                name: 'Se tidligere arbeidssøkerperioder og opplysninger',
+            });
+            const tidslinjerLenke = screen.getByRole('link', { name: 'Se tidslinjer for arbeidssøkerperioder' });
+            const footer = historikkLenke.closest('.flex-col');
+
+            expect(historikkLenke.getAttribute('href')).toMatch(/^\//);
+            expect(tidslinjerLenke.getAttribute('href')).toMatch(/^\//);
+            expect(footer).toBe(tidslinjerLenke.closest('.flex-col'));
+            expect(footer?.classList.contains('flex-col')).toBe(true);
+            expect(footer?.classList.contains('gap-2')).toBe(true);
+            expect(footer?.classList.contains('ax-md:flex-row')).toBe(true);
+            expect(footer?.classList.contains('ax-md:justify-between')).toBe(true);
+        });
     });
 
     describe('ingen tilgjengelige bekreftelser', () => {
@@ -268,12 +284,12 @@ describe('Forside', () => {
     });
 
     describe('Egenvurdering', () => {
-        it('Sjekk at egenvurderingsfeltet er synlig når det finnes', async () => {
+        it('viser at personen ønsker oppfølging fra Nav', async () => {
             await renderForside(lagSnapshotMedEgenvurdering('ANTATT_BEHOV_FOR_VEILEDNING'), emptyBekreftelser);
             expect(screen.getByText('Hva slags veiledning ønsker du?')).toBeDefined();
             expect(screen.getByText('Jeg ønsker oppfølging fra Nav')).toBeDefined();
         });
-        it('Sjekk at egenvurderingsfeltet er synlig når det finnes', async () => {
+        it('viser at personen ønsker å klare seg selv', async () => {
             await renderForside(lagSnapshotMedEgenvurdering('ANTATT_GODE_MULIGHETER'), emptyBekreftelser);
             expect(screen.getByText('Hva slags veiledning ønsker du?')).toBeDefined();
             expect(screen.getByText('Jeg ønsker å klare meg selv')).toBeDefined();

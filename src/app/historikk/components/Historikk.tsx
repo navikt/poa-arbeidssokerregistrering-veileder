@@ -80,7 +80,9 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
                     className='hidden ax-md:block px-1 print:hidden sticky top-0 max-h-screen overflow-y-scroll'
                 >
                     {/* Sidebar content */}
-                    <Heading size='large'>Arbeidssøkerperioder</Heading>
+                    <Heading size='large' level='2'>
+                        Arbeidssøkerperioder
+                    </Heading>
                     <BodyShort className='mb-4'>
                         <b>{perioder.length || 0}</b> {perioder.length === 1 ? 'periode' : 'perioder'} funnet
                     </BodyShort>

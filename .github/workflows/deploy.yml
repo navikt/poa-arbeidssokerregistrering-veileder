@@ -6,11 +6,182 @@ on:
             - main
             - dev/*
 
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: false
+
 jobs:
-    test-and-build-cdn-docker:
-        name: Run tests, build, push assets to CDN and publish Docker image
+    test:
+        name: Run checks
         runs-on: ubuntu-latest
-        timeout-minutes: 7
+        timeout-minutes: 10
+        permissions:
+            contents: 'read'
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - name: Set up pnpm
+              uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+              with:
+                  run_install: false
+
+            - name: Set up node
+              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
+              with:
+                  node-version-file: .nvmrc
+                  registry-url: 'https://npm.pkg.github.com'
+                  scope: '@navikt'
+                  cache: pnpm
+                  cache-dependency-path: pnpm-lock.yaml
+
+            - name: Install dependencies
+              run: pnpm ci
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+
+            - name: Lint
+              run: pnpm lint
+
+            - name: Generate Next.js types
+              run: pnpm exec next typegen
+
+            - name: Typecheck
+              run: pnpm typecheck
+
+            - name: Test UU helpers
+              run: pnpm test:uu:helpers
+
+            - name: Test UU network
+              run: node --test tests/uu/network.test.mjs
+
+            - name: Test unit suite
+              run: pnpm test:ci
+
+    uu-test:
+        name: UU tests (shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }})
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+        permissions:
+            contents: 'read'
+        strategy:
+            fail-fast: false
+            matrix:
+                shardIndex: [1, 2, 3, 4]
+                shardTotal: [4]
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - name: Set up pnpm
+              uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+              with:
+                  run_install: false
+
+            - name: Set up node
+              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
+              with:
+                  node-version-file: .nvmrc
+                  registry-url: 'https://npm.pkg.github.com'
+                  scope: '@navikt'
+                  cache: pnpm
+                  cache-dependency-path: pnpm-lock.yaml
+
+            - name: Install dependencies
+              run: pnpm ci
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+
+            - name: Install Chromium
+              run: pnpm exec playwright install --with-deps chromium
+
+            - name: Run UU tests
+              run: pnpm test:uu --project=chromium --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} --workers=2 --fully-parallel --forbid-only --global-timeout=900000 --reporter=line,blob
+
+            - name: Upload UU blob report
+              if: ${{ !cancelled() }}
+              uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+              with:
+                  name: uu-blob-${{ matrix.shardIndex }}
+                  path: blob-report/
+                  retention-days: 7
+                  compression-level: 0
+                  overwrite: true
+                  if-no-files-found: warn
+
+    uu-report:
+        name: Merge UU reports
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        permissions:
+            contents: 'read'
+        needs: [uu-test]
+        if: ${{ !cancelled() }}
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - name: Set up pnpm
+              uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+              with:
+                  run_install: false
+
+            - name: Set up node
+              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
+              with:
+                  node-version-file: .nvmrc
+                  registry-url: 'https://npm.pkg.github.com'
+                  scope: '@navikt'
+                  cache: pnpm
+                  cache-dependency-path: pnpm-lock.yaml
+
+            - name: Install dependencies
+              run: pnpm ci
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+
+            - name: Download UU blob reports
+              uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+              with:
+                  pattern: uu-blob-*
+                  path: all-blob-reports
+                  merge-multiple: true
+
+            - name: Check UU blob report completeness
+              shell: bash
+              run: |
+                  shopt -s nullglob
+                  reports=(all-blob-reports/*.zip)
+                  if (( ${#reports[@]} != 4 )); then
+                    echo "::error::Expected exactly 4 Playwright blob reports, found ${#reports[@]}."
+                    exit 1
+                  fi
+
+            - name: Merge UU reports
+              run: pnpm exec playwright merge-reports --reporter=html all-blob-reports
+
+            - name: Upload merged UU report
+              uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+              with:
+                  name: uu-report-${{ github.run_attempt }}
+                  path: playwright-report/
+                  retention-days: 7
+                  if-no-files-found: error
+
+    build:
+        name: Build, push assets to CDN and publish Docker image
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        needs: [test, uu-test]
         permissions:
             contents: 'read'
             packages: 'write'
@@ -30,31 +201,16 @@ jobs:
             - name: Set up node
               uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
               with:
-                  node-version: '26.13.0'
+                  node-version-file: .nvmrc
                   registry-url: 'https://npm.pkg.github.com'
                   scope: '@navikt'
-
-            - name: Get pnpm store directory
-              shell: bash
-              run: |
-                  echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
-              id: pnpm-cache
-
-            - name: Setup pnpm cache
-              uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
-              with:
-                  path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-                  restore-keys: |
-                      ${{ runner.os }}-pnpm-store-
+                  cache: pnpm
+                  cache-dependency-path: pnpm-lock.yaml
 
             - name: Install dependencies
               run: pnpm ci
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-
-            - name: Test
-              run: pnpm test:ci
 
             - name: Knip
               run: pnpm exec knip --no-exit-code --reporter=markdown >> "$GITHUB_STEP_SUMMARY"
@@ -64,9 +220,11 @@ jobs:
               env:
                   NODE_ENV: production
                   NEXT_PUBLIC_ASSET_PREFIX: https://cdn.nav.no/paw/arbeidssokerregistrering-for-veileder
+                  ENABLE_MOCK: disabled
+                  NEXT_PUBLIC_ENABLE_MOCK: disabled
 
             - name: Upload static files to NAV CDN
-              uses: nais/deploy/actions/cdn-upload/v2@v3
+              uses: nais/deploy/actions/cdn-upload/v2@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
               with:
                   team: paw
                   source: ./.next/static
@@ -75,7 +233,7 @@ jobs:
                   project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
             - name: docker-build-push
-              uses: nais/docker-build-push@v0
+              uses: nais/docker-build-push@d3a1f7e259ecc381a50435e1d4add9059429ebd7 # v0
               id: docker-build-push
               with:
                   team: paw
@@ -89,7 +247,7 @@ jobs:
         permissions:
             contents: 'read'
             id-token: 'write'
-        needs: [test-and-build-cdn-docker, apply-apitoken-unleash]
+        needs: [build, apply-apitoken-unleash-dev]
         if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
         runs-on: ubuntu-latest
         timeout-minutes: 7
@@ -99,18 +257,18 @@ jobs:
               with:
                   persist-credentials: false
             - name: Deploy
-              uses: nais/deploy/actions/deploy@v3
+              uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
               env:
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/dev-gcp/nais.yaml
-                  VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
+                  VAR: image=${{ needs.build.outputs.image }}
 
     deploy-prod:
         name: Deploy to prod
         permissions:
             contents: 'read'
             id-token: 'write'
-        needs: [test-and-build-cdn-docker, apply-apitoken-unleash]
+        needs: [build, apply-apitoken-unleash-prod]
         if: github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
         timeout-minutes: 7
@@ -120,32 +278,48 @@ jobs:
               with:
                   persist-credentials: false
             - name: Deploy
-              uses: nais/deploy/actions/deploy@v3
+              uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
               env:
                   CLUSTER: prod-gcp
                   RESOURCE: .nais/prod-gcp/nais.yaml
-                  VAR: image=${{ needs.test-and-build-cdn-docker.outputs.image }}
+                  VAR: image=${{ needs.build.outputs.image }}
 
-    apply-apitoken-unleash:
-        name: Legger til ApiToken for Unleash
+    apply-apitoken-unleash-dev:
+        name: Legger til ApiToken for Unleash (dev)
         permissions:
             contents: 'read'
             id-token: 'write'
         runs-on: ubuntu-latest
         timeout-minutes: 7
-        needs: [test-and-build-cdn-docker]
+        needs: [build]
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
         steps:
             - name: Checkout code
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
                   persist-credentials: false
-            - name: deploy to dev
-              uses: nais/deploy/actions/deploy@v3
+            - name: Deploy to dev
+              uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
               env:
                   CLUSTER: dev-gcp
                   RESOURCE: .nais/dev-gcp/unleash-apitoken.yaml
-            - name: deploy to prod
-              uses: nais/deploy/actions/deploy@v3
+
+    apply-apitoken-unleash-prod:
+        name: Legger til ApiToken for Unleash (prod)
+        permissions:
+            contents: 'read'
+            id-token: 'write'
+        runs-on: ubuntu-latest
+        timeout-minutes: 7
+        needs: [build]
+        if: github.ref == 'refs/heads/main'
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+            - name: Deploy to prod
+              uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
               env:
                   CLUSTER: prod-gcp
                   RESOURCE: .nais/prod-gcp/unleash-apitoken.yaml

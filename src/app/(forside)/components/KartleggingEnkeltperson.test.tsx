@@ -50,8 +50,10 @@ describe('KartleggingEnkeltperson', () => {
     it('viser registreringsinformasjon når personen ikke finnes i kartleggingen', () => {
         render(<KartleggingEnkeltperson arbeidssoker={null} snapshot={snapshot} />);
 
-        expect(screen.getByText('Personen er registrert som arbeidssøker')).toBeDefined();
+        const title = screen.getByRole('heading', { level: 2, name: 'Personen er registrert som arbeidssøker' });
+        expect(title).toBeDefined();
         expect(screen.getByText(/Registrert.*av veileder/)).toBeDefined();
+        expect(title.textContent).not.toContain('Registrert');
         expect(screen.queryByText('Dager helt ledig')).toBeNull();
     });
 
@@ -68,6 +70,12 @@ describe('KartleggingEnkeltperson', () => {
         expect(screen.getByText('Dagpenger')).toBeDefined();
         expect(screen.getAllByText('Nei')).toHaveLength(1);
         expect(screen.getAllByText('Ja')).toHaveLength(1);
+
+        const responsiveWrappers = document.querySelectorAll('.grid-cols-1');
+        expect(responsiveWrappers).toHaveLength(4);
+        for (const wrapper of responsiveWrappers) {
+            expect(wrapper.classList.contains('ax-md:grid-cols-[minmax(0,1fr)_210px]')).toBe(true);
+        }
     });
 
     it('viser fallback når arbeidssøkeren ikke har en aktiv periode', () => {

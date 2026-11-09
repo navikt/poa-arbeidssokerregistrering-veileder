@@ -1,8 +1,6 @@
-import { Loader } from '@navikt/ds-react';
+import { Heading, Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { ForsideWrapper } from '@/app/(forside)/components/ForsideWrapper';
-import { DemoLabel } from '@/components/demo-label';
-import { DemoPanel } from '@/components/demo-panel';
 import { HvaErNytt } from '@/components/HvaErNytt';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
 import { getKartlegging } from '@/lib/api/kartlegging';
@@ -30,7 +28,9 @@ export default async function ForsidePage() {
 
     return (
         <div className={'flex flex-col'}>
-            <DemoLabel />
+            <Heading level='1' size='large' className='mb-4 wrap-anywhere'>
+                Arbeidssøkerregisteret
+            </Heading>
             {flagVisHvaSomErNytt && <HvaErNytt />}
             <Suspense fallback={<Loader />}>
                 <ForsideWrapper
@@ -41,7 +41,6 @@ export default async function ForsidePage() {
                     initialContext={{ fnr: modiaContext.fnr, enhetId: modiaContext.enhetId }}
                 />
             </Suspense>
-            <DemoPanel />
         </div>
     );
 }
