@@ -38,7 +38,7 @@ This is a **Next.js 16** application (App Router) that lets Nav counselors ("vei
 
 | Technology | Version | Purpose |
 |---|---|---|
-| Node.js | 26.13.0 | Runtime (see `.nvmrc`) |
+| Node.js | 26.13.1 | Runtime (see `.nvmrc`) |
 | Next.js | 16 | Framework (App Router, Server Components, Server Functions) |
 | React | 19 | UI library (uses `use()` hook for promise unwrapping) |
 | TypeScript | 7.0.2 | Type safety (`strictNullChecks: true`, `noUncheckedIndexedAccess: true`) |
