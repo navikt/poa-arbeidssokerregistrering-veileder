@@ -25,8 +25,8 @@ importers:
         specifier: 8.22.1
         version: 8.22.1
       '@navikt/arbeidssokerregisteret-utils':
-        specifier: 3.0.1
-        version: 3.0.1
+        specifier: 4.0.0
+        version: 4.0.0
       '@navikt/ds-css':
         specifier: 8.22.1
         version: 8.22.1
@@ -1445,9 +1445,9 @@ packages:
   '@navikt/aksel-icons@8.22.1':
     resolution: {integrity: sha512-NmNg4vK6Hrabw8CleI6jJCwOb4aXnMjkE9Rw4OQjbfgHrg4UXWnUFgQJ3/Rk/unGdfXGNxV591RTwPNc2dZoTA==, tarball: https://npm.pkg.github.com/download/@navikt/aksel-icons/8.22.1/c93a3bad8be4134bd833ecc08db4583034be4d75}
 
-  '@navikt/arbeidssokerregisteret-utils@3.0.1':
-    resolution: {integrity: sha512-OS03Rv/EthMc1itE9DNK6Fwwlrv+uXxxK8rC1sjdSXAirGzB335NdOLqd2cQmX2C9NpYeha5QcNOajUYF3FhGw==, tarball: https://npm.pkg.github.com/download/@navikt/arbeidssokerregisteret-utils/3.0.1/0d34cf9cd48a70c76c8c8d419813a21bfd9d37a6}
-    engines: {node: '>=24.22.0'}
+  '@navikt/arbeidssokerregisteret-utils@4.0.0':
+    resolution: {integrity: sha512-dYBGyb4QtdA54OWVtqBwRaCNQsvyNc+YN+vwGhvRtDyQcctymhs/6/xnnM4wJ6FWrybxE9lkIILqCW1c99/VlA==, tarball: https://npm.pkg.github.com/download/@navikt/arbeidssokerregisteret-utils/4.0.0/0e6da3fd86e7015c6b1d366c002ded9a35ae2d74}
+    engines: {node: '>=26.13.0'}
 
   '@navikt/ds-css@8.22.1':
     resolution: {integrity: sha512-whWza4g9GAssC9qWOEtrnPYcffaGGT6ko347A6KggccrC7/G7drxJj2aQVk+2bHFWT7GClg20dDxlmZKm9CcTA==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.22.1/623473ad66bd13b979cd026acb51b996b25a62a4}
@@ -6912,7 +6912,7 @@ snapshots:
 
   '@navikt/aksel-icons@8.22.1': {}
 
-  '@navikt/arbeidssokerregisteret-utils@3.0.1': {}
+  '@navikt/arbeidssokerregisteret-utils@4.0.0': {}
 
   '@navikt/ds-css@8.22.1': {}
 
