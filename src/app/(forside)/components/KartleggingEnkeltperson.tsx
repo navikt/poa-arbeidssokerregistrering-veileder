@@ -36,11 +36,13 @@ function KartleggingEnkeltperson({ arbeidssoker, snapshot }: KartleggingProps) {
             <Box marginBlock='space-0 space-16'>
                 <InfoCard data-color='info'>
                     <InfoCardHeader>
-                        <InfoCardTitle>Personen er registrert som arbeidssøker</InfoCardTitle>
-                        <BodyShort textColor={'subtle'}>
-                            Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
-                            {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
-                        </BodyShort>
+                        <HStack align='baseline' justify='space-between' flexGrow='1'>
+                            <InfoCardTitle>Personen er registrert som arbeidssøker</InfoCardTitle>
+                            <BodyShort textColor={'subtle'}>
+                                Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
+                                {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
+                            </BodyShort>
+                        </HStack>
                     </InfoCardHeader>
                 </InfoCard>
             </Box>
@@ -49,11 +51,13 @@ function KartleggingEnkeltperson({ arbeidssoker, snapshot }: KartleggingProps) {
         <Box marginBlock='space-0 space-16'>
             <InfoCard data-color='info'>
                 <InfoCardHeader>
-                    <InfoCardTitle>Personen er registrert som arbeidssøker</InfoCardTitle>
-                    <BodyShort textColor={'subtle'}>
-                        Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
-                        {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
-                    </BodyShort>
+                    <HStack align='baseline' justify='space-between' flexGrow='1'>
+                        <InfoCardTitle>Personen er registrert som arbeidssøker</InfoCardTitle>
+                        <BodyShort textColor={'subtle'}>
+                            Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
+                            {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
+                        </BodyShort>
+                    </HStack>
                 </InfoCardHeader>
                 <InfoCardContent>
                     <Wrapper>
