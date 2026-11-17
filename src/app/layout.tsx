@@ -1,5 +1,6 @@
 import Script from 'next/script';
 import '../styles/globals.css';
+import { Box } from '@navikt/ds-react';
 import type { Metadata } from 'next';
 import { InternflateDecorator } from '@/components/decorator-intern';
 import { InitFaro } from '@/components/InitFaro';
@@ -45,7 +46,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                 <ModiaProvider initFnr={modiaContext.fnr} initEnhetId={modiaContext.enhetId}>
                     {!enableMock && <InternflateDecorator decoratorEnv={decoratorEnv} />}
                     <Visittkort brukerMock={enableMock} />
-                    <main className='max-w-5xl m-auto p-8'>{children}</main>
+                    <Box as='main' maxWidth='64rem' marginInline='auto' padding='space-32'>
+                        {children}
+                    </Box>
                 </ModiaProvider>
             </body>
         </html>

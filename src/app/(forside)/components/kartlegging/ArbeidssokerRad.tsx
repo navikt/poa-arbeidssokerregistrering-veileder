@@ -1,10 +1,11 @@
 'use client';
 
 import { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
-import { Table, Tag } from '@navikt/ds-react';
+import { HStack, Table, Tag } from '@navikt/ds-react';
 import { useModiaContext } from '@/contexts/modia-context';
 import { daysSinceDate } from '@/lib/date-utils';
 import type { ArbeidssokerKompakt } from '@/model/kartlegging-api';
+import styles from './ArbeidssokerRad.module.css';
 import { BEKREFTELSE_LABEL, LANGTIDSLEDIG_MAX, LANGTIDSLEDIG_MELLOM } from './constants';
 
 function JaNeiTag({ svar }: { svar: boolean | undefined }) {
@@ -64,7 +65,7 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }
     return (
         <Table.Row key={arbeidssoker.id}>
             <Table.DataCell>
-                <button type='button' onClick={handleRowClick} className='cursor-pointer'>
+                <button type='button' onClick={handleRowClick} className={styles.clickable}>
                     {arbeidssoker.fornavn && firstToUppercase(arbeidssoker.fornavn)}{' '}
                     {arbeidssoker.etternavn && firstToUppercase(arbeidssoker.etternavn)}
                 </button>
@@ -80,18 +81,18 @@ function ArbeidssokerRad({ arbeidssoker }: { arbeidssoker: ArbeidssokerKompakt }
                 ))}
             </Table.DataCell>
             <Table.DataCell>
-                <div className='flex items-center gap-1'>
+                <HStack align='center' gap='space-4'>
                     {aktivPeriode?.egenvurdertTil ? (
                         <NeiJaTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_GODE_MULIGHETER} />
                     ) : (
                         'IKKE SVART'
                     )}
-                </div>
+                </HStack>
             </Table.DataCell>
             <Table.DataCell>
-                <div className='flex items-center gap-1'>
+                <HStack align='center' gap='space-4'>
                     {aktivPeriode ? <JaNeiTag svar={aktivPeriode?.bekreftelseHarJobbet} /> : 'MANGLER DATA'}
-                </div>
+                </HStack>
             </Table.DataCell>
         </Table.Row>
     );

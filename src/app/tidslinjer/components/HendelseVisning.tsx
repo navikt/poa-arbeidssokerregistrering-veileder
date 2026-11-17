@@ -1,8 +1,10 @@
 import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import type { Hendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { Box, HStack } from '@navikt/ds-react';
 import { TableDataCell, TableRow } from '@navikt/ds-react/Table';
 import { prettyPrintDatoOgKlokkeslettKortform } from '@/lib/date-utils';
+import styles from './HendelseVisning.module.css';
 
 const TEKSTER = {
     nb: {
@@ -118,15 +120,19 @@ export function HendelseVisning(props: { hendelse: Hendelse }) {
         (hendelse.type === 'BEKREFTELSE_V1' && status !== 'GYLDIG') ||
         (hendelse.type === 'PAA_VEGNE_AV_STOPP_V1' && status === 'FRIST_BRUTT');
     return (
-        <TableRow className='odd:bg-ax-accent-200 hover:bg-ax-accent-400'>
+        <TableRow className={styles.row}>
             <TableDataCell>{prettyPrintDatoOgKlokkeslettKortform(hendelse.tidspunkt, 'nb', true)}</TableDataCell>
             <TableDataCell>{tekst(hendelse.type) ?? '--'}</TableDataCell>
             <TableDataCell>{tekst(kilde) ?? '--'}</TableDataCell>
             <TableDataCell>
-                <div className='flex gap-4 items-center'>
+                <HStack gap='space-16' align='center'>
                     {tekst(status) ?? '--'}
-                    {visVarseltrekant && <ExclamationmarkTriangleFillIcon color='orange' className='mt-1 mr-4' />}
-                </div>
+                    {visVarseltrekant && (
+                        <Box marginBlock='space-4 space-0' marginInline='space-0 space-16'>
+                            <ExclamationmarkTriangleFillIcon color='orange' />
+                        </Box>
+                    )}
+                </HStack>
             </TableDataCell>
         </TableRow>
     );

@@ -72,7 +72,7 @@ function UtdanningGodkjent({ registrering, setRegistrering, doValidate }: Utdann
     ];
 
     return (
-        <form className='mt-8'>
+        <Box as='form' marginBlock='space-32 space-0'>
             <RadioGruppe
                 legend={tekst(SporsmalId.utdanningGodkjent)}
                 valg={valg}
@@ -80,7 +80,7 @@ function UtdanningGodkjent({ registrering, setRegistrering, doValidate }: Utdann
                 onSelect={(val: UtdanningGodkjentValg) => setRegistrering({ [SporsmalId.utdanningGodkjent]: val })}
                 visFeilmelding={visFeilmelding}
             />
-        </form>
+        </Box>
     );
 }
 
@@ -108,7 +108,7 @@ function UtdanningBestatt({ registrering, setRegistrering, doValidate }: Utdanni
     ];
 
     return (
-        <form className='mt-8'>
+        <Box as='form' marginBlock='space-32 space-0'>
             <RadioGruppe
                 legend={tekst(SporsmalId.utdanningBestatt)}
                 valg={valg}
@@ -116,7 +116,7 @@ function UtdanningBestatt({ registrering, setRegistrering, doValidate }: Utdanni
                 onSelect={(val: JaEllerNei) => setRegistrering({ [SporsmalId.utdanningBestatt]: val })}
                 visFeilmelding={visFeilmelding}
             />
-        </form>
+        </Box>
     );
 }
 
@@ -135,7 +135,12 @@ function Utdanning({ registrering, setRegistrering, doValidate }: UtdanningProps
     }));
 
     return (
-        <Box className='mb-8' borderWidth='1' padding='space-16' style={{ backgroundColor: 'var(--ax-neutral-100)' }}>
+        <Box
+            marginBlock='space-0 space-32'
+            borderWidth='1'
+            padding='space-16'
+            style={{ backgroundColor: 'var(--ax-neutral-100)' }}
+        >
             <form>
                 <Heading size='medium' spacing level='2'>
                     Utdanning

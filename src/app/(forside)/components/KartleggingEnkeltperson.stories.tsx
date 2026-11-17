@@ -47,9 +47,9 @@ const meta = {
     decorators: [
         (Story) => (
             <Box padding='space-16'>
-                <div className='max-w-3xl'>
+                <Box maxWidth='48rem'>
                     <Story />
-                </div>
+                </Box>
             </Box>
         ),
     ],

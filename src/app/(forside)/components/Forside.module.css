@@ -1,0 +1,15 @@
+.maxWidth3xl {
+    max-width: 48rem;
+}
+
+.maxWidth5xl {
+    max-width: 64rem;
+}
+
+.wrapAnywhere {
+    overflow-wrap: anywhere;
+}
+
+.textStart {
+    text-align: start;
+}

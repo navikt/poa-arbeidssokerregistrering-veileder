@@ -1,10 +1,12 @@
 'use client';
 
 import { ProfilertTil } from '@navikt/arbeidssokerregisteret-utils';
+import { HStack } from '@navikt/ds-react';
 import { useModiaContext } from '@/contexts/modia-context';
 import { daysSinceDate } from '@/lib/date-utils';
 import type { ArbeidssokerKompakt } from '@/model/kartlegging-api';
 import { BEKREFTELSE_LABEL, LANGTIDSLEDIG_MAX, LANGTIDSLEDIG_MELLOM } from './constants';
+import styles from './KartleggingGridRad.module.css';
 
 function JaNeiTag({ svar }: { svar: boolean | undefined }) {
     return svar ? <span data-color-status='success'>Ja</span> : <span data-color-status='warning'>Nei</span>;
@@ -45,7 +47,7 @@ function KartleggingGridRad({
     switch (kolonne) {
         case 'navn':
             return (
-                <button type='button' onClick={handleRowClick} className='cursor-pointer'>
+                <button type='button' onClick={handleRowClick} className={styles.button}>
                     {arbeidssoker.fornavn && firstToUppercase(arbeidssoker.fornavn)}{' '}
                     {arbeidssoker.etternavn && firstToUppercase(arbeidssoker.etternavn)}
                 </button>
@@ -54,13 +56,13 @@ function KartleggingGridRad({
             return <DagerTag dager={daysSinceDate(aktivPeriode?.ledigSiden || new Date())} />;
         case 'onskerVeileder':
             return (
-                <div className='flex items-center gap-1'>
+                <HStack align='center' gap='space-4'>
                     {aktivPeriode?.egenvurdertTil ? (
                         <NeiJaTag svar={aktivPeriode?.egenvurdertTil === ProfilertTil.ANTATT_GODE_MULIGHETER} />
                     ) : (
                         'Mangler egenvurdering'
                     )}
-                </div>
+                </HStack>
             );
         case 'bekreftelseslosning':
             return <div>{aktivPeriode?.bekreftelsePaaVegneAv.map((e) => BEKREFTELSE_LABEL[e]).join(', ')}</div>;

@@ -1,4 +1,4 @@
-import { Heading } from '@navikt/ds-react';
+import { Box, Heading, VStack } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
 import { TilbakeTilForside } from '@/components/tilbake-til-forside';
@@ -11,16 +11,16 @@ export default async function HistorikkPage() {
     const perioderPromise = getPerioder(modiaContext.fnr);
 
     return (
-        <div>
+        <div className='historikk-side'>
             <TilbakeTilForside sidenavn='Arbeidssøkerhistorikk' />
-            <Heading size={'large'} className='mb-4'>
-                Historikk for arbeidssøker
-            </Heading>
-            <div className={'flex flex-col'}>
+            <Box marginBlock='space-0 space-16'>
+                <Heading size={'large'}>Historikk for arbeidssøker</Heading>
+            </Box>
+            <VStack>
                 <Suspense fallback={<LoaderSkeleton />}>
                     <HistorikkWrapper initialPerioderPromise={perioderPromise} />
                 </Suspense>
-            </div>
+            </VStack>
         </div>
     );
 }

@@ -1,5 +1,7 @@
+import { Box } from '@navikt/ds-react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Suspense } from 'react';
+import styles from '@/app/(forside)/components/Forside.module.css';
 import { Kartlegging } from '@/app/(forside)/components/kartlegging';
 import { ModiaProvider } from '@/contexts/modia-context';
 import type { KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
@@ -77,9 +79,9 @@ const meta = {
     decorators: [
         (Story) => (
             <ModiaProvider initFnr={null} initEnhetId='9999'>
-                <div className='max-w-5xl mx-auto p-4'>
+                <Box className={styles.maxWidth5xl} marginInline='auto' padding='space-16'>
                     <Story />
-                </div>
+                </Box>
             </ModiaProvider>
         ),
     ],

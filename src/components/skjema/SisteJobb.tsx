@@ -67,13 +67,18 @@ function SisteJobb({ registrering, setRegistrering, doValidate }: SisteJobbProps
         setVisStillingsSok(false);
     };
     return (
-        <Box className='mb-8' borderWidth='1' padding='space-16' style={{ backgroundColor: 'var(--ax-neutral-100)' }}>
+        <Box
+            marginBlock='space-0 space-32'
+            borderWidth='1'
+            padding='space-16'
+            style={{ backgroundColor: 'var(--ax-neutral-100)' }}
+        >
             <Heading spacing size='medium' level='2'>
                 Hva er din siste jobb?
             </Heading>
 
             {visSisteStilling && (
-                <div className='mb-2'>
+                <Box marginBlock='space-0 space-8'>
                     <RadioGruppe
                         valg={[
                             { tekst: tekst(SisteStillingValg.HAR_HATT_JOBB), value: SisteStillingValg.HAR_HATT_JOBB },
@@ -87,32 +92,35 @@ function SisteJobb({ registrering, setRegistrering, doValidate }: SisteJobbProps
                         onSelect={(val: SisteStillingValg) => setRegistrering({ [SporsmalId.sisteStilling]: val })}
                         visFeilmelding={visFeilmeldingSisteStilling}
                     />
-                </div>
+                </Box>
             )}
 
             {visSisteJobb && (
-                <div className='mb-4'>
+                <Box marginBlock='space-0 space-16'>
                     <Heading spacing size='small' level='3'>
                         Stilling
                     </Heading>
                     <BodyLong>Følgende informasjon er registrert i Aa-registeret om siste stilling.</BodyLong>
-                    <BodyLong className='mb-4'>Hvis opplysningen er feil, kan du endre under.</BodyLong>
+                    <Box marginBlock='space-0 space-16'>
+                        <BodyLong>Hvis opplysningen er feil, kan du endre under.</BodyLong>
+                    </Box>
                     {visStillingsSok ? (
                         <StillingsSok onClose={onCloseStillingssok} />
                     ) : (
                         <div>
                             {registrering.sisteJobb?.label}
-                            <Button
-                                ref={endreButtonRef}
-                                variant='tertiary'
-                                className='ml-2'
-                                onClick={() => setVisStillingsSok(true)}
-                            >
-                                Endre
-                            </Button>
+                            <Box asChild marginInline='space-8 space-0'>
+                                <Button
+                                    ref={endreButtonRef}
+                                    variant='tertiary'
+                                    onClick={() => setVisStillingsSok(true)}
+                                >
+                                    Endre
+                                </Button>
+                            </Box>
                         </div>
                     )}
-                </div>
+                </Box>
             )}
 
             <ReadMore header='Hva bruker vi informasjonen om siste stilling til?'>

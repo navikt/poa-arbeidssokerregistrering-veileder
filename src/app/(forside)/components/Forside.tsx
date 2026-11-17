@@ -1,4 +1,4 @@
-import { Alert, Box } from '@navikt/ds-react';
+import { Alert, Stack } from '@navikt/ds-react';
 import { use } from 'react';
 import { Bekreftelse } from '@/app/(forside)/components/Bekreftelse';
 import { HistorikkLenke } from '@/app/(forside)/components/HistorikkLenke';
@@ -49,10 +49,10 @@ function Forside({ snapshotPromise, bekreftelserPromise, kartleggingEnkeltperson
                 egenvurderinger={snapshot.egenvurdering}
             />
             <Bekreftelse antallTilgjengeligBekreftelser={bekreftelser?.length} />
-            <Box className='flex flex-col gap-2 ax-md:flex-row ax-md:justify-between'>
+            <Stack direction={{ xs: 'column', md: 'row' }} gap='space-8' justify={{ xs: 'start', md: 'space-between' }}>
                 <HistorikkLenke />
                 <TidslinjerLenke />
-            </Box>
+            </Stack>
         </div>
     );
 }

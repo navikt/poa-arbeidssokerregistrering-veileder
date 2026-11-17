@@ -1,4 +1,5 @@
 import type { ProfileringHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { BodyShort, VStack } from '@navikt/ds-react';
 import type React from 'react';
 import { ReadMoreWrapper } from '@/app/historikk/components/hendelseTyper/read-more-wrapper';
 
@@ -40,15 +41,15 @@ const Profilering: React.FC<ProfileringProps> = (props) => {
 
     return (
         <ReadMoreWrapper header='Se profilering'>
-            <div className='text-base'>
+            <VStack gap='space-8'>
                 {profileringMappet.map((field) => (
-                    <div key={field.sporsmal} className='mb-2'>
+                    <BodyShort key={field.sporsmal}>
                         <strong>{field.sporsmal}</strong>
                         <br />
                         {field.svar}
-                    </div>
+                    </BodyShort>
                 ))}
-            </div>
+            </VStack>
         </ReadMoreWrapper>
     );
 };

@@ -18,9 +18,11 @@ function VelgRegistreringsKnapp() {
 
     return (
         <Box>
-            <Checkbox checked={bekreftet} onChange={() => setBekreftet((x) => !x)} className='mb-4'>
-                Jeg bekrefter at de nødvendige vurderingene er gjort og dokumentert
-            </Checkbox>
+            <Box marginBlock='space-0 space-16' asChild>
+                <Checkbox checked={bekreftet} onChange={() => setBekreftet((x) => !x)}>
+                    Jeg bekrefter at de nødvendige vurderingene er gjort og dokumentert
+                </Checkbox>
+            </Box>
             <Button
                 variant='secondary-neutral'
                 disabled={!bekreftet}

@@ -62,22 +62,29 @@ function AndreProblemer({ registrering, setRegistrering, doValidate }: Hindringe
     const visFeilmelding = doValidate && !Object.keys(registrering).includes(SporsmalId.andreForhold);
 
     return (
-        <form className='mt-8'>
-            <RadioGruppe
-                legend={tekst('tittel')}
-                beskrivelse={tekst('ingress')}
-                valg={valg}
-                valgt={registrering[SporsmalId.andreForhold]}
-                onSelect={(val: JaEllerNei) => setRegistrering({ [SporsmalId.andreForhold]: val })}
-                visFeilmelding={visFeilmelding}
-            />
-        </form>
+        <Box asChild marginBlock='space-32 space-0'>
+            <form>
+                <RadioGruppe
+                    legend={tekst('tittel')}
+                    beskrivelse={tekst('ingress')}
+                    valg={valg}
+                    valgt={registrering[SporsmalId.andreForhold]}
+                    onSelect={(val: JaEllerNei) => setRegistrering({ [SporsmalId.andreForhold]: val })}
+                    visFeilmelding={visFeilmelding}
+                />
+            </form>
+        </Box>
     );
 }
 
 function Hindringer({ registrering, setRegistrering, doValidate }: HindringerProps) {
     return (
-        <Box className='mb-8' borderWidth='1' padding='space-16' style={{ backgroundColor: 'var(--ax-neutral-100)' }}>
+        <Box
+            marginBlock='space-0 space-32'
+            borderWidth='1'
+            padding='space-16'
+            style={{ backgroundColor: 'var(--ax-neutral-100)' }}
+        >
             <Heading size='medium' spacing level='2'>
                 Hindringer
             </Heading>

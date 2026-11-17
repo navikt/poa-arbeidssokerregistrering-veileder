@@ -12,7 +12,7 @@ export function Kvitteringsoverskrift({ children }: { children: string }) {
     }, [children]);
 
     return (
-        <Heading ref={headingRef} level='1' size='small' className='mbl' tabIndex={-1}>
+        <Heading ref={headingRef} level='1' size='small' tabIndex={-1}>
             {children}
         </Heading>
     );

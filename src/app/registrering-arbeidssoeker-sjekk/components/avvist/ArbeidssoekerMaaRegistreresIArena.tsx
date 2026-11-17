@@ -10,8 +10,8 @@ import { BodyLong, Box, Heading, List } from '@navikt/ds-react';
  */
 function ArbeidssoekerMaaRegistreresIArena() {
     return (
-        <Box className='mb-8'>
-            <Heading level='3' size='small' className='navds-heading navds-heading--xsmall'>
+        <Box marginBlock='space-0 space-32'>
+            <Heading level='3' size='small'>
                 Trenger personen å være registrert i Arena?
             </Heading>
             <BodyLong>

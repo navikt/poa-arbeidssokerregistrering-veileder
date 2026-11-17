@@ -1,6 +1,8 @@
+import { Box } from '@navikt/ds-react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import snapshotMock from '@/lib/mocks/snapshot.json';
+import styles from './Forside.module.css';
 import { Opplysninger } from './Opplysninger';
 
 const snapshot = snapshotMock as unknown as NonNullable<SnapshotResult['snapshot']>;
@@ -11,9 +13,9 @@ const meta = {
     tags: ['autodocs'],
     decorators: [
         (Story) => (
-            <div className='max-w-3xl mx-auto p-4'>
+            <Box className={styles.maxWidth3xl} marginInline='auto' padding='space-16'>
                 <Story />
-            </div>
+            </Box>
         ),
     ],
     parameters: {

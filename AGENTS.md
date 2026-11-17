@@ -42,7 +42,7 @@ This is a **Next.js 16** application (App Router) that lets Nav counselors ("vei
 | Next.js | 16 | Framework (App Router, Server Components, Server Functions) |
 | React | 19 | UI library (uses `use()` hook for promise unwrapping) |
 | TypeScript | 7.0.2 | Type safety (`strictNullChecks: true`, `noUncheckedIndexedAccess: true`) |
-| Tailwind CSS | 4 | Styling (with `@navikt/ds-tailwind` preset) |
+| CSS Modules | — | Styling Aksel primitives cannot express |
 | Biome | 2.6.3 | Linting and formatting (replaces ESLint + Prettier) |
 | Vitest | 5 | Unit testing |
 | Playwright + axe | 1.64.1 / 4.14.0 | Browser accessibility testing |
@@ -108,7 +108,7 @@ src/
 │   ├── modia-context-api.ts      # Modia context API client
 │   └── modia-headers.ts          # Modia request headers
 ├── model/                        # TypeScript type definitions and domain models
-├── styles/                       # Global CSS (Tailwind)
+├── styles/                       # Global CSS (Aksel CSS import, print utilities)
 ├── test/                         # Test stubs and utilities
 ├── types/                        # Additional type declarations
 ├── instrumentation.ts            # Rejects server mock mode in production clusters
@@ -230,7 +230,7 @@ The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome fo
 
 ### Styling
 
-12. **Use Tailwind CSS** with the `@navikt/ds-tailwind` preset. Prefer Tailwind utility classes over custom CSS.
+12. **Use Aksel primitives** (`Box`, `HStack`, `VStack`, `HGrid`, `Show`/`Hide`) with `space-*` tokens for layout and spacing. Tailwind is not used. For what Aksel cannot express, add a `<Component>.module.css` next to the component using Aksel tokens (`var(--ax-*)`). Rules shared by many components go in `src/styles/globals.css` (e.g. `skjul-ved-utskrift`, `vis-kun-ved-utskrift`).
 13. **Do not use `!important`** in CSS (enforced by Biome, except in `globals.css` where it is explicitly allowed).
 
 ### API Calls & Server Functions
@@ -301,7 +301,7 @@ The Husky pre-commit hook runs `tsc` (type checking) and `lint-staged` (Biome fo
 - Use `authenticatedFetch` for new protected domain API calls. Preserve the existing integration-specific handling documented under Authentication Model.
 - Follow the **Page → Wrapper → Component** data fetching pattern when creating or modifying pages.
 - Use the `@/` path alias for imports from `src/`.
-- Use Aksel (`@navikt/ds-react`) components for UI. Use Tailwind for layout and spacing.
+- Use Aksel (`@navikt/ds-react`) components for UI. Use Aksel primitives for layout and spacing, CSS modules for the rest.
 - Write user-facing strings in Norwegian.
 - Handle `undefined` from indexed access (`noUncheckedIndexedAccess` is enabled).
 - Place unit and component tests next to the code they test with the `.test.ts` / `.test.tsx` suffix. Keep browser UU tests and test-rig helper tests in `tests/uu/`.

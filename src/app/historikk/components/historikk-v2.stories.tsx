@@ -1,4 +1,5 @@
 import type { Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { Box } from '@navikt/ds-react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { VisningsTypeProvider } from '@/contexts/hendelse-visning-context';
 import { ModiaProvider } from '@/contexts/modia-context';
@@ -13,9 +14,9 @@ const meta = {
         (Story) => (
             <VisningsTypeProvider>
                 <ModiaProvider initFnr='12345678901' initEnhetId='9999'>
-                    <div className='max-w-6xl mx-auto p-4'>
+                    <Box maxWidth='72rem' marginInline='auto' padding='space-16'>
                         <Story />
-                    </div>
+                    </Box>
                 </ModiaProvider>
             </VisningsTypeProvider>
         ),

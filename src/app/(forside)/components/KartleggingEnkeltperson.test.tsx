@@ -71,10 +71,11 @@ describe('KartleggingEnkeltperson', () => {
         expect(screen.getAllByText('Nei')).toHaveLength(1);
         expect(screen.getAllByText('Ja')).toHaveLength(1);
 
-        const responsiveWrappers = document.querySelectorAll('.grid-cols-1');
+        const responsiveWrappers = document.querySelectorAll<HTMLElement>('.aksel-hgrid');
         expect(responsiveWrappers).toHaveLength(4);
         for (const wrapper of responsiveWrappers) {
-            expect(wrapper.classList.contains('ax-md:grid-cols-[minmax(0,1fr)_210px]')).toBe(true);
+            expect(wrapper.style.getPropertyValue('--__axc-hgrid-columns-xs')).toBe('repeat(1, minmax(0, 1fr))');
+            expect(wrapper.style.getPropertyValue('--__axc-hgrid-columns-md')).toBe('minmax(0, 1fr) 210px');
         }
     });
 

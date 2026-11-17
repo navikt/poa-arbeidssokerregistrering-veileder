@@ -1,5 +1,6 @@
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import type { Hendelse, Periode } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { Box, Stack, VStack } from '@navikt/ds-react';
 import type React from 'react';
 import { HendelseHelpText } from '@/app/historikk/components/HendelseHelpText';
 import { HistorikkHeading } from '@/app/historikk/components/HistorikkHeading';
@@ -12,6 +13,7 @@ import { Source } from '@/app/historikk/components/Source';
 import { TEKSTER } from '@/app/historikk/components/text';
 import { useFilterContext } from '@/contexts/filter-hendelse-context';
 import { prettyPrintDatoOgKlokkeslettKortform } from '@/lib/date-utils';
+import styles from './Historikk.module.css';
 
 type HistorikkProps = {
     periode: Periode;
@@ -51,29 +53,38 @@ const HistorikkPeriode: React.FC<HistorikkProps> = (props) => {
             {periode.hendelser
                 .filter((hendelse) => filters.includes(hendelse.type))
                 .map((hendelse) => (
-                    <article
+                    <Box
+                        as='article'
                         key={`${hendelse.tidspunkt}_${hendelse.type}`}
-                        className='flex flex-col gap-2 bg-ax-neutral-100/40 mb-4 p-4 rounded-md shadow print:border-b print:rounded-none'
+                        background='neutral-softA'
+                        marginBlock='space-0 space-16'
+                        padding='space-16'
+                        borderRadius='8'
+                        className={styles.hendelseKort}
                     >
-                        <div className='grid ax-sm:flex ax-sm:flex-wrap gap-2'>
-                            <div className='whitespace-nowrap pr-2'>
-                                {prettyPrintDatoOgKlokkeslettKortform(hendelse.tidspunkt, 'nb', true)}
-                            </div>
-                            <h3 className='whitespace-nowrap ax-sm:border-l-2 border-ax-neutral-700 ax-sm:pl-3 flex items-center gap-2'>
-                                {getItemTitle(hendelse)}
-                            </h3>
-                            <HendelseHelpText
-                                type={hendelse.type}
-                                source={getSourceString(hendelse)}
-                                modifier={getHendelseModifier(hendelse)}
-                            />
-                            <Source source={getSourceString(hendelse)} />
-                        </div>
-                        {hendelse.type === 'OPPLYSNINGER_V4' && <Opplysninger opplysninger={hendelse} />}
-                        {hendelse.type === 'BEKREFTELSE_V1' && <Bekreftelse bekreftelse={hendelse} />}
-                        {hendelse.type === 'PERIODE_AVSLUTTET_V1' && <PeriodeAvsluttet avsluttetHendelse={hendelse} />}
-                        {hendelse.type === 'PROFILERING_V1' && <Profilering profilering={hendelse} />}
-                    </article>
+                        <VStack gap='space-8'>
+                            <Stack direction={{ xs: 'column', sm: 'row' }} wrap gap='space-8'>
+                                <Box paddingInline='space-0 space-8' className={styles.hendelseDato}>
+                                    {prettyPrintDatoOgKlokkeslettKortform(hendelse.tidspunkt, 'nb', true)}
+                                </Box>
+                                <Stack as='h3' gap='space-8' align='center' className={styles.hendelseTittel}>
+                                    {getItemTitle(hendelse)}
+                                </Stack>
+                                <HendelseHelpText
+                                    type={hendelse.type}
+                                    source={getSourceString(hendelse)}
+                                    modifier={getHendelseModifier(hendelse)}
+                                />
+                                <Source source={getSourceString(hendelse)} />
+                            </Stack>
+                            {hendelse.type === 'OPPLYSNINGER_V4' && <Opplysninger opplysninger={hendelse} />}
+                            {hendelse.type === 'BEKREFTELSE_V1' && <Bekreftelse bekreftelse={hendelse} />}
+                            {hendelse.type === 'PERIODE_AVSLUTTET_V1' && (
+                                <PeriodeAvsluttet avsluttetHendelse={hendelse} />
+                            )}
+                            {hendelse.type === 'PROFILERING_V1' && <Profilering profilering={hendelse} />}
+                        </VStack>
+                    </Box>
                 ))}
         </section>
     );

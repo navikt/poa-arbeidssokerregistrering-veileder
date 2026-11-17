@@ -1,4 +1,4 @@
-import { Heading } from '@navikt/ds-react';
+import { Box, Heading, VStack } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
 import { TidslinjeWrapper } from '@/app/tidslinjer/components/TidslinjeWrapper';
@@ -13,14 +13,14 @@ export default async function TidslinjerPage() {
     return (
         <div>
             <TilbakeTilForside sidenavn='Arbeidssøkerhistorikk' />
-            <Heading size={'large'} className='mb-4'>
-                Tidslinjer for arbeidssøker
-            </Heading>
-            <div className={'flex flex-col'}>
+            <Box marginBlock='space-0 space-16'>
+                <Heading size={'large'}>Tidslinjer for arbeidssøker</Heading>
+            </Box>
+            <VStack>
                 <Suspense fallback={<LoaderSkeleton />}>
                     <TidslinjeWrapper initialPerioderPromise={perioderPromise} />
                 </Suspense>
-            </div>
+            </VStack>
         </div>
     );
 }

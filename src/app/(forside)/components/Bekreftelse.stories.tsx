@@ -1,5 +1,7 @@
+import { Box } from '@navikt/ds-react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Bekreftelse } from './Bekreftelse';
+import styles from './Bekreftelse.stories.module.css';
 
 const meta = {
     title: 'Forside/Bekreftelse',
@@ -7,9 +9,9 @@ const meta = {
     tags: ['autodocs'],
     decorators: [
         (Story) => (
-            <div className='max-w-3xl mx-auto p-4'>
+            <Box className={styles.storyWrapper} marginInline='auto' padding='space-16'>
                 <Story />
-            </div>
+            </Box>
         ),
     ],
     parameters: {

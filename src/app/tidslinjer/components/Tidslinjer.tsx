@@ -1,6 +1,6 @@
 'use client';
 
-import { Accordion, Alert, Table } from '@navikt/ds-react';
+import { Accordion, Alert, Box, HStack, Table } from '@navikt/ds-react';
 import { AccordionContent, AccordionHeader, AccordionItem } from '@navikt/ds-react/Accordion';
 import { TableBody, TableHeader, TableHeaderCell, TableRow } from '@navikt/ds-react/Table';
 import { use } from 'react';
@@ -40,30 +40,32 @@ const Tidslinjer: React.FC<TidslinjerProps> = (props) => {
             {perioder?.map((periode) => (
                 <AccordionItem key={periode.periodeId}>
                     <AccordionHeader>
-                        <div className='flex gap-2'>
+                        <HStack gap='space-8'>
                             <TidslinjeVarsel hendelser={periode.hendelser} />
                             {formaterDato(periode.startet)} - {hentAvsluttetDatoString(periode.avsluttet)}
-                        </div>
+                        </HStack>
                     </AccordionHeader>
                     <AccordionContent>
-                        <Table size='small' className='mb-4'>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHeaderCell scope='col'>Tidspunkt</TableHeaderCell>
-                                    <TableHeaderCell scope='col'>Hendelse</TableHeaderCell>
-                                    <TableHeaderCell scope='col'>Kilde</TableHeaderCell>
-                                    <TableHeaderCell scope='col'>Status</TableHeaderCell>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {periode.hendelser.toReversed().map((hendelse) => (
-                                    <HendelseVisning
-                                        key={`${periode.periodeId}_${hendelse.type}_${hendelse.tidspunkt}`}
-                                        hendelse={hendelse}
-                                    />
-                                ))}
-                            </TableBody>
-                        </Table>
+                        <Box marginBlock='space-0 space-16'>
+                            <Table size='small'>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHeaderCell scope='col'>Tidspunkt</TableHeaderCell>
+                                        <TableHeaderCell scope='col'>Hendelse</TableHeaderCell>
+                                        <TableHeaderCell scope='col'>Kilde</TableHeaderCell>
+                                        <TableHeaderCell scope='col'>Status</TableHeaderCell>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {periode.hendelser.toReversed().map((hendelse) => (
+                                        <HendelseVisning
+                                            key={`${periode.periodeId}_${hendelse.type}_${hendelse.tidspunkt}`}
+                                            hendelse={hendelse}
+                                        />
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Box>
                     </AccordionContent>
                 </AccordionItem>
             ))}

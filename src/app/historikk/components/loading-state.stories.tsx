@@ -1,3 +1,4 @@
+import { Box } from '@navikt/ds-react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { HistorikkInnholdSkeleton } from './HistorikkLoadingSkeleton';
 
@@ -7,9 +8,9 @@ const meta = {
     tags: ['autodocs'],
     decorators: [
         (Story) => (
-            <div className='max-w-6xl mx-auto p-4'>
+            <Box maxWidth='72rem' marginInline='auto' padding='space-16'>
                 <Story />
-            </div>
+            </Box>
         ),
     ],
     parameters: {

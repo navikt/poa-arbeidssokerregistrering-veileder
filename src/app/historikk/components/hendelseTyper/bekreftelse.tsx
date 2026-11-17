@@ -1,4 +1,5 @@
 import type { BekreftelseHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
+import { BodyShort, VStack } from '@navikt/ds-react';
 import type React from 'react';
 import { ReadMoreWrapper } from '@/app/historikk/components/hendelseTyper/read-more-wrapper';
 import { prettyPrintDato } from '@/lib/date-utils';
@@ -39,15 +40,17 @@ const Bekreftelse: React.FC<BekreftelseProps> = (props) => {
 
     return (
         <ReadMoreWrapper header='Se bekreftede opplysninger'>
-            <div className='text-base'>
-                {bekreftelseMappet.map((field) => (
-                    <div key={field.sporsmal} className='mb-2'>
-                        <strong>{field.sporsmal}</strong>
-                        <br />
-                        {field.svar}
-                    </div>
-                ))}
-            </div>
+            <BodyShort as='div' size='small'>
+                <VStack gap='space-8'>
+                    {bekreftelseMappet.map((field) => (
+                        <div key={field.sporsmal}>
+                            <strong>{field.sporsmal}</strong>
+                            <br />
+                            {field.svar}
+                        </div>
+                    ))}
+                </VStack>
+            </BodyShort>
         </ReadMoreWrapper>
     );
 };

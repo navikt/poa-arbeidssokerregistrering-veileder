@@ -1,7 +1,7 @@
 'use client';
 
 import type { TilgjengeligBekreftelse } from '@navikt/arbeidssokerregisteret-utils';
-import { Alert } from '@navikt/ds-react';
+import { Alert, Box } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import { use, useEffect, useReducer, useRef } from 'react';
 import { ManglerTilganger } from '@/components/ManglerTilganger';
@@ -131,9 +131,9 @@ function Bekreftelse({ bekreftelserPromise }: { bekreftelserPromise: Promise<Bek
             )}
 
             {state.status === 'error' && (
-                <Alert variant='error' className='my-8'>
-                    {state.errorMessage}
-                </Alert>
+                <Box marginBlock='space-32'>
+                    <Alert variant='error'>{state.errorMessage}</Alert>
+                </Box>
             )}
         </>
     );

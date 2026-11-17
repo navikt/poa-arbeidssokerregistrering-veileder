@@ -20,7 +20,7 @@ export default function KvitteringArbeidssokerPage() {
             <TrackPageView data={{ viser: 'Kvittering for registrert arbeidssøker' }} />
             <TilbakeTilForside sidenavn='Kvittering' />
             <Alert variant='success'>
-                <Heading level='1' size='small' className={'mbl'}>
+                <Heading level='1' size='small'>
                     {tekst('header')}
                 </Heading>
                 <BodyLong>

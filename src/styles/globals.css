@@ -1,21 +1,26 @@
-@import "tailwindcss";
-@import "@navikt/ds-css" layer(components);
+@import "@navikt/ds-css";
 
-@config "../../tailwind.config.ts";
-
-main[data-route="/historikk"] {
-    @apply max-w-7xl;
+.vis-kun-ved-utskrift {
+    display: none;
 }
 
 @media print {
-    main[data-route="/historikk"] .navds-read-more__content {
+    .skjul-ved-utskrift {
+        display: none !important;
+    }
+
+    .vis-kun-ved-utskrift {
+        display: block;
+    }
+
+    .historikk-side .aksel-read-more__content {
         display: block !important;
         max-height: none !important;
         opacity: 1 !important;
         visibility: visible !important;
     }
 
-    main[data-route="/historikk"] .navds-read-more__button {
+    .historikk-side .aksel-read-more__button {
         display: none !important;
     }
 }

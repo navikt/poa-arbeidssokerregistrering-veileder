@@ -1,4 +1,4 @@
-import { Heading, Loader } from '@navikt/ds-react';
+import { Box, Heading, Loader, VStack } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { TilbakeTilForside } from '@/components/tilbake-til-forside';
 import { hentModiaContext } from '@/lib/modia-context-api';
@@ -10,14 +10,16 @@ export default async function ForsidePage() {
     const kanStartePeriodePromise = kanStartePeriode(modiaContext.fnr);
 
     return (
-        <div className={'flex flex-col'}>
+        <VStack>
             <TilbakeTilForside sidenavn='Arbeidssøkerregistrering' />
-            <Heading level='1' size='large' className='mb-8 text-left'>
-                Arbeidssøkerregistrering
-            </Heading>
+            <Box marginBlock='space-0 space-32' asChild>
+                <Heading level='1' size='large'>
+                    Arbeidssøkerregistrering
+                </Heading>
+            </Box>
             <Suspense fallback={<Loader />}>
                 <RegistreringSjekkWrapper initialKanRegistreresPromise={kanStartePeriodePromise} />
             </Suspense>
-        </div>
+        </VStack>
     );
 }

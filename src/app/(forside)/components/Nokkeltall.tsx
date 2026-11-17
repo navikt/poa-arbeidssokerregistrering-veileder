@@ -1,6 +1,6 @@
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import type { Snapshot } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { Alert, BodyShort, Detail, Heading, InfoCard, Tag } from '@navikt/ds-react';
+import { Alert, BodyShort, Box, Detail, Heading, HGrid, HStack, InfoCard, Tag } from '@navikt/ds-react';
 import { InfoCardContent, InfoCardHeader, InfoCardTitle } from '@navikt/ds-react/InfoCard';
 import type { NokkeltallResult } from '@/lib/api/nokkeltall';
 import { prettyPrintDato, prettyPrintDatoOgKlokkeslett } from '@/lib/date-utils';
@@ -21,7 +21,14 @@ type NokkeltallProps = {
 
 function Wrapper({ children }: { children: React.ReactNode }) {
     return (
-        <div className='grid grid-cols-[1fr_210px] pb-2 mb-2 border-b border-b-ax-bg-neutral-moderate'>{children}</div>
+        <Box
+            paddingBlock='space-0 space-8'
+            marginBlock='space-0 space-8'
+            borderWidth='0 0 1 0'
+            borderColor='neutral-subtle'
+        >
+            <HGrid columns='1fr 210px'>{children}</HGrid>
+        </Box>
     );
 }
 
@@ -37,80 +44,84 @@ function Nokkeltall({ nokkeltall, snapshot }: NokkeltallProps) {
 
     if (!nokkeltall)
         return (
-            <Alert variant={'info'} className={'mb-4'}>
-                <Heading level={'3'} size={'small'}>
-                    Personen er registrert som arbeidssøker
-                </Heading>
-                <BodyShort textColor={'subtle'}>
-                    Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
-                    {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
-                </BodyShort>
-            </Alert>
-        );
-    return (
-        <InfoCard data-color='info' className='mb-4'>
-            <InfoCardHeader>
-                <InfoCardTitle>
-                    Personen er registrert som arbeidssøker
+            <Box marginBlock='space-0 space-16'>
+                <Alert variant={'info'}>
+                    <Heading level={'3'} size={'small'}>
+                        Personen er registrert som arbeidssøker
+                    </Heading>
                     <BodyShort textColor={'subtle'}>
                         Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
                         {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
                     </BodyShort>
-                </InfoCardTitle>
-            </InfoCardHeader>
-            <InfoCardContent>
-                <Wrapper>
-                    <div>Dager helt ledig</div>
-                    <div>
-                        <Dager dager={nokkeltall.dagerUtenArbeid} />
-                    </div>
-                </Wrapper>
-                <Wrapper>
-                    <div>Bekreftelser kommer fra</div>
-                    <div className='flex gap-2'>
-                        {nokkeltall.tilhorighet.map((el) => (
-                            <Tag key={el}>{tekst(el)}</Tag>
-                        ))}
-                    </div>
-                </Wrapper>
-                <Wrapper>
-                    <div className='flex items-center gap-1'>
-                        <div>Ønsker veileder</div>
-                        {nokkeltall.onskerHjelp?.dato && (
-                            <Detail>({prettyPrintDato(nokkeltall.onskerHjelp?.dato)})</Detail>
-                        )}
-                    </div>
-                    <div>
-                        {nokkeltall.onskerHjelp ? (
-                            <Tag data-color={nokkeltall.onskerHjelp.svar ? 'warning' : 'success'}>
-                                {nokkeltall.onskerHjelp?.svar ? 'Ja' : 'Nei'}
-                            </Tag>
-                        ) : (
-                            <span>Ingen egenvurdering funnet</span>
-                        )}
-                    </div>
-                </Wrapper>
-                <Wrapper>
-                    <div className='flex items-center gap-1'>
-                        <div>Rapportert arbeid på siste bekreftelse</div>
-                        {nokkeltall.bekreftelse?.tidspunkt && (
-                            <Detail>({prettyPrintDato(nokkeltall.bekreftelse.tidspunkt)})</Detail>
-                        )}
-                    </div>
-                    <div>
-                        {nokkeltall.bekreftelse ? (
-                            nokkeltall.bekreftelse?.svar.harJobbetIDennePerioden ? (
-                                <Tag data-color='success'>Ja</Tag>
+                </Alert>
+            </Box>
+        );
+    return (
+        <Box marginBlock='space-0 space-16'>
+            <InfoCard data-color='info'>
+                <InfoCardHeader>
+                    <InfoCardTitle>
+                        Personen er registrert som arbeidssøker
+                        <BodyShort textColor={'subtle'}>
+                            Registrert {prettyPrintDatoOgKlokkeslett(snapshot.startet.tidspunkt)} av{' '}
+                            {mapUtfoertAvType(snapshot.startet.sendtInnAv.utfoertAv.type)}
+                        </BodyShort>
+                    </InfoCardTitle>
+                </InfoCardHeader>
+                <InfoCardContent>
+                    <Wrapper>
+                        <div>Dager helt ledig</div>
+                        <div>
+                            <Dager dager={nokkeltall.dagerUtenArbeid} />
+                        </div>
+                    </Wrapper>
+                    <Wrapper>
+                        <div>Bekreftelser kommer fra</div>
+                        <HStack gap='space-8'>
+                            {nokkeltall.tilhorighet.map((el) => (
+                                <Tag key={el}>{tekst(el)}</Tag>
+                            ))}
+                        </HStack>
+                    </Wrapper>
+                    <Wrapper>
+                        <HStack align='center' gap='space-4'>
+                            <div>Ønsker veileder</div>
+                            {nokkeltall.onskerHjelp?.dato && (
+                                <Detail>({prettyPrintDato(nokkeltall.onskerHjelp?.dato)})</Detail>
+                            )}
+                        </HStack>
+                        <div>
+                            {nokkeltall.onskerHjelp ? (
+                                <Tag data-color={nokkeltall.onskerHjelp.svar ? 'warning' : 'success'}>
+                                    {nokkeltall.onskerHjelp?.svar ? 'Ja' : 'Nei'}
+                                </Tag>
                             ) : (
-                                <Tag data-color='warning'>Nei</Tag>
-                            )
-                        ) : (
-                            <span>Ingen bekreftelse funnet</span>
-                        )}
-                    </div>
-                </Wrapper>
-            </InfoCardContent>
-        </InfoCard>
+                                <span>Ingen egenvurdering funnet</span>
+                            )}
+                        </div>
+                    </Wrapper>
+                    <Wrapper>
+                        <HStack align='center' gap='space-4'>
+                            <div>Rapportert arbeid på siste bekreftelse</div>
+                            {nokkeltall.bekreftelse?.tidspunkt && (
+                                <Detail>({prettyPrintDato(nokkeltall.bekreftelse.tidspunkt)})</Detail>
+                            )}
+                        </HStack>
+                        <div>
+                            {nokkeltall.bekreftelse ? (
+                                nokkeltall.bekreftelse?.svar.harJobbetIDennePerioden ? (
+                                    <Tag data-color='success'>Ja</Tag>
+                                ) : (
+                                    <Tag data-color='warning'>Nei</Tag>
+                                )
+                            ) : (
+                                <span>Ingen bekreftelse funnet</span>
+                            )}
+                        </div>
+                    </Wrapper>
+                </InfoCardContent>
+            </InfoCard>
+        </Box>
     );
 }
 

@@ -3,7 +3,12 @@ import { ListItem } from '@navikt/ds-react/List';
 
 function GenereltOmSamtykke() {
     return (
-        <Box className='mb-8' borderWidth='1' padding='space-16' style={{ backgroundColor: 'var(--ax-neutral-100)' }}>
+        <Box
+            marginBlock='space-32'
+            borderWidth='1'
+            padding='space-16'
+            style={{ backgroundColor: 'var(--ax-neutral-100)' }}
+        >
             <div>
                 <Heading as='h2' size='xsmall'>
                     Før du registrerer arbeidssøkeren må du sørge for at:
