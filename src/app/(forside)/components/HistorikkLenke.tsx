@@ -3,7 +3,7 @@ import { loggAktivitet } from '@/lib/tracking';
 
 function HistorikkLenke() {
     return (
-        <Box className='mt-4 mb-4 text-start'>
+        <Box marginBlock='space-16'>
             <Link href='/historikk' onClick={() => loggAktivitet({ aktivitet: 'Går til historikk' })}>
                 Se tidligere arbeidssøkerperioder og opplysninger
             </Link>

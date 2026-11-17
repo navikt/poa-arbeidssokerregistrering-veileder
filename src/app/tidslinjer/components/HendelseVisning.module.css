@@ -1,0 +1,7 @@
+.row:nth-child(odd) {
+    background: var(--ax-bg-accent-moderate);
+}
+
+.row:hover {
+    background: var(--ax-bg-accent-moderate-pressed);
+}

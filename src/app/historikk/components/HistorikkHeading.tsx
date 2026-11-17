@@ -1,10 +1,11 @@
 import { lagHentTekstForSprak } from '@navikt/arbeidssokerregisteret-utils';
 import type { Hendelse, Periode, PeriodeAvsluttetHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { BodyLong, CopyButton, InfoCard } from '@navikt/ds-react';
+import { BodyLong, Box, CopyButton, HStack, InfoCard, VStack } from '@navikt/ds-react';
 import type React from 'react';
 import { TEKSTER } from '@/app/historikk/components/text';
 import { prettyPrintDato } from '@/lib/date-utils';
 import { oversettSluttaarsak } from '@/lib/oversett-sluttaarsak';
+import styles from './Historikk.module.css';
 
 type HistorikkHeadingProps = {
     periode: Periode;
@@ -27,10 +28,10 @@ const PeriodeStartInfo = ({ event }: { event: Hendelse | undefined }) => {
     if (!event) return null;
 
     return (
-        <p className='flex items-center'>
+        <HStack as='p' align='center'>
             <strong>Startet</strong>&nbsp;av {tekst(utfoertAv?.type || '')}
             {utfoertAv?.type === 'VEILEDER' && <KopierVeilederId veilederId={utfoertAv.id} />}
-        </p>
+        </HStack>
     );
 };
 
@@ -42,12 +43,12 @@ const PeriodeSluttInfo = ({ event }: { event: PeriodeAvsluttetHendelse | undefin
 
     return (
         <>
-            <p className='flex items-center'>
+            <HStack as='p' align='center'>
                 <b>Avsluttet</b>&nbsp;av {tekst(event.sendtInnAv.utfoertAv.type)}
                 {event.sendtInnAv.utfoertAv.type === 'VEILEDER' && (
                     <KopierVeilederId veilederId={event.sendtInnAv.utfoertAv.id} />
                 )}
-            </p>
+            </HStack>
             <p>
                 <b>{tekst('sluttarsak')}</b>: {sluttaarsak(event.sendtInnAv.aarsak)}
             </p>
@@ -61,25 +62,29 @@ const HistorikkHeading: React.FC<HistorikkHeadingProps> = (props) => {
     const periodeAvsluttetEvent = periode.hendelser.find((h) => h.type === 'PERIODE_AVSLUTTET_V1');
 
     return (
-        <InfoCard data-color='info' className='mb-8'>
-            <InfoCard.Header>
-                <InfoCard.Title>
-                    {prettyPrintDato(periode.startet, 'nb', true)} -{' '}
-                    {periode.avsluttet ? prettyPrintDato(periode.avsluttet, 'nb', true) : 'fortsatt pågående'}
-                </InfoCard.Title>
-            </InfoCard.Header>
-            <InfoCard.Content>
-                <BodyLong size='medium' className='flex flex-row gap-4 mb-4'>
-                    <span>{periode.hendelser.length} hendelser</span>
-                    <span>&#8226;</span>
-                    <span>Perioden er {periode.avsluttet ? 'avsluttet' : 'pågående'}</span>
-                </BodyLong>
-                <div className='flex flex-col gap-2'>
-                    <PeriodeStartInfo event={periodeStartetEvent} />
-                    <PeriodeSluttInfo event={periodeAvsluttetEvent} />
-                </div>
-            </InfoCard.Content>
-        </InfoCard>
+        <Box marginBlock='space-0 space-32'>
+            <InfoCard data-color='info'>
+                <InfoCard.Header>
+                    <InfoCard.Title>
+                        {prettyPrintDato(periode.startet, 'nb', true)} -{' '}
+                        {periode.avsluttet ? prettyPrintDato(periode.avsluttet, 'nb', true) : 'fortsatt pågående'}
+                    </InfoCard.Title>
+                </InfoCard.Header>
+                <InfoCard.Content>
+                    <Box marginBlock='space-0 space-16'>
+                        <BodyLong size='medium' className={styles.hendelseMeta}>
+                            <span>{periode.hendelser.length} hendelser</span>
+                            <span>&#8226;</span>
+                            <span>Perioden er {periode.avsluttet ? 'avsluttet' : 'pågående'}</span>
+                        </BodyLong>
+                    </Box>
+                    <VStack gap='space-8'>
+                        <PeriodeStartInfo event={periodeStartetEvent} />
+                        <PeriodeSluttInfo event={periodeAvsluttetEvent} />
+                    </VStack>
+                </InfoCard.Content>
+            </InfoCard>
+        </Box>
     );
 };
 

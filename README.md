@@ -75,7 +75,6 @@ Appen gir en veileder mulighet til å administrere en persons arbeidssøkerstatu
 ## Ekstern dokumentasjon
 
 - [Next.js](https://nextjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
 - [Vitest](https://vitest.dev/)
 - [testing-library](https://testing-library.com/)
 - [Biome](https://biomejs.dev/)

@@ -1,3 +1,4 @@
+import { Box } from '@navikt/ds-react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Suspense } from 'react';
 import type { KanStartePeriodeFeil, KanStartePeriodeResult } from '@/model/kan-starte-periode';
@@ -23,9 +24,9 @@ const meta = {
     title: 'RegistreringSjekk/Avvisninger',
     decorators: [
         (Story) => (
-            <div className='max-w-3xl mx-auto p-4'>
+            <Box maxWidth='48rem' marginInline='auto' padding='space-16'>
                 <Story />
-            </div>
+            </Box>
         ),
     ],
     parameters: {

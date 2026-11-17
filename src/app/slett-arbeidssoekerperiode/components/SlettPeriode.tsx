@@ -39,12 +39,13 @@ function SlettPeriode() {
     return (
         <Box>
             {error && <Alert variant='error'>{error}</Alert>}
-            <BekreftValgPanel
-                checked={bekreftet}
-                label='Jeg bekrefter at arbeidssøkerperioden skal slettes på grunn av feilregistrering'
-                onChange={() => setBekreftet((x) => !x)}
-                className='ml-4'
-            />
+            <Box marginInline='space-16 space-0'>
+                <BekreftValgPanel
+                    checked={bekreftet}
+                    label='Jeg bekrefter at arbeidssøkerperioden skal slettes på grunn av feilregistrering'
+                    onChange={() => setBekreftet((x) => !x)}
+                />
+            </Box>
             <Button
                 variant='danger'
                 disabled={!bekreftet || isPending}

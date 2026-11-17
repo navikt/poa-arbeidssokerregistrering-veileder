@@ -1,6 +1,6 @@
 import { lagHentTekstForSprak, SPORSMAL_TEKSTER, type Svar } from '@navikt/arbeidssokerregisteret-utils';
 import type { EgenvurderingHendelse, OpplysningerHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { BodyShort, Box, Button, Heading, HGrid } from '@navikt/ds-react';
+import { BodyShort, Box, Button, Heading, HGrid, HStack } from '@navikt/ds-react';
 import Link from 'next/link';
 import { mapUtfoertAvType } from '@/app/(forside)/components/mapUtfoertAvType';
 import { Valgmeny } from '@/app/(forside)/components/Valgmeny';
@@ -12,13 +12,13 @@ type OpplysningProps = { sporsmal: string; svar: Svar | string };
 function Opplysning({ sporsmal, svar }: OpplysningProps) {
     const tekst = lagHentTekstForSprak(SPORSMAL_TEKSTER, 'nb');
     return (
-        <div className={'mb-5'}>
+        <Box marginBlock='space-0 space-20'>
             <BodyShort>
                 <strong>{tekst(sporsmal)}</strong>
                 <br />
                 {tekst(svar as string) ?? svar}
             </BodyShort>
-        </div>
+        </Box>
     );
 }
 
@@ -31,21 +31,21 @@ type OpplysningerProps = {
 function ManglerOpplysninger(props: OpplysningerProps) {
     const { sisteArbeidssoekerperiodeId } = props;
     return (
-        <Box className={'mb-4'}>
+        <Box marginBlock='space-0 space-16'>
             <Heading level={'3'} size={'small'}>
                 Opplysninger
             </Heading>
-            <div className={'flex place-content-between mb-2'}>
+            <HStack justify='space-between' marginBlock='space-0 space-8'>
                 <BodyShort textColor={'subtle'}>Ingen opplysninger registrert</BodyShort>
                 <Valgmeny sisteArbeidssoekerperiodeId={sisteArbeidssoekerperiodeId} manglerOpplysninger={true} />
-            </div>
-            <div className={'mt-4'}>
+            </HStack>
+            <Box marginBlock='space-16 space-0'>
                 <Link href='/oppdater-opplysninger' passHref>
                     <Button as='a' variant={'secondary'}>
                         Legg til opplysninger
                     </Button>
                 </Link>
-            </div>
+            </Box>
         </Box>
     );
 }
@@ -59,17 +59,17 @@ function Opplysninger(props: OpplysningerProps) {
     const egenvurdering = egenvurderinger?.egenvurdering;
 
     return (
-        <Box className={'mb-4'}>
+        <Box marginBlock='space-0 space-16'>
             <Heading level={'3'} size={'small'}>
                 Opplysninger
             </Heading>
-            <div className={'flex place-content-between mb-2'}>
+            <HStack justify='space-between' marginBlock='space-0 space-8'>
                 <BodyShort textColor={'subtle'}>
                     Oppdatert {prettyPrintDato(props.opplysninger.sendtInnAv.tidspunkt)} av{' '}
                     {mapUtfoertAvType(props.opplysninger.sendtInnAv.utfoertAv.type)}
                 </BodyShort>
                 <Valgmeny sisteArbeidssoekerperiodeId={sisteArbeidssoekerperiodeId} />
-            </div>
+            </HStack>
 
             <Box borderWidth={'1'} padding={'space-16'}>
                 <HGrid columns={2} gap={'space-0 space-24'}>

@@ -1,7 +1,7 @@
 'use client';
 
 import type { TilgjengeligBekreftelse } from '@navikt/arbeidssokerregisteret-utils';
-import { Alert, Button, Radio, RadioGroup } from '@navikt/ds-react';
+import { Alert, Box, Button, HStack, Radio, RadioGroup } from '@navikt/ds-react';
 import { useState } from 'react';
 import { formaterDato } from '@/lib/date-utils';
 
@@ -40,7 +40,7 @@ function BekreftelseSkjema({ bekreftelse, onSubmit, onCancel, isPending, disable
 
     return (
         <>
-            <div className='my-4'>
+            <Box marginBlock='space-16'>
                 <RadioGroup
                     legend={`Har personen vært i arbeid i perioden ${periode}?`}
                     value={toRadioValue(harJobbet)}
@@ -50,9 +50,9 @@ function BekreftelseSkjema({ bekreftelse, onSubmit, onCancel, isPending, disable
                     <Radio value='ja'>Ja</Radio>
                     <Radio value='nei'>Nei</Radio>
                 </RadioGroup>
-            </div>
+            </Box>
 
-            <div className='mb-4'>
+            <Box marginBlock='space-0 space-16'>
                 <RadioGroup
                     legend='Vil personen fortsatt være registrert som arbeidssøker?'
                     value={toRadioValue(vilFortsette)}
@@ -62,25 +62,25 @@ function BekreftelseSkjema({ bekreftelse, onSubmit, onCancel, isPending, disable
                     <Radio value='ja'>Ja</Radio>
                     <Radio value='nei'>Nei</Radio>
                 </RadioGroup>
-            </div>
+            </Box>
 
             {!disabled && vilFortsette === false && (
-                <Alert variant='warning' className='mb-4'>
-                    Bruker vil ikke lenger være registrert som arbeidssøker, og eventuell pengestøtte vil stanses.
-                </Alert>
+                <Box marginBlock='space-0 space-16'>
+                    <Alert variant='warning'>
+                        Bruker vil ikke lenger være registrert som arbeidssøker, og eventuell pengestøtte vil stanses.
+                    </Alert>
+                </Box>
             )}
 
             {!disabled && (
-                <div className='flex'>
+                <HStack gap='space-16' wrap={false}>
                     <Button variant='primary' disabled={!isValid} onClick={handleSubmit} loading={isPending}>
                         Send inn
                     </Button>
-                    <div className='ml-4'>
-                        <Button variant='tertiary' onClick={onCancel} disabled={isPending}>
-                            Avbryt
-                        </Button>
-                    </div>
-                </div>
+                    <Button variant='tertiary' onClick={onCancel} disabled={isPending}>
+                        Avbryt
+                    </Button>
+                </HStack>
             )}
         </>
     );

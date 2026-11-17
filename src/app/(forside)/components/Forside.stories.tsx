@@ -1,3 +1,4 @@
+import { Box } from '@navikt/ds-react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import type { BekreftelseApiResult } from '@/lib/api/bekreftelse';
 import type { KartleggingApiEnkeltpersonKompaktResult } from '@/lib/api/kartlegging-enkeltperson';
@@ -5,6 +6,7 @@ import type { SnapshotResult } from '@/lib/api/oppslag-snapshot';
 import bekreftelserMock from '@/lib/mocks/bekreftelser.json';
 import snapshotMock from '@/lib/mocks/snapshot.json';
 import { Forside } from './Forside';
+import styles from './Forside.stories.module.css';
 
 const happySnapshot: SnapshotResult = {
     snapshot: snapshotMock as SnapshotResult['snapshot'],
@@ -65,9 +67,9 @@ const meta = {
     component: Forside,
     decorators: [
         (Story) => (
-            <div className='max-w-3xl mx-auto p-4'>
+            <Box className={styles.storyWrapper} marginInline='auto' padding='space-16'>
                 <Story />
-            </div>
+            </Box>
         ),
     ],
     parameters: {

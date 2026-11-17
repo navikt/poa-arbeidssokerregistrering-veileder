@@ -1,4 +1,4 @@
-import { Heading } from '@navikt/ds-react';
+import { Heading, VStack } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { LoaderSkeleton } from '@/app/tidslinjer/components/LoaderSkeleton';
 import { TilbakeTilForside } from '@/components/tilbake-til-forside';
@@ -14,11 +14,11 @@ export default async function BekreftelsePage() {
         <>
             <TilbakeTilForside sidenavn='Bekreftelse' />
             <Heading size={'large'}>Bekreftelse</Heading>
-            <div className={'flex flex-col'}>
+            <VStack>
                 <Suspense fallback={<LoaderSkeleton />}>
                     <BekreftelseWrapper initialBekreftelserPromise={bekreftelserPromise} />
                 </Suspense>
-            </div>
+            </VStack>
         </>
     );
 }

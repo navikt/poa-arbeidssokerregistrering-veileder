@@ -1,4 +1,4 @@
-import { BodyLong, Link } from '@navikt/ds-react';
+import { BodyLong, Box, Link } from '@navikt/ds-react';
 
 type TilbakeTilForsideProps = {
     sidenavn: string;
@@ -7,9 +7,11 @@ type TilbakeTilForsideProps = {
 function TilbakeTilForside(props: TilbakeTilForsideProps) {
     const { sidenavn } = props;
     return (
-        <BodyLong className='mb-4 print:hidden'>
-            <Link href='/'>Tilbake til forsiden</Link> / {sidenavn}
-        </BodyLong>
+        <Box marginBlock='space-0 space-16' className='skjul-ved-utskrift'>
+            <BodyLong>
+                <Link href='/'>Tilbake til forsiden</Link> / {sidenavn}
+            </BodyLong>
+        </Box>
     );
 }
 

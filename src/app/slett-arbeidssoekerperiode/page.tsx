@@ -19,10 +19,10 @@ export default function SlettArbeidssoekerperiodePage() {
             <TrackPageView data={{ viser: 'siden for å slette en arbeidssøkerperiode' }} />
             <TilbakeTilForside sidenavn={'Slett arbeidssøkerperiode'} />
             <Alert variant='warning'>
-                <Heading level='1' size='small' className={'mbl'}>
+                <Heading level='1' size='small'>
                     {tekst('header')}
                 </Heading>
-                <div className='mb-8'>
+                <Box marginBlock='space-32'>
                     <Box marginBlock='space-16' asChild>
                         <List data-aksel-migrated-v8 as='ul'>
                             <ListItem>
@@ -35,12 +35,14 @@ export default function SlettArbeidssoekerperiodePage() {
                             <ListItem>personen ikke er registrert ved en feiltagelse</ListItem>
                         </List>
                     </Box>
-                </div>
-                <Heading level='2' size='small' className='mb-8 mt-4'>
-                    {tekst('informasjon')}
-                </Heading>
+                </Box>
+                <Box marginBlock='space-16 space-32'>
+                    <Heading level='2' size='small'>
+                        {tekst('informasjon')}
+                    </Heading>
+                </Box>
             </Alert>
-            <Box className='mt-4'>
+            <Box marginBlock='space-16'>
                 <SlettPeriode />
             </Box>
         </>

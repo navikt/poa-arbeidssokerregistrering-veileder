@@ -49,11 +49,6 @@
             }
         }
     },
-    "css": {
-        "parser": {
-            "tailwindDirectives": true
-        }
-    },
     "overrides": [
         {
             "includes": ["src/styles/globals.css"],

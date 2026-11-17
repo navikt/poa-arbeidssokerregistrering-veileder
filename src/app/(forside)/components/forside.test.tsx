@@ -213,15 +213,16 @@ describe('Forside', () => {
                 name: 'Se tidligere arbeidssøkerperioder og opplysninger',
             });
             const tidslinjerLenke = screen.getByRole('link', { name: 'Se tidslinjer for arbeidssøkerperioder' });
-            const footer = historikkLenke.closest('.flex-col');
+            const footer = historikkLenke.closest<HTMLElement>('.aksel-stack');
 
             expect(historikkLenke.getAttribute('href')).toMatch(/^\//);
             expect(tidslinjerLenke.getAttribute('href')).toMatch(/^\//);
-            expect(footer).toBe(tidslinjerLenke.closest('.flex-col'));
-            expect(footer?.classList.contains('flex-col')).toBe(true);
-            expect(footer?.classList.contains('gap-2')).toBe(true);
-            expect(footer?.classList.contains('ax-md:flex-row')).toBe(true);
-            expect(footer?.classList.contains('ax-md:justify-between')).toBe(true);
+            expect(footer).not.toBeNull();
+            expect(footer).toBe(tidslinjerLenke.closest('.aksel-stack'));
+            expect(footer?.style.getPropertyValue('--__axc-stack-direction-xs')).toBe('column');
+            expect(footer?.style.getPropertyValue('--__axc-stack-direction-md')).toBe('row');
+            expect(footer?.style.getPropertyValue('--__axc-stack-justify-md')).toBe('space-between');
+            expect(footer?.style.getPropertyValue('--__axc-stack-gap-xs')).toBe('var(--ax-space-8)');
         });
     });
 

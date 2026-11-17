@@ -8,7 +8,7 @@ export default function KvitteringOppdatertOpplysninger() {
             <TrackPageView data={{ viser: 'Kvittering for oppdatert opplysninger' }} />
             <TilbakeTilForside sidenavn='Kvittering oppdatert opplysninger' />
             <Alert variant='success'>
-                <Heading level='1' size='small' className={'mbl'}>
+                <Heading level='1' size='small'>
                     Opplysningene er oppdatert
                 </Heading>
 

@@ -1,7 +1,9 @@
 'use client';
+import { Box } from '@navikt/ds-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { prettyPrintDatoOgKlokkeslett } from '@/lib/date-utils';
+import styles from './PrintInfoHeader.module.css';
 
 interface Props {
     fnr: string | null;
@@ -16,13 +18,18 @@ const PrintInfoHeader = (props: Props) => {
     }, []);
 
     return (
-        <section className={'hidden print:block w-full mt-4 mb-8 text-center'}>
-            <div className={'flex flex-col content-center justify-center flex-wrap'}>
+        <Box
+            as='section'
+            className={`vis-kun-ved-utskrift ${styles.centered}`}
+            width='100%'
+            marginBlock='space-16 space-32'
+        >
+            <div>
                 <Image src={'/nav-logo.svg'} alt={'Nav Logo'} width={100} height={50} />
             </div>
-            <div className={'mt-8 mb-4'}>Utskriftsdato: {time ?? ' '}</div>
+            <Box marginBlock='space-32 space-16'>Utskriftsdato: {time ?? ' '}</Box>
             <div>Fødselsnummer: {props.fnr || '--'}</div>
-        </section>
+        </Box>
     );
 };
 

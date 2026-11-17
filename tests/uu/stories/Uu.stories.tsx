@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { Loader } from '@navikt/ds-react';
+import { Box, HStack, Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { Bekreftelse } from '@/app/bekreftelse/components/Bekreftelse';
 import { Forside } from '@/app/(forside)/components/Forside';
@@ -161,21 +161,23 @@ function ContextControls() {
     const contextLabel = fnr ?? enhetId ?? 'ingen kontekst';
 
     return (
-        <section aria-label='Testkontroller for Modia-kontekst' className='mb-4 flex flex-wrap gap-2'>
-            <p className='w-full'>Valgt testkontekst: {contextLabel}</p>
-            <button type='button' onClick={() => { setFnr(null); setEnhetId('syntetisk-kontor-a'); }}>
-                Vis syntetisk-kontor-a
-            </button>
-            <button type='button' onClick={() => { setFnr('syntetisk-person-a'); setEnhetId('syntetisk-kontor-a'); }}>
-                Vis syntetisk-person-a
-            </button>
-            <button type='button' onClick={() => { setFnr('syntetisk-person-b'); setEnhetId('syntetisk-kontor-a'); }}>
-                Bytt til syntetisk-person-b
-            </button>
-            <button type='button' onClick={() => { setFnr(null); setEnhetId('syntetisk-kontor-b'); }}>
-                Bytt til syntetisk-kontor-b
-            </button>
-        </section>
+        <Box as='section' aria-label='Testkontroller for Modia-kontekst' marginBlock='space-0 space-16'>
+            <p>Valgt testkontekst: {contextLabel}</p>
+            <HStack wrap gap='space-8'>
+                <button type='button' onClick={() => { setFnr(null); setEnhetId('syntetisk-kontor-a'); }}>
+                    Vis syntetisk-kontor-a
+                </button>
+                <button type='button' onClick={() => { setFnr('syntetisk-person-a'); setEnhetId('syntetisk-kontor-a'); }}>
+                    Vis syntetisk-person-a
+                </button>
+                <button type='button' onClick={() => { setFnr('syntetisk-person-b'); setEnhetId('syntetisk-kontor-a'); }}>
+                    Bytt til syntetisk-person-b
+                </button>
+                <button type='button' onClick={() => { setFnr(null); setEnhetId('syntetisk-kontor-b'); }}>
+                    Bytt til syntetisk-kontor-b
+                </button>
+            </HStack>
+        </Box>
     );
 }
 

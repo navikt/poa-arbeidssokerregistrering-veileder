@@ -1,5 +1,5 @@
 import type { PeriodeAvsluttetHendelse } from '@navikt/arbeidssokerregisteret-utils/oppslag/v3';
-import { Alert, BodyShort, Box, Button, Heading } from '@navikt/ds-react';
+import { Alert, BodyShort, Box, Button, Heading, HStack } from '@navikt/ds-react';
 import Link from 'next/link';
 import { HistorikkLenke } from '@/app/(forside)/components/HistorikkLenke';
 import { mapUtfoertAvType } from '@/app/(forside)/components/mapUtfoertAvType';
@@ -18,7 +18,7 @@ function IkkeAktivPeriode({ avsluttetHendelse }: IkkeAktivPeriodeProps) {
     return (
         <>
             <Alert variant='warning'>Personen er ikke registrert som arbeidssøker</Alert>
-            <Box className={'mt-4'}>
+            <Box marginBlock={'space-16 space-0'}>
                 {avsluttetHendelse !== undefined ? (
                     <>
                         <Heading level={'3'} size={'medium'}>
@@ -32,10 +32,10 @@ function IkkeAktivPeriode({ avsluttetHendelse }: IkkeAktivPeriodeProps) {
                         <BodyShort textColor={'subtle'} size={'small'}>
                             Sluttårsak: {sluttaarsak(avsluttetHendelse.sendtInnAv.aarsak ?? 'fortsatt aktiv')}
                         </BodyShort>
-                        <Box className='flex justify-between'>
+                        <HStack justify='space-between'>
                             <HistorikkLenke />
                             <TidslinjerLenke />
-                        </Box>
+                        </HStack>
                     </>
                 ) : (
                     <Heading level={'3'} size={'medium'}>
@@ -43,7 +43,7 @@ function IkkeAktivPeriode({ avsluttetHendelse }: IkkeAktivPeriodeProps) {
                     </Heading>
                 )}
             </Box>
-            <Box className={'mt-4'}>
+            <Box marginBlock={'space-16 space-0'}>
                 <Link href='/registrering-arbeidssoeker-sjekk' passHref>
                     <Button
                         variant={'secondary'}

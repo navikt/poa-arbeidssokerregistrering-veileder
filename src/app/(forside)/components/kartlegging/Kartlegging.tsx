@@ -1,4 +1,4 @@
-import { Chips, Heading, InlineMessage, LocalAlert, Pagination, Table } from '@navikt/ds-react';
+import { Box, Chips, Heading, InlineMessage, LocalAlert, Pagination, Table } from '@navikt/ds-react';
 import { use, useMemo, useState } from 'react';
 import { ManglerPersonEllerEnhet } from '@/components/ManglerPersonEllerEnhet';
 import type { KartleggingApiKompaktResult } from '@/lib/api/kartlegging';
@@ -22,28 +22,30 @@ function Filters({
     onFilterChange: (selectedFilter: DagerFilter) => void;
 }) {
     return (
-        <Chips size='small' className='mb-4'>
-            <Chips.Toggle selected={currentFilter === 'alle'} onClick={() => onFilterChange('alle')}>
-                {`Alle (${arbeidsokere.length})`}
-            </Chips.Toggle>
-            <Chips.Toggle
-                selected={currentFilter === 'kritisk'}
-                onClick={() => onFilterChange('kritisk')}
-                data-color='danger'
-            >
-                {`≥${LANGTIDSLEDIG_MAX} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) >= LANGTIDSLEDIG_MAX).length})`}
-            </Chips.Toggle>
-            <Chips.Toggle
-                selected={currentFilter === 'moderat'}
-                onClick={() => onFilterChange('moderat')}
-                data-color='warning'
-            >
-                {`${LANGTIDSLEDIG_MELLOM}-${LANGTIDSLEDIG_MAX - 1} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) >= LANGTIDSLEDIG_MELLOM && daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) < LANGTIDSLEDIG_MAX).length})`}
-            </Chips.Toggle>
-            <Chips.Toggle selected={currentFilter === 'lav'} onClick={() => onFilterChange('lav')}>
-                {`<${LANGTIDSLEDIG_MELLOM} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) < LANGTIDSLEDIG_MELLOM).length})`}
-            </Chips.Toggle>
-        </Chips>
+        <Box marginBlock='space-0 space-16'>
+            <Chips size='small'>
+                <Chips.Toggle selected={currentFilter === 'alle'} onClick={() => onFilterChange('alle')}>
+                    {`Alle (${arbeidsokere.length})`}
+                </Chips.Toggle>
+                <Chips.Toggle
+                    selected={currentFilter === 'kritisk'}
+                    onClick={() => onFilterChange('kritisk')}
+                    data-color='danger'
+                >
+                    {`≥${LANGTIDSLEDIG_MAX} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) >= LANGTIDSLEDIG_MAX).length})`}
+                </Chips.Toggle>
+                <Chips.Toggle
+                    selected={currentFilter === 'moderat'}
+                    onClick={() => onFilterChange('moderat')}
+                    data-color='warning'
+                >
+                    {`${LANGTIDSLEDIG_MELLOM}-${LANGTIDSLEDIG_MAX - 1} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) >= LANGTIDSLEDIG_MELLOM && daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) < LANGTIDSLEDIG_MAX).length})`}
+                </Chips.Toggle>
+                <Chips.Toggle selected={currentFilter === 'lav'} onClick={() => onFilterChange('lav')}>
+                    {`<${LANGTIDSLEDIG_MELLOM} dager (${arbeidsokere.filter((b) => daysSinceDate(b.ledighetsperioder[0]?.ledigSiden) < LANGTIDSLEDIG_MELLOM).length})`}
+                </Chips.Toggle>
+            </Chips>
+        </Box>
     );
 }
 
@@ -123,9 +125,9 @@ function KartleggingListe({ kartlegging }: { kartlegging: KartleggingApiKompaktR
                     ))}
                 </Table.Body>
             </Table>
-            <div className='py-4'>
+            <Box paddingBlock='space-16'>
                 {totalPages > 1 && <Pagination page={page} onPageChange={setPage} count={totalPages} size='small' />}
-            </div>
+            </Box>
         </div>
     );
 }
@@ -139,17 +141,21 @@ function Kartlegging({ kartleggingPromise }: { kartleggingPromise: Promise<Kartl
 
     return (
         <>
-            <Heading size='medium' level='2' className='mb-4'>
-                Arbeidssøkere {data.arbeidssoekere && `(${data.arbeidssoekere.length} brukere)`}
-            </Heading>
-            <LocalAlert status='warning' className='mb-8'>
-                <LocalAlert.Header>
-                    <LocalAlert.Title>Denne siden er under utvikling</LocalAlert.Title>
-                </LocalAlert.Header>
-                <LocalAlert.Content>
-                    Data skal være korrekte, men vi viser kun de 500 registrerte arbeidssøkerne med lengst ledighet.
-                </LocalAlert.Content>
-            </LocalAlert>
+            <Box marginBlock='space-0 space-16'>
+                <Heading size='medium' level='2'>
+                    Arbeidssøkere {data.arbeidssoekere && `(${data.arbeidssoekere.length} brukere)`}
+                </Heading>
+            </Box>
+            <Box marginBlock='space-0 space-32'>
+                <LocalAlert status='warning'>
+                    <LocalAlert.Header>
+                        <LocalAlert.Title>Denne siden er under utvikling</LocalAlert.Title>
+                    </LocalAlert.Header>
+                    <LocalAlert.Content>
+                        Data skal være korrekte, men vi viser kun de 500 registrerte arbeidssøkerne med lengst ledighet.
+                    </LocalAlert.Content>
+                </LocalAlert>
+            </Box>
             {data.arbeidssoekere && data.arbeidssoekere?.length > 0 ? (
                 <KartleggingListe kartlegging={data} />
             ) : (

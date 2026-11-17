@@ -1,6 +1,6 @@
 'use client';
 
-import { Alert, Button, HStack } from '@navikt/ds-react';
+import { Alert, Box, Button, HStack } from '@navikt/ds-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -142,9 +142,9 @@ function OpplysningerSkjema({ initState, mode }: OpplysningerSkjemaProps) {
             <Utdanning registrering={registrering} setRegistrering={setRegistrering} doValidate={doValidate} />
             <Hindringer registrering={registrering} setRegistrering={setRegistrering} doValidate={doValidate} />
             {error && (
-                <Alert variant='error' className='mb-4'>
-                    {error}
-                </Alert>
+                <Box marginBlock='space-0 space-16'>
+                    <Alert variant='error'>{error}</Alert>
+                </Box>
             )}
             {mode === 'registrering' && <GenereltOmSamtykke />}
             <HStack style={{ justifyContent: 'space-between' }}>

@@ -1,7 +1,19 @@
 'use client';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
-import { ActionMenu, Alert, BodyShort, Box, Button, Heading, Switch } from '@navikt/ds-react';
+import {
+    ActionMenu,
+    Alert,
+    BodyShort,
+    Box,
+    Button,
+    Heading,
+    HGrid,
+    Hide,
+    HStack,
+    Show,
+    Switch,
+} from '@navikt/ds-react';
 import { use, useMemo, useRef } from 'react';
 import { HendelseFilter } from '@/app/historikk/components/HendelseFilter';
 import { HistorikkListeTittel } from '@/app/historikk/components/HistorikkListeTittel';
@@ -47,61 +59,82 @@ const Historikk: React.FC<HistorikkProps> = (props) => {
     return (
         <FilterProvider>
             <PrintInfoHeader fnr={fnr} />
-            <div className='flex-1 ax-md:grid ax-md:grid-cols-[minmax(300px,1fr)_3fr]'>
+            <HGrid flexGrow='1' columns={{ xs: 1, md: 'minmax(300px,1fr) 3fr' }}>
                 {/* Mobile menu for perioder */}
-                <Box
-                    as={'nav'}
-                    aria-label='Velg arbeidsøkerperiode'
-                    className='md:hidden bg-ax-bg-default mb-4 print:hidden sticky top-0 right-0 left-0 pt-4 pb-1 text-center'
-                >
-                    <ActionMenu>
-                        <ActionMenu.Trigger>
-                            <Button
-                                variant='secondary-neutral'
-                                icon={<ChevronDownIcon aria-hidden />}
-                                iconPosition='right'
-                            >
-                                {perioder.length === 1 ? 'Arbeidssøkerperiode' : 'Arbeidssøkerperioder'}(
-                                {perioder?.length ?? 0})
-                            </Button>
-                        </ActionMenu.Trigger>
-                        <ActionMenu.Content>
-                            {perioder.map((el) => (
-                                <ActionMenu.Item key={el.periodeId}>
-                                    <HistorikkListeTittel periode={el} />
-                                </ActionMenu.Item>
-                            ))}
-                        </ActionMenu.Content>
-                    </ActionMenu>
-                </Box>
+                <Hide above='md' asChild>
+                    <Box
+                        as='nav'
+                        aria-label='Velg arbeidsøkerperiode'
+                        background='default'
+                        marginBlock='space-0 space-16'
+                        paddingBlock='space-16 space-4'
+                        position='sticky'
+                        top='space-0'
+                        right='space-0'
+                        left='space-0'
+                        className='skjul-ved-utskrift'
+                    >
+                        <HStack justify='center'>
+                            <ActionMenu>
+                                <ActionMenu.Trigger>
+                                    <Button
+                                        variant='secondary-neutral'
+                                        icon={<ChevronDownIcon aria-hidden />}
+                                        iconPosition='right'
+                                    >
+                                        {perioder.length === 1 ? 'Arbeidssøkerperiode' : 'Arbeidssøkerperioder'}(
+                                        {perioder?.length ?? 0})
+                                    </Button>
+                                </ActionMenu.Trigger>
+                                <ActionMenu.Content>
+                                    {perioder.map((el) => (
+                                        <ActionMenu.Item key={el.periodeId}>
+                                            <HistorikkListeTittel periode={el} />
+                                        </ActionMenu.Item>
+                                    ))}
+                                </ActionMenu.Content>
+                            </ActionMenu>
+                        </HStack>
+                    </Box>
+                </Hide>
                 {/* Desktop list of perioder */}
-                <div
-                    ref={sidebarRef}
-                    className='hidden ax-md:block px-1 print:hidden sticky top-0 max-h-screen overflow-y-scroll'
-                >
-                    {/* Sidebar content */}
-                    <Heading size='large' level='2'>
-                        Arbeidssøkerperioder
-                    </Heading>
-                    <BodyShort className='mb-4'>
-                        <b>{perioder.length || 0}</b> {perioder.length === 1 ? 'periode' : 'perioder'} funnet
-                    </BodyShort>
-                    {perioder.map((el) => (
-                        <HistorikkListeTittel key={el.periodeId} periode={el} />
-                    ))}
-                </div>
-                <div className='md:px-4'>
+                <Show above='md' asChild>
+                    <Box
+                        as='aside'
+                        ref={sidebarRef}
+                        paddingInline='space-4'
+                        position='sticky'
+                        top='space-0'
+                        maxHeight='100vh'
+                        overflowY='scroll'
+                        className='skjul-ved-utskrift'
+                    >
+                        {/* Sidebar content */}
+                        <Heading size='large' level='2'>
+                            Arbeidssøkerperioder
+                        </Heading>
+                        <Box marginBlock='space-0 space-16'>
+                            <BodyShort>
+                                <b>{perioder.length || 0}</b> {perioder.length === 1 ? 'periode' : 'perioder'} funnet
+                            </BodyShort>
+                        </Box>
+                        {perioder.map((el) => (
+                            <HistorikkListeTittel key={el.periodeId} periode={el} />
+                        ))}
+                    </Box>
+                </Show>
+                <Box paddingInline={{ xs: 'space-0', md: 'space-16' }}>
                     <div>
                         <HendelseFilter />
                         <Switch onChange={toggleVisningsType}>Vis innhold ekspandert</Switch>
                     </div>
                     {perioder.map((periode) => (
-                        <div key={periode.periodeId} className='mb-8 pb-8'>
+                        <Box key={periode.periodeId} marginBlock='space-0 space-32' paddingBlock='space-0 space-32'>
                             <HistorikkPeriode periode={periode} />
-                        </div>
+                        </Box>
                     ))}
-                </div>
-            </div>
+                </Box>
+            </HGrid>
         </FilterProvider>
     );
 };

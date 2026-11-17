@@ -1,5 +1,6 @@
-import { Heading, Loader } from '@navikt/ds-react';
+import { Box, Heading, Loader, VStack } from '@navikt/ds-react';
 import { Suspense } from 'react';
+import styles from '@/app/(forside)/components/Forside.module.css';
 import { ForsideWrapper } from '@/app/(forside)/components/ForsideWrapper';
 import { HvaErNytt } from '@/components/HvaErNytt';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
@@ -27,10 +28,12 @@ export default async function ForsidePage() {
     const flagVisHvaSomErNytt = await flagVisHvaSomErNyttPromise;
 
     return (
-        <div className={'flex flex-col'}>
-            <Heading level='1' size='large' className='mb-4 wrap-anywhere'>
-                Arbeidssøkerregisteret
-            </Heading>
+        <VStack gap='space-0'>
+            <Box marginBlock='space-0 space-16'>
+                <Heading level='1' size='large' className={styles.wrapAnywhere}>
+                    Arbeidssøkerregisteret
+                </Heading>
+            </Box>
             {flagVisHvaSomErNytt && <HvaErNytt />}
             <Suspense fallback={<Loader />}>
                 <ForsideWrapper
@@ -41,6 +44,6 @@ export default async function ForsidePage() {
                     initialContext={{ fnr: modiaContext.fnr, enhetId: modiaContext.enhetId }}
                 />
             </Suspense>
-        </div>
+        </VStack>
     );
 }

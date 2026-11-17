@@ -1,4 +1,4 @@
-import { Heading, Loader } from '@navikt/ds-react';
+import { Box, Heading, Loader } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import { HvaErNytt } from '@/components/HvaErNytt';
 import { TilbakeTilForside } from '@/components/tilbake-til-forside';
@@ -18,9 +18,11 @@ export default async function RegistreringArbeidsokerPage() {
     return (
         <>
             <TilbakeTilForside sidenavn='Arbeidssøkerregistrering' />
-            <Heading size='medium' level='1' className='mb-8'>
-                Arbeidssøkerregistrering
-            </Heading>
+            <Box marginBlock='space-0 space-32'>
+                <Heading size='medium' level='1'>
+                    Arbeidssøkerregistrering
+                </Heading>
+            </Box>
             {flagVisHvaSomErNytt && <HvaErNytt />}
 
             <Suspense fallback={<Loader />}>

@@ -1,5 +1,5 @@
 import { CheckmarkCircleIcon, TimerStartIcon } from '@navikt/aksel-icons';
-import { BodyShort, Box, Button, Heading } from '@navikt/ds-react';
+import { BodyShort, Box, Button, Heading, HStack } from '@navikt/ds-react';
 import Link from 'next/link';
 import { loggAktivitet } from '@/lib/tracking';
 
@@ -12,20 +12,20 @@ function Bekreftelse({ antallTilgjengeligBekreftelser }: BekreftelseProps) {
     const harTilgjengeligBekreftelse = antallTilgjengeligBekreftelser > 0;
 
     return (
-        <Box className={'mb-4'}>
+        <Box marginBlock='space-0 space-16'>
             <Heading level='3' size='small'>
                 Bekreftelse
             </Heading>
             {!harTilgjengeligBekreftelse && (
-                <div className={'flex'}>
-                    <CheckmarkCircleIcon aria-hidden='true' fontSize='1.5rem' className={'mr-4'} />
+                <HStack gap='space-16'>
+                    <CheckmarkCircleIcon aria-hidden='true' fontSize='1.5rem' />
                     <BodyShort textColor={'subtle'}>Ingen ubekreftede arbeidssøkerperioder</BodyShort>
-                </div>
+                </HStack>
             )}
             {harTilgjengeligBekreftelse && (
                 <>
-                    <div className={'flex mb-4'}>
-                        <TimerStartIcon aria-hidden='true' fontSize='1.5rem' className={'mr-4'} />
+                    <HStack gap='space-16' marginBlock='space-0 space-16'>
+                        <TimerStartIcon aria-hidden='true' fontSize='1.5rem' />
                         <BodyShort textColor={'subtle'}>
                             {antallTilgjengeligBekreftelser === 1 && (
                                 <>Personen har en ubekreftet arbeidssøkerperiode</>
@@ -34,7 +34,7 @@ function Bekreftelse({ antallTilgjengeligBekreftelser }: BekreftelseProps) {
                                 <>Personen har {antallTilgjengeligBekreftelser} ubekreftede arbeidssøkerperioder</>
                             )}
                         </BodyShort>
-                    </div>
+                    </HStack>
                     <Button
                         as={Link}
                         href='/bekreftelse'

@@ -1,3 +1,4 @@
+import { Box, Heading } from '@navikt/ds-react';
 import type { Preview } from '@storybook/nextjs-vite';
 import { useEffect, useState, type ReactNode } from 'react';
 import '../src/styles/globals.css';
@@ -21,10 +22,14 @@ function TestShell({
 
     return (
         <main lang='nb' data-uu-scenario={scenario} data-uu-ready={ready ? 'true' : undefined}>
-            <div className='max-w-3xl mx-auto p-4'>
-                {!hasPageHeading && <h1 className='text-2xl font-semibold mb-4'>{scenario}</h1>}
+            <Box maxWidth='48rem' marginInline='auto' padding='space-16'>
+                {!hasPageHeading && (
+                    <Heading level='1' size='medium' spacing>
+                        {scenario}
+                    </Heading>
+                )}
                 {children}
-            </div>
+            </Box>
         </main>
     );
 }
