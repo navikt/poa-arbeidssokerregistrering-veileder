@@ -84,6 +84,12 @@ spec:
       value: 48b3cabd-5a11-4024-bb0a-119f44dea3b9
     - name: KARTLEGGING_API_URL
       value: http://paw-arbeidssoekerregisteret-api-kartlegging
+    - name: LUMI_API_HOST
+      value: http://lumi-submission-proxy.team-esyfo
+    - name: LUMI_AUDIENCE
+      value: "api://dev-gcp.team-esyfo.lumi-submission-proxy/.default"
+    - name: LUMI_FEEDBACK_PATH
+      value: /api/azure/v1/feedback
   envFrom:
     - secret: poa-arbeidssokerregistrering-veileder-unleash-api-token
   ingresses:
