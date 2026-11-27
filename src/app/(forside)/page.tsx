@@ -2,6 +2,7 @@ import { Box, Heading, Loader, VStack } from '@navikt/ds-react';
 import { Suspense } from 'react';
 import styles from '@/app/(forside)/components/Forside.module.css';
 import { ForsideWrapper } from '@/app/(forside)/components/ForsideWrapper';
+import { FeedbackWidget } from '@/app/(forside)/components/lumi/FeedbackWidget';
 import { HvaErNytt } from '@/components/HvaErNytt';
 import { type BekreftelseApiResult, getBekreftelser } from '@/lib/api/bekreftelse';
 import { getKartlegging } from '@/lib/api/kartlegging';
@@ -44,6 +45,7 @@ export default async function ForsidePage() {
                     initialContext={{ fnr: modiaContext.fnr, enhetId: modiaContext.enhetId }}
                 />
             </Suspense>
+            <FeedbackWidget />
         </VStack>
     );
 }
