@@ -33,6 +33,9 @@ importers:
       '@navikt/ds-react':
         specifier: 8.22.1
         version: 8.22.1(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@navikt/lumi-survey':
+        specifier: ^2.5.1
+        version: 2.5.1(@navikt/ds-css@8.22.1)(@navikt/ds-react@8.22.1(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@navikt/next-logger':
         specifier: 5.0.2
         version: 5.0.2(next@16.4.6(@babel/core@7.29.7(supports-color@8.1.1))(@opentelemetry/api@1.9.1)(@playwright/test@1.65.1)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(pino@10.4.0)
@@ -1398,6 +1401,14 @@ packages:
   '@navikt/ds-tokens@8.22.1':
     resolution: {integrity: sha512-cDmfPn5Q0HmE8eTie5jkj76zKMrS/AeZcAKscxtZFTL6sFdIFKON8AwWcS0pdRuC3yxYNGRmO176xGjn2POLCQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.22.1/43f354b993b9a56b9b4329ab54a9e17c5decf92b}
 
+  '@navikt/lumi-survey@2.5.1':
+    resolution: {integrity: sha512-74Gg278DBQjOeoxzFrYh3xDviz6sQSKZfYWUknC0A7zCDqnx4GaXGczrRQRpzD/V7P+kvLZKE9avRM1pCCJGrQ==, tarball: https://npm.pkg.github.com/download/@navikt/lumi-survey/2.5.1/6f191c2d563a83f3b971f43fc4d9f4725b141c4e}
+    peerDependencies:
+      '@navikt/ds-css': '>=8'
+      '@navikt/ds-react': '>=8'
+      react: '>=18'
+      react-dom: '>=18'
+
   '@navikt/next-logger@5.0.2':
     resolution: {integrity: sha512-5XIQ/n0J0BstgdCyGh0uNiNQKfbJLnd2z3UuJBwFWyUSSdJEQOXGv65aC6oeriReYu4cixiWxe9TVLC72wz2fQ==, tarball: https://npm.pkg.github.com/download/@navikt/next-logger/5.0.2/e0119897f7c5bb3eab51bebb182fcc9b09aef94f}
     engines: {node: ^20.19.0 || >= 22.12.0 || 24.x}
@@ -2629,6 +2640,11 @@ packages:
 
   ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
+    peerDependenciesMeta:
+      ajv:
+        optional: true
 
   ajv-keywords@3.5.2:
     resolution: {integrity: sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==}
@@ -6650,6 +6666,14 @@ snapshots:
       react-dom: 19.3.1(react@19.3.1)
 
   '@navikt/ds-tokens@8.22.1': {}
+
+  '@navikt/lumi-survey@2.5.1(@navikt/ds-css@8.22.1)(@navikt/ds-react@8.22.1(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+    dependencies:
+      '@navikt/aksel-icons': 8.22.1
+      '@navikt/ds-css': 8.22.1
+      '@navikt/ds-react': 8.22.1(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
 
   '@navikt/next-logger@5.0.2(next@16.4.6(@babel/core@7.29.7(supports-color@8.1.1))(@opentelemetry/api@1.9.1)(@playwright/test@1.65.1)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(pino@10.4.0)':
     dependencies:

@@ -1,4 +1,5 @@
 @import "@navikt/ds-css";
+@import "@navikt/lumi-survey/styles.css";
 
 .vis-kun-ved-utskrift {
     display: none;
