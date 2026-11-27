@@ -1,4 +1,4 @@
-import { getToken, requestTokenxOboToken, validateIdportenToken } from '@navikt/oasis';
+import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
 
 export async function POST(request: Request) {
     const host = process.env.LUMI_API_HOST;
@@ -14,12 +14,12 @@ export async function POST(request: Request) {
         return new Response(null, { status: 401 });
     }
 
-    const validation = await validateIdportenToken(token);
+    const validation = await validateAzureToken(token);
     if (!validation.ok) {
         return new Response(null, { status: 401 });
     }
 
-    const obo = await requestTokenxOboToken(token, audience);
+    const obo = await requestAzureOboToken(token, audience);
     if (!obo.ok) {
         console.error('Tokenveksling feilet:', obo.error.message);
         return new Response(null, { status: 500 });
