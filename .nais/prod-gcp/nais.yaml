@@ -133,6 +133,8 @@ spec:
         - application: veilarbvedtaksstotte
           namespace: obo
           cluster: prod-gcp
+        - application: lumi-api
+          namespace: team-esyfo
         - application: aareg-services-nais
           namespace: arbeidsforhold
           cluster: prod-fss
